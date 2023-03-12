@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:MREPORTING/ui/loginPage.dart';
+// import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:MREPORTING/models/area_page_model.dart';
+// import 'package:MREPORTING/models/area_page_model.dart';
 
 String timer_track_url = "";
 String sync_notice_url = "";
@@ -214,16 +214,16 @@ Future getOutStandingDetails() async {
 
 Future timeTracker(String location) async {
   await sharedpref();
-  print("ok ok ${timer_track_url}");
-  print(cid);
-  print(user_id);
-  print(user_pass);
-  print(device_id);
+  // print("ok ok ${timer_track_url}");
+  // print(cid);
+  // print(user_id);
+  // print(user_pass);
+  // print(device_id);
   if (location != "") {
     final response = await http.post(
       Uri.parse(
           // 'w05.yeapps.com/acme_api/api_expense_submit/submit_data'
-          "${timer_track_url}"),
+          timer_track_url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

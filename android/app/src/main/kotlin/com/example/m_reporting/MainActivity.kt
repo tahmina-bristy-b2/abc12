@@ -1,4 +1,4 @@
-package com.example.m_reporting
+package com.transcom.mreporting
 
 import io.flutter.embedding.android.FlutterActivity
 

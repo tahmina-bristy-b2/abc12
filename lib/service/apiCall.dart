@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:mrap7/Pages/loginPage.dart';
-import 'package:mrap7/Pages/order_sections/customerListPage.dart';
-import 'package:mrap7/Pages/target_achievemet.dart';
+import 'package:MREPORTING/ui/loginPage.dart';
+import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
+import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:mrap7/models/area_page_model.dart';
+import 'package:MREPORTING/models/area_page_model.dart';
 
 String timer_track_url = "";
 String sync_notice_url = "";

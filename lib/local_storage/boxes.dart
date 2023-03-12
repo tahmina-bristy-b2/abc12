@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mrap7/local_storage/hive_data_model.dart';
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class Boxes {
   static Box<AddItemModel> getDraftOrderedData() => Hive.box('orderedItem');

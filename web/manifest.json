@@ -1,6 +1,6 @@
 {
-    "name": "m_reporting",
-    "short_name": "m_reporting",
+    "name": "MREPORTING",
+    "short_name": "MREPORTING",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

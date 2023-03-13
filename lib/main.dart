@@ -23,9 +23,10 @@ String address = "";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
 
+  await Hive.initFlutter();
   await HiveAdapter().hiveAdapterbox();
+
   await Hive.openBox("draftForExpense");
   SharedPreferences prefs = await SharedPreferences.getInstance();
   timer_flag = prefs.getBool("timer_flag");

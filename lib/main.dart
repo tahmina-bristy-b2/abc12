@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/splash_screen.dart';
-import 'package:MREPORTING/service/apiCall.dart';
+import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/local_storage/hive_adapter.dart';
 
 import 'package:geolocator/geolocator.dart' as geo;

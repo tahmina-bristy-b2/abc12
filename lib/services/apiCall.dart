@@ -1,14 +1,12 @@
-import 'dart:convert';
+// ignore_for_file: file_names
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:MREPORTING/models/area_page_model.dart';
 
 String timer_track_url = "";
 String sync_notice_url = "";

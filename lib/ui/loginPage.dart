@@ -12,7 +12,7 @@ import 'package:MREPORTING/ui/syncDataTabPaga.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:MREPORTING/service/sharedPrefernce.dart';
+import 'package:MREPORTING/services/sharedPrefernce.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 

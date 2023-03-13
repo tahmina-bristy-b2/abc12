@@ -1,20 +1,14 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:http/http.dart' as http;
 import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
-
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';

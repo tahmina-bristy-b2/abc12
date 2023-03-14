@@ -5,12 +5,8 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/others/data_providers.dart';
 import 'package:MREPORTING/services/sharedPrefernce.dart';
-import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/ui/loginPage.dart';
-import 'package:MREPORTING/ui/syncDataTabPaga.dart';
 import 'package:MREPORTING/utils/constant.dart';
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +26,8 @@ class Repositories {
 
         var resData = userInfo['res_data'];
         dmPathDataModelData = dmPathDataModelFromJson(jsonEncode(resData));
-        dmPathBox.add(dmPathDataModelData); //saved dmPath data to hive
+        dmPathBox.put(
+            'dmPathData', dmPathDataModelData); //saved dmPath data to hive
 
         loginUrl = resData['login_url'] ?? '';
 
@@ -137,7 +134,7 @@ class Repositories {
 
       if (status == 'Success') {
         userLoginModelData = userLoginModelFromJson(response.body);
-        userloginBox.add(userLoginModelData);
+        userloginBox.put('userInfo', userLoginModelData);
 
         // old task
         String userName = userInfo['user_name'];

@@ -1,19 +1,15 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/order_sections/newOrderPage.dart';
-
 import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
 
 class CustomerListScreen extends StatefulWidget {
-  List data;
+  final List data;
 
-  CustomerListScreen({
+  const CustomerListScreen({
     Key? key,
     required this.data,
   }) : super(key: key);
@@ -24,11 +20,11 @@ class CustomerListScreen extends StatefulWidget {
 
 class _CustomerListScreenState extends State<CustomerListScreen> {
   Box? box;
-  String client_url = '';
+  String clientUrl = '';
   String cid = '';
   String userId = '';
   String userPassword = '';
-  bool client_flag = false;
+  bool clientFlag = false;
   List syncItemList = [];
   final TextEditingController searchController = TextEditingController();
   List foundUsers = [];
@@ -38,17 +34,13 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
   void initState() {
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
-
       userId = prefs.getString("USER_ID")!;
-
       userPassword = prefs.getString("PASSWORD")!;
-
-      client_url = prefs.getString("client_url") ?? '';
-      client_flag = prefs.getBool("client_flag") ?? false;
+      clientUrl = prefs.getString("client_url") ?? '';
+      clientFlag = prefs.getBool("client_flag") ?? false;
       // print('$client_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
       if (prefs.getInt("_counter") != null) {
         int? a = prefs.getInt("_counter");
-
         setState(() {
           _counter = a!;
         });
@@ -75,43 +67,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
     setState(() {});
   }
-/*****************************************************  SEARCH OLD CODE  *************************************************************************** */
-  // void runFilter(String enteredKeyword) {
-  //   foundUsers = widget.data;
-  //   List results = [];
-  //   if (enteredKeyword.isEmpty) {
-  //     // if the search field is empty or only contains white-space, we'll display all users
-  //     results = foundUsers;
-  //   } else {
-  //     var starts = foundUsers
-  //         .where((s) => s['client_name']
-  //             .toLowerCase()
-  //             .startsWith(enteredKeyword.toLowerCase()))
-  //         .toList();
-
-  //     var contains = foundUsers
-  //         .where((s) =>
-  //             s['client_name']
-  //                 .toLowerCase()
-  //                 .contains(enteredKeyword.toLowerCase()) &&
-  //             !s['client_name']
-  //                 .toLowerCase()
-  //                 .startsWith(enteredKeyword.toLowerCase()))
-  //         .toList()
-  //       ..sort((a, b) => a['client_name']
-  //           .toLowerCase()
-  //           .compareTo(b['client_name'].toLowerCase()));
-
-  //     results = [...starts, ...contains];
-  //   }
-
-  //   // Refresh the UI....................
-  //   setState(() {
-  //     foundUsers = results;
-  //   });
-  // }
-
-/*************************************************** END ******************************************************* */
 
   // int _currentSelected = 0;
 
@@ -194,10 +149,10 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                 ],
               ),
             ),
-            client_flag
+            clientFlag
                 ? Link(
                     uri: Uri.parse(
-                        '$client_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                        '$clientUrl?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                     target: LinkTarget.blank,
                     builder: (BuildContext ctx, FollowLink? openLink) {
                       return ListTile(
@@ -214,35 +169,9 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                       );
                     })
                 : Container()
-            // ListTile(
-            //   leading: const Icon(Icons.document_scanner_outlined,
-            //       color: Colors.black),
-            //   title: const Text('Report'),
-            //   onTap: () {
-            //     // Update the state of the app.
-            //   },
-            // ),
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   onTap: _onItemTapped,
-      //   currentIndex: _currentSelected,
-      //   showUnselectedLabels: true,
-      //   unselectedItemColor: Colors.grey[800],
-      //   selectedItemColor: const Color.fromRGBO(10, 135, 255, 1),
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       label: 'Home',
-      //       icon: Icon(Icons.home),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'Drawer',
-      //       icon: Icon(Icons.menu),
-      //     )
-      //   ],
-      // ),
       body: Column(
         children: [
           Expanded(
@@ -275,22 +204,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                             setState(() {});
                           },
                           icon: const Icon(Icons.clear)),
-
-                  //  suffixIcon: searchController.text.isEmpty &&
-                  //             searchController.text == ''
-                  //         ? const Icon(Icons.search)
-                  //         : IconButton(
-                  //             onPressed: () {
-                  //               searchController.clear();
-                  //               runFilter('');
-                  //               setState(() {});
-                  //             },
-                  //             icon: const Icon(
-                  //               Icons.clear,
-                  //               color: Colors.black,
-                  //               // size: 28,
-                  //             ),
-                  //           ),
                 ),
               ),
             ),
@@ -298,52 +211,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
           Expanded(
             flex: 7,
             child: foundUsers.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: searchController.text.isNotEmpty
-                        ? foundUsers.length
-                        : widget.data.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (BuildContext itemBuilder, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          _incrementCounter();
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => NewOrderPage(
-                                        ckey: 0,
-                                        uniqueId: _counter,
-                                        draftOrderItem: [],
-                                        deliveryDate: '',
-                                        deliveryTime: '',
-                                        paymentMethod: '',
-                                        outStanding: foundUsers[index]
-                                                ['outstanding']
-                                            .toString(),
-                                        clientName: foundUsers[index]
-                                            ['client_name'],
-                                        clientId: foundUsers[index]
-                                            ['client_id'],
-                                        marketName: foundUsers[index]
-                                                ['market_name'] +
-                                            '(${foundUsers[index]['area_id']})' +
-                                            "," +
-                                            foundUsers[index]['address'],
-                                      )));
-                          setState(() {});
-                        },
-                        child: CustomerListCardWidget(
-                            clientName: foundUsers[index]['client_name'] +
-                                '(${foundUsers[index]['client_id']})',
-                            base: foundUsers[index]['market_name'] +
-                                '(${foundUsers[index]['area_id']})',
-                            marketName: foundUsers[index]['address'],
-                            outstanding:
-                                foundUsers[index]['outstanding'].toString()),
-                      );
-                    })
+                ? customerListviewbuilder(context)
                 : const Text(
                     'No Data found',
                     style: TextStyle(fontSize: 24),
@@ -352,5 +220,52 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
         ],
       ),
     );
+  }
+
+  ListView customerListviewbuilder(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: searchController.text.isNotEmpty
+            ? foundUsers.length
+            : widget.data.length,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (BuildContext itemBuilder, index) {
+          return GestureDetector(
+            onTap: () {
+              /***********************************New************************************** */
+              setState(() {
+                _counter = OrderServices().incrementCounter(_counter);
+              });
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => NewOrderPage(
+                            ckey: 0,
+                            uniqueId: _counter,
+                            draftOrderItem: [],
+                            deliveryDate: '',
+                            deliveryTime: '',
+                            paymentMethod: '',
+                            outStanding:
+                                foundUsers[index]['outstanding'].toString(),
+                            clientName: foundUsers[index]['client_name'],
+                            clientId: foundUsers[index]['client_id'],
+                            marketName: foundUsers[index]['market_name'] +
+                                '(${foundUsers[index]['area_id']})' +
+                                "," +
+                                foundUsers[index]['address'],
+                          )));
+              setState(() {});
+            },
+            child: CustomerListCardWidget(
+                clientName: foundUsers[index]['client_name'] +
+                    '(${foundUsers[index]['client_id']})',
+                base: foundUsers[index]['market_name'] +
+                    '(${foundUsers[index]['area_id']})',
+                marketName: foundUsers[index]['address'],
+                outstanding: foundUsers[index]['outstanding'].toString()),
+          );
+        });
   }
 }

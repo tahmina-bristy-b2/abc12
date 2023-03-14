@@ -60,7 +60,6 @@ void main() async {
       timer_flag == true) {
     // await initializeService();
     // BGservice.serviceOn();
-    print('Starting Background Service...');
   }
   runApp(const MyApp());
 }
@@ -97,7 +96,6 @@ Future<void> initializeService() async {
 
 void onIosBackground() {
   WidgetsFlutterBinding.ensureInitialized();
-  print('FLUTTER BACKGROUND FETCH');
 }
 
 void onStart() {

@@ -41,6 +41,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
     foundUsers.forEach((element) {
       pressedActivity[element['item_id']] = false;
     });
+
     super.initState();
   }
 

@@ -21,8 +21,8 @@ class SyncMedicinetoHive {
       String userPassward, BuildContext context) async {
     await openBox();
     try {
-      var response = await http.get(Uri.parse(sync_url +
-          'api_medicine/get_rx_medicine?cid=$cid&user_id=$userId&user_pass=$userPassward'));
+      var response = await http.get(Uri.parse(
+          '${sync_url}api_medicine/get_rx_medicine?cid=$cid&user_id=$userId&user_pass=$userPassward'));
 
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
       Map<String, dynamic> medicineData = jsonResponse['res_data'];

@@ -38,13 +38,29 @@ class AllServices {
 
 // //todo    Tost Message  >>>>>>>>>>>>>>>>>>>
 
-  void messageForUser(String msg) {
+  void toastMessage(
+      String msg, Color backgroundColor, Color textColor, fontSize) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+        backgroundColor: backgroundColor,
+        textColor: textColor,
+        fontSize: 16);
   }
+
+// toast messages updated into RX for submitToastforphoto Only
+//===================================================================================================================================
+//==========================================SAMIRA========================================================================
+//===================================================================================================================================
+
+  // void rejectMessageForUser(String msg) {
+  //   Fluttertoast.showToast(
+  //       msg: msg,
+  //       toastLength: Toast.LENGTH_LONG,
+  //       gravity: ToastGravity.SNACKBAR,
+  //       backgroundColor: Colors.red,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0);
+  // }
 }

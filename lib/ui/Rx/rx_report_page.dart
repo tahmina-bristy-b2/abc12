@@ -35,8 +35,8 @@ class _RxReportPageWebViewState extends State<RxReportPageWebView> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.report_url +
-        "?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}&device_id=$deviceId");
+    print(
+        "${widget.report_url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}&device_id=$deviceId");
     return Scaffold(
         appBar: AppBar(
           title: const Text('Rx Report'),
@@ -53,12 +53,10 @@ class _RxReportPageWebViewState extends State<RxReportPageWebView> {
               child: SafeArea(
                 child: Center(
                   child: InAppWebView(
-                    initialUrlRequest: URLRequest(
-                        url: Uri.parse(
-                            // 'http://w05.yeapps.com/hamdard/report_seen_rx_mobile/index?cid=HAMDARD&rep_id=itmso&rep_pass=1234'
+                    initialUrlRequest: URLRequest(url: Uri.parse(
+                        // 'http://w05.yeapps.com/hamdard/report_seen_rx_mobile/index?cid=HAMDARD&rep_id=itmso&rep_pass=1234'
 
-                            widget.report_url +
-                                "?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}&device_id=$deviceId")),
+                        "${widget.report_url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}&device_id=$deviceId")),
                     onReceivedServerTrustAuthRequest:
                         (controller, challenge) async {
                       // print(challenge);

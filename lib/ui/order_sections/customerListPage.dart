@@ -1,4 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
@@ -22,8 +23,10 @@ class CustomerListScreen extends StatefulWidget {
 }
 
 class _CustomerListScreenState extends State<CustomerListScreen> {
-  Box<UserLoginModel> userLoginBox = Boxes.getLoginData();
-  String clientUrl = '';
+  Box? box;
+  UserLoginModel? userLoginInfo;
+  DmPathDataModel? dmPathData;
+
   String cid = '';
   String userId = '';
   String userPassword = '';
@@ -35,13 +38,16 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
   @override
   void initState() {
+    super.initState();
+    userLoginInfo = Boxes.getLoginData().get('userInfo');
+    dmPathData = Boxes.getDmpath().get('dmPathData');
+    clientFlag = userLoginInfo!.clientFlag;
+
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
       userId = prefs.getString("USER_ID")!;
       userPassword = prefs.getString("PASSWORD")!;
-      clientUrl = prefs.getString("client_url") ?? '';
-      clientFlag = prefs.getBool("client_flag") ?? false;
-      // print('$client_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
+      //print('?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
       if (prefs.getInt("_counter") != null) {
         int? a = prefs.getInt("_counter");
         setState(() {
@@ -51,7 +57,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     });
 
     foundUsers = widget.data;
-    super.initState();
   }
 
   @override
@@ -90,6 +95,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'clentUrl==${dmPathData!.clientUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -135,6 +142,9 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     );
   }
 
+//************************************ WIDGETS ********************************************/
+//*******************************************************************************************************/
+//*******************************************************************************************************/
   ListView endDrawerListViewBuilderWidget() {
     return ListView(
       padding: EdgeInsets.zero,
@@ -166,28 +176,29 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             ],
           ),
         ),
-        clientFlag
-            ? Link(
-                uri: Uri.parse(
-                    '$clientUrl?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                target: LinkTarget.blank,
-                builder: (BuildContext ctx, FollowLink? openLink) {
-                  return ListTile(
-                    onTap: openLink,
-                    leading:
-                        const Icon(Icons.person_add, color: Colors.blueAccent),
-                    title: const Text(
-                      'Customer',
-                      style: TextStyle(
-                          fontSize: 14,
-                          // fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 15, 53, 85)),
-                    ),
-                  );
-                })
-            : Container()
+        clientFlag ? clientWebLink() : Container()
       ],
     );
+  }
+
+  Link clientWebLink() {
+    return Link(
+        uri: Uri.parse(
+            '${dmPathData!.clientUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+        target: LinkTarget.blank,
+        builder: (BuildContext ctx, FollowLink? openLink) {
+          return ListTile(
+            onTap: openLink,
+            leading: const Icon(Icons.person_add, color: Colors.blueAccent),
+            title: const Text(
+              'Customer',
+              style: TextStyle(
+                  fontSize: 14,
+                  // fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 15, 53, 85)),
+            ),
+          );
+        });
   }
 
   TextFormField customerSearchTextFieldWidget() {
@@ -215,7 +226,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   foundUsers =
                       AllServices().searchDynamicMethod('', [], 'client_name');
                   setState(() {});
-                  print("kochur matha");
+
                   /************************************ END ******************************************* */
                 },
                 icon: const Icon(Icons.clear)),

@@ -13,9 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
 
 class DcrListPage extends StatefulWidget {
-  final List dcrDataList;
+  List dcrDataList;
 
-  const DcrListPage({Key? key, required this.dcrDataList}) : super(key: key);
+  DcrListPage({Key? key, required this.dcrDataList}) : super(key: key);
 
   @override
   State<DcrListPage> createState() => _DcrListPageState();
@@ -256,7 +256,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                         ck: '',
                                         dcrKey: 0,
                                         uniqueId: _counter,
-                                        draftOrderItem: const [],
+                                        draftOrderItem: [],
                                         docName: foundUsers[index]['doc_name'],
                                         docId: foundUsers[index]['doc_id'],
                                         areaName: foundUsers[index]

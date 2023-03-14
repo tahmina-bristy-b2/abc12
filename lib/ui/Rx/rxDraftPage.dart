@@ -2,12 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
-
 import 'package:MREPORTING/ui/Rx/rxPage.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:photo_view/photo_view.dart';
 
 class RxDraftPage extends StatefulWidget {
   const RxDraftPage({Key? key}) : super(key: key);

@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/loginPage.dart';
@@ -74,41 +75,43 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
     setState(() {});
   }
+/*****************************************************  SEARCH OLD CODE  *************************************************************************** */
+  // void runFilter(String enteredKeyword) {
+  //   foundUsers = widget.data;
+  //   List results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     // if the search field is empty or only contains white-space, we'll display all users
+  //     results = foundUsers;
+  //   } else {
+  //     var starts = foundUsers
+  //         .where((s) => s['client_name']
+  //             .toLowerCase()
+  //             .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList();
 
-  void runFilter(String enteredKeyword) {
-    foundUsers = widget.data;
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foundUsers;
-    } else {
-      var starts = foundUsers
-          .where((s) => s['client_name']
-              .toLowerCase()
-              .startsWith(enteredKeyword.toLowerCase()))
-          .toList();
+  //     var contains = foundUsers
+  //         .where((s) =>
+  //             s['client_name']
+  //                 .toLowerCase()
+  //                 .contains(enteredKeyword.toLowerCase()) &&
+  //             !s['client_name']
+  //                 .toLowerCase()
+  //                 .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList()
+  //       ..sort((a, b) => a['client_name']
+  //           .toLowerCase()
+  //           .compareTo(b['client_name'].toLowerCase()));
 
-      var contains = foundUsers
-          .where((s) =>
-              s['client_name']
-                  .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) &&
-              !s['client_name']
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) => a['client_name']
-            .toLowerCase()
-            .compareTo(b['client_name'].toLowerCase()));
+  //     results = [...starts, ...contains];
+  //   }
 
-      results = [...starts, ...contains];
-    }
+  //   // Refresh the UI....................
+  //   setState(() {
+  //     foundUsers = results;
+  //   });
+  // }
 
-    // Refresh the UI....................
-    setState(() {
-      foundUsers = results;
-    });
-  }
+/*************************************************** END ******************************************************* */
 
   // int _currentSelected = 0;
 
@@ -247,7 +250,13 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                onChanged: (value) => runFilter(value),
+                /************************************ SEARCH NEW CODE DONE BY BRIISTY ********************************************/
+                onChanged: (value) {
+                  setState(() {
+                    foundUsers = OrderServices()
+                        .customerSearchMethod(value, widget.data);
+                  });
+                },
                 controller: searchController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -259,7 +268,10 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                       : IconButton(
                           onPressed: () {
                             searchController.clear();
-                            runFilter('');
+
+                            /************************************ SEARCH NEW CODE DONE BY BRIISTY ******************************************* */
+                            foundUsers =
+                                OrderServices().customerSearchMethod('', []);
                             setState(() {});
                           },
                           icon: const Icon(Icons.clear)),

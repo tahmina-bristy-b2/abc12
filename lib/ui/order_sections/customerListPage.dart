@@ -1,3 +1,6 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,7 +22,7 @@ class CustomerListScreen extends StatefulWidget {
 }
 
 class _CustomerListScreenState extends State<CustomerListScreen> {
-  Box? box;
+  Box<UserLoginModel> userLoginBox = Boxes.getLoginData();
   String clientUrl = '';
   String cid = '';
   String userId = '';
@@ -192,7 +195,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
       /************************************ SEARCH NEW CODE DONE BY BRIISTY ********************************************/
       onChanged: (value) {
         setState(() {
-          foundUsers = OrderServices().customerSearchMethod(value, widget.data);
+          foundUsers = AllServices()
+              .searchDynamicMethod(value, widget.data, 'client_name');
         });
       },
       /************************************ END ******************************************* */
@@ -208,7 +212,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   searchController.clear();
 
                   /************************************ SEARCH NEW CODE DONE BY BRIISTY ******************************************* */
-                  foundUsers = OrderServices().customerSearchMethod('', []);
+                  foundUsers =
+                      AllServices().searchDynamicMethod('', [], 'client_name');
                   setState(() {});
                   /************************************ END ******************************************* */
                 },

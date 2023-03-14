@@ -215,6 +215,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   foundUsers =
                       AllServices().searchDynamicMethod('', [], 'client_name');
                   setState(() {});
+                  print("kochur matha");
                   /************************************ END ******************************************* */
                 },
                 icon: const Icon(Icons.clear)),

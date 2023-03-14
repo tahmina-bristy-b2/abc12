@@ -1,5 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
@@ -18,11 +22,13 @@ class DcrListPage extends StatefulWidget {
 }
 
 class _DcrListPageState extends State<DcrListPage> {
+  Box<UserLoginModel> userInfobox = Boxes.getLoginData();
+  Box<DmPathDataModel> dmpathBox = Boxes.getDmpath();
   Box? box;
   String doctor_url = '';
   String cid = '';
-  String userId = '';
-  String userPassword = '';
+  // String userId = '';
+  // String userPassword = '';
 
   final TextEditingController searchController = TextEditingController();
   List foundUsers = [];
@@ -30,11 +36,13 @@ class _DcrListPageState extends State<DcrListPage> {
 
   @override
   void initState() {
+    super.initState();
+    print(dmpathBox.values);
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
-      userId = prefs.getString("USER_ID")!;
-      userPassword = prefs.getString("PASSWORD")!;
-      doctor_url = prefs.getString("doctor_url")!;
+      // userId = prefs.getString("USER_ID")!;
+      // userPassword = prefs.getString("PASSWORD")!;
+      // doctor_url = prefs.getString("doctor_url")!;
       // print('$doctor_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
       if (prefs.getInt("_dcrcounter") != null) {
         int? a = prefs.getInt("_dcrcounter");
@@ -45,7 +53,6 @@ class _DcrListPageState extends State<DcrListPage> {
       }
     });
     foundUsers = widget.dcrDataList;
-    super.initState();
   }
 
   @override
@@ -170,7 +177,7 @@ class _DcrListPageState extends State<DcrListPage> {
             ),
             Link(
                 uri: Uri.parse(
-                    '$doctor_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                    '${dmpathBox.values.first.doctorUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                 target: LinkTarget.blank,
                 builder: (BuildContext ctx, FollowLink? openLink) {
                   return ListTile(
@@ -249,7 +256,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                         ck: '',
                                         dcrKey: 0,
                                         uniqueId: _counter,
-                                        draftOrderItem: [],
+                                        draftOrderItem: const [],
                                         docName: foundUsers[index]['doc_name'],
                                         docId: foundUsers[index]['doc_id'],
                                         areaName: foundUsers[index]

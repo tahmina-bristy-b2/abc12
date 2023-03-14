@@ -5,12 +5,8 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/others/data_providers.dart';
 import 'package:MREPORTING/services/sharedPrefernce.dart';
-import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/ui/loginPage.dart';
-import 'package:MREPORTING/ui/syncDataTabPaga.dart';
 import 'package:MREPORTING/utils/constant.dart';
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -3,6 +3,34 @@ import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:geolocator/geolocator.dart';
 
 class AllServices {
+  //************************************* This method works for seraching *******************************/
+  List searchDynamicMethod(String enteredKeyword, List data, String keyName) {
+    List foundUsers;
+    foundUsers = data;
+    List results = [];
+    if (enteredKeyword.isEmpty) {
+      results = foundUsers;
+    } else {
+      var starts = foundUsers
+          .where((s) =>
+              s[keyName].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
+          .toList();
+
+      var contains = foundUsers
+          .where((s) =>
+              s[keyName].toLowerCase().contains(enteredKeyword.toLowerCase()) &&
+              !s[keyName]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()))
+          .toList()
+        ..sort((a, b) =>
+            a[keyName].toLowerCase().compareTo(b[keyName].toLowerCase()));
+
+      results = [...starts, ...contains];
+    }
+    return results;
+  }
+
 //               // Todo!<<<<<<<<<<<<<<<<<<<<<<       Splash Screen     >>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //                             //todo Get Position for Track Location

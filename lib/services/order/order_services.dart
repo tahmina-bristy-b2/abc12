@@ -2,37 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderServices {
-  //*************************************This method works for seraching any client/customer in CustomerListPage ****************************** */
-  List customerSearchMethod(String enteredKeyword, List data) {
-    List foundUsers;
-    foundUsers = data;
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      results = foundUsers;
-    } else {
-      var starts = foundUsers
-          .where((s) => s['client_name']
-              .toLowerCase()
-              .startsWith(enteredKeyword.toLowerCase()))
-          .toList();
+  // //*************************************This method works for seraching any client/customer in CustomerListPage ****************************** */
+  // List customerSearchMethod(String enteredKeyword, List data) {
+  //   List foundUsers;
+  //   foundUsers = data;
+  //   List results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     results = foundUsers;
+  //   } else {
+  //     var starts = foundUsers
+  //         .where((s) => s['client_name']
+  //             .toLowerCase()
+  //             .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList();
 
-      var contains = foundUsers
-          .where((s) =>
-              s['client_name']
-                  .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) &&
-              !s['client_name']
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) => a['client_name']
-            .toLowerCase()
-            .compareTo(b['client_name'].toLowerCase()));
+  //     var contains = foundUsers
+  //         .where((s) =>
+  //             s['client_name']
+  //                 .toLowerCase()
+  //                 .contains(enteredKeyword.toLowerCase()) &&
+  //             !s['client_name']
+  //                 .toLowerCase()
+  //                 .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList()
+  //       ..sort((a, b) => a['client_name']
+  //           .toLowerCase()
+  //           .compareTo(b['client_name'].toLowerCase()));
 
-      results = [...starts, ...contains];
-    }
-    return results;
-  }
+  //     results = [...starts, ...contains];
+  //   }
+  //   return results;
+  // }
 
   //************************************* It uses for making Customer unique in CustomerListPage ****************************** */
   int incrementCounter(int count) {

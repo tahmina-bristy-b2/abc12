@@ -26,7 +26,8 @@ class Repositories {
 
         var resData = userInfo['res_data'];
         dmPathDataModelData = dmPathDataModelFromJson(jsonEncode(resData));
-        dmPathBox.add(dmPathDataModelData); //saved dmPath data to hive
+        dmPathBox.put(
+            'dmPathData', dmPathDataModelData); //saved dmPath data to hive
 
         loginUrl = resData['login_url'] ?? '';
 
@@ -133,7 +134,7 @@ class Repositories {
 
       if (status == 'Success') {
         userLoginModelData = userLoginModelFromJson(response.body);
-        userloginBox.add(userLoginModelData);
+        userloginBox.put('userInfo', userLoginModelData);
 
         // old task
         String userName = userInfo['user_name'];

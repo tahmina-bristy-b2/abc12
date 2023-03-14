@@ -57,16 +57,16 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     super.dispose();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setInt('_counter', _counter);
-    });
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  //   SharedPreferences.getInstance().then((prefs) {
+  //     prefs.setInt('_counter', _counter);
+  //   });
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   // int _currentSelected = 0;
 
@@ -91,18 +91,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        // flexibleSpace: Container(
-        //   decoration: const BoxDecoration(
-        //     // LinearGradient
-        //     gradient: LinearGradient(
-        //       // colors for gradient
-        //       colors: [
-        //         Color(0xff70BA85),
-        //         Color(0xff56CCF2),
-        //       ],
-        //     ),
-        //   ),
-        // ),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -119,58 +107,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
         centerTitle: true,
       ),
       endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 138, 201, 149)),
-              child: Column(
-                children: [
-                  Image.asset('assets/images/mRep7_logo.png'),
-                  // Expanded(
-                  //   child: Text(
-                  //     '${widget.clientName}',
-                  //     // 'Chemist: ADEE MEDICINE CORNER(6777724244)',
-                  //     style: const TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 18,
-                  //         fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
-                  // Expanded(
-                  //     child: Text(
-                  //   widget.clientId,
-                  //   style: const TextStyle(
-                  //       color: Colors.white,
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.bold),
-                  // ))
-                ],
-              ),
-            ),
-            clientFlag
-                ? Link(
-                    uri: Uri.parse(
-                        '$clientUrl?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                    target: LinkTarget.blank,
-                    builder: (BuildContext ctx, FollowLink? openLink) {
-                      return ListTile(
-                        onTap: openLink,
-                        leading: const Icon(Icons.person_add,
-                            color: Colors.blueAccent),
-                        title: const Text(
-                          'Customer',
-                          style: TextStyle(
-                              fontSize: 14,
-                              // fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 15, 53, 85)),
-                        ),
-                      );
-                    })
-                : Container()
-          ],
-        ),
+        child: endDrawerListViewBuilderWidget(),
       ),
       body: Column(
         children: [
@@ -178,34 +115,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                /************************************ SEARCH NEW CODE DONE BY BRIISTY ********************************************/
-                onChanged: (value) {
-                  setState(() {
-                    foundUsers = OrderServices()
-                        .customerSearchMethod(value, widget.data);
-                  });
-                },
-                controller: searchController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  labelText: ' Search',
-                  suffixIcon: searchController.text.isEmpty &&
-                          searchController.text == ''
-                      ? const Icon(Icons.search)
-                      : IconButton(
-                          onPressed: () {
-                            searchController.clear();
-
-                            /************************************ SEARCH NEW CODE DONE BY BRIISTY ******************************************* */
-                            foundUsers =
-                                OrderServices().customerSearchMethod('', []);
-                            setState(() {});
-                          },
-                          icon: const Icon(Icons.clear)),
-                ),
-              ),
+              child: customerSearchTextFieldWidget(),
             ),
           ),
           Expanded(
@@ -222,6 +132,91 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     );
   }
 
+  ListView endDrawerListViewBuilderWidget() {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(255, 138, 201, 149)),
+          child: Column(
+            children: [
+              Image.asset('assets/images/mRep7_logo.png'),
+              // Expanded(
+              //   child: Text(
+              //     '${widget.clientName}',
+              //     // 'Chemist: ADEE MEDICINE CORNER(6777724244)',
+              //     style: const TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.bold),
+              //   ),
+              // ),
+              // Expanded(
+              //     child: Text(
+              //   widget.clientId,
+              //   style: const TextStyle(
+              //       color: Colors.white,
+              //       fontSize: 15,
+              //       fontWeight: FontWeight.bold),
+              // ))
+            ],
+          ),
+        ),
+        clientFlag
+            ? Link(
+                uri: Uri.parse(
+                    '$clientUrl?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                target: LinkTarget.blank,
+                builder: (BuildContext ctx, FollowLink? openLink) {
+                  return ListTile(
+                    onTap: openLink,
+                    leading:
+                        const Icon(Icons.person_add, color: Colors.blueAccent),
+                    title: const Text(
+                      'Customer',
+                      style: TextStyle(
+                          fontSize: 14,
+                          // fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 15, 53, 85)),
+                    ),
+                  );
+                })
+            : Container()
+      ],
+    );
+  }
+
+  TextFormField customerSearchTextFieldWidget() {
+    return TextFormField(
+      /************************************ SEARCH NEW CODE DONE BY BRIISTY ********************************************/
+      onChanged: (value) {
+        setState(() {
+          foundUsers = OrderServices().customerSearchMethod(value, widget.data);
+        });
+      },
+      /************************************ END ******************************************* */
+
+      controller: searchController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        labelText: ' Search',
+        suffixIcon: searchController.text.isEmpty && searchController.text == ''
+            ? const Icon(Icons.search)
+            : IconButton(
+                onPressed: () {
+                  searchController.clear();
+
+                  /************************************ SEARCH NEW CODE DONE BY BRIISTY ******************************************* */
+                  foundUsers = OrderServices().customerSearchMethod('', []);
+                  setState(() {});
+                  /************************************ END ******************************************* */
+                },
+                icon: const Icon(Icons.clear)),
+      ),
+    );
+  }
+
   ListView customerListviewbuilder(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
@@ -232,10 +227,11 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
         itemBuilder: (BuildContext itemBuilder, index) {
           return GestureDetector(
             onTap: () {
-              /***********************************New************************************** */
+              //*********************************** NEW ADDED DONE BY BRISTY ************************************** */
               setState(() {
                 _counter = OrderServices().incrementCounter(_counter);
               });
+              //*********************************** END **********************************************************/
 
               Navigator.push(
                   context,

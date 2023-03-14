@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderServices {
+  //*************************************This method works for seraching any client/customer in CustomerListPage ****************************** */
   List customerSearchMethod(String enteredKeyword, List data) {
     List foundUsers;
     foundUsers = data;
     List results = [];
     if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
       results = foundUsers;
     } else {
       var starts = foundUsers
@@ -34,6 +34,7 @@ class OrderServices {
     return results;
   }
 
+  //************************************* It uses for making Customer unique in CustomerListPage ****************************** */
   int incrementCounter(int count) {
     count++;
     SharedPreferences.getInstance().then((prefs) {

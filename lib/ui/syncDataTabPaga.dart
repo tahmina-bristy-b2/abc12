@@ -3,6 +3,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -21,11 +24,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Rx/Medicine/syncMedicineListToHive.dart';
 
 class SyncDataTabScreen extends StatefulWidget {
-  String cid;
-  String userId;
-  String userPassword;
+  final String cid;
+  final String userId;
+  final String userPassword;
 
-  SyncDataTabScreen({
+  const SyncDataTabScreen({
+    super.key,
     required this.cid,
     required this.userId,
     required this.userPassword,
@@ -37,6 +41,9 @@ class SyncDataTabScreen extends StatefulWidget {
 
 class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
   Box? box;
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
   String sync_url = '';
   String cid = '';
   String userId = '';
@@ -56,6 +63,11 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
   // List<SyncCustomerData>? data;
   @override
   void initState() {
+    super.initState();
+    // get user and dmPath data from hive
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         cid = prefs.getString("CID") ?? widget.cid;
@@ -69,13 +81,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         dcrFlag = prefs.getBool('dcr_flag') ?? false;
         rxFlag = prefs.getBool('rx_flag') ?? false;
       });
-
-      print(orderFlag);
-      print(dcrFlag);
-      print(rxFlag);
     });
-
-    super.initState();
   }
 
   void _submitToastforOrder3() {
@@ -102,12 +108,11 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         centerTitle: true,
       ),
       body: _loading
-          ? Container(
-              child: const Center(
+          ? const Center(
               child: CircularProgressIndicator(
                 color: Colors.blueGrey,
               ),
-            ))
+            )
           : SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -209,7 +214,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               ),
                             ],
                           )
-                        : Text(""),
+                        : const Text(""),
                     Row(
                       children: [
                         dcrFlag
@@ -318,7 +323,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               const Expanded(child: SizedBox())
                             ],
                           )
-                        : Text(""),
+                        : const Text(""),
                     const SizedBox(
                       height: 20,
                     ),

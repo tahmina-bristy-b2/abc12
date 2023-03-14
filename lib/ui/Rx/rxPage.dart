@@ -29,7 +29,7 @@ class RxPage extends StatefulWidget {
   String areaId;
   String address;
   String image1;
-  final List<MedicineListModel> draftRxMedicinItem;
+  List<MedicineListModel> draftRxMedicinItem;
 
   RxPage({
     Key? key,

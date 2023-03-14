@@ -151,9 +151,7 @@ class Repositories {
         rx_doc_must = userInfo['rx_doc_must'];
         rx_type_must = userInfo['rx_type_must'];
         rx_gallery_allow = userInfo['rx_gallery_allow'];
-
         List dcr_visit_with_list = userInfo['dcr_visit_with_list'];
-
         List rx_type_list = userInfo['rx_type_list'];
         bool order_flag = userInfo['order_flag'];
         bool dcr_flag = userInfo['dcr_flag'];

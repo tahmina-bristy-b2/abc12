@@ -205,7 +205,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           finalList.forEach((element) {
-            final temp = MedicineListModel(
+            var temp = MedicineListModel(
                 strength: element['strength'],
                 name: element['name'],
                 generic: element['generic'],
@@ -215,7 +215,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 uiqueKey: widget.counter,
                 itemId: element['item_id'],
                 quantity: 1);
-            final tempItemId = temp.itemId;
+            String tempItemId = temp.itemId;
 
             widget.tempList.removeWhere((item) => item.itemId == tempItemId);
 

@@ -29,7 +29,7 @@ class RxPage extends StatefulWidget {
   String areaId;
   String address;
   String image1;
-  final List<MedicineListModel> draftRxMedicinItem;
+  List<MedicineListModel> draftRxMedicinItem;
 
   RxPage({
     Key? key,
@@ -1548,25 +1548,27 @@ class _RxPageState extends State<RxPage> {
     if (mymap.isNotEmpty) {
       medicineData = mymap;
       // print('test1:$counterForDoctor');
+      // ignore: use_build_context_synchronously
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => MedicineListFromHiveData1(
-                  counter: (finalDoctorList.isNotEmpty &&
-                          finalDoctorList[0].docId != '')
-                      ? counterForDoctor
-                      : _isCameraClick == true
-                          ? objectImageId
-                          : widget.uniqueId > 0
-                              ? widget.uniqueId
-                              : _counterforRx,
-                  medicineData: medicineData,
-                  tempList: finalMedicineList,
-                  tempListFunc: (value) {
-                    finalMedicineList = value;
-                    setState(() {});
-                  },
-                )),
+          builder: (_) => MedicineListFromHiveData1(
+            counter:
+                (finalDoctorList.isNotEmpty && finalDoctorList[0].docId != '')
+                    ? counterForDoctor
+                    : _isCameraClick == true
+                        ? objectImageId
+                        : widget.uniqueId > 0
+                            ? widget.uniqueId
+                            : _counterforRx,
+            medicineData: medicineData,
+            medicinTempList: finalMedicineList,
+            tempListFunc: (value) {
+              finalMedicineList = value;
+              setState(() {});
+            },
+          ),
+        ),
       );
     } else {
       medicineData.add('Empty');

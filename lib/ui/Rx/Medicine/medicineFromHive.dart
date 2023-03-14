@@ -1,18 +1,17 @@
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-import '../../../models/hive_models/hive_data_model.dart';
-
 class MedicineListFromHiveData1 extends StatefulWidget {
-  List medicineData;
-  List<MedicineListModel> tempList;
+  final List medicineData;
+  List<MedicineListModel> medicinTempList;
   int counter;
   Function(List<MedicineListModel>) tempListFunc;
 
   MedicineListFromHiveData1({
     Key? key,
     required this.medicineData,
-    required this.tempList,
+    required this.medicinTempList,
     required this.counter,
     required this.tempListFunc,
   }) : super(key: key);
@@ -217,9 +216,10 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 quantity: 1);
             final tempItemId = temp.itemId;
 
-            widget.tempList.removeWhere((item) => item.itemId == tempItemId);
+            widget.medicinTempList
+                .removeWhere((item) => item.itemId == tempItemId);
 
-            widget.tempList.add(temp);
+            widget.medicinTempList.add(temp);
           });
           // } else {
           //   finalList.forEach((element) {
@@ -237,7 +237,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
           //     widget.tempList.removeWhere((item) => item.itemId == tempItemId);
           //   });
           // }
-          widget.tempListFunc(widget.tempList);
+          widget.tempListFunc(widget.medicinTempList);
           Navigator.pop(context);
         },
         child: const Text('Add'),

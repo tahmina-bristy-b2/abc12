@@ -677,7 +677,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 docId: '',
                                                 docName: '',
                                                 uniqueId: 0,
-                                                draftRxMedicinItem: const [],
+                                                draftRxMedicinItem: [],
                                                 image1: '',
                                               ),
                                             ),

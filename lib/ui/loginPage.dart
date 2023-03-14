@@ -332,7 +332,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           userName:
                                                               userLoginModelData
                                                                   .userName,
-                                                          user_id:
+                                                          userId:
                                                               userLoginModelData
                                                                   .userId,
                                                           userPassword:

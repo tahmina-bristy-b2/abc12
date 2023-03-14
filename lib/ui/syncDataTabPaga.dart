@@ -332,7 +332,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                 MaterialPageRoute(
                                   builder: (_) => MyHomePage(
                                     userName: userName,
-                                    user_id: user_id,
+                                    userId: user_id,
                                     userPassword: userPassword,
                                   ),
                                 ),

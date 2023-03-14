@@ -1366,7 +1366,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
               MaterialPageRoute(
                   builder: (context) => MyHomePage(
                         userName: userName,
-                        user_id: user_id,
+                        userId: user_id,
                         userPassword: userPassword ?? '',
                       )),
               (Route<dynamic> route) => false);

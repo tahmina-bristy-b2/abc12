@@ -53,8 +53,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Box? box;
-  Box<UserLoginModel> userInfobox = Boxes.getLoginData();
-  Box<DmPathDataModel> dmpathBox = Boxes.getDmpath();
+
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
 
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -76,6 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    // get user and dmPath data from hive
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SharedPreferences.getInstance().then((prefs) {
@@ -249,8 +253,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Color.fromARGB(255, 15, 53, 85)),
               ),
               onTap: () {
-                getTarAch(context, dmpathBox.values.first.userSalesCollAchUrl,
-                    cid, userId, userPassword, deviceId);
+                getTarAch(context, dmpathData!.userSalesCollAchUrl, cid, userId,
+                    userPassword, deviceId);
               },
             ),
             const SizedBox(height: 10),
@@ -313,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: userInfobox.values.first.rxFlag == true
+      bottomNavigationBar: userInfo!.rxFlag == true
           ? BottomNavigationBar(
               // type: BottomNavigationBarType.fixed,
               onTap: _onItemTapped,
@@ -452,7 +456,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ///************************************************ Order area Field *********************************************///
 
-                userInfobox.values.first.orderFlag
+                userInfo!.orderFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 3.5,
@@ -469,9 +473,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       child: customBuildButton(
                                         icon: Icons.add,
                                         onClick: () {
-                                          if (userInfobox
-                                                  .values.first.areaPage ==
-                                              false) {
+                                          if (userInfo!.areaPage == false) {
                                             getData();
                                           } else {
                                             Navigator.push(
@@ -526,8 +528,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   OrderReportWebViewScreen(
-                                                report_url: dmpathBox.values
-                                                    .first.reportSalesUrl,
+                                                report_url:
+                                                    dmpathData!.reportSalesUrl,
                                                 cid: cid,
                                                 userId: userId,
                                                 userPassword: userPassword,
@@ -548,7 +550,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.orderFlag
+                userInfo!.orderFlag
                     ? const SizedBox(
                         height: 10,
                       )
@@ -556,7 +558,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ///******************************************** DCR Section ********************************************///
 
-                userInfobox.values.first.dcrFlag
+                userInfo!.dcrFlag
                     ? Container(
                         height: screenHeight / 3.5,
                         width: MediaQuery.of(context).size.width,
@@ -615,8 +617,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   DcrReportWebView(
-                                                report_url: dmpathBox
-                                                    .values.first.reportDcrUrl,
+                                                report_url:
+                                                    dmpathData!.reportDcrUrl,
                                                 cid: cid,
                                                 userId: userId,
                                                 userPassword: userPassword,
@@ -638,7 +640,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.dcrFlag
+                userInfo!.dcrFlag
                     ? const SizedBox(
                         height: 10,
                       )
@@ -646,7 +648,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ///********************************************* New Rx section **************************************///
 
-                userInfobox.values.first.rxFlag
+                userInfo!.rxFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 3.5,
@@ -724,8 +726,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 cid: cid,
                                                 userId: userId,
                                                 userPassword: userPassword,
-                                                report_url: dmpathBox
-                                                    .values.first.reportRxUrl,
+                                                report_url:
+                                                    dmpathData!.reportRxUrl,
                                               ),
                                             ),
                                           );
@@ -743,14 +745,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.rxFlag
+                userInfo!.rxFlag
                     ? const SizedBox(
                         height: 10,
                       )
                     : const SizedBox.shrink(),
 
                 ///*******************************************Expense and Attendance  section ***********************************///
-                userInfobox.values.first.othersFlag
+                userInfo!.othersFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 6.9,
@@ -798,14 +800,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.othersFlag
+                userInfo!.othersFlag
                     ? const SizedBox(
                         height: 10,
                       )
                     : const SizedBox.shrink(),
 
                 ///******************************************* Leave Request and Leave Report **********************************///
-                userInfobox.values.first.leaveFlag
+                userInfo!.leaveFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 6.9,
@@ -817,7 +819,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Expanded(
                                   child: Link(
                                     uri: Uri.parse(
-                                        '${dmpathBox.values.first.leaveRequestUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                        '${dmpathData!.leaveRequestUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                                     target: LinkTarget.blank,
                                     builder: (BuildContext ctx,
                                         FollowLink? openLink) {
@@ -863,7 +865,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Expanded(
                                   child: Link(
                                     uri: Uri.parse(
-                                        '${dmpathBox.values.first.leaveReportUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                        '${dmpathData!.leaveReportUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                                     target: LinkTarget.blank,
                                     builder: (BuildContext ctx,
                                         FollowLink? openLink) {
@@ -908,14 +910,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.othersFlag
+                userInfo!.othersFlag
                     ? const SizedBox(
                         height: 10,
                       )
                     : const SizedBox.shrink(),
 
                 ///******************************************  Tour Plan *********************************************///
-                userInfobox.values.first.visitPlanFlag
+                userInfo!.visitPlanFlag
                     ? Container(
                         color: const Color(0xFFDDEBF7),
                         height: screenHeight / 7,
@@ -929,7 +931,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: Link(
                                         uri: Uri.parse(
-                                            '${dmpathBox.values.first.tourPlanUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                            '${dmpathData!.tourPlanUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                                         target: LinkTarget.blank,
                                         builder: (BuildContext ctx,
                                             FollowLink? openLink) {
@@ -976,7 +978,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: Link(
                                         uri: Uri.parse(
-                                            '${dmpathBox.values.first.tourComplianceUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                            '${dmpathData!.tourComplianceUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                                         target: LinkTarget.blank,
                                         builder: (BuildContext ctx,
                                             FollowLink? openLink) {
@@ -1025,14 +1027,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.visitPlanFlag
+                userInfo!.visitPlanFlag
                     ? const SizedBox(
                         height: 5,
                       )
                     : const SizedBox.shrink(),
 
                 ///***********************************  Plugg-in & Reports *************************************************///
-                userInfobox.values.first.plaginFlag
+                userInfo!.plaginFlag
                     ? Container(
                         color: const Color(0xFFDDEBF7),
                         height: screenHeight / 7,
@@ -1048,7 +1050,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: Link(
                                         uri: Uri.parse(
-                                            '${dmpathBox.values.first.pluginUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                            '${dmpathData!.pluginUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                                         target: LinkTarget.blank,
                                         builder: (BuildContext ctx,
                                             FollowLink? openLink) {
@@ -1094,7 +1096,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: Link(
                                         uri: Uri.parse(
-                                            '${dmpathBox.values.first.activityLogUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                            '${dmpathData!.activityLogUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
                                         target: LinkTarget.blank,
                                         builder: (BuildContext ctx,
                                             FollowLink? openLink) {
@@ -1145,7 +1147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfobox.values.first.plaginFlag
+                userInfo!.plaginFlag
                     ? const SizedBox(
                         height: 10,
                       )
@@ -1162,7 +1164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //==========================================================Notice flag +Notice url will be here====================================
-                          userInfobox.values.first.noteFlag
+                          userInfo!.noteFlag
                               ? Expanded(
                                   child: customBuildButton(
                                     icon: Icons.note_alt,

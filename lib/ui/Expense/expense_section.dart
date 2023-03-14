@@ -11,7 +11,7 @@ import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/ui/Widgets/custombutton.dart';
 import 'package:MREPORTING/ui/Widgets/syncCustomButton.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/service/apiCall.dart';
+import 'package:MREPORTING/services/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';

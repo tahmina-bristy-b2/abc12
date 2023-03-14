@@ -13,7 +13,7 @@ class FullPageImg extends StatefulWidget {
 }
 
 class _FullPageImgState extends State<FullPageImg> {
-  double _scall = 1.0;
+  // double _scall = 1.0;
   double _previouscall = 1.0;
   String? imgpath;
   ImageSource imgsorce = ImageSource.camera;

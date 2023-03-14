@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:MREPORTING/models/area_page_model.dart';
-import 'package:MREPORTING/service/apiCall.dart';
+import 'package:MREPORTING/services/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AreaPage extends StatefulWidget {

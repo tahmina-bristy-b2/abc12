@@ -351,7 +351,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             MaterialPageRoute(
                 builder: (context) => MyHomePage(
                       userName: userName,
-                      user_id: user_id,
+                      userId: user_id,
                       userPassword: userPass!,
                     )));
       } else {

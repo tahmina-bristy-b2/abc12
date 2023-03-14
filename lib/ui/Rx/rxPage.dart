@@ -29,7 +29,7 @@ class RxPage extends StatefulWidget {
   String areaId;
   String address;
   String image1;
-  List<MedicineListModel> draftRxMedicinItem;
+  final List<MedicineListModel> draftRxMedicinItem;
 
   RxPage({
     Key? key,
@@ -203,17 +203,13 @@ class _RxPageState extends State<RxPage> {
 
   void calculateRxItemString() {
     if (finalMedicineList.isNotEmpty) {
-      finalMedicineList.forEach((element) {
+      for (var element in finalMedicineList) {
         if (itemString == '') {
-          itemString =
-              element.itemId.toString() + '|' + element.quantity.toString();
+          itemString = '${element.itemId}|${element.quantity}';
         } else {
-          itemString += '||' +
-              element.itemId.toString() +
-              '|' +
-              element.quantity.toString();
+          itemString += '||${element.itemId}|${element.quantity}';
         }
-      });
+      }
     }
   }
 
@@ -736,8 +732,7 @@ class _RxPageState extends State<RxPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${finalDoctorList[0].docName}' +
-                                                  '(${finalDoctorList[0].docId})',
+                                              '${finalDoctorList[0].docName}(${finalDoctorList[0].docId})',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -747,9 +742,7 @@ class _RxPageState extends State<RxPage> {
                                             // SizedBox(height: 10),
                                             FittedBox(
                                               child: Text(
-                                                '${finalDoctorList[0].areaName}' +
-                                                    '(${finalDoctorList[0].areaId}) ,' +
-                                                    ' ${finalDoctorList[0].address}',
+                                                '${finalDoctorList[0].areaName}(${finalDoctorList[0].areaId}) , ${finalDoctorList[0].address}',
                                                 style: const TextStyle(
                                                   color: Colors.black,
                                                   // fontSize: 19,
@@ -964,8 +957,8 @@ class _RxPageState extends State<RxPage> {
                                                 Expanded(
                                                   flex: 2,
                                                   child: Text(
-                                                    '${finalMedicineList[index].name} ' +
-                                                        '(${finalMedicineList[index].itemId})',
+                                                    '${finalMedicineList[index].name} '
+                                                    '(${finalMedicineList[index].itemId})',
                                                     style: const TextStyle(
                                                       color: Colors.black,
                                                       // fontWeight:
@@ -1112,18 +1105,18 @@ class _RxPageState extends State<RxPage> {
 
   // rx Submitt................................................
   Future<dynamic> rxSubmit(String fileName) async {
-    print(submit_url! +
-        'api_rx_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId}&area_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${"dt"}&item_list=$itemString');
+    print(
+        '${submit_url!}api_rx_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId}&area_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${"dt"}&item_list=$itemString');
     // if (itemString != '') {
     // print(itemString);
     var dt = DateFormat('HH:mm:ss').format(DateTime.now());
 
     String time = dt.replaceAll(":", '');
-    String a = user_id + '_' + time;
+    String a = '${user_id}_$time';
 
     try {
       final http.Response response = await http.post(
-        Uri.parse(submit_url! + 'api_rx_submit/submit_data'),
+        Uri.parse('${submit_url!}api_rx_submit/submit_data'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -1169,7 +1162,7 @@ class _RxPageState extends State<RxPage> {
             MaterialPageRoute(
               builder: (context) => MyHomePage(
                 userName: userName,
-                user_id: user_id,
+                userId: user_id,
                 userPassword: userPassword ?? '',
               ),
             ),
@@ -1350,7 +1343,7 @@ class _RxPageState extends State<RxPage> {
           MaterialPageRoute(
               builder: (context) => MyHomePage(
                     userName: userName,
-                    user_id: user_id,
+                    userId: user_id,
                     userPassword: userPassword ?? '',
                   )),
           (route) => false);
@@ -1383,7 +1376,7 @@ class _RxPageState extends State<RxPage> {
           MaterialPageRoute(
               builder: (context) => MyHomePage(
                     userName: userName,
-                    user_id: user_id,
+                    userId: user_id,
                     userPassword: userPassword ?? '',
                   )),
           (route) => false);

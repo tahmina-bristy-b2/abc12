@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/rx/rx_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -200,22 +202,22 @@ class _RxPageState extends State<RxPage> {
 
     return _counterforRx;
   }
-
-  void calculateRxItemString() {
-    if (finalMedicineList.isNotEmpty) {
-      finalMedicineList.forEach((element) {
-        if (itemString == '') {
-          itemString =
-              element.itemId.toString() + '|' + element.quantity.toString();
-        } else {
-          itemString += '||' +
-              element.itemId.toString() +
-              '|' +
-              element.quantity.toString();
-        }
-      });
-    }
-  }
+//===============================================================Depricated Code===============================
+  // void calculateRxItemString() {
+  //   if (finalMedicineList.isNotEmpty) {
+  //     finalMedicineList.forEach((element) {
+  //       if (itemString == '') {
+  //         itemString =
+  //             element.itemId.toString() + '|' + element.quantity.toString();
+  //       } else {
+  //         itemString += '||' +
+  //             element.itemId.toString() +
+  //             '|' +
+  //             element.quantity.toString();
+  //       }
+  //     });
+  //   }
+  // }
 
   void _onItemTapped(int index) async {
     if (index == 0) {
@@ -231,7 +233,10 @@ class _RxPageState extends State<RxPage> {
             if (finalDoctorList[0].docId != "") {
               _rxImageSubmit();
             } else {
-              _submitToastforDoctor();
+              // _submitToastforDoctor();
+              AllServices().toastMessage(
+                  " Please Select Doctor.", Colors.red, Colors.white, 16);
+
               setState(() {
                 _isLoading = true;
               });
@@ -240,7 +245,12 @@ class _RxPageState extends State<RxPage> {
             _rxImageSubmit();
           }
         } else {
-          _submitToastforOrder3();
+          // _submitToastforOrder3();
+          AllServices().toastMessage(
+              'No Internet Connection\nPlease check your internet connection.',
+              Colors.red,
+              Colors.white,
+              16);
           setState(() {
             _isLoading = true;
           });
@@ -250,7 +260,9 @@ class _RxPageState extends State<RxPage> {
         setState(() {
           _isLoading = true;
         });
-        _submitToastforphoto();
+        AllServices().toastMessage('Please Take Image and Select Medicine',
+            Colors.red, Colors.white, 16);
+        // _submitToastforphoto();
       }
 
       setState(() {
@@ -262,7 +274,9 @@ class _RxPageState extends State<RxPage> {
       if (imagePath != null || widget.image1 != '') {
         putAddedRxData();
       } else {
-        _submitToastforphoto();
+        AllServices().toastMessage('Please Take Image and Select Medicine',
+            Colors.red, Colors.white, 16);
+        // _submitToastforphoto();
       }
       //   putAddedRxData();
       // } else if ((imagePath != null || widget.image1 != '') &&
@@ -337,7 +351,10 @@ class _RxPageState extends State<RxPage> {
             if (finalDoctorList[0].docId != "") {
               _rxImageSubmit();
             } else {
-              _submitToastforDoctor();
+              // _submitToastforDoctor();
+              AllServices().toastMessage(
+                  " Please Select Doctor.", Colors.red, Colors.white, 16);
+
               setState(() {
                 _isLoading = true;
               });
@@ -346,7 +363,12 @@ class _RxPageState extends State<RxPage> {
             _rxImageSubmit();
           }
         } else {
-          _submitToastforOrder3();
+          // _submitToastforOrder3();
+          AllServices().toastMessage(
+              'No Internet Connection\nPlease check your internet connection.',
+              Colors.red,
+              Colors.white,
+              16);
           setState(() {
             _isLoading = true;
           });
@@ -356,7 +378,10 @@ class _RxPageState extends State<RxPage> {
         setState(() {
           _isLoading = true;
         });
-        _submitToastforphoto();
+
+        AllServices().toastMessage('Please Take Image and Select Medicine',
+            Colors.red, Colors.white, 16);
+        // _submitToastforphoto();
       }
 
       setState(() {
@@ -368,7 +393,9 @@ class _RxPageState extends State<RxPage> {
       if (imagePath != null || widget.image1 != '') {
         putAddedRxData();
       } else {
-        _submitToastforphoto();
+        AllServices().toastMessage('Please Take Image and Select Medicine',
+            Colors.red, Colors.white, 16);
+        // _submitToastforphoto();
       }
       setState(() {
         _currentSelected2 = index;
@@ -388,15 +415,15 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
-  void _submitToastforOrder3() {
-    Fluttertoast.showToast(
-        msg: 'No Internet Connection\nPlease check your internet connection.',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+  // void _submitToastforOrder3() {
+  //   Fluttertoast.showToast(
+  //       msg: 'No Internet Connection\nPlease check your internet connection.',
+  //       toastLength: Toast.LENGTH_LONG,
+  //       gravity: ToastGravity.SNACKBAR,
+  //       backgroundColor: Colors.red,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -501,206 +528,200 @@ class _RxPageState extends State<RxPage> {
                         const SizedBox(
                           width: 50,
                         ),
-                        Container(
-                          child: Center(
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // if (_activeCounter == true) {
-                                    //   setState(() {
-                                    //     counterForDoctor = _counterforRx;
-                                    //   });
-                                    // }
-                                    // print('drcounter:$counterForDoctor');
-                                    setState(() {});
-                                    if (imagePath != null) {
-                                      getRxDoctorData();
-                                    } else if (widget.image1 != "") {
-                                      getRxDoctorData();
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: 'Please Take Image First ',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.CENTER,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                    }
-                                  },
-                                  child: Center(
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                color: Colors.white,
-                                              ),
-                                              width: screenWidth / 5,
-                                              height: screenHeight / 9,
+                        Center(
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // if (_activeCounter == true) {
+                                  //   setState(() {
+                                  //     counterForDoctor = _counterforRx;
+                                  //   });
+                                  // }
+                                  // print('drcounter:$counterForDoctor');
+                                  setState(() {});
+                                  if (imagePath != null) {
+                                    getRxDoctorData();
+                                  } else if (widget.image1 != "") {
+                                    getRxDoctorData();
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: 'Please Take Image First ',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
+                                },
+                                child: Center(
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    elevation: 5,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              color: Colors.white,
+                                            ),
+                                            width: screenWidth / 5,
+                                            height: screenHeight / 9,
 
-                                              // color: const Color(0xffDDEBF7),
-                                              child: Container(
-                                                color: Colors.white,
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/doctor.png',
-                                                      // color: Colors.teal,
-                                                      width: screenWidth / 7,
-                                                      height: screenWidth / 7,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    FittedBox(
-                                                      child: Text(
-                                                        'Doctor',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.teal,
-                                                          fontSize:
-                                                              screenHeight / 45,
-                                                        ),
+                                            // color: const Color(0xffDDEBF7),
+                                            child: Container(
+                                              color: Colors.white,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/doctor.png',
+                                                    // color: Colors.teal,
+                                                    width: screenWidth / 7,
+                                                    height: screenWidth / 7,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  FittedBox(
+                                                    child: Text(
+                                                      'Doctor',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.teal,
+                                                        fontSize:
+                                                            screenHeight / 45,
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print(imagePath.toString());
-                                    setState(() {});
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  print(imagePath.toString());
+                                  setState(() {});
 
-                                    if (imagePath != null) {
-                                      if (widget.uniqueId >= 0 &&
-                                          finalDoctorList.isNotEmpty) {
-                                        getMedicine();
-                                        // print(widget.uniqueId);
-                                      } else if (_activeCounter == false) {
-                                        // print('activeCounter:$_activeCounter');
-                                        _rxCounter();
-                                        getMedicine();
-                                        // print('test:${widget.uniqueId}');
-                                        setState(() {
-                                          _activeCounter = true;
-                                        });
-                                      } else if (_activeCounter == true) {
-                                        getMedicine();
-                                      }
-                                    } else if (widget.image1 != "") {
-                                      if (widget.uniqueId >= 0 &&
-                                          finalDoctorList.isNotEmpty) {
-                                        getMedicine();
-                                        // print(widget.uniqueId);
-                                      } else if (_activeCounter == false) {
-                                        // print('activeCounter:$_activeCounter');
-                                        _rxCounter();
-                                        getMedicine();
-                                        // print('test:${widget.uniqueId}');
-                                        setState(() {
-                                          _activeCounter = true;
-                                        });
-                                      } else if (_activeCounter == true) {
-                                        getMedicine();
-                                      }
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: 'Please Take Image First ',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.CENTER,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                  if (imagePath != null) {
+                                    if (widget.uniqueId >= 0 &&
+                                        finalDoctorList.isNotEmpty) {
+                                      getMedicine();
+                                      // print(widget.uniqueId);
+                                    } else if (_activeCounter == false) {
+                                      // print('activeCounter:$_activeCounter');
+                                      _rxCounter();
+                                      getMedicine();
+                                      // print('test:${widget.uniqueId}');
+                                      setState(() {
+                                        _activeCounter = true;
+                                      });
+                                    } else if (_activeCounter == true) {
+                                      getMedicine();
                                     }
-                                  },
-                                  child: Center(
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: screenWidth / 5,
-                                              height: screenHeight / 10,
+                                  } else if (widget.image1 != "") {
+                                    if (widget.uniqueId >= 0 &&
+                                        finalDoctorList.isNotEmpty) {
+                                      getMedicine();
+                                      // print(widget.uniqueId);
+                                    } else if (_activeCounter == false) {
+                                      // print('activeCounter:$_activeCounter');
+                                      _rxCounter();
+                                      getMedicine();
+                                      // print('test:${widget.uniqueId}');
+                                      setState(() {
+                                        _activeCounter = true;
+                                      });
+                                    } else if (_activeCounter == true) {
+                                      getMedicine();
+                                    }
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: 'Please Take Image First ',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
+                                },
+                                child: Center(
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    elevation: 5,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            width: screenWidth / 5,
+                                            height: screenHeight / 10,
 
-                                              // color: const Color(0xffDDEBF7),
-                                              child: Container(
-                                                color: Colors.white,
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/cap.png',
-                                                      // color: Colors.teal,
-                                                      width: screenWidth / 10,
-                                                      height: screenWidth / 8,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    FittedBox(
-                                                      child: Text(
-                                                        'Medicine',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.teal,
-                                                          fontSize:
-                                                              screenHeight / 45,
-                                                        ),
+                                            // color: const Color(0xffDDEBF7),
+                                            child: Container(
+                                              color: Colors.white,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/cap.png',
+                                                    // color: Colors.teal,
+                                                    width: screenWidth / 10,
+                                                    height: screenWidth / 8,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  FittedBox(
+                                                    child: Text(
+                                                      'Medicine',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.teal,
+                                                        fontSize:
+                                                            screenHeight / 45,
                                                       ),
-                                                    )
-                                                    // Image.asset(
-                                                    //   'assets/images/doctor.jpg',
-                                                    //   // width: 60,
-                                                    //   // height: 40,
-                                                    //   fit: BoxFit.cover,
-                                                    // ),
-                                                  ],
-                                                ),
+                                                    ),
+                                                  )
+                                                  // Image.asset(
+                                                  //   'assets/images/doctor.jpg',
+                                                  //   // width: 60,
+                                                  //   // height: 40,
+                                                  //   fit: BoxFit.cover,
+                                                  // ),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -736,8 +757,7 @@ class _RxPageState extends State<RxPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${finalDoctorList[0].docName}' +
-                                                  '(${finalDoctorList[0].docId})',
+                                              '${finalDoctorList[0].docName}(${finalDoctorList[0].docId})',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -747,9 +767,7 @@ class _RxPageState extends State<RxPage> {
                                             // SizedBox(height: 10),
                                             FittedBox(
                                               child: Text(
-                                                '${finalDoctorList[0].areaName}' +
-                                                    '(${finalDoctorList[0].areaId}) ,' +
-                                                    ' ${finalDoctorList[0].address}',
+                                                '${finalDoctorList[0].areaName}(${finalDoctorList[0].areaId}) , ${finalDoctorList[0].address}',
                                                 style: const TextStyle(
                                                   color: Colors.black,
                                                   // fontSize: 19,
@@ -1112,18 +1130,18 @@ class _RxPageState extends State<RxPage> {
 
   // rx Submitt................................................
   Future<dynamic> rxSubmit(String fileName) async {
-    print(submit_url! +
-        'api_rx_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId}&area_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${"dt"}&item_list=$itemString');
+    print(
+        '${submit_url!}api_rx_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId}&area_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${"dt"}&item_list=$itemString');
     // if (itemString != '') {
     // print(itemString);
     var dt = DateFormat('HH:mm:ss').format(DateTime.now());
 
-    String time = dt.replaceAll(":", '');
-    String a = user_id + '_' + time;
+    // String time = dt.replaceAll(":", '');
+    // String a = '${user_id}_$time';
 
     try {
       final http.Response response = await http.post(
-        Uri.parse(submit_url! + 'api_rx_submit/submit_data'),
+        Uri.parse('${submit_url!}api_rx_submit/submit_data'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -1148,7 +1166,7 @@ class _RxPageState extends State<RxPage> {
 
       var orderInfo = json.decode(response.body);
       String status = orderInfo['status'];
-      print(orderInfo['status']);
+      // print(orderInfo['status']);
       String ret_str = orderInfo['ret_str'];
 
       if (status == "Success") {
@@ -1164,7 +1182,7 @@ class _RxPageState extends State<RxPage> {
         }
 
         setState(() {});
-
+        if (!mounted) return;
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) => MyHomePage(
@@ -1175,8 +1193,12 @@ class _RxPageState extends State<RxPage> {
             ),
             (Route<dynamic> route) => false);
 
-        _submitToastforOrder(ret_str);
+        // _submitToastforOrder(ret_str);
+        AllServices().toastMessage(
+            "Rx Submitted\n$ret_str", Colors.green.shade900, Colors.white, 16);
       } else {
+        if (!mounted) return;
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text('Rx submit Failed'), backgroundColor: Colors.red),
@@ -1198,16 +1220,13 @@ class _RxPageState extends State<RxPage> {
 
   Future<dynamic> _rxImageSubmit() async {
     setState(() {
-      calculateRxItemString();
+      RxServices().calculateRxItemString(finalMedicineList);
     });
 
-    var dt = DateFormat('HH:mm:ss').format(DateTime.now());
+    // var postUri = ;
 
-    String time = dt.replaceAll(":", '');
-
-    var postUri = Uri.parse(photo_submit_url!);
-
-    http.MultipartRequest request = http.MultipartRequest("POST", postUri);
+    http.MultipartRequest request =
+        http.MultipartRequest("POST", Uri.parse(photo_submit_url!));
     if (widget.image1 != '') {
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
         'productImage', finalImage.toString(),
@@ -1228,6 +1247,7 @@ class _RxPageState extends State<RxPage> {
         setState(() {
           _isLoading = true;
         });
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text('Rx Image submit Failed'),
@@ -1267,7 +1287,7 @@ class _RxPageState extends State<RxPage> {
         setState(() {
           _isLoading = true;
         });
-
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text('Rx Image submit Failed'),
@@ -1278,15 +1298,15 @@ class _RxPageState extends State<RxPage> {
   }
 
   // .......... Submit Toast messege..............
-  void _submitToastforOrder(String ret_str) {
-    Fluttertoast.showToast(
-        msg: "Rx Submitted\n$ret_str",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.green.shade900,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+  // void _submitToastforOrder(String ret_str) {
+  //   Fluttertoast.showToast(
+  //       msg: "Rx Submitted\n$ret_str",
+  //       toastLength: Toast.LENGTH_LONG,
+  //       gravity: ToastGravity.CENTER,
+  //       backgroundColor: Colors.green.shade900,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0);
+  // }
 
   deleteRxDoctor(int id) {
     final box = Hive.box<RxDcrDataModel>("RxdDoctor");
@@ -1356,7 +1376,7 @@ class _RxPageState extends State<RxPage> {
           (route) => false);
     } else {
       for (var dcr in finalDoctorList) {
-        print('uiniquIdD:${dcr.uiqueKey}');
+        // print('uiniquIdD:${dcr.uiqueKey}');
         final box = Boxes.rxdDoctor();
         final medicineBox = Boxes.getMedicine();
         dcr.uiqueKey = objectImageId;
@@ -1482,6 +1502,8 @@ class _RxPageState extends State<RxPage> {
       doctorData = mymap;
 
       if (_activeCounter == true) {
+        if (!mounted) return;
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -1511,6 +1533,7 @@ class _RxPageState extends State<RxPage> {
           ),
         );
       } else {
+        if (!mounted) return;
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -1555,6 +1578,7 @@ class _RxPageState extends State<RxPage> {
     if (mymap.isNotEmpty) {
       medicineData = mymap;
       // print('test1:$counterForDoctor');
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -1764,25 +1788,25 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
-  void _submitToastforphoto() {
-    Fluttertoast.showToast(
-        msg: 'Please Take Image and Select Medicine',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+  // void _submitToastforphoto() {
+  //   Fluttertoast.showToast(
+  //       msg: 'Please Take Image and Select Medicine',
+  //       toastLength: Toast.LENGTH_LONG,
+  //       gravity: ToastGravity.CENTER,
+  //       backgroundColor: Colors.red,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0);
+  // }
 
-  void _submitToastforDoctor() {
-    Fluttertoast.showToast(
-        msg: 'Please Select Doctor.',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+  // void _submitToastforDoctor() {
+  //   Fluttertoast.showToast(
+  //       msg: 'Please Select Doctor.',
+  //       toastLength: Toast.LENGTH_SHORT,
+  //       gravity: ToastGravity.CENTER,
+  //       backgroundColor: Colors.red,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0);
+  // }
 }
 
 class ZoomForRxImage extends StatelessWidget {

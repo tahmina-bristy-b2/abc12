@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     MaterialPageRoute(
                       builder: (_) => MyHomePage(
                         userName: userName.toString(),
-                        user_id: userId,
+                        userId: userId,
                         userPassword: userPassword,
                       ),
                     ),

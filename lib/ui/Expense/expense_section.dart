@@ -71,7 +71,7 @@ class _ExpensePageState extends State<ExpensePage> {
                       builder: (context) => MyHomePage(
                           userPassword: user_pass,
                           userName: userName,
-                          user_id: userId)),
+                          userId: userId)),
                   (route) => false);
             },
             icon: const Icon(Icons.arrow_back)),

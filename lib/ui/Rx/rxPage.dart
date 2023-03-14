@@ -31,7 +31,7 @@ class RxPage extends StatefulWidget {
   String areaId;
   String address;
   String image1;
-  List<MedicineListModel> draftRxMedicinItem;
+  final List<MedicineListModel> draftRxMedicinItem;
 
   RxPage({
     Key? key,
@@ -982,8 +982,8 @@ class _RxPageState extends State<RxPage> {
                                                 Expanded(
                                                   flex: 2,
                                                   child: Text(
-                                                    '${finalMedicineList[index].name} ' +
-                                                        '(${finalMedicineList[index].itemId})',
+                                                    '${finalMedicineList[index].name} '
+                                                    '(${finalMedicineList[index].itemId})',
                                                     style: const TextStyle(
                                                       color: Colors.black,
                                                       // fontWeight:
@@ -1187,7 +1187,7 @@ class _RxPageState extends State<RxPage> {
             MaterialPageRoute(
               builder: (context) => MyHomePage(
                 userName: userName,
-                user_id: user_id,
+                userId: user_id,
                 userPassword: userPassword ?? '',
               ),
             ),
@@ -1370,7 +1370,7 @@ class _RxPageState extends State<RxPage> {
           MaterialPageRoute(
               builder: (context) => MyHomePage(
                     userName: userName,
-                    user_id: user_id,
+                    userId: user_id,
                     userPassword: userPassword ?? '',
                   )),
           (route) => false);
@@ -1403,7 +1403,7 @@ class _RxPageState extends State<RxPage> {
           MaterialPageRoute(
               builder: (context) => MyHomePage(
                     userName: userName,
-                    user_id: user_id,
+                    userId: user_id,
                     userPassword: userPassword ?? '',
                   )),
           (route) => false);

@@ -42,6 +42,8 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
     foundUsers.forEach((element) {
       pressedActivity[element['item_id']] = false;
     });
+
+    print("widget templist ta ki ${widget.tempList}");
     super.initState();
   }
 
@@ -217,9 +219,19 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 quantity: 1);
             final tempItemId = temp.itemId;
 
-            widget.tempList.removeWhere((item) => item.itemId == tempItemId);
+            //===========================================================================================Code Distrupted=====================================================
+            //===========================================================================================medicine is only added from draft=====================================================
 
+            //===========================================================================================Code Distrupted=====================================================
+            //===========================================================================================medicine is only added from draft=====================================================
+
+            widget.tempList.removeWhere((item) => item.itemId == tempItemId);
             widget.tempList.add(temp);
+
+            //===========================================================================================Code Distrupted=====================================================
+            //===========================================================================================medicine is only added from draft=====================================================
+
+            //===========================================================================================Code Distrupted=====================================================
           });
           // } else {
           //   finalList.forEach((element) {

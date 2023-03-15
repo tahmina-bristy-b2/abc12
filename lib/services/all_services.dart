@@ -64,6 +64,24 @@ class AllServices {
 
 // //todo>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  CustomerList PAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+  Future<DateTime?> pickDate(context, dateTime) => showDatePicker(
+        context: context,
+        initialDate: dateTime,
+        firstDate: DateTime(1800),
+        lastDate: DateTime(2060),
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData(
+              colorScheme: const ColorScheme.dark(
+                primary: Color(0xFFE2EFDA),
+                surface: Colors.teal,
+              ),
+              dialogBackgroundColor: Colors.blueGrey,
+            ), // This will change to light theme.
+            child: child!,
+          );
+        },
+      );
 // //todo    Tost Message  >>>>>>>>>>>>>>>>>>>
 
   void toastMessage(

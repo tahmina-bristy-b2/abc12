@@ -147,11 +147,12 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Item Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Item Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
@@ -199,11 +200,12 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Customer Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Customer Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
@@ -261,11 +263,12 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Gift Sample PPM data synchronizing... Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Gift Sample PPM Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
@@ -310,11 +313,11 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Medicine Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Medicine Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
                                         setState(() {
                                           _loading = false;
                                         });
@@ -362,11 +365,12 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Dcr Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Dcr Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
@@ -451,9 +455,9 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         _loading = false;
       });
     } else {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Didn\'t sync Alll Data')));
+      AllServices()
+          .toastMessage('Didn\'t sync Alll Data', Colors.red, Colors.white, 16);
+
       setState(() {
         _loading = false;
       });

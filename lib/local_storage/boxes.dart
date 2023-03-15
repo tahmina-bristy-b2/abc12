@@ -2,6 +2,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:hive/hive.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Boxes {
   static Box<AddItemModel> getDraftOrderedData() => Hive.box('orderedItem');
@@ -12,6 +13,16 @@ class Boxes {
   static Box<MedicineListModel> getMedicine() => Hive.box('draftMdicinList');
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
+
+  Future openAndAddDataToBox(String tableName, List syncData) async {
+    var dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    Box box = await Hive.openBox(tableName);
+    await box.clear();
+    for (var d in syncData) {
+      box.add(d);
+    }
+  }
 
   static clearBox() {
     Hive.openBox('data').then((value) => value.clear());

@@ -214,7 +214,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'mRep7',
       theme: defaultTheme,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

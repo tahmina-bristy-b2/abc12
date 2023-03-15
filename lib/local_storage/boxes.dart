@@ -14,10 +14,10 @@ class Boxes {
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
 
-  Future openAndAddDataToBox(String tableName, dynamic syncData) async {
+  Future openAndAddDataToBox(String tableName, List syncData) async {
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
-    Box box = await Hive.openBox('tableName');
+    Box box = await Hive.openBox(tableName);
     await box.clear();
     for (var d in syncData) {
       box.add(d);

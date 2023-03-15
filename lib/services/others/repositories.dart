@@ -34,7 +34,7 @@ class Repositories {
         // old task
 
         String sync_url = resData['sync_url'] ?? '';
-        // String submit_url = status['submit_url'];
+        String submit_url = resData['submit_url'];
         String report_sales_url = resData['report_sales_url'];
         String report_dcr_url = resData['report_dcr_url'];
         String report_rx_url = resData['report_rx_url'];
@@ -67,7 +67,7 @@ class Repositories {
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('sync_url', sync_url);
-        // await prefs.setString('submit_url', submit_url);
+        await prefs.setString('submit_url', submit_url);
         await prefs.setString('report_sales_url', report_sales_url);
         await prefs.setString('report_dcr_url', report_dcr_url);
         await prefs.setString('report_rx_url', report_rx_url);

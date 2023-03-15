@@ -26,11 +26,9 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
-
   String cid = '';
   String userId = '';
   String userPassword = '';
-  bool clientFlag = false;
   List syncItemList = [];
   final TextEditingController searchController = TextEditingController();
   List foundUsers = [];
@@ -41,19 +39,18 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     super.initState();
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
-    clientFlag = userLoginInfo!.clientFlag;
 
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
       userId = prefs.getString("USER_ID")!;
       userPassword = prefs.getString("PASSWORD")!;
       //print('?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
-      if (prefs.getInt("_counter") != null) {
-        int? a = prefs.getInt("_counter");
-        setState(() {
-          _counter = a!;
-        });
-      }
+      // if (prefs.getInt("_counter") != null) {
+      //   int? a = prefs.getInt("_counter");
+      //   setState(() {
+      //     _counter = a!;
+      //   });
+      // }
     });
 
     foundUsers = widget.data;
@@ -142,7 +139,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     );
   }
 
-//************************************ WIDGETS ********************************************/
+//************************************ WIDGETS **********************************************************/
 //*******************************************************************************************************/
 //*******************************************************************************************************/
   ListView endDrawerListViewBuilderWidget() {
@@ -176,7 +173,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             ],
           ),
         ),
-        clientFlag ? clientWebLink() : Container()
+        userLoginInfo!.clientFlag ? clientWebLink() : Container()
       ],
     );
   }
@@ -247,6 +244,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
               //*********************************** NEW ADDED DONE BY BRISTY ************************************** */
               setState(() {
                 _counter = OrderServices().incrementCounter(_counter);
+                print("_counter=$_counter");
               });
               //*********************************** END **********************************************************/
 

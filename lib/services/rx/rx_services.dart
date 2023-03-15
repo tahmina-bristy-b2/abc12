@@ -1,7 +1,7 @@
 class RxServices {
   String itemString = "";
 
-  void calculateRxItemString(finalMedicineList) {
+  String calculateRxItemString(finalMedicineList) {
     if (finalMedicineList.isNotEmpty) {
       finalMedicineList.forEach((element) {
         if (itemString == '') {
@@ -11,6 +11,8 @@ class RxServices {
         }
       });
     }
+
+    return itemString;
   }
 }
     // var dt = DateFormat('HH:mm:ss').format(DateTime.now());

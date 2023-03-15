@@ -85,7 +85,7 @@ class _RxPageState extends State<RxPage> {
   String? cid;
   String? userId;
   String? userPassword;
-  String itemString = '';
+  String itemString = "";
   String userName = '';
   String user_id = '';
   String startTime = '';
@@ -1136,8 +1136,9 @@ class _RxPageState extends State<RxPage> {
     // print(itemString);
     var dt = DateFormat('HH:mm:ss').format(DateTime.now());
 
-    // String time = dt.replaceAll(":", '');
+    String time = dt.replaceAll(":", '');
     // String a = '${user_id}_$time';
+    print("checking item string on rx $itemString");
 
     try {
       final http.Response response = await http.post(
@@ -1220,8 +1221,15 @@ class _RxPageState extends State<RxPage> {
 
   Future<dynamic> _rxImageSubmit() async {
     setState(() {
-      RxServices().calculateRxItemString(finalMedicineList);
+      //=========================================might taking time for the function=====================================================================
+      itemString = RxServices().calculateRxItemString(finalMedicineList);
+      //====================================================if this is the case, use the following line =======================================================================
+      // calculateRxItemString();
     });
+
+    var dt = DateFormat('HH:mm:ss').format(DateTime.now());
+
+    String time = dt.replaceAll(":", '');
 
     // var postUri = ;
 

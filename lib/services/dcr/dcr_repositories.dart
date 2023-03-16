@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 class DcrRepositories {
   //################################ Sync DCR Data ########################
+
   Future<List> syncDCR(
       String syncUrl, String cid, String userId, String userpass) async {
     List doctorList = [];
@@ -100,7 +101,30 @@ class DcrRepositories {
 
     return ppmList;
   }
+
+  //################################ Area base Client in  DCR ########################
+  Future<List> getDCRAreaBaseClient(String syncUrl, String cid, String userId,
+      String userpass, String areaId) async {
+    List customerList = [];
+    try {
+      final http.Response response = await DcrDataProviders()
+          .dcrAreaBaseClient(syncUrl, cid, userId, userpass, areaId);
+      Map<String, dynamic> jsonResponseDcrData = jsonDecode(response.body);
+
+      final status = jsonResponseDcrData['status'];
+      customerList = jsonResponseDcrData['clientList'];
+      if (status == "Success") {
+        return customerList;
+      }
+    } catch (e) {
+      print('customerList: $e');
+    }
+
+    return customerList;
+  }
 }
+
+
 
 
  //=======================================================================================

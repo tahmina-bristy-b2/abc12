@@ -1,3 +1,5 @@
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,6 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
   String areaPageUrl = '';
   String syncUrl = '';
   bool _isLoading = false;
-  List<String> customerNameList = [];
 
   @override
   void initState() {
@@ -104,43 +105,41 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                                                 _isLoading = true;
                                               });
                                               var response =
-                                                  await getDCRAreaBaseClient(
-                                                      context,
-                                                      syncUrl,
-                                                      cid,
-                                                      userId,
-                                                      userPassword,
-                                                      snapshot.data![index]
-                                                          ['area_id']);
+                                                  await DcrRepositories()
+                                                      .getDCRAreaBaseClient(
+                                                          syncUrl,
+                                                          cid,
+                                                          userId,
+                                                          userPassword,
+                                                          snapshot.data![index]
+                                                              ['area_id']);
                                               print("response $response");
-                                              if (response["status"] ==
-                                                  'Success') {
-                                                List clientList =
-                                                    response['clientList'];
-                                                print(clientList);
+                                              // if (response["status"] ==
+                                              //     'Success') {
+                                              // List clientList =
+                                              //     response['clientList'];
+                                              // print(clientList);
 
-                                                clientList.forEach((element) {
-                                                  customerNameList.add(
-                                                      element["client_name"]);
-                                                });
-                                                if (!mounted) return;
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        DcotorInfoScreen(
-                                                      docId:
-                                                          snapshot.data![index]
-                                                              ['area_id'],
-                                                      docName:
-                                                          snapshot.data![index]
-                                                              ['area_name'],
-                                                      customerList:
-                                                          customerNameList,
-                                                    ),
+                                              // clientList.forEach((element) {
+                                              //   customerNameList.add(
+                                              //       element["client_name"]);
+                                              // });
+                                              if (!mounted) return;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      DcotorInfoScreen(
+                                                    docID: "",
+                                                    areaName:
+                                                        snapshot.data![index]
+                                                            ['area_name'],
+                                                    docName: "",
+                                                    customerList: response,
                                                   ),
-                                                );
-                                              }
+                                                ),
+                                              );
+                                              // }
 
                                               setState1(() {
                                                 _isLoading = false;

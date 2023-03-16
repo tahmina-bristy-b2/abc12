@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -1130,47 +1131,23 @@ class _RxPageState extends State<RxPage> {
 
   // rx Submitt................................................
   Future<dynamic> rxSubmit(String fileName) async {
-    print(
-        '${submit_url!}api_rx_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId}&area_id=${finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${"dt"}&item_list=$itemString');
-    // if (itemString != '') {
-    // print(itemString);
-    var dt = DateFormat('HH:mm:ss').format(DateTime.now());
-
-    String time = dt.replaceAll(":", '');
-    // String a = '${user_id}_$time';
-    print("checking item string on rx $itemString");
-
     try {
-      final http.Response response = await http.post(
-        Uri.parse('${submit_url!}api_rx_submit/submit_data'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(
-          <String, dynamic>{
-            'cid': cid,
-            'user_id': userId,
-            'user_pass': userPassword,
-            'device_id': deviceId,
-            'doctor_id':
-                finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId,
-            'area_id': finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId,
-            'rx_type': dropdownRxTypevalue,
-            "latitude": latitude,
-            'longitude': longitude,
-            'image_name': fileName,
-            'cap_time': dt.toString(),
-            "item_list": itemString,
-          },
-        ),
-      );
+      final orderInfo = await RxRepositories().rxSubmit(
+          submit_url!,
+          fileName,
+          cid!,
+          userId!,
+          userPassword!,
+          deviceId!,
+          finalDoctorList,
+          dropdownRxTypevalue,
+          latitude,
+          longitude,
+          itemString);
 
-      var orderInfo = json.decode(response.body);
-      String status = orderInfo['status'];
-      // print(orderInfo['status']);
-      String ret_str = orderInfo['ret_str'];
+      if (orderInfo.isNotEmpty) {
+        String retStr = orderInfo['ret_str'];
 
-      if (status == "Success") {
         if (widget.ck != '') {
           for (int i = 0; i <= finalMedicineList.length; i++) {
             deleteMedicinItem(widget.dcrKey);
@@ -1194,9 +1171,8 @@ class _RxPageState extends State<RxPage> {
             ),
             (Route<dynamic> route) => false);
 
-        // _submitToastforOrder(ret_str);
         AllServices().toastMessage(
-            "Rx Submitted\n$ret_str", Colors.green.shade900, Colors.white, 16);
+            "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
       } else {
         if (!mounted) return;
 
@@ -1208,13 +1184,6 @@ class _RxPageState extends State<RxPage> {
     } on Exception catch (_) {
       throw Exception("Error on server");
     }
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-    //       content: Text(
-    //         'Please Order something',
-    //       ),
-    //       backgroundColor: Color.fromARGB(255, 180, 59, 109)));
-    // }
   }
 
   // ..........Rx Image Submit................................
@@ -1290,6 +1259,7 @@ class _RxPageState extends State<RxPage> {
 
       // print(fileName);
       if (fileName != '') {
+        //  final result =  await  RxRepositories.rxSubmit(submit_url!,fileName,cid,userId,userPassword,deviceId,finalDoctorList,dropdownRxTypevalue,latitude,longitude,itemString);
         rxSubmit(fileName);
       } else {
         setState(() {

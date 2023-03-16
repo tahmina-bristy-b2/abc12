@@ -3,11 +3,11 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:MREPORTING/ui/Widgets/syncCustomButton.dart';
@@ -65,24 +65,29 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
     screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: const Color(0xffD8E5F1),
-      appBar: AppBar(
-        title: const Text(
-          'Sync Data',
-        ),
-        centerTitle: true,
-      ),
+      backgroundColor: _loading ? Colors.black : const Color(0xffD8E5F1),
+      appBar: _loading
+          ? AppBar(
+              backgroundColor: Colors.black,
+            )
+          : AppBar(
+              title: const Text(
+                'Sync Data',
+              ),
+              centerTitle: true,
+            ),
       body: _loading
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Center(
                   child: CircularProgressIndicator(
-                    color: Colors.blueGrey,
+                    color: Colors.teal,
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text(syncMsg),
+                Text(syncMsg,
+                    style: const TextStyle(color: Colors.white, fontSize: 18)),
               ],
             )
           : SafeArea(
@@ -104,7 +109,8 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               if (result == true) {
                                 await syncDataMethod();
                               } else {
-                                _toastMessage(interNetErrorMsg, Colors.red);
+                                AllServices().toastMessage(interNetErrorMsg,
+                                    Colors.red, Colors.white, 16);
                               }
                             },
                             color: Colors.teal.withOpacity(.5),
@@ -132,24 +138,31 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           .syncItem(dmpathData!.syncUrl, cid,
                                               userId, userPassword);
                                       if (itemList.isNotEmpty) {
-                                        _toastMessage(
-                                            'Sync all data Done.', Colors.teal);
+                                        AllServices().toastMessage(
+                                            'Sync all data Done.',
+                                            Colors.teal,
+                                            Colors.white,
+                                            16);
                                         setState(() {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Item Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Item Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
                                       }
                                     } else {
-                                      _toastMessage(
-                                          interNetErrorMsg, Colors.red);
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
                                     }
                                   },
                                   color: Colors.white,
@@ -177,26 +190,32 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                               userId,
                                               userPassword);
                                       if (clientList.isNotEmpty) {
-                                        _toastMessage(
+                                        AllServices().toastMessage(
                                             'Sync Customer data Done.',
-                                            Colors.teal);
+                                            Colors.teal,
+                                            Colors.white,
+                                            16);
 
                                         setState(() {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Customer Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Customer Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
                                       }
                                     } else {
-                                      _toastMessage(
-                                          interNetErrorMsg, Colors.red);
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
                                     }
                                   },
                                   color: Colors.white,
@@ -235,25 +254,31 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                       if (dcrGiftList.isNotEmpty &&
                                           sampleList.isNotEmpty &&
                                           ppmList.isNotEmpty) {
-                                        _toastMessage(
+                                        AllServices().toastMessage(
                                             'Sync Gift Sample PPM data Done.',
-                                            Colors.teal);
+                                            Colors.teal,
+                                            Colors.white,
+                                            16);
                                         setState(() {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Gift Sample PPM data synchronizing... Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Gift Sample PPM Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
                                       }
                                     } else {
-                                      _toastMessage(
-                                          interNetErrorMsg, Colors.red);
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
                                     }
                                   },
                                   color: Colors.white,
@@ -279,25 +304,30 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           .syncRxItem(dmpathData!.syncUrl, cid,
                                               userId, userPassword);
                                       if (rxItemList.isNotEmpty) {
-                                        _toastMessage(
+                                        AllServices().toastMessage(
                                             'Sync Medicine data Done.',
-                                            Colors.teal);
+                                            Colors.teal,
+                                            Colors.white,
+                                            16);
                                         setState(() {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Medicine Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Medicine Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
                                         setState(() {
                                           _loading = false;
                                         });
                                       }
                                     } else {
-                                      _toastMessage(
-                                          interNetErrorMsg, Colors.red);
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
                                     }
                                   },
                                   color: Colors.white,
@@ -326,24 +356,31 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                           .syncDCR(dmpathData!.syncUrl, cid,
                                               userId, userPassword);
                                       if (doctorList.isNotEmpty) {
-                                        _toastMessage('Sync Doctor data Done.',
-                                            Colors.teal);
+                                        AllServices().toastMessage(
+                                            'Sync Doctor data Done.',
+                                            Colors.teal,
+                                            Colors.white,
+                                            16);
                                         setState(() {
                                           _loading = false;
                                         });
                                       } else {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Didn\'t sync Dcr Data')));
+                                        AllServices().toastMessage(
+                                            'Didn\'t sync Dcr Data',
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+
                                         setState(() {
                                           _loading = false;
                                         });
                                       }
                                     } else {
-                                      _toastMessage(
-                                          interNetErrorMsg, Colors.red);
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
                                     }
                                   },
                                   color: Colors.white,
@@ -411,28 +448,19 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         ppmList.isNotEmpty &&
         rxItemList.isNotEmpty &&
         doctorList.isNotEmpty) {
-      _toastMessage('Sync all data Done.', Colors.teal);
+      AllServices()
+          .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 
       setState(() {
         _loading = false;
       });
     } else {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Didn\'t sync Alll Data')));
+      AllServices()
+          .toastMessage('Didn\'t sync Alll Data', Colors.red, Colors.white, 16);
+
       setState(() {
         _loading = false;
       });
     }
-  }
-
-  void _toastMessage(String msg, Color color) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: color,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 }

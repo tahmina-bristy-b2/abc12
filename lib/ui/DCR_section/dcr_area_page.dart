@@ -1,3 +1,4 @@
+import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
@@ -62,20 +63,57 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                             setState1(() {
                               _isLoading = true;
                             });
-                            bool response = await getAreaBaseClient(
-                                context,
-                                syncUrl,
-                                cid,
-                                userId,
-                                userPassword,
-                                snapshot.data![index]['area_id']);
+                            var response = await DcrRepositories()
+                                .getDCRAreaBaseClient(
+                                    syncUrl,
+                                    cid,
+                                    userId,
+                                    userPassword,
+                                    snapshot.data![index]['area_id']);
+                            print("response $response");
+
+                            final DocSettingsModel responseOfDocSettings =
+                                await DcrRepositories()
+                                    .docSettingsRepo(cid, userId, userPassword);
+                            print(
+                                "ki! response ashce! ${responseOfDocSettings.resData.brandList}");
+
+                            // if (responseOfDocSettings.resData ==
+                            //     "Success") {
+                            // List category = responseOfDocSettings["d_category_list"];
+                            // List collarSize = responseOfDocSettings["collar_size_list"];
+                            // List disThanaList = responseOfDocSettings["dist_thana_list"];
+                            // List docCategory = responseOfDocSettings["doc_category_list"];
+                            // List docCategory = responseOfDocSettings["doc_category_list"];
+
+                            // List clientList =
+                            //     response['clientList'];
+                            // print(clientList);
+
+                            // clientList.forEach((element) {
+                            //   customerNameList.add(
+                            //       element["client_name"]);
+                            // });
+                            if (!mounted) return;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcotorInfoScreen(
+                                  docID: "",
+                                  areaName: snapshot.data![index]['area_name'],
+                                  docName: "",
+                                  customerList: response,
+                                  docSettings: responseOfDocSettings,
+                                ),
+                              ),
+                            );
+                            // }
 
                             setState1(() {
-                              _isLoading = response;
+                              _isLoading = false;
                             });
                           },
                           child: Card(
-                            // color: Colors.blue.withOpacity(.03),
                             elevation: 2,
                             child: SizedBox(
                                 height: 40,
@@ -90,64 +128,6 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                                         snapshot.data![index]['area_name'],
                                       ),
                                     ),
-                                    _isLoading
-                                        ? const SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                          )
-                                        : IconButton(
-                                            onPressed: () async {
-                                              setState1(() {
-                                                _isLoading = true;
-                                              });
-                                              var response =
-                                                  await DcrRepositories()
-                                                      .getDCRAreaBaseClient(
-                                                          syncUrl,
-                                                          cid,
-                                                          userId,
-                                                          userPassword,
-                                                          snapshot.data![index]
-                                                              ['area_id']);
-                                              print("response $response");
-                                              // if (response["status"] ==
-                                              //     'Success') {
-                                              // List clientList =
-                                              //     response['clientList'];
-                                              // print(clientList);
-
-                                              // clientList.forEach((element) {
-                                              //   customerNameList.add(
-                                              //       element["client_name"]);
-                                              // });
-                                              if (!mounted) return;
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      DcotorInfoScreen(
-                                                    docID: "",
-                                                    areaName:
-                                                        snapshot.data![index]
-                                                            ['area_name'],
-                                                    docName: "",
-                                                    customerList: response,
-                                                  ),
-                                                ),
-                                              );
-                                              // }
-
-                                              setState1(() {
-                                                _isLoading = false;
-                                              });
-                                            },
-                                            icon: const Icon(
-                                                Icons.arrow_forward_ios_sharp),
-                                          ),
                                   ],
                                 )),
                           ),

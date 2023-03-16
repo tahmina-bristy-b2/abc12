@@ -1,10 +1,10 @@
-// ignore_for_file: file_names
-
 import 'dart:async';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
+import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -13,7 +13,6 @@ import 'package:MREPORTING/ui/DCR_section/draft_dcr_page.dart';
 import 'package:MREPORTING/ui/Expense/expense_section.dart';
 import 'package:MREPORTING/ui/areaPage.dart';
 import 'package:MREPORTING/ui/attendance_page.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_saveToHive.dart';
 import 'package:MREPORTING/ui/notice_board.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
 import 'package:MREPORTING/ui/order_sections/draft_order_page.dart';
@@ -574,8 +573,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: customBuildButton(
                                         icon: Icons.add,
-                                        onClick: () {
-                                          SyncDcrtoHive().getData(context);
+                                        onClick: () async {
+                                          List dcrList = await AllServices()
+                                              .getSyncSavedData('dcrListData');
+
+                                          if (dcrList.isNotEmpty) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) => DcrListPage(
+                                                    dcrDataList: dcrList),
+                                              ),
+                                            );
+                                          } else {
+                                            AllServices().toastMessage(
+                                                'Doctor List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+                                          // SyncDcrtoHive().getData(context);
                                         },
                                         title: 'New DCR',
                                         sizeWidth: screenWidth,
@@ -617,7 +634,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   DcrReportWebView(
-                                                report_url:
+                                                reportUrl:
                                                     dmpathData!.reportDcrUrl,
                                                 cid: cid,
                                                 userId: userId,

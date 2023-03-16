@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DcrReportWebView extends StatefulWidget {
-  String report_url;
-  String cid;
-  String deviceId;
-  String userId;
-  String userPassword;
-  DcrReportWebView(
+  final String reportUrl;
+  final String cid;
+  final String deviceId;
+  final String userId;
+  final String userPassword;
+  const DcrReportWebView(
       {Key? key,
-      required this.report_url,
+      required this.reportUrl,
       required this.cid,
       required this.deviceId,
       required this.userId,
@@ -23,22 +22,16 @@ class DcrReportWebView extends StatefulWidget {
 
 class _DcrReportWebViewState extends State<DcrReportWebView> {
   double progress = 0;
-  String? deviceId = '';
 
   @override
   void initState() {
-    SharedPreferences.getInstance().then((prefs) {
-      deviceId = prefs.getString("deviceId");
-      // deviceBrand = prefs.getString("deviceBrand");
-      // deviceModel = prefs.getString("deviceModel");
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.report_url +
-        "?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=${widget.deviceId}");
+    // print(widget.reportUrl +
+    //     "?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=${widget.deviceId}");
     return Scaffold(
         appBar: AppBar(
           title: const Text('Dcr Report'),
@@ -55,12 +48,10 @@ class _DcrReportWebViewState extends State<DcrReportWebView> {
               child: SafeArea(
                 child: Center(
                   child: InAppWebView(
-                    initialUrlRequest: URLRequest(
-                        url: Uri.parse(
-                            // 'http://w05.yeapps.com/hamdard/report_seen_rx_mobile/index?cid=HAMDARD&rep_id=itmso&rep_pass=1234'
+                    initialUrlRequest: URLRequest(url: Uri.parse(
+                        // 'http://w05.yeapps.com/hamdard/report_seen_rx_mobile/index?cid=HAMDARD&rep_id=itmso&rep_pass=1234'
 
-                            widget.report_url +
-                                "?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=${widget.deviceId}")),
+                        "${widget.reportUrl}?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=${widget.deviceId}")),
                     onReceivedServerTrustAuthRequest:
                         (controller, challenge) async {
                       // print(challenge);

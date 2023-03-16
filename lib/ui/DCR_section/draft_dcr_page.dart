@@ -34,7 +34,7 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
     super.initState();
   }
 
-  int _currentSelected = 0;
+  // int _currentSelected = 0;
 
   Future<void> deletedoctor(DcrDataModel dcrDataModel) async {
     dcrDataModel.delete();

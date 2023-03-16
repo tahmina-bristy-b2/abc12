@@ -1,28 +1,20 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_area_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
-
 import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DcrListPage extends StatefulWidget {
-  List dcrDataList;
+  final List dcrDataList;
 
-  DcrListPage({Key? key, required this.dcrDataList}) : super(key: key);
+  const DcrListPage({Key? key, required this.dcrDataList}) : super(key: key);
 
   @override
   State<DcrListPage> createState() => _DcrListPageState();
 }
 
 class _DcrListPageState extends State<DcrListPage> {
-  Box<UserLoginModel> userInfobox = Boxes.getLoginData();
-  Box<DmPathDataModel> dmpathBox = Boxes.getDmpath();
-  Box? box;
-  String doctor_url = '';
+  String dcrUrl = '';
   String cid = '';
   // String userId = '';
   // String userPassword = '';
@@ -34,7 +26,6 @@ class _DcrListPageState extends State<DcrListPage> {
   @override
   void initState() {
     super.initState();
-    print(dmpathBox.values);
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
       // userId = prefs.getString("USER_ID")!;
@@ -110,18 +101,6 @@ class _DcrListPageState extends State<DcrListPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        // flexibleSpace: Container(
-        //   decoration: const BoxDecoration(
-        //     // LinearGradient
-        //     gradient: LinearGradient(
-        //       // colors for gradient
-        //       colors: [
-        //         Color(0xff70BA85),
-        //         Color(0xff56CCF2),
-        //       ],
-        //     ),
-        //   ),
-        // ),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -142,7 +121,7 @@ class _DcrListPageState extends State<DcrListPage> {
               Navigator.push(
                 context,
                 (MaterialPageRoute(
-                  builder: (context) => DCRAreaPage(),
+                  builder: (context) => const DCRAreaPage(),
                 )),
               );
             },

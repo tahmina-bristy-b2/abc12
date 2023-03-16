@@ -14,6 +14,7 @@ class Boxes {
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
 
+  // This method Used for only sync Data
   Future openAndAddDataToBox(String tableName, List syncData) async {
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
@@ -22,6 +23,13 @@ class Boxes {
     for (var d in syncData) {
       box.add(d);
     }
+  }
+
+  Future<Box> openBox(String tableName) async {
+    var dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    Box box = await Hive.openBox(tableName);
+    return box;
   }
 
   static clearBox() {

@@ -1,12 +1,15 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class DcrPpmDataPage extends StatefulWidget {
-  int uniqueId;
-  List doctorPpmlist;
-  List<DcrGSPDataModel> tempList;
-  Function tempListFunc;
-  DcrPpmDataPage(
+  final int uniqueId;
+  final List doctorPpmlist;
+  final List<DcrGSPDataModel> tempList;
+  final Function tempListFunc;
+  const DcrPpmDataPage(
       {Key? key,
       required this.uniqueId,
       required this.doctorPpmlist,
@@ -21,25 +24,21 @@ class DcrPpmDataPage extends StatefulWidget {
 class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController searchController2 = TextEditingController();
-  // final List<TextEditingController> _itemController = [];
   Map<String, TextEditingController> controllers = {};
-  List foundUsers = [];
+  List foundDcrPPM = [];
 
   final _formkey = GlobalKey<FormState>();
   String? itemId;
 
-  // List<AddItemModel> finalItemDataList = [];
-
   @override
   void initState() {
-    foundUsers = widget.doctorPpmlist;
-    foundUsers.forEach((element) {
+    foundDcrPPM = widget.doctorPpmlist;
+    for (var element in foundDcrPPM) {
       controllers[element['ppm_id']] = TextEditingController();
-    });
-    widget.tempList.forEach((element) {
+    }
+    for (var element in widget.tempList) {
       itemId = element.giftId;
-      // print('list: ${element.item_id}');
-    });
+    }
     super.initState();
   }
 
@@ -47,46 +46,46 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
   void dispose() {
     searchController.dispose();
 
-    // foundUsers.forEach((element) {
-    //   controllers[element['ppm_id']]!.dispose();
-    // });
+    for (var element in foundDcrPPM) {
+      controllers[element['ppm_id']]!.dispose();
+    }
     super.dispose();
   }
 
-  void runFilter(String enteredKeyword) {
-    foundUsers = widget.doctorPpmlist;
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foundUsers;
-      print(results);
-    } else {
-      var starts = foundUsers
-          .where((s) => s['ppm_name']
-              .toLowerCase()
-              .startsWith(enteredKeyword.toLowerCase()))
-          .toList();
+  // void runFilter(String enteredKeyword) {
+  //   foundDcrPPM = widget.doctorPpmlist;
+  //   List results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     // if the search field is empty or only contains white-space, we'll display all users
+  //     results = foundDcrPPM;
+  //     print(results);
+  //   } else {
+  //     var starts = foundDcrPPM
+  //         .where((s) => s['ppm_name']
+  //             .toLowerCase()
+  //             .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList();
 
-      var contains = foundUsers
-          .where((s) =>
-              s['ppm_name']
-                  .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) &&
-              !s['ppm_name']
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) =>
-            a['ppm_name'].toLowerCase().compareTo(b['ppm_name'].toLowerCase()));
+  //     var contains = foundDcrPPM
+  //         .where((s) =>
+  //             s['ppm_name']
+  //                 .toLowerCase()
+  //                 .contains(enteredKeyword.toLowerCase()) &&
+  //             !s['ppm_name']
+  //                 .toLowerCase()
+  //                 .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList()
+  //       ..sort((a, b) =>
+  //           a['ppm_name'].toLowerCase().compareTo(b['ppm_name'].toLowerCase()));
 
-      results = [...starts, ...contains];
-    }
+  //     results = [...starts, ...contains];
+  //   }
 
-    // Refresh the UI
-    setState(() {
-      foundUsers = results;
-    });
-  }
+  //   // Refresh the UI
+  //   setState(() {
+  //     foundDcrPPM = results;
+  //   });
+  // }
 
   // int _currentSelected = 0;
   // _onItemTapped(int index) async {
@@ -152,7 +151,11 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
                     child: SizedBox(
                       height: 60,
                       child: TextFormField(
-                        onChanged: (value) => runFilter(value),
+                        onChanged: (value) {
+                          foundDcrPPM = AllServices().searchDynamicMethod(
+                              value, widget.doctorPpmlist, 'ppm_name');
+                          setState(() {});
+                        },
                         controller: searchController,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
@@ -163,7 +166,9 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
                               : IconButton(
                                   onPressed: () {
                                     searchController.clear();
-                                    runFilter('');
+                                    foundDcrPPM = AllServices()
+                                        .searchDynamicMethod('',
+                                            widget.doctorPpmlist, 'ppm_name');
                                     setState(() {});
                                   },
                                   icon: const Icon(
@@ -184,166 +189,8 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
             flex: 9,
             child: Form(
               key: _formkey,
-              child: foundUsers.isNotEmpty
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemCount: foundUsers.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                color: Color.fromARGB(108, 255, 255, 255),
-                                width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 2, 0),
-                            child: Container(
-                              height: 90,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              foundUsers[index]['ppm_name'],
-                                              style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 30, 66, 77),
-                                                  // fontWeight: FontWeight.bold,
-                                                  fontSize: 18),
-                                            ),
-                                            Text(
-                                              foundUsers[index]['ppm_id'],
-                                              style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 30, 66, 77),
-                                                  fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Column(
-                                          children: [
-                                            Card(
-                                              elevation: 1,
-                                              child: Container(
-                                                height: 40,
-                                                color: const Color.fromARGB(
-                                                        255, 138, 201, 149)
-                                                    .withOpacity(.3),
-                                                width: 70,
-                                                child: TextFormField(
-                                                  textAlign: TextAlign.center,
-                                                  controller: controllers[
-                                                      foundUsers[index]
-                                                          ['ppm_id']],
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(2.0)),
-                                                  ),
-                                                  onChanged: (value) {
-                                                    setState(() {});
-                                                    if (value != '') {
-                                                      var temp = DcrGSPDataModel(
-                                                          uiqueKey: widget
-                                                              .uniqueId,
-                                                          quantity: int.parse(
-                                                              controllers[foundUsers[
-                                                                          index]
-                                                                      [
-                                                                      'ppm_id']]!
-                                                                  .text),
-                                                          giftName:
-                                                              foundUsers[index]
-                                                                  ['ppm_name'],
-                                                          giftId:
-                                                              foundUsers[index]
-                                                                  ['ppm_id'],
-                                                          giftType: 'PPM');
-
-                                                      // widget.tempList
-                                                      //     .forEach((element) {
-                                                      //   itemId = element.giftId;
-                                                      // });
-
-                                                      String tempItemId =
-                                                          temp.giftId;
-
-                                                      widget.tempList
-                                                          .removeWhere((item) =>
-                                                              item.giftId ==
-                                                              tempItemId);
-
-                                                      widget.tempList.add(temp);
-                                                      // } else {
-                                                      //   widget.tempList
-                                                      //       .add(temp);
-                                                      // }
-                                                    } else if (value == '') {
-                                                      final temp =
-                                                          DcrGSPDataModel(
-                                                        uiqueKey:
-                                                            widget.uniqueId,
-                                                        quantity: value == ''
-                                                            ? 0
-                                                            : int.parse(controllers[
-                                                                    foundUsers[
-                                                                            index]
-                                                                        [
-                                                                        'ppm_id']]!
-                                                                .text),
-                                                        giftName:
-                                                            foundUsers[index]
-                                                                ['ppm_name'],
-                                                        giftId:
-                                                            foundUsers[index]
-                                                                ['ppm_id'],
-                                                        giftType: 'PPM',
-                                                      );
-
-                                                      String tempItemId =
-                                                          temp.giftId;
-
-                                                      widget.tempList
-                                                          .removeWhere((item) =>
-                                                              item.giftId ==
-                                                              tempItemId);
-
-                                                      setState(() {});
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      })
+              child: foundDcrPPM.isNotEmpty
+                  ? ppmListViewBuilder()
                   : const Text(
                       'No data found',
                       style: TextStyle(fontSize: 24),
@@ -364,11 +211,12 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 50),
                 maximumSize: const Size(200, 50),
-                primary: const Color.fromARGB(255, 4, 60, 105),
+                backgroundColor: const Color.fromARGB(255, 4, 60, 105),
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        bottomLeft: Radius.circular(5))),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      bottomLeft: Radius.circular(5)),
+                ),
               ),
               child: Align(
                 alignment: Alignment.centerRight,
@@ -391,5 +239,142 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
         ],
       ),
     );
+  }
+
+  ListView ppmListViewBuilder() {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
+        itemCount: foundDcrPPM.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                  color: Color.fromARGB(108, 255, 255, 255), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 2, 0),
+              child: Container(
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                foundDcrPPM[index]['ppm_name'],
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 30, 66, 77),
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                              Text(
+                                foundDcrPPM[index]['ppm_id'],
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 30, 66, 77),
+                                    fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 1,
+                                child: Container(
+                                  height: 40,
+                                  color:
+                                      const Color.fromARGB(255, 138, 201, 149)
+                                          .withOpacity(.3),
+                                  width: 70,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    controller: controllers[foundDcrPPM[index]
+                                        ['ppm_id']],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(2.0)),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {});
+                                      if (value != '') {
+                                        var temp = DcrGSPDataModel(
+                                            uiqueKey: widget.uniqueId,
+                                            quantity: int.parse(controllers[
+                                                    foundDcrPPM[index]
+                                                        ['ppm_id']]!
+                                                .text),
+                                            giftName: foundDcrPPM[index]
+                                                ['ppm_name'],
+                                            giftId: foundDcrPPM[index]
+                                                ['ppm_id'],
+                                            giftType: 'PPM');
+
+                                        // widget.tempList
+                                        //     .forEach((element) {
+                                        //   itemId = element.giftId;
+                                        // });
+
+                                        String tempItemId = temp.giftId;
+
+                                        widget.tempList.removeWhere((item) =>
+                                            item.giftId == tempItemId);
+
+                                        widget.tempList.add(temp);
+                                        // } else {
+                                        //   widget.tempList
+                                        //       .add(temp);
+                                        // }
+                                      } else if (value == '') {
+                                        final temp = DcrGSPDataModel(
+                                          uiqueKey: widget.uniqueId,
+                                          quantity: value == ''
+                                              ? 0
+                                              : int.parse(controllers[
+                                                      foundDcrPPM[index]
+                                                          ['ppm_id']]!
+                                                  .text),
+                                          giftName: foundDcrPPM[index]
+                                              ['ppm_name'],
+                                          giftId: foundDcrPPM[index]['ppm_id'],
+                                          giftType: 'PPM',
+                                        );
+
+                                        String tempItemId = temp.giftId;
+
+                                        widget.tempList.removeWhere((item) =>
+                                            item.giftId == tempItemId);
+
+                                        setState(() {});
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

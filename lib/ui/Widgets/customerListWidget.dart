@@ -1,14 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class CustomerListCardWidget extends StatelessWidget {
   String clientName;
-
+  bool boolIcon;
+  Icon icon;
+  VoidCallback onPressed;
   String base;
   String marketName;
   String outstanding;
   CustomerListCardWidget({
     Key? key,
     required this.clientName,
+    required this.boolIcon,
+    required this.icon,
+    required this.onPressed,
     required this.base,
     required this.marketName,
     required this.outstanding,
@@ -22,52 +28,25 @@ class CustomerListCardWidget extends StatelessWidget {
         side: const BorderSide(color: Colors.white70, width: 1),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
-        height: 70,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FittedBox(
-                child: Text(
-                  clientName,
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 30, 66, 77),
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: FittedBox(
-                          child: Text(
-                            base + ' ' + ',' + '' + marketName,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 30, 66, 77),
-                                fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      child: SizedBox(
+        height: 80,
+        child: ListTile(
+          contentPadding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+          minVerticalPadding: 0,
+          title: Text(
+            clientName,
+            style: const TextStyle(
+                color: Color.fromARGB(255, 30, 66, 77),
+                fontSize: 19,
+                fontWeight: FontWeight.w600),
           ),
+          subtitle: Text(
+            '$base ,$marketName',
+            style: const TextStyle(
+                color: Color.fromARGB(255, 30, 66, 77), fontSize: 16),
+          ),
+          trailing:
+              boolIcon ? IconButton(onPressed: onPressed, icon: icon) : null,
         ),
       ),
     );

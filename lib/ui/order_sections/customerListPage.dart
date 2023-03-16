@@ -111,7 +111,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             )),
         title: const Text('Customer List'),
         titleTextStyle: const TextStyle(
-            color: Color.fromARGB(255, 27, 56, 34),
+            color: Colors.white,
+            // color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
             fontSize: 20),
         centerTitle: true,
@@ -223,8 +224,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   searchController.clear();
 
                   /************************************ SEARCH NEW CODE DONE BY BRIISTY ******************************************* */
-                  foundUsers =
-                      AllServices().searchDynamicMethod('', [], 'client_name');
+                  foundUsers = AllServices()
+                      .searchDynamicMethod('', widget.data, 'client_name');
                   setState(() {});
 
                   /************************************ END ******************************************* */
@@ -272,12 +273,16 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
               setState(() {});
             },
             child: CustomerListCardWidget(
-                clientName: foundUsers[index]['client_name'] +
-                    '(${foundUsers[index]['client_id']})',
-                base: foundUsers[index]['market_name'] +
-                    '(${foundUsers[index]['area_id']})',
-                marketName: foundUsers[index]['address'],
-                outstanding: foundUsers[index]['outstanding'].toString()),
+              clientName: foundUsers[index]['client_name'] +
+                  '(${foundUsers[index]['client_id']})',
+              base: foundUsers[index]['market_name'] +
+                  '(${foundUsers[index]['area_id']})',
+              marketName: foundUsers[index]['address'],
+              outstanding: foundUsers[index]['outstanding'].toString(),
+              icon: const Icon(null),
+              boolIcon: false,
+              onPressed: () {},
+            ),
           );
         });
   }

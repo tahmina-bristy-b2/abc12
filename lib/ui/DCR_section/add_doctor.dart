@@ -1,18 +1,20 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
 import 'package:intl/intl.dart';
 
+import 'package:MREPORTING/services/all_services.dart';
+
 class DcotorInfoScreen extends StatefulWidget {
-  String docId;
+  String areaName;
   String docName;
-  List<String> customerList;
+  String docID;
+  List customerList;
   DcotorInfoScreen({
     Key? key,
-    required this.docId,
+    required this.areaName,
     required this.docName,
+    required this.docID,
     required this.customerList,
   }) : super(key: key);
 
@@ -42,9 +44,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   TextEditingController docSpecialityController = TextEditingController();
   TextEditingController docAddressController = TextEditingController();
   // TextEditingController nameController = TextEditingController();
-
+  var screenHeight;
+  var screenWidth;
   List<String> any = ["a", "b", "c"];
   List<String> dcrVisitedWithList = ["a", "b", "c"];
+  List<String> customerNameList = [];
   String dropdownValue = "a";
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
   // / static double
@@ -54,8 +58,15 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   //     (inputHeight / layoutHeight) * size.height;
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
 
-  var screenHeight;
-  var screenWidth;
+  @override
+  void initState() {
+    widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    widget.customerList.forEach((element) {
+      customerNameList.add(element["client_name"]);
+    });
+    // customerNameList.add(widget.customerList["client_name"])
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +86,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Territory : ${widget.docName}"),
+                  Text("Territory : ${widget.areaName}"),
                   const Text("Name : "),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -362,7 +373,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   const Text("Chemist ID "),
                   GFMultiSelect(
-                    items: widget.customerList,
+                    items: customerNameList,
                     onSelect: (value) {
                       // dcrString = '';
                       // if (value.isNotEmpty) {

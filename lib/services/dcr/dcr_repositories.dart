@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/services/dcr/dcr_data_providers.dart';
 import 'package:http/http.dart' as http;
 
@@ -121,6 +122,29 @@ class DcrRepositories {
     }
 
     return customerList;
+  }
+
+  //################################ Doctor Settings Repository ########################
+  Future docSettingsRepo(String cid, String userId, String userpass) async {
+    DocSettingsModel docSettings;
+    try {
+      final http.Response response =
+          await DcrDataProviders().docSettingsDP(cid, userId, userpass);
+      DocSettingsModel jsonResponseDcrData =
+          docSettingsModelFromJson(response.body);
+
+      docSettings = jsonResponseDcrData;
+      // final status = jsonResponseDcrData['status'];
+      // customerList = jsonResponseDcrData['clientList'];
+      // if (status == "Success") {
+      //   return customerList;
+      // }
+      return docSettings;
+    } catch (e) {
+      print('docSettings: $e');
+    }
+
+    return "No Data Found";
   }
 }
 

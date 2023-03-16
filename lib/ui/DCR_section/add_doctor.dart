@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
 import 'package:intl/intl.dart';
 
+import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 
 class DcotorInfoScreen extends StatefulWidget {
@@ -10,12 +12,15 @@ class DcotorInfoScreen extends StatefulWidget {
   String docName;
   String docID;
   List customerList;
+  DocSettingsModel docSettings;
+
   DcotorInfoScreen({
     Key? key,
     required this.areaName,
     required this.docName,
     required this.docID,
     required this.customerList,
+    required this.docSettings,
   }) : super(key: key);
 
   @override
@@ -46,9 +51,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   // TextEditingController nameController = TextEditingController();
   var screenHeight;
   var screenWidth;
+  List<String> category = [];
   List<String> any = ["a", "b", "c"];
   List<String> dcrVisitedWithList = ["a", "b", "c"];
   List<String> customerNameList = [];
+  String dropdownValueforCat = "_";
   String dropdownValue = "a";
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
   // / static double
@@ -61,9 +68,12 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   @override
   void initState() {
     widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    category = widget.docSettings.resData.dCategoryList;
+    print("category $category");
     widget.customerList.forEach((element) {
       customerNameList.add(element["client_name"]);
     });
+    // dropdownValueforCat = widget.docSettings.resData.dCategoryList.first;
     // customerNameList.add(widget.customerList["client_name"])
     super.initState();
   }
@@ -119,13 +129,13 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
                                   onChanged: (value) {},
-                                  value: dropdownValue,
-                                  items: any.map(
+                                  value: dropdownValueforCat,
+                                  items: category.map(
                                     (String e) {
                                       //print(e);
                                       return DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
+                                        // value: e,
+                                        child: Text(e.toString()),
                                       );
                                     },
                                   ).toList(),
@@ -151,7 +161,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
                                   onChanged: (value) {},
-                                  value: dropdownValue,
+                                  // value: dropdownValue,
                                   items: any.map(
                                     (String e) {
                                       //print(e);
@@ -263,7 +273,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
                                   onChanged: (value) {},
-                                  value: dropdownValue,
+                                  // value: dropdownValue,
                                   items: any.map(
                                     (String e) {
                                       //print(e);

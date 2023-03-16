@@ -54,4 +54,10 @@ class DcrDataProviders {
 
     return response;
   }
+
+  Future<http.Response> getDoctorAddUrl() async {
+    final http.Response response;
+    response = await http.get(Uri.parse(DcrApis.doctorAddUrl()));
+    return response;
+  }
 }

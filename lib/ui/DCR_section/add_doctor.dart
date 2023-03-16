@@ -1,3 +1,4 @@
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
@@ -858,7 +859,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        var a = DcrRepositories().addDoctorR();
+                        print("object=====================$a");
+                      },
                       style: ElevatedButton.styleFrom(
                           fixedSize:
                               Size(screenWidth / 1.2, screenHeight * 0.06),

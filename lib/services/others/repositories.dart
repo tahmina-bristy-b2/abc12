@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/dcr/dcr_data_providers.dart';
 import 'package:MREPORTING/services/others/data_providers.dart';
 import 'package:MREPORTING/services/sharedPrefernce.dart';
 import 'package:MREPORTING/ui/loginPage.dart';
@@ -46,7 +47,7 @@ class Repositories {
         String tour_plan_url = resData['tour_plan_url'];
         String tour_compliance_url = resData['tour_compliance_url'];
         String client_url = resData['client_url'];
-        String doctor_url = resData['doctor_url'];
+
         String activity_log_url = resData['activity_log_url'];
         String user_sales_coll_ach_url = resData['user_sales_coll_ach_url'];
         String client_outst_url = resData['client_outst_url'];
@@ -82,7 +83,7 @@ class Repositories {
         await prefs.setString('tour_plan_url', tour_plan_url);
         await prefs.setString('tour_compliance_url', tour_compliance_url);
         await prefs.setString('client_url', client_url);
-        await prefs.setString('doctor_url', doctor_url);
+        // await prefs.setString('doctor_url', doctor_url);
         await prefs.setString(
             'user_sales_coll_ach_url', user_sales_coll_ach_url);
         await prefs.setString('os_details_url', os_details_url);

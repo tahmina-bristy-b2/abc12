@@ -122,6 +122,18 @@ class DcrRepositories {
 
     return customerList;
   }
+
+  Future<Map<String, dynamic>> addDoctorR() async {
+    Map<String, dynamic> submitDoctorData = {};
+    try {
+      final http.Response response = await DcrDataProviders().getDoctorAddUrl();
+      submitDoctorData = jsonDecode(response.body);
+      return submitDoctorData;
+    } catch (e) {
+      print("Submit Api=$e");
+    }
+    return submitDoctorData;
+  }
 }
 
 

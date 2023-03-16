@@ -56,7 +56,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   List<String> any = ["a", "b", "c"];
   List<String> dcrVisitedWithList = ["a", "b", "c"];
   List<String> customerNameList = [];
-  String dropdownValueforCat = "_";
+  // String dropdownValueforCat = "_";
   String dropdownValue = "a";
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
   // / static double
@@ -117,47 +117,47 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Category"),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: screenWidth / 2.3,
-                                child: DropdownButtonFormField(
-                                  decoration:
-                                      const InputDecoration(enabled: false),
-                                  isExpanded: true,
-                                  onChanged: (value) {},
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text("Category"),
+                        //     Padding(
+                        //       padding: const EdgeInsets.all(8.0),
+                        //       child: SizedBox(
+                        //         width: screenWidth / 2.3,
+                        //         child: DropdownButtonFormField(
+                        //           decoration:
+                        //               const InputDecoration(enabled: false),
+                        //           isExpanded: true,
+                        //           onChanged: (value) {},
 
-                                  //===============================================dropDownValuefor category=========================
-                                  // value: dropdownValueforCat,
-                                  // ==========================dropDownValuefor category=========================
-                                  value: dropdownValue,
-                                  // ========================== category=========================
+                        //           //===============================================dropDownValuefor category=========================
+                        //           // value: dropdownValueforCat,
+                        //           // ==========================dropDownValuefor category=========================
+                        //           value: dropdownValue,
+                        //           // ========================== category=========================
 
-                                  // items: category.map(
-                                  // ========================== old code=========================
+                        //           // items: category.map(
+                        //           // ========================== old code=========================
 
-                                  items: any.map(
-                                    (String e) {
-                                      //print(e);
-                                      return DropdownMenuItem(
-                                        // value: e,
-                                        child: Text(e.toString()),
-                                      );
-                                    },
-                                  ).toList(),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    // fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        //           items: any.map(
+                        //             (String e) {
+                        //               //print(e);
+                        //               return DropdownMenuItem(
+                        //                 // value: e,
+                        //                 child: Text(e.toString()),
+                        //               );
+                        //             },
+                        //           ).toList(),
+                        //           style: const TextStyle(
+                        //             color: Colors.black,
+                        //             // fontSize: 16,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -171,7 +171,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
                                   onChanged: (value) {},
-                                  // value: dropdownValue,
+                                  value: dropdownValue,
                                   items: any.map(
                                     (String e) {
                                       //print(e);

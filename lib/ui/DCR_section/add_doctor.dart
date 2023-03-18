@@ -61,6 +61,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   List<String> any = ["a", "b", "c"];
   List<String> dcrVisitedWithList = ["a", "b", "c"];
   List<String> customerNameList = [];
+  List<String> degree = [];
+  List<String> collarSizeList = [];
   String dropdownValueforCat = "_";
   String dropdownValue = "b";
   String cateGoriesSelectedValue = 'a';
@@ -83,7 +85,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     dmPathData = Boxes.getDmpath().get('dmPathData');
     widget.docName != "" ? nameController.text = widget.docName.toString() : "";
     category = widget.docSettings.resData.dCategoryList;
-    print("category $category");
+    degree = widget.docSettings.resData.docDegreeList;
+    // collarSizeList = widget.docSettings.resData.docDegreeList;
+    // print("object=$collarSizeList");
+
     for (var element in widget.customerList) {
       customerNameList.add(element["client_name"]);
     }
@@ -387,7 +392,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   const Text(" Degree"),
                   GFMultiSelect(
-                    items: dcrVisitedWithList,
+                    items: widget.docSettings.resData.docDegreeList.isNotEmpty
+                        ? widget.docSettings.resData.docDegreeList
+                        : degree,
                     onSelect: (value) {
                       // dcrString = '';
                       // if (value.isNotEmpty) {
@@ -681,16 +688,29 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         ),
                         isExpanded: true,
                         onChanged: (value) {},
-                        value: dropdownValue,
-                        items: any.map(
-                          (String e) {
-                            //print(e);
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text(e),
-                            );
-                          },
-                        ).toList(),
+                        value:
+                            widget.docSettings.resData.collarSizeList.first ??
+                                "_",
+                        items:
+                            widget.docSettings.resData.collarSizeList.isNotEmpty
+                                ? widget.docSettings.resData.collarSizeList.map(
+                                    (String e) {
+                                      //print(e);
+                                      return DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      );
+                                    },
+                                  ).toList()
+                                : collarSizeList.map(
+                                    (String e) {
+                                      //print(e);
+                                      return DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      );
+                                    },
+                                  ).toList(),
                         style: const TextStyle(
                           color: Colors.black,
                           // fontSize: 16,

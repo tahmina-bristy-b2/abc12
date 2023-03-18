@@ -1,8 +1,12 @@
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
+import 'package:hive/hive.dart';
+
 import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 
@@ -27,6 +31,9 @@ class DcotorInfoScreen extends StatefulWidget {
 }
 
 class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
+  Box? box;
+  UserLoginModel? userLoginInfo;
+  DmPathDataModel? dmPathData;
   final formKey = GlobalKey<FormState>();
   DateTime dateTime = DateTime.now();
 
@@ -59,6 +66,12 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String dCgSelectedValue = '_';
   String docCtSelectedValue = '_';
   String docTypeSelectedValue = '_';
+
+  String cateGoriesSelectedValue = 'a';
+
+  String cid = '';
+  String userId = '';
+  String userPassword = '';
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
   // / static double
   // / static const double
@@ -69,6 +82,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
   @override
   void initState() {
+    cateGoriesSelectedValue = widget.docSettings.resData.dCategoryList.first;
+    userLoginInfo = Boxes.getLoginData().get('userInfo');
+    dmPathData = Boxes.getDmpath().get('dmPathData');
     widget.docName != "" ? nameController.text = widget.docName.toString() : "";
     category = widget.docSettings.resData.dCategoryList;
     print("category $category");
@@ -954,8 +970,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        var a = DcrRepositories().addDoctorR();
-                        print("object=====================$a");
+                        // var a = DcrRepositories().addDoctorR('${dmPathData!.doctorAddUrl}', cid, userId, userPassword, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob);
+                        // print("object=====================$a");
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:

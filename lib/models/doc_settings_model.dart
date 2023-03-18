@@ -2,7 +2,6 @@
 //
 //     final docSettingsModel = docSettingsModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 DocSettingsModel docSettingsModelFromJson(String str) =>

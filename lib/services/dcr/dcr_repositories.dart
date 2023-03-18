@@ -138,26 +138,29 @@ class DcrRepositories {
   }
 
   //################################ Doctor Settings Repository ########################
-  Future docSettingsRepo(String cid, String userId, String userpass) async {
-    DocSettingsModel docSettings;
+  Future<DocSettingsModel?> docSettingsRepo(
+      String cid, String userId, String userpass) async {
+    DocSettingsModel? docSettingData;
     try {
       final http.Response response =
           await DcrDataProviders().docSettingsDP(cid, userId, userpass);
-      DocSettingsModel jsonResponseDcrData =
-          docSettingsModelFromJson(response.body);
+      DocSettingsModel docSettingData = docSettingsModelFromJson(response.body);
 
-      docSettings = jsonResponseDcrData;
+      if (docSettingData.resData.status == 'Success') {
+        return docSettingData;
+      }
+
+      // docSettingData = jsonResponseDcrData;
       // final status = jsonResponseDcrData['status'];
       // customerList = jsonResponseDcrData['clientList'];
       // if (status == "Success") {
       //   return customerList;
       // }
-      return docSettings;
     } catch (e) {
       print('docSettings: $e');
     }
 
-    return "No Data Found";
+    return docSettingData;
   }
 }
 

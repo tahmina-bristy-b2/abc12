@@ -1,9 +1,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_area_page.dart';
@@ -271,31 +269,31 @@ class _DcrListPageState extends State<DcrListPage> {
                           ),
                           boolIcon: true,
                           onPressed: () async {
-                            var areaCustomerList = await DcrRepositories()
-                                .getDCRAreaBaseClient(
-                                    dmpathData!.syncUrl,
-                                    cid,
-                                    userId,
-                                    userPassword,
-                                    foundUsers[index]['area_id'].toString());
+                            // var areaCustomerList = await DcrRepositories()
+                            //     .getDCRAreaBaseClient(
+                            //         dmpathData!.syncUrl,
+                            //         cid,
+                            //         userId,
+                            //         userPassword,
+                            //         foundUsers[index]['area_id'].toString());
 
-                            final DocSettingsModel responseOfDocSettings =
-                                await DcrRepositories()
-                                    .docSettingsRepo(cid, userId, userPassword);
+                            // final DocSettingsModel responseOfDocSettings =
+                            //     await DcrRepositories()
+                            //         .docSettingsRepo(cid, userId, userPassword);
 
-                            if (!mounted) return;
-                            Navigator.push(
-                                context,
-                                (MaterialPageRoute(
-                                    builder: (context) => DcotorInfoScreen(
-                                          areaName: foundUsers[index]
-                                              ['area_name'],
-                                          docID: foundUsers[index]["doc_id"],
-                                          docName: foundUsers[index]
-                                              ['doc_name'],
-                                          customerList: areaCustomerList,
-                                          docSettings: responseOfDocSettings,
-                                        ))));
+                            // if (!mounted) return;
+                            // Navigator.push(
+                            //     context,
+                            //     (MaterialPageRoute(
+                            //         builder: (context) => DcotorInfoScreen(
+                            //               areaName: foundUsers[index]
+                            //                   ['area_name'],
+                            //               docID: foundUsers[index]["doc_id"],
+                            //               docName: foundUsers[index]
+                            //                   ['doc_name'],
+                            //               customerList: areaCustomerList,
+                            //               docSettings: responseOfDocSettings,
+                            //             ))));
                           },
                         ),
                       );

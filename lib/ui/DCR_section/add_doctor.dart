@@ -1,12 +1,17 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DcotorInfoScreen extends StatefulWidget {
   String areaName;
@@ -29,6 +34,9 @@ class DcotorInfoScreen extends StatefulWidget {
 }
 
 class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
+  Box? box;
+  UserLoginModel? userLoginInfo;
+  DmPathDataModel? dmPathData;
   final formKey = GlobalKey<FormState>();
   DateTime dateTime = DateTime.now();
 
@@ -58,6 +66,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   List<String> customerNameList = [];
   String dropdownValueforCat = "_";
   String dropdownValue = "a";
+
+  String cid = '';
+  String userId = '';
+  String userPassword = '';
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
   // / static double
   // / static const double
@@ -68,11 +80,19 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
   @override
   void initState() {
+    userLoginInfo = Boxes.getLoginData().get('userInfo');
+    dmPathData = Boxes.getDmpath().get('dmPathData');
     widget.docName != "" ? nameController.text = widget.docName.toString() : "";
     category = widget.docSettings.resData.dCategoryList;
     print("category $category");
     widget.customerList.forEach((element) {
       customerNameList.add(element["client_name"]);
+    });
+
+    SharedPreferences.getInstance().then((prefs) {
+      cid = prefs.getString("CID")!;
+      userId = prefs.getString("USER_ID")!;
+      userPassword = prefs.getString("PASSWORD")!;
     });
     // dropdownValueforCat = widget.docSettings.resData.dCategoryList.first;
     // customerNameList.add(widget.customerList["client_name"])
@@ -85,7 +105,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Doctor"),
+        title: const Text("Add Doctor"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -879,8 +899,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        var a = DcrRepositories().addDoctorR();
-                        print("object=====================$a");
+                        // var a = DcrRepositories().addDoctorR('${dmPathData!.doctorAddUrl}', cid, userId, userPassword, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob);
+                        // print("object=====================$a");
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:

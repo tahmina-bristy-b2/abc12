@@ -125,10 +125,66 @@ class DcrRepositories {
   }
   //################################ Add Doctor########################
 
-  Future<Map<String, dynamic>> addDoctorR() async {
+  Future<Map<String, dynamic>> addDoctorR(
+      String addUrl,
+      String skf,
+      String userId,
+      String password,
+      String areaId,
+      String areaName,
+      String doctorName,
+      String category,
+      String doctorCategory,
+      String doctorType,
+      String specialty,
+      String degree,
+      String chemistId,
+      String draddress,
+      String drDistrict,
+      String drThana,
+      String drMobile,
+      String marDay,
+      String child1,
+      String child2,
+      String collerSize,
+      String nop,
+      String fDrId,
+      String fDrName,
+      String fDrspecilty,
+      String fDocAddress,
+      String brand,
+      String dob) async {
     Map<String, dynamic> submitDoctorData = {};
     try {
-      final http.Response response = await DcrDataProviders().getDoctorAddUrl();
+      final http.Response response = await DcrDataProviders().getDoctorAddUrl(
+          addUrl,
+          skf,
+          userId,
+          password,
+          areaId,
+          areaName,
+          doctorName,
+          category,
+          doctorCategory,
+          doctorType,
+          specialty,
+          degree,
+          chemistId,
+          draddress,
+          drDistrict,
+          drThana,
+          drMobile,
+          marDay,
+          child1,
+          child2,
+          collerSize,
+          nop,
+          fDrId,
+          fDrName,
+          fDrspecilty,
+          fDocAddress,
+          brand,
+          dob);
       submitDoctorData = jsonDecode(response.body);
       return submitDoctorData;
     } catch (e) {

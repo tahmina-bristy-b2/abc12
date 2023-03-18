@@ -6,7 +6,6 @@ import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/services/apiCall.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DCRAreaPage extends StatefulWidget {
@@ -88,7 +87,6 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                     userInfo!.userId,
                     userPassword,
                     snapshot.data![index]['area_id']);
-                // print("response $response");
                 if (clientList.isNotEmpty) {
                   final DocSettingsModel? responseOfDocSettings =
                       await DcrRepositories()
@@ -103,9 +101,8 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DcotorInfoScreen(
-                          docID: "",
+                          isEdit: false,
                           areaName: snapshot.data![index]['area_name'],
-                          docName: "",
                           customerList: clientList,
                           docSettings: responseOfDocSettings,
                         ),

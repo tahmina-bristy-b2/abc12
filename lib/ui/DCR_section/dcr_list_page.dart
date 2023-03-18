@@ -1,6 +1,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
@@ -14,9 +15,9 @@ import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DcrListPage extends StatefulWidget {
-  List dcrDataList;
+  final List dcrDataList;
 
-  DcrListPage({Key? key, required this.dcrDataList}) : super(key: key);
+  const DcrListPage({Key? key, required this.dcrDataList}) : super(key: key);
 
   @override
   State<DcrListPage> createState() => _DcrListPageState();
@@ -24,10 +25,12 @@ class DcrListPage extends StatefulWidget {
 
 class _DcrListPageState extends State<DcrListPage> {
   // Box<DmPathDataModel> dmpathBox = Boxes.getDmpath();
+  UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 
   Box? box;
   String cid = '';
+  bool _isLoading = false;
 
   final TextEditingController searchController = TextEditingController();
   List foundUsers = [];
@@ -36,6 +39,8 @@ class _DcrListPageState extends State<DcrListPage> {
   @override
   void initState() {
     super.initState();
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
     // print(dmpathBox.values);
     dmpathData = Boxes.getDmpath().get("dmPathData");
     SharedPreferences.getInstance().then((prefs) {
@@ -94,7 +99,7 @@ class _DcrListPageState extends State<DcrListPage> {
               Navigator.push(
                 context,
                 (MaterialPageRoute(
-                  builder: (context) => DCRAreaPage(),
+                  builder: (context) => const DCRAreaPage(),
                 )),
               );
             },
@@ -186,125 +191,155 @@ class _DcrListPageState extends State<DcrListPage> {
       //     ],
       //   ),
       // ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                onChanged: (value) {
-                  setState(() {
-                    foundUsers = AllServices().searchDynamicMethod(
-                        value, widget.dcrDataList, "doc_name");
-                  });
-                },
-                controller: searchController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  labelText: ' Search',
-                  suffixIcon: searchController.text.isEmpty &&
-                          searchController.text == ''
-                      ? const Icon(Icons.search)
-                      : IconButton(
-                          onPressed: () {
-                            searchController.clear();
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          foundUsers = AllServices().searchDynamicMethod(
+                              value, widget.dcrDataList, "doc_name");
+                        });
+                      },
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        labelText: ' Search',
+                        suffixIcon: searchController.text.isEmpty &&
+                                searchController.text == ''
+                            ? const Icon(Icons.search)
+                            : IconButton(
+                                onPressed: () {
+                                  searchController.clear();
 
-                            // runFilter('');
-                            setState(() {
-                              foundUsers = AllServices().searchDynamicMethod(
-                                  "", widget.dcrDataList, "doc_name");
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.clear,
-                            color: Colors.black,
-                            // size: 28,
-                          ),
+                                  // runFilter('');
+                                  setState(() {
+                                    foundUsers = AllServices()
+                                        .searchDynamicMethod(
+                                            "", widget.dcrDataList, "doc_name");
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.clear,
+                                  color: Colors.black,
+                                  // size: 28,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: foundUsers.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: searchController.text.isNotEmpty
+                              ? foundUsers.length
+                              : widget.dcrDataList.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext itemBuilder, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                _incrementCounter();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => DcrGiftSamplePpmPage(
+                                              ck: '',
+                                              dcrKey: 0,
+                                              uniqueId: _counter,
+                                              draftOrderItem: [],
+                                              docName: foundUsers[index]
+                                                  ['doc_name'],
+                                              docId: foundUsers[index]
+                                                  ['doc_id'],
+                                              areaName: foundUsers[index]
+                                                  ['area_name'],
+                                              areaId: foundUsers[index]
+                                                  ['area_id'],
+                                              address: foundUsers[index]
+                                                  ['address'],
+                                            )));
+                              },
+                              child: CustomerListCardWidget(
+                                clientName: foundUsers[index]['doc_name'] +
+                                    '(${foundUsers[index]['doc_id']})',
+                                base: foundUsers[index]['area_name'] +
+                                    '(${foundUsers[index]['area_id']})',
+                                marketName: foundUsers[index]['address'],
+                                outstanding: '',
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Color.fromARGB(255, 138, 201, 149),
+                                ),
+                                boolIcon: true,
+                                onPressed: () async {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  List clientList = await DcrRepositories()
+                                      .getDCRAreaBaseClient(
+                                          dmpathData!.syncUrl,
+                                          cid,
+                                          userInfo!.userId,
+                                          userPassword,
+                                          foundUsers[index]['area_id']);
+                                  if (clientList.isNotEmpty) {
+                                    final DocSettingsModel?
+                                        responseOfDocSettings =
+                                        await DcrRepositories().docSettingsRepo(
+                                            cid,
+                                            userInfo!.userId,
+                                            userPassword);
+
+                                    if (responseOfDocSettings != null) {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                      // if (!mounted) return;
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => DcotorInfoScreen(
+                                            isEdit: true,
+                                            docName: foundUsers[index]
+                                                ['doc_name'],
+                                            docID: foundUsers[index]['doc_id'],
+                                            areaName: foundUsers[index]
+                                                ['area_id'],
+                                            customerList: clientList,
+                                            docSettings: responseOfDocSettings,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                    }
+                                  } else {
+                                    _isLoading = false;
+                                  }
+                                },
+                              ),
+                            );
+                          })
+                      : const Text(
+                          'No results found',
+                          style: TextStyle(fontSize: 24),
                         ),
                 ),
-              ),
+              ],
             ),
-          ),
-          Expanded(
-            flex: 9,
-            child: foundUsers.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: searchController.text.isNotEmpty
-                        ? foundUsers.length
-                        : widget.dcrDataList.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (BuildContext itemBuilder, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          _incrementCounter();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => DcrGiftSamplePpmPage(
-                                        ck: '',
-                                        dcrKey: 0,
-                                        uniqueId: _counter,
-                                        draftOrderItem: [],
-                                        docName: foundUsers[index]['doc_name'],
-                                        docId: foundUsers[index]['doc_id'],
-                                        areaName: foundUsers[index]
-                                            ['area_name'],
-                                        areaId: foundUsers[index]['area_id'],
-                                        address: foundUsers[index]['address'],
-                                      )));
-                        },
-                        child: CustomerListCardWidget(
-                          clientName: foundUsers[index]['doc_name'] +
-                              '(${foundUsers[index]['doc_id']})',
-                          base: foundUsers[index]['area_name'] +
-                              '(${foundUsers[index]['area_id']})',
-                          marketName: foundUsers[index]['address'],
-                          outstanding: '',
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Color.fromARGB(255, 138, 201, 149),
-                          ),
-                          boolIcon: true,
-                          onPressed: () async {
-                            // var areaCustomerList = await DcrRepositories()
-                            //     .getDCRAreaBaseClient(
-                            //         dmpathData!.syncUrl,
-                            //         cid,
-                            //         userId,
-                            //         userPassword,
-                            //         foundUsers[index]['area_id'].toString());
-
-                            // final DocSettingsModel responseOfDocSettings =
-                            //     await DcrRepositories()
-                            //         .docSettingsRepo(cid, userId, userPassword);
-
-                            // if (!mounted) return;
-                            // Navigator.push(
-                            //     context,
-                            //     (MaterialPageRoute(
-                            //         builder: (context) => DcotorInfoScreen(
-                            //               areaName: foundUsers[index]
-                            //                   ['area_name'],
-                            //               docID: foundUsers[index]["doc_id"],
-                            //               docName: foundUsers[index]
-                            //                   ['doc_name'],
-                            //               customerList: areaCustomerList,
-                            //               docSettings: responseOfDocSettings,
-                            //             ))));
-                          },
-                        ),
-                      );
-                    })
-                : const Text(
-                    'No results found',
-                    style: TextStyle(fontSize: 24),
-                  ),
-          ),
-        ],
-      ),
     );
   }
 }

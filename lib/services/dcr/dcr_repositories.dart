@@ -125,10 +125,68 @@ class DcrRepositories {
   }
   //################################ Add Doctor########################
 
-  Future<Map<String, dynamic>> addDoctorR() async {
+  Future<Map<String, dynamic>> addDoctorR(
+      String addUrl,
+      String skf,
+      String userId,
+      String password,
+      String areaId,
+      String areaName,
+      String doctorName,
+      String category,
+      String doctorCategory,
+      String doctorType,
+      String specialty,
+      String degree,
+      String chemistId,
+      String draddress,
+      String drDistrict,
+      String drThana,
+      String drMobile,
+      String marDay,
+      String child1,
+      String child2,
+      String collerSize,
+      String nop,
+      String fDrId,
+      String fDrName,
+      String fDrspecilty,
+      String fDocAddress,
+      String brand,
+      String dob) async {
+    print(
+        "$addUrl?cid=$skf&user_id=$userId&user_pass=$password&area_id=$areaId&area_name=$areaName&doc_name=$doctorName&category=$category&doctors_category=$doctorCategory&doctor_type=$doctorType&specialty=$specialty&degree=$degree&chemist_id=$chemistId&address=$draddress&district=$drDistrict&thana=$drThana&mobile=$drMobile&mar_day=$marDay&dob_child1=$child1&dob_child2=$child2&collar_size=$collerSize&nop=$nop&four_p_doc_id=$fDrId&fourP_doc_name=$fDrName&fourP_doc_specialty=$fDrspecilty&fourP_doc_address=$fDocAddress&brand=$brand&dob=$dob");
     Map<String, dynamic> submitDoctorData = {};
     try {
-      final http.Response response = await DcrDataProviders().getDoctorAddUrl();
+      final http.Response response = await DcrDataProviders().getDoctorAddUrl(
+          addUrl,
+          skf,
+          userId,
+          password,
+          areaId,
+          areaName,
+          doctorName,
+          category,
+          doctorCategory,
+          doctorType,
+          specialty,
+          degree,
+          chemistId,
+          draddress,
+          drDistrict,
+          drThana,
+          drMobile,
+          marDay,
+          child1,
+          child2,
+          collerSize,
+          nop,
+          fDrId,
+          fDrName,
+          fDrspecilty,
+          fDocAddress,
+          brand,
+          dob);
       submitDoctorData = jsonDecode(response.body);
       return submitDoctorData;
     } catch (e) {
@@ -138,26 +196,29 @@ class DcrRepositories {
   }
 
   //################################ Doctor Settings Repository ########################
-  Future docSettingsRepo(String cid, String userId, String userpass) async {
-    DocSettingsModel docSettings;
+  Future<DocSettingsModel?> docSettingsRepo(
+      String cid, String userId, String userpass) async {
+    DocSettingsModel? docSettingData;
     try {
       final http.Response response =
           await DcrDataProviders().docSettingsDP(cid, userId, userpass);
-      DocSettingsModel jsonResponseDcrData =
-          docSettingsModelFromJson(response.body);
+      DocSettingsModel docSettingData = docSettingsModelFromJson(response.body);
 
-      docSettings = jsonResponseDcrData;
+      if (docSettingData.resData.status == 'Success') {
+        return docSettingData;
+      }
+
+      // docSettingData = jsonResponseDcrData;
       // final status = jsonResponseDcrData['status'];
       // customerList = jsonResponseDcrData['clientList'];
       // if (status == "Success") {
       //   return customerList;
       // }
-      return docSettings;
     } catch (e) {
       print('docSettings: $e');
     }
 
-    return "No Data Found";
+    return docSettingData;
   }
 }
 

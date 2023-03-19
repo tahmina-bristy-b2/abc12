@@ -1094,9 +1094,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       onPressed: () async {
                         var a = await DcrRepositories().addDoctorR(
                             dmPathData!.doctorAddUrl,
-                            "SKF",
+                            cid,
                             userLoginInfo!.userId,
-                            "1900",
+                            userPassword,
                             widget.areaID,
                             widget.areaName,
                             nameController.text.toString(),

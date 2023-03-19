@@ -392,6 +392,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   const Text(" Degree"),
                   GFMultiSelect(
+                    initialSelectedItemsIndex: [0],
                     items: widget.docSettings.resData.docDegreeList.isNotEmpty
                         ? widget.docSettings.resData.docDegreeList
                         : degree,
@@ -688,9 +689,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         ),
                         isExpanded: true,
                         onChanged: (value) {},
-                        value:
-                            widget.docSettings.resData.collarSizeList.first ??
-                                "_",
+                        value: widget.docSettings.resData.collarSizeList.first,
                         items:
                             widget.docSettings.resData.collarSizeList.isNotEmpty
                                 ? widget.docSettings.resData.collarSizeList.map(

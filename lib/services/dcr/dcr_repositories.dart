@@ -154,6 +154,8 @@ class DcrRepositories {
       String fDocAddress,
       String brand,
       String dob) async {
+    print(
+        "$addUrl?cid=$skf&user_id=$userId&user_pass=$password&area_id=$areaId&area_name=$areaName&doc_name=$doctorName&category=$category&doctors_category=$doctorCategory&doctor_type=$doctorType&specialty=$specialty&degree=$degree&chemist_id=$chemistId&address=$draddress&district=$drDistrict&thana=$drThana&mobile=$drMobile&mar_day=$marDay&dob_child1=$child1&dob_child2=$child2&collar_size=$collerSize&nop=$nop&four_p_doc_id=$fDrId&fourP_doc_name=$fDrName&fourP_doc_specialty=$fDrspecilty&fourP_doc_address=$fDocAddress&brand=$brand&dob=$dob");
     Map<String, dynamic> submitDoctorData = {};
     try {
       final http.Response response = await DcrDataProviders().getDoctorAddUrl(

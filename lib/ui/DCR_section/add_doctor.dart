@@ -1037,8 +1037,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               Size(screenWidth / 1.2, screenHeight * 0.06),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Color.fromARGB(255, 4, 60, 105)),
-                      child: Text("Submit"),
+                          backgroundColor:
+                              const Color.fromARGB(255, 4, 60, 105)),
+                      child: const Text("Submit"),
                     ),
                   )
                 ],

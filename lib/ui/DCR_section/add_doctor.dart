@@ -68,7 +68,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String dropdownValueforCat = "_";
   String dropdownValue = "_";
   List<String> degree = [];
+  String degreeList = " ";
   List<String> collarSizeList = [];
+  List<String> brandList = [];
+
+  String brandListString = " ";
   String dCgSelectedValue = '_';
   String docCtSelectedValue = '_';
   String docTypeSelectedValue = '_';
@@ -117,6 +121,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           .toList();
 
       thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+      degree = widget.docSettings.resData.docDegreeList;
+      for (var element in widget.docSettings.resData.brandList) {
+        brandList.add(element.brandName);
+      }
     } else {
       dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
       docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
@@ -129,9 +137,16 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           .toList();
 
       thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+      degree = widget.docSettings.resData.docDegreeList;
+      for (var element in widget.docSettings.resData.brandList) {
+        brandList.add(element.brandName);
+      }
     }
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
+    //widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    //category = widget.docSettings.resData.dCategoryList;
+
     // widget.docName != "" ? nameController.text = widget.docName.toString() : "";
     // category = widget.docSettings.resData.dCategoryList;
     // degree = widget.docSettings.resData.docDegreeList;
@@ -466,10 +481,26 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   const Text(" Degree"),
                   GFMultiSelect(
+                    //initialSelectedItemsIndex: [0],
                     items: widget.docSettings.resData.docDegreeList.isNotEmpty
                         ? widget.docSettings.resData.docDegreeList
                         : degree,
                     onSelect: (value) {
+                      degreeList = " ";
+                      if (value.isNotEmpty) {
+                        for (var e in value) {
+                          if (degreeList == " ") {
+                            degreeList =
+                                widget.docSettings.resData.docDegreeList[e];
+                          } else {
+                            degreeList += '|' +
+                                widget.docSettings.resData.docDegreeList[e];
+                          }
+                          // degreeList
+                          //     .add(widget.docSettings.resData.docDegreeList[e]);
+                          print("degree= $degreeList");
+                        }
+                      }
                       // dcrString = '';
                       // if (value.isNotEmpty) {
                       //   for (var e in value) {
@@ -999,8 +1030,23 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   const Text("Brand"),
 
                   GFMultiSelect(
-                    items: dcrVisitedWithList,
+                    items: brandList,
                     onSelect: (value) {
+                      brandListString = " ";
+                      if (value.isNotEmpty) {
+                        //print("data========$brandListString");
+
+                        for (var e in value) {
+                          if (brandListString == " ") {
+                            brandListString =
+                                widget.docSettings.resData.brandList[e].brandId;
+                          } else {
+                            brandListString += '|' +
+                                widget.docSettings.resData.brandList[e].brandId;
+                          }
+                        }
+                        print("data========$brandListString");
+                      }
                       // dcrString = '';
                       // if (value.isNotEmpty) {
                       //   for (var e in value) {
@@ -1052,9 +1098,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       onPressed: () async {
                         var a = await DcrRepositories().addDoctorR(
                             dmPathData!.doctorAddUrl,
-                            cid,
+                            "SKF",
                             userLoginInfo!.userId,
-                            userPassword,
+                            "1900",
                             widget.areaID,
                             widget.areaName,
                             nameController.text.toString(),

@@ -583,7 +583,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               isExpanded: true,
                               onChanged: (value) {},
                               value: thanaSelectedValue,
-                              items: getThanaWithDist.isNotEmpty
+                              items: getThanaWithDist.first.thanaList.isNotEmpty
                                   ? getThanaWithDist.first.thanaList
                                       .map((e) => DropdownMenuItem(
                                           value: e.thanaName,
@@ -627,8 +627,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                         element.districtName == newValue)
                                     .toList();
 
-                                thanaSelectedValue = getThanaWithDist
-                                    .first.thanaList.first.thanaName;
+                                thanaSelectedValue =
+                                    getThanaWithDist.first.thanaList.isNotEmpty
+                                        ? getThanaWithDist
+                                            .first.thanaList.first.thanaName
+                                        : '_';
                                 setState(() {});
                                 // getThana.first.thanaList.forEach((element) {
                                 //   print(element.thanaName);

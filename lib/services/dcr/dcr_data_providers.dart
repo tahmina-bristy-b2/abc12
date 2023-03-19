@@ -42,6 +42,16 @@ class DcrDataProviders {
     return response;
   }
 
+  //################################ Sync DCR Discussion Data########################
+  Future<http.Response> syncDcrDisDP(
+      String syncUrl, String cid, String userId, String userpass) async {
+    final response = await http.get(
+      Uri.parse(DcrApis.syncDcrDisApi(syncUrl, cid, userId, userpass)),
+    );
+
+    return response;
+  }
+
   //################################ DCR Area Client Data########################
   Future<http.Response> dcrAreaBaseClient(String syncUrl, String cid,
       String userId, String userpass, String areaID) async {

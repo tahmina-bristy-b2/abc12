@@ -218,14 +218,38 @@ class DcrRepositories {
 
     return docSettingData;
   }
+
+  //################################ Sync Discussion  Data########################
+// did not call yet...
+  Future<List> syncDcrDis(
+      String syncUrl, String cid, String userId, String userpass) async {
+    List dcrDiscussionGiftList = [];
+    try {
+      final http.Response response =
+          await DcrDataProviders().syncDcrDisDP(syncUrl, cid, userId, userpass);
+      Map<String, dynamic> jsonResponseDcrData = jsonDecode(response.body);
+      Map<String, dynamic> res_data = jsonResponseDcrData['res_data'];
+
+      String status = res_data['status'];
+      dcrDiscussionGiftList = res_data['giftList'];
+
+      if (status == 'Success') {
+        await Boxes().openAndAddDataToBox(
+            'dcrDiscussionListData', dcrDiscussionGiftList);
+        return dcrDiscussionGiftList;
+      }
+    } catch (e) {
+      print('dcrGiftList: $e');
+    }
+
+    return dcrDiscussionGiftList;
+  }
 }
 
 
 
 
- //=======================================================================================
-  //==============================DCR Discussion======================================
-  //=======================================================================================
+ 
 
   // Future<dynamic> syncDcrDiscussiontToHive(String sync_url, String cid,
   //     String userId, String userPassward, BuildContext context) async {

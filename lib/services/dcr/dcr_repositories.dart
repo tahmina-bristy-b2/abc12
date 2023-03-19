@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/services/dcr/dcr_data_providers.dart';
 import 'package:http/http.dart' as http;
 
 class DcrRepositories {
   //################################ Sync DCR Data ########################
+
   Future<List> syncDCR(
       String syncUrl, String cid, String userId, String userpass) async {
     List doctorList = [];
@@ -100,7 +102,125 @@ class DcrRepositories {
 
     return ppmList;
   }
+
+  //################################ Area base Client in  DCR ########################
+  Future<List> getDCRAreaBaseClient(String syncUrl, String cid, String userId,
+      String userpass, String areaId) async {
+    List customerList = [];
+    try {
+      final http.Response response = await DcrDataProviders()
+          .dcrAreaBaseClient(syncUrl, cid, userId, userpass, areaId);
+      Map<String, dynamic> jsonResponseDcrData = jsonDecode(response.body);
+
+      final status = jsonResponseDcrData['status'];
+      customerList = jsonResponseDcrData['clientList'];
+      if (status == "Success") {
+        return customerList;
+      }
+    } catch (e) {
+      print('customerList: $e');
+    }
+
+    return customerList;
+  }
+  //################################ Add Doctor########################
+
+  Future<Map<String, dynamic>> addDoctorR(
+      String addUrl,
+      String skf,
+      String userId,
+      String password,
+      String areaId,
+      String areaName,
+      String doctorName,
+      String category,
+      String doctorCategory,
+      String doctorType,
+      String specialty,
+      String degree,
+      String chemistId,
+      String draddress,
+      String drDistrict,
+      String drThana,
+      String drMobile,
+      String marDay,
+      String child1,
+      String child2,
+      String collerSize,
+      String nop,
+      String fDrId,
+      String fDrName,
+      String fDrspecilty,
+      String fDocAddress,
+      String brand,
+      String dob) async {
+    Map<String, dynamic> submitDoctorData = {};
+    try {
+      final http.Response response = await DcrDataProviders().getDoctorAddUrl(
+          addUrl,
+          skf,
+          userId,
+          password,
+          areaId,
+          areaName,
+          doctorName,
+          category,
+          doctorCategory,
+          doctorType,
+          specialty,
+          degree,
+          chemistId,
+          draddress,
+          drDistrict,
+          drThana,
+          drMobile,
+          marDay,
+          child1,
+          child2,
+          collerSize,
+          nop,
+          fDrId,
+          fDrName,
+          fDrspecilty,
+          fDocAddress,
+          brand,
+          dob);
+      submitDoctorData = jsonDecode(response.body);
+      return submitDoctorData;
+    } catch (e) {
+      print("Submit Api=$e");
+    }
+    return submitDoctorData;
+  }
+
+  //################################ Doctor Settings Repository ########################
+  Future<DocSettingsModel?> docSettingsRepo(
+      String cid, String userId, String userpass) async {
+    DocSettingsModel? docSettingData;
+    try {
+      final http.Response response =
+          await DcrDataProviders().docSettingsDP(cid, userId, userpass);
+      DocSettingsModel docSettingData = docSettingsModelFromJson(response.body);
+
+      if (docSettingData.resData.status == 'Success') {
+        return docSettingData;
+      }
+
+      // docSettingData = jsonResponseDcrData;
+      // final status = jsonResponseDcrData['status'];
+      // customerList = jsonResponseDcrData['clientList'];
+      // if (status == "Success") {
+      //   return customerList;
+      // }
+    } catch (e) {
+      print('docSettings: $e');
+    }
+
+    return docSettingData;
+  }
 }
+
+
 
 
  //=======================================================================================

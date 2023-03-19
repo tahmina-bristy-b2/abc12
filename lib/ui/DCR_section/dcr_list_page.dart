@@ -1,4 +1,12 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_area_page.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
 import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
@@ -14,10 +22,12 @@ class DcrListPage extends StatefulWidget {
 }
 
 class _DcrListPageState extends State<DcrListPage> {
-  String dcrUrl = '';
+  // Box<DmPathDataModel> dmpathBox = Boxes.getDmpath();
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
   String cid = '';
-  // String userId = '';
-  // String userPassword = '';
+  bool _isLoading = false;
 
   final TextEditingController searchController = TextEditingController();
   List foundUsers = [];
@@ -26,12 +36,12 @@ class _DcrListPageState extends State<DcrListPage> {
   @override
   void initState() {
     super.initState();
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+    // print(dmpathBox.values);
+    dmpathData = Boxes.getDmpath().get("dmPathData");
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
-      // userId = prefs.getString("USER_ID")!;
-      // userPassword = prefs.getString("PASSWORD")!;
-      // doctor_url = prefs.getString("doctor_url")!;
-      // print('$doctor_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
       if (prefs.getInt("_dcrcounter") != null) {
         int? a = prefs.getInt("_dcrcounter");
 
@@ -60,41 +70,6 @@ class _DcrListPageState extends State<DcrListPage> {
     setState(() {});
   }
 
-  void runFilter(String enteredKeyword) {
-    foundUsers = widget.dcrDataList;
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foundUsers;
-      // print(results);
-    } else {
-      var starts = foundUsers
-          .where((s) => s['doc_name']
-              .toLowerCase()
-              .startsWith(enteredKeyword.toLowerCase()))
-          .toList();
-
-      var contains = foundUsers
-          .where((s) =>
-              s['doc_name']
-                  .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) &&
-              !s['doc_name']
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) =>
-            a['doc_name'].toLowerCase().compareTo(b['doc_name'].toLowerCase()));
-
-      results = [...starts, ...contains];
-    }
-
-    // Refresh the UI
-    setState(() {
-      foundUsers = results;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +84,7 @@ class _DcrListPageState extends State<DcrListPage> {
               Icons.arrow_back,
               color: Colors.white,
             )),
-        title: const Text('Doctor list'),
+        title: const Text('Doctor List'),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
@@ -125,7 +100,7 @@ class _DcrListPageState extends State<DcrListPage> {
                 )),
               );
             },
-            icon: const Icon(Icons.person_add, color: Colors.blueAccent),
+            icon: const Icon(Icons.person_add),
           )
         ],
       ),
@@ -213,83 +188,153 @@ class _DcrListPageState extends State<DcrListPage> {
       //     ],
       //   ),
       // ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                onChanged: (value) => runFilter(value),
-                controller: searchController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  labelText: ' Search',
-                  suffixIcon: searchController.text.isEmpty &&
-                          searchController.text == ''
-                      ? const Icon(Icons.search)
-                      : IconButton(
-                          onPressed: () {
-                            searchController.clear();
-                            runFilter('');
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.clear,
-                            color: Colors.black,
-                            // size: 28,
-                          ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          foundUsers = AllServices().searchDynamicMethod(
+                              value, widget.dcrDataList, "doc_name");
+                        });
+                      },
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        labelText: ' Search',
+                        suffixIcon: searchController.text.isEmpty &&
+                                searchController.text == ''
+                            ? const Icon(Icons.search)
+                            : IconButton(
+                                onPressed: () {
+                                  searchController.clear();
+
+                                  // runFilter('');
+                                  setState(() {
+                                    foundUsers = AllServices()
+                                        .searchDynamicMethod(
+                                            "", widget.dcrDataList, "doc_name");
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.clear,
+                                  color: Colors.black,
+                                  // size: 28,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: foundUsers.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: searchController.text.isNotEmpty
+                              ? foundUsers.length
+                              : widget.dcrDataList.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext itemBuilder, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                _incrementCounter();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => DcrGiftSamplePpmPage(
+                                              ck: '',
+                                              dcrKey: 0,
+                                              uniqueId: _counter,
+                                              draftOrderItem: [],
+                                              docName: foundUsers[index]
+                                                  ['doc_name'],
+                                              docId: foundUsers[index]
+                                                  ['doc_id'],
+                                              areaName: foundUsers[index]
+                                                  ['area_name'],
+                                              areaId: foundUsers[index]
+                                                  ['area_id'],
+                                              address: foundUsers[index]
+                                                  ['address'],
+                                            )));
+                              },
+                              child: CustomerListCardWidget(
+                                clientName: foundUsers[index]['doc_name'] +
+                                    '(${foundUsers[index]['doc_id']})',
+                                base: foundUsers[index]['area_name'] +
+                                    '(${foundUsers[index]['area_id']})',
+                                marketName: foundUsers[index]['address'],
+                                outstanding: '',
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Color.fromARGB(255, 138, 201, 149),
+                                ),
+                                boolIcon: true,
+                                onPressed: () async {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  List clientList = await DcrRepositories()
+                                      .getDCRAreaBaseClient(
+                                          dmpathData!.syncUrl,
+                                          cid,
+                                          userInfo!.userId,
+                                          userPassword,
+                                          foundUsers[index]['area_id']);
+                                  if (clientList.isNotEmpty) {
+                                    final DocSettingsModel?
+                                        responseOfDocSettings =
+                                        await DcrRepositories().docSettingsRepo(
+                                            cid,
+                                            userInfo!.userId,
+                                            userPassword);
+
+                                    if (responseOfDocSettings != null) {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                      // if (!mounted) return;
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => DcotorInfoScreen(
+                                            isEdit: true,
+                                            areaName: foundUsers[index]
+                                                ['area_id'],
+                                            editDoctorInfo: foundUsers[index],
+                                            customerList: clientList,
+                                            docSettings: responseOfDocSettings,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                    }
+                                  } else {
+                                    _isLoading = false;
+                                  }
+                                },
+                              ),
+                            );
+                          })
+                      : const Text(
+                          'No results found',
+                          style: TextStyle(fontSize: 24),
                         ),
                 ),
-              ),
+              ],
             ),
-          ),
-          Expanded(
-            flex: 9,
-            child: foundUsers.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: searchController.text.isNotEmpty
-                        ? foundUsers.length
-                        : widget.dcrDataList.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (BuildContext itemBuilder, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          _incrementCounter();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => DcrGiftSamplePpmPage(
-                                        ck: '',
-                                        dcrKey: 0,
-                                        uniqueId: _counter,
-                                        draftOrderItem: [],
-                                        docName: foundUsers[index]['doc_name'],
-                                        docId: foundUsers[index]['doc_id'],
-                                        areaName: foundUsers[index]
-                                            ['area_name'],
-                                        areaId: foundUsers[index]['area_id'],
-                                        address: foundUsers[index]['address'],
-                                      )));
-                        },
-                        child: CustomerListCardWidget(
-                            clientName: foundUsers[index]['doc_name'] +
-                                '(${foundUsers[index]['doc_id']})',
-                            base: foundUsers[index]['area_name'] +
-                                '(${foundUsers[index]['area_id']})',
-                            marketName: foundUsers[index]['address'],
-                            outstanding: ''),
-                      );
-                    })
-                : const Text(
-                    'No results found',
-                    style: TextStyle(fontSize: 24),
-                  ),
-          ),
-        ],
-      ),
     );
   }
 }

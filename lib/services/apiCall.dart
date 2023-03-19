@@ -105,26 +105,26 @@ Future<bool> getAreaBaseClient(BuildContext context, String syncUrl, cid,
 
 // String clientStatus = " ";
 
-Future getDCRAreaBaseClient(BuildContext context, String syncUrl, cid, userId,
-    userPassword, areaId) async {
-  var clientJsonData;
+// Future getDCRAreaBaseClient(BuildContext context, String syncUrl, cid, userId,
+//     userPassword, areaId) async {
+//   var clientJsonData;
 
-  print(
-      '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
-  try {
-    final http.Response res = await http.get(
-        Uri.parse(
-            '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
-    clientJsonData = json.decode(res.body);
-    // String clientStatus = clientJsonData['status'];
-  } catch (e) {
-    print('Error message: $e');
-  }
-  return clientJsonData;
-}
+//   print(
+//       '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
+//   try {
+//     final http.Response res = await http.get(
+//         Uri.parse(
+//             '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId'),
+//         headers: <String, String>{
+//           'Content-Type': 'application/json; charset=UTF-8'
+//         });
+//     clientJsonData = json.decode(res.body);
+//     // String clientStatus = clientJsonData['status'];
+//   } catch (e) {
+//     print('Error message: $e');
+//   }
+//   return clientJsonData;
+// }
 
 ///*************************************************** *************************************///
 ///******************************** Target Achievement *************************************///

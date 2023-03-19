@@ -1,6 +1,8 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/services/apiCall.dart';
@@ -17,9 +19,11 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   String cid = '';
+  // String userId = '';
   String userPassword = '';
+  // String areaPageUrl = '';
+  // String syncUrl = '';
   bool _isLoading = false;
-  List<String> customerNameList = [];
 
   @override
   void initState() {
@@ -30,7 +34,10 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         cid = prefs.getString("CID")!;
+        // userId = prefs.getString("USER_ID")!;
+        // areaPageUrl = prefs.getString('user_area_url')!;
         userPassword = prefs.getString("PASSWORD")!;
+        // syncUrl = prefs.getString("sync_url")!;
       });
     });
   }
@@ -65,28 +72,78 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
 
   ListView areaListViewBuilder(AsyncSnapshot<List<dynamic>> snapshot) {
     return ListView.builder(
-        itemCount: snapshot.data!.length,
-        itemBuilder: (context, index) {
-          return StatefulBuilder(builder: (BuildContext context, setState1) {
+      itemCount: snapshot.data!.length,
+      itemBuilder: (context, index) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState1) {
             return InkWell(
               onTap: () async {
                 setState1(() {
                   _isLoading = true;
                 });
-                bool response = await getAreaBaseClient(
-                    context,
+                List clientList = await DcrRepositories().getDCRAreaBaseClient(
                     dmpathData!.syncUrl,
                     cid,
                     userInfo!.userId,
                     userPassword,
                     snapshot.data![index]['area_id']);
+                if (clientList.isNotEmpty) {
+                  final DocSettingsModel? responseOfDocSettings =
+                      await DcrRepositories()
+                          .docSettingsRepo(cid, userInfo!.userId, userPassword);
 
-                setState1(() {
-                  _isLoading = response;
-                });
+                  if (responseOfDocSettings != null) {
+                    setState1(() {
+                      _isLoading = false;
+                    });
+                    // if (!mounted) return;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DcotorInfoScreen(
+                          isEdit: false,
+                          areaName: snapshot.data![index]['area_name'],
+                          customerList: clientList,
+                          docSettings: responseOfDocSettings,
+                        ),
+                      ),
+                    );
+                  } else {
+                    setState1(() {
+                      _isLoading = false;
+                    });
+                  }
+                } else {
+                  _isLoading = false;
+                }
+
+                // print(
+                //     "ki! response ashce! ${responseOfDocSettings.resData.brandList}");
+
+                // if (responseOfDocSettings.resData ==
+                //     "Success") {
+                // List category = responseOfDocSettings["d_category_list"];
+                // List collarSize = responseOfDocSettings["collar_size_list"];
+                // List disThanaList = responseOfDocSettings["dist_thana_list"];
+                // List docCategory = responseOfDocSettings["doc_category_list"];
+                // List docCategory = responseOfDocSettings["doc_category_list"];
+
+                // List clientList =
+                //     response['clientList'];
+                // print(clientList);
+
+                // clientList.forEach((element) {
+                //   customerNameList.add(
+                //       element["client_name"]);
+                // });
+
+                // }
+
+                // setState1(() {
+                //   _isLoading = false;
+                // });
               },
               child: Card(
-                // color: Colors.blue.withOpacity(.03),
                 elevation: 2,
                 child: SizedBox(
                     height: 40,
@@ -102,57 +159,17 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                         ),
                         _isLoading
                             ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              )
-                            : IconButton(
-                                onPressed: () async {
-                                  setState1(() {
-                                    _isLoading = true;
-                                  });
-                                  var response = await getDCRAreaBaseClient(
-                                      context,
-                                      dmpathData!.syncUrl,
-                                      cid,
-                                      userInfo!.userId,
-                                      userPassword,
-                                      snapshot.data![index]['area_id']);
-                                  if (response["status"] == 'Success') {
-                                    List clientList = response['clientList'];
-
-                                    for (var element in clientList) {
-                                      customerNameList
-                                          .add(element["client_name"]);
-                                    }
-                                    if (!mounted) return;
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => DcotorInfoScreen(
-                                          docId: snapshot.data![index]
-                                              ['area_id'],
-                                          docName: snapshot.data![index]
-                                              ['area_name'],
-                                          customerList: customerNameList,
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  setState1(() {
-                                    _isLoading = false;
-                                  });
-                                },
-                                icon: const Icon(Icons.arrow_forward_ios_sharp),
-                              ),
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator())
+                            : const Icon(Icons.arrow_forward_ios_outlined)
                       ],
                     )),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 }

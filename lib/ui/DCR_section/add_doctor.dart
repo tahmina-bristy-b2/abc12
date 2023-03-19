@@ -1,19 +1,27 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
+import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 
 class DcotorInfoScreen extends StatefulWidget {
-  String docId;
-  String docName;
-  List<String> customerList;
-  DcotorInfoScreen({
+  final bool isEdit;
+  final String areaName;
+  final Map? editDoctorInfo;
+  final List customerList;
+  final DocSettingsModel docSettings;
+
+  const DcotorInfoScreen({
     Key? key,
-    required this.docId,
-    required this.docName,
+    required this.isEdit,
+    required this.areaName,
+    this.editDoctorInfo,
     required this.customerList,
+    required this.docSettings,
   }) : super(key: key);
 
   @override
@@ -21,19 +29,22 @@ class DcotorInfoScreen extends StatefulWidget {
 }
 
 class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
+  Box? box;
+  UserLoginModel? userLoginInfo;
+  DmPathDataModel? dmPathData;
   final formKey = GlobalKey<FormState>();
   DateTime dateTime = DateTime.now();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController degreeController = TextEditingController();
-  TextEditingController chemistIDController = TextEditingController();
+  // TextEditingController chemistIDController = TextEditingController();
   TextEditingController adressController = TextEditingController();
-  TextEditingController thanaController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
+  // TextEditingController thanaController = TextEditingController();
+  // TextEditingController districtController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController marriageDayController = TextEditingController();
-  TextEditingController collarSizeController = TextEditingController();
+  // TextEditingController collarSizeController = TextEditingController();
   TextEditingController dobChild1Controller = TextEditingController();
   TextEditingController dobChild2Controller = TextEditingController();
   TextEditingController patientNumController = TextEditingController();
@@ -42,10 +53,29 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   TextEditingController docSpecialityController = TextEditingController();
   TextEditingController docAddressController = TextEditingController();
   // TextEditingController nameController = TextEditingController();
+  double screenHeight = 0.0;
+  double screenWidth = 0.0;
+  List<String> category = [];
+  List<String> any = ["_", "a", "b", "c"];
+  List<String> dcrVisitedWithList = ["_", "a", "b", "c"];
+  List<String> customerNameList = [];
+  String dropdownValueforCat = "_";
+  String dropdownValue = "_";
+  List<String> degree = [];
+  List<String> collarSizeList = [];
+  String dCgSelectedValue = '_';
+  String docCtSelectedValue = '_';
+  String docTypeSelectedValue = '_';
+  String docSpSelectedValue = '_';
+  String thanaSelectedValue = '_';
+  String districtSelectedValue = '_';
+  List<DistThanaList> getThanaWithDist = [];
 
-  List<String> any = ["a", "b", "c"];
-  List<String> dcrVisitedWithList = ["a", "b", "c"];
-  String dropdownValue = "a";
+  // String cateGoriesSelectedValue = 'a';
+
+  String cid = '';
+  // String userId = '';
+  String userPassword = '';
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
   // / static double
   // / static const double
@@ -54,8 +84,68 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   //     (inputHeight / layoutHeight) * size.height;
   //=========================================proper way of initializing screenhight and screeWidth=====================================================
 
-  var screenHeight;
-  var screenWidth;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEdit) {
+      nameController.text = widget.editDoctorInfo!['doc_name'].toString();
+      dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
+      docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
+      docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
+      docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+      districtSelectedValue =
+          widget.docSettings.resData.distThanaList.first.districtName;
+      getThanaWithDist = widget.docSettings.resData.distThanaList
+          .where((element) => element.districtName == districtSelectedValue)
+          .toList();
+
+      thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+    } else {
+      dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
+      docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
+      docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
+      docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+      districtSelectedValue =
+          widget.docSettings.resData.distThanaList.first.districtName;
+      getThanaWithDist = widget.docSettings.resData.distThanaList
+          .where((element) => element.districtName == districtSelectedValue)
+          .toList();
+
+      thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+    }
+    userLoginInfo = Boxes.getLoginData().get('userInfo');
+    dmPathData = Boxes.getDmpath().get('dmPathData');
+    // widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    // category = widget.docSettings.resData.dCategoryList;
+    // degree = widget.docSettings.resData.docDegreeList;
+    // collarSizeList = widget.docSettings.resData.docDegreeList;
+    // print("object=$collarSizeList");
+
+    for (var element in widget.customerList) {
+      customerNameList.add(element["client_name"]);
+    }
+    // dropdownValueforCat = widget.docSettings.resData.dCategoryList.first;
+    // customerNameList.add(widget.customerList["client_name"])
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    degreeController.dispose();
+    adressController.dispose();
+    mobileController.dispose();
+    dobController.dispose();
+    dobChild1Controller.dispose();
+    dobChild2Controller.dispose();
+    patientNumController.dispose();
+    docIDController.dispose();
+    docNameController.dispose();
+    docSpecialityController.dispose();
+    docAddressController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +153,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Doctor"),
+        title: const Text("Add Doctor"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -75,7 +165,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Territory : ${widget.docName}"),
+                  Text("Territory : ${widget.areaName}"),
                   const Text("Name : "),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -107,17 +197,28 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   decoration:
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
-                                  onChanged: (value) {},
-                                  value: dropdownValue,
-                                  items: any.map(
-                                    (String e) {
-                                      //print(e);
-                                      return DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      );
-                                    },
-                                  ).toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      dCgSelectedValue = value!;
+                                    });
+                                  },
+                                  value: dCgSelectedValue,
+                                  items: widget.docSettings.resData
+                                          .dCategoryList.isNotEmpty
+                                      ? widget.docSettings.resData.dCategoryList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String e) => DropdownMenuItem(
+                                                  value: e, child: Text(e)))
+                                          .toList()
+                                      : any.map<DropdownMenuItem<String>>(
+                                          (String e) {
+                                            //print(e);
+                                            return DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e.toString()),
+                                            );
+                                          },
+                                        ).toList(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     // fontSize: 16,
@@ -139,17 +240,30 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   decoration:
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
-                                  onChanged: (value) {},
-                                  value: dropdownValue,
-                                  items: any.map(
-                                    (String e) {
-                                      //print(e);
-                                      return DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      );
-                                    },
-                                  ).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      docCtSelectedValue = newValue!;
+                                    });
+                                  },
+                                  // value: dropdownValue,
+                                  value: docCtSelectedValue,
+                                  items: widget.docSettings.resData
+                                          .docCategoryList.isNotEmpty
+                                      ? widget
+                                          .docSettings.resData.docCategoryList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String e) => DropdownMenuItem(
+                                                  value: e, child: Text(e)))
+                                          .toList()
+                                      : any.map<DropdownMenuItem<String>>(
+                                          (String e) {
+                                            //print(e);
+                                            return DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e.toString()),
+                                            );
+                                          },
+                                        ).toList(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     // fontSize: 16,
@@ -251,17 +365,29 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   decoration:
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
-                                  onChanged: (value) {},
-                                  value: dropdownValue,
-                                  items: any.map(
-                                    (String e) {
-                                      //print(e);
-                                      return DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      );
-                                    },
-                                  ).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      docTypeSelectedValue = newValue!;
+                                    });
+                                  },
+                                  // value: dropdownValue,
+                                  value: docTypeSelectedValue,
+                                  items: widget.docSettings.resData.docTypeList
+                                          .isNotEmpty
+                                      ? widget.docSettings.resData.docTypeList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String e) => DropdownMenuItem(
+                                                  value: e, child: Text(e)))
+                                          .toList()
+                                      : any.map<DropdownMenuItem<String>>(
+                                          (String e) {
+                                            //print(e);
+                                            return DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e.toString()),
+                                            );
+                                          },
+                                        ).toList(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     // fontSize: 16,
@@ -283,17 +409,29 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   decoration:
                                       const InputDecoration(enabled: false),
                                   isExpanded: true,
-                                  onChanged: (value) {},
-                                  value: dropdownValue,
-                                  items: any.map(
-                                    (String e) {
-                                      //print(e);
-                                      return DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      );
-                                    },
-                                  ).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      docSpSelectedValue = newValue!;
+                                    });
+                                  },
+                                  value: docSpSelectedValue,
+                                  items: widget.docSettings.resData
+                                          .docSpecialtyList.isNotEmpty
+                                      ? widget
+                                          .docSettings.resData.docSpecialtyList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String e) => DropdownMenuItem(
+                                                  value: e, child: Text(e)))
+                                          .toList()
+                                      : any.map<DropdownMenuItem<String>>(
+                                          (String e) {
+                                            //print(e);
+                                            return DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e.toString()),
+                                            );
+                                          },
+                                        ).toList(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     // fontSize: 16,
@@ -310,7 +448,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   const Text(" Degree"),
                   GFMultiSelect(
-                    items: dcrVisitedWithList,
+                    items: widget.docSettings.resData.docDegreeList.isNotEmpty
+                        ? widget.docSettings.resData.docDegreeList
+                        : degree,
                     onSelect: (value) {
                       // dcrString = '';
                       // if (value.isNotEmpty) {
@@ -362,7 +502,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   const Text("Chemist ID "),
                   GFMultiSelect(
-                    items: widget.customerList,
+                    items: customerNameList,
                     onSelect: (value) {
                       // dcrString = '';
                       // if (value.isNotEmpty) {
@@ -442,16 +582,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               ),
                               isExpanded: true,
                               onChanged: (value) {},
-                              value: dropdownValue,
-                              items: any.map(
-                                (String e) {
-                                  //print(e);
-                                  return DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  );
-                                },
-                              ).toList(),
+                              value: thanaSelectedValue,
+                              items: getThanaWithDist.first.thanaList.isNotEmpty
+                                  ? getThanaWithDist.first.thanaList
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.thanaName,
+                                          child: Text(e.thanaName)))
+                                      .toList()
+                                  : any.map<DropdownMenuItem<String>>(
+                                      (String e) {
+                                        //print(e);
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.toString()),
+                                        );
+                                      },
+                                    ).toList(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 // fontSize: 16,
@@ -473,17 +619,41 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ),
                               isExpanded: true,
-                              onChanged: (value) {},
-                              value: dropdownValue,
-                              items: any.map(
-                                (String e) {
-                                  //print(e);
-                                  return DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  );
-                                },
-                              ).toList(),
+                              onChanged: (String? newValue) {
+                                districtSelectedValue = newValue!;
+                                getThanaWithDist = widget
+                                    .docSettings.resData.distThanaList
+                                    .where((element) =>
+                                        element.districtName == newValue)
+                                    .toList();
+
+                                thanaSelectedValue =
+                                    getThanaWithDist.first.thanaList.isNotEmpty
+                                        ? getThanaWithDist
+                                            .first.thanaList.first.thanaName
+                                        : '_';
+                                setState(() {});
+                                // getThana.first.thanaList.forEach((element) {
+                                //   print(element.thanaName);
+                                // });
+                              },
+                              value: districtSelectedValue,
+                              items: widget.docSettings.resData.distThanaList
+                                      .isNotEmpty
+                                  ? widget.docSettings.resData.distThanaList
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.districtName,
+                                          child: Text(e.districtName)))
+                                      .toList()
+                                  : any.map<DropdownMenuItem<String>>(
+                                      (String e) {
+                                        //print(e);
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.toString()),
+                                        );
+                                      },
+                                    ).toList(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 // fontSize: 16,
@@ -604,16 +774,27 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         ),
                         isExpanded: true,
                         onChanged: (value) {},
-                        value: dropdownValue,
-                        items: any.map(
-                          (String e) {
-                            //print(e);
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text(e),
-                            );
-                          },
-                        ).toList(),
+                        value: widget.docSettings.resData.collarSizeList.first,
+                        items:
+                            widget.docSettings.resData.collarSizeList.isNotEmpty
+                                ? widget.docSettings.resData.collarSizeList.map(
+                                    (String e) {
+                                      //print(e);
+                                      return DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      );
+                                    },
+                                  ).toList()
+                                : collarSizeList.map(
+                                    (String e) {
+                                      //print(e);
+                                      return DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      );
+                                    },
+                                  ).toList(),
                         style: const TextStyle(
                           color: Colors.black,
                           // fontSize: 16,
@@ -847,14 +1028,18 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // var a = DcrRepositories().addDoctorR('${dmPathData!.doctorAddUrl}', cid, userId, userPassword, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob);
+                        // print("object=====================$a");
+                      },
                       style: ElevatedButton.styleFrom(
                           fixedSize:
                               Size(screenWidth / 1.2, screenHeight * 0.06),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Color.fromARGB(255, 4, 60, 105)),
-                      child: Text("Submit"),
+                          backgroundColor:
+                              const Color.fromARGB(255, 4, 60, 105)),
+                      child: const Text("Submit"),
                     ),
                   )
                 ],

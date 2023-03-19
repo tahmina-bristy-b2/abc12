@@ -608,9 +608,11 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                             if (dcrString == '') {
                                               dcrString =
                                                   dcr_visitedWithList[e];
+                                              print("object======$dcrString");
                                             } else {
                                               dcrString +=
                                                   '|' + dcr_visitedWithList[e];
+                                              print("object======$dcrString");
                                             }
                                           }
                                         }

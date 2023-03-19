@@ -96,7 +96,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
       docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
     }
-    // cateGoriesSelectedValue = widget.docSettings.resData.dCategoryList.first;
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
     // widget.docName != "" ? nameController.text = widget.docName.toString() : "";

@@ -1,15 +1,14 @@
-import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/services/dcr/dcr_services.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:MREPORTING/ui/DCR_section/show_dcr_discussionData.dart';
 import 'package:MREPORTING/ui/DCR_section/show_dcr_gitfData.dart';
@@ -58,6 +57,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
+  final gspBox = Boxes.selectedDcrGSP();
+  final dcrBox = Boxes.dcrUsers();
 
   double screenHeight = 0.0;
   double screenWidth = 0.0;
@@ -119,14 +120,16 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         deviceModel = prefs.getString("deviceModel");
         dcrDiscussion = prefs.getBool("dcr_discussion") ?? false;
         dcrVisitedWithList = prefs.getStringList("dcr_visit_with_list")!;
-
         dropdownVisitWithValue = dcrVisitedWithList.first;
       });
     });
+
     addedDcrGSPList = widget.draftOrderItem;
-    setState(() {});
+
     if (widget.ck != '') {
-      calculatingTotalitemString();
+      itemString = DcrServices().calculatingGspItemString(addedDcrGSPList);
+      // calculatingTotalitemString();
+      setState(() {});
     } else {
       return;
     }
@@ -147,69 +150,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     return TextEditingController(text: val);
   }
 
-  Future<void> _showMyDialog(int index) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Please Confirm'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: const <Widget>[
-                Text('Are you sure to remove the Item?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                'Confirm',
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-                if (widget.ck != '') {
-                  final uniqueKey = widget.dcrKey;
-                  deleteSingleGSPItem(uniqueKey, index);
-
-                  setState(() {});
-                } else {
-                  addedDcrGSPList.removeAt(index);
-                  setState(() {});
-                }
-                // print('Confirmed');
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.green),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  deleteSingleGSPItem(int rxDcrUniqueKey, int index) {
-    final box = Hive.box<DcrGSPDataModel>("selectedDcrGSP");
-
-    final Map<dynamic, DcrGSPDataModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == rxDcrUniqueKey) desiredKey = key;
-    });
-    box.delete(desiredKey);
-    addedDcrGSPList.removeAt(index);
-
-    setState(() {});
-  }
-
   _onItemTapped(int index) async {
     if (index == 0) {
       putAddedDcrGSPData();
@@ -217,7 +157,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       setState(() {
         _currentSelected = index;
       });
-    } else {}
+    }
 
     if (index == 2) {
       setState(() {
@@ -944,7 +884,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
               addedDcrGSPList = value;
-              calculatingTotalitemString();
+              itemString =
+                  DcrServices().calculatingGspItemString(addedDcrGSPList);
 
               setState(() {});
             },
@@ -974,7 +915,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
               addedDcrGSPList = value;
-              calculatingTotalitemString();
+              itemString =
+                  DcrServices().calculatingGspItemString(addedDcrGSPList);
 
               setState(() {});
             },
@@ -988,12 +930,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   }
 
   // Doctor PPM section..........................................
-
-  Future ppmOpenBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('dcrPpmListData');
-  }
 
   getDcrPpmData() async {
     List doctorPpmlist = await AllServices().getSyncSavedData('dcrPpmListData');
@@ -1009,7 +945,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
               addedDcrGSPList = value;
-              calculatingTotalitemString();
+              itemString =
+                  DcrServices().calculatingGspItemString(addedDcrGSPList);
 
               setState(() {});
             },
@@ -1050,7 +987,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
               addedDcrGSPList = value;
-              calculatingTotalitemString();
+              itemString =
+                  DcrServices().calculatingGspItemString(addedDcrGSPList);
 
               setState(() {});
             },
@@ -1060,112 +998,31 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     }
   }
 
-  calculatingTotalitemString() {
-    itemString = '';
-
-    if (addedDcrGSPList.isNotEmpty) {
-      for (var element in addedDcrGSPList) {
-        if (itemString == '') {
-          itemString =
-              '${element.giftId}|${element.quantity}|${element.giftType}';
-        } else {
-          itemString +=
-              '||${element.giftId}|${element.quantity}|${element.giftType}';
-        }
-
-        setState(() {});
-      }
-    } else {}
-  }
-
   cancalButton() {
     dcrString = "";
   }
 
-  submButton() {
-    if (dcrString.contains("|")) {
-      newString = dcrString.replaceAll(",", "|");
-      print(newString);
-    }
-    Navigator.pop(context);
-  }
-
   // Saved Added Gift, Sample, PPM to Hive
 
-  // Save Gift data to hive
-  Future addedSampleOpenBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('addedDcrSampletData');
-  }
-
   Future putAddedDcrGSPData() async {
-    List<DcrDataModel> doctorList = [];
     if (widget.ck != '') {
-      for (int i = 0; i <= addedDcrGSPList.length; i++) {
-        deleteDcrGSPItem(widget.dcrKey);
+      Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
 
-        setState(() {});
-      }
-
-      setState(() {});
-
-      Navigator.pop(context);
-
-      for (var d in addedDcrGSPList) {
-        final box = Boxes.selectedDcrGSP();
-
-        box.add(d);
-      }
+      gspBox.addAll(addedDcrGSPList);
     } else {
-      var doctor = DcrDataModel(
+      dcrBox.add(DcrDataModel(
           uiqueKey: widget.uniqueId,
           docName: widget.docName,
           docId: widget.docId,
           areaId: widget.areaId,
           areaName: widget.areaName,
-          address: 'address');
-      doctorList.add(doctor);
+          address: 'address'));
 
-      for (var dcr in doctorList) {
-        final box = Boxes.dcrUsers();
-        box.add(dcr);
-      }
-
-      for (var d in addedDcrGSPList) {
-        final box = Boxes.selectedDcrGSP();
-
-        box.add(d);
-      }
+      gspBox.addAll(addedDcrGSPList);
     }
   }
 
-  deleteDcrGSPItem(int id) {
-    final box = Hive.box<DcrGSPDataModel>("selectedDcrGSP");
-
-    final Map<dynamic, DcrGSPDataModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == widget.dcrKey) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
-
-  deleteDoctor(int id) {
-    final box = Hive.box<DcrDataModel>("selectedDcr");
-
-    final Map<dynamic, DcrDataModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == widget.dcrKey) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
-
   Future<dynamic> orderGSPSubmit() async {
-    final gspBox = Boxes.selectedDcrGSP();
-    final dcrBox = Boxes.dcrUsers();
-
     if (itemString != '') {
       Map<String, dynamic> dcrResponsedata = await DcrRepositories()
           .dcrGspSubmit(
@@ -1199,7 +1056,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                     )),
             (Route<dynamic> route) => false);
 
-        AllServices().toastMessage(
+        AllServices().toastMessageForSubmitData(
             "DCR Submitted\n${dcrResponsedata['ret_str']}",
             Colors.green.shade900,
             Colors.white,
@@ -1211,69 +1068,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         AllServices()
             .toastMessage("DCR Submit Failed", Colors.red, Colors.white, 16);
       }
-      // try {
-      //   final http.Response response = await http.post(
-      //     Uri.parse('${dmpathData!.submitUrl}api_dcr_submit/submit_data'),
-      //     headers: <String, String>{
-      //       'Content-Type': 'application/json; charset=UTF-8'
-      //     },
-      //     body: jsonEncode(
-      //       <String, dynamic>{
-      //         'cid': cid,
-      //         'user_id': userInfo!.userId,
-      //         'user_pass': userPassword,
-      //         'device_id': deviceId,
-      //         'doc_id': widget.docId,
-      //         'doc_area_id': widget.areaId,
-      //         'visit_with': dcrString,
-      //         "latitude": latitude,
-      //         'longitude': longitude,
-      //         "item_list_gsp": itemString,
-      //         "remarks": noteText,
-      //       },
-      //     ),
-      //   );
-      //   var orderInfo = json.decode(response.body);
-      //   String status = orderInfo['status'];
-      //   String ret_str = orderInfo['ret_str'];
-
-      //   if (status == "Success") {
-      //     for (int i = 0; i <= addedDcrGSPList.length; i++) {
-      //       deleteDcrGSPItem(widget.dcrKey);
-
-      //       setState(() {});
-      //     }
-
-      //     deleteDoctor(widget.dcrKey);
-
-      //     setState(() {});
-      //     if (!mounted) return;
-
-      //     Navigator.of(context).pushAndRemoveUntil(
-      //         MaterialPageRoute(
-      //             builder: (context) => MyHomePage(
-      //                   userName: userName,
-      //                   userId: userInfo!.userId,
-      //                   userPassword: userPassword ?? '',
-      //                 )),
-      //         (Route<dynamic> route) => false);
-
-      //     AllServices().toastMessage("DCR Submitted\n$ret_str",
-      //         Colors.green.shade900, Colors.white, 16);
-      //   } else {
-      //     setState(() {
-      //       _isLoading = true;
-      //     });
-      //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //         content: Text('Submit Failed'), backgroundColor: Colors.red));
-      //   }
-      // } on Exception catch (e) {
-      //   print(e);
-      //   setState(() {
-      //     _isLoading = true;
-      //   });
-      //   // throw Exception("Error on server");
-      // }
     } else {
       setState(() {
         _isLoading = true;
@@ -1284,6 +1078,54 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           ),
           backgroundColor: Colors.red));
     }
+  }
+
+  Future<void> _showMyDialog(int index) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Please Confirm'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: const <Widget>[
+                Text('Are you sure to remove the Item?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'Confirm',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                if (widget.ck != '') {
+                  Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
+                  addedDcrGSPList.removeAt(index);
+
+                  setState(() {});
+                } else {
+                  addedDcrGSPList.removeAt(index);
+                  setState(() {});
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

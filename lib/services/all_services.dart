@@ -97,6 +97,18 @@ class AllServices {
         fontSize: 16);
   }
 
+// This message for Submit data made by Md-Moniruzzaman, Reason: ToastGravity
+  void toastMessageForSubmitData(
+      String msg, Color backgroundColor, Color textColor, fontSize) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
+        fontSize: 16);
+  }
+
 // toast messages updated into RX for submitToastforphoto Only
 //===================================================================================================================================
 //==========================================SAMIRA========================================================================

@@ -33,7 +33,6 @@ class Boxes {
   }
 
   static deleteItemFromBoxTable(Box box, int id) {
-    // final box = Hive.box<DcrGSPDataModel>(tableName);
     box.toMap().forEach((key, value) {
       if (value.uiqueKey == id) {
         box.delete(key);

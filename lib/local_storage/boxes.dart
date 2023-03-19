@@ -32,6 +32,15 @@ class Boxes {
     return box;
   }
 
+  static deleteItemFromBoxTable(Box box, int id) {
+    // final box = Hive.box<DcrGSPDataModel>(tableName);
+    box.toMap().forEach((key, value) {
+      if (value.uiqueKey == id) {
+        box.delete(key);
+      }
+    });
+  }
+
   static clearBox() {
     Hive.openBox('data').then((value) => value.clear());
     Hive.openBox('syncItemData').then((value) => value.clear());

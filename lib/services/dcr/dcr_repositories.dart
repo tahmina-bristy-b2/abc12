@@ -244,6 +244,48 @@ class DcrRepositories {
 
     return dcrDiscussionGiftList;
   }
+
+  // ############################# dcr GSP submit ##################################
+
+  Future<Map<String, dynamic>> dcrGspSubmit(
+      String gspSubmitUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String deviceId,
+      String docId,
+      String areaId,
+      String dcrString,
+      double lat,
+      double lon,
+      String itemString,
+      String note) async {
+    Map<String, dynamic> dcrResponsedata = {};
+    try {
+      final response = await DcrDataProviders().gspSubmitDP(
+          gspSubmitUrl,
+          cid,
+          userId,
+          userPass,
+          deviceId,
+          docId,
+          areaId,
+          dcrString,
+          lat,
+          lon,
+          itemString,
+          note);
+      dcrResponsedata = json.decode(response.body);
+
+      if (dcrResponsedata.isNotEmpty) {
+        return dcrResponsedata;
+      }
+    } catch (e) {
+      print("dcrGspSubmit_errore: $e");
+    }
+
+    return dcrResponsedata;
+  }
 }
 
 

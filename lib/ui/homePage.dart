@@ -578,6 +578,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               .getSyncSavedData('dcrListData');
 
                                           if (dcrList.isNotEmpty) {
+                                            if (!mounted) return;
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -592,7 +593,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 Colors.white,
                                                 16);
                                           }
-                                          // SyncDcrtoHive().getData(context);
                                         },
                                         title: 'New DCR',
                                         sizeWidth: screenWidth,

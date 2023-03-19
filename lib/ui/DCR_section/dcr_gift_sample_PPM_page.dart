@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,15 +79,15 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   int dropDownNumber = 0;
   String noteText = '';
 
-  String? cid;
-  String? userPassword;
+  String? cid = '';
+  String? userPassword = '';
   String itemString = '';
   String userName = '';
   String startTime = '';
   String endTime = '';
   List visitedWith = [];
-  double? latitude;
-  double? longitude;
+  double? latitude = 0.0;
+  double? longitude = 0.0;
   String? deviceId = '';
   String? deviceBrand = '';
   String? deviceModel = '';
@@ -787,199 +788,105 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                       ),
                     ),
 
+                    // const Spacer(),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Column(
-                          children: [
-                            // const SizedBox(
-                            //   height: 5,
-                            // ),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  getDcrGitData();
-                                },
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 16,
-                                  width: screenWidth / 5.7,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 138, 201, 149),
-                                  ),
-                                  child: Center(
-                                    child: FittedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: const [
-                                          // Icon(Icons.add, color: Colors.white),
-                                          // SizedBox(width: 5),
-                                          Text(
-                                            'Gift',
-                                            style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 8, 15, 9),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        GestureDetector(
+                          onTap: () {
+                            getDcrGitData();
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 16,
+                            width: screenWidth / 5.7,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 138, 201, 149),
                             ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            //     ElevatedButton(
-                            //   onPressed: () {
-                            // getDcrSampleData();
-                            //   },
-                            //   style: ElevatedButton.styleFrom(
-                            //     fixedSize: Size(screenWidth / 4,
-                            //         MediaQuery.of(context).size.height / 16),
-                            //     primary:
-                            //         const Color.fromARGB(255, 55, 129, 167),
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius:
-                            //           BorderRadius.circular(10), // <-- Radius
-                            //     ),
-                            //   ),
-                            //   child: FittedBox(
-                            //     child: Row(
-                            //         mainAxisAlignment:
-                            //             MainAxisAlignment.center,
-                            //         children: const [
-                            //           Icon(Icons.add, color: Colors.white),
-                            //           SizedBox(width: 5),
-                            //           Text(
-                            //              'Sample',
-                            //             style: TextStyle(
-                            //               color: Colors.white,
-                            //               fontSize: 18,
-                            //             ),
-                            //           ),
-                            //         ]),
-                            //   ),
-                            // ),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  getDcrSampleData();
-                                },
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 16,
-                                  width: screenWidth / 4,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 138, 201, 149),
-                                  ),
-                                  child: Center(
-                                    child: FittedBox(
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            // Icon(Icons.add,
-                                            //     color: Colors.white),
-                                            // SizedBox(width: 5),
-                                            Text(
-                                              'Sample',
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 7, 14, 8),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                            ),
-                                          ]),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                getDcrPpmData();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(screenWidth / 4.8,
-                                    MediaQuery.of(context).size.height / 16),
-                                backgroundColor:
-                                    const Color.fromARGB(255, 138, 201, 149),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(10), // <-- Radius
-                                ),
-                              ),
+                            child: const Center(
                               child: FittedBox(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    // Icon(Icons.add, color: Colors.white),
-                                    // SizedBox(width: 5),
-                                    Text(
-                                      'PPM',
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 9, 19, 11),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                  ],
+                                child: Text(
+                                  'Gift',
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 8, 15, 9),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            getDcrSampleData();
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 16,
+                            width: screenWidth / 4,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 138, 201, 149),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Sample',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 7, 14, 8),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            getDcrPpmData();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(screenWidth / 4.8,
+                                MediaQuery.of(context).size.height / 16),
+                            backgroundColor:
+                                const Color.fromARGB(255, 138, 201, 149),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'PPM',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 9, 19, 11),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          ),
                         ),
                         dcrDiscussion == true
-                            ? Column(
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      getDcrDiscussionData();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      fixedSize: Size(
-                                          screenWidth / 4,
-                                          MediaQuery.of(context).size.height /
-                                              16),
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 138, 201, 149),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10), // <-- Radius
-                                      ),
-                                    ),
-                                    child: FittedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: const [
-                                          // Icon(Icons.add, color: Colors.white),
-                                          // SizedBox(width: 5),
-                                          Text(
-                                            'Discus.',
-                                            style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 7, 14, 8),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  getDcrDiscussionData();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(screenWidth / 4,
+                                      MediaQuery.of(context).size.height / 16),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 138, 201, 149),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // <-- Radius
                                   ),
-                                ],
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Discus.',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 7, 14, 8),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                ),
                               )
                             : Container()
                       ],
@@ -1021,24 +928,13 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             child: const Center(child: CircularProgressIndicator()));
   }
 
-// doctor gift section............................
-  Future giftOpenBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('dcrGiftListData');
-  }
-
   // dcr gift section...........................
   getDcrGitData() async {
-    giftOpenBox();
+    List doctorGiftlist =
+        await AllServices().getSyncSavedData('dcrGiftListData');
 
-    var mymap = box!.toMap().values.toList();
-
-    if (mymap.isEmpty) {
-      Fluttertoast.showToast(msg: "No Gift Found", backgroundColor: Colors.red);
-      doctorGiftlist.add('empty');
-    } else {
-      doctorGiftlist = mymap;
+    if (doctorGiftlist.isNotEmpty) {
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -1055,29 +951,20 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           ),
         ),
       );
+    } else {
+      AllServices()
+          .toastMessage('Dcr Gift List Empty!', Colors.red, Colors.white, 16);
     }
   }
 
   // doctor Sample section.......................................................
 
-  Future sampleOpenBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('dcrSampleListData');
-  }
-
   getDcrSampleData() async {
-    sampleOpenBox();
+    List doctorSamplelist =
+        await AllServices().getSyncSavedData('dcrSampleListData');
 
-    var mymap = box!.toMap().values.toList();
-
-    if (mymap.isEmpty) {
-      Fluttertoast.showToast(
-          msg: "No Sample Found", backgroundColor: Colors.red);
-      doctorSamplelist.add('empty');
-    } else {
-      doctorSamplelist = mymap;
-
+    if (doctorSamplelist.isNotEmpty) {
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -1094,6 +981,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           ),
         ),
       );
+    } else {
+      AllServices()
+          .toastMessage('Dcr Sample List Empty!', Colors.red, Colors.white, 16);
     }
   }
 
@@ -1106,16 +996,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   }
 
   getDcrPpmData() async {
-    ppmOpenBox();
+    List doctorPpmlist = await AllServices().getSyncSavedData('dcrPpmListData');
 
-    var mymap = box!.toMap().values.toList();
-
-    if (mymap.isEmpty) {
-      Fluttertoast.showToast(msg: "No PPM Found", backgroundColor: Colors.red);
-      doctorPpmlist.add('empty');
-    } else {
-      doctorPpmlist = mymap;
-
+    if (doctorPpmlist.isNotEmpty) {
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -1132,6 +1016,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           ),
         ),
       );
+    } else {
+      AllServices()
+          .toastMessage('Dcr PPM List Empty!', Colors.red, Colors.white, 16);
     }
   }
 //=====================Discussion ====================================================
@@ -1276,76 +1163,117 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   }
 
   Future<dynamic> orderGSPSubmit() async {
+    final gspBox = Boxes.selectedDcrGSP();
+    final dcrBox = Boxes.dcrUsers();
+
     if (itemString != '') {
-      // String a = '${dmpathData!.submitUrl}api_dcr_submit/submit_data';
-      // print(a);
-      // print(
-      //     "${dmpathData!.submitUrl}api_dcr_submit/submit_data?cid=$cid&user_id=${userInfo!.userId}&user_pass=$userPassword&device_id=$deviceId&doc_id=${widget.docId}&doc_area_id=${widget.areaId}&visit_with=$dcrString&latitude=$latitude&longitude=$longitude&item_list_gsp=$itemString&remarks=$noteText");
-      try {
-        final http.Response response = await http.post(
-          Uri.parse('${dmpathData!.submitUrl}api_dcr_submit/submit_data'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: jsonEncode(
-            <String, dynamic>{
-              'cid': cid,
-              'user_id': userInfo!.userId,
-              'user_pass': userPassword,
-              'device_id': deviceId,
-              'doc_id': widget.docId,
-              'doc_area_id': widget.areaId,
-              'visit_with': dcrString,
-              "latitude": latitude,
-              'longitude': longitude,
-              "item_list_gsp": itemString,
-              "remarks": noteText,
-            },
-          ),
-        );
-        // print(itemString);
-        // print(userId);
-        // print(userPassword);
-        // print(widget.docId);
-        var orderInfo = json.decode(response.body);
-        String status = orderInfo['status'];
-        String ret_str = orderInfo['ret_str'];
+      Map<String, dynamic> dcrResponsedata = await DcrRepositories()
+          .dcrGspSubmit(
+              dmpathData!.submitUrl,
+              cid!,
+              userId,
+              userPassword!,
+              deviceId!,
+              widget.docId,
+              widget.areaId,
+              dcrString,
+              latitude!,
+              longitude!,
+              itemString,
+              noteText);
 
-        if (status == "Success") {
-          for (int i = 0; i <= addedDcrGSPList.length; i++) {
-            deleteDcrGSPItem(widget.dcrKey);
-
-            setState(() {});
-          }
-
-          deleteDoctor(widget.dcrKey);
-
-          setState(() {});
-
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (context) => MyHomePage(
-                        userName: userName,
-                        userId: userInfo!.userId,
-                        userPassword: userPassword ?? '',
-                      )),
-              (Route<dynamic> route) => false);
-
-          _submitToastforOrder(ret_str);
-        } else {
-          setState(() {
-            _isLoading = true;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Submit Failed'), backgroundColor: Colors.red));
+      if (dcrResponsedata['status'] == "Success") {
+        if (dcrBox.isNotEmpty) {
+          Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
+          Boxes.deleteItemFromBoxTable(dcrBox, widget.dcrKey);
         }
-      } on Exception catch (e) {
-        print(e);
+
+        if (!mounted) return;
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                      userName: userName,
+                      userId: userInfo!.userId,
+                      userPassword: userPassword ?? '',
+                    )),
+            (Route<dynamic> route) => false);
+
+        AllServices().toastMessage(
+            "DCR Submitted\n${dcrResponsedata['ret_str']}",
+            Colors.green.shade900,
+            Colors.white,
+            16);
+      } else {
         setState(() {
           _isLoading = true;
         });
-        // throw Exception("Error on server");
+        AllServices()
+            .toastMessage("DCR Submit Failed", Colors.red, Colors.white, 16);
       }
+      // try {
+      //   final http.Response response = await http.post(
+      //     Uri.parse('${dmpathData!.submitUrl}api_dcr_submit/submit_data'),
+      //     headers: <String, String>{
+      //       'Content-Type': 'application/json; charset=UTF-8'
+      //     },
+      //     body: jsonEncode(
+      //       <String, dynamic>{
+      //         'cid': cid,
+      //         'user_id': userInfo!.userId,
+      //         'user_pass': userPassword,
+      //         'device_id': deviceId,
+      //         'doc_id': widget.docId,
+      //         'doc_area_id': widget.areaId,
+      //         'visit_with': dcrString,
+      //         "latitude": latitude,
+      //         'longitude': longitude,
+      //         "item_list_gsp": itemString,
+      //         "remarks": noteText,
+      //       },
+      //     ),
+      //   );
+      //   var orderInfo = json.decode(response.body);
+      //   String status = orderInfo['status'];
+      //   String ret_str = orderInfo['ret_str'];
+
+      //   if (status == "Success") {
+      //     for (int i = 0; i <= addedDcrGSPList.length; i++) {
+      //       deleteDcrGSPItem(widget.dcrKey);
+
+      //       setState(() {});
+      //     }
+
+      //     deleteDoctor(widget.dcrKey);
+
+      //     setState(() {});
+      //     if (!mounted) return;
+
+      //     Navigator.of(context).pushAndRemoveUntil(
+      //         MaterialPageRoute(
+      //             builder: (context) => MyHomePage(
+      //                   userName: userName,
+      //                   userId: userInfo!.userId,
+      //                   userPassword: userPassword ?? '',
+      //                 )),
+      //         (Route<dynamic> route) => false);
+
+      //     AllServices().toastMessage("DCR Submitted\n$ret_str",
+      //         Colors.green.shade900, Colors.white, 16);
+      //   } else {
+      //     setState(() {
+      //       _isLoading = true;
+      //     });
+      //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //         content: Text('Submit Failed'), backgroundColor: Colors.red));
+      //   }
+      // } on Exception catch (e) {
+      //   print(e);
+      //   setState(() {
+      //     _isLoading = true;
+      //   });
+      //   // throw Exception("Error on server");
+      // }
     } else {
       setState(() {
         _isLoading = true;
@@ -1356,16 +1284,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           ),
           backgroundColor: Colors.red));
     }
-  }
-
-  void _submitToastforOrder(String ret_str) {
-    Fluttertoast.showToast(
-        msg: "DCR Submitted\n$ret_str",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.green.shade900,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 }
 

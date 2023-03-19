@@ -1085,39 +1085,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
-                        print("object ${dmPathData!.doctorAddUrl}");
-                        print("cid ${cid}");
-                        print("userLoginInfo!.userId ${userLoginInfo!.userId}");
-                        print("userPassword ${userPassword}");
-                        print("widget.areaID ${widget.areaID}");
-                        print("widget.areaName ${widget.areaName}");
-                        print("nameController.text ${nameController.text}");
-                        print("dCgSelectedValue $dCgSelectedValue");
-                        print("docCtSelectedValue ${docCtSelectedValue}");
-                        print("docTypeSelectedValue ${docTypeSelectedValue}");
-                        print("docSpSelectedValue ${docSpSelectedValue}");
-                        print("degree ${"BCS|BRMP|CCD"}");
-                        print("chemist ${"pharmacy|pharmacy"}");
-                        print("address ${adressController.text}");
-                        print("thana ${thanaSelectedValue}");
-                        print("district ${districtSelectedValue}");
-                        print("object ${mobileController.text}");
-                        print(
-                            "marriage ${marriageDayController.text.toString()}");
-                        print(
-                            "docChild1 ${dobChild1Controller.text.toString()}");
-                        print(
-                            "dobChild2 ${dobChild2Controller.text.toString()}");
-                        print("collarSize ${collarSize}");
-                        print(
-                            "patientNumber ${patientNumController.text.toString()}");
-                        print("docId ${docIDController.text.toString()}");
-                        print("docName ${docNameController.text.toString()}");
-                        print(
-                            "docSpeciality ${docSpecialityController.text.toString()}");
-                        print(
-                            "docAdres ${docAddressController.text.toString()}");
-                        print("dob ${dobController.text.toString()}");
                         // print("object ${dmPathData!.doctorAddUrl}");
                         var a = await DcrRepositories().addDoctorR(
                             dmPathData!.doctorAddUrl,
@@ -1148,7 +1115,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             docAddressController.text.toString(),
                             "B42|B9|B46",
                             dobController.text.toString());
-                        print("object=====================$a");
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:

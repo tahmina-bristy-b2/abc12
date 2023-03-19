@@ -1092,10 +1092,16 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
+                        ///hashbo na kadbo
+
                         var a = await DcrRepositories().addDoctorR(
                             dmPathData!.doctorAddUrl,
                             cid,
+
+                            /// daran kichu haat lagayen na
                             userLoginInfo!.userId,
+
+                            ///code beyadobi kore
                             userPassword,
                             widget.areaID,
                             widget.areaName,
@@ -1122,6 +1128,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             "B42|B9|B46",
                             dobController.text.toString());
                         print("object=====================$a");
+
+                        ///code beyadobi kore
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:

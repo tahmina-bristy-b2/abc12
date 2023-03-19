@@ -42,14 +42,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController degreeController = TextEditingController();
-  // TextEditingController chemistIDController = TextEditingController();
   TextEditingController adressController = TextEditingController();
-  // TextEditingController thanaController = TextEditingController();
-  // TextEditingController districtController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController marriageDayController = TextEditingController();
-  // TextEditingController collarSizeController = TextEditingController();
   TextEditingController dobChild1Controller = TextEditingController();
   TextEditingController dobChild2Controller = TextEditingController();
   TextEditingController patientNumController = TextEditingController();
@@ -57,7 +53,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   TextEditingController docNameController = TextEditingController();
   TextEditingController docSpecialityController = TextEditingController();
   TextEditingController docAddressController = TextEditingController();
-  // TextEditingController nameController = TextEditingController();
+
   double screenHeight = 0.0;
   double screenWidth = 0.0;
   List<String> category = [];
@@ -1030,8 +1026,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             brandListString =
                                 widget.docSettings.resData.brandList[e].brandId;
                           } else {
-                            brandListString += '|' +
-                                widget.docSettings.resData.brandList[e].brandId;
+                            brandListString +=
+                                '|${widget.docSettings.resData.brandList[e].brandId}';
                           }
                         }
                         print("data========$brandListString");

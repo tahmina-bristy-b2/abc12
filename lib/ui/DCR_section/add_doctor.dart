@@ -1,17 +1,20 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
 import 'package:hive/hive.dart';
+
+import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 
 class DcotorInfoScreen extends StatefulWidget {
   final bool isEdit;
   final String areaName;
+  final String areaID;
   final Map? editDoctorInfo;
   final List customerList;
   final DocSettingsModel docSettings;
@@ -20,6 +23,7 @@ class DcotorInfoScreen extends StatefulWidget {
     Key? key,
     required this.isEdit,
     required this.areaName,
+    required this.areaID,
     this.editDoctorInfo,
     required this.customerList,
     required this.docSettings,
@@ -70,6 +74,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docSpSelectedValue = '_';
   String thanaSelectedValue = '_';
   String districtSelectedValue = '_';
+  String collarSize = '';
   List<DistThanaList> getThanaWithDist = [];
 
   // String cateGoriesSelectedValue = 'a';
@@ -714,6 +719,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               List<String> splittedDate =
                                   date.toString().split(' ');
                               dobController.text = splittedDate[0].toString();
+                              print(dobController.text);
                               // DateFormat.yMd().format(date);
                             },
                           );
@@ -753,6 +759,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   date.toString().split(' ');
                               marriageDayController.text =
                                   splittedDate[0].toString();
+                              print(marriageDayController.text);
                               // DateFormat.yMd().format(date);
                             },
                           );
@@ -775,13 +782,14 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                           ),
                         ),
                         isExpanded: true,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          collarSize = value!;
+                        },
                         value: widget.docSettings.resData.collarSizeList.first,
                         items:
                             widget.docSettings.resData.collarSizeList.isNotEmpty
                                 ? widget.docSettings.resData.collarSizeList.map(
                                     (String e) {
-                                      //print(e);
                                       return DropdownMenuItem(
                                         value: e,
                                         child: Text(e),
@@ -790,7 +798,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   ).toList()
                                 : collarSizeList.map(
                                     (String e) {
-                                      //print(e);
                                       return DropdownMenuItem(
                                         value: e,
                                         child: Text(e),
@@ -905,30 +912,31 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
 
                     child: TextField(
-                        controller: docIDController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                      controller: docIDController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Container(
-                                    height: screenHeight / 3,
-                                    width: screenWidth / 1,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Column(
-                                      children: [],
-                                    ),
-                                  ),
-                                );
-                              });
-                        }),
+                      ),
+                      // onTap: () {
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return AlertDialog(
+                      //           content: Container(
+                      //             height: screenHeight / 3,
+                      //             width: screenWidth / 1,
+                      //             decoration: BoxDecoration(
+                      //                 borderRadius:
+                      //                     BorderRadius.circular(15)),
+                      //             child: Column(
+                      //               children: [],
+                      //             ),
+                      //           ),
+                      //         );
+                      //       });
+                      // }
+                    ),
                   ),
                   //==========================================================4p Doctor Name row===============================================================
                   const Text("4p Doctor Name"),
@@ -1031,37 +1039,70 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
-                        // Map<String, dynamic> a = await DcrRepositories()
-                        //     .addDoctorR(
-                        //         dmPathData!.doctorAddUrl,
-                        //         cid,
-                        //         userLoginInfo!.userId,
-                        //         userPassword,
-                        //         areaId,
-                        //         areaName,
-                        //         doctorName,
-                        //         dCgSelectedValue,
-                        //         docCtSelectedValue,
-                        //         docTypeSelectedValue,
-                        //         docSpSelectedValue,
-                        //         degree,
-                        //         chemistId,
-                        //         draddress,
-                        //         thanaSelectedValue,
-                        //         districtSelectedValue,
-                        //         drMobile,
-                        //         marDay,
-                        //         child1,
-                        //         child2,
-                        //         collerSize,
-                        //         nop,
-                        //         fDrId,
-                        //         fDrName,
-                        //         fDrspecilty,
-                        //         fDocAddress,
-                        //         brand,
-                        //         dob);
-                        // print("object=====================$a");
+                        print("object ${dmPathData!.doctorAddUrl}");
+                        print("cid ${cid}");
+                        print("userLoginInfo!.userId ${userLoginInfo!.userId}");
+                        print("userPassword ${userPassword}");
+                        print("widget.areaID ${widget.areaID}");
+                        print("widget.areaName ${widget.areaName}");
+                        print("nameController.text ${nameController.text}");
+                        print("dCgSelectedValue $dCgSelectedValue");
+                        print("docCtSelectedValue ${docCtSelectedValue}");
+                        print("docTypeSelectedValue ${docTypeSelectedValue}");
+                        print("docSpSelectedValue ${docSpSelectedValue}");
+                        print("degree ${"BCS|BRMP|CCD"}");
+                        print("chemist ${"pharmacy|pharmacy"}");
+                        print("address ${adressController.text}");
+                        print("thana ${thanaSelectedValue}");
+                        print("district ${districtSelectedValue}");
+                        print("object ${mobileController.text}");
+                        print(
+                            "marriage ${marriageDayController.text.toString()}");
+                        print(
+                            "docChild1 ${dobChild1Controller.text.toString()}");
+                        print(
+                            "dobChild2 ${dobChild2Controller.text.toString()}");
+                        print("collarSize ${collarSize}");
+                        print(
+                            "patientNumber ${patientNumController.text.toString()}");
+                        print("docId ${docIDController.text.toString()}");
+                        print("docName ${docNameController.text.toString()}");
+                        print(
+                            "docSpeciality ${docSpecialityController.text.toString()}");
+                        print(
+                            "docAdres ${docAddressController.text.toString()}");
+                        print("dob ${dobController.text.toString()}");
+                        // print("object ${dmPathData!.doctorAddUrl}");
+                        var a = await DcrRepositories().addDoctorR(
+                            dmPathData!.doctorAddUrl,
+                            cid,
+                            userLoginInfo!.userId,
+                            userPassword,
+                            widget.areaID,
+                            widget.areaName,
+                            nameController.text.toString(),
+                            dCgSelectedValue,
+                            docCtSelectedValue,
+                            docTypeSelectedValue,
+                            docSpSelectedValue,
+                            "BCS|BRMP|CCD",
+                            "pharmacy|pharmacy",
+                            adressController.text.toString(),
+                            thanaSelectedValue,
+                            districtSelectedValue,
+                            mobileController.text.toString(),
+                            marriageDayController.text.toString(),
+                            dobChild1Controller.text.toString(),
+                            dobChild2Controller.text.toString(),
+                            collarSize,
+                            patientNumController.text.toString(),
+                            docIDController.text.toString(),
+                            docNameController.text.toString(),
+                            docSpecialityController.text.toString(),
+                            docAddressController.text.toString(),
+                            "B42|B9|B46",
+                            dobController.text.toString());
+                        print("object=====================$a");
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:

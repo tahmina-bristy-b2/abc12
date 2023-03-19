@@ -96,7 +96,7 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                     setState1(() {
                       _isLoading = false;
                     });
-                    // if (!mounted) return;
+                    if (!mounted) return;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -105,6 +105,7 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                           areaName: snapshot.data![index]['area_name'],
                           customerList: clientList,
                           docSettings: responseOfDocSettings,
+                          areaID: snapshot.data![index]['area_id'],
                         ),
                       ),
                     );

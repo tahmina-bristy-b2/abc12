@@ -1,18 +1,21 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
 import 'package:hive/hive.dart';
+
+import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 
 class DcotorInfoScreen extends StatefulWidget {
   final bool isEdit;
   final String areaName;
-  final String? docName;
-  final String? docID;
+  final String areaID;
+  final Map? editDoctorInfo;
   final List customerList;
   final DocSettingsModel docSettings;
 
@@ -20,8 +23,8 @@ class DcotorInfoScreen extends StatefulWidget {
     Key? key,
     required this.isEdit,
     required this.areaName,
-    this.docName,
-    this.docID,
+    required this.areaID,
+    this.editDoctorInfo,
     required this.customerList,
     required this.docSettings,
   }) : super(key: key);
@@ -73,6 +76,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docCtSelectedValue = '_';
   String docTypeSelectedValue = '_';
   String docSpSelectedValue = '_';
+  String thanaSelectedValue = '_';
+  String districtSelectedValue = '_';
+  String collarSize = '';
+  List<DistThanaList> getThanaWithDist = [];
 
   // String cateGoriesSelectedValue = 'a';
 
@@ -89,19 +96,49 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.isEdit) {
+      nameController.text = widget.editDoctorInfo!['doc_name'].toString();
       dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
+      docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
+      docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
+      docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+      districtSelectedValue =
+          widget.docSettings.resData.distThanaList.first.districtName;
+      getThanaWithDist = widget.docSettings.resData.distThanaList
+          .where((element) => element.districtName == districtSelectedValue)
+          .toList();
+
+      thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+      degree = widget.docSettings.resData.docDegreeList;
+      for (var element in widget.docSettings.resData.brandList) {
+        brandList.add(element.brandName);
+      }
+    } else {
+      dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
+      docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
+      docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
+      docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+      districtSelectedValue =
+          widget.docSettings.resData.distThanaList.first.districtName;
+      getThanaWithDist = widget.docSettings.resData.distThanaList
+          .where((element) => element.districtName == districtSelectedValue)
+          .toList();
+
+      thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+      degree = widget.docSettings.resData.docDegreeList;
+      for (var element in widget.docSettings.resData.brandList) {
+        brandList.add(element.brandName);
+      }
     }
-    // cateGoriesSelectedValue = widget.docSettings.resData.dCategoryList.first;
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
-    widget.docName != "" ? nameController.text = widget.docName.toString() : "";
-    category = widget.docSettings.resData.dCategoryList;
-    degree = widget.docSettings.resData.docDegreeList;
-    for (var element in widget.docSettings.resData.brandList) {
-      brandList.add(element.brandName);
-    }
+    //widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    //category = widget.docSettings.resData.dCategoryList;
 
+    // widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    // category = widget.docSettings.resData.dCategoryList;
+    // degree = widget.docSettings.resData.docDegreeList;
     // collarSizeList = widget.docSettings.resData.docDegreeList;
     // print("object=$collarSizeList");
 
@@ -110,7 +147,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     }
     // dropdownValueforCat = widget.docSettings.resData.dCategoryList.first;
     // customerNameList.add(widget.customerList["client_name"])
-    super.initState();
+    setState(() {});
   }
 
   @override
@@ -183,14 +220,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   isExpanded: true,
                                   onChanged: (String? value) {
                                     setState(() {
-                                      dCgSelectedValue == value!;
+                                      dCgSelectedValue = value!;
+                                      // print(dCgSelectedValue);
                                     });
                                   },
-                                  value: widget.docSettings.resData
-                                          .dCategoryList.isNotEmpty
-                                      ? widget.docSettings.resData.dCategoryList
-                                          .first
-                                      : dCgSelectedValue,
+                                  value: dCgSelectedValue,
                                   items: widget.docSettings.resData
                                           .dCategoryList.isNotEmpty
                                       ? widget.docSettings.resData.dCategoryList
@@ -234,11 +268,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                     });
                                   },
                                   // value: dropdownValue,
-                                  value: widget.docSettings.resData
-                                          .docCategoryList.isNotEmpty
-                                      ? widget.docSettings.resData
-                                          .docCategoryList.first
-                                      : dCgSelectedValue,
+                                  value: docCtSelectedValue,
                                   items: widget.docSettings.resData
                                           .docCategoryList.isNotEmpty
                                       ? widget
@@ -363,11 +393,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                     });
                                   },
                                   // value: dropdownValue,
-                                  value: widget.docSettings.resData.docTypeList
-                                          .isNotEmpty
-                                      ? widget
-                                          .docSettings.resData.docTypeList.first
-                                      : dCgSelectedValue,
+                                  value: docTypeSelectedValue,
                                   items: widget.docSettings.resData.docTypeList
                                           .isNotEmpty
                                       ? widget.docSettings.resData.docTypeList
@@ -410,12 +436,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       docSpSelectedValue = newValue!;
                                     });
                                   },
-                                  // value: dropdownValue,
-                                  value: widget.docSettings.resData
-                                          .docSpecialtyList.isNotEmpty
-                                      ? widget.docSettings.resData
-                                          .docSpecialtyList.first
-                                      : dCgSelectedValue,
+                                  value: docSpSelectedValue,
                                   items: widget.docSettings.resData
                                           .docSpecialtyList.isNotEmpty
                                       ? widget
@@ -599,16 +620,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               ),
                               isExpanded: true,
                               onChanged: (value) {},
-                              // value: dropdownValue,
-                              items: any.map(
-                                (String e) {
-                                  //print(e);
-                                  return DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  );
-                                },
-                              ).toList(),
+                              value: thanaSelectedValue,
+                              items: getThanaWithDist.first.thanaList.isNotEmpty
+                                  ? getThanaWithDist.first.thanaList
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.thanaName,
+                                          child: Text(e.thanaName)))
+                                      .toList()
+                                  : any.map<DropdownMenuItem<String>>(
+                                      (String e) {
+                                        //print(e);
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.toString()),
+                                        );
+                                      },
+                                    ).toList(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 // fontSize: 16,
@@ -630,17 +657,41 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ),
                               isExpanded: true,
-                              onChanged: (value) {},
-                              // value: dropdownValue,
-                              items: any.map(
-                                (String e) {
-                                  //print(e);
-                                  return DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  );
-                                },
-                              ).toList(),
+                              onChanged: (String? newValue) {
+                                districtSelectedValue = newValue!;
+                                getThanaWithDist = widget
+                                    .docSettings.resData.distThanaList
+                                    .where((element) =>
+                                        element.districtName == newValue)
+                                    .toList();
+
+                                thanaSelectedValue =
+                                    getThanaWithDist.first.thanaList.isNotEmpty
+                                        ? getThanaWithDist
+                                            .first.thanaList.first.thanaName
+                                        : '_';
+                                setState(() {});
+                                // getThana.first.thanaList.forEach((element) {
+                                //   print(element.thanaName);
+                                // });
+                              },
+                              value: districtSelectedValue,
+                              items: widget.docSettings.resData.distThanaList
+                                      .isNotEmpty
+                                  ? widget.docSettings.resData.distThanaList
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.districtName,
+                                          child: Text(e.districtName)))
+                                      .toList()
+                                  : any.map<DropdownMenuItem<String>>(
+                                      (String e) {
+                                        //print(e);
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.toString()),
+                                        );
+                                      },
+                                    ).toList(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 // fontSize: 16,
@@ -699,6 +750,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               List<String> splittedDate =
                                   date.toString().split(' ');
                               dobController.text = splittedDate[0].toString();
+                              print(dobController.text);
                               // DateFormat.yMd().format(date);
                             },
                           );
@@ -738,6 +790,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   date.toString().split(' ');
                               marriageDayController.text =
                                   splittedDate[0].toString();
+                              print(marriageDayController.text);
                               // DateFormat.yMd().format(date);
                             },
                           );
@@ -760,13 +813,14 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                           ),
                         ),
                         isExpanded: true,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          collarSize = value!;
+                        },
                         value: widget.docSettings.resData.collarSizeList.first,
                         items:
                             widget.docSettings.resData.collarSizeList.isNotEmpty
                                 ? widget.docSettings.resData.collarSizeList.map(
                                     (String e) {
-                                      //print(e);
                                       return DropdownMenuItem(
                                         value: e,
                                         child: Text(e),
@@ -775,7 +829,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   ).toList()
                                 : collarSizeList.map(
                                     (String e) {
-                                      //print(e);
                                       return DropdownMenuItem(
                                         value: e,
                                         child: Text(e),
@@ -890,30 +943,31 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
 
                     child: TextField(
-                        controller: docIDController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                      controller: docIDController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Container(
-                                    height: screenHeight / 3,
-                                    width: screenWidth / 1,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Column(
-                                      children: [],
-                                    ),
-                                  ),
-                                );
-                              });
-                        }),
+                      ),
+                      // onTap: () {
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return AlertDialog(
+                      //           content: Container(
+                      //             height: screenHeight / 3,
+                      //             width: screenWidth / 1,
+                      //             decoration: BoxDecoration(
+                      //                 borderRadius:
+                      //                     BorderRadius.circular(15)),
+                      //             child: Column(
+                      //               children: [],
+                      //             ),
+                      //           ),
+                      //         );
+                      //       });
+                      // }
+                    ),
                   ),
                   //==========================================================4p Doctor Name row===============================================================
                   const Text("4p Doctor Name"),
@@ -1030,17 +1084,80 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
-                        // var a = DcrRepositories().addDoctorR('${dmPathData!.doctorAddUrl}', cid, userId, userPassword, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob);
-                        // print("object=====================$a");
+                      onPressed: () async {
+                        print("object ${dmPathData!.doctorAddUrl}");
+                        print("cid ${cid}");
+                        print("userLoginInfo!.userId ${userLoginInfo!.userId}");
+                        print("userPassword ${userPassword}");
+                        print("widget.areaID ${widget.areaID}");
+                        print("widget.areaName ${widget.areaName}");
+                        print("nameController.text ${nameController.text}");
+                        print("dCgSelectedValue $dCgSelectedValue");
+                        print("docCtSelectedValue ${docCtSelectedValue}");
+                        print("docTypeSelectedValue ${docTypeSelectedValue}");
+                        print("docSpSelectedValue ${docSpSelectedValue}");
+                        print("degree ${"BCS|BRMP|CCD"}");
+                        print("chemist ${"pharmacy|pharmacy"}");
+                        print("address ${adressController.text}");
+                        print("thana ${thanaSelectedValue}");
+                        print("district ${districtSelectedValue}");
+                        print("object ${mobileController.text}");
+                        print(
+                            "marriage ${marriageDayController.text.toString()}");
+                        print(
+                            "docChild1 ${dobChild1Controller.text.toString()}");
+                        print(
+                            "dobChild2 ${dobChild2Controller.text.toString()}");
+                        print("collarSize ${collarSize}");
+                        print(
+                            "patientNumber ${patientNumController.text.toString()}");
+                        print("docId ${docIDController.text.toString()}");
+                        print("docName ${docNameController.text.toString()}");
+                        print(
+                            "docSpeciality ${docSpecialityController.text.toString()}");
+                        print(
+                            "docAdres ${docAddressController.text.toString()}");
+                        print("dob ${dobController.text.toString()}");
+                        // print("object ${dmPathData!.doctorAddUrl}");
+                        var a = await DcrRepositories().addDoctorR(
+                            dmPathData!.doctorAddUrl,
+                            "SKF",
+                            userLoginInfo!.userId,
+                            "1900",
+                            widget.areaID,
+                            widget.areaName,
+                            nameController.text.toString(),
+                            dCgSelectedValue,
+                            docCtSelectedValue,
+                            docTypeSelectedValue,
+                            docSpSelectedValue,
+                            "BCS|BRMP|CCD",
+                            "pharmacy|pharmacy",
+                            adressController.text.toString(),
+                            thanaSelectedValue,
+                            districtSelectedValue,
+                            mobileController.text.toString(),
+                            marriageDayController.text.toString(),
+                            dobChild1Controller.text.toString(),
+                            dobChild2Controller.text.toString(),
+                            collarSize,
+                            patientNumController.text.toString(),
+                            docIDController.text.toString(),
+                            docNameController.text.toString(),
+                            docSpecialityController.text.toString(),
+                            docAddressController.text.toString(),
+                            "B42|B9|B46",
+                            dobController.text.toString());
+                        print("object=====================$a");
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:
                               Size(screenWidth / 1.2, screenHeight * 0.06),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Color.fromARGB(255, 4, 60, 105)),
-                      child: Text("Submit"),
+                          backgroundColor:
+                              const Color.fromARGB(255, 4, 60, 105)),
+                      child: const Text("Submit"),
                     ),
                   )
                 ],

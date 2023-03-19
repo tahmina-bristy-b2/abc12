@@ -67,6 +67,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docCtSelectedValue = '_';
   String docTypeSelectedValue = '_';
   String docSpSelectedValue = '_';
+  String thanaSelectedValue = '_';
+  String districtSelectedValue = '_';
+  List<DistThanaList> getThanaWithDist = [];
 
   // String cateGoriesSelectedValue = 'a';
 
@@ -90,11 +93,25 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
       docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
       docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+      districtSelectedValue =
+          widget.docSettings.resData.distThanaList.first.districtName;
+      getThanaWithDist = widget.docSettings.resData.distThanaList
+          .where((element) => element.districtName == districtSelectedValue)
+          .toList();
+
+      thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
     } else {
       dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
       docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
       docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
       docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+      districtSelectedValue =
+          widget.docSettings.resData.distThanaList.first.districtName;
+      getThanaWithDist = widget.docSettings.resData.distThanaList
+          .where((element) => element.districtName == districtSelectedValue)
+          .toList();
+
+      thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
     }
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
@@ -565,16 +582,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                               ),
                               isExpanded: true,
                               onChanged: (value) {},
-                              // value: dropdownValue,
-                              items: any.map(
-                                (String e) {
-                                  //print(e);
-                                  return DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  );
-                                },
-                              ).toList(),
+                              value: thanaSelectedValue,
+                              items: getThanaWithDist.isNotEmpty
+                                  ? getThanaWithDist.first.thanaList
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.thanaName,
+                                          child: Text(e.thanaName)))
+                                      .toList()
+                                  : any.map<DropdownMenuItem<String>>(
+                                      (String e) {
+                                        //print(e);
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.toString()),
+                                        );
+                                      },
+                                    ).toList(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 // fontSize: 16,
@@ -596,17 +619,38 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ),
                               isExpanded: true,
-                              onChanged: (value) {},
-                              // value: dropdownValue,
-                              items: any.map(
-                                (String e) {
-                                  //print(e);
-                                  return DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  );
-                                },
-                              ).toList(),
+                              onChanged: (String? newValue) {
+                                districtSelectedValue = newValue!;
+                                getThanaWithDist = widget
+                                    .docSettings.resData.distThanaList
+                                    .where((element) =>
+                                        element.districtName == newValue)
+                                    .toList();
+
+                                thanaSelectedValue = getThanaWithDist
+                                    .first.thanaList.first.thanaName;
+                                setState(() {});
+                                // getThana.first.thanaList.forEach((element) {
+                                //   print(element.thanaName);
+                                // });
+                              },
+                              value: districtSelectedValue,
+                              items: widget.docSettings.resData.distThanaList
+                                      .isNotEmpty
+                                  ? widget.docSettings.resData.distThanaList
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.districtName,
+                                          child: Text(e.districtName)))
+                                      .toList()
+                                  : any.map<DropdownMenuItem<String>>(
+                                      (String e) {
+                                        //print(e);
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.toString()),
+                                        );
+                                      },
+                                    ).toList(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 // fontSize: 16,

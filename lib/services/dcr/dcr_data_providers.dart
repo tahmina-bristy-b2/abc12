@@ -110,6 +110,8 @@ class DcrDataProviders {
       String brand,
       String dob) async {
     final http.Response response;
+    print(
+        "object=${DcrApis.doctorAddUrl(addUrl, skf, userId, password, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob)}");
     response = await http.get(Uri.parse(DcrApis.doctorAddUrl(
         addUrl,
         skf,

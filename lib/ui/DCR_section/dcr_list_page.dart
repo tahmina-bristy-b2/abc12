@@ -302,7 +302,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                       setState(() {
                                         _isLoading = false;
                                       });
-                                      // if (!mounted) return;
+                                      if (!mounted) return;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -313,6 +313,8 @@ class _DcrListPageState extends State<DcrListPage> {
                                             editDoctorInfo: foundUsers[index],
                                             customerList: clientList,
                                             docSettings: responseOfDocSettings,
+                                            areaID: foundUsers[index]
+                                                ['area_id'],
                                           ),
                                         ),
                                       );

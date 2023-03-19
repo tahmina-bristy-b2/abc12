@@ -1,3 +1,4 @@
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,42 +61,6 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
     super.dispose();
   }
 
-  void runFilter(String enteredKeyword) {
-    foundUsers = widget.doctorData;
-    List results = [];
-
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foundUsers;
-      // print(results);
-    } else {
-      var starts = foundUsers
-          .where((s) => s['doc_name']
-              .toLowerCase()
-              .startsWith(enteredKeyword.toLowerCase()))
-          .toList();
-
-      var contains = foundUsers
-          .where((s) =>
-              s['doc_name']
-                  .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) &&
-              !s['doc_name']
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) =>
-            a['doc_name'].toLowerCase().compareTo(b['doc_name'].toLowerCase()));
-
-      results = [...starts, ...contains];
-    }
-
-    // Refresh the UI
-    setState(() {
-      foundUsers = results;
-    });
-  }
-
   int _doctorCOunter() {
     setState(() {
       widget.counterForDoctorList++;
@@ -121,7 +86,12 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                onChanged: (value) => runFilter(value),
+                onChanged: (value) {
+                  setState(() {
+                    foundUsers = AllServices().searchDynamicMethod(
+                        value, widget.doctorData, "doc_name");
+                  });
+                },
                 controller: searchController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
@@ -132,8 +102,10 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                       : IconButton(
                           onPressed: () {
                             searchController.clear();
-                            runFilter('');
-                            setState(() {});
+                            setState(() {
+                              foundUsers = AllServices().searchDynamicMethod(
+                                  "", widget.doctorData, "doc_name");
+                            });
                           },
                           icon: const Icon(
                             Icons.clear,
@@ -222,9 +194,7 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            '${foundUsers[index]['area_name']}' +
-                                                '(${foundUsers[index]['area_id']}) ,' +
-                                                ' ${foundUsers[index]['address']}',
+                                            '${foundUsers[index]['area_name']}(${foundUsers[index]['area_id']}) , ${foundUsers[index]['address']}',
                                             style: const TextStyle(
                                               color: Colors.black,
                                               // fontSize: 19,

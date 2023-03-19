@@ -726,7 +726,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 cid: cid,
                                                 userId: userId,
                                                 userPassword: userPassword,
-                                                report_url:
+                                                reportUrl:
                                                     dmpathData!.reportRxUrl,
                                               ),
                                             ),

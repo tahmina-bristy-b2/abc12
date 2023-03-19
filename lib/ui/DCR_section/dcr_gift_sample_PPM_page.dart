@@ -52,7 +52,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   final TextEditingController timefieldController = TextEditingController();
   final TextEditingController paymentfieldController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
-  final _quantityController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   UserLoginModel? userInfo;

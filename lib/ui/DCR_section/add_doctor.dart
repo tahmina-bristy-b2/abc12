@@ -70,6 +70,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docSpSelectedValue = '_';
   String thanaSelectedValue = '_';
   String districtSelectedValue = '_';
+
+  String thanaSelectedId = '';
+  String districtSelectedId = '';
+
   List<DistThanaList> getThanaWithDist = [];
 
   // String cateGoriesSelectedValue = 'a';
@@ -101,6 +105,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           .toList();
 
       thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+
+      thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
+      districtSelectedId =
+          widget.docSettings.resData.distThanaList.first.districtId;
     } else {
       dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
       docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
@@ -113,6 +121,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           .toList();
 
       thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+
+      thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
+      districtSelectedId =
+          widget.docSettings.resData.distThanaList.first.districtId;
     }
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
@@ -583,7 +595,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ),
                               isExpanded: true,
-                              onChanged: (value) {},
+                              onChanged: (String? newValue) {
+                                thanaSelectedValue = newValue!;
+
+                                setState(() {});
+                              },
                               value: thanaSelectedValue,
                               items: getThanaWithDist.first.thanaList.isNotEmpty
                                   ? getThanaWithDist.first.thanaList
@@ -635,9 +651,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                             .first.thanaList.first.thanaName
                                         : '_';
                                 setState(() {});
-                                // getThana.first.thanaList.forEach((element) {
-                                //   print(element.thanaName);
-                                // });
                               },
                               value: districtSelectedValue,
                               items: widget.docSettings.resData.distThanaList
@@ -1031,6 +1044,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
+                        readyForData();
                         // Map<String, dynamic> a = await DcrRepositories()
                         //     .addDoctorR(
                         //         dmPathData!.doctorAddUrl,
@@ -1080,6 +1094,17 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         ),
       ),
     );
+  }
+
+  readyForData() {
+    districtSelectedId = getThanaWithDist.first.districtId;
+    for (var element in getThanaWithDist.first.thanaList) {
+      if (element.thanaName == thanaSelectedValue) {
+        thanaSelectedId = element.thanaId;
+      }
+    }
+
+    setState(() {});
   }
 
   cancalButton() {

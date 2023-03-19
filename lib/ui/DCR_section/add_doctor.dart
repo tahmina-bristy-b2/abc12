@@ -193,8 +193,18 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Territory : ${widget.areaName}"),
-                  const Text("Name : "),
+                  Text(
+                    "Territory : ${widget.areaName}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "Name  ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                     child: TextField(
@@ -216,7 +226,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Category"),
+                            const Text(
+                              "Category",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
@@ -260,7 +273,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Doctor Category"),
+                            const Text(
+                              "Doctor Category",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
@@ -385,7 +401,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Doctor Type"),
+                            const Text(
+                              "Doctor Type",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
@@ -429,7 +448,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Speciality"),
+                            const Text(
+                              "Speciality",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
@@ -475,7 +497,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   //==========================================================Degree Row===============================================================
 
-                  const Text(" Degree"),
+                  const Text(
+                    " Degree",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   GFMultiSelect(
                     //initialSelectedItemsIndex: [0],
                     items: widget.docSettings.resData.docDegreeList.isNotEmpty
@@ -545,7 +570,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   //==========================================================Chemist Row===============================================================
 
-                  const Text("Chemist ID "),
+                  const Text(
+                    "Chemist ID ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   GFMultiSelect(
                     items: customerNameList,
                     onSelect: (value) {
@@ -596,7 +624,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     inactiveBorderColor: Colors.grey,
                   ),
                   //==========================================================Address row===============================================================
-                  const Text("Address"),
+                  const Text(
+                    "Address",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                     child: TextField(
@@ -616,7 +647,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Thana"),
+                          const Text(
+                            "Thana",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           SizedBox(
                             width: screenWidth / 2.1,
                             child: DropdownButtonFormField(
@@ -654,7 +688,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("District"),
+                          const Text(
+                            "District",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           SizedBox(
                             width: screenWidth / 2.1,
                             child: DropdownButtonFormField(
@@ -711,7 +748,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
 
                   //==========================================================Mobile Number row===============================================================
-                  const Text("Mobile Number"),
+                  const Text(
+                    "Mobile Number",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -727,7 +767,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================DOB row===============================================================
-                  const Text("DOB"),
+                  const Text(
+                    "DOB",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -766,7 +809,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================Marriage Day row===============================================================
-                  const Text("Marriage Day"),
+                  const Text(
+                    "Marriage Day",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -806,7 +852,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================Collar Size row===============================================================
-                  const Text("Collar Size"),
+                  const Text(
+                    "Collar Size",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -850,7 +899,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================DOB of CHild 1 row===============================================================
-                  const Text("DOB of CHild 1 "),
+                  const Text(
+                    "DOB of CHild 1 ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -889,7 +941,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================DOB of CHild 2 row===============================================================
-                  const Text("DOB of CHild 2 "),
+                  const Text(
+                    "DOB of CHild 2 ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -928,7 +983,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================No of patient per day  row===============================================================
-                  const Text("No of patient per day"),
+                  const Text(
+                    "No of patient per day",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -944,7 +1002,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================4p Doctor ID row===============================================================
-                  const Text("4p Doctor ID"),
+                  const Text(
+                    "4p Doctor ID",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -977,7 +1038,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================4p Doctor Name row===============================================================
-                  const Text("4p Doctor Name"),
+                  const Text(
+                    "4p Doctor Name",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -992,7 +1056,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================4p Doctor Speciality row===============================================================
-                  const Text("4p Doctor Speciality"),
+                  const Text(
+                    "4p Doctor Speciality",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -1007,7 +1074,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================4p Doctor Address row===============================================================
-                  const Text("4p Doctor Address"),
+                  const Text(
+                    "4p Doctor Address",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -1023,7 +1093,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
 
                   //==========================================================Brand===============================================================
-                  const Text("Brand"),
+                  const Text(
+                    "Brand",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
 
                   GFMultiSelect(
                     items: brandList,
@@ -1041,7 +1114,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 '|${widget.docSettings.resData.brandList[e].brandId}';
                           }
                         }
-                        print("data========$brandListString");
+                        //print("data========$brandListString");
                       }
                       // dcrString = '';
                       // if (value.isNotEmpty) {

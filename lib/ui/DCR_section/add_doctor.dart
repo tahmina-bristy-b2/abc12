@@ -1167,35 +1167,37 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       onPressed: () async {
                         ///hashbo na kadbo
 
-                        var a = await DcrRepositories().addDoctorR(
-                            dmPathData!.doctorAddUrl,
-                            cid,
-                            userLoginInfo!.userId,
-                            userPassword,
-                            widget.areaID,
-                            widget.areaName,
-                            nameController.text.toString(),
-                            dCgSelectedValue,
-                            docCtSelectedValue,
-                            docTypeSelectedValue,
-                            docSpSelectedValue,
-                            degreeList,
-                            "pharmacy|pharmacy",
-                            adressController.text.toString(),
-                            thanaSelectedValue,
-                            districtSelectedValue,
-                            mobileController.text.toString(),
-                            marriageDayController.text.toString(),
-                            dobChild1Controller.text.toString(),
-                            dobChild2Controller.text.toString(),
-                            collarSize,
-                            patientNumController.text.toString(),
-                            docIDController.text.toString(),
-                            docNameController.text.toString(),
-                            docSpecialityController.text.toString(),
-                            docAddressController.text.toString(),
-                            brandListString,
-                            dobController.text.toString());
+                        Map<String, dynamic> a = await DcrRepositories()
+                            .addDoctorR(
+                                dmPathData!.doctorAddUrl,
+                                cid,
+                                userLoginInfo!.userId,
+                                userPassword,
+                                widget.areaID,
+                                widget.areaName,
+                                nameController.text.toString(),
+                                dCgSelectedValue,
+                                docCtSelectedValue,
+                                docTypeSelectedValue,
+                                docSpSelectedValue,
+                                degreeList,
+                                "pharmacy|pharmacy",
+                                adressController.text.toString(),
+                                thanaSelectedValue,
+                                districtSelectedValue,
+                                mobileController.text.toString(),
+                                marriageDayController.text.toString(),
+                                dobChild1Controller.text.toString(),
+                                dobChild2Controller.text.toString(),
+                                collarSize,
+                                patientNumController.text.toString(),
+                                docIDController.text.toString(),
+                                docNameController.text.toString(),
+                                docSpecialityController.text.toString(),
+                                docAddressController.text.toString(),
+                                brandListString,
+                                dobController.text.toString());
+
                         print("object=====================$a");
 
                         ///code beyadobi kore

@@ -75,6 +75,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docSpSelectedValue = '_';
   String thanaSelectedValue = '_';
   String districtSelectedValue = '_';
+
+  String thanaSelectedId = '';
+  String districtSelectedId = '';
+
   String collarSize = '';
   List<DistThanaList> getThanaWithDist = [];
 
@@ -117,6 +121,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           .toList();
 
       thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+
+      thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
+      districtSelectedId =
+          widget.docSettings.resData.distThanaList.first.districtId;
       degree = widget.docSettings.resData.docDegreeList;
       for (var element in widget.docSettings.resData.brandList) {
         brandList.add(element.brandName);
@@ -133,6 +141,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           .toList();
 
       thanaSelectedValue = getThanaWithDist.first.thanaList.first.thanaName;
+
+      thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
+      districtSelectedId =
+          widget.docSettings.resData.distThanaList.first.districtId;
       degree = widget.docSettings.resData.docDegreeList;
       for (var element in widget.docSettings.resData.brandList) {
         brandList.add(element.brandName);
@@ -660,7 +672,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ),
                               isExpanded: true,
-                              onChanged: (value) {},
+                              onChanged: (String? newValue) {
+                                thanaSelectedValue = newValue!;
+
+                                setState(() {});
+                              },
                               value: thanaSelectedValue,
                               items: getThanaWithDist.first.thanaList.isNotEmpty
                                   ? getThanaWithDist.first.thanaList
@@ -715,9 +731,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                             .first.thanaList.first.thanaName
                                         : '_';
                                 setState(() {});
-                                // getThana.first.thanaList.forEach((element) {
-                                //   print(element.thanaName);
-                                // });
                               },
                               value: districtSelectedValue,
                               items: widget.docSettings.resData.distThanaList
@@ -1165,37 +1178,38 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
-                        ///hashbo na kadbo
+                        readyForData();
 
-                        var a = await DcrRepositories().addDoctorR(
-                            dmPathData!.doctorAddUrl,
-                            cid,
-                            userLoginInfo!.userId,
-                            userPassword,
-                            widget.areaID,
-                            widget.areaName,
-                            nameController.text.toString(),
-                            dCgSelectedValue,
-                            docCtSelectedValue,
-                            docTypeSelectedValue,
-                            docSpSelectedValue,
-                            degreeList,
-                            "pharmacy|pharmacy",
-                            adressController.text.toString(),
-                            thanaSelectedValue,
-                            districtSelectedValue,
-                            mobileController.text.toString(),
-                            marriageDayController.text.toString(),
-                            dobChild1Controller.text.toString(),
-                            dobChild2Controller.text.toString(),
-                            collarSize,
-                            patientNumController.text.toString(),
-                            docIDController.text.toString(),
-                            docNameController.text.toString(),
-                            docSpecialityController.text.toString(),
-                            docAddressController.text.toString(),
-                            brandListString,
-                            dobController.text.toString());
+                        Map<String, dynamic> a = await DcrRepositories()
+                            .addDoctorR(
+                                dmPathData!.doctorAddUrl,
+                                cid,
+                                userLoginInfo!.userId,
+                                userPassword,
+                                widget.areaID,
+                                widget.areaName,
+                                nameController.text.toString(),
+                                dCgSelectedValue,
+                                docCtSelectedValue,
+                                docTypeSelectedValue,
+                                docSpSelectedValue,
+                                degreeList,
+                                "pharmacy|pharmacy",
+                                adressController.text.toString(),
+                                thanaSelectedId,
+                                districtSelectedId,
+                                mobileController.text.toString(),
+                                marriageDayController.text.toString(),
+                                dobChild1Controller.text.toString(),
+                                dobChild2Controller.text.toString(),
+                                collarSize,
+                                patientNumController.text.toString(),
+                                docIDController.text.toString(),
+                                docNameController.text.toString(),
+                                docSpecialityController.text.toString(),
+                                docAddressController.text.toString(),
+                                brandListString,
+                                dobController.text.toString());
                         print("object=====================$a");
 
                         ///code beyadobi kore
@@ -1217,6 +1231,17 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         ),
       ),
     );
+  }
+
+  readyForData() {
+    districtSelectedId = getThanaWithDist.first.districtId;
+    for (var element in getThanaWithDist.first.thanaList) {
+      if (element.thanaName == thanaSelectedValue) {
+        thanaSelectedId = element.thanaId;
+      }
+    }
+
+    setState(() {});
   }
 
   cancalButton() {

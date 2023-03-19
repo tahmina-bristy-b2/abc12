@@ -11,8 +11,7 @@ import 'package:MREPORTING/services/all_services.dart';
 class DcotorInfoScreen extends StatefulWidget {
   final bool isEdit;
   final String areaName;
-  final String? docName;
-  final String? docID;
+  final Map? editDoctorInfo;
   final List customerList;
   final DocSettingsModel docSettings;
 
@@ -20,8 +19,7 @@ class DcotorInfoScreen extends StatefulWidget {
     Key? key,
     required this.isEdit,
     required this.areaName,
-    this.docName,
-    this.docID,
+    this.editDoctorInfo,
     required this.customerList,
     required this.docSettings,
   }) : super(key: key);
@@ -85,15 +83,25 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.isEdit) {
+      nameController.text = widget.editDoctorInfo!['doc_name'].toString();
       dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
+      docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
+      docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
+      docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
+    } else {
+      dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
+      docCtSelectedValue = widget.docSettings.resData.docCategoryList.first;
+      docTypeSelectedValue = widget.docSettings.resData.docTypeList.first;
+      docSpSelectedValue = widget.docSettings.resData.docSpecialtyList.first;
     }
     // cateGoriesSelectedValue = widget.docSettings.resData.dCategoryList.first;
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
-    widget.docName != "" ? nameController.text = widget.docName.toString() : "";
-    category = widget.docSettings.resData.dCategoryList;
-    degree = widget.docSettings.resData.docDegreeList;
+    // widget.docName != "" ? nameController.text = widget.docName.toString() : "";
+    // category = widget.docSettings.resData.dCategoryList;
+    // degree = widget.docSettings.resData.docDegreeList;
     // collarSizeList = widget.docSettings.resData.docDegreeList;
     // print("object=$collarSizeList");
 
@@ -102,7 +110,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     }
     // dropdownValueforCat = widget.docSettings.resData.dCategoryList.first;
     // customerNameList.add(widget.customerList["client_name"])
-    super.initState();
+    setState(() {});
   }
 
   @override
@@ -175,14 +183,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   isExpanded: true,
                                   onChanged: (String? value) {
                                     setState(() {
-                                      dCgSelectedValue == value!;
+                                      dCgSelectedValue = value!;
                                     });
                                   },
-                                  value: widget.docSettings.resData
-                                          .dCategoryList.isNotEmpty
-                                      ? widget.docSettings.resData.dCategoryList
-                                          .first
-                                      : dCgSelectedValue,
+                                  value: dCgSelectedValue,
                                   items: widget.docSettings.resData
                                           .dCategoryList.isNotEmpty
                                       ? widget.docSettings.resData.dCategoryList
@@ -226,11 +230,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                     });
                                   },
                                   // value: dropdownValue,
-                                  value: widget.docSettings.resData
-                                          .docCategoryList.isNotEmpty
-                                      ? widget.docSettings.resData
-                                          .docCategoryList.first
-                                      : dCgSelectedValue,
+                                  value: docCtSelectedValue,
                                   items: widget.docSettings.resData
                                           .docCategoryList.isNotEmpty
                                       ? widget
@@ -355,11 +355,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                     });
                                   },
                                   // value: dropdownValue,
-                                  value: widget.docSettings.resData.docTypeList
-                                          .isNotEmpty
-                                      ? widget
-                                          .docSettings.resData.docTypeList.first
-                                      : dCgSelectedValue,
+                                  value: docTypeSelectedValue,
                                   items: widget.docSettings.resData.docTypeList
                                           .isNotEmpty
                                       ? widget.docSettings.resData.docTypeList
@@ -402,12 +398,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       docSpSelectedValue = newValue!;
                                     });
                                   },
-                                  // value: dropdownValue,
-                                  value: widget.docSettings.resData
-                                          .docSpecialtyList.isNotEmpty
-                                      ? widget.docSettings.resData
-                                          .docSpecialtyList.first
-                                      : dCgSelectedValue,
+                                  value: docSpSelectedValue,
                                   items: widget.docSettings.resData
                                           .docSpecialtyList.isNotEmpty
                                       ? widget

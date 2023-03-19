@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String deviceId = "";
   String mobile_no = '';
   String? endTime;
-  String version = 'test';
+  // String version = 'test';
   var prefix;
   var prefix2;
 
@@ -308,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
         //     ),
         //   ),
         // ),
-        title: Text('MREPORTING v$version'),
+        title: const Text('MREPORTING $appVersion'),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,

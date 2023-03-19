@@ -311,11 +311,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                         MaterialPageRoute(
                                           builder: (_) => DcotorInfoScreen(
                                             isEdit: true,
-                                            docName: foundUsers[index]
-                                                ['doc_name'],
-                                            docID: foundUsers[index]['doc_id'],
                                             areaName: foundUsers[index]
                                                 ['area_id'],
+                                            editDoctorInfo: foundUsers[index],
                                             customerList: clientList,
                                             docSettings: responseOfDocSettings,
                                           ),

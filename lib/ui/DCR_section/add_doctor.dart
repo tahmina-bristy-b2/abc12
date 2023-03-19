@@ -1,6 +1,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/types/gf_checkbox_type.dart';
@@ -200,6 +201,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   onChanged: (String? value) {
                                     setState(() {
                                       dCgSelectedValue = value!;
+                                      // print(dCgSelectedValue);
                                     });
                                   },
                                   value: dCgSelectedValue,
@@ -1028,8 +1030,37 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
-                        // var a = DcrRepositories().addDoctorR('${dmPathData!.doctorAddUrl}', cid, userId, userPassword, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob);
+                      onPressed: () async {
+                        // Map<String, dynamic> a = await DcrRepositories()
+                        //     .addDoctorR(
+                        //         dmPathData!.doctorAddUrl,
+                        //         cid,
+                        //         userLoginInfo!.userId,
+                        //         userPassword,
+                        //         areaId,
+                        //         areaName,
+                        //         doctorName,
+                        //         dCgSelectedValue,
+                        //         docCtSelectedValue,
+                        //         docTypeSelectedValue,
+                        //         docSpSelectedValue,
+                        //         degree,
+                        //         chemistId,
+                        //         draddress,
+                        //         thanaSelectedValue,
+                        //         districtSelectedValue,
+                        //         drMobile,
+                        //         marDay,
+                        //         child1,
+                        //         child2,
+                        //         collerSize,
+                        //         nop,
+                        //         fDrId,
+                        //         fDrName,
+                        //         fDrspecilty,
+                        //         fDocAddress,
+                        //         brand,
+                        //         dob);
                         // print("object=====================$a");
                       },
                       style: ElevatedButton.styleFrom(

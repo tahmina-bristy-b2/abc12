@@ -10,6 +10,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DcotorInfoScreen extends StatefulWidget {
   final bool isEdit;
@@ -93,6 +94,16 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   @override
   void initState() {
     super.initState();
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        cid = prefs.getString("CID")!;
+        // userId = prefs.getString("USER_ID")!;
+        // areaPageUrl = prefs.getString('user_area_url')!;
+        userPassword = prefs.getString("PASSWORD")!;
+        // syncUrl = prefs.getString("sync_url")!;
+      });
+    });
+
     if (widget.isEdit) {
       nameController.text = widget.editDoctorInfo!['doc_name'].toString();
       dCgSelectedValue = widget.docSettings.resData.dCategoryList.first;
@@ -1081,7 +1092,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
-                        // print("object ${dmPathData!.doctorAddUrl}");
+                        ///hashbo na kadbo
+
                         var a = await DcrRepositories().addDoctorR(
                             dmPathData!.doctorAddUrl,
                             cid,
@@ -1094,7 +1106,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             docCtSelectedValue,
                             docTypeSelectedValue,
                             docSpSelectedValue,
-                            "BCS|BRMP|CCD",
+                            degreeList,
                             "pharmacy|pharmacy",
                             adressController.text.toString(),
                             thanaSelectedValue,
@@ -1109,8 +1121,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             docNameController.text.toString(),
                             docSpecialityController.text.toString(),
                             docAddressController.text.toString(),
-                            "B42|B9|B46",
+                            brandListString,
                             dobController.text.toString());
+                        print("object=====================$a");
+
+                        ///code beyadobi kore
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize:

@@ -62,6 +62,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   List<String> dcrVisitedWithList = ["_", "a", "b", "c"];
   List<String> customerNameList = [];
   String dropdownValueforCat = "_";
+  List val = [];
   String dropdownValue = "_";
   List<String> degree = [];
   String degreeList = " ";
@@ -75,6 +76,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docSpSelectedValue = '_';
   String thanaSelectedValue = '_';
   String districtSelectedValue = '_';
+  String chemistId = "";
   String collarSize = '';
   List<DistThanaList> getThanaWithDist = [];
 
@@ -481,37 +483,23 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     items: widget.docSettings.resData.docDegreeList.isNotEmpty
                         ? widget.docSettings.resData.docDegreeList
                         : degree,
-                    onSelect: (value) {
+
+                    onSelect: (val) {
                       degreeList = " ";
-                      if (value.isNotEmpty) {
-                        for (var e in value) {
+                      if (val.isNotEmpty) {
+                        for (var e in val) {
                           if (degreeList == " ") {
                             degreeList =
                                 widget.docSettings.resData.docDegreeList[e];
                           } else {
-                            degreeList += '|' +
-                                widget.docSettings.resData.docDegreeList[e];
+                            degreeList +=
+                                '|${widget.docSettings.resData.docDegreeList[e]}';
                           }
                           // degreeList
                           //     .add(widget.docSettings.resData.docDegreeList[e]);
                           print("degree= $degreeList");
                         }
                       }
-                      // dcrString = '';
-                      // if (value.isNotEmpty) {
-                      //   for (var e in value) {
-                      //     if (dcrString == '') {
-                      //       dcrString =
-                      //           dcr_visitedWithList[e];
-                      //     } else {
-                      //       dcrString +=
-                      //           '|' + dcr_visitedWithList[e];
-                      //     }
-                      //   }
-                      // }
-
-                      //print('selected $value ');
-                      // //print(dcrString);
                     },
                     cancelButton: cancalButton(),
                     dropdownTitleTileText: '',
@@ -529,6 +517,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Icons.keyboard_arrow_down,
                       color: Colors.black54,
                     ),
+
+                    // const Icon(
+                    //   Icons.keyboard_arrow_up,
+                    //   color: Colors.black54,
+                    // ),
                     collapsedIcon: const Icon(
                       Icons.keyboard_arrow_up,
                       color: Colors.black54,
@@ -549,18 +542,39 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   GFMultiSelect(
                     items: customerNameList,
                     onSelect: (value) {
-                      // dcrString = '';
-                      // if (value.isNotEmpty) {
-                      //   for (var e in value) {
-                      //     if (dcrString == '') {
-                      //       dcrString =
-                      //           dcr_visitedWithList[e];
-                      //     } else {
-                      //       dcrString +=
-                      //           '|' + dcr_visitedWithList[e];
-                      //     }
-                      //   }
-                      // }
+                      chemistId = "";
+                      if (value.isNotEmpty) {
+                        // print(widget.customerList
+                        //     .where((item) => item["client_id"] == value));
+                        // widget.customerList.where((e) {
+                        //   // value == e;
+                        //   print("element $e");
+                        //   return e;
+                        // });
+                        print(value);
+                        for (var ele in value) {
+                          for (var e in widget.customerList) {
+                            if (e["client_name"] == customerNameList[ele]) {
+                              if (chemistId == "") {
+                                chemistId = e["client_id"];
+                              } else {
+                                chemistId += "|" + e["client_id"];
+                              }
+                            }
+                          }
+                        }
+                        print(chemistId);
+
+                        //   for (var e in value) {
+                        //     if (dcrString == '') {
+                        //       dcrString =
+                        //           dcr_visitedWithList[e];
+                        //     } else {
+                        //       dcrString +=
+                        //           '|' + dcr_visitedWithList[e];
+                        //     }
+                        //   }
+                      }
                       degreeController.text = value.toString();
                       //print('selected $value ');
                       // //print(dcrString);
@@ -977,6 +991,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================4p Doctor Name row===============================================================
+
                   const Text("4p Doctor Name"),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
@@ -1043,21 +1058,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         }
                         print("data========$brandListString");
                       }
-                      // dcrString = '';
-                      // if (value.isNotEmpty) {
-                      //   for (var e in value) {
-                      //     if (dcrString == '') {
-                      //       dcrString =
-                      //           dcr_visitedWithList[e];
-                      //     } else {
-                      //       dcrString +=
-                      //           '|' + dcr_visitedWithList[e];
-                      //     }
-                      //   }
-                      // }
-
-                      // //print('selected $value ');
-                      // //print(dcrString);
                     },
                     cancelButton: cancalButton(),
                     dropdownTitleTileText: '',
@@ -1111,7 +1111,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             docTypeSelectedValue,
                             docSpSelectedValue,
                             "BCS|BRMP|CCD",
-                            "pharmacy|pharmacy",
+                            chemistId,
                             adressController.text.toString(),
                             thanaSelectedValue,
                             districtSelectedValue,
@@ -1150,7 +1150,5 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     );
   }
 
-  cancalButton() {
-    //print("cancelled");
-  }
+  cancalButton() {}
 }

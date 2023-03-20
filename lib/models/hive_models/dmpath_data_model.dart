@@ -49,7 +49,8 @@ class DmPathDataModel extends HiveObject {
       required this.reportLastInvUrl,
       required this.syncNoticeUrl,
       required this.reportAttenUrl,
-      required this.doctorAddUrl});
+      required this.doctorAddUrl,
+      required this.doctorEditSubmitUrl});
   @HiveField(0)
   final String loginUrl;
   @HiveField(1)
@@ -118,6 +119,8 @@ class DmPathDataModel extends HiveObject {
   final String reportAttenUrl;
   @HiveField(33)
   final String doctorAddUrl;
+  @HiveField(34)
+  final String doctorEditSubmitUrl;
 
   factory DmPathDataModel.fromJson(Map<String, dynamic> json) =>
       DmPathDataModel(
@@ -155,6 +158,7 @@ class DmPathDataModel extends HiveObject {
         photoSubmitUrl: json["photo_submit_url"],
         expApprovalUrl: json["exp_approval_url"],
         tourComplianceUrl: json["tour_compliance_url"],
+        doctorEditSubmitUrl: json["doctor_edit_submit_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -192,5 +196,6 @@ class DmPathDataModel extends HiveObject {
         "photo_submit_url": photoSubmitUrl,
         "exp_approval_url": expApprovalUrl,
         "tour_compliance_url": tourComplianceUrl,
+        "doctor_edit_submit_url": doctorEditSubmitUrl,
       };
 }

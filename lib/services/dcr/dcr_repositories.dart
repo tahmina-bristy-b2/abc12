@@ -271,7 +271,7 @@ class DcrRepositories {
         return docEditInfoData;
       }
     } catch (e) {
-      print('docSettings: $e');
+      print('docEditInfo: $e');
     }
 
     return docEditInfoData;

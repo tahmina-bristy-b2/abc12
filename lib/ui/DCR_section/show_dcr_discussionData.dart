@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class DcrDiscussionPage extends StatefulWidget {
-  int uniqueId;
-  List doctorDiscussionlist;
-  List<DcrGSPDataModel> tempList;
-  Function(List<DcrGSPDataModel>) tempListFunc;
-  DcrDiscussionPage(
+  // final int uniqueId;
+  final List doctorDiscussionlist;
+  final List<DcrGSPDataModel> tempList;
+  final Function(List<DcrGSPDataModel>) tempListFunc;
+  const DcrDiscussionPage(
       {Key? key,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.doctorDiscussionlist,
       required this.tempList,
       required this.tempListFunc})
@@ -26,7 +26,7 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
   Map<String, bool> pressedActivity = {};
   List foundUsers = [];
   List dcrDiscussion = [];
-  var selectedDiscussion;
+  Map selectedDiscussion = {};
   final _formkey = GlobalKey<FormState>();
   String? itemId;
 
@@ -35,16 +35,16 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
   @override
   void initState() {
     foundUsers = widget.doctorDiscussionlist;
-    foundUsers.forEach((element) {
+    for (var element in foundUsers) {
       pressedActivity[element['item_id']] = false;
-    });
+    }
     // foundUsers.forEach((element) {
     //   controllers[element['item_id']] = TextEditingController();
     // });
-    widget.tempList.forEach((element) {
+    for (var element in widget.tempList) {
       itemId = element.giftId;
       // print('list: ${element.item_id}');
-    });
+    }
     super.initState();
   }
 
@@ -52,9 +52,9 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
   void dispose() {
     searchController.dispose();
 
-    // foundUsers.forEach((element) {
-    //   controllers[element['ppm_id']]!.dispose();
-    // });
+    for (var element in foundUsers) {
+      controllers[element['ppm_id']]!.dispose();
+    }
     super.dispose();
   }
 
@@ -64,7 +64,6 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
     if (enteredKeyword.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
       results = foundUsers;
-      print(results);
     } else {
       var starts = foundUsers
           .where((s) => s['item_name']
@@ -256,9 +255,7 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "\n" +
-                                                    foundUsers[index]
-                                                        ['item_name'],
+                                                "\n${foundUsers[index]['item_name']}",
                                                 // maxLines: 2,
                                                 // overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
@@ -297,9 +294,9 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
             alignment: Alignment.centerRight,
             child: ElevatedButton(
               onPressed: () {
-                dcrDiscussion.forEach((element) {
+                for (var element in dcrDiscussion) {
                   var temp = DcrGSPDataModel(
-                      uiqueKey: widget.uniqueId,
+                      // uiqueKey: widget.uniqueId,
                       quantity: 1,
                       giftName: element['item_name'],
                       giftId: element['item_id'],
@@ -311,7 +308,7 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
                       .removeWhere((item) => item.giftId == tempItemId);
 
                   widget.tempList.add(temp);
-                });
+                }
                 widget.tempListFunc(widget.tempList);
 
                 Navigator.pop(context);
@@ -319,7 +316,7 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 50),
                 maximumSize: const Size(200, 50),
-                primary: const Color.fromARGB(255, 4, 60, 105),
+                backgroundColor: const Color.fromARGB(255, 4, 60, 105),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),

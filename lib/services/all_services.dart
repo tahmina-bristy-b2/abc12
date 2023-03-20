@@ -1,22 +1,24 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:geolocator/geolocator.dart';
 
 class AllServices {
   //************************************* This method works for seraching *******************************/
   List searchDynamicMethod(String enteredKeyword, List data, String keyName) {
-    List foundUsers;
-    foundUsers = data;
+    List serachedData;
+    serachedData = data;
     List results = [];
     if (enteredKeyword.isEmpty) {
-      results = foundUsers;
+      results = serachedData;
     } else {
-      var starts = foundUsers
+      var starts = serachedData
           .where((s) =>
               s[keyName].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
           .toList();
 
-      var contains = foundUsers
+      var contains = serachedData
           .where((s) =>
               s[keyName].toLowerCase().contains(enteredKeyword.toLowerCase()) &&
               !s[keyName]
@@ -95,6 +97,18 @@ class AllServices {
         fontSize: 16);
   }
 
+// This message for Submit data made by Md-Moniruzzaman, Reason: ToastGravity
+  void toastMessageForSubmitData(
+      String msg, Color backgroundColor, Color textColor, fontSize) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
+        fontSize: 16);
+  }
+
 // toast messages updated into RX for submitToastforphoto Only
 //===================================================================================================================================
 //==========================================SAMIRA========================================================================
@@ -109,4 +123,16 @@ class AllServices {
   //       textColor: Colors.white,
   //       fontSize: 16.0);
   // }
+
+  // Get Sync Saved Data from hive
+  Future<List> getSyncSavedData(String tableName) async {
+    List getList = [];
+    Box? box = await Boxes().openBox(tableName);
+
+    getList = box.toMap().values.toList();
+    if (getList.isNotEmpty) {
+      return getList;
+    }
+    return getList;
+  }
 }

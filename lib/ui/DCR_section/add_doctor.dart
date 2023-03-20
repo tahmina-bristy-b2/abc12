@@ -130,23 +130,25 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
         thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
       } else {
+        districtSelectedValue = widget.docEditInfo!.docRecords.first.district;
+        thanaSelectedValue = widget.docEditInfo!.docRecords.first.thana;
         widget.docSettings!.resData.distThanaList.forEach((element) {
-          print(element.districtName);
-          if (element.districtId ==
+          // print(element.districtName);
+          if (element.districtName ==
               widget.docEditInfo!.docRecords.first.district) {
-            districtSelectedValue = element.districtName;
+            districtSelectedId = element.districtId;
 
             element.thanaList.forEach((element2) {
-              if (element2.thanaId ==
+              if (element2.thanaName ==
                   widget.docEditInfo!.docRecords.first.thana) {
-                thanaSelectedValue = element2.thanaName;
+                thanaSelectedId = element2.thanaName;
               }
             });
           }
         });
 
-        thanaSelectedId = widget.docEditInfo!.docRecords.first.thana;
-        districtSelectedId = widget.docEditInfo!.docRecords.first.district;
+        // thanaSelectedId = widget.docEditInfo!.docRecords.first.thana;
+        // districtSelectedId = widget.docEditInfo!.docRecords.first.district;
       }
       widget.docSettings!.resData.distThanaList.forEach((element) {
         print(element.districtName);

@@ -334,9 +334,21 @@ class _DcrListPageState extends State<DcrListPage> {
                                       setState(() {
                                         _isLoading = false;
                                       });
+                                      AllServices().toastMessage(
+                                          'Doctor settings data Not found',
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
                                     }
                                   } else {
-                                    _isLoading = false;
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    AllServices().toastMessage(
+                                        'Client Not found',
+                                        Colors.red,
+                                        Colors.white,
+                                        16);
                                   }
                                 },
                               ),

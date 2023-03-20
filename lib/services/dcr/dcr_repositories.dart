@@ -207,13 +207,6 @@ class DcrRepositories {
       if (docSettingData.resData.status == 'Success') {
         return docSettingData;
       }
-
-      // docSettingData = jsonResponseDcrData;
-      // final status = jsonResponseDcrData['status'];
-      // customerList = jsonResponseDcrData['clientList'];
-      // if (status == "Success") {
-      //   return customerList;
-      // }
     } catch (e) {
       print('docSettings: $e');
     }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/models/doctor_edit_model.dart';
 import 'package:MREPORTING/services/dcr/dcr_data_providers.dart';
 import 'package:http/http.dart' as http;
 
@@ -177,7 +178,7 @@ class DcrRepositories {
     try {
       final http.Response response =
           await DcrDataProviders().docSettingsDP(cid, userId, userpass);
-      DocSettingsModel docSettingData = docSettingsModelFromJson(response.body);
+      docSettingData = docSettingsModelFromJson(response.body);
 
       if (docSettingData.resData.status == 'Success') {
         return docSettingData;
@@ -255,6 +256,25 @@ class DcrRepositories {
     }
 
     return dcrResponsedata;
+  }
+
+  //################################ Doctor Edit info Settings  ########################
+  Future<DoctorEditModel?> docEditInfo(String docEditUrl, String cid,
+      String userId, String userpass, String areaId, String docId) async {
+    DoctorEditModel? docEditInfoData;
+    try {
+      final http.Response response = await DcrDataProviders()
+          .docEditInfoDP(docEditUrl, cid, userId, userpass, areaId, docId);
+      docEditInfoData = doctorEditModelFromJson(response.body);
+
+      if (docEditInfoData.status == 'Success') {
+        return docEditInfoData;
+      }
+    } catch (e) {
+      print('docEditInfo: $e');
+    }
+
+    return docEditInfoData;
   }
 }
 

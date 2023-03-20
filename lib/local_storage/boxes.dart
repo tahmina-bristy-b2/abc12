@@ -14,6 +14,7 @@ class Boxes {
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
 
+  // This method Used for only sync Data
   Future openAndAddDataToBox(String tableName, List syncData) async {
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
@@ -23,6 +24,64 @@ class Boxes {
       box.add(d);
     }
   }
+
+  Future<Box> openBox(String tableName) async {
+    var dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    Box box = await Hive.openBox(tableName);
+    return box;
+  }
+
+  static deleteItemFromBoxTable(Box box, int id) {
+    box.toMap().forEach((key, value) {
+      if (value.uiqueKey == id) {
+        box.delete(key);
+      }
+    });
+  }
+
+  // for dcr test...........
+  // static deleteDcrGspFromDraft(Box<DcrDataModel> box, String docId) {
+  //   box.toMap().forEach((key, value) {
+  //     if (value.docId == docId) {
+  //       box.delete(key);
+  //     }
+  //   });
+  // }
+
+  // static updateDcrWithGspToDraft(Box<DcrDataModel> dcrBox,
+  //     List<DcrGSPDataModel> addedDcrGSPList, String docId) {
+  //   dynamic desirekey;
+  //   dcrBox.toMap().forEach((key, value) {
+  //     if (value.docId == docId) {
+  //       desirekey = key;
+  //     }
+  //   });
+  //   DcrDataModel? dcrData = dcrBox.get(desirekey);
+
+  //   if (dcrData!.isInBox) {
+  //     dcrData.dceGspList = addedDcrGSPList;
+  //   }
+
+  //   dcrBox.put(desirekey, dcrData);
+  // }
+
+  // // for test...........
+  // static singleDeleteGspItemFromDraft(
+  //     Box<DcrDataModel> box, String docId, String id) {
+  //   dynamic desirekey;
+  //   box.toMap().forEach((key, value) {
+  //     if (value.docId == docId) {
+  //       desirekey = key;
+  //     }
+  //   });
+  //   DcrDataModel? dcrData = box.get(desirekey);
+  //   if (dcrData!.isInBox) {
+  //     dcrData.dceGspList.removeWhere((element) => element.giftId == id);
+  //   }
+
+  //   box.put(desirekey, dcrData);
+  // }
 
   static clearBox() {
     Hive.openBox('data').then((value) => value.clear());

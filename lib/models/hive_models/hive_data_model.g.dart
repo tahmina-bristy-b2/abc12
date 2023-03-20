@@ -139,12 +139,12 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DcrDataModel(
-      uiqueKey: fields[0] as int,
-      docName: fields[1] as String,
-      docId: fields[2] as String,
-      areaId: fields[3] as String,
-      areaName: fields[4] as String,
-      address: fields[5] as String,
+      docName: fields[0] as String,
+      docId: fields[1] as String,
+      areaId: fields[2] as String,
+      areaName: fields[3] as String,
+      address: fields[4] as String,
+      dcrGspList: (fields[5] as List).cast<DcrGSPDataModel>(),
     );
   }
 
@@ -153,17 +153,17 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.uiqueKey)
-      ..writeByte(1)
       ..write(obj.docName)
-      ..writeByte(2)
+      ..writeByte(1)
       ..write(obj.docId)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj.areaId)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.areaName)
+      ..writeByte(4)
+      ..write(obj.address)
       ..writeByte(5)
-      ..write(obj.address);
+      ..write(obj.dcrGspList);
   }
 
   @override
@@ -240,27 +240,24 @@ class DcrGSPDataModelAdapter extends TypeAdapter<DcrGSPDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DcrGSPDataModel(
-      uiqueKey: fields[0] as int,
-      quantity: fields[1] as int,
-      giftName: fields[2] as String,
-      giftId: fields[3] as String,
-      giftType: fields[4] as String,
+      quantity: fields[0] as int,
+      giftName: fields[1] as String,
+      giftId: fields[2] as String,
+      giftType: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, DcrGSPDataModel obj) {
     writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.uiqueKey)
-      ..writeByte(1)
-      ..write(obj.quantity)
-      ..writeByte(2)
-      ..write(obj.giftName)
-      ..writeByte(3)
-      ..write(obj.giftId)
       ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.quantity)
+      ..writeByte(1)
+      ..write(obj.giftName)
+      ..writeByte(2)
+      ..write(obj.giftId)
+      ..writeByte(3)
       ..write(obj.giftType);
   }
 

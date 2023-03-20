@@ -1153,6 +1153,8 @@ class _RxPageState extends State<RxPage> {
           }
 
           deleteRxDoctor(widget.dcrKey);
+        } else {
+          deleteRxDoctor(objectImageId);
         }
 
         setState(() {});

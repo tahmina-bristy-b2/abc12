@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/services/rx/rx_apis.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class RxDataProviders {
@@ -9,17 +11,17 @@ class RxDataProviders {
   //================================================================================ RX Submit ===================================================================
   //===================================================================================================================================================
   Future<http.Response> rxSubmit(
-      submitUrl,
-      fileName,
-      cid,
-      userId,
-      userPassword,
-      deviceId,
-      finalDoctorList,
-      dropdownRxTypevalue,
-      latitude,
-      longitude,
-      itemString) async {
+      String submitUrl,
+      String fileName,
+      String cid,
+      String userId,
+      String userPassword,
+      String deviceId,
+      List<RxDcrDataModel> finalDoctorList,
+      String dropdownRxTypevalue,
+      double latitude,
+      double longitude,
+      String itemString) async {
     var dt = DateFormat('HH:mm:ss').format(DateTime.now());
 
     final http.Response response;
@@ -52,6 +54,7 @@ class RxDataProviders {
 //################################ Sync Rx Item  Data ########################
   Future<http.Response> syncRxItemDP(
       String syncUrl, String cid, String userId, String userpass) async {
+    print(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass));
     final response = await http.get(
       Uri.parse(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass)),
     );

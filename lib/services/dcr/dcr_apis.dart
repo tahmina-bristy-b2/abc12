@@ -24,6 +24,10 @@ class DcrApis {
       '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userpass&area_id=$areaId';
 
   static doctorAddUrl(String addUrl, String params) => '$addUrl?$params';
+  static doctorEditUrl(String addUrl, String params) => '$addUrl?$params';
+  static docEditInfoApi(String docEditUrl, String cid, String userId,
+          String userpass, String areaId, String docId) =>
+      '$docEditUrl?cid=$cid&user_id=$userId&user_pass=$userpass&area_id=$areaId&doc_id=$docId';
 
 //  static docSettingsApi(String syncUrl) =>
 //       syncUrl;
@@ -33,8 +37,4 @@ class DcrApis {
 
   static String gspSubmitApi(String gspSubmitUrl) =>
       '${gspSubmitUrl}api_dcr_submit/submit_data';
-
-  static docEditInfoApi(String docEditUrl, String cid, String userId,
-          String userpass, String areaId, String docId) =>
-      '$docEditUrl?cid=$cid&user_id=$userId&user_pass=$userpass&area_id=$areaId&doc_id=$docId';
 }

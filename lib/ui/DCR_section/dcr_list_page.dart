@@ -1,5 +1,6 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/models/doctor_edit_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -291,6 +292,15 @@ class _DcrListPageState extends State<DcrListPage> {
                                           userPassword,
                                           foundUsers[index]['area_id']);
                                   if (clientList.isNotEmpty) {
+                                    final DoctorEditModel?
+                                        responseOfDoEditInfo =
+                                        await DcrRepositories().docEditInfo(
+                                            dmpathData!.doctorEditUrl,
+                                            cid,
+                                            userInfo!.userId,
+                                            userPassword,
+                                            foundUsers[index]['area_id'],
+                                            foundUsers[index]['doc_id']);
                                     final DocSettingsModel?
                                         responseOfDocSettings =
                                         await DcrRepositories().docSettingsRepo(
@@ -298,7 +308,8 @@ class _DcrListPageState extends State<DcrListPage> {
                                             userInfo!.userId,
                                             userPassword);
 
-                                    if (responseOfDocSettings != null) {
+                                    if (responseOfDoEditInfo != null &&
+                                        responseOfDocSettings != null) {
                                       setState(() {
                                         _isLoading = false;
                                       });
@@ -311,8 +322,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                             areaName: foundUsers[index]
                                                 ['area_id'],
                                             editDoctorInfo: foundUsers[index],
-                                            customerList: clientList,
                                             docSettings: responseOfDocSettings,
+                                            customerList: clientList,
+                                            docEditInfo: responseOfDoEditInfo,
                                             areaID: foundUsers[index]
                                                 ['area_id'],
                                           ),

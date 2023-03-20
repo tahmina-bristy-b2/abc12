@@ -45,7 +45,8 @@ class DcrDataProviders {
   //################################ DCR Area Client Data########################
   Future<http.Response> dcrAreaBaseClient(String syncUrl, String cid,
       String userId, String userpass, String areaID) async {
-    print(DcrApis.dcrAreBaseClientApi(syncUrl, cid, userId, userpass, areaID));
+    print(
+        "DCR apis=${DcrApis.dcrAreBaseClientApi(syncUrl, cid, userId, userpass, areaID)}");
 
     final response = await http.get(
       Uri.parse(
@@ -58,7 +59,7 @@ class DcrDataProviders {
   //################################ Doctor Settings########################
   Future<http.Response> docSettingsDP(
       String cid, String userId, String userpass) async {
-    print(DcrApis.docSettingsApi);
+    // print(DcrApis.docSettingsApi);
 
     final response = await http.get(
       Uri.parse(

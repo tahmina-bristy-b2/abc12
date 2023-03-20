@@ -203,22 +203,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
 
             widget.medicinTempList.add(temp);
           }
-          // } else {
-          //   finalList.forEach((element) {
-          //     final temp = MedicineListModel(
-          //         strength: element['strength'],
-          //         name: element['name'],
-          //         generic: element['generic'],
-          //         brand: element['brand'],
-          //         company: element['company'],
-          //         formation: element['formation'],
-          //         uiqueKey: widget.counter,
-          //         itemId: element['item_id'],
-          //         quantity: 1);
-          //     final tempItemId = temp.itemId;
-          //     widget.tempList.removeWhere((item) => item.itemId == tempItemId);
-          //   });
-          // }
+
           widget.tempListFunc(widget.medicinTempList);
           Navigator.pop(context);
         },

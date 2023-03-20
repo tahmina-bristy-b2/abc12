@@ -103,10 +103,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         cid = prefs.getString("CID")!;
-        // userId = prefs.getString("USER_ID")!;
-        // areaPageUrl = prefs.getString('user_area_url')!;
         userPassword = prefs.getString("PASSWORD")!;
-        // syncUrl = prefs.getString("sync_url")!;
       });
     });
 
@@ -584,14 +581,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     onSelect: (value) {
                       chemistId = "";
                       if (value.isNotEmpty) {
-                        // print(widget.customerList
-                        //     .where((item) => item["client_id"] == value));
-                        // widget.customerList.where((e) {
-                        //   // value == e;
-                        //   print("element $e");
-                        //   return e;
-                        // });
-                        print(value);
                         for (var ele in value) {
                           for (var e in widget.customerList) {
                             if (e["client_name"] == customerNameList[ele]) {
@@ -603,28 +592,14 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             }
                           }
                         }
-                        print(chemistId);
-
-                        //   for (var e in value) {
-                        //     if (dcrString == '') {
-                        //       dcrString =
-                        //           dcr_visitedWithList[e];
-                        //     } else {
-                        //       dcrString +=
-                        //           '|' + dcr_visitedWithList[e];
-                        //     }
-                        //   }
                       }
                       degreeController.text = value.toString();
-                      //print('selected $value ');
-                      // //print(dcrString);
                     },
                     cancelButton: cancalButton(),
                     dropdownTitleTileText: '',
                     dropdownTitleTileColor: Colors.grey[200],
                     dropdownTitleTileMargin:
                         const EdgeInsets.fromLTRB(0, 10, 0, 10),
-
                     dropdownTitleTilePadding:
                         const EdgeInsets.fromLTRB(5, 10, 5, 10),
                     dropdownUnderlineBorder:
@@ -640,9 +615,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Icons.keyboard_arrow_up,
                       color: Colors.black54,
                     ),
-                    // submitButton: Text('OK'),
-                    // dropdownTitleTileTextStyle: const TextStyle(
-                    //     fontSize: 14, color: Colors.black54),
                     padding: const EdgeInsets.all(0),
                     margin: const EdgeInsets.all(0),
                     type: GFCheckboxType.basic,
@@ -1177,42 +1149,113 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
-                        readyForData();
+                        if (cid != "") {
+                          if (userPassword != "") {
+                            if (nameController.text.isNotEmpty) {
+                              if (marriageDayController.text.isNotEmpty) {
+                                if (dobController.text.isNotEmpty) {
+                                  if (adressController.text.isNotEmpty) {
+                                    if (mobileController.text.isNotEmpty) {
+                                      readyForData();
 
-                        Map<String, dynamic> docAdd = await DcrRepositories()
-                            .addDoctorR(
-                                dmPathData!.doctorAddUrl,
-                                cid,
-                                userLoginInfo!.userId,
-                                userPassword,
-                                widget.areaID,
-                                widget.areaName,
-                                nameController.text.toString(),
-                                dCgSelectedValue,
-                                docCtSelectedValue,
-                                docTypeSelectedValue,
-                                docSpSelectedValue,
-                                degreeList,
-                                chemistId,
-                                adressController.text.toString(),
-                                thanaSelectedId,
-                                districtSelectedId,
-                                mobileController.text.toString(),
-                                marriageDayController.text.toString(),
-                                dobChild1Controller.text.toString(),
-                                dobChild2Controller.text.toString(),
-                                collarSize,
-                                patientNumController.text.toString(),
-                                docIDController.text.toString(),
-                                docNameController.text.toString(),
-                                docSpecialityController.text.toString(),
-                                docAddressController.text.toString(),
-                                brandListString,
-                                dobController.text.toString());
-                        print("object=====================$docAdd");
+                                      Map<String, dynamic> a =
+                                          await DcrRepositories().addDoctorR(
+                                              dmPathData!.doctorAddUrl,
+                                              cid,
+                                              userLoginInfo!.userId,
+                                              userPassword,
+                                              widget.areaID,
+                                              widget.areaName,
+                                              nameController.text.toString(),
+                                              dCgSelectedValue,
+                                              docCtSelectedValue,
+                                              docTypeSelectedValue,
+                                              docSpSelectedValue,
+                                              degreeList,
+                                              "pharmacy|pharmacy",
+                                              adressController.text.toString(),
+                                              thanaSelectedId,
+                                              districtSelectedId,
+                                              mobileController.text.toString(),
+                                              marriageDayController.text
+                                                  .toString(),
+                                              dobChild1Controller.text
+                                                  .toString(),
+                                              dobChild2Controller.text
+                                                  .toString(),
+                                              collarSize,
+                                              patientNumController.text
+                                                  .toString(),
+                                              docIDController.text.toString(),
+                                              docNameController.text.toString(),
+                                              docSpecialityController.text
+                                                  .toString(),
+                                              docAddressController.text
+                                                  .toString(),
+                                              brandListString,
+                                              dobController.text.toString());
 
-                        if (docAdd["status"] == "Success") {
-                          Navigator.of(context).pop();
+                                      String status = a['status'];
+
+                                      if (status == "Success") {
+                                        AllServices().toastMessage(
+                                            "Doctor Added Successfully Done",
+                                            Colors.green,
+                                            Colors.white,
+                                            14);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      } else {
+                                        String resString = a['ret_str'] ?? "";
+
+                                        AllServices().toastMessage(
+                                            "$status for $resString",
+                                            Colors.red,
+                                            Colors.white,
+                                            14);
+                                      }
+                                    } else {
+                                      AllServices().toastMessage(
+                                          "Please fill up your mobile number",
+                                          Colors.red,
+                                          Colors.white,
+                                          14);
+                                    }
+                                  } else {
+                                    AllServices().toastMessage(
+                                        "Please fill up your address",
+                                        Colors.red,
+                                        Colors.white,
+                                        14);
+                                  }
+                                } else {
+                                  AllServices().toastMessage(
+                                      "Please fill up your Birthday day",
+                                      Colors.red,
+                                      Colors.white,
+                                      14);
+                                }
+                              } else {
+                                AllServices().toastMessage(
+                                    "Please fill up your marriage day",
+                                    Colors.red,
+                                    Colors.white,
+                                    14);
+                              }
+                            } else {
+                              AllServices().toastMessage(
+                                  "Please fill up your name first",
+                                  Colors.red,
+                                  Colors.white,
+                                  14);
+                            }
+                          } else {
+                            AllServices().toastMessage("Password did not Found",
+                                Colors.red, Colors.white, 14);
+                          }
+                        } else {
+                          AllServices().toastMessage(
+                              "CID Missing", Colors.red, Colors.white, 14);
                         }
 
                         ///code beyadobi kore

@@ -7,6 +7,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -40,8 +41,6 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
   bool _loading = false;
   double screenHeight = 0.0;
   double screenWidth = 0.0;
-  String interNetErrorMsg =
-      'No Internet Connection\nPlease check your internet connection.';
 
   @override
   void initState() {

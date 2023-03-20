@@ -1,14 +1,17 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: file_names
+
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:flutter/material.dart';
 
 class DcrGiftDataPage extends StatefulWidget {
-  int uniqueId;
-  List doctorGiftlist;
-  List<DcrGSPDataModel> tempList;
-  Function(List<DcrGSPDataModel>) tempListFunc;
-  DcrGiftDataPage(
+  // final int uniqueId;
+  final List doctorGiftlist;
+  final List<DcrGSPDataModel> tempList;
+  final Function(List<DcrGSPDataModel>) tempListFunc;
+  const DcrGiftDataPage(
       {Key? key,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.doctorGiftlist,
       required this.tempList,
       required this.tempListFunc})
@@ -20,10 +23,9 @@ class DcrGiftDataPage extends StatefulWidget {
 
 class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
   final TextEditingController searchController = TextEditingController();
-  final TextEditingController searchController2 = TextEditingController();
   final List<TextEditingController> _itemController = [];
-  Map<String, TextEditingController> controllers = {};
-  List foundUsers = [];
+  Map<String, TextEditingController> textControllers = {};
+  List foundDcrGift = [];
 
   final _formkey = GlobalKey<FormState>();
 
@@ -31,60 +33,57 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
 
   @override
   void initState() {
-    foundUsers = widget.doctorGiftlist;
-    foundUsers.forEach((element) {
-      controllers[element['gift_id']] = TextEditingController();
-    });
-    // widget.tempList.forEach((element) {
-    //   itemId = element.giftId;
-    // });
     super.initState();
+    foundDcrGift = widget.doctorGiftlist;
+    for (var element in foundDcrGift) {
+      textControllers[element['gift_id']] = TextEditingController();
+    }
   }
 
   @override
   void dispose() {
     searchController.dispose();
 
-    // foundUsers.forEach((element) {
-    //   controllers[element['gift_id']]!.dispose();
-    // });
+    for (var element in foundDcrGift) {
+      textControllers[element['gift_id']]!.dispose();
+    }
     super.dispose();
   }
 
-  void runFilter(String enteredKeyword) {
-    foundUsers = widget.doctorGiftlist;
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foundUsers;
-    } else {
-      var starts = foundUsers
-          .where((s) => s['gift_name']
-              .toLowerCase()
-              .startsWith(enteredKeyword.toLowerCase()))
-          .toList();
+  // void runFilter(String enteredKeyword) {
+  //   foundDcrGift = widget.doctorGiftlist;
+  //   List results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     // if the search field is empty or only contains white-space, we'll display all users
+  //     results = foundDcrGift;
+  //   } else {
+  //     var starts = foundDcrGift
+  //         .where((s) => s['gift_name']
+  //             .toLowerCase()
+  //             .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList();
 
-      var contains = foundUsers
-          .where((s) =>
-              s['gift_name']
-                  .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) &&
-              !s['gift_name']
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) => a['gift_name']
-            .toLowerCase()
-            .compareTo(b['gift_name'].toLowerCase()));
+  //     var contains = foundDcrGift
+  //         .where((s) =>
+  //             s['gift_name']
+  //                 .toLowerCase()
+  //                 .contains(enteredKeyword.toLowerCase()) &&
+  //             !s['gift_name']
+  //                 .toLowerCase()
+  //                 .startsWith(enteredKeyword.toLowerCase()))
+  //         .toList()
+  //       ..sort((a, b) => a['gift_name']
+  //           .toLowerCase()
+  //           .compareTo(b['gift_name'].toLowerCase()));
 
-      results = [...starts, ...contains];
-    }
+  //     results = [...starts, ...contains];
+  //   }
 
-    // Refresh the UI
-    setState(() {
-      foundUsers = results;
-    });
-  }
+  //   // Refresh the UI
+  //   setState(() {
+  //     foundDcrGift = results;
+  //   });
+  // }
 
   // int _currentSelected = 0;
   // _onItemTapped(int index) async {
@@ -154,7 +153,12 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
                     child: SizedBox(
                       height: 60,
                       child: TextFormField(
-                        onChanged: (value) => runFilter(value),
+                        onChanged: (value) {
+                          foundDcrGift = AllServices().searchDynamicMethod(
+                              value, widget.doctorGiftlist, 'gift_name');
+                          setState(() {});
+                        },
+                        // onChanged: (value) => runFilter(value),
                         controller: searchController,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
@@ -165,7 +169,10 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
                               : IconButton(
                                   onPressed: () {
                                     searchController.clear();
-                                    runFilter('');
+                                    foundDcrGift = AllServices()
+                                        .searchDynamicMethod('',
+                                            widget.doctorGiftlist, 'gift_name');
+                                    // runFilter('');
                                     setState(() {});
                                   },
                                   icon: const Icon(
@@ -186,167 +193,8 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
             flex: 9,
             child: Form(
               key: _formkey,
-              child: foundUsers.isNotEmpty
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      // itemCount: searchController.text != ''
-                      //     ? foundUsers.length
-                      //     : searchController2.text != ''
-                      //         ? foundUsers.length
-                      //         : widget.doctorGiftlist.length,
-                      itemCount: foundUsers.length,
-                      itemBuilder: (context, index) {
-                        _itemController.add(TextEditingController());
-                        return Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                color: Color.fromARGB(108, 255, 255, 255),
-                                width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 2, 0),
-                            child: Container(
-                              height: 90,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              foundUsers[index]['gift_name'],
-                                              style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 30, 66, 77),
-                                                  fontSize: 18),
-                                            ),
-                                            Text(
-                                              foundUsers[index]['gift_id'],
-                                              style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 30, 66, 77),
-                                                  fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Column(
-                                          children: [
-                                            Card(
-                                              elevation: 1,
-                                              child: Container(
-                                                height: 40,
-                                                color: const Color.fromARGB(
-                                                        255, 138, 201, 149)
-                                                    .withOpacity(.3),
-                                                width: 70,
-                                                child: TextFormField(
-                                                  textAlign: TextAlign.center,
-                                                  controller: controllers[
-                                                      foundUsers[index]
-                                                          ['gift_id']],
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(2.0)),
-                                                  ),
-                                                  onChanged: (value) {
-                                                    setState(() {});
-                                                    if (value != '') {
-                                                      final temp = DcrGSPDataModel(
-                                                          uiqueKey:
-                                                              widget.uniqueId,
-                                                          quantity: int.parse(
-                                                              controllers[foundUsers[
-                                                                          index]
-                                                                      [
-                                                                      'gift_id']]!
-                                                                  .text),
-                                                          giftName:
-                                                              foundUsers[index]
-                                                                  ['gift_name'],
-                                                          giftId:
-                                                              foundUsers[index]
-                                                                  ['gift_id'],
-                                                          giftType: 'Gift');
-
-                                                      // widget.tempList
-                                                      //     .forEach((element) {
-                                                      //   itemId = element.giftId;
-                                                      // });
-
-                                                      String tempItemId =
-                                                          temp.giftId;
-
-                                                      widget.tempList
-                                                          .removeWhere((item) =>
-                                                              item.giftId ==
-                                                              tempItemId);
-
-                                                      widget.tempList.add(temp);
-                                                    } else if (value == '') {
-                                                      final temp =
-                                                          DcrGSPDataModel(
-                                                        uiqueKey:
-                                                            widget.uniqueId,
-                                                        quantity: value == ''
-                                                            ? 0
-                                                            : int.parse(controllers[
-                                                                    foundUsers[
-                                                                            index]
-                                                                        [
-                                                                        'gift_id']]!
-                                                                .text),
-                                                        giftName:
-                                                            foundUsers[index]
-                                                                ['gift_name'],
-                                                        giftId:
-                                                            foundUsers[index]
-                                                                ['gift_id'],
-                                                        giftType: 'Gift',
-                                                      );
-
-                                                      String tempItemId =
-                                                          temp.giftId;
-
-                                                      widget.tempList
-                                                          .removeWhere((item) =>
-                                                              item.giftId ==
-                                                              tempItemId);
-
-                                                      setState(() {});
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      })
+              child: foundDcrGift.isNotEmpty
+                  ? giftListViewBuilder()
                   : const Text(
                       'No results found',
                       style: TextStyle(fontSize: 24),
@@ -367,11 +215,12 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 50),
                 maximumSize: const Size(200, 50),
-                primary: const Color.fromARGB(255, 4, 60, 105),
+                backgroundColor: const Color.fromARGB(255, 4, 60, 105),
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        bottomLeft: Radius.circular(5))),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      bottomLeft: Radius.circular(5)),
+                ),
               ),
               child: Align(
                 alignment: Alignment.centerRight,
@@ -394,5 +243,139 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
         ],
       ),
     );
+  }
+
+  ListView giftListViewBuilder() {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
+        itemCount: foundDcrGift.length,
+        itemBuilder: (context, index) {
+          _itemController.add(TextEditingController());
+          return Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                  color: Color.fromARGB(108, 255, 255, 255), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 2, 0),
+              child: Container(
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                foundDcrGift[index]['gift_name'],
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 30, 66, 77),
+                                    fontSize: 18),
+                              ),
+                              Text(
+                                foundDcrGift[index]['gift_id'],
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 30, 66, 77),
+                                    fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              Card(
+                                elevation: 1,
+                                child: Container(
+                                  height: 40,
+                                  color:
+                                      const Color.fromARGB(255, 138, 201, 149)
+                                          .withOpacity(.3),
+                                  width: 70,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    controller: textControllers[
+                                        foundDcrGift[index]['gift_id']],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(2.0)),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {});
+                                      if (value != '') {
+                                        final temp = DcrGSPDataModel(
+                                            // uiqueKey: widget.uniqueId,
+                                            quantity: int.parse(textControllers[
+                                                    foundDcrGift[index]
+                                                        ['gift_id']]!
+                                                .text),
+                                            giftName: foundDcrGift[index]
+                                                ['gift_name'],
+                                            giftId: foundDcrGift[index]
+                                                ['gift_id'],
+                                            giftType: 'Gift');
+
+                                        // widget.tempList
+                                        //     .forEach((element) {
+                                        //   itemId = element.giftId;
+                                        // });
+
+                                        String tempItemId = temp.giftId;
+
+                                        widget.tempList.removeWhere((item) =>
+                                            item.giftId == tempItemId);
+
+                                        widget.tempList.add(temp);
+                                      } else if (value == '') {
+                                        final temp = DcrGSPDataModel(
+                                          // uiqueKey: widget.uniqueId,
+                                          quantity: value == ''
+                                              ? 0
+                                              : int.parse(textControllers[
+                                                      foundDcrGift[index]
+                                                          ['gift_id']]!
+                                                  .text),
+                                          giftName: foundDcrGift[index]
+                                              ['gift_name'],
+                                          giftId: foundDcrGift[index]
+                                              ['gift_id'],
+                                          giftType: 'Gift',
+                                        );
+
+                                        String tempItemId = temp.giftId;
+
+                                        widget.tempList.removeWhere((item) =>
+                                            item.giftId == tempItemId);
+
+                                        setState(() {});
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

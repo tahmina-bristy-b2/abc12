@@ -213,14 +213,80 @@ class DcrRepositories {
 
     return docSettingData;
   }
+
+  //################################ Sync Discussion  Data########################
+// did not call yet...
+  Future<List> syncDcrDis(
+      String syncUrl, String cid, String userId, String userpass) async {
+    List dcrDiscussionGiftList = [];
+    try {
+      final http.Response response =
+          await DcrDataProviders().syncDcrDisDP(syncUrl, cid, userId, userpass);
+      Map<String, dynamic> jsonResponseDcrData = jsonDecode(response.body);
+      Map<String, dynamic> res_data = jsonResponseDcrData['res_data'];
+
+      String status = res_data['status'];
+      dcrDiscussionGiftList = res_data['giftList'];
+
+      if (status == 'Success') {
+        await Boxes().openAndAddDataToBox(
+            'dcrDiscussionListData', dcrDiscussionGiftList);
+        return dcrDiscussionGiftList;
+      }
+    } catch (e) {
+      print('dcrGiftList: $e');
+    }
+
+    return dcrDiscussionGiftList;
+  }
+
+  // ############################# dcr GSP submit ##################################
+
+  Future<Map<String, dynamic>> dcrGspSubmit(
+      String gspSubmitUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String deviceId,
+      String docId,
+      String areaId,
+      String dcrString,
+      double lat,
+      double lon,
+      String itemString,
+      String note) async {
+    Map<String, dynamic> dcrResponsedata = {};
+    try {
+      final response = await DcrDataProviders().gspSubmitDP(
+          gspSubmitUrl,
+          cid,
+          userId,
+          userPass,
+          deviceId,
+          docId,
+          areaId,
+          dcrString,
+          lat,
+          lon,
+          itemString,
+          note);
+      dcrResponsedata = json.decode(response.body);
+
+      if (dcrResponsedata.isNotEmpty) {
+        return dcrResponsedata;
+      }
+    } catch (e) {
+      print("dcrGspSubmit_errore: $e");
+    }
+
+    return dcrResponsedata;
+  }
 }
 
 
 
 
- //=======================================================================================
-  //==============================DCR Discussion======================================
-  //=======================================================================================
+ 
 
   // Future<dynamic> syncDcrDiscussiontToHive(String sync_url, String cid,
   //     String userId, String userPassward, BuildContext context) async {

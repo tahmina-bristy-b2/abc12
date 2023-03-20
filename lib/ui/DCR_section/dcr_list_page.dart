@@ -8,9 +8,7 @@ import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_area_page.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
-
 import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +26,6 @@ class _DcrListPageState extends State<DcrListPage> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 
-  Box? box;
   String cid = '';
   bool _isLoading = false;
 
@@ -254,9 +251,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => DcrGiftSamplePpmPage(
-                                              ck: '',
-                                              dcrKey: 0,
-                                              uniqueId: _counter,
+                                              isDraft: false,
+                                              // dcrKey: 0,
+                                              // uniqueId: _counter,
                                               draftOrderItem: [],
                                               docName: foundUsers[index]
                                                   ['doc_name'],

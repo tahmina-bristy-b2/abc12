@@ -218,7 +218,12 @@ class _MyHomePageState extends State<MyHomePage> {
             DrawerHeader(
               decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 138, 201, 149)),
-              child: Image.asset('assets/images/mRep7_logo.png'),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Image.asset(
+                  'assets/images/logo-black.png',
+                ),
+              ),
             ),
             ListTile(
               leading:
@@ -1186,15 +1191,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: customBuildButton(
                                     icon: Icons.note_alt,
                                     onClick: () async {
-                                      var noticeBody = await noticeEvent();
-                                      print("list ${noticeBody}");
+                                      // var noticeBody = await noticeEvent();
+                                      // print("list ${noticeBody}");
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => NoticeScreen(
-                                                    noticelist: noticeBody,
-                                                  )));
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (_) => NoticeScreen(
+                                      //               noticelist: noticeBody,
+                                      //             )));
                                     },
                                     title: 'Notice',
                                     sizeWidth: screenWidth,

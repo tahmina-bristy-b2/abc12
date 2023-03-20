@@ -108,8 +108,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             )),
         title: const Text('Customer List'),
         titleTextStyle: const TextStyle(
-            color: Colors.white,
-            // color: Color.fromARGB(255, 27, 56, 34),
+            // color: Colors.white,
+            color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
             fontSize: 20),
         centerTitle: true,
@@ -152,7 +152,10 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
               const BoxDecoration(color: Color.fromARGB(255, 138, 201, 149)),
           child: Column(
             children: [
-              Image.asset('assets/images/mRep7_logo.png'),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Image.asset('assets/images/logo-black.png'),
+              ),
               // Expanded(
               //   child: Text(
               //     '${widget.clientName}',

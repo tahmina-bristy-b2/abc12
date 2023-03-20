@@ -21,9 +21,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DcrGiftSamplePpmPage extends StatefulWidget {
-  final int dcrKey;
-  final int uniqueId;
-  final String ck;
+  // final int dcrKey;
+  // final int uniqueId;
+  final bool isDraft;
   final String docName;
   final String docId;
   final String areaName;
@@ -34,9 +34,9 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
     Key? key,
     required this.address,
     required this.areaId,
-    required this.ck,
-    required this.dcrKey,
-    required this.uniqueId,
+    required this.isDraft,
+    // required this.dcrKey,
+    // required this.uniqueId,
     required this.docName,
     required this.docId,
     required this.areaName,
@@ -126,7 +126,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
 
     addedDcrGSPList = widget.draftOrderItem;
 
-    if (widget.ck != '') {
+    if (widget.isDraft) {
       itemString = DcrServices().calculatingGspItemString(addedDcrGSPList);
       // calculatingTotalitemString();
       setState(() {});
@@ -165,7 +165,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-        orderGSPSubmit();
+        dcrGSPSubmit();
       } else {
         AllServices()
             .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
@@ -277,7 +277,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                               Expanded(
                                 flex: 6,
                                 child: Column(
-                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(
@@ -879,7 +878,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         context,
         MaterialPageRoute(
           builder: (_) => DcrGiftDataPage(
-            uniqueId: widget.uniqueId,
+            // uniqueId: widget.uniqueId,
             doctorGiftlist: doctorGiftlist,
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
@@ -910,7 +909,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         context,
         MaterialPageRoute(
           builder: (_) => DcrSampleDataPage(
-            uniqueId: widget.uniqueId,
+            // uniqueId: widget.uniqueId,
             doctorSamplelist: doctorSamplelist,
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
@@ -940,7 +939,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         context,
         MaterialPageRoute(
           builder: (_) => DcrPpmDataPage(
-            uniqueId: widget.uniqueId,
+            // uniqueId: widget.uniqueId,
             doctorPpmlist: doctorPpmlist,
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
@@ -982,7 +981,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         context,
         MaterialPageRoute(
           builder: (_) => DcrDiscussionPage(
-            uniqueId: widget.uniqueId,
+            // uniqueId: widget.uniqueId,
             doctorDiscussionlist: doctorDiscussionlist,
             tempList: addedDcrGSPList,
             tempListFunc: (value) {
@@ -1005,24 +1004,28 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   // Saved Added Gift, Sample, PPM to Hive
 
   Future putAddedDcrGSPData() async {
-    if (widget.ck != '') {
-      Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
+    if (widget.isDraft) {
+      // Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
+      // Boxes.deleteItemFromBoxTabletest2(dcrBox, widget.docId);
+      DcrServices.updateDcrWithGspToDraft(
+          dcrBox, addedDcrGSPList, widget.docId);
 
-      gspBox.addAll(addedDcrGSPList);
+      // gspBox.addAll(addedDcrGSPList);
     } else {
       dcrBox.add(DcrDataModel(
-          uiqueKey: widget.uniqueId,
+          // uiqueKey: widget.uniqueId,
           docName: widget.docName,
           docId: widget.docId,
           areaId: widget.areaId,
           areaName: widget.areaName,
-          address: 'address'));
+          address: 'address',
+          dcrGspList: addedDcrGSPList));
 
-      gspBox.addAll(addedDcrGSPList);
+      // gspBox.addAll(addedDcrGSPList);
     }
   }
 
-  Future<dynamic> orderGSPSubmit() async {
+  Future<dynamic> dcrGSPSubmit() async {
     if (itemString != '') {
       Map<String, dynamic> dcrResponsedata = await DcrRepositories()
           .dcrGspSubmit(
@@ -1040,9 +1043,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
               noteText);
 
       if (dcrResponsedata['status'] == "Success") {
-        if (dcrBox.isNotEmpty) {
-          Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
-          Boxes.deleteItemFromBoxTable(dcrBox, widget.dcrKey);
+        if (dcrBox.isNotEmpty && widget.isDraft) {
+          // Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
+          DcrServices.deleteDcrGspFromDraft(dcrBox, widget.docId);
+          // Boxes.deleteItemFromBoxTable(dcrBox, widget.dcrKey);
         }
 
         if (!mounted) return;
@@ -1101,9 +1105,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
-                if (widget.ck != '') {
-                  Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
-                  addedDcrGSPList.removeAt(index);
+                if (widget.isDraft) {
+                  DcrServices.singleDeleteGspItemFromDraft(
+                      dcrBox, widget.docId, addedDcrGSPList[index].giftId);
+                  // addedDcrGSPList.removeAt(index);
 
                   setState(() {});
                 } else {

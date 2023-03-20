@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class DcrSampleDataPage extends StatefulWidget {
-  final int uniqueId;
+  // final int uniqueId;
   final List doctorSamplelist;
   final List<DcrGSPDataModel> tempList;
   final Function tempListFunc;
   const DcrSampleDataPage(
       {Key? key,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.doctorSamplelist,
       required this.tempList,
       required this.tempListFunc})
@@ -278,7 +278,7 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
                                       setState(() {});
                                       if (value != '') {
                                         var temp = DcrGSPDataModel(
-                                            uiqueKey: widget.uniqueId,
+                                            // uiqueKey: widget.uniqueId,
                                             quantity: int.parse(controllers[
                                                     foundDcrSample[index]
                                                         ['sample_id']]!
@@ -298,7 +298,7 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
                                         setState(() {});
                                       } else if (value == '') {
                                         final temp = DcrGSPDataModel(
-                                          uiqueKey: widget.uniqueId,
+                                          // uiqueKey: widget.uniqueId,
                                           quantity: value == ''
                                               ? 0
                                               : int.parse(controllers[

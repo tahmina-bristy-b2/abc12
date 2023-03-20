@@ -5,13 +5,13 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class DcrPpmDataPage extends StatefulWidget {
-  final int uniqueId;
+  // final int uniqueId;
   final List doctorPpmlist;
   final List<DcrGSPDataModel> tempList;
   final Function tempListFunc;
   const DcrPpmDataPage(
       {Key? key,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.doctorPpmlist,
       required this.tempList,
       required this.tempListFunc})
@@ -313,7 +313,7 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
                                       setState(() {});
                                       if (value != '') {
                                         var temp = DcrGSPDataModel(
-                                            uiqueKey: widget.uniqueId,
+                                            // uiqueKey: widget.uniqueId,
                                             quantity: int.parse(controllers[
                                                     foundDcrPPM[index]
                                                         ['ppm_id']]!
@@ -341,7 +341,7 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
                                         // }
                                       } else if (value == '') {
                                         final temp = DcrGSPDataModel(
-                                          uiqueKey: widget.uniqueId,
+                                          // uiqueKey: widget.uniqueId,
                                           quantity: value == ''
                                               ? 0
                                               : int.parse(controllers[

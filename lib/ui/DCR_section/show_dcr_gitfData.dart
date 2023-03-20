@@ -5,13 +5,13 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 
 class DcrGiftDataPage extends StatefulWidget {
-  final int uniqueId;
+  // final int uniqueId;
   final List doctorGiftlist;
   final List<DcrGSPDataModel> tempList;
   final Function(List<DcrGSPDataModel>) tempListFunc;
   const DcrGiftDataPage(
       {Key? key,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.doctorGiftlist,
       required this.tempList,
       required this.tempListFunc})
@@ -317,7 +317,7 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
                                       setState(() {});
                                       if (value != '') {
                                         final temp = DcrGSPDataModel(
-                                            uiqueKey: widget.uniqueId,
+                                            // uiqueKey: widget.uniqueId,
                                             quantity: int.parse(textControllers[
                                                     foundDcrGift[index]
                                                         ['gift_id']]!
@@ -341,7 +341,7 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
                                         widget.tempList.add(temp);
                                       } else if (value == '') {
                                         final temp = DcrGSPDataModel(
-                                          uiqueKey: widget.uniqueId,
+                                          // uiqueKey: widget.uniqueId,
                                           quantity: value == ''
                                               ? 0
                                               : int.parse(textControllers[

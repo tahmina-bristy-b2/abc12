@@ -251,9 +251,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => DcrGiftSamplePpmPage(
-                                              ck: '',
-                                              dcrKey: 0,
-                                              uniqueId: _counter,
+                                              isDraft: false,
+                                              // dcrKey: 0,
+                                              // uniqueId: _counter,
                                               draftOrderItem: [],
                                               docName: foundUsers[index]
                                                   ['doc_name'],

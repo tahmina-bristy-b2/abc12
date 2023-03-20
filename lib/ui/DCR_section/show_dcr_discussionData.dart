@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class DcrDiscussionPage extends StatefulWidget {
-  final int uniqueId;
+  // final int uniqueId;
   final List doctorDiscussionlist;
   final List<DcrGSPDataModel> tempList;
   final Function(List<DcrGSPDataModel>) tempListFunc;
   const DcrDiscussionPage(
       {Key? key,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.doctorDiscussionlist,
       required this.tempList,
       required this.tempListFunc})
@@ -296,7 +296,7 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
               onPressed: () {
                 for (var element in dcrDiscussion) {
                   var temp = DcrGSPDataModel(
-                      uiqueKey: widget.uniqueId,
+                      // uiqueKey: widget.uniqueId,
                       quantity: 1,
                       giftName: element['item_name'],
                       giftId: element['item_id'],

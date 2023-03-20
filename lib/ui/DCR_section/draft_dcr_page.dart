@@ -13,24 +13,24 @@ class DraftDCRScreen extends StatefulWidget {
 
 class _DraftDCRScreenState extends State<DraftDCRScreen> {
   // final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  Box? box;
+  // Box? box;
 
-  List itemDraftList = [];
-  List<DcrGSPDataModel> addedDcrGSPList = [];
-  List<DcrGSPDataModel> filteredOrder = [];
-  List<DcrDataModel> dcrDataList = [];
+  // List itemDraftList = [];
+  // List<DcrGSPDataModel> addedDcrGSPList = [];
+  // List<DcrGSPDataModel> filteredOrder = [];
+  // List<DcrDataModel> dcrDataList = [];
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      box = Boxes.selectedDcrGSP();
-      addedDcrGSPList = box!.toMap().values.toList().cast<DcrGSPDataModel>();
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   // box = Boxes.selectedDcrGSP();
+    //   // addedDcrGSPList = box!.toMap().values.toList().cast<DcrGSPDataModel>();
 
-      box = Boxes.dcrUsers();
-      dcrDataList = box!.toMap().values.toList().cast<DcrDataModel>();
+    //   // box = Boxes.dcrUsers();
+    //   // dcrDataList = box!.toMap().values.toList().cast<DcrDataModel>();
 
-      setState(() {});
-    });
+    //   setState(() {});
+    // });
     super.initState();
   }
 
@@ -40,16 +40,16 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
     dcrDataModel.delete();
   }
 
-  deletDcrGSPitem(int id) {
-    final box = Hive.box<DcrGSPDataModel>("selectedDcrGSP");
+  // deletDcrGSPitem(int id) {
+  //   final box = Hive.box<DcrGSPDataModel>("selectedDcrGSP");
 
-    final Map<dynamic, DcrGSPDataModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
+  //   final Map<dynamic, DcrGSPDataModel> deliveriesMap = box.toMap();
+  //   dynamic desiredKey;
+  //   deliveriesMap.forEach((key, value) {
+  //     if (value.uiqueKey == id) desiredKey = key;
+  //   });
+  //   box.delete(desiredKey);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,10 +98,10 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                     children: [
                       TextButton.icon(
                         onPressed: () {
-                          final ckey = user[index].uiqueKey;
+                          // final ckey = user[index].uiqueKey;
                           deletedoctor(user[index]);
 
-                          deletDcrGSPitem(ckey);
+                          // deletDcrGSPitem(ckey);
                         },
                         icon: const Icon(
                           Icons.delete,
@@ -114,31 +114,32 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          final dcrKey = user[index].uiqueKey;
+                          // final dcrKey = user[index].uiqueKey;
 
-                          filteredOrder = [];
-                          addedDcrGSPList
-                              .where((item) => item.uiqueKey == dcrKey)
-                              .forEach(
-                            (item) {
-                              final temp = DcrGSPDataModel(
-                                  uiqueKey: item.uiqueKey,
-                                  quantity: item.quantity,
-                                  giftName: item.giftName,
-                                  giftId: item.giftId,
-                                  giftType: item.giftType);
-                              filteredOrder.add(temp);
-                            },
-                          );
+                          // filteredOrder = [];
+                          // addedDcrGSPList
+                          //     .where((item) => item.uiqueKey == dcrKey)
+                          //     .forEach(
+                          //   (item) {
+                          //     final temp = DcrGSPDataModel(
+                          //         uiqueKey: item.uiqueKey,
+                          //         quantity: item.quantity,
+                          //         giftName: item.giftName,
+                          //         giftId: item.giftId,
+                          //         giftType: item.giftType);
+                          //     filteredOrder.add(temp);
+                          //   },
+                          // );
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => DcrGiftSamplePpmPage(
-                                ck: 'isCheck',
-                                dcrKey: dcrKey,
-                                uniqueId: dcrKey,
-                                draftOrderItem: filteredOrder,
+                                isDraft: true,
+                                // dcrKey: dcrKey,
+                                // uniqueId: dcrKey,
+                                draftOrderItem: user[index].dcrGspList,
+                                // draftOrderItem: filteredOrder,
                                 docName: user[index].docName,
                                 docId: user[index].docId,
                                 areaName: user[index].areaName,

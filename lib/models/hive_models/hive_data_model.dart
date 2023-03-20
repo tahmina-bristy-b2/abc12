@@ -79,26 +79,25 @@ class CustomerDataModel extends HiveObject {
 @HiveType(typeId: 2)
 class DcrDataModel extends HiveObject {
   @HiveField(0)
-  int uiqueKey;
-  @HiveField(1)
   String docName;
-  @HiveField(2)
+  @HiveField(1)
   String docId;
-  @HiveField(3)
+  @HiveField(2)
   String areaId;
-  @HiveField(4)
+  @HiveField(3)
   String areaName;
-  @HiveField(5)
+  @HiveField(4)
   String address;
+  @HiveField(5)
+  List<DcrGSPDataModel> dcrGspList;
 
-  DcrDataModel({
-    required this.uiqueKey,
-    required this.docName,
-    required this.docId,
-    required this.areaId,
-    required this.areaName,
-    required this.address,
-  });
+  DcrDataModel(
+      {required this.docName,
+      required this.docId,
+      required this.areaId,
+      required this.areaName,
+      required this.address,
+      required this.dcrGspList});
 }
 
 @HiveType(typeId: 3)
@@ -131,19 +130,19 @@ class RxDcrDataModel extends HiveObject {
 
 @HiveType(typeId: 4)
 class DcrGSPDataModel extends HiveObject {
+  // @HiveField(0)
+  // int uiqueKey;
   @HiveField(0)
-  int uiqueKey;
-  @HiveField(1)
   int quantity;
-  @HiveField(2)
+  @HiveField(1)
   String giftName;
-  @HiveField(3)
+  @HiveField(2)
   String giftId;
-  @HiveField(4)
+  @HiveField(3)
   String giftType;
 
   DcrGSPDataModel({
-    required this.uiqueKey,
+    // required this.uiqueKey,
     required this.quantity,
     required this.giftName,
     required this.giftId,

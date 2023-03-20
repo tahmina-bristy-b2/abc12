@@ -23,6 +23,7 @@ class RxDataProviders {
     var dt = DateFormat('HH:mm:ss').format(DateTime.now());
 
     final http.Response response;
+    print(RxApis.rxSubmitApi(submitUrl));
     response = await http.post(
       Uri.parse(RxApis.rxSubmitApi(submitUrl)),
       headers: <String, String>{

@@ -210,7 +210,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   Text(
                     "Territory : ${widget.areaName}",
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
+                        fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(
                     height: 10,
@@ -220,7 +220,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
                     child: TextField(
                       controller: nameController,
                       decoration: InputDecoration(
@@ -240,12 +240,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Category",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Row(
+                              children: const [
+                                Text(
+                                  "Category",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
                                 width: screenWidth / 2.3,
                                 child: DropdownButtonFormField(
@@ -287,12 +297,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Doctor Category",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Row(
+                              children: const [
+                                Text(
+                                  "Doctor Category",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
                                 width: screenWidth / 2.3,
                                 child: DropdownButtonFormField(
@@ -415,12 +435,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Doctor Type",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Row(
+                              children: const [
+                                Text(
+                                  "Doctor Type",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
                                 width: screenWidth / 2.3,
                                 child: DropdownButtonFormField(
@@ -462,12 +492,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Speciality",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Row(
+                              children: const [
+                                Text(
+                                  "Speciality",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
                                 width: screenWidth / 2.3,
                                 child: DropdownButtonFormField(
@@ -534,7 +574,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                           }
                           // degreeList
                           //     .add(widget.docSettings.resData.docDegreeList[e]);
-                          print("degree= $degreeList");
+                          //print("degree= $degreeList");
                         }
                       }
                     },
@@ -542,9 +582,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     dropdownTitleTileText: '',
                     dropdownTitleTileColor: Colors.grey[200],
                     dropdownTitleTileMargin:
-                        const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        const EdgeInsets.fromLTRB(0, 6, 0, 10),
                     dropdownTitleTilePadding:
-                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                        const EdgeInsets.fromLTRB(5, 6, 5, 10),
                     dropdownUnderlineBorder:
                         const BorderSide(color: Colors.transparent, width: 2),
                     dropdownTitleTileBorder:
@@ -623,10 +663,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     dropdownTitleTileText: '',
                     dropdownTitleTileColor: Colors.grey[200],
                     dropdownTitleTileMargin:
-                        const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     dropdownTitleTilePadding:
-                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                        const EdgeInsets.fromLTRB(5, 6, 5, 10),
                     dropdownUnderlineBorder:
                         const BorderSide(color: Colors.transparent, width: 2),
                     dropdownTitleTileBorder:
@@ -650,12 +690,21 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     inactiveBorderColor: Colors.grey,
                   ),
                   //==========================================================Address row===============================================================
-                  const Text(
-                    "Address",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    children: const [
+                      Text(
+                        "Address",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "*",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                    ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
                     child: TextField(
                       controller: adressController,
                       decoration: InputDecoration(
@@ -673,43 +722,67 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Thana",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          Row(
+                            children: const [
+                              Text(
+                                "District",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             width: screenWidth / 2.1,
-                            child: DropdownButtonFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              onChanged: (String? newValue) {
-                                thanaSelectedValue = newValue!;
+                                isExpanded: true,
+                                onChanged: (String? newValue) {
+                                  districtSelectedValue = newValue!;
+                                  getThanaWithDist = widget
+                                      .docSettings.resData.distThanaList
+                                      .where((element) =>
+                                          element.districtName == newValue)
+                                      .toList();
 
-                                setState(() {});
-                              },
-                              value: thanaSelectedValue,
-                              items: getThanaWithDist.first.thanaList.isNotEmpty
-                                  ? getThanaWithDist.first.thanaList
-                                      .map((e) => DropdownMenuItem(
-                                          value: e.thanaName,
-                                          child: Text(e.thanaName)))
-                                      .toList()
-                                  : any.map<DropdownMenuItem<String>>(
-                                      (String e) {
-                                        //print(e);
-                                        return DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e.toString()),
-                                        );
-                                      },
-                                    ).toList(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                // fontSize: 16,
+                                  thanaSelectedValue = getThanaWithDist
+                                          .first.thanaList.isNotEmpty
+                                      ? getThanaWithDist
+                                          .first.thanaList.first.thanaName
+                                      : '_';
+                                  setState(() {});
+                                },
+                                value: districtSelectedValue,
+                                items: widget.docSettings.resData.distThanaList
+                                        .isNotEmpty
+                                    ? widget.docSettings.resData.distThanaList
+                                        .map((e) => DropdownMenuItem(
+                                            value: e.districtName,
+                                            child: Text(e.districtName)))
+                                        .toList()
+                                    : any.map<DropdownMenuItem<String>>(
+                                        (String e) {
+                                          //print(e);
+                                          return DropdownMenuItem(
+                                            value: e,
+                                            child: Text(e.toString()),
+                                          );
+                                        },
+                                      ).toList(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  // fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
@@ -718,54 +791,57 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "District",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          Row(
+                            children: const [
+                              Text(
+                                "Thana",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             width: screenWidth / 2.1,
-                            child: DropdownButtonFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              onChanged: (String? newValue) {
-                                districtSelectedValue = newValue!;
-                                getThanaWithDist = widget
-                                    .docSettings.resData.distThanaList
-                                    .where((element) =>
-                                        element.districtName == newValue)
-                                    .toList();
+                                isExpanded: true,
+                                onChanged: (String? newValue) {
+                                  thanaSelectedValue = newValue!;
 
-                                thanaSelectedValue =
+                                  setState(() {});
+                                },
+                                value: thanaSelectedValue,
+                                items:
                                     getThanaWithDist.first.thanaList.isNotEmpty
-                                        ? getThanaWithDist
-                                            .first.thanaList.first.thanaName
-                                        : '_';
-                                setState(() {});
-                              },
-                              value: districtSelectedValue,
-                              items: widget.docSettings.resData.distThanaList
-                                      .isNotEmpty
-                                  ? widget.docSettings.resData.distThanaList
-                                      .map((e) => DropdownMenuItem(
-                                          value: e.districtName,
-                                          child: Text(e.districtName)))
-                                      .toList()
-                                  : any.map<DropdownMenuItem<String>>(
-                                      (String e) {
-                                        //print(e);
-                                        return DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e.toString()),
-                                        );
-                                      },
-                                    ).toList(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                // fontSize: 16,
+                                        ? getThanaWithDist.first.thanaList
+                                            .map((e) => DropdownMenuItem(
+                                                value: e.thanaName,
+                                                child: Text(e.thanaName)))
+                                            .toList()
+                                        : any.map<DropdownMenuItem<String>>(
+                                            (String e) {
+                                              //print(e);
+                                              return DropdownMenuItem(
+                                                value: e,
+                                                child: Text(e.toString()),
+                                              );
+                                            },
+                                          ).toList(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  // fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
@@ -775,13 +851,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
 
                   //==========================================================Mobile Number row===============================================================
-                  const Text(
-                    "Mobile Number",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    children: const [
+                      Text(
+                        "Mobile Number*",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "*",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                    ],
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: mobileController,
@@ -800,7 +885,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: dobController,
@@ -842,7 +927,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: marriageDayController,
@@ -885,7 +970,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: SizedBox(
                       width: screenWidth,
@@ -932,7 +1017,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: dobChild1Controller,
@@ -974,7 +1059,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: dobChild2Controller,
@@ -1010,13 +1095,22 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     ),
                   ),
                   //==========================================================No of patient per day  row===============================================================
-                  const Text(
-                    "No of patient per day",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    children: const [
+                      Text(
+                        "No of patient per day",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "*",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                    ],
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: patientNumController,
@@ -1035,7 +1129,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: docIDController,
@@ -1071,7 +1165,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: docNameController,
@@ -1089,7 +1183,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: docSpecialityController,
@@ -1107,7 +1201,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
 
                     child: TextField(
                       controller: docAddressController,
@@ -1120,9 +1214,18 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
 
                   //==========================================================Brand===============================================================
-                  const Text(
-                    "Brand",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    children: const [
+                      Text(
+                        "Brand",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "*",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                    ],
                   ),
 
                   GFMultiSelect(
@@ -1148,9 +1251,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     dropdownTitleTileText: '',
                     dropdownTitleTileColor: Colors.grey[200],
                     dropdownTitleTileMargin:
-                        const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        const EdgeInsets.fromLTRB(0, 6, 0, 10),
                     dropdownTitleTilePadding:
-                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                        const EdgeInsets.fromLTRB(5, 6, 5, 10),
                     dropdownUnderlineBorder:
                         const BorderSide(color: Colors.transparent, width: 2),
                     dropdownTitleTileBorder:
@@ -1165,7 +1268,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       color: Colors.black54,
                     ),
                     // submitButton: Text('OK'),
-                    // dropdownTitleTileTextStyle: const TextStyle(
+                    // dropdownTitleTileTextStyle: const Text   Style(
                     //     fontSize: 14, color: Colors.black54),
                     padding: const EdgeInsets.all(0),
                     margin: const EdgeInsets.all(0),
@@ -1211,7 +1314,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 docTypeSelectedValue,
                                 docSpSelectedValue,
                                 degreeList,
-                                "pharmacy|pharmacy",
+                                chemistId,
                                 adressController.text.toString(),
                                 thanaSelectedId,
                                 districtSelectedId,

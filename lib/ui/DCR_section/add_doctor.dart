@@ -1277,7 +1277,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     inactiveBorderColor: Colors.grey,
                   ),
 
-                  submitButton(context)
+                  widget.isEdit
+                      ? editsubmitButton(context)
+                      : submitButton(context)
                 ],
               ),
             ),
@@ -1293,85 +1295,252 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         onPressed: () async {
           if (cid != "") {
             if (userPassword != "") {
-              if (nameController.text.isNotEmpty) {
-                if (marriageDayController.text.isNotEmpty) {
-                  if (dobController.text.isNotEmpty) {
-                    if (adressController.text.isNotEmpty) {
-                      if (mobileController.text.isNotEmpty) {
-                        readyForData();
+              if (dCgSelectedValue.isNotEmpty) {
+                if (dCgSelectedValue.isNotEmpty) {
+                  if (adressController.text.isNotEmpty) {
+                    if (mobileController.text.isNotEmpty) {
+                      if (thanaSelectedId != "") {
+                        if (districtSelectedId != "") {
+                          if (patientNumController.text.isNotEmpty) {
+                            if (brandListString != " ") {
+                              readyForData();
 
-                        Map<String, dynamic> a = await DcrRepositories()
-                            .addDoctorR(
-                                dmPathData!.doctorAddUrl,
-                                cid,
-                                userLoginInfo!.userId,
-                                userPassword,
-                                widget.areaID,
-                                widget.areaName,
-                                nameController.text.toString(),
-                                dCgSelectedValue,
-                                docCtSelectedValue,
-                                docTypeSelectedValue,
-                                docSpSelectedValue,
-                                degreeList,
-                                chemistId,
-                                adressController.text.toString(),
-                                thanaSelectedId,
-                                districtSelectedId,
-                                mobileController.text.toString(),
-                                marriageDayController.text.toString(),
-                                dobChild1Controller.text.toString(),
-                                dobChild2Controller.text.toString(),
-                                collarSize,
-                                patientNumController.text.toString(),
-                                docIDController.text.toString(),
-                                docNameController.text.toString(),
-                                docSpecialityController.text.toString(),
-                                docAddressController.text.toString(),
-                                brandListString,
-                                dobController.text.toString());
+                              Map<String, dynamic> a = await DcrRepositories()
+                                  .addDoctorR(
+                                      dmPathData!.doctorAddUrl,
+                                      cid,
+                                      userLoginInfo!.userId,
+                                      userPassword,
+                                      widget.areaID,
+                                      widget.areaName,
+                                      nameController.text.toString(),
+                                      dCgSelectedValue,
+                                      docCtSelectedValue,
+                                      docTypeSelectedValue,
+                                      docSpSelectedValue,
+                                      degreeList,
+                                      chemistId,
+                                      adressController.text.toString(),
+                                      thanaSelectedId,
+                                      districtSelectedId,
+                                      mobileController.text.toString(),
+                                      marriageDayController.text.toString(),
+                                      dobChild1Controller.text.toString(),
+                                      dobChild2Controller.text.toString(),
+                                      collarSize,
+                                      patientNumController.text.toString(),
+                                      docIDController.text.toString(),
+                                      docNameController.text.toString(),
+                                      docSpecialityController.text.toString(),
+                                      docAddressController.text.toString(),
+                                      brandListString,
+                                      dobController.text.toString());
 
-                        String status = a['status'];
+                              String status = a['status'];
 
-                        if (status == "Success") {
+                              if (status == "Success") {
+                                AllServices().toastMessage(
+                                    "Doctor Added Successfully Done",
+                                    Colors.green,
+                                    Colors.white,
+                                    14);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              } else {
+                                String resString = a['ret_str'] ?? "";
+
+                                AllServices().toastMessage(
+                                    "$status for $resString",
+                                    Colors.red,
+                                    Colors.white,
+                                    14);
+                              }
+                            } else {
+                              AllServices().toastMessage(
+                                  "Please select brand Day",
+                                  Colors.red,
+                                  Colors.white,
+                                  14);
+                            }
+                          } else {
+                            AllServices().toastMessage(
+                                "Please fill up your patient per Day",
+                                Colors.red,
+                                Colors.white,
+                                14);
+                          }
+                        } else {
                           AllServices().toastMessage(
-                              "Doctor Added Successfully Done",
-                              Colors.green,
+                              "Please select up your District",
+                              Colors.red,
                               Colors.white,
                               14);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        } else {
-                          String resString = a['ret_str'] ?? "";
-
-                          AllServices().toastMessage("$status for $resString",
-                              Colors.red, Colors.white, 14);
                         }
                       } else {
                         AllServices().toastMessage(
-                            "Please fill up your mobile number",
+                            "Please select up your Thana",
                             Colors.red,
                             Colors.white,
                             14);
                       }
                     } else {
-                      AllServices().toastMessage("Please fill up your address",
-                          Colors.red, Colors.white, 14);
+                      AllServices().toastMessage(
+                          "Please fill up your mobile number",
+                          Colors.red,
+                          Colors.white,
+                          14);
                     }
                   } else {
-                    AllServices().toastMessage(
-                        "Please fill up your Birthday day",
-                        Colors.red,
-                        Colors.white,
-                        14);
+                    AllServices().toastMessage("Please fill up your address",
+                        Colors.red, Colors.white, 14);
                   }
                 } else {
-                  AllServices().toastMessage("Please fill up your marriage day",
+                  AllServices().toastMessage("Please select up your Category",
                       Colors.red, Colors.white, 14);
                 }
               } else {
-                AllServices().toastMessage("Please fill up your name first",
-                    Colors.red, Colors.white, 14);
+                AllServices().toastMessage(
+                    "Please select your Doctor Category first",
+                    Colors.red,
+                    Colors.white,
+                    14);
+              }
+            } else {
+              AllServices().toastMessage(
+                  "Password did not Found", Colors.red, Colors.white, 14);
+            }
+          } else {
+            AllServices()
+                .toastMessage("CID Missing", Colors.red, Colors.white, 14);
+          }
+
+          ///code beyadobi kore
+        },
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(screenWidth / 1.2, screenHeight * 0.06),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            backgroundColor: const Color.fromARGB(255, 4, 60, 105)),
+        child: const Text("Submit"),
+      ),
+    );
+  }
+
+  Center editsubmitButton(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () async {
+          if (cid != "") {
+            if (userPassword != "") {
+              if (dCgSelectedValue.isNotEmpty) {
+                if (dCgSelectedValue.isNotEmpty) {
+                  if (adressController.text.isNotEmpty) {
+                    if (mobileController.text.isNotEmpty) {
+                      if (thanaSelectedId != "") {
+                        if (districtSelectedId != "") {
+                          if (patientNumController.text.isNotEmpty) {
+                            if (brandListString != " ") {
+                              readyForData();
+
+                              Map<String, dynamic> a = await DcrRepositories()
+                                  .editDoctorR(
+                                      dmPathData!.doctorAddUrl,
+                                      cid,
+                                      userLoginInfo!.userId,
+                                      userPassword,
+                                      widget.areaID,
+                                      widget.areaName,
+                                      nameController.text.toString(),
+                                      dCgSelectedValue,
+                                      docCtSelectedValue,
+                                      docTypeSelectedValue,
+                                      docSpSelectedValue,
+                                      degreeList,
+                                      chemistId,
+                                      adressController.text.toString(),
+                                      thanaSelectedId,
+                                      districtSelectedId,
+                                      mobileController.text.toString(),
+                                      marriageDayController.text.toString(),
+                                      dobChild1Controller.text.toString(),
+                                      dobChild2Controller.text.toString(),
+                                      collarSize,
+                                      patientNumController.text.toString(),
+                                      docIDController.text.toString(),
+                                      docNameController.text.toString(),
+                                      docSpecialityController.text.toString(),
+                                      docAddressController.text.toString(),
+                                      brandListString,
+                                      dobController.text.toString());
+
+                              String status = a['status'];
+
+                              if (status == "Success") {
+                                AllServices().toastMessage(
+                                    "Doctor Edited Successfully Done",
+                                    Colors.green,
+                                    Colors.white,
+                                    14);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              } else {
+                                String resString = a['ret_str'] ?? "";
+
+                                AllServices().toastMessage(
+                                    "$status for $resString",
+                                    Colors.red,
+                                    Colors.white,
+                                    14);
+                              }
+                            } else {
+                              AllServices().toastMessage(
+                                  "Please select brand Day",
+                                  Colors.red,
+                                  Colors.white,
+                                  14);
+                            }
+                          } else {
+                            AllServices().toastMessage(
+                                "Please fill up your patient per Day",
+                                Colors.red,
+                                Colors.white,
+                                14);
+                          }
+                        } else {
+                          AllServices().toastMessage(
+                              "Please select up your District",
+                              Colors.red,
+                              Colors.white,
+                              14);
+                        }
+                      } else {
+                        AllServices().toastMessage(
+                            "Please select up your Thana",
+                            Colors.red,
+                            Colors.white,
+                            14);
+                      }
+                    } else {
+                      AllServices().toastMessage(
+                          "Please fill up your mobile number",
+                          Colors.red,
+                          Colors.white,
+                          14);
+                    }
+                  } else {
+                    AllServices().toastMessage("Please fill up your address",
+                        Colors.red, Colors.white, 14);
+                  }
+                } else {
+                  AllServices().toastMessage("Please select up your Category",
+                      Colors.red, Colors.white, 14);
+                }
+              } else {
+                AllServices().toastMessage(
+                    "Please select your Doctor Category first",
+                    Colors.red,
+                    Colors.white,
+                    14);
               }
             } else {
               AllServices().toastMessage(

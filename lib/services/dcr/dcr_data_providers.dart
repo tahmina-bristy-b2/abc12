@@ -89,6 +89,14 @@ class DcrDataProviders {
     return response;
   }
 
+  Future<http.Response> getDoctorEditUrl(String addUrl, String params) async {
+    final http.Response response;
+
+    print("object=${DcrApis.doctorEditUrl(addUrl, params)}");
+    response = await http.get(Uri.parse(DcrApis.doctorEditUrl(addUrl, params)));
+    return response;
+  }
+
   Future<http.Response> gspSubmitDP(
       String gspSubmitUrl,
       String cid,

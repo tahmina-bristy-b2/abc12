@@ -182,4 +182,17 @@ class DcrDataProviders {
 
     return response;
   }
+
+  //################################ Doctor Edit info Settings########################
+  Future<http.Response> docEditInfoDP(String docEditUrl, String cid,
+      String userId, String userpass, String areaId, String docId) async {
+    // print(DcrApis.docSettingsApi);
+
+    final response = await http.get(
+      Uri.parse(DcrApis.docEditInfoApi(
+          docEditUrl, cid, userId, userpass, areaId, docId)),
+    );
+
+    return response;
+  }
 }

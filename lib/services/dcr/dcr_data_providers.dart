@@ -81,67 +81,11 @@ class DcrDataProviders {
     return response;
   }
 
-  Future<http.Response> getDoctorAddUrl(
-      String addUrl,
-      String skf,
-      String userId,
-      String password,
-      String areaId,
-      String areaName,
-      String doctorName,
-      String category,
-      String doctorCategory,
-      String doctorType,
-      String specialty,
-      String degree,
-      String chemistId,
-      String draddress,
-      String drDistrict,
-      String drThana,
-      String drMobile,
-      String marDay,
-      String child1,
-      String child2,
-      String collerSize,
-      String nop,
-      String fDrId,
-      String fDrName,
-      String fDrspecilty,
-      String fDocAddress,
-      String brand,
-      String dob) async {
+  Future<http.Response> getDoctorAddUrl(String addUrl, String params) async {
     final http.Response response;
-    print(
-        "object=${DcrApis.doctorAddUrl(addUrl, skf, userId, password, areaId, areaName, doctorName, category, doctorCategory, doctorType, specialty, degree, chemistId, draddress, drDistrict, drThana, drMobile, marDay, child1, child2, collerSize, nop, fDrId, fDrName, fDrspecilty, fDocAddress, brand, dob)}");
-    response = await http.get(Uri.parse(DcrApis.doctorAddUrl(
-        addUrl,
-        skf,
-        userId,
-        password,
-        areaId,
-        areaName,
-        doctorName,
-        category,
-        doctorCategory,
-        doctorType,
-        specialty,
-        degree,
-        chemistId,
-        draddress,
-        drDistrict,
-        drThana,
-        drMobile,
-        marDay,
-        child1,
-        child2,
-        collerSize,
-        nop,
-        fDrId,
-        fDrName,
-        fDrspecilty,
-        fDocAddress,
-        brand,
-        dob)));
+
+    print("object=${DcrApis.doctorAddUrl(addUrl, params)}");
+    response = await http.get(Uri.parse(DcrApis.doctorAddUrl(addUrl, params)));
     return response;
   }
 

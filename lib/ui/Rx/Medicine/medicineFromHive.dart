@@ -1,4 +1,5 @@
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -38,9 +39,9 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
   @override
   void initState() {
     foundUsers = widget.medicineData;
-    foundUsers.forEach((element) {
+    for (var element in foundUsers) {
       pressedActivity[element['item_id']] = false;
-    });
+    }
 
     super.initState();
   }
@@ -49,35 +50,6 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
   void dispose() {
     searchController.dispose();
     super.dispose();
-  }
-
-  void runFilter(String enteredKeyword) {
-    foundUsers = widget.medicineData;
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foundUsers;
-    } else {
-      var starts = foundUsers
-          .where((s) =>
-              s['name'].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
-          .toList();
-
-      var contains = foundUsers
-          .where((s) =>
-              s['name'].toLowerCase().contains(enteredKeyword.toLowerCase()) &&
-              !s['name'].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
-          .toList()
-        ..sort((a, b) =>
-            a['name'].toLowerCase().compareTo(b['name'].toLowerCase()));
-
-      results = [...starts, ...contains];
-    }
-
-    // Refresh the UI
-    setState(() {
-      foundUsers = results;
-    });
   }
 
   // late List<bool> pressedAttentions = foundUsers.map((e) => false).toList();
@@ -97,7 +69,12 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                onChanged: (value) => runFilter(value),
+                onChanged: (value) {
+                  setState(() {
+                    foundUsers = AllServices().searchDynamicMethod(
+                        value, widget.medicineData, 'item_id');
+                  });
+                },
                 controller: searchController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
@@ -108,8 +85,10 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                       : IconButton(
                           onPressed: () {
                             searchController.clear();
-                            runFilter('');
-                            setState(() {});
+                            setState(() {
+                              foundUsers = AllServices().searchDynamicMethod(
+                                  "", widget.medicineData, 'item_id');
+                            });
                           },
                           icon: const Icon(
                             Icons.clear,
@@ -173,8 +152,10 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                                           Expanded(
                                             flex: 5,
                                             child: Text(
-                                              '${foundUsers[index]['name']} ' +
-                                                  '(${foundUsers[index]['item_id']})',
+                                              // foundUsers[index]['name'],
+                                              foundUsers[index]['item_id'],
+                                              // '${foundUsers[index]['name']} ' +
+                                              //     '(${foundUsers[index]['item_id']})',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -204,7 +185,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          finalList.forEach((element) {
+          for (var element in finalList) {
             var temp = MedicineListModel(
                 strength: element['strength'],
                 name: element['name'],
@@ -221,23 +202,8 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 .removeWhere((item) => item.itemId == tempItemId);
 
             widget.medicinTempList.add(temp);
-          });
-          // } else {
-          //   finalList.forEach((element) {
-          //     final temp = MedicineListModel(
-          //         strength: element['strength'],
-          //         name: element['name'],
-          //         generic: element['generic'],
-          //         brand: element['brand'],
-          //         company: element['company'],
-          //         formation: element['formation'],
-          //         uiqueKey: widget.counter,
-          //         itemId: element['item_id'],
-          //         quantity: 1);
-          //     final tempItemId = temp.itemId;
-          //     widget.tempList.removeWhere((item) => item.itemId == tempItemId);
-          //   });
-          // }
+          }
+
           widget.tempListFunc(widget.medicinTempList);
           Navigator.pop(context);
         },

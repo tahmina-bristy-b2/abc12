@@ -103,10 +103,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         cid = prefs.getString("CID")!;
-        // userId = prefs.getString("USER_ID")!;
-        // areaPageUrl = prefs.getString('user_area_url')!;
         userPassword = prefs.getString("PASSWORD")!;
-        // syncUrl = prefs.getString("sync_url")!;
       });
     });
 
@@ -195,7 +192,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Doctor"),
+        title: widget.isEdit
+            ? const Text("Doctor Update")
+            : const Text("Add Doctor"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -624,14 +623,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     onSelect: (value) {
                       chemistId = "";
                       if (value.isNotEmpty) {
-                        // print(widget.customerList
-                        //     .where((item) => item["client_id"] == value));
-                        // widget.customerList.where((e) {
-                        //   // value == e;
-                        //   print("element $e");
-                        //   return e;
-                        // });
-                        print(value);
                         for (var ele in value) {
                           for (var e in widget.customerList) {
                             if (e["client_name"] == customerNameList[ele]) {
@@ -643,28 +634,14 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                             }
                           }
                         }
-                        print(chemistId);
-
-                        //   for (var e in value) {
-                        //     if (dcrString == '') {
-                        //       dcrString =
-                        //           dcr_visitedWithList[e];
-                        //     } else {
-                        //       dcrString +=
-                        //           '|' + dcr_visitedWithList[e];
-                        //     }
-                        //   }
                       }
                       degreeController.text = value.toString();
-                      //print('selected $value ');
-                      // //print(dcrString);
                     },
                     cancelButton: cancalButton(),
                     dropdownTitleTileText: '',
                     dropdownTitleTileColor: Colors.grey[200],
                     dropdownTitleTileMargin:
                         const EdgeInsets.fromLTRB(0, 6, 0, 10),
-
                     dropdownTitleTilePadding:
                         const EdgeInsets.fromLTRB(5, 6, 5, 10),
                     dropdownUnderlineBorder:
@@ -680,9 +657,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       Icons.keyboard_arrow_up,
                       color: Colors.black54,
                     ),
-                    // submitButton: Text('OK'),
-                    // dropdownTitleTileTextStyle: const TextStyle(
-                    //     fontSize: 14, color: Colors.black54),
                     padding: const EdgeInsets.all(0),
                     margin: const EdgeInsets.all(0),
                     type: GFCheckboxType.basic,

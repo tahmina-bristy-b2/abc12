@@ -562,7 +562,7 @@ class _RxPageState extends State<RxPage> {
                                     ),
                                     elevation: 5,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(2.0),
+                                      padding: const EdgeInsets.all(5.0),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -574,37 +574,34 @@ class _RxPageState extends State<RxPage> {
                                               color: Colors.white,
                                             ),
                                             width: screenWidth / 5,
-                                            height: screenHeight / 9,
+                                            height: screenHeight / 8,
 
                                             // color: const Color(0xffDDEBF7),
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/images/doctor.png',
-                                                    // color: Colors.teal,
-                                                    width: screenWidth / 7,
-                                                    height: screenWidth / 7,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  FittedBox(
-                                                    child: Text(
-                                                      'Doctor',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.teal,
-                                                        fontSize:
-                                                            screenHeight / 45,
-                                                      ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/doctor.png',
+                                                  // color: Colors.teal,
+                                                  width: screenWidth / 7,
+                                                  height: screenWidth / 7,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                FittedBox(
+                                                  child: Text(
+                                                    'Doctor',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.teal,
+                                                      fontSize:
+                                                          screenHeight / 45,
                                                     ),
-                                                  )
-                                                ],
-                                              ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -618,7 +615,7 @@ class _RxPageState extends State<RxPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  print(imagePath.toString());
+                                  // print(imagePath.toString());
                                   setState(() {});
 
                                   if (imagePath != null) {
@@ -675,45 +672,44 @@ class _RxPageState extends State<RxPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          SizedBox(
-                                            width: screenWidth / 5,
-                                            height: screenHeight / 10,
-
-                                            // color: const Color(0xffDDEBF7),
-                                            child: Container(
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
                                               color: Colors.white,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/images/cap.png',
-                                                    // color: Colors.teal,
-                                                    width: screenWidth / 10,
-                                                    height: screenWidth / 8,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  FittedBox(
-                                                    child: Text(
-                                                      'Medicine',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.teal,
-                                                        fontSize:
-                                                            screenHeight / 45,
-                                                      ),
+                                            ),
+                                            width: screenWidth / 5,
+                                            height: screenHeight / 8,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/cap.png',
+                                                  width: screenWidth / 7,
+                                                  height: screenWidth / 7,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                FittedBox(
+                                                  child: Text(
+                                                    'Medicine',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.teal,
+                                                      fontSize:
+                                                          screenHeight / 45,
                                                     ),
-                                                  )
-                                                  // Image.asset(
-                                                  //   'assets/images/doctor.jpg',
-                                                  //   // width: 60,
-                                                  //   // height: 40,
-                                                  //   fit: BoxFit.cover,
-                                                  // ),
-                                                ],
-                                              ),
+                                                  ),
+                                                )
+                                                // Image.asset(
+                                                //   'assets/images/doctor.jpg',
+                                                //   // width: 60,
+                                                //   // height: 40,
+                                                //   fit: BoxFit.cover,
+                                                // ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -1157,6 +1153,8 @@ class _RxPageState extends State<RxPage> {
           }
 
           deleteRxDoctor(widget.dcrKey);
+        } else {
+          deleteRxDoctor(objectImageId);
         }
 
         setState(() {});

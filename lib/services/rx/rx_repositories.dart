@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/services/rx/rx_data_providers.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,16 +11,16 @@ class RxRepositories {
   //===================================================================================================================================================
   Future<Map<String, dynamic>> rxSubmit(
       String submitUrl,
-      fileName,
+      String fileName,
       String cid,
       String userId,
       String userpass,
       String deviceId,
-      finalDoctorList,
-      dropdownRxTypevalue,
-      latitude,
-      longitude,
-      itemString) async {
+      List<RxDcrDataModel> finalDoctorList,
+      String dropdownRxTypevalue,
+      double latitude,
+      double longitude,
+      String itemString) async {
     Map<String, dynamic> orderInfo = {};
     try {
       final http.Response response = await RxDataProviders().rxSubmit(

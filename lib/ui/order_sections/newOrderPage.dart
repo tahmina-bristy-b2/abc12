@@ -503,38 +503,55 @@ class _NewOrderPageState extends State<NewOrderPage> {
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 138, 201, 149),
       ),
-      child: Column(
-        children: [
-          Image.asset('assets/images/mRep7_logo.png'),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FittedBox(
-                  child: Text(
-                    widget.clientName,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 11, 22, 13),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20),
-                  ),
-                ),
-                userLoginInfo!.clientEditFlag
-                    ? customerEditUrlWidget()
-                    : Container(
-                        width: 70,
-                      )
-              ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 25, 8, 0),
+        child: Column(
+          children: [
+            FittedBox(
+              child: Text(
+                widget.clientName,
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 11, 22, 13),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
             ),
-          ),
-          Expanded(
-            child: Text(widget.clientId,
+            Text(widget.clientId,
                 style: const TextStyle(
                     color: Color.fromARGB(255, 11, 22, 13),
                     fontWeight: FontWeight.w500,
-                    fontSize: 15)),
-          )
-        ],
+                    fontSize: 15))
+            // Image.asset('assets/images/logo-black.png'),
+            // Expanded(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.end,
+            //     children: [
+            //       FittedBox(
+            //         child: Text(
+            //           widget.clientName,
+            //           style: const TextStyle(
+            //               color: Color.fromARGB(255, 11, 22, 13),
+            //               fontWeight: FontWeight.bold,
+            //               fontSize: 20),
+            //         ),
+            //       ),
+            //       userLoginInfo!.clientEditFlag
+            //           ? customerEditUrlWidget()
+            //           : Container(
+            //               width: 70,
+            //             )
+            //     ],
+            //   ),
+            // ),
+            // Expanded(
+            //   child: Text(widget.clientId,
+            //       style: const TextStyle(
+            //           color: Color.fromARGB(255, 11, 22, 13),
+            //           fontWeight: FontWeight.w500,
+            //           fontSize: 15)),
+            // )
+          ],
+        ),
       ),
     );
   }

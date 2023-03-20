@@ -1179,7 +1179,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                       onPressed: () async {
                         readyForData();
 
-                        Map<String, dynamic> a = await DcrRepositories()
+                        Map<String, dynamic> docAdd = await DcrRepositories()
                             .addDoctorR(
                                 dmPathData!.doctorAddUrl,
                                 cid,
@@ -1209,7 +1209,11 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 docAddressController.text.toString(),
                                 brandListString,
                                 dobController.text.toString());
-                        print("object=====================$a");
+                        print("object=====================$docAdd");
+
+                        if (docAdd["status"] == "Success") {
+                          Navigator.of(context).pop();
+                        }
 
                         ///code beyadobi kore
                       },

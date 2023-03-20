@@ -192,7 +192,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Doctor"),
+        title: widget.isEdit
+            ? const Text("Doctor Update")
+            : const Text("Add Doctor"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

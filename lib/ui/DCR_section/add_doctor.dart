@@ -72,7 +72,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   List<String> collarSizeList = [];
   List<String> dCList = [];
   List<String> brandList = [];
-
+  String docId = "";
   String brandListString = " ";
   String categoryValue = 'A';
   String docCategoryValue = 'DCC';
@@ -156,7 +156,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         chemistId = widget.docEditInfo["docRecords"][i]["arround_chemist_id"];
         brandListString = widget.docEditInfo["docRecords"][i]["brand"];
         degreeList = widget.docEditInfo["docRecords"][i]["degree"];
-
+        docId = widget.docEditInfo["docRecords"][i]["doc_id"];
         dobController.text = widget.docEditInfo["docRecords"][i]["dob"];
         dobChild1Controller.text =
             widget.docEditInfo["docRecords"][i]["dob_child1"];
@@ -1566,12 +1566,13 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
                           Map<String, dynamic> a = await DcrRepositories()
                               .editDoctorR(
-                                  dmPathData!.doctorAddUrl,
+                                  dmPathData!.doctorEditSubmitUrl,
                                   cid,
                                   userLoginInfo!.userId,
                                   userPassword,
                                   widget.areaID,
                                   widget.areaName,
+                                  docId,
                                   nameController.text.toString(),
                                   categoryValue,
                                   docCategoryValue,
@@ -1603,7 +1604,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 Colors.green,
                                 Colors.white,
                                 14);
-                            Navigator.pop(context);
                             Navigator.pop(context);
                           } else {
                             String resString = a['ret_str'] ?? "";

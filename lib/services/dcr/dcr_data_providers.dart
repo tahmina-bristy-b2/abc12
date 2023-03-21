@@ -89,11 +89,13 @@ class DcrDataProviders {
     return response;
   }
 
-  Future<http.Response> getDoctorEditUrl(String addUrl, String params) async {
+  Future<http.Response> getDoctorEditUrl(
+      String editSubmitUrl, String params) async {
     final http.Response response;
 
-    print("object=${DcrApis.doctorEditUrl(addUrl, params)}");
-    response = await http.get(Uri.parse(DcrApis.doctorEditUrl(addUrl, params)));
+    print("object=${DcrApis.doctorEditUrl(editSubmitUrl, params)}");
+    response =
+        await http.get(Uri.parse(DcrApis.doctorEditUrl(editSubmitUrl, params)));
     return response;
   }
 

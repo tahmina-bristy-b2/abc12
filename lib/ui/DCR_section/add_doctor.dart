@@ -67,6 +67,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   List val = [];
   String dropdownValue = "_";
   List<String> degree = [];
+  List<int> degreeInt = [];
   String degreeList = " ";
   List<String> collarSizeList = [];
   List<String> dCList = [];
@@ -80,6 +81,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String thanaValue = '_';
   String districtValue = '_';
   String chemistId = "";
+  List<int> chemistInt = [];
+  List<int> brandInt = [];
 
   String thanaSelectedId = '';
   String districtSelectedId = '';
@@ -148,8 +151,12 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       for (int i = 0; i < widget.docEditInfo["docRecords"].length; i++) {
         print(widget.docEditInfo["docRecords"][i]["area_id"]);
         nameController.text = widget.docEditInfo["docRecords"][i]["doc_name"];
+        print(widget.docEditInfo["docRecords"][i]["doc_id"]);
         widget.areaName = widget.docEditInfo["docRecords"][i]["area_id"];
         chemistId = widget.docEditInfo["docRecords"][i]["arround_chemist_id"];
+        brandListString = widget.docEditInfo["docRecords"][i]["brand"];
+        degreeList = widget.docEditInfo["docRecords"][i]["degree"];
+
         dobController.text = widget.docEditInfo["docRecords"][i]["dob"];
         dobChild1Controller.text =
             widget.docEditInfo["docRecords"][i]["dob_child1"];
@@ -159,7 +166,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
             widget.docEditInfo["docRecords"][i]["mar_day"];
 
         categoryValue = widget.docEditInfo["docRecords"][i]["d_category"];
-        //  = widget.docEditInfo["docRecords"][i]["client_name"];
+
         docCategoryValue =
             widget.docEditInfo["docRecords"][i]["doctors_category"];
         adressController.text = widget.docEditInfo["docRecords"][i]["address"];
@@ -187,44 +194,14 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         collarSize = widget.docEditInfo["docRecords"][i]["collar_size"];
         widget.docSettings!.resData.dCategoryList
             .forEach((element) => dCList.add(element));
-        getThanaWithDist = widget.docSettings!.resData.distThanaList
-            .where((element) => element.districtName == districtValue)
-            .toList();
+        getThanaWithDist =
+            widget.docSettings!.resData.distThanaList.where((element) {
+          return element.districtName == districtValue;
+        }).toList();
 
-        // if (widget.docEditInfo["docRecords"][i]["district"] == '') {
-        //   districtValue =
-        //       widget.docSettings!.resData.distThanaList.first.districtName;
-        //   getThanaWithDist = widget.docSettings!.resData.distThanaList
-        //       .where((element) => element.districtName == districtValue)
-        //       .toList();
-
-        //   thanaValue = getThanaWithDist.first.thanaList.first.thanaName;
-
-        //   thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
-        // } else {
-        //   districtValue = widget.docEditInfo["docRecords"][i]["district"];
-        //   thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
-        //   widget.docSettings!.resData.distThanaList.forEach((element) {
-        //     // print(element.districtName);
-        //     if (element.districtName ==
-        //         widget.docEditInfo["docRecords"][i]["district"]) {
-        //       districtSelectedId = element.districtId;
-
-        //       element.thanaList.forEach((element2) {
-        //         if (element2.thanaName ==
-        //             widget.docEditInfo["docRecords"][i]["thana"]) {
-        //           thanaSelectedId = element2.thanaName;
-        //         }
-        //       });
-        //     }
-        //   });
-
-        //   // thanaSelectedId = widget.docEditInfo!.docRecords.first.thana;
-        //   // districtSelectedId = widget.docEditInfo!.docRecords.first.district;
-        // }
-        print(getThanaWithDist);
+        print("get thana with dist $getThanaWithDist");
         print(widget.docSettings!.resData.dCategoryList);
-        print(categoryValue);
+        print("degreeList $degreeList");
         print(docCategoryValue);
         print(docSpecialityValue);
         print(docTypeValue);
@@ -318,10 +295,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
       districtSelectedId =
           widget.docSettings!.resData.distThanaList.first.districtId;
-      degree = widget.docSettings!.resData.docDegreeList;
-      for (var element in widget.docSettings!.resData.brandList) {
-        brandList.add(element.brandName);
-      }
     }
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
@@ -333,9 +306,57 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
     // degree = widget.docSettings.resData.docDegreeList;
     // collarSizeList = widget.docSettings.resData.docDegreeList;
     // print("object=$collarSizeList");
+    degree = widget.docSettings!.resData.docDegreeList; //[name]
+    List degreeTempList = degreeList.split("|");
 
-    for (var element in widget.customerList) {
-      customerNameList.add(element["client_name"]);
+    for (int i = 0; i < degree.length; i++) {
+      for (var e in degreeTempList) {
+        if (degree[i] == e) {
+          degreeInt.add(i);
+        }
+      }
+    }
+
+    /// BCS|BDA== 0,1
+    //  for (var e in degree) {
+    // for (int i = 0; i < degree.length; i++) {
+    //   if (degreeList != " ") {
+    //     List degreeTempList = degreeList.split("|");
+    //     for (var e in degreeTempList) {
+    //       if (degree.contains(e)) {
+    //         print(i);
+    //         degreeInt.add(i);
+    //       }
+    //     }
+    //   }
+    // }
+//========================================================================================================================================================
+//=============================================================brand for GFMULTISELECT==========================================================================
+//========================================================================================================================================================
+    for (int i = 0; i < widget.docSettings!.resData.brandList.length; i++) {
+      if (brandListString != " ") {
+        List brandTempList = brandListString.split("|");
+        for (var e in brandTempList) {
+          if (e == widget.docSettings!.resData.brandList[i].brandId) {
+            brandInt.add(i);
+          }
+        }
+      }
+      brandList.add(widget.docSettings!.resData.brandList[i].brandName);
+    }
+//========================================================================================================================================================
+//=============================================================chemistID for GFMULTISELECT==========================================================================
+//========================================================================================================================================================
+    for (int i = 0; i < widget.customerList.length; i++) {
+      if (chemistId != " ") {
+        List chemistList = chemistId.split("|");
+        for (var e in chemistList) {
+          if (e == widget.customerList[i]["client_id"]) {
+            chemistInt.add(i);
+          }
+        }
+      }
+      customerNameList.add(widget.customerList[i]["client_name"]);
     }
     // dropdownValueforCat = widget.docSettings.resData.dCategoryList.first;
     // customerNameList.add(widget.customerList["client_name"])
@@ -406,7 +427,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   //==========================================================1st Dropdown/Second row===============================================================
                   SizedBox(
                     width: screenWidth,
-                    height: screenHeight / 7.5,
+                    height: screenHeight / 6,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -427,6 +448,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ],
                             ),
+                            Container(child: Text(categoryValue)),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
@@ -474,6 +496,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ],
                             ),
+                            Container(
+                                height: 20, child: Text(docCategoryValue)),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
@@ -489,7 +513,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   },
                                   // value: dropdownValue,
                                   // value: docCategoryValue,
-                                  items: dCList
+                                  items: widget
+                                      .docSettings!.resData.docCategoryList
                                       .map<DropdownMenuItem<String>>(
                                           (String e) => DropdownMenuItem(
                                               value: e, child: Text(e)))
@@ -600,6 +625,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ],
                             ),
+                            Container(height: 20, child: Text(docTypeValue)),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
@@ -647,6 +673,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ],
                             ),
+                            Container(
+                                height: 20, child: Text(docSpecialityValue)),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(
@@ -686,10 +714,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   GFMultiSelect(
-                    //initialSelectedItemsIndex: [0],
-                    items: widget.docSettings!.resData.docDegreeList.isNotEmpty
-                        ? widget.docSettings!.resData.docDegreeList
-                        : degree,
+                    initialSelectedItemsIndex: degreeInt,
+                    items: degree,
 
                     onSelect: (val) {
                       degreeList = " ";
@@ -750,6 +776,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   GFMultiSelect(
+                    initialSelectedItemsIndex: chemistInt,
                     items: customerNameList,
                     onSelect: (value) {
                       chemistId = "";
@@ -821,117 +848,129 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   //==========================================================Thana row===============================================================
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                "District",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "*",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: screenWidth / 2.1,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
-                              child: DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                                isExpanded: true,
-                                onChanged: (String? newValue) {
-                                  districtValue = newValue!;
-                                  getThanaWithDist = widget
-                                      .docSettings!.resData.distThanaList
-                                      .where((element) =>
-                                          element.districtName == newValue)
-                                      .toList();
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Row(
+                  //           children: const [
+                  //             Text(
+                  //               "District",
+                  //               style: TextStyle(fontWeight: FontWeight.bold),
+                  //             ),
+                  //             Text(
+                  //               "*",
+                  //               style: TextStyle(
+                  //                   fontWeight: FontWeight.bold,
+                  //                   color: Colors.red),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         SizedBox(
+                  //           width: screenWidth / 2.1,
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
+                  //             child: DropdownButtonFormField(
+                  //               decoration: InputDecoration(
+                  //                 border: OutlineInputBorder(
+                  //                   borderRadius: BorderRadius.circular(15),
+                  //                 ),
+                  //               ),
+                  //               isExpanded: true,
+                  //               onChanged: (String? newValue) {
+                  //                 districtValue = newValue!;
+                  //                 getThanaWithDist = widget
+                  //                     .docSettings!.resData.distThanaList
+                  //                     .where((element) =>
+                  //                         element.districtName == districtValue)
+                  //                     .toList();
 
-                                  thanaValue = getThanaWithDist
-                                          .first.thanaList.isNotEmpty
-                                      ? getThanaWithDist
-                                          .first.thanaList.first.thanaName
-                                      : '_';
-                                  setState(() {});
-                                },
-                                // value: districtValue,
-                                items: widget.docSettings!.resData.distThanaList
-                                    .map((e) => DropdownMenuItem(
-                                        value: e.districtName,
-                                        child: Text(e.districtName)))
-                                    .toList(),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  // fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                "Thana",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "*",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: screenWidth / 2.1,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
-                              child: DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                                isExpanded: true,
-                                onChanged: (String? newValue) {
-                                  thanaValue = newValue!;
+                  //                 thanaValue = getThanaWithDist
+                  //                         .first.thanaList.isNotEmpty
+                  //                     ? getThanaWithDist
+                  //                         .first.thanaList.first.thanaName
+                  //                     : '_';
 
-                                  setState(() {});
-                                },
-                                // value: thanaValue,
-                                items: getThanaWithDist.first.thanaList
-                                    .map((e) => DropdownMenuItem(
-                                        value: e.thanaName,
-                                        child: Text(e.thanaName)))
-                                    .toList(),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  // fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  //                 setState(() {});
+                  //               },
+                  //               // value: districtValue,
+                  //               items: widget.docSettings!.resData.distThanaList
+                  //                   .map((e) => DropdownMenuItem(
+                  //                       value: e.districtName,
+                  //                       child: Text(e.districtName)))
+                  //                   .toList(),
+                  //               style: const TextStyle(
+                  //                 color: Colors.black,
+                  //                 // fontSize: 16,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Row(
+                  //           children: const [
+                  //             Text(
+                  //               "Thana",
+                  //               style: TextStyle(fontWeight: FontWeight.bold),
+                  //             ),
+                  //             Text(
+                  //               "*",
+                  //               style: TextStyle(
+                  //                   fontWeight: FontWeight.bold,
+                  //                   color: Colors.red),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         SizedBox(
+                  //           width: screenWidth / 2.1,
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
+                  //             child: DropdownButtonFormField(
+                  //               decoration: InputDecoration(
+                  //                 border: OutlineInputBorder(
+                  //                   borderRadius: BorderRadius.circular(15),
+                  //                 ),
+                  //               ),
+                  //               isExpanded: true,
+                  //               onChanged: (String? newValue) {
+                  //                 thanaValue = newValue!;
+
+                  //                 setState(() {});
+                  //               },
+                  //               // value: thanaValue,
+                  //               items:
+                  //                   getThanaWithDist.first.thanaList.isNotEmpty
+                  //                       ? getThanaWithDist.first.thanaList
+                  //                           .map((e) => DropdownMenuItem(
+                  //                               value: e.thanaName,
+                  //                               child: Text(e.thanaName)))
+                  //                           .toList()
+                  //                       : any.map<DropdownMenuItem<String>>(
+                  //                           (String e) {
+                  //                             //print(e);
+                  //                             return DropdownMenuItem(
+                  //                               value: e,
+                  //                               child: Text(e.toString()),
+                  //                             );
+                  //                           },
+                  //                         ).toList(),
+                  //               style: const TextStyle(
+                  //                 color: Colors.black,
+                  //                 // fontSize: 16,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
 
                   //==========================================================Mobile Number row===============================================================
                   Row(
@@ -1051,6 +1090,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     "Collar Size",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  Container(child: Text(collarSize)),
                   Padding(
                     // padding: const EdgeInsets.all(6.0),
                     padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
@@ -1312,6 +1352,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
 
                   GFMultiSelect(
+                    initialSelectedItemsIndex: brandInt,
                     items: brandList,
                     onSelect: (value) {
                       brandListString = " ";
@@ -1519,86 +1560,64 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                 if (categoryValue.isNotEmpty) {
                   if (adressController.text.isNotEmpty) {
                     if (mobileController.text.isNotEmpty) {
-                      if (thanaSelectedId != "") {
-                        if (districtSelectedId != "") {
-                          if (patientNumController.text.isNotEmpty) {
-                            if (brandListString != " ") {
-                              readyForData();
+                      if (patientNumController.text.isNotEmpty) {
+                        if (brandListString != " ") {
+                          //readyForData();
 
-                              Map<String, dynamic> a = await DcrRepositories()
-                                  .editDoctorR(
-                                      dmPathData!.doctorAddUrl,
-                                      cid,
-                                      userLoginInfo!.userId,
-                                      userPassword,
-                                      widget.areaID,
-                                      widget.areaName,
-                                      nameController.text.toString(),
-                                      categoryValue,
-                                      docCategoryValue,
-                                      docTypeValue,
-                                      docSpecialityValue,
-                                      degreeList,
-                                      chemistId,
-                                      adressController.text.toString(),
-                                      thanaSelectedId,
-                                      districtSelectedId,
-                                      mobileController.text.toString(),
-                                      marriageDayController.text.toString(),
-                                      dobChild1Controller.text.toString(),
-                                      dobChild2Controller.text.toString(),
-                                      collarSize,
-                                      patientNumController.text.toString(),
-                                      docIDController.text.toString(),
-                                      docNameController.text.toString(),
-                                      docSpecialityController.text.toString(),
-                                      docAddressController.text.toString(),
-                                      brandListString,
-                                      dobController.text.toString());
+                          Map<String, dynamic> a = await DcrRepositories()
+                              .editDoctorR(
+                                  dmPathData!.doctorAddUrl,
+                                  cid,
+                                  userLoginInfo!.userId,
+                                  userPassword,
+                                  widget.areaID,
+                                  widget.areaName,
+                                  nameController.text.toString(),
+                                  categoryValue,
+                                  docCategoryValue,
+                                  docTypeValue,
+                                  docSpecialityValue,
+                                  degreeList,
+                                  chemistId,
+                                  adressController.text.toString(),
+                                  thanaSelectedId,
+                                  districtSelectedId,
+                                  mobileController.text.toString(),
+                                  marriageDayController.text.toString(),
+                                  dobChild1Controller.text.toString(),
+                                  dobChild2Controller.text.toString(),
+                                  collarSize,
+                                  patientNumController.text.toString(),
+                                  docIDController.text.toString(),
+                                  docNameController.text.toString(),
+                                  docSpecialityController.text.toString(),
+                                  docAddressController.text.toString(),
+                                  brandListString,
+                                  dobController.text.toString());
 
-                              String status = a['status'];
+                          String status = a['status'];
 
-                              if (status == "Success") {
-                                AllServices().toastMessage(
-                                    "Doctor Edited Successfully Done",
-                                    Colors.green,
-                                    Colors.white,
-                                    14);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              } else {
-                                String resString = a['ret_str'] ?? "";
-
-                                AllServices().toastMessage(
-                                    "$status for $resString",
-                                    Colors.red,
-                                    Colors.white,
-                                    14);
-                              }
-                            } else {
-                              AllServices().toastMessage(
-                                  "Please select brand Day",
-                                  Colors.red,
-                                  Colors.white,
-                                  14);
-                            }
-                          } else {
+                          if (status == "Success") {
                             AllServices().toastMessage(
-                                "Please fill up your patient per Day",
-                                Colors.red,
+                                "Doctor Edited Successfully Done",
+                                Colors.green,
                                 Colors.white,
                                 14);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          } else {
+                            String resString = a['ret_str'] ?? "";
+
+                            AllServices().toastMessage("$status for $resString",
+                                Colors.red, Colors.white, 14);
                           }
                         } else {
-                          AllServices().toastMessage(
-                              "Please select up your District",
-                              Colors.red,
-                              Colors.white,
-                              14);
+                          AllServices().toastMessage("Please select brand",
+                              Colors.red, Colors.white, 14);
                         }
                       } else {
                         AllServices().toastMessage(
-                            "Please select up your Thana",
+                            "Please fill up your patient per Day",
                             Colors.red,
                             Colors.white,
                             14);

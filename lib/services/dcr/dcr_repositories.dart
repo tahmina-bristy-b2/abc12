@@ -305,15 +305,15 @@ class DcrRepositories {
   }
 
   //################################ Doctor Edit info Settings  ########################
-  Future<DoctorEditModel?> docEditInfo(String docEditUrl, String cid,
-      String userId, String userpass, String areaId, String docId) async {
-    DoctorEditModel? docEditInfoData;
+  Future docEditInfo(String docEditUrl, String cid, String userId,
+      String userpass, String areaId, String docId) async {
+    Map docEditInfoData = {};
     try {
       final http.Response response = await DcrDataProviders()
           .docEditInfoDP(docEditUrl, cid, userId, userpass, areaId, docId);
-      docEditInfoData = doctorEditModelFromJson(response.body);
+      docEditInfoData = jsonDecode(response.body);
 
-      if (docEditInfoData.status == 'Success') {
+      if (docEditInfoData["status"] == 'Success') {
         return docEditInfoData;
       }
     } catch (e) {
@@ -322,6 +322,23 @@ class DcrRepositories {
 
     return docEditInfoData;
   }
+  // Future<DoctorEditModel?> docEditInfo(String docEditUrl, String cid,
+  //     String userId, String userpass, String areaId, String docId) async {
+  //   DoctorEditModel? docEditInfoData;
+  //   try {
+  //     final http.Response response = await DcrDataProviders()
+  //         .docEditInfoDP(docEditUrl, cid, userId, userpass, areaId, docId);
+  //     docEditInfoData = doctorEditModelFromJson(response.body);
+
+  //     if (docEditInfoData.status == 'Success') {
+  //       return docEditInfoData;
+  //     }
+  //   } catch (e) {
+  //     print('docEditInfo: $e');
+  //   }
+
+  //   return docEditInfoData;
+  // }
 }
 
 

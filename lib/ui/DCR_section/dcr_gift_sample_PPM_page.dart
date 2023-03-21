@@ -77,6 +77,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   List doctorPpmlist = [];
   List doctorDiscussionlist = [];
   List<String> dcrVisitedWithList = [];
+  List<String> dcrTypeList = [];
+
   int dropDownNumber = 0;
   String noteText = '';
 
@@ -102,6 +104,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   @override
   void initState() {
     super.initState();
+
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
@@ -516,6 +519,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                 )),
                                 Expanded(
                                   child: GFMultiSelect(
+                                    // initialSelectedItemsIndex: [0],
                                     items: dcrVisitedWithList,
                                     onSelect: (value) {
                                       dcrString = '';

@@ -64,6 +64,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
     screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: _loading ? Colors.black : const Color(0xffD8E5F1),
       appBar: _loading
           ? AppBar(

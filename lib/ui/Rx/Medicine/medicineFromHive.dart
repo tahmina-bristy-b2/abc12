@@ -72,7 +72,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 onChanged: (value) {
                   setState(() {
                     foundUsers = AllServices().searchDynamicMethod(
-                        value, widget.medicineData, 'item_id');
+                        value, widget.medicineData, 'name');
                   });
                 },
                 controller: searchController,
@@ -87,7 +87,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                             searchController.clear();
                             setState(() {
                               foundUsers = AllServices().searchDynamicMethod(
-                                  "", widget.medicineData, 'item_id');
+                                  "", widget.medicineData, 'name');
                             });
                           },
                           icon: const Icon(
@@ -152,8 +152,8 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                                           Expanded(
                                             flex: 5,
                                             child: Text(
-                                              // foundUsers[index]['name'],
-                                              foundUsers[index]['item_id'],
+                                              foundUsers[index]['name'],
+                                              // foundUsers[index]['item_id'],
                                               // '${foundUsers[index]['name']} ' +
                                               //     '(${foundUsers[index]['item_id']})',
                                               style: const TextStyle(

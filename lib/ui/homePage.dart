@@ -291,6 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 final prefs = await SharedPreferences.getInstance();
 
                 await prefs.setString('PASSWORD', '');
+                if (!mounted) return;
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const LoginScreen()));
               },
@@ -399,58 +400,58 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             )),
                       ),
-                      Expanded(
-                        flex: 3,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: (() {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AttendanceScreen()));
-                                }),
-                                child: FittedBox(
-                                  child: prefix != prefix2
-                                      ? Text(
-                                          '[Attendance]' +
-                                              '\n' +
-                                              'Start: ' +
-                                              " " +
-                                              '\n' +
-                                              "End: " +
-                                              " ",
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 15, 53, 85),
-                                            fontSize: 18,
-                                          ),
-                                        )
-                                      : Text(
-                                          '[Attendance]' +
-                                              '\n' +
-                                              'Start: ' +
-                                              startTime.toString() +
-                                              '\n' +
-                                              "End: " +
-                                              endTime.toString(),
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 15, 53, 85),
-                                            fontSize: 18,
-                                          ),
-                                        ),
+                      userInfo!.othersFlag
+                          ? Expanded(
+                              flex: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Column(
+                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (() {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const AttendanceScreen()));
+                                      }),
+                                      child: FittedBox(
+                                        child: prefix != prefix2
+                                            ? const Text(
+                                                '[Attendance]'
+                                                '\n'
+                                                'Start: '
+                                                " "
+                                                '\n'
+                                                "End: "
+                                                " ",
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 15, 53, 85),
+                                                  fontSize: 18,
+                                                ),
+                                              )
+                                            : Text(
+                                                '[Attendance]' '\n' 'Start: ' +
+                                                    startTime.toString() +
+                                                    '\n' +
+                                                    "End: " +
+                                                    endTime.toString(),
+                                                style: const TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 15, 53, 85),
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            )
+                          : const Text(""),
                     ],
                   ),
                 ),
@@ -1255,7 +1256,7 @@ class _MyHomePageState extends State<MyHomePage> {
       data.add('empty');
     } else {
       data = mymap;
-
+      if (!mounted) return;
       Navigator.push(
           context,
           MaterialPageRoute(

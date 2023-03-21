@@ -284,6 +284,10 @@ class _DcrListPageState extends State<DcrListPage> {
                                   setState(() {
                                     _isLoading = true;
                                   });
+
+                                  //=======================================================================================================================================
+                                  //======================================================CustomerApi======================================================================
+//=======================================================================================================================================
                                   List clientList = await DcrRepositories()
                                       .getDCRAreaBaseClient(
                                           dmpathData!.syncUrl,
@@ -292,7 +296,10 @@ class _DcrListPageState extends State<DcrListPage> {
                                           userPassword,
                                           foundUsers[index]['area_id']);
                                   if (clientList.isNotEmpty) {
-                                    final DoctorEditModel?
+//=======================================================================================================================================
+                                    //======================================================DOCEditApi======================================================================
+//=======================================================================================================================================
+                                    final Map<String, dynamic>
                                         responseOfDoEditInfo =
                                         await DcrRepositories().docEditInfo(
                                             dmpathData!.doctorEditUrl,
@@ -301,6 +308,10 @@ class _DcrListPageState extends State<DcrListPage> {
                                             userPassword,
                                             foundUsers[index]['area_id'],
                                             foundUsers[index]['doc_id']);
+
+                                    //=======================================================================================================================================
+//======================================================DOCSettingsApi======================================================================
+//=======================================================================================================================================
                                     final DocSettingsModel?
                                         responseOfDocSettings =
                                         await DcrRepositories().docSettingsRepo(
@@ -308,12 +319,16 @@ class _DcrListPageState extends State<DcrListPage> {
                                             userInfo!.userId,
                                             userPassword);
 
-                                    if (responseOfDoEditInfo != null &&
+//=======================================================================================================================================
+                                    //======================================================Navigation======================================================================
+//=======================================================================================================================================
+                                    if (responseOfDoEditInfo != {} &&
                                         responseOfDocSettings != null) {
                                       setState(() {
                                         _isLoading = false;
                                       });
                                       if (!mounted) return;
+                                      print(responseOfDocSettings);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -335,7 +350,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                         _isLoading = false;
                                       });
                                       AllServices().toastMessage(
-                                          'Doctor settings data Not found',
+                                          'Doctor data Not found',
                                           Colors.red,
                                           Colors.white,
                                           16);

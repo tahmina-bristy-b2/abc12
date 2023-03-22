@@ -380,11 +380,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                             setState(() {
                                               isLoading = false;
                                             });
-                                            // AllServices().toastMessage(
-                                            //     'Wrong CID',
-                                            //     Colors.red,
-                                            //     Colors.white,
-                                            //     16);
+                                            AllServices().toastMessage(
+                                                'Wrong CID',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
                                           }
                                         } else {
                                           setState(() {

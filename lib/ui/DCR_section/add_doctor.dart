@@ -78,8 +78,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
   String docCategoryValue = 'DCC';
   String docTypeValue = 'CHAMBER DOCTOR';
   String docSpecialityValue = 'ANESTHESIOLOGY';
-  String thanaValue = '_';
-  String districtValue = '_';
+  // String thanaValue = '_';
+  String? thanaValue;
+  // String districtValue = '_';
+  String? districtValue;
   String chemistId = "";
   List<int> chemistInt = [];
   List<int> brandInt = [];
@@ -178,9 +180,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
             widget.docEditInfo["docRecords"][i]["mobile"].toString();
         docTypeValue = widget.docEditInfo["docRecords"][i]["address_type"];
 
-        thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
+        // thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
 
-        districtValue = widget.docEditInfo["docRecords"][i]["district"];
+        // districtValue = widget.docEditInfo["docRecords"][i]["district"];
         docIDController.text =
             widget.docEditInfo["docRecords"][i]["third_party_id"];
         docNameController.text =
@@ -194,10 +196,54 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         collarSize = widget.docEditInfo["docRecords"][i]["collar_size"];
         widget.docSettings!.resData.dCategoryList
             .forEach((element) => dCList.add(element));
-        getThanaWithDist =
-            widget.docSettings!.resData.distThanaList.where((element) {
-          return element.districtName == districtValue;
-        }).toList();
+
+        // ##################### This code for thana district section ###############################
+
+        // print('Monir');
+        // print(widget.docSettings!.resData.distThanaList.any((element) => element
+        //     .districtName
+        //     .contains(widget.docEditInfo["docRecords"][i]["district"])));
+
+        // check for empty string and matched with doctor settings district data
+        if ((widget.docEditInfo["docRecords"][i]["thana"] != '' &&
+                widget.docEditInfo["docRecords"][i]["district"] != '') &&
+            (widget.docSettings!.resData.distThanaList.any((element) => element
+                .districtName
+                .contains(widget.docEditInfo["docRecords"][i]["district"])))) {
+          String getThanaValue = widget.docEditInfo["docRecords"][i]
+              ["thana"]; //this vaiable used for capitalized
+
+          String makeThanaCapitalize = getThanaValue[0].toUpperCase() +
+              getThanaValue
+                  .substring(1)
+                  .toLowerCase(); //if the first letter is small to make capitalized
+
+          districtValue = widget.docEditInfo["docRecords"][i]["district"];
+
+          getThanaWithDist =
+              widget.docSettings!.resData.distThanaList.where((element) {
+            return element.districtName == districtValue;
+          }).toList(); // get thana list according to district name with distict name and id
+
+          if (getThanaWithDist.any((element) => element.thanaList.any(
+              (element2) =>
+                  element2.thanaName.contains(makeThanaCapitalize)))) {
+            thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
+          } //check for empty string and matched with doctor settings thana data
+
+          print('thanaValue:$thanaValue');
+
+          districtSelectedId = getThanaWithDist.first.districtId;
+
+          for (var element in getThanaWithDist.first.thanaList) {
+            if (element.thanaName == thanaValue) {
+              thanaSelectedId = element.thanaId;
+            }
+          }
+        }
+
+        // print('districtSelectedId edit: $districtSelectedId');
+        // print('thanaSelectedId edit: $thanaSelectedId');
 
         print("get thana with dist $getThanaWithDist");
         print(widget.docSettings!.resData.dCategoryList);
@@ -284,17 +330,17 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       docCategoryValue = widget.docSettings!.resData.docCategoryList.first;
       docTypeValue = widget.docSettings!.resData.docTypeList.first;
       docSpecialityValue = widget.docSettings!.resData.docSpecialtyList.first;
-      districtValue =
-          widget.docSettings!.resData.distThanaList.first.districtName;
-      getThanaWithDist = widget.docSettings!.resData.distThanaList
-          .where((element) => element.districtName == districtValue)
-          .toList();
+      // districtValue =
+      //     widget.docSettings!.resData.distThanaList.first.districtName;
+      // getThanaWithDist = widget.docSettings!.resData.distThanaList
+      //     .where((element) => element.districtName == districtValue)
+      //     .toList();
 
-      thanaValue = getThanaWithDist.first.thanaList.first.thanaName;
+      // thanaValue = getThanaWithDist.first.thanaList.first.thanaName;
 
-      thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
-      districtSelectedId =
-          widget.docSettings!.resData.distThanaList.first.districtId;
+      // thanaSelectedId = getThanaWithDist.first.thanaList.first.thanaId;
+      // districtSelectedId =
+      //     widget.docSettings!.resData.distThanaList.first.districtId;
     }
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
@@ -848,129 +894,140 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                   ),
                   //==========================================================Thana row===============================================================
 
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Row(
-                  //           children: const [
-                  //             Text(
-                  //               "District",
-                  //               style: TextStyle(fontWeight: FontWeight.bold),
-                  //             ),
-                  //             Text(
-                  //               "*",
-                  //               style: TextStyle(
-                  //                   fontWeight: FontWeight.bold,
-                  //                   color: Colors.red),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         SizedBox(
-                  //           width: screenWidth / 2.1,
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
-                  //             child: DropdownButtonFormField(
-                  //               decoration: InputDecoration(
-                  //                 border: OutlineInputBorder(
-                  //                   borderRadius: BorderRadius.circular(15),
-                  //                 ),
-                  //               ),
-                  //               isExpanded: true,
-                  //               onChanged: (String? newValue) {
-                  //                 districtValue = newValue!;
-                  //                 getThanaWithDist = widget
-                  //                     .docSettings!.resData.distThanaList
-                  //                     .where((element) =>
-                  //                         element.districtName == districtValue)
-                  //                     .toList();
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: const [
+                              Text(
+                                "District",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: screenWidth / 2.1,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                isExpanded: true,
+                                onChanged: (String? newValue) {
+                                  districtValue = newValue!;
+                                  getThanaWithDist = widget
+                                      .docSettings!.resData.distThanaList
+                                      .where((element) =>
+                                          element.districtName == districtValue)
+                                      .toList();
+                                  districtSelectedId =
+                                      getThanaWithDist.first.districtId;
+                                  print(
+                                      'districtSelectedId:$districtSelectedId');
+                                  thanaValue = null;
 
-                  //                 thanaValue = getThanaWithDist
-                  //                         .first.thanaList.isNotEmpty
-                  //                     ? getThanaWithDist
-                  //                         .first.thanaList.first.thanaName
-                  //                     : '_';
+                                  // thanaValue = getThanaWithDist
+                                  //         .first.thanaList.isNotEmpty
+                                  //     ? getThanaWithDist
+                                  //         .first.thanaList.first.thanaName
+                                  //     : null;
 
-                  //                 setState(() {});
-                  //               },
-                  //               // value: districtValue,
-                  //               items: widget.docSettings!.resData.distThanaList
-                  //                   .map((e) => DropdownMenuItem(
-                  //                       value: e.districtName,
-                  //                       child: Text(e.districtName)))
-                  //                   .toList(),
-                  //               style: const TextStyle(
-                  //                 color: Colors.black,
-                  //                 // fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Row(
-                  //           children: const [
-                  //             Text(
-                  //               "Thana",
-                  //               style: TextStyle(fontWeight: FontWeight.bold),
-                  //             ),
-                  //             Text(
-                  //               "*",
-                  //               style: TextStyle(
-                  //                   fontWeight: FontWeight.bold,
-                  //                   color: Colors.red),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         SizedBox(
-                  //           width: screenWidth / 2.1,
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
-                  //             child: DropdownButtonFormField(
-                  //               decoration: InputDecoration(
-                  //                 border: OutlineInputBorder(
-                  //                   borderRadius: BorderRadius.circular(15),
-                  //                 ),
-                  //               ),
-                  //               isExpanded: true,
-                  //               onChanged: (String? newValue) {
-                  //                 thanaValue = newValue!;
+                                  setState(() {});
+                                },
+                                value: districtValue,
+                                items: widget.docSettings!.resData.distThanaList
+                                    .map((e) => DropdownMenuItem(
+                                        value: e.districtName,
+                                        child: Text(e.districtName)))
+                                    .toList(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  // fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: const [
+                              Text(
+                                "Thana",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: screenWidth / 2.1,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 6, 0, 10),
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                isExpanded: true,
+                                onChanged: (String? newValue) {
+                                  thanaValue = newValue!;
+                                  for (var element
+                                      in getThanaWithDist.first.thanaList) {
+                                    if (element.thanaName == thanaValue) {
+                                      thanaSelectedId = element.thanaId;
+                                    }
+                                  }
+                                  print('thanaSelectedId: $thanaSelectedId');
 
-                  //                 setState(() {});
-                  //               },
-                  //               // value: thanaValue,
-                  //               items:
-                  //                   getThanaWithDist.first.thanaList.isNotEmpty
-                  //                       ? getThanaWithDist.first.thanaList
-                  //                           .map((e) => DropdownMenuItem(
-                  //                               value: e.thanaName,
-                  //                               child: Text(e.thanaName)))
-                  //                           .toList()
-                  //                       : any.map<DropdownMenuItem<String>>(
-                  //                           (String e) {
-                  //                             //print(e);
-                  //                             return DropdownMenuItem(
-                  //                               value: e,
-                  //                               child: Text(e.toString()),
-                  //                             );
-                  //                           },
-                  //                         ).toList(),
-                  //               style: const TextStyle(
-                  //                 color: Colors.black,
-                  //                 // fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
+                                  setState(() {});
+                                },
+                                value: thanaValue,
+                                items: getThanaWithDist.isNotEmpty
+                                    ? getThanaWithDist.first.thanaList
+                                        .map((e) => DropdownMenuItem(
+                                            value: e.thanaName,
+                                            child: Text(e.thanaName)))
+                                        .toList()
+                                    : any.map<DropdownMenuItem<String>>(
+                                        (String e) {
+                                          //print(e);
+                                          return DropdownMenuItem(
+                                            value: e,
+                                            child: Text(e.toString()),
+                                          );
+                                        },
+                                      ).toList(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  // fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
 
                   //==========================================================Mobile Number row===============================================================
                   Row(
@@ -1427,7 +1484,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         if (districtSelectedId != "") {
                           if (patientNumController.text.isNotEmpty) {
                             if (brandListString != " ") {
-                              readyForData();
+                              // readyForData();
 
                               Map<String, dynamic> a = await DcrRepositories()
                                   .addDoctorR(
@@ -1445,8 +1502,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                       degreeList,
                                       chemistId,
                                       adressController.text.toString(),
-                                      thanaSelectedId,
                                       districtSelectedId,
+                                      thanaSelectedId,
                                       mobileController.text.toString(),
                                       marriageDayController.text.toString(),
                                       dobChild1Controller.text.toString(),
@@ -1581,8 +1638,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   degreeList,
                                   chemistId,
                                   adressController.text.toString(),
-                                  thanaSelectedId,
                                   districtSelectedId,
+                                  thanaSelectedId,
                                   mobileController.text.toString(),
                                   marriageDayController.text.toString(),
                                   dobChild1Controller.text.toString(),

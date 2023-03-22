@@ -199,17 +199,34 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
         // ##################### This code for thana district section ###############################
 
-        // print('Monir');
-        // print(widget.docSettings!.resData.distThanaList.any((element) => element
-        //     .districtName
-        //     .contains(widget.docEditInfo["docRecords"][i]["district"])));
+        print('Monir');
+        // bool hasDistrict = false;
+        // widget.docSettings!.resData.distThanaList.where((element) {
+        //   if (element.districtName == districtValue) {
+        //     return hasDistrict = true;
+        //   }
+        //   return hasDistrict = true;
+        // });
+        // print(widget.docSettings!.resData.distThanaList.any((element) {
+        //   if (element.districtName ==
+        //       widget.docEditInfo["docRecords"][i]["district"]) {
+        //     return true;
+        //   } else {
+        //     return false;
+        //   }
+        // }));
 
         // check for empty string and matched with doctor settings district data
         if ((widget.docEditInfo["docRecords"][i]["thana"] != '' &&
                 widget.docEditInfo["docRecords"][i]["district"] != '') &&
-            (widget.docSettings!.resData.distThanaList.any((element) => element
-                .districtName
-                .contains(widget.docEditInfo["docRecords"][i]["district"])))) {
+            (widget.docSettings!.resData.distThanaList.any((element) {
+              if (element.districtName ==
+                  widget.docEditInfo["docRecords"][i]["district"]) {
+                return true;
+              } else {
+                return false;
+              }
+            }))) {
           String getThanaValue = widget.docEditInfo["docRecords"][i]
               ["thana"]; //this vaiable used for capitalized
 
@@ -225,19 +242,33 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
             return element.districtName == districtValue;
           }).toList(); // get thana list according to district name
 
-          if (getThanaWithDist.any((element) => element.thanaList.any(
-              (element2) =>
-                  element2.thanaName.contains(makeThanaCapitalize)))) {
+          if (getThanaWithDist
+              .any((element) => element.thanaList.any((element2) {
+                    if (element2.thanaName ==
+                        widget.docEditInfo["docRecords"][i]["thana"]) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  }))) {
             thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
           } //check for  matching with doctor settings thana data
+
+          // if (getThanaWithDist.any((element) => element.thanaList.any(
+          //     (element2) =>
+          //         element2.thanaName.contains(makeThanaCapitalize)))) {
+          //   thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
+          // } //check for  matching with doctor settings thana data
 
           print('thanaValue:$thanaValue');
 
           districtSelectedId = getThanaWithDist.first.districtId;
 
-          for (var element in getThanaWithDist.first.thanaList) {
-            if (element.thanaName == thanaValue) {
-              thanaSelectedId = element.thanaId;
+          if (getThanaWithDist.isNotEmpty) {
+            for (var element in getThanaWithDist.first.thanaList) {
+              if (element.thanaName == thanaValue) {
+                thanaSelectedId = element.thanaId;
+              }
             }
           }
         }

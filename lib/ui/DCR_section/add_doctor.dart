@@ -244,8 +244,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
           if (getThanaWithDist
               .any((element) => element.thanaList.any((element2) {
-                    if (element2.thanaName ==
-                        widget.docEditInfo["docRecords"][i]["thana"]) {
+                    if (element2.thanaName == makeThanaCapitalize) {
                       return true;
                     } else {
                       return false;

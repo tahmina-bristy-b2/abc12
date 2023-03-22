@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
+// import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:hive_flutter/hive_flutter.dart';
@@ -30,7 +30,7 @@ void main() async {
   await Hive.openBox("draftForExpense");
   SharedPreferences prefs = await SharedPreferences.getInstance();
   timer_flag = prefs.getBool("timer_flag");
-  // Location location = Location();
+  // Location location = Location();n
   // location.enableBackgroundMode();
   // late bool _serviceEnabled;
   // late PermissionStatus _permissionGranted;

@@ -113,36 +113,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       });
     });
 
-    // if (widget.docEditInfo["docRecords"].isNotEmpty) {
-    //   print(widget.docEditInfo["docRecords"]);
-    //   for (int i = 0; i < widget.docEditInfo["docRecords"].length; i++) {
-    //     print(widget.docEditInfo["docRecords"][i]["area_id"]);
-    //     widget.areaName = widget.docEditInfo["docRecords"][i]["area_id"];
-    //     chemistId = widget.docEditInfo["docRecords"][i]["arround_chemist_id"];
-    //     docIDController.text = widget.docEditInfo["docRecords"][i]["doc_id"];
-    //     categoryValue = widget.docEditInfo["docRecords"][i]["d_category"];
-    //     //  = widget.docEditInfo["docRecords"][i]["client_name"];
-    //     docCategoryValue =
-    //         widget.docEditInfo["docRecords"][i]["doctors_category"];
-    //     docSpecialityValue = widget.docEditInfo["docRecords"][i]["specialty"];
-    //     docTypeValue = widget.docEditInfo["docRecords"][i]["address_type"];
-    //     docNameController.text =
-    //         widget.docEditInfo["docRecords"][i]["fourP_doc_name"];
-
-    //     docAddressController.text =
-    //         widget.docEditInfo["docRecords"][i]["fourP_doc_address"];
-
-    //     // widget.docEditInfo[i]["third_party_id"];
-    //     // widget.docEditInfo[i]["fourP_doc_address"];
-    //     // widget.docEditInfo[i]["mar_day"];
-    //     // widget.docEditInfo[i]["doctors_category"];
-    //     // widget.docEditInfo[i]["client_name"];
-    //     // widget.docEditInfo[i]["thana"];
-    //     // widget.docEditInfo[i]["dob_child2"];
-    //     // widget.docEditInfo[i]["collar_size"];
-    //   }
-    // }
-
     if (widget.isEdit) {
       print(widget.docSettings);
       print(widget.docEditInfo["docRecords"]);
@@ -198,22 +168,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
             widget.docSettings!.resData.distThanaList.where((element) {
           return element.districtName == districtValue;
         }).toList();
-
-        print("get thana with dist $getThanaWithDist");
-        print(widget.docSettings!.resData.dCategoryList);
-        print("degreeList $degreeList");
-        print(docCategoryValue);
-        print(docSpecialityValue);
-        print(docTypeValue);
-
-        // widget.docEditInfo[i]["third_party_id"];
-        // widget.docEditInfo[i]["fourP_doc_address"];
-        // widget.docEditInfo[i]["mar_day"];
-        // widget.docEditInfo[i]["doctors_category"];
-        // widget.docEditInfo[i]["client_name"];
-        // widget.docEditInfo[i]["thana"];
-        // widget.docEditInfo[i]["dob_child2"];
-        // widget.docEditInfo[i]["collar_size"];
       }
       // nameController.text = widget.editDoctorInfo!['doc_name'].toString();
       // categoryValue =
@@ -279,7 +233,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       //   brandList.add(element.brandName);
       // }
     } else {
-      print("add theke");
       categoryValue = widget.docSettings!.resData.dCategoryList.first;
       docCategoryValue = widget.docSettings!.resData.docCategoryList.first;
       docTypeValue = widget.docSettings!.resData.docTypeList.first;
@@ -317,19 +270,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
       }
     }
 
-    /// BCS|BDA== 0,1
-    //  for (var e in degree) {
-    // for (int i = 0; i < degree.length; i++) {
-    //   if (degreeList != " ") {
-    //     List degreeTempList = degreeList.split("|");
-    //     for (var e in degreeTempList) {
-    //       if (degree.contains(e)) {
-    //         print(i);
-    //         degreeInt.add(i);
-    //       }
-    //     }
-    //   }
-    // }
 //========================================================================================================================================================
 //=============================================================brand for GFMULTISELECT==========================================================================
 //========================================================================================================================================================
@@ -460,7 +400,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   onChanged: (String? value) {
                                     setState(() {
                                       categoryValue = value!;
-                                      print(categoryValue);
                                     });
                                   },
                                   // value: categoryValue,
@@ -496,8 +435,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 ),
                               ],
                             ),
-                            Container(
-                                height: 20, child: Text(docCategoryValue)),
+                            SizedBox(height: 20, child: Text(docCategoryValue)),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
                               child: SizedBox(

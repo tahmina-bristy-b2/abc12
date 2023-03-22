@@ -223,13 +223,13 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
           getThanaWithDist =
               widget.docSettings!.resData.distThanaList.where((element) {
             return element.districtName == districtValue;
-          }).toList(); // get thana list according to district name with distict name and id
+          }).toList(); // get thana list according to district name
 
           if (getThanaWithDist.any((element) => element.thanaList.any(
               (element2) =>
                   element2.thanaName.contains(makeThanaCapitalize)))) {
             thanaValue = widget.docEditInfo["docRecords"][i]["thana"];
-          } //check for empty string and matched with doctor settings thana data
+          } //check for  matching with doctor settings thana data
 
           print('thanaValue:$thanaValue');
 

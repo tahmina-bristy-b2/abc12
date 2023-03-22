@@ -199,7 +199,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
         // ##################### This code for thana district section ###############################
 
-        print('Monir');
+        // print('Monir');
         // bool hasDistrict = false;
         // widget.docSettings!.resData.distThanaList.where((element) {
         //   if (element.districtName == districtValue) {

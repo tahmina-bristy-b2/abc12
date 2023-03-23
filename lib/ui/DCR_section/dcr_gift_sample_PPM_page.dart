@@ -88,19 +88,19 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   int dropDownNumber = 0;
   String noteText = '';
 
-  String? cid = '';
-  String? userPassword = '';
+  String cid = '';
+  String userPassword = '';
   String itemString = '';
   String userName = '';
   String startTime = '';
   String endTime = '';
   // List visitedWith = [];
-  double? latitude = 0.0;
-  double? longitude = 0.0;
-  String? deviceId = '';
-  String? deviceBrand = '';
-  String? deviceModel = '';
-  String? dropdownVisitWithValue = '_';
+  double latitude = 0.0;
+  double longitude = 0.0;
+  String deviceId = '';
+  String deviceBrand = '';
+  String deviceModel = '';
+  String dropdownVisitWithValue = '_';
 
   bool _isLoading = true;
   bool dcrDiscussion = true;
@@ -119,13 +119,13 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       setState(() {
         startTime = prefs.getString("startTime") ?? '';
         endTime = prefs.getString("endTime") ?? '';
-        cid = prefs.getString("CID");
-        userPassword = prefs.getString("PASSWORD");
-        latitude = prefs.getDouble("latitude");
-        longitude = prefs.getDouble("longitude");
-        deviceId = prefs.getString("deviceId");
-        deviceBrand = prefs.getString("deviceBrand");
-        deviceModel = prefs.getString("deviceModel");
+        cid = prefs.getString("CID") ?? '';
+        userPassword = prefs.getString("PASSWORD") ?? '';
+        // latitude = prefs.getDouble("latitude")??0.0;
+        // longitude = prefs.getDouble("longitude");
+        deviceId = prefs.getString("deviceId") ?? '';
+        deviceBrand = prefs.getString("deviceBrand") ?? '';
+        deviceModel = prefs.getString("deviceModel") ?? '';
       });
     });
     userName = userInfo!.userName;
@@ -857,15 +857,15 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       Map<String, dynamic> dcrResponsedata = await DcrRepositories()
           .dcrGspSubmit(
               dmpathData!.submitUrl,
-              cid!,
+              cid,
               userId,
-              userPassword!,
-              deviceId!,
+              userPassword,
+              deviceId,
               widget.docId,
               widget.areaId,
               dcrString,
-              latitude!,
-              longitude!,
+              latitude,
+              longitude,
               itemString,
               noteText);
 
@@ -883,7 +883,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                 builder: (context) => MyHomePage(
                       userName: userName,
                       userId: userInfo!.userId,
-                      userPassword: userPassword ?? '',
+                      userPassword: userPassword,
                     )),
             (Route<dynamic> route) => false);
 
@@ -935,11 +935,15 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                 if (widget.isDraft) {
                   DcrServices.singleDeleteGspItemFromDraft(
                       dcrBox, widget.docId, addedDcrGSPList[index].giftId);
+                  itemString =
+                      DcrServices().calculatingGspItemString(addedDcrGSPList);
                   // addedDcrGSPList.removeAt(index);
 
                   setState(() {});
                 } else {
                   addedDcrGSPList.removeAt(index);
+                  itemString =
+                      DcrServices().calculatingGspItemString(addedDcrGSPList);
                   setState(() {});
                 }
                 Navigator.of(context).pop();

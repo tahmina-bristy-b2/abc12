@@ -14,7 +14,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
-  flutter_background_service: ^0.2.4
+  # flutter_background_service: ^0.2.4
   fluttertoast: ^8.0.9
   hive: ^2.2.2
   hive_flutter: ^1.1.0

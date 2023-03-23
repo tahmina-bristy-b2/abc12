@@ -28,8 +28,12 @@ class DcrServices {
     });
   }
 
-  static updateDcrWithGspToDraft(Box<DcrDataModel> dcrBox,
-      List<DcrGSPDataModel> addedDcrGSPList, String docId) {
+  static updateDcrWithGspToDraft(
+      Box<DcrDataModel> dcrBox,
+      List<DcrGSPDataModel> addedDcrGSPList,
+      String visitedWith,
+      String notes,
+      String docId) {
     dynamic desirekey;
     dcrBox.toMap().forEach((key, value) {
       if (value.docId == docId) {
@@ -40,6 +44,8 @@ class DcrServices {
 
     if (dcrData!.isInBox) {
       dcrData.dcrGspList = addedDcrGSPList;
+      dcrData.visitedWith = visitedWith;
+      dcrData.notes = notes;
     }
 
     dcrBox.put(desirekey, dcrData);

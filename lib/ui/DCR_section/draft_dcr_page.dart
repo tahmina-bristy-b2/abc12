@@ -139,6 +139,8 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                                 // dcrKey: dcrKey,
                                 // uniqueId: dcrKey,
                                 draftOrderItem: user[index].dcrGspList,
+                                notes: user[index].notes,
+                                visitedWith: user[index].visitedWith,
                                 // draftOrderItem: filteredOrder,
                                 docName: user[index].docName,
                                 docId: user[index].docId,

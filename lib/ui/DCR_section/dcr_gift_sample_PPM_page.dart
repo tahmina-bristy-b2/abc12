@@ -30,6 +30,9 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   final String areaId;
   final String address;
   final List<DcrGSPDataModel> draftOrderItem;
+  final String notes;
+  final String visitedWith;
+
   const DcrGiftSamplePpmPage({
     Key? key,
     required this.address,
@@ -41,6 +44,8 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
     required this.docId,
     required this.areaName,
     required this.draftOrderItem,
+    required this.notes,
+    required this.visitedWith,
   }) : super(key: key);
 
   @override
@@ -77,7 +82,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   List doctorPpmlist = [];
   List doctorDiscussionlist = [];
   List<String> dcrVisitedWithList = [];
-  List<String> dcrTypeList = [];
+  List<int> dcrVisitedWithIInt = [];
+  // List<String> dcrTypeList = [];
 
   int dropDownNumber = 0;
   String noteText = '';
@@ -88,7 +94,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   String userName = '';
   String startTime = '';
   String endTime = '';
-  List visitedWith = [];
+  // List visitedWith = [];
   double? latitude = 0.0;
   double? longitude = 0.0;
   String? deviceId = '';
@@ -108,30 +114,42 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    // dcr_visitedWithList.clear();
+
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         startTime = prefs.getString("startTime") ?? '';
         endTime = prefs.getString("endTime") ?? '';
         cid = prefs.getString("CID");
         userPassword = prefs.getString("PASSWORD");
-        userName = prefs.getString("userName")!;
         latitude = prefs.getDouble("latitude");
         longitude = prefs.getDouble("longitude");
         deviceId = prefs.getString("deviceId");
         deviceBrand = prefs.getString("deviceBrand");
         deviceModel = prefs.getString("deviceModel");
-        dcrDiscussion = prefs.getBool("dcr_discussion") ?? false;
-        dcrVisitedWithList = prefs.getStringList("dcr_visit_with_list")!;
-        dropdownVisitWithValue = dcrVisitedWithList.first;
       });
     });
-
-    addedDcrGSPList = widget.draftOrderItem;
+    userName = userInfo!.userName;
+    dcrDiscussion = userInfo!.dcrDiscussion;
+    dcrVisitedWithList = userInfo!.dcrVisitWithList;
+    dropdownVisitWithValue = dcrVisitedWithList.first;
 
     if (widget.isDraft) {
+      addedDcrGSPList = widget.draftOrderItem;
+      noteController.text = widget.notes;
+      dcrString = widget.visitedWith;
+
+      List dcrStringList = dcrString.split("|");
+
+      for (int i = 0; i < dcrVisitedWithList.length; i++) {
+        for (var e in dcrStringList) {
+          if (dcrVisitedWithList[i] == e) {
+            dcrVisitedWithIInt.add(i);
+          }
+        }
+      }
+
       itemString = DcrServices().calculatingGspItemString(addedDcrGSPList);
-      // calculatingTotalitemString();
+
       setState(() {});
     } else {
       return;
@@ -156,6 +174,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   _onItemTapped(int index) async {
     if (index == 0) {
       putAddedDcrGSPData();
+      Navigator.pop(context);
       Navigator.pop(context);
       setState(() {
         _currentSelected = index;
@@ -304,201 +323,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                   ],
                                 ),
                               ),
-                              // const Spacer(),
-                              // const SizedBox(
-                              //   width: 30,
-                              // ),
-                              // dcr_visitedWithList.isNotEmpty
-                              //     ? Expanded(
-                              //         flex: 3,
-                              //         child: Column(
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.start,
-                              //           children: [
-                              //             const SizedBox(
-                              //               height: 10,
-                              //             ),
-                              //             const Text(
-                              //               "Visited With :",
-                              //               style: TextStyle(
-                              //                 color:
-                              //                     Color.fromARGB(255, 3, 7, 4),
-                              //                 fontSize: 16,
-                              //               ),
-                              //             ),
-                              //             const SizedBox(
-                              //               height: 10,
-                              //             ),
-                              //             Expanded(
-                              //               child: InkWell(
-                              //                 onTap: () {
-                              //                   showDialog(
-                              //                       context: context,
-                              //                       builder:
-                              //                           (BuildContext context) {
-                              //                         return AlertDialog(
-                              //                           content: Container(
-                              //                             height: 300,
-                              //                             child: GFMultiSelect(
-                              //                               items:
-                              //                                   dcr_visitedWithList,
-                              //                               onSelect: (value) {
-                              //                                 dcrString = '';
-                              //                                 if (value
-                              //                                     .isNotEmpty) {
-                              //                                   for (var e
-                              //                                       in value) {
-                              //                                     if (dcrString ==
-                              //                                         '') {
-                              //                                       dcrString =
-                              //                                           dcr_visitedWithList[
-                              //                                               e];
-                              //                                     } else {
-                              //                                       dcrString += '|' +
-                              //                                           dcr_visitedWithList[
-                              //                                               e];
-                              //                                     }
-                              //                                   }
-                              //                                 }
-
-                              //                                 print(
-                              //                                     'selected $value ');
-                              //                                 print(dcrString);
-                              //                               },
-                              //                               // submitButton:
-                              //                               //     submButton(),
-                              //                               cancelButton:
-                              //                                   cancalButton(),
-                              //                               dropdownTitleTileText:
-                              //                                   '',
-                              //                               // dropdownTitleTileColor: Colors.grey[200],
-                              //                               dropdownTitleTileMargin:
-                              //                                   EdgeInsets.zero,
-                              //                               dropdownTitleTilePadding:
-                              //                                   EdgeInsets
-                              //                                       .fromLTRB(
-                              //                                           10,
-                              //                                           0,
-                              //                                           10,
-                              //                                           0),
-                              //                               dropdownUnderlineBorder:
-                              //                                   const BorderSide(
-                              //                                       color: Colors
-                              //                                           .transparent,
-                              //                                       width: 2),
-                              //                               // dropdownTitleTileBorder:
-                              //                               //     Border.all(color: Colors.grey, width: 1),
-                              //                               // dropdownTitleTileBorderRadius: BorderRadius.circular(5),
-                              //                               expandedIcon:
-                              //                                   const Icon(
-                              //                                 Icons
-                              //                                     .keyboard_arrow_down,
-                              //                                 color: Colors
-                              //                                     .black54,
-                              //                               ),
-                              //                               collapsedIcon:
-                              //                                   const Icon(
-                              //                                 Icons
-                              //                                     .keyboard_arrow_up,
-                              //                                 color: Colors
-                              //                                     .black54,
-                              //                               ),
-
-                              //                               // dropdownTitleTileTextStyle: const TextStyle(
-                              //                               //     fontSize: 14, color: Colors.black54),
-                              //                               padding:
-                              //                                   const EdgeInsets
-                              //                                       .all(0),
-                              //                               margin:
-                              //                                   const EdgeInsets
-                              //                                       .all(0),
-                              //                               type: GFCheckboxType
-                              //                                   .basic,
-                              //                               activeBgColor: Colors
-                              //                                   .green
-                              //                                   .withOpacity(
-                              //                                       0.5),
-                              //                               inactiveBorderColor:
-                              //                                   Colors.grey,
-                              //                             ),
-                              //                           ),
-                              //                         );
-                              //                       });
-                              //                   print("ok");
-                              //                 },
-                              //                 child: dcrString == null
-                              //                     ? Text("Select")
-                              //                     : Text(dcrString),
-                              //               ),
-                              //             ),
-
-                              //             //=================================================Experiment
-                              //             // Expanded(
-                              //             //   // flex: 2,
-                              //             //   child: DropdownButton(
-                              //             //     isExpanded: true,
-                              //             //     dropdownColor:
-                              //             //         const Color.fromARGB(
-                              //             //             255, 187, 234, 250),
-                              //             //     // Initial Value
-                              //             //     value: dropdownVisitWithValue,
-
-                              //             //     // Down Arrow Icon
-                              //             //     icon: const Icon(
-                              //             //       Icons.keyboard_arrow_down,
-                              //             //       color: Color.fromARGB(
-                              //             //           255, 27, 56, 34),
-                              //             //     ),
-
-                              //             //     // Array list of items
-
-                              //             //     items: dcr_visitedWithList
-                              //             //         .map((item) {
-                              //             //       return DropdownMenuItem(
-                              //             //         value: item,
-                              //             //         child: Row(
-                              //             //           children: [
-                              //             //             StatefulBuilder(builder:
-                              //             //                 (BuildContext context,
-                              //             //                     StateSetter
-                              //             //                         stateSetter) {
-                              //             //               return Checkbox(
-                              //             //                 onChanged: (value) {
-                              //             //                   stateSetter(() {
-                              //             //                     _firstValue =
-                              //             //                         value!;
-                              //             //                     print(value);
-                              //             //                   });
-                              //             //                 },
-                              //             //                 value: _firstValue,
-                              //             //               );
-                              //             //             }),
-                              //             //             Text(
-                              //             //               item,
-                              //             //               style: const TextStyle(
-                              //             //                 color: Color.fromARGB(
-                              //             //                     255, 9, 19, 11),
-                              //             //                 fontSize: 16,
-                              //             //               ),
-                              //             //             ),
-                              //             //           ],
-                              //             //         ),
-                              //             //       );
-                              //             //     }).toList(),
-
-                              //             //     onChanged: (String? newValue) {
-                              //             //       setState(() {
-                              //             //         dropdownVisitWithValue =
-                              //             //             newValue!;
-                              //             //         print(dropdownVisitWithValue);
-                              //             //       });
-                              //             //     },
-                              //             //   ),
-                              //             // ),
-                              //       ],
-                              //     ),
-                              //   )
-                              // : const Text("")
                             ],
                           ),
                         ),
@@ -519,7 +343,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                 )),
                                 Expanded(
                                   child: GFMultiSelect(
-                                    // initialSelectedItemsIndex: [0],
+                                    initialSelectedItemsIndex:
+                                        dcrVisitedWithIInt,
                                     items: dcrVisitedWithList,
                                     onSelect: (value) {
                                       dcrString = '';
@@ -534,7 +359,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                         }
                                       }
                                     },
-                                    cancelButton: cancalButton(),
+                                    // cancelButton: cancalButton(),
                                     dropdownTitleTileText: '',
                                     // dropdownTitleTileColor: Colors.grey[200],
                                     dropdownTitleTileMargin: EdgeInsets.zero,
@@ -1001,10 +826,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     }
   }
 
-  cancalButton() {
-    dcrString = "";
-  }
-
   // Saved Added Gift, Sample, PPM to Hive
 
   Future putAddedDcrGSPData() async {
@@ -1012,7 +833,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       // Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
       // Boxes.deleteItemFromBoxTabletest2(dcrBox, widget.docId);
       DcrServices.updateDcrWithGspToDraft(
-          dcrBox, addedDcrGSPList, widget.docId);
+          dcrBox, addedDcrGSPList, dcrString, noteText, widget.docId);
 
       // gspBox.addAll(addedDcrGSPList);
     } else {
@@ -1023,7 +844,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           areaId: widget.areaId,
           areaName: widget.areaName,
           address: 'address',
-          dcrGspList: addedDcrGSPList));
+          dcrGspList: addedDcrGSPList,
+          visitedWith: dcrString,
+          notes: noteText));
 
       // gspBox.addAll(addedDcrGSPList);
     }

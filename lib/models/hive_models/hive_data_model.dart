@@ -89,6 +89,10 @@ class DcrDataModel extends HiveObject {
   @HiveField(4)
   String address;
   @HiveField(5)
+  String visitedWith;
+  @HiveField(6)
+  String notes;
+  @HiveField(7)
   List<DcrGSPDataModel> dcrGspList;
 
   DcrDataModel(
@@ -97,6 +101,8 @@ class DcrDataModel extends HiveObject {
       required this.areaId,
       required this.areaName,
       required this.address,
+      required this.visitedWith,
+      required this.notes,
       required this.dcrGspList});
 }
 

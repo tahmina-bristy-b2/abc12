@@ -266,6 +266,8 @@ class _DcrListPageState extends State<DcrListPage> {
                                                   ['area_id'],
                                               address: foundUsers[index]
                                                   ['address'],
+                                              notes: '',
+                                              visitedWith: '',
                                             )));
                               },
                               child: CustomerListCardWidget(

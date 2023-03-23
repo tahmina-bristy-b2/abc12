@@ -204,8 +204,6 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
 
         // ##################### This code for thana district section ###############################
 
-        print('Monir');
-
         // check for empty string and matched with doctor settings district data
         if ((widget.docEditInfo["docRecords"][i]["thana"] != '' &&
                 widget.docEditInfo["docRecords"][i]["district"] != '') &&
@@ -828,6 +826,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   print(
                                       'districtSelectedId:$districtSelectedId');
                                   thanaValue = null;
+                                  thanaSelectedId = '';
 
                                   // thanaValue = getThanaWithDist
                                   //         .first.thanaList.isNotEmpty
@@ -1495,72 +1494,83 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
               if (categoryValue!.isNotEmpty) {
                 if (categoryValue!.isNotEmpty) {
                   if (adressController.text.isNotEmpty) {
-                    if (mobileController.text.isNotEmpty) {
-                      if (patientNumController.text.isNotEmpty) {
-                        if (brandListString != " ") {
-                          //readyForData();
+                    if (districtSelectedId != '' && thanaSelectedId != '') {
+                      if (mobileController.text.isNotEmpty) {
+                        if (patientNumController.text.isNotEmpty) {
+                          if (brandListString != " ") {
+                            //readyForData();
 
-                          Map<String, dynamic> a = await DcrRepositories()
-                              .editDoctorR(
-                                  dmPathData!.doctorEditSubmitUrl,
-                                  cid,
-                                  userLoginInfo!.userId,
-                                  userPassword,
-                                  widget.areaID,
-                                  widget.areaName,
-                                  docId,
-                                  nameController.text.toString(),
-                                  categoryValue!,
-                                  docCategoryValue!,
-                                  docTypeValue!,
-                                  docSpecialityValue!,
-                                  degreeList,
-                                  chemistId,
-                                  adressController.text.toString(),
-                                  districtSelectedId,
-                                  thanaSelectedId,
-                                  mobileController.text.toString(),
-                                  marriageDayController.text.toString(),
-                                  dobChild1Controller.text.toString(),
-                                  dobChild2Controller.text.toString(),
-                                  collarSize!,
-                                  patientNumController.text.toString(),
-                                  docIDController.text.toString(),
-                                  docNameController.text.toString(),
-                                  docSpecialityController.text.toString(),
-                                  docAddressController.text.toString(),
-                                  brandListString,
-                                  dobController.text.toString());
+                            Map<String, dynamic> a = await DcrRepositories()
+                                .editDoctorR(
+                                    dmPathData!.doctorEditSubmitUrl,
+                                    cid,
+                                    userLoginInfo!.userId,
+                                    userPassword,
+                                    widget.areaID,
+                                    widget.areaName,
+                                    docId,
+                                    nameController.text.toString(),
+                                    categoryValue!,
+                                    docCategoryValue!,
+                                    docTypeValue!,
+                                    docSpecialityValue!,
+                                    degreeList,
+                                    chemistId,
+                                    adressController.text.toString(),
+                                    districtSelectedId,
+                                    thanaSelectedId,
+                                    mobileController.text.toString(),
+                                    marriageDayController.text.toString(),
+                                    dobChild1Controller.text.toString(),
+                                    dobChild2Controller.text.toString(),
+                                    collarSize!,
+                                    patientNumController.text.toString(),
+                                    docIDController.text.toString(),
+                                    docNameController.text.toString(),
+                                    docSpecialityController.text.toString(),
+                                    docAddressController.text.toString(),
+                                    brandListString,
+                                    dobController.text.toString());
 
-                          String status = a['status'];
+                            String status = a['status'];
 
-                          if (status == "Success") {
-                            AllServices().toastMessage(
-                                "Doctor Edited Successfully Done",
-                                Colors.green,
-                                Colors.white,
-                                14);
-                            Navigator.pop(context);
+                            if (status == "Success") {
+                              AllServices().toastMessage(
+                                  "Doctor Edited Successfully Done",
+                                  Colors.green,
+                                  Colors.white,
+                                  14);
+                              Navigator.pop(context);
+                            } else {
+                              String resString = a['ret_str'] ?? "";
+
+                              AllServices().toastMessage(
+                                  "$status for $resString",
+                                  Colors.red,
+                                  Colors.white,
+                                  14);
+                            }
                           } else {
-                            String resString = a['ret_str'] ?? "";
-
-                            AllServices().toastMessage("$status for $resString",
+                            AllServices().toastMessage("Please select brand",
                                 Colors.red, Colors.white, 14);
                           }
                         } else {
-                          AllServices().toastMessage("Please select brand",
-                              Colors.red, Colors.white, 14);
+                          AllServices().toastMessage(
+                              "Please fill up your patient per Day",
+                              Colors.red,
+                              Colors.white,
+                              14);
                         }
                       } else {
                         AllServices().toastMessage(
-                            "Please fill up your patient per Day",
+                            "Please fill up your mobile number",
                             Colors.red,
                             Colors.white,
                             14);
                       }
                     } else {
                       AllServices().toastMessage(
-                          "Please fill up your mobile number",
+                          "Please select up your District and Thana!",
                           Colors.red,
                           Colors.white,
                           14);

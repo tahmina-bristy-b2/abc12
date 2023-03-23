@@ -2,6 +2,7 @@
 
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/services.dart';
@@ -294,82 +295,106 @@ class _LoginScreenState extends State<LoginScreen> {
                                           isLoading = true;
                                         });
                                         // new call
-                                        String loginUrl = await Repositories()
-                                            .getDmPath(
-                                                _companyIdController.text);
+                                        bool result =
+                                            await InternetConnectionChecker()
+                                                .hasConnection;
 
-                                        if (loginUrl != '') {
-                                          UserLoginModel userLoginModelData =
-                                              await Repositories().login(
-                                                  loginUrl,
-                                                  deviceId,
-                                                  deviceBrand,
-                                                  deviceModel,
-                                                  _companyIdController.text,
-                                                  _userIdController.text,
-                                                  _passwordController.text);
+                                        if (result == true) {
+                                          String loginUrl = await Repositories()
+                                              .getDmPath(
+                                                  _companyIdController.text);
+                                          if (loginUrl != '') {
+                                            UserLoginModel userLoginModelData =
+                                                await Repositories().login(
+                                                    loginUrl,
+                                                    deviceId,
+                                                    deviceBrand,
+                                                    deviceModel,
+                                                    _companyIdController.text,
+                                                    _userIdController.text,
+                                                    _passwordController.text);
 
-                                          if (userLoginModelData.status ==
-                                              'Success') {
-                                            setState(() {
-                                              isLoading = false;
-                                            });
-                                            Hive.openBox('data').then(
-                                              (value) {
-                                                List clientToken = value
-                                                    .toMap()
-                                                    .values
-                                                    .toList();
+                                            if (userLoginModelData.status ==
+                                                'Success') {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                              Hive.openBox('data').then(
+                                                (value) {
+                                                  List clientToken = value
+                                                      .toMap()
+                                                      .values
+                                                      .toList();
 
-                                                if (clientToken.isNotEmpty &&
-                                                    savedUserId ==
-                                                        _userIdController
-                                                            .text) {
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => MyHomePage(
-                                                          userName:
-                                                              userLoginModelData
-                                                                  .userName,
-                                                          userId:
-                                                              userLoginModelData
-                                                                  .userId,
-                                                          userPassword:
-                                                              _passwordController
-                                                                  .text),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  Boxes.clearBox();
+                                                  if (clientToken.isNotEmpty &&
+                                                      savedUserId ==
+                                                          _userIdController
+                                                              .text) {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => MyHomePage(
+                                                            userName:
+                                                                userLoginModelData
+                                                                    .userName,
+                                                            userId:
+                                                                userLoginModelData
+                                                                    .userId,
+                                                            userPassword:
+                                                                _passwordController
+                                                                    .text),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    Boxes.clearBox();
 
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (_) => SyncDataTabScreen(
-                                                          cid:
-                                                              _companyIdController
-                                                                  .text,
-                                                          userId:
-                                                              userLoginModelData
-                                                                  .userId,
-                                                          userPassword:
-                                                              _passwordController
-                                                                  .text),
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                            );
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) => SyncDataTabScreen(
+                                                            cid:
+                                                                _companyIdController
+                                                                    .text,
+                                                            userId:
+                                                                userLoginModelData
+                                                                    .userId,
+                                                            userPassword:
+                                                                _passwordController
+                                                                    .text),
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                              );
+                                            } else {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                              AllServices().toastMessage(
+                                                  'Wrong user Id and Password',
+                                                  Colors.red,
+                                                  Colors.white,
+                                                  16);
+                                            }
                                           } else {
                                             setState(() {
                                               isLoading = false;
                                             });
+                                            AllServices().toastMessage(
+                                                'Wrong CID',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
                                           }
                                         } else {
                                           setState(() {
                                             isLoading = false;
                                           });
+                                          AllServices().toastMessage(
+                                              interNetErrorMsg,
+                                              Colors.red,
+                                              Colors.white,
+                                              16);
                                         }
 
                                         // odl call

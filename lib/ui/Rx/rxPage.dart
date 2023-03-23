@@ -1787,8 +1787,8 @@ class _RxPageState extends State<RxPage> {
 }
 
 class ZoomForRxImage extends StatelessWidget {
-  File? img;
-  ZoomForRxImage(this.img);
+  final File? img;
+  const ZoomForRxImage(this.img, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1809,8 +1809,8 @@ class ZoomForRxImage extends StatelessWidget {
 }
 
 class ZoomForRxDraftImage extends StatelessWidget {
-  String? draftFinalImage;
-  ZoomForRxDraftImage(this.draftFinalImage);
+  final String? draftFinalImage;
+  const ZoomForRxDraftImage(this.draftFinalImage, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -68,7 +68,7 @@ class AllServices {
 
   Future<DateTime?> pickDate(context, dateTime) => showDatePicker(
         context: context,
-        initialDate: dateTime,
+        initialDate: dateTime == "" ? DateTime.now() : DateTime.parse(dateTime),
         firstDate: DateTime(1800),
         lastDate: DateTime(2060),
         builder: (context, child) {

@@ -144,14 +144,16 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       areaId: fields[2] as String,
       areaName: fields[3] as String,
       address: fields[4] as String,
-      dcrGspList: (fields[5] as List).cast<DcrGSPDataModel>(),
+      visitedWith: fields[5] as String,
+      notes: fields[6] as String,
+      dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, DcrDataModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.docName)
       ..writeByte(1)
@@ -163,6 +165,10 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       ..writeByte(4)
       ..write(obj.address)
       ..writeByte(5)
+      ..write(obj.visitedWith)
+      ..writeByte(6)
+      ..write(obj.notes)
+      ..writeByte(7)
       ..write(obj.dcrGspList);
   }
 

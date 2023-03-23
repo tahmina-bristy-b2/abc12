@@ -12,8 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Repositories {
-  // ignore_for_file: non_constant_identifier_names
-
   Future<String> getDmPath(String cid) async {
     final dmPathBox = Boxes.getDmpath(); //dmpath box instance
     String loginUrl = '';
@@ -26,85 +24,92 @@ class Repositories {
         var userInfo = json.decode(response.body);
 
         var resData = userInfo['res_data'];
-        dmPathDataModelData = dmPathDataModelFromJson(jsonEncode(resData));
-        dmPathBox.put(
-            'dmPathData', dmPathDataModelData); //saved dmPath data to hive
+        if (resData['ret_res'] != "Welcome to mReporting.") {
+          dmPathDataModelData = dmPathDataModelFromJson(jsonEncode(resData));
+          dmPathBox.put(
+              'dmPathData', dmPathDataModelData); //saved dmPath data to hive
 
-        loginUrl = resData['login_url'] ?? '';
+          loginUrl = resData['login_url'] ?? '';
 
-        // old task
+          // old task
 
-        String sync_url = resData['sync_url'] ?? '';
-        String submit_url = resData['submit_url'];
-        String report_sales_url = resData['report_sales_url'];
-        String report_dcr_url = resData['report_dcr_url'];
-        String report_rx_url = resData['report_rx_url'];
-        String photo_submit_url = resData['photo_submit_url'];
-        String photo_url = resData['photo_url'];
-        String leave_request_url = resData['leave_request_url'];
-        String leave_report_url = resData['leave_report_url'];
-        String plugin_url = resData['plugin_url'];
-        String tour_plan_url = resData['tour_plan_url'];
-        String tour_compliance_url = resData['tour_compliance_url'];
-        String client_url = resData['client_url'];
+          String sync_url = resData['sync_url'] ?? '';
+          String submit_url = resData['submit_url'];
+          String report_sales_url = resData['report_sales_url'];
+          String report_dcr_url = resData['report_dcr_url'];
+          String report_rx_url = resData['report_rx_url'];
+          String photo_submit_url = resData['photo_submit_url'];
+          String photo_url = resData['photo_url'];
+          String leave_request_url = resData['leave_request_url'];
+          String leave_report_url = resData['leave_report_url'];
+          String plugin_url = resData['plugin_url'];
+          String tour_plan_url = resData['tour_plan_url'];
+          String tour_compliance_url = resData['tour_compliance_url'];
+          String client_url = resData['client_url'];
 
-        String activity_log_url = resData['activity_log_url'];
-        String user_sales_coll_ach_url = resData['user_sales_coll_ach_url'];
-        String client_outst_url = resData['client_outst_url'];
-        String user_area_url = resData['user_area_url'];
-        String os_details_url = resData['os_details_url'];
-        String ord_history_url = resData['ord_history_url'];
-        String inv_history_url = resData['inv_history_url'];
-        String client_edit_url = resData['client_edit_url'];
-        String timer_track_url = resData['timer_track_url'];
-        String exp_type_url = resData['exp_type_url'];
-        String exp_submit_url = resData['exp_submit_url'];
-        String report_exp_url = resData['report_exp_url'];
-        String report_outst_url = resData['report_outst_url'];
-        String report_last_ord_url = resData['report_last_ord_url'];
-        String report_last_inv_url = resData['report_last_inv_url'];
-        String exp_approval_url = resData['exp_approval_url'];
-        String sync_notice_url = resData['sync_notice_url'];
+          String activity_log_url = resData['activity_log_url'];
+          String user_sales_coll_ach_url = resData['user_sales_coll_ach_url'];
+          String client_outst_url = resData['client_outst_url'];
+          String user_area_url = resData['user_area_url'];
+          String os_details_url = resData['os_details_url'];
+          String ord_history_url = resData['ord_history_url'];
+          String inv_history_url = resData['inv_history_url'];
+          String client_edit_url = resData['client_edit_url'];
+          String timer_track_url = resData['timer_track_url'];
+          String exp_type_url = resData['exp_type_url'];
+          String exp_submit_url = resData['exp_submit_url'];
+          String report_exp_url = resData['report_exp_url'];
+          String report_outst_url = resData['report_outst_url'];
+          String report_last_ord_url = resData['report_last_ord_url'];
+          String report_last_inv_url = resData['report_last_inv_url'];
+          String exp_approval_url = resData['exp_approval_url'];
+          String sync_notice_url = resData['sync_notice_url'];
 
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('sync_url', sync_url);
-        await prefs.setString('submit_url', submit_url);
-        await prefs.setString('report_sales_url', report_sales_url);
-        await prefs.setString('report_dcr_url', report_dcr_url);
-        await prefs.setString('report_rx_url', report_rx_url);
-        await prefs.setString('photo_submit_url', photo_submit_url);
-        await prefs.setString('activity_log_url', activity_log_url);
-        await prefs.setString('client_outst_url', client_outst_url);
-        await prefs.setString('user_area_url', user_area_url);
-        await prefs.setString('photo_url', photo_url);
-        await prefs.setString('leave_request_url', leave_request_url);
-        await prefs.setString('leave_report_url', leave_report_url);
-        await prefs.setString('plugin_url', plugin_url);
-        await prefs.setString('tour_plan_url', tour_plan_url);
-        await prefs.setString('tour_compliance_url', tour_compliance_url);
-        await prefs.setString('client_url', client_url);
-        // await prefs.setString('doctor_url', doctor_url);
-        await prefs.setString(
-            'user_sales_coll_ach_url', user_sales_coll_ach_url);
-        await prefs.setString('os_details_url', os_details_url);
-        await prefs.setString('ord_history_url', ord_history_url);
-        await prefs.setString('inv_history_url', inv_history_url);
-        await prefs.setString('client_edit_url', client_edit_url);
-        await prefs.setString('timer_track_url', timer_track_url);
-        await prefs.setString('exp_type_url', exp_type_url);
-        await prefs.setString('exp_submit_url', exp_submit_url);
-        await prefs.setString('report_exp_url', report_exp_url);
-        await prefs.setString('report_exp_url', report_exp_url);
-        await prefs.setString('report_outst_url', report_outst_url);
-        await prefs.setString('report_last_ord_url', report_last_ord_url);
-        await prefs.setString('report_last_inv_url', report_last_inv_url);
-        await prefs.setString('exp_approval_url', exp_approval_url);
-        await prefs.setString('sync_notice_url', sync_notice_url);
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('sync_url', sync_url);
+          await prefs.setString('submit_url', submit_url);
+          await prefs.setString('report_sales_url', report_sales_url);
+          await prefs.setString('report_dcr_url', report_dcr_url);
+          await prefs.setString('report_rx_url', report_rx_url);
+          await prefs.setString('photo_submit_url', photo_submit_url);
+          await prefs.setString('activity_log_url', activity_log_url);
+          await prefs.setString('client_outst_url', client_outst_url);
+          await prefs.setString('user_area_url', user_area_url);
+          await prefs.setString('photo_url', photo_url);
+          await prefs.setString('leave_request_url', leave_request_url);
+          await prefs.setString('leave_report_url', leave_report_url);
+          await prefs.setString('plugin_url', plugin_url);
+          await prefs.setString('tour_plan_url', tour_plan_url);
+          await prefs.setString('tour_compliance_url', tour_compliance_url);
+          await prefs.setString('client_url', client_url);
+          // await prefs.setString('doctor_url', doctor_url);
+          await prefs.setString(
+              'user_sales_coll_ach_url', user_sales_coll_ach_url);
+          await prefs.setString('os_details_url', os_details_url);
+          await prefs.setString('ord_history_url', ord_history_url);
+          await prefs.setString('inv_history_url', inv_history_url);
+          await prefs.setString('client_edit_url', client_edit_url);
+          await prefs.setString('timer_track_url', timer_track_url);
+          await prefs.setString('exp_type_url', exp_type_url);
+          await prefs.setString('exp_submit_url', exp_submit_url);
+          await prefs.setString('report_exp_url', report_exp_url);
+          await prefs.setString('report_exp_url', report_exp_url);
+          await prefs.setString('report_outst_url', report_outst_url);
+          await prefs.setString('report_last_ord_url', report_last_ord_url);
+          await prefs.setString('report_last_inv_url', report_last_inv_url);
+          await prefs.setString('exp_approval_url', exp_approval_url);
+          await prefs.setString('sync_notice_url', sync_notice_url);
 
-        // login(deviceId, deviceBrand, deviceModel, cid, userId, password,
-        //     login_url, context);
+          // login(deviceId, deviceBrand, deviceModel, cid, userId, password,
+          //     login_url, context);
 
-        return loginUrl;
+          return loginUrl;
+        } else {
+          return loginUrl;
+        }
+        // var userInfo = json.decode(response.body);
+
+        // var resData = userInfo['res_data'];
       }
     } on Exception catch (e) {
       // throw Exception(e);
@@ -113,6 +118,113 @@ class Repositories {
     }
     return loginUrl;
   }
+
+  // Future<String> getDmPath(String cid) async {
+  //   final dmPathBox = Boxes.getDmpath(); //dmpath box instance
+  //   String loginUrl = '';
+
+  //   DmPathDataModel dmPathDataModelData;
+  //   try {
+  //     final http.Response response = await DataProviders().dmPathData(cid);
+
+  //     if (response.statusCode == 200) {
+  //       var userInfo = json.decode(response.body);
+
+  //       var resData = userInfo['res_data'];
+  //       if (resData['ret_res'] != "Welcome to mReporting.") {
+  //         dmPathDataModelData = dmPathDataModelFromJson(jsonEncode(resData));
+  //         dmPathBox.put(
+  //             'dmPathData', dmPathDataModelData); //saved dmPath data to hive
+
+  //         loginUrl = resData['login_url'] ?? '';
+
+  //         // old task
+
+  //         String sync_url = resData['sync_url'] ?? '';
+  //         String submit_url = resData['submit_url'];
+  //         String report_sales_url = resData['report_sales_url'];
+  //         String report_dcr_url = resData['report_dcr_url'];
+  //         String report_rx_url = resData['report_rx_url'];
+  //         String photo_submit_url = resData['photo_submit_url'];
+  //         String photo_url = resData['photo_url'];
+  //         String leave_request_url = resData['leave_request_url'];
+  //         String leave_report_url = resData['leave_report_url'];
+  //         String plugin_url = resData['plugin_url'];
+  //         String tour_plan_url = resData['tour_plan_url'];
+  //         String tour_compliance_url = resData['tour_compliance_url'];
+  //         String client_url = resData['client_url'];
+
+  //         String activity_log_url = resData['activity_log_url'];
+  //         String user_sales_coll_ach_url = resData['user_sales_coll_ach_url'];
+  //         String client_outst_url = resData['client_outst_url'];
+  //         String user_area_url = resData['user_area_url'];
+  //         String os_details_url = resData['os_details_url'];
+  //         String ord_history_url = resData['ord_history_url'];
+  //         String inv_history_url = resData['inv_history_url'];
+  //         String client_edit_url = resData['client_edit_url'];
+  //         String timer_track_url = resData['timer_track_url'];
+  //         String exp_type_url = resData['exp_type_url'];
+  //         String exp_submit_url = resData['exp_submit_url'];
+  //         String report_exp_url = resData['report_exp_url'];
+  //         String report_outst_url = resData['report_outst_url'];
+  //         String report_last_ord_url = resData['report_last_ord_url'];
+  //         String report_last_inv_url = resData['report_last_inv_url'];
+  //         String exp_approval_url = resData['exp_approval_url'];
+  //         String sync_notice_url = resData['sync_notice_url'];
+
+  //         final prefs = await SharedPreferences.getInstance();
+  //         await prefs.setString('sync_url', sync_url);
+  //         await prefs.setString('submit_url', submit_url);
+  //         await prefs.setString('report_sales_url', report_sales_url);
+  //         await prefs.setString('report_dcr_url', report_dcr_url);
+  //         await prefs.setString('report_rx_url', report_rx_url);
+  //         await prefs.setString('photo_submit_url', photo_submit_url);
+  //         await prefs.setString('activity_log_url', activity_log_url);
+  //         await prefs.setString('client_outst_url', client_outst_url);
+  //         await prefs.setString('user_area_url', user_area_url);
+  //         await prefs.setString('photo_url', photo_url);
+  //         await prefs.setString('leave_request_url', leave_request_url);
+  //         await prefs.setString('leave_report_url', leave_report_url);
+  //         await prefs.setString('plugin_url', plugin_url);
+  //         await prefs.setString('tour_plan_url', tour_plan_url);
+  //         await prefs.setString('tour_compliance_url', tour_compliance_url);
+  //         await prefs.setString('client_url', client_url);
+  //         // await prefs.setString('doctor_url', doctor_url);
+  //         await prefs.setString(
+  //             'user_sales_coll_ach_url', user_sales_coll_ach_url);
+  //         await prefs.setString('os_details_url', os_details_url);
+  //         await prefs.setString('ord_history_url', ord_history_url);
+  //         await prefs.setString('inv_history_url', inv_history_url);
+  //         await prefs.setString('client_edit_url', client_edit_url);
+  //         await prefs.setString('timer_track_url', timer_track_url);
+  //         await prefs.setString('exp_type_url', exp_type_url);
+  //         await prefs.setString('exp_submit_url', exp_submit_url);
+  //         await prefs.setString('report_exp_url', report_exp_url);
+  //         await prefs.setString('report_exp_url', report_exp_url);
+  //         await prefs.setString('report_outst_url', report_outst_url);
+  //         await prefs.setString('report_last_ord_url', report_last_ord_url);
+  //         await prefs.setString('report_last_inv_url', report_last_inv_url);
+  //         await prefs.setString('exp_approval_url', exp_approval_url);
+  //         await prefs.setString('sync_notice_url', sync_notice_url);
+
+  //         // login(deviceId, deviceBrand, deviceModel, cid, userId, password,
+  //         //     login_url, context);
+
+  //         return loginUrl;
+  //       } else {
+  //         return loginUrl;
+  //       }
+  //       // var userInfo = json.decode(response.body);
+
+  //       // var resData = userInfo['res_data'];
+  //     }
+  //   } on Exception catch (e) {
+  //     // throw Exception(e);
+  //     // ignore: avoid_print
+  //     print(e);
+  //   }
+  //   return loginUrl;
+  // }
 
   Future<UserLoginModel> login(
       String loginUrl,

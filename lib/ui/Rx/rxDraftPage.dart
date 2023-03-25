@@ -16,8 +16,8 @@ class RxDraftPage extends StatefulWidget {
 class _RxDraftPageState extends State<RxDraftPage> {
   // final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   Box? box;
-  var screenHeight;
-  var screenWidth;
+  double screenHeight = 0.0;
+  double screenWidth = 0.0;
   List itemDraftList = [];
   List<MedicineListModel> addedRxMedicinList = [];
   List<MedicineListModel> filteredMedicin = [];
@@ -25,56 +25,56 @@ class _RxDraftPageState extends State<RxDraftPage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      box = Boxes.getMedicine();
-      addedRxMedicinList =
-          box!.toMap().values.toList().cast<MedicineListModel>();
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   box = Boxes.getMedicine();
+    //   addedRxMedicinList =
+    //       box!.toMap().values.toList().cast<MedicineListModel>();
 
-      box = Boxes.dcrUsers();
-      dcrDataList = box!.toMap().values.toList().cast<RxDcrDataModel>();
+    //   box = Boxes.dcrUsers();
+    //   dcrDataList = box!.toMap().values.toList().cast<RxDcrDataModel>();
 
-      setState(() {});
-    });
+    //   setState(() {});
+    // });
     super.initState();
   }
 
-  int _currentSelected = 0;
+  // int _currentSelected = 0;
 
-  void _onItemTapped(int index) async {
-    if (index == 1) {
-      // await putData();
-      setState(() {
-        _currentSelected = index;
-      });
-      // print('order List seved to hive');
-    } else {
-      // print('ohe eta hbe na');
-    }
-    if (index == 0) {
-      await Boxes.dcrUsers().clear();
+  // void _onItemTapped(int index) async {
+  //   if (index == 1) {
+  //     // await putData();
+  //     setState(() {
+  //       _currentSelected = index;
+  //     });
+  //     // print('order List seved to hive');
+  //   } else {
+  //     // print('ohe eta hbe na');
+  //   }
+  //   if (index == 0) {
+  //     await Boxes.dcrUsers().clear();
 
-      await Boxes.getMedicine().clear();
+  //     await Boxes.getMedicine().clear();
 
-      setState(() {
-        _currentSelected = index;
-      });
-    }
-  }
+  //     setState(() {
+  //       _currentSelected = index;
+  //     });
+  //   }
+  // }
 
   Future<void> deleteRxDoctor(RxDcrDataModel rxDcrDataModel) async {
     rxDcrDataModel.delete();
   }
 
-  deletRxMedicinItem(int id) {
-    final box = Hive.box<MedicineListModel>("draftMdicinList");
+  // deletRxMedicinItem(int id) {
+  //   final box = Hive.box<MedicineListModel>("draftMdicinList");
 
-    final Map<dynamic, MedicineListModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
+  //   final Map<dynamic, MedicineListModel> deliveriesMap = box.toMap();
+  //   dynamic desiredKey;
+  //   deliveriesMap.forEach((key, value) {
+  //     if (value.uid == id) desiredKey = key;
+  //   });
+  //   box.delete(desiredKey);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +117,9 @@ class _RxDraftPageState extends State<RxDraftPage> {
             onTap: () {},
             child: Card(
               elevation: 10,
-              color: Color.fromARGB(255, 207, 240, 207),
+              color: const Color.fromARGB(255, 207, 240, 207),
               child: ExpansionTile(
-                childrenPadding: EdgeInsets.all(0),
+                childrenPadding: const EdgeInsets.all(0),
                 // tilePadding: EdgeInsets.all(0),
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -134,7 +134,7 @@ class _RxDraftPageState extends State<RxDraftPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Expanded(
@@ -148,7 +148,7 @@ class _RxDraftPageState extends State<RxDraftPage> {
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Text(
-                            "${user[index].areaName}",
+                            user[index].areaName,
                             style: const TextStyle(fontSize: 13),
                           ),
                         ],
@@ -163,11 +163,11 @@ class _RxDraftPageState extends State<RxDraftPage> {
                       TextButton.icon(
                         // onPressed: () => deleteUser(user[index]),
                         onPressed: () {
-                          final rxDoctorkey = user[index].uiqueKey;
+                          // final rxDoctorkey = user[index].uid;
                           deleteRxDoctor(user[index]);
                           // deleteItem(user[index]);
 
-                          deletRxMedicinItem(rxDoctorkey);
+                          // deletRxMedicinItem(rxDoctorkey);
                           setState(() {});
                         },
                         icon: const Icon(
@@ -181,75 +181,75 @@ class _RxDraftPageState extends State<RxDraftPage> {
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          final dcrKey = user[index].uiqueKey;
+                          // final dcrKey = user[index].uiqueKey;
                           // print('dcr:$dcrKey');
-                          filteredMedicin = [];
-                          addedRxMedicinList
-                              .where((item) => item.uiqueKey == dcrKey)
-                              .forEach(
-                            (item) {
-                              print('gsp: ${item.uiqueKey}');
-                              final temp = MedicineListModel(
-                                  uiqueKey: item.uiqueKey,
-                                  strength: item.strength,
-                                  brand: item.brand,
-                                  company: item.company,
-                                  formation: item.formation,
-                                  name: item.name,
-                                  generic: item.generic,
-                                  itemId: item.itemId,
-                                  quantity: item.quantity);
+                          // filteredMedicin = [];
+                          // addedRxMedicinList
+                          //     .where((item) => item.uiqueKey == dcrKey)
+                          //     .forEach(
+                          //   (item) {
+                          //     print('gsp: ${item.uiqueKey}');
+                          //     final temp = MedicineListModel(
+                          //         uiqueKey: item.uiqueKey,
+                          //         strength: item.strength,
+                          //         brand: item.brand,
+                          //         company: item.company,
+                          //         formation: item.formation,
+                          //         name: item.name,
+                          //         generic: item.generic,
+                          //         itemId: item.itemId,
+                          //         quantity: item.quantity);
 
-                              filteredMedicin.add(temp);
-                            },
-                          );
+                          //     filteredMedicin.add(temp);
+                          //   },
+                          // );
                           // print('ami jani na ${user[index].presImage}');
 
                           // print(ckey);
-                          if ((user[index].presImage != "") &&
-                              filteredMedicin.isEmpty) {
-                            // print("dcrkey when only Image ${dcrKey}");
-                            // print(
-                            //     "dcrkey when only Image ${user[index].uiqueKey}");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => RxPage(
-                                  ck: 'isCheckedByImage',
-                                  dcrKey: dcrKey,
-                                  uniqueId: user[index].uiqueKey,
-                                  draftRxMedicinItem: filteredMedicin,
-                                  docName: user[index].docName,
-                                  docId: user[index].docId,
-                                  areaName: user[index].areaName,
-                                  areaId: user[index].areaId,
-                                  address: user[index].address,
-                                  image1: user[index].presImage,
-                                ),
-                              ),
-                            );
-                          } else {
-                            // print("dcrkey when medicine ${dcrKey}");
-                            // print(
-                            //     "dcrkey when medicine ${user[index].uiqueKey}");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => RxPage(
-                                  ck: 'isCheck',
-                                  dcrKey: dcrKey,
-                                  uniqueId: user[index].uiqueKey,
-                                  draftRxMedicinItem: filteredMedicin,
-                                  docName: user[index].docName,
-                                  docId: user[index].docId,
-                                  areaName: user[index].areaName,
-                                  areaId: user[index].areaId,
-                                  address: user[index].address,
-                                  image1: user[index].presImage,
-                                ),
-                              ),
-                            );
-                          }
+                          // if ((user[index].presImage != "") &&
+                          //     filteredMedicin.isEmpty) {
+                          // print("dcrkey when only Image ${dcrKey}");
+                          // print(
+                          //     "dcrkey when only Image ${user[index].uiqueKey}");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => RxPage(
+                                  isRxEdit: true, draftRxData: user[index]
+
+                                  // uid: user[index].uid,
+                                  // draftRxMedicinItem: filteredMedicin,
+                                  // docName: user[index].docName,
+                                  // docId: user[index].docId,
+                                  // areaName: user[index].areaName,
+                                  // areaId: user[index].areaId,
+                                  // address: user[index].address,
+                                  // image1: user[index].presImage,
+                                  ),
+                            ),
+                          );
+                          // } else {
+                          //   // print("dcrkey when medicine ${dcrKey}");
+                          //   // print(
+                          //   //     "dcrkey when medicine ${user[index].uiqueKey}");
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (_) => RxPage(
+                          //         ck: 'isCheck',
+                          //         dcrKey: dcrKey,
+                          //         uniqueId: user[index].uiqueKey,
+                          //         draftRxMedicinItem: filteredMedicin,
+                          //         docName: user[index].docName,
+                          //         docId: user[index].docId,
+                          //         areaName: user[index].areaName,
+                          //         areaId: user[index].areaId,
+                          //         address: user[index].address,
+                          //         image1: user[index].presImage,
+                          //       ),
+                          //     ),
+                          //   );
+                          // }
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(

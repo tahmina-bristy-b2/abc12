@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +30,9 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController searchController2 = TextEditingController();
 
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
   List foundUsers = [];
   List temp = [];
   var orderamount = 0.0;
@@ -38,19 +43,22 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
   bool isInList = false;
   var total = 0.0;
   bool incLen = true;
-  bool promo_flag = false;
+  // bool promo_flag = false;
   // bool? offer_flag;
   final _formkey = GlobalKey<FormState>();
   Map<String, TextEditingController> controllers = {};
 
-  sharedpref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    offer_flag = prefs.getBool("offer_flag") ?? false;
-    promo_flag = prefs.getBool("promo_flag") ?? false;
-  }
+  // sharedpref() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   offer_flag = prefs.getBool("offer_flag") ?? false;
+  //   promo_flag = prefs.getBool("promo_flag") ?? false;
+  // }
 
   @override
   void initState() {
+    // get user and dmPath data from hive
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
     foundUsers = widget.syncItemList;
     foundUsers.forEach((element) {
       controllers[element['item_id']] = TextEditingController();
@@ -78,7 +86,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     // widget.tempList.forEach((element) {
     //   itemId = element.item_id;
     // });
-    sharedpref();
+    // sharedpref();
     // print(offer_flag);
     super.initState();
   }
@@ -322,7 +330,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                                 fontSize: 14),
                                           ),
                                         ),
-                                        promo_flag == true
+                                        userInfo!.promoFlag
                                             ? Padding(
                                                 padding:
                                                     const EdgeInsets.all(4.0),

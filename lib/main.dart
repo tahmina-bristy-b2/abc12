@@ -1,25 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-// import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/splash_screen.dart';
-import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/local_storage/hive_adapter.dart';
-
-import 'package:geolocator/geolocator.dart' as geo;
-import 'package:location/location.dart';
 import 'package:MREPORTING/themes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-double lat = 0.0;
-double long = 0.0;
-String location = "";
-String address = "";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +11,8 @@ void main() async {
   await HiveAdapter().hiveAdapterbox();
 
   await Hive.openBox("draftForExpense");
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  timer_flag = prefs.getBool("timer_flag");
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // timer_flag = prefs.getBool("timer_flag");
   // Location location = Location();n
   // location.enableBackgroundMode();
   // late bool _serviceEnabled;

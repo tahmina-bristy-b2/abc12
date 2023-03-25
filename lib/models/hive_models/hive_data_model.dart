@@ -109,7 +109,9 @@ class DcrDataModel extends HiveObject {
 @HiveType(typeId: 3)
 class RxDcrDataModel extends HiveObject {
   @HiveField(0)
-  int uiqueKey;
+  String uid;
+  // @HiveField(0)
+  // int uiqueKey;
   @HiveField(1)
   String docName;
   @HiveField(2)
@@ -122,15 +124,18 @@ class RxDcrDataModel extends HiveObject {
   String address;
   @HiveField(6)
   String presImage;
+  @HiveField(7)
+  List<MedicineListModel> rxMedicineList;
 
   RxDcrDataModel({
-    required this.uiqueKey,
+    required this.uid,
     required this.docName,
     required this.docId,
     required this.areaId,
     required this.areaName,
     required this.address,
     required this.presImage,
+    required this.rxMedicineList,
   });
 }
 
@@ -158,27 +163,27 @@ class DcrGSPDataModel extends HiveObject {
 
 @HiveType(typeId: 5)
 class MedicineListModel extends HiveObject {
+  // @HiveField(0)
+  // int uiqueKey;
   @HiveField(0)
-  int uiqueKey;
-  @HiveField(1)
   String strength;
-  @HiveField(2)
+  @HiveField(1)
   String name;
-  @HiveField(3)
+  @HiveField(2)
   String brand;
-  @HiveField(4)
+  @HiveField(3)
   String company;
-  @HiveField(5)
+  @HiveField(4)
   String formation;
-  @HiveField(6)
+  @HiveField(5)
   String generic;
-  @HiveField(7)
+  @HiveField(6)
   String itemId;
-  @HiveField(8)
+  @HiveField(7)
   int quantity;
 
   MedicineListModel({
-    required this.uiqueKey,
+    // required this.uiqueKey,
     required this.strength,
     required this.brand,
     required this.company,

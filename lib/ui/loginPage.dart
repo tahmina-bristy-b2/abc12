@@ -16,21 +16,21 @@ import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
-List<String> dcr_visitedWithList = [];
-List<String> rxTypeList = [];
-bool offer_flag = false;
-bool? note_flag;
-bool? client_edit_flag;
-bool? os_show_flag;
-bool? os_details_flag;
-bool? ord_history_flag;
-bool? inv_histroy_flag;
-bool? timer_flag;
-bool? rx_doc_must;
-bool? rx_type_must;
-bool? rx_gallery_allow;
+// List<String> dcr_visitedWithList = [];
+// List<String> rxTypeList = [];
+// bool offer_flag = false;
+// bool? note_flag;
+// bool? client_edit_flag;
+// bool? os_show_flag;
+// bool? os_details_flag;
+// bool? ord_history_flag;
+// bool? inv_histroy_flag;
+// bool? timer_flag;
+// bool? rx_doc_must;
+// bool? rx_type_must;
+// bool? rx_gallery_allow;
 
-String version = "test";
+// String version = "test";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     });
-    print("offer flag result $offer_flag");
+    // print("offer flag result $offer_flag");
     super.initState();
   }
 

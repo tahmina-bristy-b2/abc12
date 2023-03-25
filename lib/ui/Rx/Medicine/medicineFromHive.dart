@@ -5,15 +5,15 @@ import 'package:hive/hive.dart';
 
 class MedicineListFromHiveData1 extends StatefulWidget {
   final List medicineData;
-  List<MedicineListModel> medicinTempList;
-  int counter;
-  Function(List<MedicineListModel>) tempListFunc;
+  final List<MedicineListModel> medicinTempList;
+  // int counter;
+  final Function(List<MedicineListModel>) tempListFunc;
 
-  MedicineListFromHiveData1({
+  const MedicineListFromHiveData1({
     Key? key,
     required this.medicineData,
     required this.medicinTempList,
-    required this.counter,
+    // required this.counter,
     required this.tempListFunc,
   }) : super(key: key);
 
@@ -32,7 +32,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
   bool ok = true;
   bool value = false;
   String? tempId;
-  var selectedMed;
+  Map selectedMed = {};
   List finalList = [];
   Map<String, bool> pressedActivity = {};
 
@@ -193,7 +193,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 brand: element['brand'],
                 company: element['company'],
                 formation: element['formation'],
-                uiqueKey: widget.counter,
+                // uiqueKey: widget.counter,
                 itemId: element['item_id'],
                 quantity: 1);
             String tempItemId = temp.itemId;

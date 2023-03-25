@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_services.dart';
@@ -10,7 +12,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:http/http.dart' as http;
-import 'package:MREPORTING/ui/loginPage.dart';
+// import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,33 +21,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/hive_models/hive_data_model.dart';
 import 'Medicine/medicineFromHive.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 var quantity = "";
 
 class RxPage extends StatefulWidget {
-  int dcrKey;
-  int uniqueId;
-  String ck;
-  String docName;
-  String docId;
-  String areaName;
-  String areaId;
-  String address;
-  String image1;
-  List<MedicineListModel> draftRxMedicinItem;
+  final bool isRxEdit;
+  final RxDcrDataModel? draftRxData;
+  // int dcrKey;
+  // int uniqueId;
+  // String ck;
+  // String docName;
+  // String docId;
+  // String areaName;
+  // String areaId;
+  // String address;
+  // String image1;
+  // List<MedicineListModel> draftRxMedicinItem;
 
-  RxPage({
+  const RxPage({
     Key? key,
-    required this.address,
-    required this.areaId,
-    required this.ck,
-    required this.dcrKey,
-    required this.uniqueId,
-    required this.docName,
-    required this.docId,
-    required this.areaName,
-    required this.draftRxMedicinItem,
-    required this.image1,
+    required this.isRxEdit,
+    this.draftRxData,
+    // required this.ck,
+    // required this.dcrKey,
+    // required this.uniqueId,
+    // required this.docName,
+    // required this.docId,
+    // required this.areaName,
+    // required this.draftRxMedicinItem,
+    // required this.image1,
   }) : super(key: key);
 
   @override
@@ -57,12 +62,18 @@ class _RxPageState extends State<RxPage> {
   // TextEditingController textController = TextEditingController();
   // List<TextEditingController> textController = [];
 
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
+  final rxDcrBox = Boxes.rxdDoctor();
+
   late TransformationController controller;
   TapDownDetails? tapDownDetails;
   Box? box;
   List doctorData = [];
   List medicineData = [];
   List<RxDcrDataModel> finalDoctorList = [];
+  // List<RxDcrDataModel> finalDoctorList = [];
   List<MedicineListModel> finalMedicineList = [];
   List finalDraftDoctorList = [];
   List finalDraftMedicineList = [];
@@ -70,36 +81,37 @@ class _RxPageState extends State<RxPage> {
   List tempMedicineList = [];
   File? imagePath;
   XFile? file;
-  String a = '';
+  // String a = '';
   // File? _image;
   double screenHeight = 0.0;
   double screenWidth = 0.0;
   int _currentSelected = 3;
   int _currentSelected2 = 2;
-  int counterForDoctor = 0;
-  int _counterforRx = 0;
+  // int counterForDoctor = 0;
+  // int _counterforRx = 0;
   bool _isCameraClick = false;
   int objectImageId = 0;
+  String uid = '';
 
-  String? submit_url;
-  String? photo_submit_url;
-  String? cid;
-  String? userId;
-  String? userPassword;
+  // String? submit_url;
+  // String? photo_submit_url;
+  String cid = '';
+  // String? userId;
+  String userPassword = '';
   String itemString = "";
-  String userName = '';
-  String user_id = '';
+  // String userName = '';
+  // String user_id = '';
   String startTime = '';
   String endTime = '';
   int tempCount = 0;
-  String? docId;
+  // String? docId;
   double latitude = 0.0;
   double longitude = 0.0;
-  String? deviceId = '';
-  String? deviceBrand = '';
-  String? deviceModel = '';
+  String deviceId = '';
+  String deviceBrand = '';
+  String deviceModel = '';
   bool _isLoading = true;
-  bool _activeCounter = false;
+  // bool _activeCounter = false;
   String dropdownRxTypevalue = 'Rx Type';
 
   List<String> rxTypeList = [];
@@ -108,15 +120,28 @@ class _RxPageState extends State<RxPage> {
 
   @override
   void initState() {
+    super.initState();
+    // get user and dmPath data from hive
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+
+    if (widget.isRxEdit) {
+      finalDoctorList.add(widget.draftRxData!);
+      finalMedicineList = widget.draftRxData!.rxMedicineList;
+      int space = widget.draftRxData!.presImage.indexOf(" ");
+      String removeSpace = widget.draftRxData!.presImage
+          .substring(space + 1, widget.draftRxData!.presImage.length);
+      finalImage = removeSpace.replaceAll("'", '');
+    }
     // Boxes.rxdDoctor().clear();
     // Boxes.getMedicine().clear();
-    print("id ${widget.uniqueId}");
-    print("counterrx ${_counterforRx}");
-    // print(widget.uniqueId);
-    if (widget.docId != '') {
-      docId = widget.docId;
-      counterForDoctor = widget.uniqueId;
-    }
+    // print("id ${widget.uniqueId}");
+    // print("counterrx ${_counterforRx}");
+    // // print(widget.uniqueId);
+    // if (widget.docId != '') {
+    //   docId = widget.docId;
+    //   counterForDoctor = widget.uniqueId;
+    // }
 
     // for (int i = 0; i < widget.draftRxMedicinItem.length; i++) {
     //   int a = widget.draftRxMedicinItem[i].quantity;
@@ -129,33 +154,32 @@ class _RxPageState extends State<RxPage> {
     // textController.text = widget.draftRxMedicinItem[index].quantity;
 
     SharedPreferences.getInstance().then((prefs) {
-      setState(() {
-        photo_submit_url = prefs.getString('photo_submit_url');
-        latitude = prefs.getDouble("latitude") ?? 0.0;
-        longitude = prefs.getDouble("longitude") ?? 0.0;
-        submit_url = prefs.getString("submit_url");
-        cid = prefs.getString("CID");
-        userId = prefs.getString("USER_ID");
-        userPassword = prefs.getString("PASSWORD");
-        userName = prefs.getString("userName")!;
-        user_id = prefs.getString("user_id")!;
-        deviceId = prefs.getString("deviceId");
-        deviceBrand = prefs.getString("deviceBrand");
-        deviceModel = prefs.getString("deviceModel");
-        rx_doc_must = prefs.getBool("rx_doc_must") ?? false;
-        rx_type_must = prefs.getBool("rx_type_must") ?? false;
-        rx_gallery_allow = prefs.getBool("rx_gallery_allow") ?? false;
+      // photo_submit_url = prefs.getString('photo_submit_url');
+      // latitude = prefs.getDouble("latitude") ?? 0.0;
+      // longitude = prefs.getDouble("longitude") ?? 0.0;
+      // submit_url = prefs.getString("submit_url");
+      cid = prefs.getString("CID") ?? '';
+      // userId = prefs.getString("USER_ID");
+      userPassword = prefs.getString("PASSWORD") ?? '';
+      // userName = prefs.getString("userName")!;
+      // user_id = prefs.getString("user_id")!;
+      deviceId = prefs.getString("deviceId") ?? '';
+      deviceBrand = prefs.getString("deviceBrand") ?? '';
+      deviceModel = prefs.getString("deviceModel") ?? '';
+      // rx_doc_must = prefs.getBool("rx_doc_must") ?? false;
+      // rx_type_must = prefs.getBool("rx_type_must") ?? false;
+      // rx_gallery_allow = prefs.getBool("rx_gallery_allow") ?? false;
 
-        rxTypeList = prefs.getStringList("rx_type_list")!;
-        dropdownRxTypevalue = rxTypeList.first;
-        // if (widget.uniqueId == 0) {
-        //   int? a = prefs.getInt('DCLCounter') ?? 0;
+      rxTypeList = prefs.getStringList("rx_type_list")!;
+      dropdownRxTypevalue = rxTypeList.first;
+      // if (widget.uniqueId == 0) {
+      //   int? a = prefs.getInt('DCLCounter') ?? 0;
 
-        //   setState(() {
-        //     widget.uniqueId = a;
-        //   });
-        // }
-      });
+      //   setState(() {
+      //     widget.uniqueId = a;
+      //   });
+      // }
+
       // if (prefs.getInt('RxCounter') != null) {
       //   int? a = prefs.getInt('RxCounter');
       //   setState(() {
@@ -163,46 +187,45 @@ class _RxPageState extends State<RxPage> {
       //   });
       // }
     });
-    finalMedicineList = widget.draftRxMedicinItem;
-    tempCount = widget.draftRxMedicinItem.length;
+    // finalMedicineList = widget.draftRxMedicinItem;
+    // tempCount = widget.draftRxMedicinItem.length;
+    // setState(() {});
+    // if (widget.ck != '') {
+    //   setState(() {
+    //     _activeCounter = true;
+    //   });
+
+    //   int space = widget.image1.indexOf(" ");
+    //   String removeSpace =
+    //       widget.image1.substring(space + 1, widget.image1.length);
+    //   finalImage = removeSpace.replaceAll("'", '');
+
+    //   finalDoctorList.add(RxDcrDataModel(
+    //     uiqueKey: widget.uniqueId,
+    //     docName: widget.docName,
+    //     docId: widget.docId,
+    //     areaId: widget.areaId,
+    //     areaName: widget.areaName,
+    //     address: widget.address,
+    //     presImage: finalImage,
+    //   ));
+    // } else {
+    //   return;
+    // }
     setState(() {});
-    if (widget.ck != '') {
-      setState(() {
-        _activeCounter = true;
-      });
-
-      int space = widget.image1.indexOf(" ");
-      String removeSpace =
-          widget.image1.substring(space + 1, widget.image1.length);
-      finalImage = removeSpace.replaceAll("'", '');
-
-      finalDoctorList.add(RxDcrDataModel(
-        uiqueKey: widget.uniqueId,
-        docName: widget.docName,
-        docId: widget.docId,
-        areaId: widget.areaId,
-        areaName: widget.areaName,
-        address: widget.address,
-        presImage: finalImage,
-      ));
-    } else {
-      return;
-    }
-
-    super.initState();
   }
 
-  int _rxCounter() {
-    var dt = DateFormat('HH:mm:ssss').format(DateTime.now());
+  // int _rxCounter() {
+  //   var dt = DateFormat('HH:mm:ssss').format(DateTime.now());
 
-    String time = dt.replaceAll(":", '');
+  //   String time = dt.replaceAll(":", '');
 
-    setState(() {
-      _counterforRx = int.parse(time);
-    });
+  //   setState(() {
+  //     _counterforRx = int.parse(time);
+  //   });
 
-    return _counterforRx;
-  }
+  //   return _counterforRx;
+  // }
 //===============================================================Depricated Code===============================
   // void calculateRxItemString() {
   //   if (finalMedicineList.isNotEmpty) {
@@ -220,17 +243,19 @@ class _RxPageState extends State<RxPage> {
   //   }
   // }
 
+  //===================================== 4 item bottomnavbar===========================================
+
   void _onItemTapped(int index) async {
     if (index == 0) {
       setState(() {
         _isLoading = false;
       });
       // orderSubmit();
-      if ((widget.image1 != '' || imagePath != null) &&
+      if ((finalImage != '' || imagePath != null) &&
           finalMedicineList.isNotEmpty) {
         bool result = await InternetConnectionChecker().hasConnection;
         if (result == true) {
-          if (rx_doc_must == true) {
+          if (userInfo!.rxDocMust == true) {
             if (finalDoctorList[0].docId != "") {
               _rxImageSubmit();
             } else {
@@ -271,8 +296,15 @@ class _RxPageState extends State<RxPage> {
       });
     }
 
+    if (index == 1) {
+      _galleryFunctionality();
+      setState(() {
+        _currentSelected = index;
+      });
+    }
+
     if (index == 2) {
-      if (imagePath != null || widget.image1 != '') {
+      if (imagePath != null || finalImage != '') {
         putAddedRxData();
       } else {
         AllServices().toastMessage('Please Take Image and Select Medicine',
@@ -292,12 +324,7 @@ class _RxPageState extends State<RxPage> {
         _currentSelected = index;
       });
     }
-    if (index == 1) {
-      _galleryFunctionality();
-      setState(() {
-        _currentSelected = index;
-      });
-    }
+
     if (index == 3) {
       // if ((imagePath != null || widget.image1 != '')) {
       //   print("image will save on draft");
@@ -325,11 +352,11 @@ class _RxPageState extends State<RxPage> {
       //     box.add(d);
       //   }
       // }
-      if (widget.uniqueId == 0) {
-        widget.uniqueId++;
-      } else if (_counterforRx == 0) {
-        _counterforRx++;
-      }
+      // if (widget.uniqueId == 0) {
+      //   widget.uniqueId++;
+      // } else if (_counterforRx == 0) {
+      //   _counterforRx++;
+      // }
 
       _cameraFuntionality();
       setState(() {
@@ -344,11 +371,11 @@ class _RxPageState extends State<RxPage> {
         _isLoading = false;
       });
       // orderSubmit();
-      if ((widget.image1 != '' || imagePath != null) &&
+      if ((finalImage != '' || imagePath != null) &&
           finalMedicineList.isNotEmpty) {
         bool result = await InternetConnectionChecker().hasConnection;
         if (result == true) {
-          if (rx_doc_must == true) {
+          if (userInfo!.rxDocMust == true) {
             if (finalDoctorList[0].docId != "") {
               _rxImageSubmit();
             } else {
@@ -391,7 +418,7 @@ class _RxPageState extends State<RxPage> {
     }
 
     if (index == 1) {
-      if (imagePath != null || widget.image1 != '') {
+      if (imagePath != null || finalImage != '') {
         putAddedRxData();
       } else {
         AllServices().toastMessage('Please Take Image and Select Medicine',
@@ -452,7 +479,7 @@ class _RxPageState extends State<RxPage> {
                               // borderRadius: BorderRadius.circular(10),
                               color: Colors.grey,
                             ),
-                            child: widget.image1 != ''
+                            child: finalImage != ''
                                 ? InkWell(
                                     onDoubleTap: () {
                                       Navigator.push(
@@ -540,12 +567,15 @@ class _RxPageState extends State<RxPage> {
                                   //   });
                                   // }
                                   // print('drcounter:$counterForDoctor');
-                                  setState(() {});
-                                  if (imagePath != null) {
+                                  // setState(() {});
+                                  if (imagePath != null || finalImage != "") {
                                     getRxDoctorData();
-                                  } else if (widget.image1 != "") {
-                                    getRxDoctorData();
-                                  } else {
+                                  }
+                                  // else if (widget.draftRxData!.presImage !=
+                                  //     "") {
+                                  //   getRxDoctorData();
+                                  // }
+                                  else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
                                         toastLength: Toast.LENGTH_SHORT,
@@ -618,38 +648,41 @@ class _RxPageState extends State<RxPage> {
                                   // print(imagePath.toString());
                                   setState(() {});
 
-                                  if (imagePath != null) {
-                                    if (widget.uniqueId >= 0 &&
-                                        finalDoctorList.isNotEmpty) {
-                                      getMedicine();
-                                      // print(widget.uniqueId);
-                                    } else if (_activeCounter == false) {
-                                      // print('activeCounter:$_activeCounter');
-                                      _rxCounter();
-                                      getMedicine();
-                                      // print('test:${widget.uniqueId}');
-                                      setState(() {
-                                        _activeCounter = true;
-                                      });
-                                    } else if (_activeCounter == true) {
-                                      getMedicine();
-                                    }
-                                  } else if (widget.image1 != "") {
-                                    if (widget.uniqueId >= 0 &&
-                                        finalDoctorList.isNotEmpty) {
-                                      getMedicine();
-                                      // print(widget.uniqueId);
-                                    } else if (_activeCounter == false) {
-                                      // print('activeCounter:$_activeCounter');
-                                      _rxCounter();
-                                      getMedicine();
-                                      // print('test:${widget.uniqueId}');
-                                      setState(() {
-                                        _activeCounter = true;
-                                      });
-                                    } else if (_activeCounter == true) {
-                                      getMedicine();
-                                    }
+                                  if (imagePath != null || finalImage != "") {
+                                    getMedicine();
+                                    //   if (widget.uniqueId >= 0 &&
+                                    //       finalDoctorList.isNotEmpty) {
+                                    //     getMedicine();
+                                    //     // print(widget.uniqueId);
+                                    //   } else if (_activeCounter == false) {
+                                    //     // print('activeCounter:$_activeCounter');
+                                    //     _rxCounter();
+                                    //     getMedicine();
+                                    //     // print('test:${widget.uniqueId}');
+                                    //     setState(() {
+                                    //       _activeCounter = true;
+                                    //     });
+                                    //   } else if (_activeCounter == true) {
+                                    //     getMedicine();
+                                    //   }
+                                    // }
+
+                                    // else if (widget.image1 != "") {
+                                    //   if (widget.uniqueId >= 0 &&
+                                    //       finalDoctorList.isNotEmpty) {
+                                    //     getMedicine();
+                                    //     // print(widget.uniqueId);
+                                    //   } else if (_activeCounter == false) {
+                                    //     // print('activeCounter:$_activeCounter');
+                                    //     // _rxCounter();
+                                    //     getMedicine();
+                                    //     // print('test:${widget.uniqueId}');
+                                    //     setState(() {
+                                    //       _activeCounter = true;
+                                    //     });
+                                    //   } else if (_activeCounter == true) {
+                                    //     getMedicine();
+                                    //   }
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
@@ -777,7 +810,7 @@ class _RxPageState extends State<RxPage> {
                                       const SizedBox(
                                         width: 10,
                                       ),
-                                      rx_type_must == true
+                                      userInfo!.rxTypeMust
                                           ? Expanded(
                                               flex: 3,
                                               child: Column(
@@ -868,7 +901,7 @@ class _RxPageState extends State<RxPage> {
                                           ),
                                         ),
                                       ),
-                                      rx_type_must == true
+                                      userInfo!.rxTypeMust
                                           ? Expanded(
                                               flex: 3,
                                               child: Column(
@@ -1066,7 +1099,7 @@ class _RxPageState extends State<RxPage> {
                 ),
               ),
             ),
-            bottomNavigationBar: rx_gallery_allow == true
+            bottomNavigationBar: userInfo!.rxGalleryAllow
                 ? BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
                     onTap: _onItemTapped,
@@ -1129,12 +1162,12 @@ class _RxPageState extends State<RxPage> {
   Future<dynamic> rxSubmit(String fileName) async {
     try {
       final orderInfo = await RxRepositories().rxSubmit(
-          submit_url!,
+          dmpathData!.submitUrl,
           fileName,
-          cid!,
-          userId!,
-          userPassword!,
-          deviceId!,
+          cid,
+          userInfo!.userId,
+          userPassword,
+          deviceId,
           finalDoctorList,
           dropdownRxTypevalue,
           latitude,
@@ -1144,30 +1177,40 @@ class _RxPageState extends State<RxPage> {
       if (orderInfo.isNotEmpty) {
         String retStr = orderInfo['ret_str'];
 
-        if (widget.ck != '') {
-          for (int i = 0; i <= finalMedicineList.length; i++) {
-            deleteMedicinItem(widget.dcrKey);
+        if (widget.isRxEdit) {
+          RxServices.deleteRxDataFromDraft(rxDcrBox, widget.draftRxData!.uid);
+          if (!mounted) return;
+          Navigator.pop(context);
+          Navigator.pop(context);
+          AllServices().toastMessage(
+              "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
+          // for (int i = 0; i <= finalMedicineList.length; i++) {
+          //   deleteMedicinItem(widget.dcrKey);
 
-            // finalItemDataList.clear();
-            setState(() {});
-          }
+          //   // finalItemDataList.clear();
+          //   setState(() {});
+          // }
 
-          deleteRxDoctor(widget.dcrKey);
+          // deleteRxDoctor(widget.dcrKey);
         } else {
-          deleteRxDoctor(objectImageId);
+          RxServices.deleteRxDataFromDraft(rxDcrBox, finalDoctorList.first.uid);
+
+          if (!mounted) return;
+          Navigator.pop(context);
+          AllServices().toastMessage(
+              "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
+          // deleteRxDoctor(objectImageId);
         }
 
-        setState(() {});
-        if (!mounted) return;
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => MyHomePage(
-                userName: userName,
-                userId: user_id,
-                userPassword: userPassword ?? '',
-              ),
-            ),
-            (Route<dynamic> route) => false);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(
+        //       builder: (context) => MyHomePage(
+        //         userName: userInfo!.userName,
+        //         userId: userInfo!.userId,
+        //         userPassword: userPassword,
+        //       ),
+        //     ),
+        //     (Route<dynamic> route) => false);
 
         AllServices().toastMessage(
             "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
@@ -1201,8 +1244,8 @@ class _RxPageState extends State<RxPage> {
     // var postUri = ;
 
     http.MultipartRequest request =
-        http.MultipartRequest("POST", Uri.parse(photo_submit_url!));
-    if (widget.image1 != '') {
+        http.MultipartRequest("POST", Uri.parse(dmpathData!.photoSubmitUrl));
+    if (finalImage != '') {
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
         'productImage', finalImage.toString(),
         // filename: a,
@@ -1233,9 +1276,9 @@ class _RxPageState extends State<RxPage> {
     } else {
       String rxImage = '';
 
-      setState(() {
-        rxImage = imagePath.toString();
-      });
+      // setState(() {
+      rxImage = imagePath.toString();
+      // });
 
       int space = rxImage.indexOf(" ");
       String removeSpace = rxImage.substring(space + 1, rxImage.length);
@@ -1284,105 +1327,113 @@ class _RxPageState extends State<RxPage> {
   //       fontSize: 16.0);
   // }
 
-  deleteRxDoctor(int id) {
-    final box = Hive.box<RxDcrDataModel>("RxdDoctor");
+  // deleteRxDoctor(int id) {
+  //   final box = Hive.box<RxDcrDataModel>("RxdDoctor");
 
-    final Map<dynamic, RxDcrDataModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
+  //   final Map<dynamic, RxDcrDataModel> deliveriesMap = box.toMap();
+  //   dynamic desiredKey;
+  //   deliveriesMap.forEach((key, value) {
+  //     if (value.uiqueKey == id) desiredKey = key;
+  //   });
+  //   box.delete(desiredKey);
+  // }
 
 // Save RX data to Hive......................................
 
-  deleteMedicinItem(int id) {
-    final box = Hive.box<MedicineListModel>("draftMdicinList");
+  // deleteMedicinItem(int id) {
+  //   final box = Hive.box<MedicineListModel>("draftMdicinList");
 
-    final Map<dynamic, MedicineListModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
+  //   final Map<dynamic, MedicineListModel> deliveriesMap = box.toMap();
+  //   dynamic desiredKey;
+  //   deliveriesMap.forEach((key, value) {
+  //     if (value.uiqueKey == id) desiredKey = key;
+  //   });
+  //   box.delete(desiredKey);
+  // }
 
   Future putAddedRxData() async {
-    if (widget.ck != '') {
-      for (int i = 0; i <= finalMedicineList.length; i++) {
-        deleteMedicinItem(widget.dcrKey);
+    if (widget.isRxEdit) {
+      RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
+          finalMedicineList, widget.draftRxData!.uid);
+      Navigator.pop(context);
+      Navigator.pop(context);
+      // for (int i = 0; i <= finalMedicineList.length; i++) {
+      //   deleteMedicinItem(widget.dcrKey);
 
-        setState(() {});
-      }
+      //   setState(() {});
+      // }
       // deleteRxDoctor(widget.uniqueId);
 
-      final Doctorbox = Boxes.rxdDoctor();
-      Doctorbox.toMap().forEach((key, value) {
-        if (value.uiqueKey == widget.dcrKey) {
-          value.docName = finalDoctorList[0].docName;
-          value.docId = finalDoctorList[0].docId;
-          value.address = finalDoctorList[0].address;
-          value.areaId = finalDoctorList[0].areaId;
-          value.areaName = finalDoctorList[0].areaName;
+      // final Doctorbox = Boxes.rxdDoctor();
+      // Doctorbox.toMap().forEach((key, value) {
+      //   if (value.uiqueKey == widget.dcrKey) {
+      //     value.docName = finalDoctorList[0].docName;
+      //     value.docId = finalDoctorList[0].docId;
+      //     value.address = finalDoctorList[0].address;
+      //     value.areaId = finalDoctorList[0].areaId;
+      //     value.areaName = finalDoctorList[0].areaName;
 
-          Doctorbox.put(key, value);
-        }
-      });
+      //     Doctorbox.put(key, value);
+      //   }
+      // });
       // for (var dcr in finalDoctorList) {
       //   final box = Boxes.rxdDoctor();
 
       //   box.add(dcr);
       // }
 
-      for (var d in finalMedicineList) {
-        d.uiqueKey = widget.dcrKey;
-        final box = Boxes.getMedicine();
-        box.add(d);
-      }
+      // for (var d in finalMedicineList) {
+      //   d.uiqueKey = widget.dcrKey;
+      //   final box = Boxes.getMedicine();
+      //   box.add(d);
+      // }
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MyHomePage(
-                    userName: userName,
-                    userId: user_id,
-                    userPassword: userPassword ?? '',
-                  )),
-          (route) => false);
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => MyHomePage(
+      //               userName: userInfo!.userName,
+      //               userId: userInfo!.userId,
+      //               userPassword: userPassword,
+      //             )),
+      //     (route) => false);
     } else {
-      for (var dcr in finalDoctorList) {
-        // print('uiniquIdD:${dcr.uiqueKey}');
-        final box = Boxes.rxdDoctor();
-        final medicineBox = Boxes.getMedicine();
-        dcr.uiqueKey = objectImageId;
-        box.toMap().forEach((key, value) {
-          if (dcr.uiqueKey == value.uiqueKey) {
-            value.docName = dcr.docName;
-            value.docId = dcr.docId;
-            value.areaName = dcr.areaName;
-            value.areaId = dcr.areaId;
-            value.address = dcr.address;
-            box.put(key, value);
-            if (finalMedicineList.isNotEmpty) {
-              for (var element in finalMedicineList) {
-                element.uiqueKey = objectImageId;
-                medicineBox.add(element);
-              }
-            }
-          }
-        });
-      }
+      RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
+          finalMedicineList, finalDoctorList.first.uid);
+      Navigator.pop(context);
+      // Navigator.pop(context);
+      // for (var dcr in finalDoctorList) {
+      //   // print('uiniquIdD:${dcr.uiqueKey}');
+      //   final box = Boxes.rxdDoctor();
+      //   final medicineBox = Boxes.getMedicine();
+      //   dcr.uiqueKey = objectImageId;
+      //   box.toMap().forEach((key, value) {
+      //     if (dcr.uiqueKey == value.uiqueKey) {
+      //       value.docName = dcr.docName;
+      //       value.docId = dcr.docId;
+      //       value.areaName = dcr.areaName;
+      //       value.areaId = dcr.areaId;
+      //       value.address = dcr.address;
+      //       box.put(key, value);
+      //       if (finalMedicineList.isNotEmpty) {
+      //         for (var element in finalMedicineList) {
+      //           element.uiqueKey = objectImageId;
+      //           medicineBox.add(element);
+      //         }
+      //       }
+      //     }
+      //   });
+      // }
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MyHomePage(
-                    userName: userName,
-                    userId: user_id,
-                    userPassword: userPassword ?? '',
-                  )),
-          (route) => false);
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => MyHomePage(
+      //               userName: userInfo!.userName,
+      //               userId: userInfo!.userId,
+      //               userPassword: userPassword,
+      //             )),
+      //     (route) => false);
     }
 
     // if (finalMedicineList.isEmpty) {
@@ -1477,65 +1528,66 @@ class _RxPageState extends State<RxPage> {
     if (mymap.isNotEmpty) {
       doctorData = mymap;
 
-      if (_activeCounter == true) {
-        if (!mounted) return;
+      // if (_activeCounter == true) {
+      if (!mounted) return;
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DoctorListFromHiveData(
-              counterCallback: (value) {
-                counterForDoctor = value;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => DoctorListFromHiveData(
+            // counterCallback: (value) {
+            //   counterForDoctor = value;
 
-                setState(() {});
-              },
-              a: a,
-              doctorData: doctorData,
-              tempList: finalDoctorList,
-              counterForDoctorList: widget.uniqueId > 0
-                  ? widget.uniqueId
-                  : _isCameraClick == true
-                      ? objectImageId
-                      : _counterforRx,
-              tempListFunc: (value) {
-                finalDoctorList = value;
-                finalDoctorList.forEach((element) {
-                  docId = element.docId;
-                });
+            //   setState(() {});
+            // },
+            // a: a,
+            doctorData: doctorData,
+            tempList: finalDoctorList,
+            // counterForDoctorList: widget.uniqueId > 0
+            //     ? widget.uniqueId
+            //     : _isCameraClick == true
+            //         ? objectImageId
+            //         : _counterforRx,
+            tempListFunc: (value) {
+              finalDoctorList = value;
+              // finalDoctorList.forEach((element) {
+              //   docId = element.docId;
+              // });
 
-                setState(() {});
-              },
-            ),
+              setState(() {});
+            },
           ),
-        );
-      } else {
-        if (!mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DoctorListFromHiveData(
-              counterCallback: (value) {
-                counterForDoctor = value;
+        ),
+      );
+      // }
+      // else {
+      //   if (!mounted) return;
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (_) => DoctorListFromHiveData(
+      //         counterCallback: (value) {
+      //           counterForDoctor = value;
 
-                setState(() {});
-              },
-              a: a,
-              doctorData: doctorData,
-              tempList: finalDoctorList,
-              counterForDoctorList:
-                  widget.uniqueId > 0 ? widget.uniqueId : counterForDoctor,
-              tempListFunc: (value) {
-                finalDoctorList = value;
-                finalDoctorList.forEach((element) {
-                  docId = element.docId;
-                });
+      //           setState(() {});
+      //         },
+      //         a: a,
+      //         doctorData: doctorData,
+      //         tempList: finalDoctorList,
+      //         counterForDoctorList:
+      //             widget.uniqueId > 0 ? widget.uniqueId : counterForDoctor,
+      //         tempListFunc: (value) {
+      //           finalDoctorList = value;
+      //           finalDoctorList.forEach((element) {
+      //             docId = element.docId;
+      //           });
 
-                setState(() {});
-              },
-            ),
-          ),
-        );
-      }
+      //           setState(() {});
+      //         },
+      //       ),
+      //     ),
+      //   );
+      // }
     } else {
       doctorData.add('Empty');
     }
@@ -1559,14 +1611,6 @@ class _RxPageState extends State<RxPage> {
         context,
         MaterialPageRoute(
           builder: (_) => MedicineListFromHiveData1(
-            counter:
-                (finalDoctorList.isNotEmpty && finalDoctorList[0].docId != '')
-                    ? counterForDoctor
-                    : _isCameraClick == true
-                        ? objectImageId
-                        : widget.uniqueId > 0
-                            ? widget.uniqueId
-                            : _counterforRx,
             medicineData: medicineData,
             medicinTempList: finalMedicineList,
             tempListFunc: (value) {
@@ -1581,18 +1625,18 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
-  deleteMedicineItem(int id, int index) {
-    final box = Hive.box<MedicineListModel>("draftMdicinList");
-    final Map<dynamic, MedicineListModel> medicineMap = box.toMap();
-    dynamic newKey;
-    medicineMap.forEach((key, value) {
-      if (value.uiqueKey == id) {
-        newKey = key;
-      }
-    });
-    box.delete(newKey);
-    finalMedicineList.removeAt(index);
-  }
+  // deleteMedicineItem(int id, int index) {
+  //   final box = Hive.box<MedicineListModel>("draftMdicinList");
+  //   final Map<dynamic, MedicineListModel> medicineMap = box.toMap();
+  //   dynamic newKey;
+  //   medicineMap.forEach((key, value) {
+  //     if (value.uiqueKey == id) {
+  //       newKey = key;
+  //     }
+  //   });
+  //   box.delete(newKey);
+  //   finalMedicineList.removeAt(index);
+  // }
 
   // void _submitToastforSelectDoctor() {
   //   Fluttertoast.showToast(
@@ -1625,11 +1669,13 @@ class _RxPageState extends State<RxPage> {
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
-                if (widget.ck != '') {
-                  final medicineUniqueKey = finalMedicineList[index].uiqueKey;
+                if (widget.isRxEdit) {
+                  RxServices.singleDeleteRxMedicineFromDraft(rxDcrBox,
+                      widget.draftRxData!.uid, finalMedicineList[index].itemId);
+                  // final medicineUniqueKey = finalMedicineList[index].uiqueKey;
 
-                  deleteMedicineItem(medicineUniqueKey, index);
-                  setState(() {});
+                  // deleteMedicineItem(medicineUniqueKey, index);
+                  // setState(() {});
                 } else {
                   finalMedicineList.removeAt(index);
                   setState(() {});
@@ -1677,75 +1723,69 @@ class _RxPageState extends State<RxPage> {
       maxWidth: 700,
     );
     if (file != null) {
-      setState(() {
-        file;
-        imagePath = File(file!.path);
-        widget.image1 = '';
+      // file;
+      imagePath = File(file!.path);
+      // widget.image1 = '';
 
-        if (imagePath != null && widget.ck == "") {
-          // if (finalDoctorList.)
-          print("image will save on draft");
-          if (finalDoctorList.isEmpty) {
-            finalDoctorList.add(
-              RxDcrDataModel(
-                uiqueKey:
-                    widget.image1 != '' ? widget.uniqueId : uniqueIdForImage(),
-                docName: objectImageId.toString(),
-                docId: '',
-                areaId: '',
-                areaName: 'areaName',
-                address: 'address',
-                presImage: imagePath.toString(),
-              ),
-            );
+      if (imagePath != null && widget.isRxEdit == false) {
+        // if (finalDoctorList.)
+        // print("image will save on draft");
+        if (finalDoctorList.isEmpty) {
+          uid = const Uuid().v1();
+          RxDcrDataModel rxDcrDataModel = RxDcrDataModel(
+              uid: uid,
+              docName: uniqueIdForImage().toString(),
+              docId: '',
+              areaId: '',
+              areaName: 'areaName',
+              address: 'address',
+              presImage: imagePath.toString(),
+              rxMedicineList: finalMedicineList);
+          finalDoctorList.add(rxDcrDataModel); // add to list
 
-            for (var dcr in finalDoctorList) {
-              final box = Boxes.rxdDoctor();
+          rxDcrBox.add(rxDcrDataModel); // add to draft
+          setState(() {});
+          // for (var dcr in finalDoctorList) {
+          //   final box = Boxes.rxdDoctor();
 
-              box.add(dcr);
-            }
-            for (var d in finalMedicineList) {
-              final box = Boxes.getMedicine();
+          //   box.add(dcr);
+          // }
+          // for (var d in finalMedicineList) {
+          //   final box = Boxes.getMedicine();
 
-              box.add(d);
-            }
-          } else {
-            finalDoctorList.clear();
-            finalDoctorList.add(
-              RxDcrDataModel(
-                uiqueKey:
-                    widget.image1 != '' ? widget.uniqueId : uniqueIdForImage(),
-                docName: objectImageId.toString(),
-                docId: '',
-                areaId: '',
-                areaName: 'areaName',
-                address: 'address',
-                presImage: imagePath.toString(),
-              ),
-            );
+          //   box.add(d);
+          // }
+        } else {
+          finalDoctorList.clear();
+          uid = const Uuid().v1();
+          RxDcrDataModel rxDcrDataModel = RxDcrDataModel(
+              uid: uid,
+              docName: uniqueIdForImage().toString(),
+              docId: '',
+              areaId: '',
+              areaName: 'areaName',
+              address: 'address',
+              presImage: imagePath.toString(),
+              rxMedicineList: finalMedicineList);
+          finalDoctorList.add(rxDcrDataModel); // add to list
 
-            for (var dcr in finalDoctorList) {
-              final box = Boxes.rxdDoctor();
-
-              box.add(dcr);
-            }
-            for (var d in finalMedicineList) {
-              final box = Boxes.getMedicine();
-
-              box.add(d);
-            }
-          }
-        } else if (imagePath != null && widget.ck != '') {
-          final Doctorbox = Boxes.rxdDoctor();
-          Doctorbox.toMap().forEach((key, value) {
-            if (value.uiqueKey == widget.dcrKey) {
-              value.presImage = imagePath.toString();
-              Doctorbox.put(key, value);
-            }
-          });
-          // widget.image1 = imagePath.toString();
+          rxDcrBox.add(rxDcrDataModel); // add to draft
+          setState(() {});
         }
-      });
+      } else if (imagePath != null && widget.isRxEdit) {
+        // RxServices.updateRxDcrImageToDraft(
+        //     rxDcrBox, imagePath.toString(), widget.draftRxData!.uid!);
+        finalDoctorList[0].presImage = imagePath.toString();
+        setState(() {});
+
+        // Doctorbox.toMap().forEach((key, value) {
+        //   if (value.uiqueKey == widget.dcrKey) {
+        //     value.presImage = imagePath.toString();
+        //     Doctorbox.put(key, value);
+        //   }
+        // });
+        // widget.image1 = imagePath.toString();
+      }
     }
   }
 

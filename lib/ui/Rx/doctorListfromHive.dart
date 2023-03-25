@@ -1,27 +1,26 @@
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../models/hive_models/hive_data_model.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorListFromHiveData extends StatefulWidget {
-  String a;
-  List doctorData;
-  List<RxDcrDataModel> tempList;
-  int counterForDoctorList;
-  Function(List<RxDcrDataModel>) tempListFunc;
-  Function counterCallback;
+  // String a;
+  final List doctorData;
+  final List<RxDcrDataModel> tempList;
+  // final int counterForDoctorList;
+  final Function(List<RxDcrDataModel>) tempListFunc;
+  // final Function counterCallback;
 
-  DoctorListFromHiveData(
-      {Key? key,
-      required this.a,
-      required this.doctorData,
-      required this.tempList,
-      required this.counterForDoctorList,
-      required this.tempListFunc,
-      required this.counterCallback})
-      : super(key: key);
+  const DoctorListFromHiveData({
+    Key? key,
+    // required this.a,
+    required this.doctorData,
+    required this.tempList,
+    // required this.counterForDoctorList,
+    required this.tempListFunc,
+    // required this.counterCallback
+  }) : super(key: key);
 
   @override
   State<DoctorListFromHiveData> createState() => _DoctorListFromHiveDataState();
@@ -37,20 +36,20 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
 
   @override
   void initState() {
-    print(widget.counterForDoctorList);
+    // print(widget.counterForDoctorList);
     // print('doclistid:${widget.counterForDoctorList}');
-    SharedPreferences.getInstance().then((prefs) {
-      if (widget.counterForDoctorList == 0) {
-        int? a = prefs.getInt('DCLCounter') ?? 0;
+    // SharedPreferences.getInstance().then((prefs) {
+    //   if (widget.counterForDoctorList == 0) {
+    //     int? a = prefs.getInt('DCLCounter') ?? 0;
 
-        setState(() {
-          widget.counterForDoctorList = a;
+    //     setState(() {
+    //       widget.counterForDoctorList = a;
 
-          widget.counterCallback(_doctorCOunter());
-          // print('doctorcounterafterget: ${widget.counterForDoctorList}');
-        });
-      }
-    });
+    //       widget.counterCallback(_doctorCOunter());
+    //       // print('doctorcounterafterget: ${widget.counterForDoctorList}');
+    //     });
+    //   }
+    // });
     foundUsers = widget.doctorData;
     super.initState();
   }
@@ -61,15 +60,15 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
     super.dispose();
   }
 
-  int _doctorCOunter() {
-    setState(() {
-      widget.counterForDoctorList++;
-    });
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setInt('DCLCounter', widget.counterForDoctorList);
-    });
-    return widget.counterForDoctorList;
-  }
+  // int _doctorCOunter() {
+  //   setState(() {
+  //     widget.counterForDoctorList++;
+  //   });
+  //   SharedPreferences.getInstance().then((prefs) {
+  //     prefs.setInt('DCLCounter', widget.counterForDoctorList);
+  //   });
+  //   return widget.counterForDoctorList;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,27 +128,38 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                     itemBuilder: (BuildContext itemBuilder, index) {
                       return GestureDetector(
                         onTap: () {
-                          widget.tempList.clear();
-                          if (widget.counterForDoctorList == 0) {
-                            widget.counterCallback(_doctorCOunter());
-                          }
+                          // widget.tempList.clear();
+                          // if (widget.counterForDoctorList == 0) {
+                          //   widget.counterCallback(_doctorCOunter());
+                          // }
 
-                          if (ok = true) {
-                            widget.tempList.add(
-                              RxDcrDataModel(
-                                  docName: foundUsers[index]['doc_name'],
-                                  docId: foundUsers[index]['doc_id'],
-                                  areaName: foundUsers[index]['area_name'],
-                                  areaId: foundUsers[index]['area_id'],
-                                  address: foundUsers[index]['address'],
-                                  uiqueKey: widget.counterForDoctorList,
-                                  presImage: ''),
-                            );
+                          // if (ok = true) {
+                          widget.tempList.first.docName =
+                              foundUsers[index]['doc_name'];
+                          widget.tempList.first.docId =
+                              foundUsers[index]['doc_id'];
+                          widget.tempList.first.areaName =
+                              foundUsers[index]['area_name'];
+                          widget.tempList.first.areaId =
+                              foundUsers[index]['area_id'];
+                          widget.tempList.first.address =
+                              foundUsers[index]['address'];
+                          // widget.tempList.add(
+                          //   RxDcrDataModel(
+                          //       docName: foundUsers[index]['doc_name'],
+                          //       docId: foundUsers[index]['doc_id'],
+                          //       areaName: foundUsers[index]['area_name'],
+                          //       areaId: foundUsers[index]['area_id'],
+                          //       address: foundUsers[index]['address'],
+                          //       // uiqueKey: widget.counterForDoctorList,
+                          //       presImage: '',
+                          //       rxMedicineList: []),
+                          // );
 
-                            widget.tempListFunc(widget.tempList);
-                            Navigator.pop(context);
-                            ok = false;
-                          }
+                          widget.tempListFunc(widget.tempList);
+                          Navigator.pop(context);
+                          // ok = false;
+                          // }
 
                           // Navigator.push(context,
                           //     MaterialPageRoute(builder: (_) => RxPage()));
@@ -176,8 +186,8 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                                       Expanded(
                                         flex: 7,
                                         child: Text(
-                                          '${foundUsers[index]['doc_name']} ' +
-                                              '(${foundUsers[index]['doc_id']})',
+                                          '${foundUsers[index]['doc_name']} '
+                                          '(${foundUsers[index]['doc_id']})',
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,

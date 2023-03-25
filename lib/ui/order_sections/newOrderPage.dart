@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -183,7 +184,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
       dateSelected = widget.deliveryDate;
       slectedPayMethod = widget.paymentMethod;
       initialOffer = widget.offer ?? 'Offer';
-      ordertotalAmount();
+
+      total = OrderServices().ordertotalAmount(
+          itemString, orderAmount, finalItemDataList, total, totalAmount);
+      print("itemString====$itemString");
     } else {
       return;
     }
@@ -207,26 +211,21 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return TextEditingController(text: val);
   }
 
-  double totalCount(AddItemModel model) {
-    double total = (model.tp + model.vat) * model.quantity;
-    return total;
-  }
+  // deleteSingleOrderItem(int dcrUniqueKey, int index) {
+  //   final box = Hive.box<AddItemModel>("orderedItem");
 
-  deleteSingleOrderItem(int dcrUniqueKey, int index) {
-    final box = Hive.box<AddItemModel>("orderedItem");
+  //   final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
+  //   dynamic desiredKey;
+  //   deliveriesMap.forEach((key, value) {
+  //     if (value.uiqueKey1 == dcrUniqueKey) desiredKey = key;
+  //   });
+  //   box.delete(desiredKey);
+  //   finalItemDataList.removeAt(index);
 
-    final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey1 == dcrUniqueKey) desiredKey = key;
-    });
-    box.delete(desiredKey);
-    finalItemDataList.removeAt(index);
+  //   setState(() {});
+  // }
 
-    setState(() {});
-  }
-
-  int _currentSelected = 2;
+  int _currentSelected = 2; // this variable used for  bottom navigation bar
 
   @override
   Widget build(BuildContext context) {
@@ -344,13 +343,19 @@ class _NewOrderPageState extends State<NewOrderPage> {
               onPressed: () {
                 if (widget.deliveryDate != '') {
                   final uniqueKey = widget.ckey;
-                  deleteSingleOrderItem(uniqueKey, index);
-                  ordertotalAmount();
+                  OrderServices().deleteSingleOrderItem(
+                      uniqueKey, index, finalItemDataList);
+
+                  total = OrderServices().ordertotalAmount(itemString,
+                      orderAmount, finalItemDataList, total, totalAmount);
 
                   setState(() {});
                 } else {
                   finalItemDataList.removeAt(index);
-                  ordertotalAmount();
+
+                  total = OrderServices().ordertotalAmount(itemString,
+                      orderAmount, finalItemDataList, total, totalAmount);
+
                   setState(() {});
                 }
 
@@ -594,8 +599,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
         onPressed: () async {
           var url =
               '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrl(Uri.parse(url))) {
+            await launchUrl(Uri.parse(url));
           } else {
             throw 'Could not launch $url';
           }
@@ -627,8 +632,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
               '${dmPathData!.reportOutstUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
           print(
               "outStandingurl=${dmPathData!.reportOutstUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}");
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrl(Uri.parse(url))) {
+            await launchUrl(Uri.parse(url));
           } else {
             throw 'Could not launch $url';
           }
@@ -658,8 +663,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
             "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword");
         var url =
             '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
-        if (await canLaunch(url)) {
-          await launch(url);
+        if (await canLaunchUrl(Uri.parse(url))) {
+          await launchUrl(Uri.parse(url));
         } else {
           throw 'Could not launch $url';
         }
@@ -696,9 +701,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
           style: TextStyle(fontSize: 16),
         ),
         style: ElevatedButton.styleFrom(
+          foregroundColor: Color.fromARGB(255, 27, 43, 23),
+          backgroundColor: Color.fromARGB(223, 146, 212, 157),
           fixedSize: const Size(20, 50),
-          primary: Color.fromARGB(223, 146, 212, 157),
-          onPrimary: Color.fromARGB(255, 27, 43, 23),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -734,7 +739,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     Expanded(
                       flex: 4,
                       child: Text(
-                        'Amt: $totalAmount',
+                        'Amt: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount).toStringAsFixed(2)}',
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),
@@ -1116,7 +1121,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                               .text)
                                           : 0;
 
-                                  ordertotalAmount();
+                                  setState(() {
+                                    total = OrderServices().ordertotalAmount(
+                                        itemString,
+                                        orderAmount,
+                                        finalItemDataList,
+                                        total,
+                                        totalAmount);
+                                  });
                                   // setState(() {});
                                 },
                               ),
@@ -1151,7 +1163,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
                           flex: 1,
                           child: Center(
                             child: Text(
-                              totalCount(finalItemDataList[index])
+                              OrderServices()
+                                  .totalCount(finalItemDataList[index])
                                   .toStringAsFixed(2),
                               style: const TextStyle(
                                 color: Colors.black,
@@ -1404,8 +1417,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
               // });
 
-              ordertotalAmount();
-              setState(() {});
+              setState(() {
+                total = OrderServices().ordertotalAmount(itemString,
+                    orderAmount, finalItemDataList, total, totalAmount);
+              });
             },
           ),
         ),
@@ -1415,39 +1430,39 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   // order Amount calculation....................................................
 
-  ordertotalAmount() {
-    itemString = '';
-    orderAmount = 0.0;
-    if (finalItemDataList.isNotEmpty) {
-      finalItemDataList.forEach((element) {
-        total = (element.tp + element.vat) * element.quantity;
-        // print(total);
+  // ordertotalAmount() {
+  //   itemString = '';
+  //   orderAmount = 0.0;
+  //   if (finalItemDataList.isNotEmpty) {
+  //     finalItemDataList.forEach((element) {
+  //       total = (element.tp + element.vat) * element.quantity;
+  //       // print(total);
 
-        if (itemString == '' && element.quantity != 0) {
-          itemString =
-              element.item_id.toString() + '|' + element.quantity.toString();
-        } else if (element.quantity != 0) {
-          itemString += '||' +
-              element.item_id.toString() +
-              '|' +
-              element.quantity.toString();
-        }
+  //       if (itemString == '' && element.quantity != 0) {
+  //         itemString =
+  //             element.item_id.toString() + '|' + element.quantity.toString();
+  //       } else if (element.quantity != 0) {
+  //         itemString += '||' +
+  //             element.item_id.toString() +
+  //             '|' +
+  //             element.quantity.toString();
+  //       }
 
-        orderAmount = orderAmount + total;
+  //       orderAmount = orderAmount + total;
 
-        totalAmount = orderAmount.toStringAsFixed(2);
+  //       totalAmount = orderAmount.toStringAsFixed(2);
 
-        // print(itemString);
+  //       // print(itemString);
 
-        setState(() {});
-      });
-      // print(itemString);
-    } else {
-      setState(() {
-        totalAmount = '';
-      });
-    }
-  }
+  //       setState(() {});
+  //     });
+  //     // print(itemString);
+  //   } else {
+  //     setState(() {
+  //       totalAmount = '';
+  //     });
+  //   }
+  // }
 
 // Save OrderCustomer and ordered item to Hive..................................
   Future<dynamic> orderPutData() async {

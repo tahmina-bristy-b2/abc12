@@ -15,13 +15,13 @@ class RxDraftPage extends StatefulWidget {
 
 class _RxDraftPageState extends State<RxDraftPage> {
   // final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  Box? box;
+  // Box? box;
   double screenHeight = 0.0;
   double screenWidth = 0.0;
-  List itemDraftList = [];
-  List<MedicineListModel> addedRxMedicinList = [];
-  List<MedicineListModel> filteredMedicin = [];
-  List<RxDcrDataModel> dcrDataList = [];
+  // List itemDraftList = [];
+  // List<MedicineListModel> addedRxMedicinList = [];
+  // List<MedicineListModel> filteredMedicin = [];
+  // List<RxDcrDataModel> dcrDataList = [];
 
   @override
   void initState() {
@@ -107,6 +107,9 @@ class _RxDraftPageState extends State<RxDraftPage> {
       return ListView.builder(
         itemCount: user.length,
         itemBuilder: (BuildContext context, int index) {
+          print('new');
+          print(user[index].uid);
+          print(user[index].rxMedicineList.length);
           int space = user[index].presImage.indexOf(" ");
           String removeSpace = user[index]
               .presImage

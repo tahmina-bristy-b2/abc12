@@ -5,12 +5,13 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_services.dart';
+import 'package:MREPORTING/ui/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:MREPORTING/ui/homePage.dart';
+// import 'package:MREPORTING/ui/homePage.dart';
 import 'package:http/http.dart' as http;
 // import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
@@ -89,7 +90,7 @@ class _RxPageState extends State<RxPage> {
   int _currentSelected2 = 2;
   // int counterForDoctor = 0;
   // int _counterforRx = 0;
-  bool _isCameraClick = false;
+  // bool _isCameraClick = false;
   int objectImageId = 0;
   String uid = '';
 
@@ -1355,8 +1356,8 @@ class _RxPageState extends State<RxPage> {
     if (widget.isRxEdit) {
       RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
           finalMedicineList, widget.draftRxData!.uid);
-      Navigator.pop(context);
-      Navigator.pop(context);
+      // Navigator.pop(context);
+      // Navigator.pop(context);
       // for (int i = 0; i <= finalMedicineList.length; i++) {
       //   deleteMedicinItem(widget.dcrKey);
 
@@ -1388,19 +1389,19 @@ class _RxPageState extends State<RxPage> {
       //   box.add(d);
       // }
 
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => MyHomePage(
-      //               userName: userInfo!.userName,
-      //               userId: userInfo!.userId,
-      //               userPassword: userPassword,
-      //             )),
-      //     (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    userName: userInfo!.userName,
+                    userId: userInfo!.userId,
+                    userPassword: userPassword,
+                  )),
+          (route) => false);
     } else {
       RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
           finalMedicineList, finalDoctorList.first.uid);
-      Navigator.pop(context);
+      // Navigator.pop(context);
       // Navigator.pop(context);
       // for (var dcr in finalDoctorList) {
       //   // print('uiniquIdD:${dcr.uiqueKey}');
@@ -1425,15 +1426,15 @@ class _RxPageState extends State<RxPage> {
       //   });
       // }
 
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => MyHomePage(
-      //               userName: userInfo!.userName,
-      //               userId: userInfo!.userId,
-      //               userPassword: userPassword,
-      //             )),
-      //     (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    userName: userInfo!.userName,
+                    userId: userInfo!.userId,
+                    userPassword: userPassword,
+                  )),
+          (route) => false);
     }
 
     // if (finalMedicineList.isEmpty) {
@@ -1672,10 +1673,11 @@ class _RxPageState extends State<RxPage> {
                 if (widget.isRxEdit) {
                   RxServices.singleDeleteRxMedicineFromDraft(rxDcrBox,
                       widget.draftRxData!.uid, finalMedicineList[index].itemId);
+                  // finalMedicineList.removeAt(index);
                   // final medicineUniqueKey = finalMedicineList[index].uiqueKey;
 
                   // deleteMedicineItem(medicineUniqueKey, index);
-                  // setState(() {});
+                  setState(() {});
                 } else {
                   finalMedicineList.removeAt(index);
                   setState(() {});
@@ -1710,11 +1712,11 @@ class _RxPageState extends State<RxPage> {
   }
 
   Future<void> _cameraFuntionality() async {
-    setState(() {
-      print('changebefore: $_isCameraClick');
-      _isCameraClick = true;
-      print('changeafter: $_isCameraClick');
-    });
+    // setState(() {
+    //   print('changebefore: $_isCameraClick');
+    //   _isCameraClick = true;
+    //   print('changeafter: $_isCameraClick');
+    // });
     file = await ImagePicker().pickImage(
       source: ImageSource.camera,
       imageQuality: 90,
@@ -1731,19 +1733,20 @@ class _RxPageState extends State<RxPage> {
         // if (finalDoctorList.)
         // print("image will save on draft");
         if (finalDoctorList.isEmpty) {
-          uid = const Uuid().v1();
-          RxDcrDataModel rxDcrDataModel = RxDcrDataModel(
-              uid: uid,
+          final rxDcrDataModel = RxDcrDataModel(
+              uid: const Uuid().v1(),
               docName: uniqueIdForImage().toString(),
               docId: '',
               areaId: '',
               areaName: 'areaName',
               address: 'address',
               presImage: imagePath.toString(),
-              rxMedicineList: finalMedicineList);
+              rxMedicineList:
+                  finalMedicineList.isNotEmpty ? finalMedicineList : []);
           finalDoctorList.add(rxDcrDataModel); // add to list
 
           rxDcrBox.add(rxDcrDataModel); // add to draft
+
           setState(() {});
           // for (var dcr in finalDoctorList) {
           //   final box = Boxes.rxdDoctor();
@@ -1755,27 +1758,34 @@ class _RxPageState extends State<RxPage> {
 
           //   box.add(d);
           // }
-        } else {
+        } else if (finalDoctorList.first.docId == '') {
           finalDoctorList.clear();
-          uid = const Uuid().v1();
-          RxDcrDataModel rxDcrDataModel = RxDcrDataModel(
-              uid: uid,
+          // uid = const Uuid().v1();
+
+          final rxDcrDataModel = RxDcrDataModel(
+              uid: const Uuid().v1(),
               docName: uniqueIdForImage().toString(),
               docId: '',
               areaId: '',
               areaName: 'areaName',
               address: 'address',
               presImage: imagePath.toString(),
-              rxMedicineList: finalMedicineList);
+              rxMedicineList:
+                  finalMedicineList.isNotEmpty ? finalMedicineList : []);
           finalDoctorList.add(rxDcrDataModel); // add to list
 
           rxDcrBox.add(rxDcrDataModel); // add to draft
+
+          setState(() {});
+        } else {
+          finalDoctorList[0].presImage = imagePath.toString();
           setState(() {});
         }
       } else if (imagePath != null && widget.isRxEdit) {
         // RxServices.updateRxDcrImageToDraft(
         //     rxDcrBox, imagePath.toString(), widget.draftRxData!.uid!);
         finalDoctorList[0].presImage = imagePath.toString();
+        finalImage = imagePath!.path;
         setState(() {});
 
         // Doctorbox.toMap().forEach((key, value) {

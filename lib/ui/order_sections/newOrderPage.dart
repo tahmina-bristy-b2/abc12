@@ -80,6 +80,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   List<AddItemModel> finalItemDataList = [];
   List<CustomerDataModel> orderCustomerList = [];
   List<CustomerDataModel> customerdatalist = [];
+  Map<String, dynamic> mapData = {};
 
   List syncItemList = [];
   List<String> deliveryTime = ['Morning', 'Evening'];
@@ -185,8 +186,12 @@ class _NewOrderPageState extends State<NewOrderPage> {
       slectedPayMethod = widget.paymentMethod;
       initialOffer = widget.offer ?? 'Offer';
 
-      total = OrderServices().ordertotalAmount(
-          itemString, orderAmount, finalItemDataList, total, totalAmount);
+      setState(() {
+        mapData = OrderServices().ordertotalAmount(
+            itemString, orderAmount, finalItemDataList, total, totalAmount);
+      });
+      print("mapData====$mapData");
+
       print("itemString====$itemString");
     } else {
       return;
@@ -346,15 +351,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
                   OrderServices().deleteSingleOrderItem(
                       uniqueKey, index, finalItemDataList);
 
-                  total = OrderServices().ordertotalAmount(itemString,
-                      orderAmount, finalItemDataList, total, totalAmount);
+                  OrderServices().ordertotalAmount(itemString, orderAmount,
+                      finalItemDataList, total, totalAmount);
 
                   setState(() {});
                 } else {
                   finalItemDataList.removeAt(index);
 
-                  total = OrderServices().ordertotalAmount(itemString,
-                      orderAmount, finalItemDataList, total, totalAmount);
+                  OrderServices().ordertotalAmount(itemString, orderAmount,
+                      finalItemDataList, total, totalAmount);
 
                   setState(() {});
                 }
@@ -739,7 +744,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     Expanded(
                       flex: 4,
                       child: Text(
-                        'Amt: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount).toStringAsFixed(2)}',
+                        'Amt: $itemString',
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),
@@ -1122,12 +1127,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                           : 0;
 
                                   setState(() {
-                                    total = OrderServices().ordertotalAmount(
+                                    mapData = OrderServices().ordertotalAmount(
                                         itemString,
                                         orderAmount,
                                         finalItemDataList,
                                         total,
                                         totalAmount);
+                                    print("mapData= $mapData");
                                   });
                                   // setState(() {});
                                 },
@@ -1418,8 +1424,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
               // });
 
               setState(() {
-                total = OrderServices().ordertotalAmount(itemString,
-                    orderAmount, finalItemDataList, total, totalAmount);
+                OrderServices().ordertotalAmount(itemString, orderAmount,
+                    finalItemDataList, total, totalAmount);
               });
             },
           ),

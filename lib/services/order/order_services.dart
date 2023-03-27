@@ -34,8 +34,12 @@ class OrderServices {
 
   // order Amount calculation....................................................
 
-  double ordertotalAmount(String itemString, double orderAmount,
+  Map<String, dynamic> ordertotalAmount(String itemString, double orderAmount,
       List<AddItemModel> finalItemDataList, double total, String totalAmount) {
+    Map<String, dynamic> mapData = {
+      "TotalAmount": totalAmount,
+      "ItemString": itemString
+    };
     itemString = '';
     orderAmount = 0.0;
     if (finalItemDataList.isNotEmpty) {
@@ -56,9 +60,9 @@ class OrderServices {
         // print(itemString);
       }
       // print(itemString);
-    } else {
-      totalAmount = '';
     }
-    return total;
+    mapData["TotalAmount"] = totalAmount;
+    mapData["ItemString"] = itemString;
+    return mapData;
   }
 }

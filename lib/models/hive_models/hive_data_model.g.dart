@@ -201,14 +201,15 @@ class RxDcrDataModelAdapter extends TypeAdapter<RxDcrDataModel> {
       areaName: fields[4] as String,
       address: fields[5] as String,
       presImage: fields[6] as String,
-      rxMedicineList: (fields[7] as List).cast<MedicineListModel>(),
+      rxType: fields[7] as String,
+      rxMedicineList: (fields[8] as List).cast<MedicineListModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, RxDcrDataModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -224,6 +225,8 @@ class RxDcrDataModelAdapter extends TypeAdapter<RxDcrDataModel> {
       ..writeByte(6)
       ..write(obj.presImage)
       ..writeByte(7)
+      ..write(obj.rxType)
+      ..writeByte(8)
       ..write(obj.rxMedicineList);
   }
 

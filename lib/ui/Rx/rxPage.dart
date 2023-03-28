@@ -12,7 +12,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/hive_models/hive_data_model.dart';
@@ -45,14 +44,9 @@ class _RxPageState extends State<RxPage> {
   Box? box;
   File? imagePath;
   XFile? file;
-  List doctorData = [];
-  List medicineData = [];
+
   List<RxDcrDataModel> finalDoctorList = [];
   List<MedicineListModel> finalMedicineList = [];
-  List finalDraftDoctorList = [];
-  List finalDraftMedicineList = [];
-  List rxMedicineDataList = [];
-  List tempMedicineList = [];
 
   double screenHeight = 0.0;
   double screenWidth = 0.0;
@@ -86,7 +80,9 @@ class _RxPageState extends State<RxPage> {
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
+    dropdownRxTypevalue = userInfo!.rxTypeList.first;
 
+    // from draft
     if (widget.isRxEdit) {
       finalDoctorList.add(widget.draftRxData!);
       finalMedicineList = widget.draftRxData!.rxMedicineList;
@@ -94,8 +90,10 @@ class _RxPageState extends State<RxPage> {
       String removeSpace = widget.draftRxData!.presImage
           .substring(space + 1, widget.draftRxData!.presImage.length);
       finalImage = removeSpace.replaceAll("'", '');
+      dropdownRxTypevalue = widget.draftRxData!.rxType;
     }
 
+    // from SharedPred
     SharedPreferences.getInstance().then((prefs) {
       setState(() {});
       cid = prefs.getString("CID") ?? '';
@@ -108,18 +106,11 @@ class _RxPageState extends State<RxPage> {
     setState(() {});
   }
 
+  //===================================== Rx Submit Validations===========================================
+
   rxValidationSubmit() async {
     if ((finalImage != '' || imagePath != null) &&
         finalMedicineList.isNotEmpty) {
-      if (finalImage != "") {
-        finalImage = finalImage.toString();
-      } else {
-        String rxImage = '';
-        rxImage = imagePath.toString();
-        int space = rxImage.indexOf(" ");
-        String removeSpace = rxImage.substring(space + 1, rxImage.length);
-        finalImage = removeSpace.replaceAll("'", '');
-      }
       if (await InternetConnectionChecker().hasConnection) {
         if (userInfo!.rxDocMust) {
           await rxSubmit();
@@ -146,7 +137,6 @@ class _RxPageState extends State<RxPage> {
   }
 
   //===================================== 4 item bottomnavbar===========================================
-
   void _onItemTapped(int index) async {
     if (index == 0) {
       setState(() {
@@ -187,7 +177,6 @@ class _RxPageState extends State<RxPage> {
   }
 
   //===================================== 3 item bottomnavbar===========================================
-
   void _onItemTapped2(int index) async {
     if (index == 0) {
       setState(() {
@@ -327,9 +316,28 @@ class _RxPageState extends State<RxPage> {
                           child: Column(
                             children: [
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  List dcrList = await AllServices()
+                                      .getSyncSavedData('dcrListData');
+
                                   if (imagePath != null || finalImage != "") {
-                                    getRxDoctorData();
+                                    if (!mounted) return;
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => DoctorListFromHiveData(
+                                          doctorData: dcrList,
+                                          tempList: finalDoctorList,
+                                          tempListFunc: (value) {
+                                            finalDoctorList = value;
+
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                    // getRxDoctorData();
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
@@ -399,11 +407,28 @@ class _RxPageState extends State<RxPage> {
                                 height: 5,
                               ),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   setState(() {});
-
+                                  List medList = await AllServices()
+                                      .getSyncSavedData('medicineList');
                                   if (imagePath != null || finalImage != "") {
-                                    getMedicine();
+                                    if (!mounted) return;
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            MedicineListFromHiveData1(
+                                          medicineData: medList,
+                                          medicinTempList: finalMedicineList,
+                                          tempListFunc: (value) {
+                                            finalMedicineList = value;
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                    // getMedicine();
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
@@ -545,8 +570,8 @@ class _RxPageState extends State<RxPage> {
                                                           const InputDecoration(
                                                               enabled: false),
                                                       isExpanded: true,
-                                                      value: userInfo!
-                                                          .rxTypeList.first,
+                                                      value:
+                                                          dropdownRxTypevalue,
 
                                                       icon: const Icon(
                                                         Icons
@@ -862,10 +887,11 @@ class _RxPageState extends State<RxPage> {
           );
   }
 
+  //to Draaft
   Future putAddedRxData() async {
     if (widget.isRxEdit) {
       RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
-          finalMedicineList, widget.draftRxData!.uid);
+          finalMedicineList, widget.draftRxData!.uid, dropdownRxTypevalue);
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -878,7 +904,7 @@ class _RxPageState extends State<RxPage> {
           (route) => false);
     } else {
       RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
-          finalMedicineList, finalDoctorList.first.uid);
+          finalMedicineList, finalDoctorList.first.uid, dropdownRxTypevalue);
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -892,71 +918,7 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
-  Future openBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('dcrListData');
-  }
-
-////////////////////////////docotr//////////////////////////
-  getRxDoctorData() async {
-    await openBox();
-    var mymap = box!.toMap().values.toList();
-    if (mymap.isNotEmpty) {
-      doctorData = mymap;
-
-      if (!mounted) return;
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DoctorListFromHiveData(
-            doctorData: doctorData,
-            tempList: finalDoctorList,
-            tempListFunc: (value) {
-              finalDoctorList = value;
-
-              setState(() {});
-            },
-          ),
-        ),
-      );
-    } else {
-      doctorData.add('Empty');
-    }
-  }
-
-///////////////////////////////medicine///////////////////////////////
-  Future openBox1() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('medicineList');
-  }
-
-  getMedicine() async {
-    await openBox1();
-    var mymap = box!.toMap().values.toList();
-    if (mymap.isNotEmpty) {
-      medicineData = mymap;
-      // print('test1:$counterForDoctor');
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => MedicineListFromHiveData1(
-            medicineData: medicineData,
-            medicinTempList: finalMedicineList,
-            tempListFunc: (value) {
-              finalMedicineList = value;
-              setState(() {});
-            },
-          ),
-        ),
-      );
-    } else {
-      medicineData.add('Empty');
-    }
-  }
+  //to Dialog for delete medicine
 
   Future<void> _showMyDialog(int index) async {
     return showDialog<void>(
@@ -1007,6 +969,8 @@ class _RxPageState extends State<RxPage> {
     );
   }
 
+  ///*********************************Unique Id == time stamp for image*****************************************///
+
   int uniqueIdForImage() {
     int id = 0;
     id = int.parse(
@@ -1017,13 +981,26 @@ class _RxPageState extends State<RxPage> {
     return id;
   }
 
+  ///*********************************RxSubmit w/ Image Function*****************************************///
+
   Future rxSubmit() async {
     String fileName = "";
     if (finalDoctorList[0].docId != "") {
+      if (finalImage != "") {
+        finalImage = finalImage.toString();
+      } else {
+        String rxImage = '';
+        rxImage = imagePath.toString();
+        int space = rxImage.indexOf(" ");
+        String removeSpace = rxImage.substring(space + 1, rxImage.length);
+        finalImage = removeSpace.replaceAll("'", '');
+      }
       // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
+
       final jsonData = await RxRepositories()
           .rxImageSubmitRepo(dmpathData!.photoSubmitUrl, finalImage);
       fileName = jsonData["fileName"];
+
       if (fileName != "") {
         // _rxSubmit();       // _rxSubmit();       // _rxSubmit();
 
@@ -1094,6 +1071,8 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
+  ///*********************************Camera FUnction*****************************************///
+
   Future<void> _cameraFuntionality() async {
     file = await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -1115,7 +1094,8 @@ class _RxPageState extends State<RxPage> {
               address: 'address',
               presImage: imagePath.toString(),
               rxMedicineList:
-                  finalMedicineList.isNotEmpty ? finalMedicineList : []);
+                  finalMedicineList.isNotEmpty ? finalMedicineList : [],
+              rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
 
           rxDcrBox.add(rxDcrDataModel); // add to draft
@@ -1133,7 +1113,8 @@ class _RxPageState extends State<RxPage> {
               address: 'address',
               presImage: imagePath.toString(),
               rxMedicineList:
-                  finalMedicineList.isNotEmpty ? finalMedicineList : []);
+                  finalMedicineList.isNotEmpty ? finalMedicineList : [],
+              rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
 
           rxDcrBox.add(rxDcrDataModel); // add to draft
@@ -1150,6 +1131,8 @@ class _RxPageState extends State<RxPage> {
       }
     }
   }
+
+  ///*********************************gallery function*****************************************///
 
   Future<void> _galleryFunctionality() async {
     file = await ImagePicker().pickImage(

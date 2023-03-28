@@ -17,28 +17,29 @@ class RxServices {
     return itemString;
   }
 
-  static updateRxDcrImageToDraft(
-      Box<RxDcrDataModel> rxDcrBox, String imagePath, String uid) {
-    dynamic desirekey;
-    rxDcrBox.toMap().forEach((key, value) {
-      if (value.uid == uid) {
-        desirekey = key;
-      }
-    });
-    RxDcrDataModel? rxDcrData = rxDcrBox.get(desirekey);
+  // static updateRxDcrImageToDraft(
+  //     Box<RxDcrDataModel> rxDcrBox, String imagePath, String uid) {
+  //   dynamic desirekey;
+  //   rxDcrBox.toMap().forEach((key, value) {
+  //     if (value.uid == uid) {
+  //       desirekey = key;
+  //     }
+  //   });
+  //   RxDcrDataModel? rxDcrData = rxDcrBox.get(desirekey);
 
-    if (rxDcrData!.isInBox) {
-      rxDcrData.presImage = imagePath.toString();
-    }
+  //   if (rxDcrData!.isInBox) {
+  //     rxDcrData.presImage = imagePath.toString();
+  //   }
 
-    rxDcrBox.put(desirekey, rxDcrData);
-  }
+  //   rxDcrBox.put(desirekey, rxDcrData);
+  // }
 
   static updateRxDcrMedicineToDraft(
       Box<RxDcrDataModel> rxDcrBox,
       List<RxDcrDataModel> rxDcrlist,
       List<MedicineListModel> addedDcrMedList,
-      String uid) {
+      String uid,
+      String rxType) {
     dynamic desirekey;
     rxDcrBox.toMap().forEach((key, value) {
       if (value.uid == uid) {
@@ -55,6 +56,7 @@ class RxServices {
       rxDcrData.address = rxDcrlist.first.address;
       rxDcrData.presImage = rxDcrlist.first.presImage;
       rxDcrData.rxMedicineList = addedDcrMedList;
+      rxDcrData.rxType = rxType;
       // rxDcrData.visitedWith = visitedWith;
       // rxDcrData.notes = notes;
     }

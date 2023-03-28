@@ -13,7 +13,6 @@ import 'package:MREPORTING/ui/DCR_section/draft_dcr_page.dart';
 import 'package:MREPORTING/ui/Expense/expense_section.dart';
 import 'package:MREPORTING/ui/areaPage.dart';
 import 'package:MREPORTING/ui/attendance_page.dart';
-import 'package:MREPORTING/ui/notice_board.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
 import 'package:MREPORTING/ui/order_sections/draft_order_page.dart';
 import 'package:MREPORTING/ui/loginPage.dart';
@@ -27,7 +26,6 @@ import 'package:MREPORTING/ui/reset_password.dart';
 import 'package:MREPORTING/ui/syncDataTabPaga.dart';
 import 'package:MREPORTING/ui/Rx/rxPage.dart';
 import 'package:MREPORTING/ui/Widgets/custombutton.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 double? lat;
@@ -478,10 +476,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: customBuildButton(
                                         icon: Icons.add,
-                                        onClick: () {
+                                        onClick: () async {
+                                          List orderList = await AllServices()
+                                              .getSyncSavedData('data');
                                           if (userInfo!.areaPage == false) {
-                                            getData();
+                                            if (!mounted) return;
+
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        CustomerListScreen(
+                                                          data: orderList,
+                                                        )));
                                           } else {
+                                            if (!mounted) return;
+
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -1242,30 +1252,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  Future openBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('data');
-  }
-
-  getData() async {
-    await openBox();
-    var mymap = box!.toMap().values.toList();
-
-    if (mymap.isEmpty) {
-      data.add('empty');
-    } else {
-      data = mymap;
-      if (!mounted) return;
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => CustomerListScreen(
-                    data: data,
-                  )));
-    }
   }
 
   // // Draft Item order section.......................

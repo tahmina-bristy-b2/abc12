@@ -70,4 +70,30 @@ class RxRepositories {
 
     return rxItemList;
   }
+
+  //================================================================================  ===================================================================
+  //================================================================================ RX Image Submit ===================================================================
+  //===================================================================================================================================================
+  Future<Map<String, dynamic>> rxImageSubmitRepo(
+    String photosubmitUrl,
+    String finalImage,
+  ) async {
+    Map<String, dynamic> jsonResponse = {};
+    try {
+      final http.Response response =
+          await RxDataProviders().rxImageSubmitDataprovider(
+        photosubmitUrl,
+        finalImage,
+      );
+      jsonResponse = json.decode(response.body);
+      // String status = orderInfo['status'];
+
+      if (jsonResponse.isNotEmpty) {
+        return jsonResponse;
+      }
+    } on Exception catch (_) {
+      throw Exception("Error on server");
+    }
+    return jsonResponse;
+  }
 }

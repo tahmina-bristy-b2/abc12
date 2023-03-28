@@ -52,8 +52,6 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
     super.dispose();
   }
 
-  // late List<bool> pressedAttentions = foundUsers.map((e) => false).toList();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,6 +122,9 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                             }
                           },
                           child: Card(
+                            color: pressAttention!
+                                ? const Color.fromARGB(255, 143, 199, 248)
+                                : Colors.white,
                             elevation: 10,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
@@ -132,42 +133,23 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                             ),
                             child: Row(
                               children: [
-                                Expanded(
-                                  flex: 9,
-                                  child: Container(
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: pressAttention!
-                                          ? const Color.fromARGB(
-                                              255, 143, 199, 248)
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 5,
-                                            child: Text(
-                                              foundUsers[index]['name'],
-                                              // foundUsers[index]['item_id'],
-                                              // '${foundUsers[index]['name']} ' +
-                                              //     '(${foundUsers[index]['item_id']})',
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 19,
-                                              ),
-                                            ),
+                                SizedBox(
+                                  height: 60,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          foundUsers[index]['name'],
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 19,
                                           ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -193,9 +175,9 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 brand: element['brand'],
                 company: element['company'],
                 formation: element['formation'],
-                // uiqueKey: widget.counter,
                 itemId: element['item_id'],
                 quantity: 1);
+
             String tempItemId = temp.itemId;
 
             widget.medicinTempList

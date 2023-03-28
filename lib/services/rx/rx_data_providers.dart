@@ -25,7 +25,8 @@ class RxDataProviders {
     var dt = DateFormat('HH:mm:ss').format(DateTime.now());
 
     final http.Response response;
-    print(RxApis.rxSubmitApi(submitUrl));
+    // print(RxApis.rxSubmitApi(
+    //     "$submitUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList[0].docId}&area_id=${finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${dt.toString()}&item_list=$itemString"));
     response = await http.post(
       Uri.parse(RxApis.rxSubmitApi(submitUrl)),
       headers: <String, String>{
@@ -60,5 +61,29 @@ class RxDataProviders {
     );
 
     return response;
+  }
+
+  //================================================================================  ===================================================================
+  //================================================================================ RX image Submit ===================================================================
+  //===================================================================================================================================================
+  Future<http.Response> rxImageSubmitDataprovider(
+    String photosubmitUrl,
+    String finalImage,
+  ) async {
+    // var dt = DateFormat('HH:mm:ss').format(DateTime.now()); // never Used
+
+    // String time = dt.replaceAll(":", ''); // Neveer USed
+
+    Uri uri = Uri.parse(photosubmitUrl);
+    http.MultipartRequest request = http.MultipartRequest("POST", uri);
+    http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+      'productImage',
+      finalImage,
+    );
+    request.files.add(multipartFile);
+    http.StreamedResponse response = await request.send();
+    http.Response res = await http.Response.fromStream(response);
+
+    return res;
   }
 }

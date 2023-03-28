@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
@@ -11,47 +10,24 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-// import 'package:MREPORTING/ui/homePage.dart';
-import 'package:http/http.dart' as http;
-// import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/hive_models/hive_data_model.dart';
-import 'Medicine/medicineFromHive.dart';
+import 'medicineFromHive.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
-
-var quantity = "";
 
 class RxPage extends StatefulWidget {
   final bool isRxEdit;
   final RxDcrDataModel? draftRxData;
-  // int dcrKey;
-  // int uniqueId;
-  // String ck;
-  // String docName;
-  // String docId;
-  // String areaName;
-  // String areaId;
-  // String address;
-  // String image1;
-  // List<MedicineListModel> draftRxMedicinItem;
 
   const RxPage({
     Key? key,
     required this.isRxEdit,
     this.draftRxData,
-    // required this.ck,
-    // required this.dcrKey,
-    // required this.uniqueId,
-    // required this.docName,
-    // required this.docId,
-    // required this.areaName,
-    // required this.draftRxMedicinItem,
-    // required this.image1,
   }) : super(key: key);
 
   @override
@@ -60,62 +36,47 @@ class RxPage extends StatefulWidget {
 
 class _RxPageState extends State<RxPage> {
   Map<String, TextEditingController> controllers = {};
-  // TextEditingController textController = TextEditingController();
-  // List<TextEditingController> textController = [];
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 
   final rxDcrBox = Boxes.rxdDoctor();
 
-  late TransformationController controller;
-  TapDownDetails? tapDownDetails;
   Box? box;
+  File? imagePath;
+  XFile? file;
   List doctorData = [];
   List medicineData = [];
   List<RxDcrDataModel> finalDoctorList = [];
-  // List<RxDcrDataModel> finalDoctorList = [];
   List<MedicineListModel> finalMedicineList = [];
   List finalDraftDoctorList = [];
   List finalDraftMedicineList = [];
   List rxMedicineDataList = [];
   List tempMedicineList = [];
-  File? imagePath;
-  XFile? file;
-  // String a = '';
-  // File? _image;
+
   double screenHeight = 0.0;
   double screenWidth = 0.0;
   int _currentSelected = 3;
   int _currentSelected2 = 2;
-  // int counterForDoctor = 0;
-  // int _counterforRx = 0;
-  // bool _isCameraClick = false;
-  int objectImageId = 0;
-  String uid = '';
 
-  // String? submit_url;
-  // String? photo_submit_url;
+  int objectImageId = 0;
+
   String cid = '';
-  // String? userId;
+
   String userPassword = '';
   String itemString = "";
-  // String userName = '';
-  // String user_id = '';
+
   String startTime = '';
   String endTime = '';
-  int tempCount = 0;
-  // String? docId;
+
   double latitude = 0.0;
   double longitude = 0.0;
   String deviceId = '';
   String deviceBrand = '';
   String deviceModel = '';
   bool _isLoading = true;
-  // bool _activeCounter = false;
-  String dropdownRxTypevalue = 'Rx Type';
 
-  List<String> rxTypeList = [];
+  String dropdownRxTypevalue = 'Rx Type';
 
   String finalImage = '';
 
@@ -134,115 +95,55 @@ class _RxPageState extends State<RxPage> {
           .substring(space + 1, widget.draftRxData!.presImage.length);
       finalImage = removeSpace.replaceAll("'", '');
     }
-    // Boxes.rxdDoctor().clear();
-    // Boxes.getMedicine().clear();
-    // print("id ${widget.uniqueId}");
-    // print("counterrx ${_counterforRx}");
-    // // print(widget.uniqueId);
-    // if (widget.docId != '') {
-    //   docId = widget.docId;
-    //   counterForDoctor = widget.uniqueId;
-    // }
-
-    // for (int i = 0; i < widget.draftRxMedicinItem.length; i++) {
-    //   int a = widget.draftRxMedicinItem[i].quantity;
-    //   print("r bolo ki khbr ${a}");
-    //   if (a != "") {
-    //     textController[index].text = a.toString();
-    //     print("accha accha ${textController[index].text}");
-    //   }
-    // }
-    // textController.text = widget.draftRxMedicinItem[index].quantity;
 
     SharedPreferences.getInstance().then((prefs) {
-      // photo_submit_url = prefs.getString('photo_submit_url');
-      // latitude = prefs.getDouble("latitude") ?? 0.0;
-      // longitude = prefs.getDouble("longitude") ?? 0.0;
-      // submit_url = prefs.getString("submit_url");
+      setState(() {});
       cid = prefs.getString("CID") ?? '';
-      // userId = prefs.getString("USER_ID");
       userPassword = prefs.getString("PASSWORD") ?? '';
-      // userName = prefs.getString("userName")!;
-      // user_id = prefs.getString("user_id")!;
       deviceId = prefs.getString("deviceId") ?? '';
       deviceBrand = prefs.getString("deviceBrand") ?? '';
       deviceModel = prefs.getString("deviceModel") ?? '';
-      // rx_doc_must = prefs.getBool("rx_doc_must") ?? false;
-      // rx_type_must = prefs.getBool("rx_type_must") ?? false;
-      // rx_gallery_allow = prefs.getBool("rx_gallery_allow") ?? false;
-
-      rxTypeList = prefs.getStringList("rx_type_list")!;
-      dropdownRxTypevalue = rxTypeList.first;
-      // if (widget.uniqueId == 0) {
-      //   int? a = prefs.getInt('DCLCounter') ?? 0;
-
-      //   setState(() {
-      //     widget.uniqueId = a;
-      //   });
-      // }
-
-      // if (prefs.getInt('RxCounter') != null) {
-      //   int? a = prefs.getInt('RxCounter');
-      //   setState(() {
-      //     _counterforRx = a!;
-      //   });
-      // }
     });
-    // finalMedicineList = widget.draftRxMedicinItem;
-    // tempCount = widget.draftRxMedicinItem.length;
-    // setState(() {});
-    // if (widget.ck != '') {
-    //   setState(() {
-    //     _activeCounter = true;
-    //   });
 
-    //   int space = widget.image1.indexOf(" ");
-    //   String removeSpace =
-    //       widget.image1.substring(space + 1, widget.image1.length);
-    //   finalImage = removeSpace.replaceAll("'", '');
-
-    //   finalDoctorList.add(RxDcrDataModel(
-    //     uiqueKey: widget.uniqueId,
-    //     docName: widget.docName,
-    //     docId: widget.docId,
-    //     areaId: widget.areaId,
-    //     areaName: widget.areaName,
-    //     address: widget.address,
-    //     presImage: finalImage,
-    //   ));
-    // } else {
-    //   return;
-    // }
     setState(() {});
   }
 
-  // int _rxCounter() {
-  //   var dt = DateFormat('HH:mm:ssss').format(DateTime.now());
-
-  //   String time = dt.replaceAll(":", '');
-
-  //   setState(() {
-  //     _counterforRx = int.parse(time);
-  //   });
-
-  //   return _counterforRx;
-  // }
-//===============================================================Depricated Code===============================
-  // void calculateRxItemString() {
-  //   if (finalMedicineList.isNotEmpty) {
-  //     finalMedicineList.forEach((element) {
-  //       if (itemString == '') {
-  //         itemString =
-  //             element.itemId.toString() + '|' + element.quantity.toString();
-  //       } else {
-  //         itemString += '||' +
-  //             element.itemId.toString() +
-  //             '|' +
-  //             element.quantity.toString();
-  //       }
-  //     });
-  //   }
-  // }
+  rxValidationSubmit() async {
+    if ((finalImage != '' || imagePath != null) &&
+        finalMedicineList.isNotEmpty) {
+      if (finalImage != "") {
+        finalImage = finalImage.toString();
+      } else {
+        String rxImage = '';
+        rxImage = imagePath.toString();
+        int space = rxImage.indexOf(" ");
+        String removeSpace = rxImage.substring(space + 1, rxImage.length);
+        finalImage = removeSpace.replaceAll("'", '');
+      }
+      if (await InternetConnectionChecker().hasConnection) {
+        if (userInfo!.rxDocMust) {
+          await rxSubmit();
+        } else {
+          await rxSubmit();
+        }
+      } else {
+        AllServices().toastMessage(
+            'No Internet Connection\nPlease check your internet connection.',
+            Colors.red,
+            Colors.white,
+            16);
+        setState(() {
+          _isLoading = true;
+        });
+      }
+    } else {
+      setState(() {
+        _isLoading = true;
+      });
+      AllServices().toastMessage('Please Take Image and Select Medicine',
+          Colors.red, Colors.white, 16);
+    }
+  }
 
   //===================================== 4 item bottomnavbar===========================================
 
@@ -251,47 +152,7 @@ class _RxPageState extends State<RxPage> {
       setState(() {
         _isLoading = false;
       });
-      // orderSubmit();
-      if ((finalImage != '' || imagePath != null) &&
-          finalMedicineList.isNotEmpty) {
-        bool result = await InternetConnectionChecker().hasConnection;
-        if (result == true) {
-          if (userInfo!.rxDocMust == true) {
-            if (finalDoctorList[0].docId != "") {
-              _rxImageSubmit();
-            } else {
-              // _submitToastforDoctor();
-              AllServices().toastMessage(
-                  " Please Select Doctor.", Colors.red, Colors.white, 16);
-
-              setState(() {
-                _isLoading = true;
-              });
-            }
-          } else {
-            _rxImageSubmit();
-          }
-        } else {
-          // _submitToastforOrder3();
-          AllServices().toastMessage(
-              'No Internet Connection\nPlease check your internet connection.',
-              Colors.red,
-              Colors.white,
-              16);
-          setState(() {
-            _isLoading = true;
-          });
-          // print(InternetConnectionChecker().lastTryResults);
-        }
-      } else {
-        setState(() {
-          _isLoading = true;
-        });
-        AllServices().toastMessage('Please Take Image and Select Medicine',
-            Colors.red, Colors.white, 16);
-        // _submitToastforphoto();
-      }
-
+      await rxValidationSubmit();
       setState(() {
         _currentSelected = index;
       });
@@ -310,16 +171,7 @@ class _RxPageState extends State<RxPage> {
       } else {
         AllServices().toastMessage('Please Take Image and Select Medicine',
             Colors.red, Colors.white, 16);
-        // _submitToastforphoto();
       }
-      //   putAddedRxData();
-      // } else if ((imagePath != null || widget.image1 != '') &&
-      //     finalMedicineList.isNotEmpty) {
-
-      // } else {
-      //   _submitToastforphoto();
-      // }
-      // putAddedRxData();
 
       setState(() {
         _currentSelected = index;
@@ -327,38 +179,6 @@ class _RxPageState extends State<RxPage> {
     }
 
     if (index == 3) {
-      // if ((imagePath != null || widget.image1 != '')) {
-      //   print("image will save on draft");
-      //   finalDoctorList.add(
-      //     RxDcrDataModel(
-      //       uiqueKey: widget.uniqueId > 0 ? widget.uniqueId : _counterforRx,
-      //       docName: widget.uniqueId > 0
-      //           ? widget.uniqueId.toString()
-      //           : _counterforRx.toString(),
-      //       docId: '',
-      //       areaId: '',
-      //       areaName: 'areaName',
-      //       address: 'address',
-      //       presImage: imagePath.toString(),
-      //     ),
-      //   );
-      //   for (var dcr in finalDoctorList) {
-      //     final box = Boxes.rxdDoctor();
-
-      //     box.add(dcr);
-      //   }
-      //   for (var d in finalMedicineList) {
-      //     final box = Boxes.getMedicine();
-
-      //     box.add(d);
-      //   }
-      // }
-      // if (widget.uniqueId == 0) {
-      //   widget.uniqueId++;
-      // } else if (_counterforRx == 0) {
-      //   _counterforRx++;
-      // }
-
       _cameraFuntionality();
       setState(() {
         _currentSelected = index;
@@ -366,52 +186,14 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
+  //===================================== 3 item bottomnavbar===========================================
+
   void _onItemTapped2(int index) async {
     if (index == 0) {
       setState(() {
         _isLoading = false;
       });
-      // orderSubmit();
-      if ((finalImage != '' || imagePath != null) &&
-          finalMedicineList.isNotEmpty) {
-        bool result = await InternetConnectionChecker().hasConnection;
-        if (result == true) {
-          if (userInfo!.rxDocMust == true) {
-            if (finalDoctorList[0].docId != "") {
-              _rxImageSubmit();
-            } else {
-              // _submitToastforDoctor();
-              AllServices().toastMessage(
-                  " Please Select Doctor.", Colors.red, Colors.white, 16);
-
-              setState(() {
-                _isLoading = true;
-              });
-            }
-          } else {
-            _rxImageSubmit();
-          }
-        } else {
-          // _submitToastforOrder3();
-          AllServices().toastMessage(
-              'No Internet Connection\nPlease check your internet connection.',
-              Colors.red,
-              Colors.white,
-              16);
-          setState(() {
-            _isLoading = true;
-          });
-          // print(InternetConnectionChecker().lastTryResults);
-        }
-      } else {
-        setState(() {
-          _isLoading = true;
-        });
-
-        AllServices().toastMessage('Please Take Image and Select Medicine',
-            Colors.red, Colors.white, 16);
-        // _submitToastforphoto();
-      }
+      await rxValidationSubmit();
 
       setState(() {
         _currentSelected2 = index;
@@ -424,7 +206,6 @@ class _RxPageState extends State<RxPage> {
       } else {
         AllServices().toastMessage('Please Take Image and Select Medicine',
             Colors.red, Colors.white, 16);
-        // _submitToastforphoto();
       }
       setState(() {
         _currentSelected2 = index;
@@ -432,27 +213,12 @@ class _RxPageState extends State<RxPage> {
     }
 
     if (index == 2) {
-      // if (widget.uniqueId == 0) {
-      //   widget.uniqueId++;
-      // } else if (_counterforRx == 0) {
-      //   _counterforRx++;
-      // }
       _cameraFuntionality();
       setState(() {
         _currentSelected2 = index;
       });
     }
   }
-
-  // void _submitToastforOrder3() {
-  //   Fluttertoast.showToast(
-  //       msg: 'No Internet Connection\nPlease check your internet connection.',
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.SNACKBAR,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -562,21 +328,9 @@ class _RxPageState extends State<RxPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  // if (_activeCounter == true) {
-                                  //   setState(() {
-                                  //     counterForDoctor = _counterforRx;
-                                  //   });
-                                  // }
-                                  // print('drcounter:$counterForDoctor');
-                                  // setState(() {});
                                   if (imagePath != null || finalImage != "") {
                                     getRxDoctorData();
-                                  }
-                                  // else if (widget.draftRxData!.presImage !=
-                                  //     "") {
-                                  //   getRxDoctorData();
-                                  // }
-                                  else {
+                                  } else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
                                         toastLength: Toast.LENGTH_SHORT,
@@ -646,44 +400,10 @@ class _RxPageState extends State<RxPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // print(imagePath.toString());
                                   setState(() {});
 
                                   if (imagePath != null || finalImage != "") {
                                     getMedicine();
-                                    //   if (widget.uniqueId >= 0 &&
-                                    //       finalDoctorList.isNotEmpty) {
-                                    //     getMedicine();
-                                    //     // print(widget.uniqueId);
-                                    //   } else if (_activeCounter == false) {
-                                    //     // print('activeCounter:$_activeCounter');
-                                    //     _rxCounter();
-                                    //     getMedicine();
-                                    //     // print('test:${widget.uniqueId}');
-                                    //     setState(() {
-                                    //       _activeCounter = true;
-                                    //     });
-                                    //   } else if (_activeCounter == true) {
-                                    //     getMedicine();
-                                    //   }
-                                    // }
-
-                                    // else if (widget.image1 != "") {
-                                    //   if (widget.uniqueId >= 0 &&
-                                    //       finalDoctorList.isNotEmpty) {
-                                    //     getMedicine();
-                                    //     // print(widget.uniqueId);
-                                    //   } else if (_activeCounter == false) {
-                                    //     // print('activeCounter:$_activeCounter');
-                                    //     // _rxCounter();
-                                    //     getMedicine();
-                                    //     // print('test:${widget.uniqueId}');
-                                    //     setState(() {
-                                    //       _activeCounter = true;
-                                    //     });
-                                    //   } else if (_activeCounter == true) {
-                                    //     getMedicine();
-                                    //   }
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
@@ -782,7 +502,7 @@ class _RxPageState extends State<RxPage> {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        flex: 5,
+                                        // flex: 5,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -813,7 +533,7 @@ class _RxPageState extends State<RxPage> {
                                       ),
                                       userInfo!.rxTypeMust
                                           ? Expanded(
-                                              flex: 3,
+                                              // flex: 3,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -825,8 +545,8 @@ class _RxPageState extends State<RxPage> {
                                                           const InputDecoration(
                                                               enabled: false),
                                                       isExpanded: true,
-                                                      value:
-                                                          dropdownRxTypevalue,
+                                                      value: userInfo!
+                                                          .rxTypeList.first,
 
                                                       icon: const Icon(
                                                         Icons
@@ -835,7 +555,8 @@ class _RxPageState extends State<RxPage> {
                                                       ),
 
                                                       // Array list of items
-                                                      items: rxTypeList
+                                                      items: userInfo!
+                                                          .rxTypeList
                                                           .map((String items) {
                                                         return DropdownMenuItem(
                                                           value: items,
@@ -880,19 +601,15 @@ class _RxPageState extends State<RxPage> {
                                     BorderSide(color: Colors.white70, width: 1),
                                 // borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Container(
+                              child: SizedBox(
                                 height: 70,
                                 width: double.infinity,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffDDEBF7),
-                                  //borderRadius: BorderRadius.circular(15),
-                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
                                       const Expanded(
-                                        flex: 5,
+                                        // flex: 5,
                                         child: Text(
                                           'No Doctor Selected',
                                           style: TextStyle(
@@ -904,27 +621,21 @@ class _RxPageState extends State<RxPage> {
                                       ),
                                       userInfo!.rxTypeMust
                                           ? Expanded(
-                                              flex: 3,
+                                              // flex: 3,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  // const Text(
-                                                  //   "Rx Type : ",
-                                                  //   style: TextStyle(
-                                                  //       color: Colors.black,
-                                                  //       fontSize: 16),
-                                                  // ),
                                                   Expanded(
                                                     child:
                                                         DropdownButtonFormField(
                                                       decoration:
                                                           const InputDecoration(
                                                               enabled: false),
-                                                      isExpanded: true,
+                                                      // isExpanded: true,
                                                       // Initial Value
-                                                      value:
-                                                          dropdownRxTypevalue,
+                                                      value: userInfo!
+                                                          .rxTypeList.first,
 
                                                       // Down Arrow Icon
                                                       icon: const Icon(
@@ -934,7 +645,8 @@ class _RxPageState extends State<RxPage> {
                                                       ),
 
                                                       // Array list of items
-                                                      items: rxTypeList
+                                                      items: userInfo!
+                                                          .rxTypeList
                                                           .map((String items) {
                                                         return DropdownMenuItem(
                                                           value: items,
@@ -1034,8 +746,6 @@ class _RxPageState extends State<RxPage> {
                                                             .quantity--;
                                                       }
 
-                                                      // calculateRxItemString(
-                                                      //     x.toString());
                                                       setState(() {});
                                                     },
                                                     icon: const Icon(
@@ -1047,9 +757,6 @@ class _RxPageState extends State<RxPage> {
                                                       border: Border.all(
                                                           color: Colors
                                                               .blueAccent)),
-                                                  // color: !pressAttention
-                                                  //     ? Colors.white
-                                                  //     : Colors.blueAccent,
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                         .fromLTRB(10, 8, 0, 0),
@@ -1062,23 +769,19 @@ class _RxPageState extends State<RxPage> {
                                                 ),
                                                 IconButton(
                                                   onPressed: () {
-                                                    // var y =
                                                     finalMedicineList[index]
                                                         .quantity++;
-                                                    // calculateRxItemString(
-                                                    //     y.toString());
+
                                                     setState(() {});
                                                   },
                                                   icon: const Icon(Icons.add),
                                                 ),
                                                 IconButton(
-                                                  // color: Colors.red,
                                                   onPressed: () {
                                                     _showMyDialog(index);
                                                   },
                                                   icon: const Icon(
                                                     Icons.clear,
-                                                    // size: 20,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
@@ -1159,235 +862,10 @@ class _RxPageState extends State<RxPage> {
           );
   }
 
-  // rx Submitt................................................
-  Future<dynamic> rxSubmit(String fileName) async {
-    try {
-      final orderInfo = await RxRepositories().rxSubmit(
-          dmpathData!.submitUrl,
-          fileName,
-          cid,
-          userInfo!.userId,
-          userPassword,
-          deviceId,
-          finalDoctorList,
-          dropdownRxTypevalue,
-          latitude,
-          longitude,
-          itemString);
-
-      if (orderInfo.isNotEmpty) {
-        String retStr = orderInfo['ret_str'];
-
-        if (widget.isRxEdit) {
-          RxServices.deleteRxDataFromDraft(rxDcrBox, widget.draftRxData!.uid);
-          if (!mounted) return;
-          Navigator.pop(context);
-          Navigator.pop(context);
-          AllServices().toastMessage(
-              "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
-          // for (int i = 0; i <= finalMedicineList.length; i++) {
-          //   deleteMedicinItem(widget.dcrKey);
-
-          //   // finalItemDataList.clear();
-          //   setState(() {});
-          // }
-
-          // deleteRxDoctor(widget.dcrKey);
-        } else {
-          RxServices.deleteRxDataFromDraft(rxDcrBox, finalDoctorList.first.uid);
-
-          if (!mounted) return;
-          Navigator.pop(context);
-          AllServices().toastMessage(
-              "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
-          // deleteRxDoctor(objectImageId);
-        }
-
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(
-        //       builder: (context) => MyHomePage(
-        //         userName: userInfo!.userName,
-        //         userId: userInfo!.userId,
-        //         userPassword: userPassword,
-        //       ),
-        //     ),
-        //     (Route<dynamic> route) => false);
-
-        AllServices().toastMessage(
-            "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
-      } else {
-        if (!mounted) return;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Rx submit Failed'), backgroundColor: Colors.red),
-        );
-      }
-    } on Exception catch (_) {
-      throw Exception("Error on server");
-    }
-  }
-
-  // ..........Rx Image Submit................................
-
-  Future<dynamic> _rxImageSubmit() async {
-    setState(() {
-      //=========================================might taking time for the function=====================================================================
-      itemString = RxServices().calculateRxItemString(finalMedicineList);
-      //====================================================if this is the case, use the following line =======================================================================
-      // calculateRxItemString();
-    });
-
-    var dt = DateFormat('HH:mm:ss').format(DateTime.now());
-
-    String time = dt.replaceAll(":", '');
-
-    // var postUri = ;
-
-    http.MultipartRequest request =
-        http.MultipartRequest("POST", Uri.parse(dmpathData!.photoSubmitUrl));
-    if (finalImage != '') {
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-        'productImage', finalImage.toString(),
-        // filename: a,
-        // filename: finalImage.split("-").last
-      );
-
-      request.files.add(multipartFile);
-      http.StreamedResponse response = await request.send();
-      var res = await http.Response.fromStream(response);
-      final jsonData = json.decode(res.body);
-      final fileName = jsonData['fileName'];
-
-      // print(fileName);
-      if (fileName != '') {
-        rxSubmit(fileName);
-      } else {
-        setState(() {
-          _isLoading = true;
-        });
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Rx Image submit Failed'),
-              backgroundColor: Colors.red),
-        );
-      }
-      // print(response.statusCode);
-    } else {
-      String rxImage = '';
-
-      // setState(() {
-      rxImage = imagePath.toString();
-      // });
-
-      int space = rxImage.indexOf(" ");
-      String removeSpace = rxImage.substring(space + 1, rxImage.length);
-      finalImage = removeSpace.replaceAll("'", '');
-
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-        'productImage', finalImage,
-        // filename: a,
-        // filename: finalImage.split("-").last
-      );
-
-      //request.fields["rxImage"] = finalImage;
-      request.files.add(multipartFile);
-      http.StreamedResponse response = await request.send();
-
-      var res = await http.Response.fromStream(response);
-      final jsonData = json.decode(res.body);
-      final fileName = jsonData['fileName'];
-
-      // print(fileName);
-      if (fileName != '') {
-        //  final result =  await  RxRepositories.rxSubmit(submit_url!,fileName,cid,userId,userPassword,deviceId,finalDoctorList,dropdownRxTypevalue,latitude,longitude,itemString);
-        rxSubmit(fileName);
-      } else {
-        setState(() {
-          _isLoading = true;
-        });
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Rx Image submit Failed'),
-              backgroundColor: Colors.red),
-        );
-      }
-    }
-  }
-
-  // .......... Submit Toast messege..............
-  // void _submitToastforOrder(String ret_str) {
-  //   Fluttertoast.showToast(
-  //       msg: "Rx Submitted\n$ret_str",
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.CENTER,
-  //       backgroundColor: Colors.green.shade900,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0);
-  // }
-
-  // deleteRxDoctor(int id) {
-  //   final box = Hive.box<RxDcrDataModel>("RxdDoctor");
-
-  //   final Map<dynamic, RxDcrDataModel> deliveriesMap = box.toMap();
-  //   dynamic desiredKey;
-  //   deliveriesMap.forEach((key, value) {
-  //     if (value.uiqueKey == id) desiredKey = key;
-  //   });
-  //   box.delete(desiredKey);
-  // }
-
-// Save RX data to Hive......................................
-
-  // deleteMedicinItem(int id) {
-  //   final box = Hive.box<MedicineListModel>("draftMdicinList");
-
-  //   final Map<dynamic, MedicineListModel> deliveriesMap = box.toMap();
-  //   dynamic desiredKey;
-  //   deliveriesMap.forEach((key, value) {
-  //     if (value.uiqueKey == id) desiredKey = key;
-  //   });
-  //   box.delete(desiredKey);
-  // }
-
   Future putAddedRxData() async {
     if (widget.isRxEdit) {
       RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
           finalMedicineList, widget.draftRxData!.uid);
-      // Navigator.pop(context);
-      // Navigator.pop(context);
-      // for (int i = 0; i <= finalMedicineList.length; i++) {
-      //   deleteMedicinItem(widget.dcrKey);
-
-      //   setState(() {});
-      // }
-      // deleteRxDoctor(widget.uniqueId);
-
-      // final Doctorbox = Boxes.rxdDoctor();
-      // Doctorbox.toMap().forEach((key, value) {
-      //   if (value.uiqueKey == widget.dcrKey) {
-      //     value.docName = finalDoctorList[0].docName;
-      //     value.docId = finalDoctorList[0].docId;
-      //     value.address = finalDoctorList[0].address;
-      //     value.areaId = finalDoctorList[0].areaId;
-      //     value.areaName = finalDoctorList[0].areaName;
-
-      //     Doctorbox.put(key, value);
-      //   }
-      // });
-      // for (var dcr in finalDoctorList) {
-      //   final box = Boxes.rxdDoctor();
-
-      //   box.add(dcr);
-      // }
-
-      // for (var d in finalMedicineList) {
-      //   d.uiqueKey = widget.dcrKey;
-      //   final box = Boxes.getMedicine();
-      //   box.add(d);
-      // }
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -1401,30 +879,6 @@ class _RxPageState extends State<RxPage> {
     } else {
       RxServices.updateRxDcrMedicineToDraft(rxDcrBox, finalDoctorList,
           finalMedicineList, finalDoctorList.first.uid);
-      // Navigator.pop(context);
-      // Navigator.pop(context);
-      // for (var dcr in finalDoctorList) {
-      //   // print('uiniquIdD:${dcr.uiqueKey}');
-      //   final box = Boxes.rxdDoctor();
-      //   final medicineBox = Boxes.getMedicine();
-      //   dcr.uiqueKey = objectImageId;
-      //   box.toMap().forEach((key, value) {
-      //     if (dcr.uiqueKey == value.uiqueKey) {
-      //       value.docName = dcr.docName;
-      //       value.docId = dcr.docId;
-      //       value.areaName = dcr.areaName;
-      //       value.areaId = dcr.areaId;
-      //       value.address = dcr.address;
-      //       box.put(key, value);
-      //       if (finalMedicineList.isNotEmpty) {
-      //         for (var element in finalMedicineList) {
-      //           element.uiqueKey = objectImageId;
-      //           medicineBox.add(element);
-      //         }
-      //       }
-      //     }
-      //   });
-      // }
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -1436,82 +890,6 @@ class _RxPageState extends State<RxPage> {
                   )),
           (route) => false);
     }
-
-    // if (finalMedicineList.isEmpty) {
-    //   print("medicine is not selected");
-    //   // for (int i = 0; i <= tempCount; i++) {
-    //   //   deleteMedicinItem(widget.dcrKey);
-
-    //   //   // finalItemDataList.clear();
-    //   //   setState(() {});
-    //   // }
-
-    //   // setState(() {});
-
-    //   // // Navigator.pushAndRemoveUntil(
-    //   // //     context,
-    //   // //     MaterialPageRoute(
-    //   // //         builder: (context) => MyHomePage(
-    //   // //               userName: userName,
-    //   // //               user_id: user_id,
-    //   // //               userPassword: userPassword ?? '',
-    //   // //             )),
-    //   // //     (route) => false);
-    // } else {
-    //   print("dr is not selected");
-    //   // if (finalDoctorList.isEmpty) {
-    //   //   finalDoctorList.add(
-    //   //     RxDcrDataModel(
-    //   //       uiqueKey: _counterforRx,
-    //   //       docName: 'UnKnownDoctor',
-    //   //       docId: '',
-    //   //       areaId: '',
-    //   //       areaName: 'areaName',
-    //   //       address: 'address',
-    //   //       presImage: imagePath.toString(),
-    //   //     ),
-    //   //   );
-    //   //   for (var dcr in finalDoctorList) {
-    //   //     final box = Boxes.rxdDoctor();
-
-    //   //     box.add(dcr);
-    //   //   }
-    //   //   for (var d in finalMedicineList) {
-    //   //     final box = Boxes.getMedicine();
-
-    //   //     box.add(d);
-    //   //   }
-
-    //   //   Navigator.pop(context);
-    //   // } else {
-    //   //   finalDoctorList[0].presImage = imagePath.toString();
-    //   //   for (var dcr in finalDoctorList) {
-    //   //     print('uiniquIdD:${dcr.uiqueKey}');
-    //   //     final box = Boxes.rxdDoctor();
-    //   //     box.toMap().forEach((key, value) {
-    //   //       if (dcr.uiqueKey == value.uiqueKey) {
-    //   //         value.docName = dcr.docName;
-    //   //         value.docId = dcr.docId;
-    //   //         value.areaName = dcr.areaName;
-    //   //         value.areaId = dcr.areaId;
-    //   //         value.address = dcr.address;
-    //   //         box.put(key, value);
-    //   //       }
-    //   //     });
-
-    //   //     // box.add(dcr);
-    //   //   }
-
-    //   //   for (var d in finalMedicineList) {
-    //   //     print('uiniquIdM:${d.uiqueKey}');
-    //   //     final box = Boxes.getMedicine();
-
-    //   //     box.add(d);
-    //   //   }
-
-    //   //   Navigator.pop(context);
-    //   // }
-    // }
   }
 
   Future openBox() async {
@@ -1522,73 +900,27 @@ class _RxPageState extends State<RxPage> {
 
 ////////////////////////////docotr//////////////////////////
   getRxDoctorData() async {
-    // print('dra doc:${widget.uniqueId}');
-
     await openBox();
     var mymap = box!.toMap().values.toList();
     if (mymap.isNotEmpty) {
       doctorData = mymap;
 
-      // if (_activeCounter == true) {
       if (!mounted) return;
 
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => DoctorListFromHiveData(
-            // counterCallback: (value) {
-            //   counterForDoctor = value;
-
-            //   setState(() {});
-            // },
-            // a: a,
             doctorData: doctorData,
             tempList: finalDoctorList,
-            // counterForDoctorList: widget.uniqueId > 0
-            //     ? widget.uniqueId
-            //     : _isCameraClick == true
-            //         ? objectImageId
-            //         : _counterforRx,
             tempListFunc: (value) {
               finalDoctorList = value;
-              // finalDoctorList.forEach((element) {
-              //   docId = element.docId;
-              // });
 
               setState(() {});
             },
           ),
         ),
       );
-      // }
-      // else {
-      //   if (!mounted) return;
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (_) => DoctorListFromHiveData(
-      //         counterCallback: (value) {
-      //           counterForDoctor = value;
-
-      //           setState(() {});
-      //         },
-      //         a: a,
-      //         doctorData: doctorData,
-      //         tempList: finalDoctorList,
-      //         counterForDoctorList:
-      //             widget.uniqueId > 0 ? widget.uniqueId : counterForDoctor,
-      //         tempListFunc: (value) {
-      //           finalDoctorList = value;
-      //           finalDoctorList.forEach((element) {
-      //             docId = element.docId;
-      //           });
-
-      //           setState(() {});
-      //         },
-      //       ),
-      //     ),
-      //   );
-      // }
     } else {
       doctorData.add('Empty');
     }
@@ -1626,29 +958,6 @@ class _RxPageState extends State<RxPage> {
     }
   }
 
-  // deleteMedicineItem(int id, int index) {
-  //   final box = Hive.box<MedicineListModel>("draftMdicinList");
-  //   final Map<dynamic, MedicineListModel> medicineMap = box.toMap();
-  //   dynamic newKey;
-  //   medicineMap.forEach((key, value) {
-  //     if (value.uiqueKey == id) {
-  //       newKey = key;
-  //     }
-  //   });
-  //   box.delete(newKey);
-  //   finalMedicineList.removeAt(index);
-  // }
-
-  // void _submitToastforSelectDoctor() {
-  //   Fluttertoast.showToast(
-  //       msg: 'Please Select Doctor First',
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.CENTER,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0);
-  // }
-
   Future<void> _showMyDialog(int index) async {
     return showDialog<void>(
       context: context,
@@ -1673,10 +982,7 @@ class _RxPageState extends State<RxPage> {
                 if (widget.isRxEdit) {
                   RxServices.singleDeleteRxMedicineFromDraft(rxDcrBox,
                       widget.draftRxData!.uid, finalMedicineList[index].itemId);
-                  // finalMedicineList.removeAt(index);
-                  // final medicineUniqueKey = finalMedicineList[index].uiqueKey;
 
-                  // deleteMedicineItem(medicineUniqueKey, index);
                   setState(() {});
                 } else {
                   finalMedicineList.removeAt(index);
@@ -1711,27 +1017,94 @@ class _RxPageState extends State<RxPage> {
     return id;
   }
 
+  Future rxSubmit() async {
+    String fileName = "";
+    if (finalDoctorList[0].docId != "") {
+      // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
+      final jsonData = await RxRepositories()
+          .rxImageSubmitRepo(dmpathData!.photoSubmitUrl, finalImage);
+      fileName = jsonData["fileName"];
+      if (fileName != "") {
+        // _rxSubmit();       // _rxSubmit();       // _rxSubmit();
+
+        final orderInfo = await RxRepositories().rxSubmit(
+            dmpathData!.submitUrl,
+            fileName,
+            cid,
+            userInfo!.userId,
+            userPassword,
+            deviceId,
+            finalDoctorList,
+            dropdownRxTypevalue,
+            latitude,
+            longitude,
+            itemString);
+
+        if (orderInfo.isNotEmpty) {
+          String retStr = orderInfo['ret_str'];
+          RxServices.deleteRxDataFromDraft(
+              rxDcrBox,
+              widget.isRxEdit
+                  ? widget.draftRxData!.uid
+                  : finalDoctorList.first.uid);
+          if (!mounted) return;
+
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MyHomePage(
+                        userName: userInfo!.userName,
+                        userId: userInfo!.userId,
+                        userPassword: userPassword,
+                      )),
+              (route) => false);
+
+          AllServices().toastMessage(
+              "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
+        } else {
+          if (!mounted) return;
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Rx submit Failed'), backgroundColor: Colors.red),
+          );
+        }
+
+        ///RXSUBMIT FUNCTION
+      } else {
+        setState(() {
+          _isLoading = true;
+        });
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Rx Image submit Failed'),
+              backgroundColor: Colors.red),
+        );
+      }
+
+      ///ImageRXSUBMIT FUNCTION
+    } else {
+      AllServices()
+          .toastMessage(" Please Select Doctor.", Colors.red, Colors.white, 16);
+
+      setState(() {
+        _isLoading = true;
+      });
+    }
+  }
+
   Future<void> _cameraFuntionality() async {
-    // setState(() {
-    //   print('changebefore: $_isCameraClick');
-    //   _isCameraClick = true;
-    //   print('changeafter: $_isCameraClick');
-    // });
     file = await ImagePicker().pickImage(
       source: ImageSource.camera,
       imageQuality: 90,
-      //preferredCameraDevice: CameraDevice.rear,
       maxHeight: 800,
       maxWidth: 700,
     );
     if (file != null) {
-      // file;
       imagePath = File(file!.path);
-      // widget.image1 = '';
 
       if (imagePath != null && widget.isRxEdit == false) {
-        // if (finalDoctorList.)
-        // print("image will save on draft");
         if (finalDoctorList.isEmpty) {
           final rxDcrDataModel = RxDcrDataModel(
               uid: const Uuid().v1(),
@@ -1748,19 +1121,8 @@ class _RxPageState extends State<RxPage> {
           rxDcrBox.add(rxDcrDataModel); // add to draft
 
           setState(() {});
-          // for (var dcr in finalDoctorList) {
-          //   final box = Boxes.rxdDoctor();
-
-          //   box.add(dcr);
-          // }
-          // for (var d in finalMedicineList) {
-          //   final box = Boxes.getMedicine();
-
-          //   box.add(d);
-          // }
         } else if (finalDoctorList.first.docId == '') {
           finalDoctorList.clear();
-          // uid = const Uuid().v1();
 
           final rxDcrDataModel = RxDcrDataModel(
               uid: const Uuid().v1(),
@@ -1782,19 +1144,9 @@ class _RxPageState extends State<RxPage> {
           setState(() {});
         }
       } else if (imagePath != null && widget.isRxEdit) {
-        // RxServices.updateRxDcrImageToDraft(
-        //     rxDcrBox, imagePath.toString(), widget.draftRxData!.uid!);
         finalDoctorList[0].presImage = imagePath.toString();
         finalImage = imagePath!.path;
         setState(() {});
-
-        // Doctorbox.toMap().forEach((key, value) {
-        //   if (value.uiqueKey == widget.dcrKey) {
-        //     value.presImage = imagePath.toString();
-        //     Doctorbox.put(key, value);
-        //   }
-        // });
-        // widget.image1 = imagePath.toString();
       }
     }
   }
@@ -1814,26 +1166,6 @@ class _RxPageState extends State<RxPage> {
       });
     }
   }
-
-  // void _submitToastforphoto() {
-  //   Fluttertoast.showToast(
-  //       msg: 'Please Take Image and Select Medicine',
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.CENTER,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0);
-  // }
-
-  // void _submitToastforDoctor() {
-  //   Fluttertoast.showToast(
-  //       msg: 'Please Select Doctor.',
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.CENTER,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0);
-  // }
 }
 
 class ZoomForRxImage extends StatelessWidget {

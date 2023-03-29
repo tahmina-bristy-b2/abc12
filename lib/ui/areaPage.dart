@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-// import 'package:MREPORTING/models/area_page_model.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AreaPage extends StatefulWidget {
-  const AreaPage({Key? key}) : super(key: key);
+  String screenName;
+  AreaPage({
+    Key? key,
+    required this.screenName,
+  }) : super(key: key);
 
   @override
   State<AreaPage> createState() => _AreaPageState();
@@ -57,13 +60,21 @@ class _AreaPageState extends State<AreaPage> {
                             setState1(() {
                               _isLoading = true;
                             });
-                            bool response = await getAreaBaseClient(
-                                context,
-                                syncUrl,
-                                cid,
-                                userId,
-                                userPassword,
-                                snapshot.data![index]['area_id']);
+                            bool response = widget.screenName == 'order'
+                                ? await getAreaBaseClient(
+                                    context,
+                                    syncUrl,
+                                    cid,
+                                    userId,
+                                    userPassword,
+                                    snapshot.data![index]['area_id'])
+                                : await getAreaBaseDoctor(
+                                    context,
+                                    syncUrl,
+                                    cid,
+                                    userId,
+                                    userPassword,
+                                    snapshot.data![index]['area_id']);
 
                             setState1(() {
                               _isLoading = response;
@@ -99,15 +110,25 @@ class _AreaPageState extends State<AreaPage> {
                                               setState1(() {
                                                 _isLoading = true;
                                               });
+
                                               bool response =
-                                                  await getAreaBaseClient(
-                                                      context,
-                                                      syncUrl,
-                                                      cid,
-                                                      userId,
-                                                      userPassword,
-                                                      snapshot.data![index]
-                                                          ['area_id']);
+                                                  widget.screenName == 'order'
+                                                      ? await getAreaBaseClient(
+                                                          context,
+                                                          syncUrl,
+                                                          cid,
+                                                          userId,
+                                                          userPassword,
+                                                          snapshot.data![index]
+                                                              ['area_id'])
+                                                      : await getAreaBaseDoctor(
+                                                          context,
+                                                          syncUrl,
+                                                          cid,
+                                                          userId,
+                                                          userPassword,
+                                                          snapshot.data![index]
+                                                              ['area_id']);
 
                                               setState1(() {
                                                 _isLoading = response;

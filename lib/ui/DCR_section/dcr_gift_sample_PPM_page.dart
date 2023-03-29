@@ -172,8 +172,15 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   _onItemTapped(int index) async {
     if (index == 0) {
       putAddedDcrGSPData();
-      Navigator.pop(context);
-      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    userId: userInfo!.userId,
+                    userName: userName,
+                    userPassword: userPassword,
+                  )),
+          (route) => false);
       setState(() {
         _currentSelected = index;
       });

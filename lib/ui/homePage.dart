@@ -180,18 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => RxPage(
+              builder: (_) => const RxPage(
                     isRxEdit: false,
-                    // address: '',
-                    // areaId: '',
-                    // areaName: '',
-                    // ck: '',
-                    // dcrKey: 0,
-                    // docId: '',
-                    // docName: '',
-                    // uniqueId: 0,
-                    // draftRxMedicinItem: [],
-                    // image1: '',
                   )));
       setState(() {
         _currentSelected = index;
@@ -479,6 +469,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         onClick: () async {
                                           List orderList = await AllServices()
                                               .getSyncSavedData('data');
+
                                           if (userInfo!.areaPage == false) {
                                             if (!mounted) return;
 
@@ -495,8 +486,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      const AreaPage()),
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'order',
+                                                      )),
                                             );
                                           }
 
@@ -594,7 +586,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                           List dcrList = await AllServices()
                                               .getSyncSavedData('dcrListData');
 
-                                          if (dcrList.isNotEmpty) {
+                                          if (userInfo!.areaPage) {
+                                            if (!mounted) return;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'dcr',
+                                                      )),
+                                            );
+                                          } else if (dcrList.isNotEmpty) {
                                             if (!mounted) return;
                                             Navigator.push(
                                               context,
@@ -702,18 +703,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => RxPage(
+                                              builder: (context) =>
+                                                  const RxPage(
                                                 isRxEdit: false,
-                                                // address: '',
-                                                // areaId: '',
-                                                // areaName: '',
-                                                // ck: '',
-                                                // dcrKey: 0,
-                                                // docId: '',
-                                                // docName: '',
-                                                // uniqueId: 0,
-                                                // draftRxMedicinItem: [],
-                                                // image1: '',
                                               ),
                                             ),
                                           );

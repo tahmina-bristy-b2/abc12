@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
+import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -70,6 +71,8 @@ Future<List> getAreaPage(
 
 Future<bool> getAreaBaseClient(BuildContext context, String syncUrl, cid,
     userId, userPassword, areaId) async {
+  print(
+      '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
   List clientList = [];
   try {
     final http.Response res = await http.get(
@@ -88,6 +91,46 @@ Future<bool> getAreaBaseClient(BuildContext context, String syncUrl, cid,
           MaterialPageRoute(
               builder: (_) => CustomerListScreen(
                     data: clientList,
+                  )));
+      return false;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    print('Error message: $e');
+  }
+  return false;
+}
+
+///*************************************************** *************************************///
+///******************************** Area Base Doctor ***************************************///
+///******************************** ********************************************************///
+
+Future<bool> getAreaBaseDoctor(BuildContext context, String syncUrl, cid,
+    userId, userPassword, areaId) async {
+  print(
+      '$syncUrl api_doctor/get_doctor?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
+  List doctorList = [];
+  try {
+    final http.Response res = await http.get(
+        Uri.parse(
+            '$syncUrl/api_doctor/get_doctor?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    var doctorJsonData = json.decode(res.body);
+    print(doctorJsonData);
+
+    String doctorStatus = doctorJsonData["res_data"]['status'];
+
+    if (doctorStatus == 'Success') {
+      doctorList = doctorJsonData["res_data"]['doctorList'];
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => DcrListPage(
+                    dcrDataList: doctorList,
                   )));
       return false;
     } else {

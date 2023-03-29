@@ -68,6 +68,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   final customerBox = Boxes.getCustomerUsers();
+  final itemBox = Boxes.getDraftOrderedData();
 
   String userName = '';
   String user_id = '';
@@ -81,6 +82,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   List<AddItemModel> finalItemDataList = [];
   List<CustomerDataModel> orderCustomerList = [];
   List<CustomerDataModel> customerdatalist = [];
+  Map<String, dynamic> mapData = {};
 
   List syncItemList = [];
   List<String> deliveryTime = ['Morning', 'Evening'];
@@ -182,7 +184,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
       dateSelected = widget.deliveryDate;
       slectedPayMethod = widget.paymentMethod;
       initialOffer = widget.offer ?? 'Offer';
-      ordertotalAmount();
+
+      setState(() {
+        mapData = OrderServices().ordertotalAmount(
+            itemString, orderAmount, finalItemDataList, total, totalAmount);
+      });
+      print("mapData====$mapData");
+
+      print("itemString====$itemString");
     } else {
       return;
     }
@@ -223,26 +232,21 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return TextEditingController(text: val);
   }
 
-  double totalCount(AddItemModel model) {
-    double total = (model.tp + model.vat) * model.quantity;
-    return total;
-  }
+  // deleteSingleOrderItem(int dcrUniqueKey, int index) {
+  //   final box = Hive.box<AddItemModel>("orderedItem");
 
-  deleteSingleOrderItem(String dcrUniqueKey, int index) {
-    final box = Hive.box<AddItemModel>("orderedItem");
+  //   final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
+  //   dynamic desiredKey;
+  //   deliveriesMap.forEach((key, value) {
+  //     if (value.uiqueKey1 == dcrUniqueKey) desiredKey = key;
+  //   });
+  //   box.delete(desiredKey);
+  //   finalItemDataList.removeAt(index);
 
-    final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.item_id == dcrUniqueKey) desiredKey = key;
-    });
-    box.delete(desiredKey);
-    finalItemDataList.removeAt(index);
+  //   setState(() {});
+  // }
 
-    setState(() {});
-  }
-
-  int _currentSelected = 2;
+  int _currentSelected = 2; // this variable used for  bottom navigation bar
 
   @override
   Widget build(BuildContext context) {
@@ -359,15 +363,20 @@ class _NewOrderPageState extends State<NewOrderPage> {
               ),
               onPressed: () {
                 if (widget.deliveryDate != '') {
-                  final uniqueKey = widget.clientId;
+                  // .final uniqueKey = widget.clientId;
+                  OrderServices().deleteSingleOrderItem(customerBox, itemBox,
+                      widget.clientId, finalItemDataList[index].item_id);
 
-                  deleteSingleOrderItem(uniqueKey, index);
-                  ordertotalAmount();
+                  OrderServices().ordertotalAmount(itemString, orderAmount,
+                      finalItemDataList, total, totalAmount);
 
                   setState(() {});
                 } else {
                   finalItemDataList.removeAt(index);
-                  ordertotalAmount();
+
+                  OrderServices().ordertotalAmount(itemString, orderAmount,
+                      finalItemDataList, total, totalAmount);
+
                   setState(() {});
                 }
 
@@ -580,25 +589,25 @@ class _NewOrderPageState extends State<NewOrderPage> {
         onPressed: () async {
           var url =
               '${dmPathData!.reportLastInvUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrl(Uri.parse(url))) {
+            await launchUrl(Uri.parse(url));
           } else {
             throw 'Could not launch $url';
           }
 
           setState(() {});
         },
-        child: const Text(
-          "Last Invoice",
-          style: TextStyle(fontSize: 16),
-        ),
         style: ElevatedButton.styleFrom(
+          foregroundColor: Color.fromARGB(255, 27, 43, 23),
+          backgroundColor: Color.fromARGB(223, 146, 212, 157),
           fixedSize: const Size(20, 50),
-          primary: Color.fromARGB(223, 146, 212, 157),
-          onPrimary: Color.fromARGB(255, 27, 43, 23),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
+        ),
+        child: const Text(
+          "Last Invoice",
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );
@@ -611,8 +620,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
         onPressed: () async {
           var url =
               '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrl(Uri.parse(url))) {
+            await launchUrl(Uri.parse(url));
           } else {
             throw 'Could not launch $url';
           }
@@ -644,8 +653,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
               '${dmPathData!.reportOutstUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
           print(
               "outStandingurl=${dmPathData!.reportOutstUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}");
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrl(Uri.parse(url))) {
+            await launchUrl(Uri.parse(url));
           } else {
             throw 'Could not launch $url';
           }
@@ -675,8 +684,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
             "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword");
         var url =
             '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
-        if (await canLaunch(url)) {
-          await launch(url);
+        if (await canLaunchUrl(Uri.parse(url))) {
+          await launchUrl(Uri.parse(url));
         } else {
           throw 'Could not launch $url';
         }
@@ -713,9 +722,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
           style: TextStyle(fontSize: 16),
         ),
         style: ElevatedButton.styleFrom(
+          foregroundColor: Color.fromARGB(255, 27, 43, 23),
+          backgroundColor: Color.fromARGB(223, 146, 212, 157),
           fixedSize: const Size(20, 50),
-          primary: Color.fromARGB(223, 146, 212, 157),
-          onPrimary: Color.fromARGB(255, 27, 43, 23),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -751,7 +760,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     Expanded(
                       flex: 4,
                       child: Text(
-                        'Amt: $totalAmount',
+                        'Amt: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),
@@ -1133,7 +1142,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                               .text)
                                           : 0;
 
-                                  ordertotalAmount();
+                                  setState(() {
+                                    mapData = OrderServices().ordertotalAmount(
+                                        itemString,
+                                        orderAmount,
+                                        finalItemDataList,
+                                        total,
+                                        totalAmount);
+                                    print("mapData= $mapData");
+                                  });
                                   // setState(() {});
                                 },
                               ),
@@ -1168,7 +1185,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
                           flex: 1,
                           child: Center(
                             child: Text(
-                              totalCount(finalItemDataList[index])
+                              OrderServices()
+                                  .totalCount(finalItemDataList[index])
                                   .toStringAsFixed(2),
                               style: const TextStyle(
                                 color: Colors.black,
@@ -1191,18 +1209,19 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   _onItemTapped(int index) async {
     if (index == 0) {
-      await orderPutData();
-      // Navigator.pop(context);
+      await orderSaveAndDraftData();
+
+      Navigator.pop(context);
+      Navigator.pop(context);
       setState(() {
         _currentSelected = index;
       });
-    } else {}
+    }
 
     if (index == 1) {
       setState(() {
         _isLoading = false;
       });
-
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
         orderSubmit();
@@ -1329,26 +1348,20 @@ class _NewOrderPageState extends State<NewOrderPage> {
             },
           ),
         );
-
         var orderInfo = json.decode(response.body);
         status = orderInfo['status'];
-
         String ret_str = orderInfo['ret_str'];
-
         if (status == "Success") {
           setState(() {
             _isLoading = true;
           });
           for (int i = 0; i <= finalItemDataList.length; i++) {
             deleteOrderItem(widget.clientId);
-
             setState(() {});
           }
 
           deleteOrderCustomer(widget.clientId);
-
           setState(() {});
-
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (context) => MyHomePage(
@@ -1420,8 +1433,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
               // });
 
-              ordertotalAmount();
-              setState(() {});
+              setState(() {
+                OrderServices().ordertotalAmount(itemString, orderAmount,
+                    finalItemDataList, total, totalAmount);
+              });
             },
           ),
         ),
@@ -1431,78 +1446,46 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   // order Amount calculation....................................................
 
-  ordertotalAmount() {
-    itemString = '';
-    orderAmount = 0.0;
-    if (finalItemDataList.isNotEmpty) {
-      finalItemDataList.forEach((element) {
-        total = (element.tp + element.vat) * element.quantity;
-        // print(total);
+  // ordertotalAmount() {
+  //   itemString = '';
+  //   orderAmount = 0.0;
+  //   if (finalItemDataList.isNotEmpty) {
+  //     finalItemDataList.forEach((element) {
+  //       total = (element.tp + element.vat) * element.quantity;
+  //       // print(total);
 
-        if (itemString == '' && element.quantity != 0) {
-          itemString =
-              element.item_id.toString() + '|' + element.quantity.toString();
-        } else if (element.quantity != 0) {
-          itemString += '||' +
-              element.item_id.toString() +
-              '|' +
-              element.quantity.toString();
-        }
+  //       if (itemString == '' && element.quantity != 0) {
+  //         itemString =
+  //             element.item_id.toString() + '|' + element.quantity.toString();
+  //       } else if (element.quantity != 0) {
+  //         itemString += '||' +
+  //             element.item_id.toString() +
+  //             '|' +
+  //             element.quantity.toString();
+  //       }
 
-        orderAmount = orderAmount + total;
+  //       orderAmount = orderAmount + total;
 
-        totalAmount = orderAmount.toStringAsFixed(2);
+  //       totalAmount = orderAmount.toStringAsFixed(2);
 
-        // print(itemString);
+  //       // print(itemString);
 
-        setState(() {});
-      });
-      // print(itemString);
-    } else {
-      setState(() {
-        totalAmount = '';
-      });
-    }
-  }
+  //       setState(() {});
+  //     });
+  //     // print(itemString);
+  //   } else {
+  //     setState(() {
+  //       totalAmount = '';
+  //     });
+  //   }
+  // }
 
-// Save OrderCustomer and ordered item to Hive..................................
-  Future orderPutData() async {
+//===========================================================================================================
+  Future orderSaveAndDraftData() async {
     if (widget.deliveryDate != '' && finalItemDataList.isNotEmpty) {
       OrderServices().orderDraftDataUpdate(
           finalItemDataList, customerBox, widget.clientId);
-
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(
-              userName: userName,
-              userId: user_id,
-              userPassword: userPassword ?? '',
-            ),
-          ),
-          (route) => false);
-    }
-    // else if (finalItemDataList.isEmpty) {
-    //   for (int i = 0; i <= tempCount; i++) {
-    //     deleteOrderItem(widget.clientId);
-
-    //     setState(() {});
-    //   }
-
-    //   setState(() {});
-
-    //   Navigator.pushAndRemoveUntil(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => MyHomePage(
-    //           userName: userName,
-    //           userId: user_id,
-    //           userPassword: userPassword ?? '',
-    //         ),
-    //       ),
-    //       (route) => false);
-    // }
-    else {
+    } else {
       customerBox.add(CustomerDataModel(
           clientName: widget.clientName,
           marketName: widget.marketName,
@@ -1516,21 +1499,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
           offer: initialOffer,
           paymentMethod: slectedPayMethod,
           itemList: finalItemDataList));
-
-      //customerdatalist.add(customer);
-
-      // for (var c in customerdatalist) {
-      //   final box = Boxes.getCustomerUsers();
-      //   box.add(c);
-      // }
-
-      // for (var d in finalItemDataList) {
-      //   final box = Boxes.getDraftOrderedData();
-
-      //   box.add(d);
-      // }
-
-      Navigator.pop(context);
     }
   }
 

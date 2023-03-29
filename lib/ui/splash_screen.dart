@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    getLatLong();
+    // getLatLong();
 
     Hive.openBox('data').then(
       (value) {
@@ -104,48 +104,48 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   return await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  // }
 
-  getLatLong() {
-    Future<Position> data = _determinePosition();
-    data.then((value) {
-      // print("value $value");
-      setState(() {
-        latitude = value.latitude;
-        longitude = value.longitude;
+  // getLatLong() {
+  //   Future<Position> data = _determinePosition();
+  //   data.then((value) {
+  //     // print("value $value");
+  //     setState(() {
+  //       latitude = value.latitude;
+  //       longitude = value.longitude;
 
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setDouble("latitude", latitude!);
-          prefs.setDouble("longitude", longitude!);
-        });
-      });
-    }).catchError((error) {
-      // print("Error $error");
-    });
-  }
+  //       SharedPreferences.getInstance().then((prefs) {
+  //         prefs.setDouble("latitude", latitude!);
+  //         prefs.setDouble("longitude", longitude!);
+  //       });
+  //     });
+  //   }).catchError((error) {
+  //     // print("Error $error");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

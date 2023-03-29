@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -1279,6 +1281,57 @@ class _NewOrderPageState extends State<NewOrderPage> {
     box.delete(desiredKey);
   }
 
+//************************************************************************************ */
+
+  // Submit order..............................
+  Future orderSubmit() async {
+    print("AMi eikhne= $itemString");
+    if (itemString != '') {
+      String status;
+      Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
+          dmPathData!.submitUrl,
+          cid,
+          userId,
+          userPassword,
+          deviceId,
+          widget.clientId,
+          dateSelected,
+          selectedDeliveryTime,
+          slectedPayMethod,
+          initialOffer,
+          noteText,
+          itemString,
+          latitude,
+          longitude);
+      status = orderInfo['status'];
+
+      String ret_str = orderInfo['ret_str'];
+
+      if (status == "Success") {
+        setState(() {
+          _isLoading = true;
+        });
+        OrderServices()
+            .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
+        Navigator.of(context).pop;
+        Navigator.of(context).pop;
+        AllServices().toastMessage(ret_str, Colors.green, Colors.white, 16);
+      } else {
+        AllServices()
+            .toastMessage("Order Failed", Colors.red, Colors.white, 16);
+        setState(() {
+          _isLoading = true;
+        });
+      }
+    } else {
+      setState(() {
+        _isLoading = true;
+      });
+      AllServices()
+          .toastMessage('Please Order something', Colors.red, Colors.white, 16);
+    }
+  }
+
 //outstanding Api///////////////////////////////////////////////////////////////////////
 //************************************************************************************ */
   Future outstanding(String id) async {
@@ -1313,91 +1366,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
       throw Exception("Error on server");
     }
 
-    // return status;
-  }
-
-  //************************************************************************************ */
-
-  // Submit order..............................
-  Future orderSubmit() async {
-    if (itemString != '') {
-      String status;
-
-      try {
-        print("${dmPathData!.submitUrl} api_order_submit/submit_data");
-        final http.Response response = await http.post(
-          Uri.parse('${dmPathData!.submitUrl}/api_order_submit/submit_data'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: jsonEncode(
-            <String, dynamic>{
-              'cid': cid,
-              'user_id': userId,
-              'user_pass': userPassword,
-              'device_id': deviceId,
-              'client_id': widget.clientId,
-              'delivery_date': dateSelected,
-              'delivery_time': selectedDeliveryTime,
-              'payment_mode': slectedPayMethod,
-              'offer': initialOffer,
-              'note': noteText,
-              "item_list": itemString,
-              "latitude": latitude,
-              'longitude': longitude,
-            },
-          ),
-        );
-        var orderInfo = json.decode(response.body);
-        status = orderInfo['status'];
-        String ret_str = orderInfo['ret_str'];
-        if (status == "Success") {
-          setState(() {
-            _isLoading = true;
-          });
-          for (int i = 0; i <= finalItemDataList.length; i++) {
-            deleteOrderItem(widget.clientId);
-            setState(() {});
-          }
-
-          deleteOrderCustomer(widget.clientId);
-          setState(() {});
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (context) => MyHomePage(
-                        userName: userName,
-                        userId: user_id,
-                        userPassword: userPassword ?? '',
-                      )),
-              (Route<dynamic> route) => false);
-
-          _submitToastforOrder(ret_str);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Order Failed'), backgroundColor: Colors.red));
-          setState(() {
-            _isLoading = true;
-          });
-        }
-      } on Exception catch (_) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Please check connection or data!'),
-            backgroundColor: Colors.red));
-        setState(() {
-          _isLoading = true;
-        });
-        throw Exception("Error on server");
-      }
-    } else {
-      setState(() {
-        _isLoading = true;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-            'Please Order something',
-          ),
-          backgroundColor: Colors.red));
-    }
     // return status;
   }
 
@@ -1480,7 +1448,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   //   }
   // }
 
-//===========================================================================================================
+//================================================Save & draft Order Data===========================================================
   Future orderSaveAndDraftData() async {
     if (widget.deliveryDate != '' && finalItemDataList.isNotEmpty) {
       OrderServices().orderDraftDataUpdate(
@@ -1502,7 +1470,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
   }
 
-// Date pick function.................................................................
+//=============================================================Date Time Picker==================================================================
   pickDate() async {
     final newDate = await showDatePicker(
       context: context,

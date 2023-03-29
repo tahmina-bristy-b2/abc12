@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class OrderServices {
   //************************************* It uses for making Customer unique in CustomerListPage ****************************** */
@@ -87,14 +90,52 @@ class OrderServices {
 
 //==================================================Delete Order Item=============================================================================
 
-  deleteOrderItem(String id) {
-    final box = Hive.box<AddItemModel>("orderedItem");
-
-    final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.item_id == id) desiredKey = key;
+  deleteOrderItem(Box<CustomerDataModel> customerBox,
+      List<AddItemModel> orderDataBox, String clientId) {
+    dynamic desireKey;
+    customerBox.toMap().forEach((key, value) {
+      if (value.clientId == clientId) {
+        desireKey = key;
+      }
     });
-    box.delete(desiredKey);
+    customerBox.delete(desireKey);
+
+    //final box = Hive.box<AddItemModel>("orderedItem");
+
+    // final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
+    // dynamic desiredKey;
+    // deliveriesMap.forEach((key, value) {
+    //   if (value.item_id == id) desiredKey = key;
+    // });
+    // box.delete(desiredKey);
+  }
+
+  //=======================================client Outstanding APi Data=================================================================================
+
+  Future<String> getOutstandingData(
+      String clientOutstUrl,
+      String? cid,
+      String? userId,
+      String? userPassword,
+      String? deviceId,
+      String clientId) async {
+    String resultofOuts = '';
+    http.Response response = await OrderRepositories().outstanding(
+        clientOutstUrl, cid, userId, userPassword, deviceId, clientId);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data["outstanding"] == "") {
+        resultofOuts = "No Outstanding";
+      } else {
+        if (data["outstanding"] != 0) {
+          resultofOuts = data["outstanding"].replaceAll(", ", "\n").toString();
+        } else {
+          resultofOuts = data["outstanding"].toString();
+        }
+      }
+    } else {
+      AllServices().toastMessage('Order Failed', Colors.red, Colors.white, 16);
+    }
+    return resultofOuts;
   }
 }

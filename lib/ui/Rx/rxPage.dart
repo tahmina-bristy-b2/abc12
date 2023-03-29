@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
@@ -14,7 +15,6 @@ import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/hive_models/hive_data_model.dart';
 import 'medicineFromHive.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
@@ -56,8 +56,8 @@ class _RxPageState extends State<RxPage> {
   int objectImageId = 0;
 
   String cid = '';
-
   String userPassword = '';
+
   String itemString = "";
 
   String startTime = '';
@@ -1017,7 +1017,9 @@ class _RxPageState extends State<RxPage> {
             longitude,
             itemString);
 
-        if (orderInfo.isNotEmpty) {
+        print("orderInfo $orderInfo");
+
+        if (orderInfo['status'] == "Success") {
           String retStr = orderInfo['ret_str'];
           RxServices.deleteRxDataFromDraft(
               rxDcrBox,

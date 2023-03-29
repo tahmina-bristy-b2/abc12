@@ -53,13 +53,13 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
     customerModel.delete();
   }
 
-  deleteOrderItem(int id) {
+  deleteOrderItem(String id) {
     final box = Hive.box<AddItemModel>("orderedItem");
 
     final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
     dynamic desiredKey;
     deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey1 == id) desiredKey = key;
+      if (value.item_id == id) desiredKey = key;
     });
     box.delete(desiredKey);
   }
@@ -124,7 +124,7 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
                     children: [
                       TextButton.icon(
                         onPressed: () {
-                          final ckey = user[index].uiqueKey;
+                          final ckey = user[index].clientId;
                           deleteClient(user[index]);
 
                           deleteOrderItem(ckey);
@@ -140,13 +140,12 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          final ckey = user[index].uiqueKey;
+                          final ckey = user[index].clientId;
                           filteredOrder = [];
                           finalItemDataList
-                              .where((item) => item.uiqueKey1 == ckey)
+                              .where((item) => item.item_id == ckey)
                               .forEach((item) {
                             final temp = AddItemModel(
-                              uiqueKey1: item.uiqueKey1,
                               quantity: item.quantity,
                               item_name: item.item_name,
                               tp: item.tp,
@@ -162,9 +161,8 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => NewOrderPage(
-                                ckey: ckey,
-                                uniqueId: ckey,
-                                draftOrderItem: filteredOrder,
+                                //ckey: ckey,
+                                draftOrderItem: user[index].itemList,
                                 outStanding: user[index].outstanding,
                                 deliveryDate: user[index].deliveryDate,
                                 deliveryTime: user[index].deliveryTime,

@@ -484,8 +484,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      const AreaPage()),
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'order',
+                                                      )),
                                             );
                                           }
 
@@ -583,7 +584,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                           List dcrList = await AllServices()
                                               .getSyncSavedData('dcrListData');
 
-                                          if (dcrList.isNotEmpty) {
+                                          if (userInfo!.areaPage) {
+                                            if (!mounted) return;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'dcr',
+                                                      )),
+                                            );
+                                          } else if (dcrList.isNotEmpty) {
                                             if (!mounted) return;
                                             Navigator.push(
                                               context,

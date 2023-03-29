@@ -9,14 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ShowSyncItemData extends StatefulWidget {
   List syncItemList;
   List<AddItemModel> tempList;
-  int uniqueId;
+  // int uniqueId;
   Function tempListFunc;
 
   ShowSyncItemData(
       {Key? key,
       required this.syncItemList,
       required this.tempList,
-      required this.uniqueId,
+      // required this.uniqueId,
       required this.tempListFunc})
       : super(key: key);
 
@@ -431,7 +431,6 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                               onChanged: (value) {
                                                 if (value != '') {
                                                   final temp = AddItemModel(
-                                                    uiqueKey1: widget.uniqueId,
                                                     quantity: int.parse(
                                                         controllers[foundUsers[
                                                                     index]
@@ -490,7 +489,6 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                                   // setState(() {});
                                                 } else if (value == '') {
                                                   final temp = AddItemModel(
-                                                    uiqueKey1: widget.uniqueId,
                                                     quantity: value == ''
                                                         ? 0
                                                         : int.parse(controllers[

@@ -70,6 +70,8 @@ Future<List> getAreaPage(
 
 Future<bool> getAreaBaseClient(BuildContext context, String syncUrl, cid,
     userId, userPassword, areaId) async {
+  print(
+      "areaBaseClient=$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId");
   List clientList = [];
   try {
     final http.Response res = await http.get(

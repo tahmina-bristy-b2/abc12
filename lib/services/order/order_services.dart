@@ -1,4 +1,6 @@
+import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderServices {
@@ -10,5 +12,24 @@ class OrderServices {
     });
 
     return count;
+  }
+
+  orderDraftDataUpdate(
+    List<AddItemModel> itemList,
+    Box<CustomerDataModel> customerBox,
+    String clientId,
+  ) {
+    dynamic desireKey;
+    customerBox.toMap().forEach((key, value) {
+      if (value.clientId == clientId) {
+        desireKey = key;
+      }
+    });
+
+    CustomerDataModel? clientData = customerBox.get(desireKey);
+    if (clientData!.isInBox) {
+      clientData.itemList = itemList;
+    }
+    customerBox.put(desireKey, clientData);
   }
 }

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -23,11 +24,11 @@ DateTime DT = DateTime.now();
 String dateSelected = DateFormat('yyyy-MM-dd').format(DT);
 
 class NewOrderPage extends StatefulWidget {
-  int ckey;
+  //String  ckey;
   String clientName;
   String marketName;
   String clientId;
-  int uniqueId;
+  // int uniqueId;
   String deliveryTime;
   String deliveryDate;
   String paymentMethod;
@@ -37,8 +38,8 @@ class NewOrderPage extends StatefulWidget {
   List<AddItemModel> draftOrderItem;
   NewOrderPage(
       {Key? key,
-      required this.ckey,
-      required this.uniqueId,
+      //required this.ckey,
+      //required this.uniqueId,
       required this.draftOrderItem,
       required this.clientName,
       required this.clientId,
@@ -62,10 +63,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
   final TextEditingController timefieldController = TextEditingController();
   final TextEditingController paymentfieldController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
-
   final List<TextEditingController> _itemController = [];
   final _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
+  final customerBox = Boxes.getCustomerUsers();
 
   String userName = '';
   String user_id = '';
@@ -167,18 +169,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
     });
 
     tempCount = widget.draftOrderItem.length;
-    finalItemDataList = widget.draftOrderItem;
-    if (widget.draftOrderItem.isNotEmpty) {
-      finalItemDataList.forEach((element) {
-        controllers[element.item_id] = TextEditingController();
-        controllers[element.item_id]?.text = element.quantity.toString();
-      });
-    }
+    // print(widget.draftOrderItem.first.quantity);
+
+    // print(finalItemDataList.first.quantity);
 
     box = Boxes.getCustomerUsers();
     orderCustomerList = box!.toMap().values.toList().cast<CustomerDataModel>();
 
     if (widget.deliveryDate != '' && widget.deliveryTime != '') {
+      finalItemDataList = widget.draftOrderItem;
       selectedDeliveryTime = widget.deliveryTime;
       dateSelected = widget.deliveryDate;
       slectedPayMethod = widget.paymentMethod;
@@ -186,6 +185,23 @@ class _NewOrderPageState extends State<NewOrderPage> {
       ordertotalAmount();
     } else {
       return;
+    }
+    if (widget.draftOrderItem.isNotEmpty) {
+      for (var element in finalItemDataList) {
+        controllers[element.item_id] = TextEditingController();
+        for (var e in widget.draftOrderItem) {
+          // print(e.quantity.toString());
+          controllers.forEach((key, value) {
+            if (key == e.item_id) {
+              value.text = e.quantity.toString();
+            }
+          });
+        }
+        // controllers[element.item_id]?.text = widget.draftOrderItem.toString();
+        // controllers[
+        //  finalItemDataList[index].item_id].text
+        print("controller ${controllers[element.item_id]!.text}");
+      }
     }
     setState(() {});
 
@@ -212,13 +228,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return total;
   }
 
-  deleteSingleOrderItem(int dcrUniqueKey, int index) {
+  deleteSingleOrderItem(String dcrUniqueKey, int index) {
     final box = Hive.box<AddItemModel>("orderedItem");
 
     final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
     dynamic desiredKey;
     deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey1 == dcrUniqueKey) desiredKey = key;
+      if (value.item_id == dcrUniqueKey) desiredKey = key;
     });
     box.delete(desiredKey);
     finalItemDataList.removeAt(index);
@@ -343,7 +359,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
               ),
               onPressed: () {
                 if (widget.deliveryDate != '') {
-                  final uniqueKey = widget.ckey;
+                  final uniqueKey = widget.clientId;
+
                   deleteSingleOrderItem(uniqueKey, index);
                   ordertotalAmount();
 
@@ -1104,7 +1121,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                 ),
 
                                 onChanged: (value) {
-                                  // _itemController[index].clear();
+                                  //_itemController[index].clear();
                                   finalItemDataList[index].quantity =
                                       controllers[finalItemDataList[index]
                                                       .item_id]
@@ -1221,24 +1238,24 @@ class _NewOrderPageState extends State<NewOrderPage> {
   }
 
 // Delete data from Hive by id...................................
-  deleteOrderItem(int id) {
+  deleteOrderItem(String id) {
     final box = Hive.box<AddItemModel>("orderedItem");
 
     final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
     dynamic desiredKey;
     deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey1 == widget.ckey) desiredKey = key;
+      if (value.item_id == id) desiredKey = key;
     });
     box.delete(desiredKey);
   }
 
-  deleteOrderCustomer(int id) {
+  deleteOrderCustomer(String id) {
     final box = Hive.box<CustomerDataModel>("customerHive");
 
     final Map<dynamic, CustomerDataModel> deliveriesMap = box.toMap();
     dynamic desiredKey;
     deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey == widget.ckey) desiredKey = key;
+      if (value.clientId == id) desiredKey = key;
     });
     box.delete(desiredKey);
   }
@@ -1323,12 +1340,12 @@ class _NewOrderPageState extends State<NewOrderPage> {
             _isLoading = true;
           });
           for (int i = 0; i <= finalItemDataList.length; i++) {
-            deleteOrderItem(widget.ckey);
+            deleteOrderItem(widget.clientId);
 
             setState(() {});
           }
 
-          deleteOrderCustomer(widget.ckey);
+          deleteOrderCustomer(widget.clientId);
 
           setState(() {});
 
@@ -1390,7 +1407,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
         context,
         MaterialPageRoute(
           builder: (_) => ShowSyncItemData(
-            uniqueId: widget.uniqueId,
             syncItemList: syncItemList,
             tempList: finalItemDataList,
             tempListFunc: (value) {
@@ -1450,23 +1466,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
   }
 
 // Save OrderCustomer and ordered item to Hive..................................
-  Future<dynamic> orderPutData() async {
+  Future orderPutData() async {
     if (widget.deliveryDate != '' && finalItemDataList.isNotEmpty) {
-      for (int i = 0; i <= finalItemDataList.length; i++) {
-        deleteOrderItem(widget.ckey);
-
-        setState(() {});
-      }
-
-      setState(() {});
-
-      // print('object');
-
-      for (var d in finalItemDataList) {
-        final box = Boxes.getDraftOrderedData();
-
-        box.add(d);
-      }
+      OrderServices().orderDraftDataUpdate(
+          finalItemDataList, customerBox, widget.clientId);
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -1478,28 +1481,29 @@ class _NewOrderPageState extends State<NewOrderPage> {
             ),
           ),
           (route) => false);
-    } else if (finalItemDataList.isEmpty) {
-      for (int i = 0; i <= tempCount; i++) {
-        deleteOrderItem(widget.ckey);
+    }
+    // else if (finalItemDataList.isEmpty) {
+    //   for (int i = 0; i <= tempCount; i++) {
+    //     deleteOrderItem(widget.clientId);
 
-        setState(() {});
-      }
+    //     setState(() {});
+    //   }
 
-      setState(() {});
+    //   setState(() {});
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(
-              userName: userName,
-              userId: user_id,
-              userPassword: userPassword ?? '',
-            ),
-          ),
-          (route) => false);
-    } else {
-      var customer = CustomerDataModel(
-          uiqueKey: widget.uniqueId,
+    //   Navigator.pushAndRemoveUntil(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => MyHomePage(
+    //           userName: userName,
+    //           userId: user_id,
+    //           userPassword: userPassword ?? '',
+    //         ),
+    //       ),
+    //       (route) => false);
+    // }
+    else {
+      customerBox.add(CustomerDataModel(
           clientName: widget.clientName,
           marketName: widget.marketName,
           areaId: 'areaId',
@@ -1510,20 +1514,21 @@ class _NewOrderPageState extends State<NewOrderPage> {
           deliveryDate: dateSelected,
           deliveryTime: selectedDeliveryTime,
           offer: initialOffer,
-          paymentMethod: slectedPayMethod);
+          paymentMethod: slectedPayMethod,
+          itemList: finalItemDataList));
 
-      customerdatalist.add(customer);
+      //customerdatalist.add(customer);
 
-      for (var c in customerdatalist) {
-        final box = Boxes.getCustomerUsers();
-        box.add(c);
-      }
+      // for (var c in customerdatalist) {
+      //   final box = Boxes.getCustomerUsers();
+      //   box.add(c);
+      // }
 
-      for (var d in finalItemDataList) {
-        final box = Boxes.getDraftOrderedData();
+      // for (var d in finalItemDataList) {
+      //   final box = Boxes.getDraftOrderedData();
 
-        box.add(d);
-      }
+      //   box.add(d);
+      // }
 
       Navigator.pop(context);
     }

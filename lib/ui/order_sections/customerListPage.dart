@@ -256,8 +256,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => NewOrderPage(
-                            ckey: 0,
-                            uniqueId: _counter,
+                            // ckey: 0,
+                            // uniqueId: _counter,
                             draftOrderItem: [],
                             deliveryDate: '',
                             deliveryTime: '',

@@ -1095,8 +1095,7 @@ class _RxPageState extends State<RxPage> {
               areaName: 'areaName',
               address: 'address',
               presImage: imagePath.toString(),
-              rxMedicineList:
-                  finalMedicineList.isNotEmpty ? finalMedicineList : [],
+              rxMedicineList: [],
               rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
 
@@ -1114,8 +1113,7 @@ class _RxPageState extends State<RxPage> {
               areaName: 'areaName',
               address: 'address',
               presImage: imagePath.toString(),
-              rxMedicineList:
-                  finalMedicineList.isNotEmpty ? finalMedicineList : [],
+              rxMedicineList: [],
               rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
 

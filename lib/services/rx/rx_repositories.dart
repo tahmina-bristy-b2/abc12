@@ -83,7 +83,7 @@ class RxRepositories {
       final http.Response response =
           await RxDataProviders().rxImageSubmitDataprovider(
         photosubmitUrl,
-        finalImage,
+        finalImage.toString(),
       );
       jsonResponse = json.decode(response.body);
       // String status = orderInfo['status'];

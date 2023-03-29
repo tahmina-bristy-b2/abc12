@@ -121,8 +121,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         endTime = prefs.getString("endTime") ?? '';
         cid = prefs.getString("CID") ?? '';
         userPassword = prefs.getString("PASSWORD") ?? '';
-        // latitude = prefs.getDouble("latitude")??0.0;
-        // longitude = prefs.getDouble("longitude");
         deviceId = prefs.getString("deviceId") ?? '';
         deviceBrand = prefs.getString("deviceBrand") ?? '';
         deviceModel = prefs.getString("deviceModel") ?? '';
@@ -212,19 +210,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             key: _drawerKey,
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-
-              // flexibleSpace: Container(
-              //   decoration: const BoxDecoration(
-              //     // LinearGradient
-              //     gradient: LinearGradient(
-              //       // colors for gradient
-              //       colors: [
-              //         Color(0xff70BA85),
-              //         Color(0xff56CCF2),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -242,42 +227,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
               ),
               centerTitle: true,
             ),
-            // endDrawer: Drawer(
-
-            //   child: ListView(
-
-            //     padding: EdgeInsets.zero,
-            //     children: [
-            //       const DrawerHeader(
-            //         decoration: BoxDecoration(
-            //           color: Colors.blueGrey,
-            //         ),
-            //         child: Text('Drawer Header'),
-            //       ),
-            //       ListTile(
-            //         leading:
-            //             const Icon(Icons.sync_outlined, color: Colors.black),
-            //         title: const Text('Sync Data'),
-            //         onTap: () {},
-            //       ),
-            //       ListTile(
-            //         leading: const Icon(Icons.home, color: Colors.black),
-            //         title: const Text('Change password'),
-            //         onTap: () {
-            //           // Update the state of the app.
-            //         },
-            //       ),
-            //       ListTile(
-            //         leading: const Icon(Icons.logout, color: Colors.black),
-            //         title: const Text('Logout'),
-            //         onTap: () {
-            //           // Navigator.pushReplacement(context,
-            //           //     MaterialPageRoute(builder: (_) => LoginScreen()));
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -359,17 +308,12 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                         }
                                       }
                                     },
-                                    // cancelButton: cancalButton(),
                                     dropdownTitleTileText: '',
-                                    // dropdownTitleTileColor: Colors.grey[200],
                                     dropdownTitleTileMargin: EdgeInsets.zero,
                                     dropdownTitleTilePadding:
                                         const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                     dropdownUnderlineBorder: const BorderSide(
                                         color: Colors.transparent, width: 2),
-                                    // dropdownTitleTileBorder:
-                                    //     Border.all(color: Colors.grey, width: 1),
-                                    // dropdownTitleTileBorderRadius: BorderRadius.circular(5),
                                     expandedIcon: const Icon(
                                       Icons.keyboard_arrow_down,
                                       color: Colors.black54,
@@ -378,9 +322,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                       Icons.keyboard_arrow_up,
                                       color: Colors.black54,
                                     ),
-                                    // submitButton: Text('OK'),
-                                    // dropdownTitleTileTextStyle: const TextStyle(
-                                    //     fontSize: 14, color: Colors.black54),
                                     padding: const EdgeInsets.all(0),
                                     margin: const EdgeInsets.all(0),
                                     type: GFCheckboxType.basic,
@@ -562,8 +503,30 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            getDcrGitData();
+                          onTap: () async {
+                            List doctorGiftlist = await AllServices()
+                                .getSyncSavedData('dcrGiftListData');
+
+                            if (!mounted) return;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcrGiftDataPage(
+                                  // uniqueId: widget.uniqueId,
+                                  doctorGiftlist: doctorGiftlist,
+                                  tempList: addedDcrGSPList,
+                                  tempListFunc: (value) {
+                                    addedDcrGSPList = value;
+                                    itemString = DcrServices()
+                                        .calculatingGspItemString(
+                                            addedDcrGSPList);
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height / 16,
@@ -586,8 +549,32 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            getDcrSampleData();
+                          onTap: () async {
+                            List doctorSamplelist = await AllServices()
+                                .getSyncSavedData('dcrSampleListData');
+
+                            if (!mounted) return;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcrSampleDataPage(
+                                  // uniqueId: widget.uniqueId,
+                                  doctorSamplelist: doctorSamplelist.isNotEmpty
+                                      ? doctorSamplelist
+                                      : [],
+                                  tempList: addedDcrGSPList,
+                                  tempListFunc: (value) {
+                                    addedDcrGSPList = value;
+                                    itemString = DcrServices()
+                                        .calculatingGspItemString(
+                                            addedDcrGSPList);
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height / 16,
@@ -608,8 +595,31 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            getDcrPpmData();
+                          onPressed: () async {
+                            List doctorPpmlist = await AllServices()
+                                .getSyncSavedData('dcrPpmListData');
+
+                            if (!mounted) return;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcrPpmDataPage(
+                                  doctorPpmlist: doctorPpmlist.isNotEmpty
+                                      ? doctorPpmlist
+                                      : [],
+                                  tempList: addedDcrGSPList,
+                                  tempListFunc: (value) {
+                                    addedDcrGSPList = value;
+                                    itemString = DcrServices()
+                                        .calculatingGspItemString(
+                                            addedDcrGSPList);
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth / 4.8,
@@ -633,8 +643,30 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                         ),
                         dcrDiscussion == true
                             ? ElevatedButton(
-                                onPressed: () {
-                                  getDcrDiscussionData();
+                                onPressed: () async {
+                                  List doctorDiscussionlist =
+                                      await AllServices()
+                                          .getSyncSavedData('syncItemData');
+                                  if (!mounted) return;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => DcrDiscussionPage(
+                                        // uniqueId: widget.uniqueId,
+                                        doctorDiscussionlist:
+                                            doctorDiscussionlist,
+                                        tempList: addedDcrGSPList,
+                                        tempListFunc: (value) {
+                                          addedDcrGSPList = value;
+                                          itemString = DcrServices()
+                                              .calculatingGspItemString(
+                                                  addedDcrGSPList);
+
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   fixedSize: Size(screenWidth / 4,
@@ -696,149 +728,14 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             child: const Center(child: CircularProgressIndicator()));
   }
 
-  // dcr gift section...........................
-  getDcrGitData() async {
-    List doctorGiftlist =
-        await AllServices().getSyncSavedData('dcrGiftListData');
-
-    if (doctorGiftlist.isNotEmpty) {
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DcrGiftDataPage(
-            // uniqueId: widget.uniqueId,
-            doctorGiftlist: doctorGiftlist,
-            tempList: addedDcrGSPList,
-            tempListFunc: (value) {
-              addedDcrGSPList = value;
-              itemString =
-                  DcrServices().calculatingGspItemString(addedDcrGSPList);
-
-              setState(() {});
-            },
-          ),
-        ),
-      );
-    } else {
-      AllServices()
-          .toastMessage('Dcr Gift List Empty!', Colors.red, Colors.white, 16);
-    }
-  }
-
-  // doctor Sample section.......................................................
-
-  getDcrSampleData() async {
-    List doctorSamplelist =
-        await AllServices().getSyncSavedData('dcrSampleListData');
-
-    if (doctorSamplelist.isNotEmpty) {
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DcrSampleDataPage(
-            // uniqueId: widget.uniqueId,
-            doctorSamplelist: doctorSamplelist,
-            tempList: addedDcrGSPList,
-            tempListFunc: (value) {
-              addedDcrGSPList = value;
-              itemString =
-                  DcrServices().calculatingGspItemString(addedDcrGSPList);
-
-              setState(() {});
-            },
-          ),
-        ),
-      );
-    } else {
-      AllServices()
-          .toastMessage('Dcr Sample List Empty!', Colors.red, Colors.white, 16);
-    }
-  }
-
-  // Doctor PPM section..........................................
-
-  getDcrPpmData() async {
-    List doctorPpmlist = await AllServices().getSyncSavedData('dcrPpmListData');
-
-    if (doctorPpmlist.isNotEmpty) {
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DcrPpmDataPage(
-            // uniqueId: widget.uniqueId,
-            doctorPpmlist: doctorPpmlist,
-            tempList: addedDcrGSPList,
-            tempListFunc: (value) {
-              addedDcrGSPList = value;
-              itemString =
-                  DcrServices().calculatingGspItemString(addedDcrGSPList);
-
-              setState(() {});
-            },
-          ),
-        ),
-      );
-    } else {
-      AllServices()
-          .toastMessage('Dcr PPM List Empty!', Colors.red, Colors.white, 16);
-    }
-  }
-//=====================Discussion ====================================================
-//=========================================================================================
-
-  Future discussionOpenBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('syncItemData');
-  }
-
-  getDcrDiscussionData() async {
-    discussionOpenBox();
-
-    var mymap = box!.toMap().values.toList();
-
-    if (mymap.isEmpty) {
-      Fluttertoast.showToast(
-          msg: "No Discussion Found", backgroundColor: Colors.red);
-      doctorDiscussionlist.add('empty');
-    } else {
-      doctorDiscussionlist = mymap;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DcrDiscussionPage(
-            // uniqueId: widget.uniqueId,
-            doctorDiscussionlist: doctorDiscussionlist,
-            tempList: addedDcrGSPList,
-            tempListFunc: (value) {
-              addedDcrGSPList = value;
-              itemString =
-                  DcrServices().calculatingGspItemString(addedDcrGSPList);
-
-              setState(() {});
-            },
-          ),
-        ),
-      );
-    }
-  }
-
   // Saved Added Gift, Sample, PPM to Hive
 
   Future putAddedDcrGSPData() async {
     if (widget.isDraft) {
-      // Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
-      // Boxes.deleteItemFromBoxTabletest2(dcrBox, widget.docId);
       DcrServices.updateDcrWithGspToDraft(
           dcrBox, addedDcrGSPList, dcrString, noteText, widget.docId);
-
-      // gspBox.addAll(addedDcrGSPList);
     } else {
       dcrBox.add(DcrDataModel(
-          // uiqueKey: widget.uniqueId,
           docName: widget.docName,
           docId: widget.docId,
           areaId: widget.areaId,
@@ -847,8 +744,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           dcrGspList: addedDcrGSPList,
           visitedWith: dcrString,
           notes: noteText));
-
-      // gspBox.addAll(addedDcrGSPList);
     }
   }
 
@@ -871,9 +766,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
 
       if (dcrResponsedata['status'] == "Success") {
         if (dcrBox.isNotEmpty && widget.isDraft) {
-          // Boxes.deleteItemFromBoxTable(gspBox, widget.dcrKey);
           DcrServices.deleteDcrGspFromDraft(dcrBox, widget.docId);
-          // Boxes.deleteItemFromBoxTable(dcrBox, widget.dcrKey);
         }
 
         if (!mounted) return;
@@ -937,7 +830,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                       dcrBox, widget.docId, addedDcrGSPList[index].giftId);
                   itemString =
                       DcrServices().calculatingGspItemString(addedDcrGSPList);
-                  // addedDcrGSPList.removeAt(index);
 
                   setState(() {});
                 } else {

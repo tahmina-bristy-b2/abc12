@@ -93,18 +93,6 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
     });
   }
 
-  // int _currentSelected = 0;
-  // _onItemTapped(int index) async {
-  //   if (index == 1) {
-  //     widget.tempListFunc(widget.tempList);
-
-  //     Navigator.pop(context);
-  //     setState(() {
-  //       _currentSelected = index;
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,30 +106,6 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
         title: const Text('Discussion'),
         centerTitle: true,
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   // type: BottomNavigationBarType.fixed,
-      //   onTap: (index) {
-      //     _onItemTapped(index);
-      //   },
-      //   currentIndex: 1,
-      //   // showUnselectedLabels: true,
-      //   unselectedItemColor: Colors.grey[800],
-      //   selectedItemColor: const Color.fromRGBO(10, 135, 255, 1),
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       label: '',
-      //       icon: Icon(
-      //         Icons.save,
-      //         color: Colors.white,
-      //       ),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       // activeIcon: Icon(Icons.add_shopping_cart_outlined),
-      //       label: 'AddtoCart',
-      //       icon: Icon(Icons.add_shopping_cart_outlined),
-      //     )
-      //   ],
-      // ),
       body: Column(
         children: [
           const SizedBox(
@@ -211,20 +175,6 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
                               dcrDiscussion.add(selectedDiscussion);
                             } else {
                               dcrDiscussion.remove(selectedDiscussion);
-                              // final temp = DcrGSPDataModel(
-                              //   uiqueKey: widget.uniqueId,
-                              //   quantity: 1,
-                              //   giftName: selectedDiscussion['item_name'],
-                              //   giftId: selectedDiscussion['item_id'],
-                              //   giftType: 'Discussion',
-                              // );
-
-                              // String tempItemId = temp.giftId;
-
-                              // widget.tempList.removeWhere(
-                              //     (item) => item.giftId == tempItemId);
-
-                              // setState(() {});
                             }
                           },
                           child: Card(
@@ -256,8 +206,6 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
                                             children: [
                                               Text(
                                                 "\n${foundUsers[index]['item_name']}",
-                                                // maxLines: 2,
-                                                // overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     // fontWeight: FontWeight.bold,

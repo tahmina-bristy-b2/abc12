@@ -90,6 +90,8 @@ class _RxPageState extends State<RxPage> {
       String removeSpace = widget.draftRxData!.presImage
           .substring(space + 1, widget.draftRxData!.presImage.length);
       finalImage = removeSpace.replaceAll("'", '');
+      print("from draft in initState $finalImage");
+
       dropdownRxTypevalue = widget.draftRxData!.rxType;
     }
 
@@ -986,15 +988,8 @@ class _RxPageState extends State<RxPage> {
   Future rxSubmit() async {
     String fileName = "";
     if (finalDoctorList[0].docId != "") {
-      if (finalImage != "") {
-        finalImage = finalImage.toString();
-      } else {
-        String rxImage = '';
-        rxImage = imagePath.toString();
-        int space = rxImage.indexOf(" ");
-        String removeSpace = rxImage.substring(space + 1, rxImage.length);
-        finalImage = removeSpace.replaceAll("'", '');
-      }
+      print(" in rx Submit $finalImage");
+
       // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
 
       final jsonData = await RxRepositories()

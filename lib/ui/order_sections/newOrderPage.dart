@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
@@ -82,9 +83,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
   bool isSaved2 = false;
 
   List<AddItemModel> finalItemDataList = [];
-  List<CustomerDataModel> orderCustomerList = [];
-  List<CustomerDataModel> customerdatalist = [];
-  Map<String, dynamic> mapData = {};
 
   List syncItemList = [];
   List<String> deliveryTime = ['Morning', 'Evening'];
@@ -102,25 +100,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
   double vat = 0;
   double total = 0;
 
-  // String submit_url = '';
-  // String client_edit_url = '';
-  // // String client_outst_url = '';
-  // String repOutsUrl = '';
-  // String repLastOrdUrl = '';
-  // String repLastInvUrl = '';
-
   String noteText = '';
   String? cid;
   String? userId;
   String? userPassword;
-  // bool offer_flag = false;
-  // bool note_flag = false;
-  // bool client_edit_flag = false;
-  // bool os_show_flag = false;
-  // bool os_details_flag = false;
-  // bool ord_history_flag = false;
-  // bool inv_histroy_flag = false;
-  var body = "";
   var resultofOuts = "";
   String itemString = '';
   String startTime = '';
@@ -141,44 +124,23 @@ class _NewOrderPageState extends State<NewOrderPage> {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
 
-    print("client_edit_flag=${userLoginInfo!.clientEditFlag}");
-
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        // client_outst_url = prefs.getString("client_outst_url") ?? "";
-        // submit_url = prefs.getString("submit_url")!;
-        // client_edit_url = prefs.getString("client_edit_url")!;
-
         cid = prefs.getString("CID");
         userId = prefs.getString("USER_ID");
         userPassword = prefs.getString("PASSWORD");
         userName = prefs.getString("userName")!;
         user_id = prefs.getString("user_id")!;
-        // offer_flag = prefs.getBool("offer_flag")!;
-        // note_flag = prefs.getBool("note_flag")!;
-        // client_edit_flag = prefs.getBool("client_edit_flag")!;
-        // os_show_flag = prefs.getBool("os_show_flag")!;
-        // os_details_flag = prefs.getBool("os_details_flag")!;
-        // ord_history_flag = prefs.getBool("ord_history_flag")!;
-        // inv_histroy_flag = prefs.getBool("inv_histroy_flag")!;
         latitude = prefs.getDouble("latitude")!;
         longitude = prefs.getDouble("longitude")!;
         deviceId = prefs.getString("deviceId");
         deviceBrand = prefs.getString("deviceBrand");
         deviceModel = prefs.getString("deviceModel");
-        // repOutsUrl = prefs.getString("report_outst_url") ?? "";
-        // repLastOrdUrl = prefs.getString("report_last_ord_url") ?? "";
-        // repLastInvUrl = prefs.getString("report_last_inv_url") ?? "";
       });
     });
 
     tempCount = widget.draftOrderItem.length;
-    // print(widget.draftOrderItem.first.quantity);
-
-    // print(finalItemDataList.first.quantity);
-
     box = Boxes.getCustomerUsers();
-    orderCustomerList = box!.toMap().values.toList().cast<CustomerDataModel>();
 
     if (widget.deliveryDate != '' && widget.deliveryTime != '') {
       finalItemDataList = widget.draftOrderItem;
@@ -186,33 +148,21 @@ class _NewOrderPageState extends State<NewOrderPage> {
       dateSelected = widget.deliveryDate;
       slectedPayMethod = widget.paymentMethod;
       initialOffer = widget.offer ?? 'Offer';
-
-      print("mapData====$mapData");
-
-      print("itemString====$itemString");
-    } else {
-      return;
     }
     if (widget.draftOrderItem.isNotEmpty) {
       for (var element in finalItemDataList) {
         controllers[element.item_id] = TextEditingController();
         for (var e in widget.draftOrderItem) {
-          // print(e.quantity.toString());
           controllers.forEach((key, value) {
             if (key == e.item_id) {
               value.text = e.quantity.toString();
             }
           });
         }
-        // controllers[element.item_id]?.text = widget.draftOrderItem.toString();
-        // controllers[
-        //  finalItemDataList[index].item_id].text
         print("controller ${controllers[element.item_id]!.text}");
       }
     }
     setState(() {
-      // mapData = OrderServices().ordertotalAmount(
-      //     itemString, orderAmount, finalItemDataList, total, totalAmount);
       itemString = OrderServices().ordertotalAmount(itemString, orderAmount,
           finalItemDataList, total, totalAmount)["ItemString"];
       totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
@@ -238,20 +188,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
   initialValue(String val) {
     return TextEditingController(text: val);
   }
-
-  // deleteSingleOrderItem(int dcrUniqueKey, int index) {
-  //   final box = Hive.box<AddItemModel>("orderedItem");
-
-  //   final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-  //   dynamic desiredKey;
-  //   deliveriesMap.forEach((key, value) {
-  //     if (value.uiqueKey1 == dcrUniqueKey) desiredKey = key;
-  //   });
-  //   box.delete(desiredKey);
-  //   finalItemDataList.removeAt(index);
-
-  //   setState(() {});
-  // }
 
   int _currentSelected = 2; // this variable used for  bottom navigation bar
 
@@ -291,6 +227,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             ),
           );
   }
+
   //************************************ WIDGETS **********************************************************/
   //*******************************************************************************************************/
   //*******************************************************************************************************/
@@ -550,6 +487,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//===================================================================End Drawer Head======================================================================
   DrawerHeader drawerHeaderDetails() {
     return DrawerHeader(
       padding: const EdgeInsets.fromLTRB(16, 15, 16, 15),
@@ -609,13 +547,16 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//========================================================= Last Invoice Report==========================================================
   Padding reportLastInvoiceShowWidget() {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
         onPressed: () async {
-          var url =
-              '${dmPathData!.reportLastInvUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
+          // var url =
+          //     '${dmPathData!.reportLastInvUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
+          var url = OrderApis.lastInvoiceApi(dmPathData!.reportLastInvUrl, cid,
+              userId, userPassword, widget.clientId);
           if (await canLaunchUrl(Uri.parse(url))) {
             await launchUrl(Uri.parse(url));
           } else {
@@ -640,13 +581,17 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//=================================================================Last Order Report===========================================================
   Padding reportLastOrderShowWidget() {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
           onPressed: () async {
-            var url =
-                '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
+            // var url =
+            //     '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
+            var url = OrderApis.lastOrderInvoice(dmPathData!.reportLastOrdUrl,
+                cid, userId, userPassword, widget.clientId);
+            print('lastOrderApi=$url');
             if (await canLaunchUrl(Uri.parse(url))) {
               await launchUrl(Uri.parse(url));
             } else {
@@ -656,8 +601,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
             setState(() {});
           },
           style: ElevatedButton.styleFrom(
-            foregroundColor: Color.fromARGB(255, 27, 43, 23),
-            backgroundColor: Color.fromARGB(223, 146, 212, 157),
+            foregroundColor: const Color.fromARGB(255, 27, 43, 23),
+            backgroundColor: const Color.fromARGB(223, 146, 212, 157),
             fixedSize: const Size(20, 50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -670,15 +615,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//=================================================================outStanding Report===========================================================
   Padding outstandingURLShowWidget() {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
         onPressed: () async {
-          var url =
-              '${dmPathData!.reportOutstUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          print(
-              "outStandingurl=${dmPathData!.reportOutstUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}");
+          var url = OrderApis.outstandingReport(dmPathData!.reportOutstUrl, cid,
+              userId, userPassword, widget.clientId);
+          print("outStandingurl=$url");
           if (await canLaunchUrl(Uri.parse(url))) {
             await launchUrl(Uri.parse(url));
           } else {
@@ -703,13 +648,16 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//=======================================================Customer Edit Url============================================================
   IconButton customerEditUrlWidget() {
     return IconButton(
       onPressed: () async {
         print(
             "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword");
-        var url =
-            '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
+        // var url =
+        //     '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
+        var url = OrderApis.cutomerEditUrlApi(
+            dmPathData!.clientEditUrl, cid, userId, userPassword);
         if (await canLaunchUrl(Uri.parse(url))) {
           await launchUrl(Uri.parse(url));
         } else {
@@ -724,36 +672,32 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//======================================================= Show OutStanding Url=============================================================
   Padding clientOutStandingWidget() {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
         onPressed: () async {
-          var body = await outstanding(widget.clientId);
-          if (body["outstanding"] == "") {
-            resultofOuts = "No Outstanding";
-          } else {
-            if (body["outstanding"] != 0) {
-              resultofOuts =
-                  body["outstanding"].replaceAll(", ", "\n").toString();
-            } else {
-              resultofOuts = body["outstanding"].toString();
-            }
-          }
-
+          resultofOuts = await OrderServices().getOutstandingData(
+              dmPathData!.clientOutstUrl,
+              cid,
+              userId,
+              userPassword,
+              deviceId,
+              widget.clientId);
           setState(() {});
         },
-        child: const Text(
-          "Show Outstanding",
-          style: TextStyle(fontSize: 16),
-        ),
         style: ElevatedButton.styleFrom(
-          foregroundColor: Color.fromARGB(255, 27, 43, 23),
-          backgroundColor: Color.fromARGB(223, 146, 212, 157),
+          foregroundColor: const Color.fromARGB(255, 27, 43, 23),
+          backgroundColor: const Color.fromARGB(223, 146, 212, 157),
           fixedSize: const Size(20, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
+        ),
+        child: const Text(
+          "Show Outstanding",
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );
@@ -1183,8 +1127,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                             finalItemDataList,
                                             total,
                                             totalAmount)["TotalAmount"];
-
-                                    print("itemSTring= $itemString");
                                   });
                                   setState(() {});
                                 },
@@ -1245,7 +1187,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   _onItemTapped(int index) async {
     if (index == 0) {
       await orderSaveAndDraftData();
-
+      if (!mounted) return;
       Navigator.pop(context);
       Navigator.pop(context);
       setState(() {
@@ -1261,13 +1203,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
       if (result == true) {
         orderSubmit();
       } else {
-        _submitToastforOrder3();
+        AllServices().toastMessage(
+            "No Internet Connection\nPlease check your internet connection.",
+            Colors.red,
+            Colors.white,
+            16);
         setState(() {
           _isLoading = true;
         });
-        // print(InternetConnectionChecker().lastTryResults);
       }
-
       setState(() {
         _currentSelected = index;
       });
@@ -1281,44 +1225,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
   }
 
-  void _submitToastforOrder3() {
-    Fluttertoast.showToast(
-        msg: 'No Internet Connection\nPlease check your internet connection.',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+//===================================================================================================================================================================
+//===========================================================Submit Api call========================================================================================================
+//===================================================================================================================================================================
 
-// Delete data from Hive by id...................................
-  deleteOrderItem(String id) {
-    final box = Hive.box<AddItemModel>("orderedItem");
-
-    final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.item_id == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
-
-  deleteOrderCustomer(String id) {
-    final box = Hive.box<CustomerDataModel>("customerHive");
-
-    final Map<dynamic, CustomerDataModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.clientId == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
-
-//************************************************************************************ */
-
-  // Submit order..............................
   Future orderSubmit() async {
-    print("AMi eikhne= $itemString");
     if (itemString != '') {
       String status;
       Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
@@ -1337,7 +1248,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
           latitude,
           longitude);
       status = orderInfo['status'];
-
       String ret_str = orderInfo['ret_str'];
 
       if (status == "Success") {
@@ -1347,7 +1257,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
         OrderServices()
             .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
 
-        AllServices().toastMessage(ret_str, Colors.green, Colors.white, 16);
+        AllServices().toastMessage(
+            "Order Submitted\n$ret_str", Colors.green, Colors.white, 16);
+        if (!mounted) return;
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       } else {
@@ -1366,43 +1278,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
   }
 
-//outstanding Api///////////////////////////////////////////////////////////////////////
-//************************************************************************************ */
-  Future outstanding(String id) async {
-    print(
-        "'${dmPathData!.clientOutstUrl}?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$id'");
-    try {
-      final http.Response response = await http.get(
-        Uri.parse(
-            '${dmPathData!.clientOutstUrl}?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$id'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        var status = data['status'];
-        // var a = data["outstanding"];
-
-        return data;
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Order Failed'), backgroundColor: Colors.red));
-      }
-    } on Exception catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Please check connection or data!'),
-          backgroundColor: Colors.red));
-      setState(() {
-        _isLoading = true;
-      });
-      throw Exception("Error on server");
-    }
-
-    // return status;
-  }
-
   Future openBox() async {
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
@@ -1417,7 +1292,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
       syncItemList.add('empty');
     } else {
       syncItemList = mymap;
-
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -1448,7 +1323,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     finalItemDataList,
                     total,
                     totalAmount)["TotalAmount"];
-                print("itemSTring= $itemString");
               });
             },
           ),
@@ -1457,47 +1331,17 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
   }
 
-  // order Amount calculation....................................................
-
-  // ordertotalAmount() {
-  //   itemString = '';
-  //   orderAmount = 0.0;
-  //   if (finalItemDataList.isNotEmpty) {
-  //     finalItemDataList.forEach((element) {
-  //       total = (element.tp + element.vat) * element.quantity;
-  //       // print(total);
-
-  //       if (itemString == '' && element.quantity != 0) {
-  //         itemString =
-  //             element.item_id.toString() + '|' + element.quantity.toString();
-  //       } else if (element.quantity != 0) {
-  //         itemString += '||' +
-  //             element.item_id.toString() +
-  //             '|' +
-  //             element.quantity.toString();
-  //       }
-
-  //       orderAmount = orderAmount + total;
-
-  //       totalAmount = orderAmount.toStringAsFixed(2);
-
-  //       // print(itemString);
-
-  //       setState(() {});
-  //     });
-  //     // print(itemString);
-  //   } else {
-  //     setState(() {
-  //       totalAmount = '';
-  //     });
-  //   }
-  // }
-
 //================================================Save & draft Order Data===========================================================
   Future orderSaveAndDraftData() async {
     if (widget.deliveryDate != '' && finalItemDataList.isNotEmpty) {
       OrderServices().orderDraftDataUpdate(
-          finalItemDataList, customerBox, widget.clientId);
+          finalItemDataList,
+          customerBox,
+          widget.clientId,
+          dateSelected,
+          selectedDeliveryTime,
+          initialOffer,
+          slectedPayMethod);
     } else {
       customerBox.add(CustomerDataModel(
           clientName: widget.clientName,
@@ -1537,17 +1381,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
     DT = newDate;
     dateSelected = DateFormat('yyyy-MM-dd').format(newDate);
     setState(() => DT = newDate);
-  }
-
-  // Status Message...................................................................
-  void _submitToastforOrder(String ret_str) {
-    Fluttertoast.showToast(
-        msg: "Order Submitted\n$ret_str",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.green.shade900,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 }
 

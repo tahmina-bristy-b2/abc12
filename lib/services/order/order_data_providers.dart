@@ -33,6 +33,8 @@ class OrderDataProviders {
       String? userPassword,
       String deviceId,
       String clientId) async {
+    print(
+        "object=${OrderApis.showOutstandingApi(clientOutstUrl, cid, userId, userPassword, deviceId, clientId)}");
     final response = await http.get(
       Uri.parse(OrderApis.showOutstandingApi(
           clientOutstUrl, cid, userId, userPassword, deviceId, clientId)),

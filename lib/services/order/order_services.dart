@@ -74,6 +74,10 @@ class OrderServices {
     List<AddItemModel> itemList,
     Box<CustomerDataModel> customerBox,
     String clientId,
+    String dateSelected,
+    String selectedDeliveryTime,
+    String initialOffer,
+    String slectedPayMethod,
   ) {
     dynamic desireKey;
     customerBox.toMap().forEach((key, value) {
@@ -85,6 +89,10 @@ class OrderServices {
     CustomerDataModel? clientData = customerBox.get(desireKey);
     if (clientData!.isInBox) {
       clientData.itemList = itemList;
+      clientData.deliveryDate = dateSelected;
+      clientData.deliveryTime = selectedDeliveryTime;
+      clientData.offer = initialOffer;
+      clientData.paymentMethod = slectedPayMethod;
     }
     customerBox.put(desireKey, clientData);
   }

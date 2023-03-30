@@ -68,7 +68,7 @@ class OrderRepositories {
       String clientId) async {
     final http.Response response;
     print(
-        "'$clientOutstUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$clientId'");
+        "clientOustStanding$clientOutstUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$clientId'");
     try {
       response = await OrderDataProviders().showOutstandingDP(
           clientOutstUrl, cid, userId, userPassword, deviceId!, clientId);

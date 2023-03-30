@@ -119,7 +119,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     super.initState();
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
-
+    dateSelected = DateFormat('yyyy-MM-dd').format(DT);
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         cid = prefs.getString("CID");

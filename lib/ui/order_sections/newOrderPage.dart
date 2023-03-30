@@ -73,9 +73,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
   final customerBox = Boxes.getCustomerUsers();
   final itemBox = Boxes.getDraftOrderedData();
 
-  String userName = '';
-  String user_id = '';
-
   double screenHeight = 0.0;
   double screenWidth = 0.0;
 
@@ -102,7 +99,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   String noteText = '';
   String? cid;
-  String? userId;
+
   String? userPassword;
   var resultofOuts = "";
   String itemString = '';
@@ -127,12 +124,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         cid = prefs.getString("CID");
-        userId = prefs.getString("USER_ID");
         userPassword = prefs.getString("PASSWORD");
-        userName = prefs.getString("userName")!;
-        user_id = prefs.getString("user_id")!;
-        latitude = prefs.getDouble("latitude")!;
-        longitude = prefs.getDouble("longitude")!;
+        latitude = prefs.getDouble("latitude") ?? 0.0;
+        longitude = prefs.getDouble("longitude") ?? 0.0;
         deviceId = prefs.getString("deviceId");
         deviceBrand = prefs.getString("deviceBrand");
         deviceModel = prefs.getString("deviceModel");
@@ -556,7 +550,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           // var url =
           //     '${dmPathData!.reportLastInvUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
           var url = OrderApis.lastInvoiceApi(dmPathData!.reportLastInvUrl, cid,
-              userId, userPassword, widget.clientId);
+              userLoginInfo!.userId, userPassword, widget.clientId);
           if (await canLaunchUrl(Uri.parse(url))) {
             await launchUrl(Uri.parse(url));
           } else {
@@ -590,7 +584,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             // var url =
             //     '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
             var url = OrderApis.lastOrderInvoice(dmPathData!.reportLastOrdUrl,
-                cid, userId, userPassword, widget.clientId);
+                cid, userLoginInfo!.userId, userPassword, widget.clientId);
             print('lastOrderApi=$url');
             if (await canLaunchUrl(Uri.parse(url))) {
               await launchUrl(Uri.parse(url));
@@ -622,7 +616,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
       child: ElevatedButton(
         onPressed: () async {
           var url = OrderApis.outstandingReport(dmPathData!.reportOutstUrl, cid,
-              userId, userPassword, widget.clientId);
+              userLoginInfo!.userId, userPassword, widget.clientId);
           print("outStandingurl=$url");
           if (await canLaunchUrl(Uri.parse(url))) {
             await launchUrl(Uri.parse(url));
@@ -653,11 +647,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return IconButton(
       onPressed: () async {
         print(
-            "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword");
+            "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userLoginInfo!.userId&rep_pass=$userPassword");
         // var url =
         //     '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
-        var url = OrderApis.cutomerEditUrlApi(
-            dmPathData!.clientEditUrl, cid, userId, userPassword);
+        var url = OrderApis.cutomerEditUrlApi(dmPathData!.clientEditUrl, cid,
+            userLoginInfo!.userId, userPassword);
         if (await canLaunchUrl(Uri.parse(url))) {
           await launchUrl(Uri.parse(url));
         } else {
@@ -681,7 +675,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           resultofOuts = await OrderServices().getOutstandingData(
               dmPathData!.clientOutstUrl,
               cid,
-              userId,
+              userLoginInfo!.userId,
               userPassword,
               deviceId,
               widget.clientId);
@@ -1235,7 +1229,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
       Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
           dmPathData!.submitUrl,
           cid,
-          userId,
+          userLoginInfo!.userId,
           userPassword,
           deviceId,
           widget.clientId,
@@ -1281,56 +1275,53 @@ class _NewOrderPageState extends State<NewOrderPage> {
   //=====================================================S
   getData() async {
     List mymap = await AllServices().getSyncSavedData('syncItemData');
-    if (mymap.isEmpty) {
-      syncItemList.add('empty');
-    } else {
-      syncItemList = mymap;
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ShowSyncItemData(
-            syncItemList: syncItemList,
-            tempList: finalItemDataList,
-            tempListFunc: (value) {
-              finalItemDataList = value;
-              for (var element in finalItemDataList) {
-                controllers[element.item_id] = TextEditingController();
-                controllers[element.item_id]?.text =
-                    element.quantity.toString();
-              }
-              setState(() {
-                itemString = OrderServices().ordertotalAmount(
-                    itemString,
-                    orderAmount,
-                    finalItemDataList,
-                    total,
-                    totalAmount)["ItemString"];
-                totalAmount = OrderServices().ordertotalAmount(
-                    itemString,
-                    orderAmount,
-                    finalItemDataList,
-                    total,
-                    totalAmount)["TotalAmount"];
-              });
-            },
-          ),
+    syncItemList = mymap;
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ShowSyncItemData(
+          syncItemList: syncItemList,
+          tempList: finalItemDataList,
+          tempListFunc: (value) {
+            finalItemDataList = value;
+            for (var element in finalItemDataList) {
+              controllers[element.item_id] = TextEditingController();
+              controllers[element.item_id]?.text = element.quantity.toString();
+            }
+            setState(() {
+              itemString = OrderServices().ordertotalAmount(
+                  itemString,
+                  orderAmount,
+                  finalItemDataList,
+                  total,
+                  totalAmount)["ItemString"];
+              totalAmount = OrderServices().ordertotalAmount(
+                  itemString,
+                  orderAmount,
+                  finalItemDataList,
+                  total,
+                  totalAmount)["TotalAmount"];
+            });
+          },
         ),
-      );
-    }
+      ),
+    );
   }
 
 //================================================Save & draft Order Data===========================================================
   Future orderSaveAndDraftData() async {
     if (widget.deliveryDate != '' && finalItemDataList.isNotEmpty) {
       OrderServices().orderDraftDataUpdate(
-          finalItemDataList,
-          customerBox,
-          widget.clientId,
-          dateSelected,
-          selectedDeliveryTime,
-          initialOffer,
-          slectedPayMethod);
+        finalItemDataList,
+        customerBox,
+        widget.clientId,
+        dateSelected,
+        selectedDeliveryTime,
+        initialOffer,
+        noteController.text,
+        slectedPayMethod,
+      );
     } else {
       customerBox.add(CustomerDataModel(
           clientName: widget.clientName,
@@ -1344,6 +1335,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           deliveryTime: selectedDeliveryTime,
           offer: initialOffer,
           paymentMethod: slectedPayMethod,
+          note: noteController.text,
           itemList: finalItemDataList));
     }
   }

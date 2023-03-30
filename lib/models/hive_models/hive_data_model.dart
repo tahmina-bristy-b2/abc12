@@ -56,6 +56,8 @@ class CustomerDataModel extends HiveObject {
   @HiveField(10)
   String? offer;
   @HiveField(11)
+  String? note;
+  @HiveField(12)
   List<AddItemModel> itemList;
 
   CustomerDataModel({
@@ -70,6 +72,7 @@ class CustomerDataModel extends HiveObject {
     required this.deliveryTime,
     required this.paymentMethod,
     this.offer,
+    required this.note,
     required this.itemList,
   });
 }

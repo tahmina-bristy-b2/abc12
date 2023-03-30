@@ -77,6 +77,7 @@ class OrderServices {
     String dateSelected,
     String selectedDeliveryTime,
     String initialOffer,
+    String note,
     String slectedPayMethod,
   ) {
     dynamic desireKey;
@@ -92,6 +93,7 @@ class OrderServices {
       clientData.deliveryDate = dateSelected;
       clientData.deliveryTime = selectedDeliveryTime;
       clientData.offer = initialOffer;
+      clientData.note = note;
       clientData.paymentMethod = slectedPayMethod;
     }
     customerBox.put(desireKey, clientData);

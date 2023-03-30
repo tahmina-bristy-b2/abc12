@@ -44,13 +44,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
       cid = prefs.getString("CID")!;
       userId = prefs.getString("USER_ID")!;
       userPassword = prefs.getString("PASSWORD")!;
-      //print('?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
-      // if (prefs.getInt("_counter") != null) {
-      //   int? a = prefs.getInt("_counter");
-      //   setState(() {
-      //     _counter = a!;
-      //   });
-      // }
     });
 
     foundUsers = widget.data;
@@ -245,19 +238,15 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
         itemBuilder: (BuildContext itemBuilder, index) {
           return GestureDetector(
             onTap: () {
-              //*********************************** NEW ADDED DONE BY BRISTY ************************************** */
               setState(() {
                 _counter = OrderServices().incrementCounter(_counter);
-                print("_counter=$_counter");
+                //print("_counter=$_counter");
               });
-              //*********************************** END **********************************************************/
 
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (_) => NewOrderPage(
-                            // ckey: 0,
-                            // uniqueId: _counter,
                             draftOrderItem: [],
                             deliveryDate: '',
                             deliveryTime: '',

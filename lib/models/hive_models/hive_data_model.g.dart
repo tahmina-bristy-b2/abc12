@@ -80,14 +80,15 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       deliveryTime: fields[8] as String,
       paymentMethod: fields[9] as String,
       offer: fields[10] as String?,
-      itemList: (fields[11] as List).cast<AddItemModel>(),
+      note: fields[11] as String?,
+      itemList: (fields[12] as List).cast<AddItemModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, CustomerDataModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.clientName)
       ..writeByte(1)
@@ -111,6 +112,8 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       ..writeByte(10)
       ..write(obj.offer)
       ..writeByte(11)
+      ..write(obj.note)
+      ..writeByte(12)
       ..write(obj.itemList);
   }
 

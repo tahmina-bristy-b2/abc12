@@ -464,7 +464,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: screenWidth / 2.5,
                           // height: screenHeight / 10,
                           child: const Text(
-                            "v-$appVersion-20221208",
+                            loginPageVersionName,
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Color.fromARGB(255, 129, 188, 236)),

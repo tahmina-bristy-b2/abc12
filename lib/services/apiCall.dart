@@ -21,6 +21,7 @@ String cid = "";
 String user_id = "";
 String user_pass = "";
 String device_id = "";
+
 sharedpref() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   timer_track_url = prefs.getString("timer_track_url") ?? "";
@@ -33,141 +34,6 @@ sharedpref() async {
   user_pass = prefs.getString("PASSWORD") ?? '';
   device_id = prefs.getString("deviceId") ?? '';
 }
-
-///*************************************************** *************************************///
-///******************************** Area page **********************************************///
-///******************************** ********************************************************///
-
-Future<List> getAreaPage(
-    areaPageUrl, String cid, String userId, String userPassword) async {
-  List arePageList = [];
-
-  try {
-    final http.Response res = await http.get(
-        Uri.parse(
-            '$areaPageUrl?cid=$cid&user_id=$userId&user_pass=$userPassword'),
-        headers: <String, String>{
-          'Content-Type': 'appliscation/json; charset=UTF-8'
-        });
-
-    var areaPageInfo = json.decode(res.body);
-    String status = areaPageInfo['status'];
-    if (status == 'Success') {
-      // arePageList = areaPageDataModelFromJson(res.body);
-      arePageList = areaPageInfo['area_list'];
-      return arePageList;
-    } else {
-      return arePageList;
-    }
-  } catch (e) {
-    print('Error message: $e');
-  }
-  return arePageList;
-}
-
-///*************************************************** *************************************///
-///******************************** Area Base Client ***************************************///
-///******************************** ********************************************************///
-
-Future<bool> getAreaBaseClient(BuildContext context, String syncUrl, cid,
-    userId, userPassword, areaId) async {
-  print(
-      '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
-  List clientList = [];
-  try {
-    final http.Response res = await http.get(
-        Uri.parse(
-            '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
-    var clientJsonData = json.decode(res.body);
-    String clientStatus = clientJsonData['status'];
-
-    if (clientStatus == 'Success') {
-      clientList = clientJsonData['clientList'];
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => CustomerListScreen(
-                    data: clientList,
-                  )));
-      return false;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    print('Error message: $e');
-  }
-  return false;
-}
-
-///*************************************************** *************************************///
-///******************************** Area Base Doctor ***************************************///
-///******************************** ********************************************************///
-
-Future<bool> getAreaBaseDoctor(BuildContext context, String syncUrl, cid,
-    userId, userPassword, areaId) async {
-  print(
-      '$syncUrl api_doctor/get_doctor?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
-  List doctorList = [];
-  try {
-    final http.Response res = await http.get(
-        Uri.parse(
-            '$syncUrl/api_doctor/get_doctor?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
-    var doctorJsonData = json.decode(res.body);
-    print(doctorJsonData);
-
-    String doctorStatus = doctorJsonData["res_data"]['status'];
-
-    if (doctorStatus == 'Success') {
-      doctorList = doctorJsonData["res_data"]['doctorList'];
-
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => DcrListPage(
-                    dcrDataList: doctorList,
-                  )));
-      return false;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    print('Error message: $e');
-  }
-  return false;
-}
-
-///*************************************************** *************************************///
-///********************************DCR Area Base Client ***************************************///
-///******************************** ********************************************************///
-
-// String clientStatus = " ";
-
-// Future getDCRAreaBaseClient(BuildContext context, String syncUrl, cid, userId,
-//     userPassword, areaId) async {
-//   var clientJsonData;
-
-//   print(
-//       '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId');
-//   try {
-//     final http.Response res = await http.get(
-//         Uri.parse(
-//             '$syncUrl/api_client/client_list?cid=$cid&user_id=$userId&user_pass=$userPassword&area_id=$areaId'),
-//         headers: <String, String>{
-//           'Content-Type': 'application/json; charset=UTF-8'
-//         });
-//     clientJsonData = json.decode(res.body);
-//     // String clientStatus = clientJsonData['status'];
-//   } catch (e) {
-//     print('Error message: $e');
-//   }
-//   return clientJsonData;
-// }
 
 ///*************************************************** *************************************///
 ///******************************** Target Achievement *************************************///

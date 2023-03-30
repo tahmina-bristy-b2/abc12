@@ -92,8 +92,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'clentUrl==${dmPathData!.clientUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
+    // print(
+    //     'clentUrl==${dmPathData!.clientUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(

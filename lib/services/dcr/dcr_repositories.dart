@@ -204,12 +204,10 @@ class DcrRepositories {
       String fDocAddress,
       String brand,
       String dob) async {
-    print('drDistrict id: $drDistrict');
-    print('drThana id: $drThana');
     String params =
         "cid=$skf&user_id=$userId&user_pass=$password&area_id=$areaId&area_name=$areaName&doc_id=$docId&doc_name=$doctorName&category=$category&doctors_category=$doctorCategory&doctor_type=$doctorType&specialty=$specialty&degree=$degree&chemist_id=$chemistId&address=$draddress&district=$drDistrict&thana=$drThana&mobile=$drMobile&dob=$dob&mar_day=$marDay&dob_child1=$child1&dob_child2=$child2&collar_size=$collerSize&nop=$nop&four_p_doc_id=$fDrId&fourP_doc_name=$fDrName&fourP_doc_specialty=$fDrspecilty&fourP_doc_address=$fDocAddress&brand=$brand";
     // print(
-    //     "$addUrl?cid=$skf&user_id=$userId&user_pass=$password&area_id=$areaId&area_name=$areaName&doc_name=$doctorName&category=$category&doctors_category=$doctorCategory&doctor_type=$doctorType&specialty=$specialty&degree=$degree&chemist_id=$chemistId&address=$draddress&district=$drDistrict&thana=$drThana&mobile=$drMobile&mar_day=$marDay&dob_child1=$child1&dob_child2=$child2&collar_size=$collerSize&nop=$nop&four_p_doc_id=$fDrId&fourP_doc_name=$fDrName&fourP_doc_specialty=$fDrspecilty&fourP_doc_address=$fDocAddress&brand=$brand&dob=$dob");
+    //     "$addUrl?$params");
     Map<String, dynamic> submitDoctorData = {};
     try {
       final http.Response response =
@@ -222,7 +220,7 @@ class DcrRepositories {
     return submitDoctorData;
   }
 
-  //################################ Doctor Settings Repository ########################
+  //################ Doctor Settings Repository ########################
   Future<DocSettingsModel?> docSettingsRepo(
       String cid, String userId, String userpass) async {
     DocSettingsModel? docSettingData;
@@ -250,10 +248,10 @@ class DcrRepositories {
       final http.Response response =
           await DcrDataProviders().syncDcrDisDP(syncUrl, cid, userId, userpass);
       Map<String, dynamic> jsonResponseDcrData = jsonDecode(response.body);
-      Map<String, dynamic> res_data = jsonResponseDcrData['res_data'];
+      Map<String, dynamic> resData = jsonResponseDcrData['res_data'];
 
-      String status = res_data['status'];
-      dcrDiscussionGiftList = res_data['giftList'];
+      String status = resData['status'];
+      dcrDiscussionGiftList = resData['giftList'];
 
       if (status == 'Success') {
         await Boxes().openAndAddDataToBox(
@@ -267,7 +265,7 @@ class DcrRepositories {
     return dcrDiscussionGiftList;
   }
 
-  // ############################# dcr GSP submit ##################################
+  // ############### dcr GSP submit ##################################
 
   Future<Map<String, dynamic>> dcrGspSubmit(
       String gspSubmitUrl,
@@ -309,7 +307,7 @@ class DcrRepositories {
     return dcrResponsedata;
   }
 
-  //################################ Doctor Edit info Settings  ########################
+  //################### Doctor Edit info Settings  ########################
   Future docEditInfo(String docEditUrl, String cid, String userId,
       String userpass, String areaId, String docId) async {
     Map docEditInfoData = {};

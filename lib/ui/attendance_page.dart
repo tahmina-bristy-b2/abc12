@@ -1,15 +1,18 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceScreen extends StatefulWidget {
@@ -24,22 +27,28 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   late AnimationController controller;
   var dt = DateFormat('HH:mm a').format(DateTime.now());
 
-  String? userPass;
   String? cid;
-  String? userId;
   double? lat;
-  String? sync_url;
-  String userName = '';
-  String user_id = '';
-  String? deviceId = '';
-  var status;
   double? long;
+  String? syncUrl;
+  String userName = '';
+  String userId = '';
+  String? userPass;
+  String deviceId = '';
+
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
 
   String address = "";
   bool reportAttendance = true;
+
   @override
   void initState() {
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+
     getLatLong();
+
     SharedPreferences.getInstance().then((prefs) {
       if ((prefs.getString("CID") == null) ||
           (prefs.getString("USER_ID") == null) ||
@@ -47,12 +56,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         return;
       } else {
         cid = prefs.getString("CID");
-        userId = prefs.getString("USER_ID");
         userPass = prefs.getString("PASSWORD");
-        sync_url = prefs.getString("sync_url")!;
-        userName = prefs.getString("userName")!;
-        user_id = prefs.getString("user_id")!;
-        deviceId = prefs.getString("deviceId");
+        deviceId = prefs.getString("deviceId") ?? " ";
       }
     });
 
@@ -99,7 +104,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
     print(placemarks);
     setState(() {
-      address = placemarks[0].street! + " " + placemarks[0].country!;
+      address = "${placemarks[0].street!} ${placemarks[0].country!}";
     });
     for (int i = 0; i < placemarks.length; i++) {}
   }
@@ -226,7 +231,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                         ),
                         DataRow(
                           color: MaterialStateProperty.all(
-                              Color.fromARGB(255, 230, 179, 192)),
+                              const Color.fromARGB(255, 230, 179, 192)),
                           cells: [
                             const DataCell(
                               Text(
@@ -240,7 +245,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             DataCell(
                               TextField(
                                 controller: mtrReading,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500),
                                 inputFormatters: [
@@ -264,26 +269,45 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           height: MediaQuery.of(context).size.height * 0.07,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.teal.withOpacity(0.5),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15)),
-                              primary: Colors.teal.withOpacity(0.5),
-                              onPrimary: Colors.white,
                             ),
                             onPressed: () async {
                               if (reportAttendance == true) {
-                                await attendanceAPI(
-                                  context,
-                                  "START",
-                                );
+                                Map<String, dynamic> result =
+                                    await Repositories().attendanceRepo(
+                                        dmpathData!.syncUrl,
+                                        cid,
+                                        userId,
+                                        userPass,
+                                        deviceId,
+                                        lat.toString(),
+                                        long.toString(),
+                                        address.toString(),
+                                        "START",
+                                        mtrReading.text);
+
+                                if (result["status"] == "Success") {
+                                  reportAttendance = false;
+                                  if (!mounted) return;
+
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyHomePage(
+                                                userName: userInfo!.userName,
+                                                userId: userInfo!.userId,
+                                                userPassword: userPass!,
+                                              )));
+                                }
                               } else {
-                                Fluttertoast.showToast(
-                                    msg:
-                                        'Start Time has been Submitted for Today',
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.SNACKBAR,
-                                    backgroundColor: Colors.red,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
+                                AllServices().toastMessage(
+                                    'Start Time has been Submitted for Today',
+                                    Colors.red,
+                                    Colors.white,
+                                    16.0);
                               }
                             },
                             child: const Text(
@@ -300,12 +324,45 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           height: MediaQuery.of(context).size.height * 0.07,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blueGrey,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                primary: Colors.blueGrey,
-                                onPrimary: Colors.white),
+                                    borderRadius: BorderRadius.circular(15))),
                             onPressed: () async {
-                              await attendanceAPI(context, "END");
+                              if (reportAttendance == true) {
+                                Map<String, dynamic> result =
+                                    await Repositories().attendanceRepo(
+                                        dmpathData!.syncUrl,
+                                        cid,
+                                        userId,
+                                        userPass,
+                                        deviceId,
+                                        lat.toString(),
+                                        long.toString(),
+                                        address.toString(),
+                                        "END",
+                                        mtrReading.text);
+
+                                if (result["status"] == "Success") {
+                                  reportAttendance = false;
+                                  if (!mounted) return;
+
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyHomePage(
+                                                userName: userInfo!.userName,
+                                                userId: userInfo!.userId,
+                                                userPassword: userPass!,
+                                              )));
+                                }
+                              } else {
+                                AllServices().toastMessage(
+                                    'End Time has been Submitted for Today',
+                                    Colors.red,
+                                    Colors.white,
+                                    16.0);
+                              }
                             },
                             child: const Text(
                               "Day End",
@@ -320,51 +377,5 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               ),
       ),
     );
-  }
-
-  Future attendanceAPI(BuildContext context, String submitType) async {
-    // print(
-    //     "${sync_url}api_attendance_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId&latitude=${lat.toString()}&longitude=${long.toString()}&address=${address.toString()}&submit_type=$submitType&meter_reading=${mtrReading.text}");
-    if (reportAttendance == true) {
-      final response = await http.get(
-        Uri.parse(
-            "${sync_url}api_attendance_submit/submit_data?cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId&latitude=${lat.toString()}&longitude=${long.toString()}&address=${address.toString()}&submit_type=$submitType&meter_reading=${mtrReading.text}"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-
-      var data = json.decode(response.body);
-      print("data ${data["status"]}");
-
-      if (data["status"] == "Success") {
-        var returnString = data["ret_str"];
-        var startTime = data["start_time"];
-        var endTime = data["end_time"];
-        reportAttendance = false;
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('startTime', startTime);
-        await prefs.setString('endTime', endTime);
-
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyHomePage(
-                      userName: userName,
-                      userId: user_id,
-                      userPassword: userPass!,
-                    )));
-      } else {
-        return "Failed";
-      }
-    } else {
-      Fluttertoast.showToast(
-          msg: 'End Time has been Submitted for Today',
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.SNACKBAR,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }
   }
 }

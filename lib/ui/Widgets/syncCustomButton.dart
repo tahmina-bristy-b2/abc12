@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class syncCustomBuildButton extends StatelessWidget {
   final VoidCallback onClick;
-
   final String title;
   final double sizeWidth;
   final Color color;
@@ -35,7 +34,6 @@ class syncCustomBuildButton extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     color: Colors.black,
-                    // fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),

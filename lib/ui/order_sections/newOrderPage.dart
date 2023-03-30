@@ -159,10 +159,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
     super.dispose();
   }
 
-  initialValue(String val) {
-    return TextEditingController(text: val);
-  }
-
   int _currentSelected = 2; // this variable used for  bottom navigation bar
 
   @override
@@ -677,6 +673,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Item Delivery Details================================================================
   Card itemDeliveryDetailsWidget() {
     return Card(
       color: const Color(0xFFDDEBF7),
@@ -731,6 +728,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Item Delivery Date================================================================
   Expanded deliveryDatePickerWidget() {
     return Expanded(
       flex: 3,
@@ -759,6 +757,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Item Delivery Shift================================================================
   Expanded deliveryShiftWidget() {
     return Expanded(
       flex: 3,
@@ -789,6 +788,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Item Delivery Payment Method================================================================
   Expanded paymentDropdownWidget() {
     return Expanded(
       flex: 3,
@@ -819,6 +819,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Item Offer ================================================================
   Expanded offerDrapdownWidget() {
     return Expanded(
       flex: 2,
@@ -849,6 +850,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Customer Info Details================================================================
   Container customerInfoWidget() {
     return Container(
       width: screenWidth,
@@ -896,6 +898,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Note================================================================
   Padding customerNotesTextFieldWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -933,6 +936,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Item Per Calculation LisView builder================================================================
   ListView perItemCalculationListViewWidget() {
     return ListView.builder(
       shrinkWrap: true,
@@ -1158,6 +1162,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
+//============================================Bottom Navigation Bar Index Function================================================================
   _onItemTapped(int index) async {
     if (index == 0) {
       await orderSaveAndDraftData();
@@ -1199,60 +1204,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
   }
 
-//===================================================================================================================================================================
-//===========================================================Submit Api call========================================================================================================
-//===================================================================================================================================================================
-
-  Future orderSubmit() async {
-    if (itemString != '') {
-      String status;
-      Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
-          dmPathData!.submitUrl,
-          cid,
-          userLoginInfo!.userId,
-          userPassword,
-          deviceId,
-          widget.clientId,
-          dateSelected,
-          selectedDeliveryTime,
-          slectedPayMethod,
-          initialOffer,
-          noteText,
-          itemString,
-          latitude,
-          longitude);
-      status = orderInfo['status'];
-      String ret_str = orderInfo['ret_str'];
-
-      if (status == "Success") {
-        setState(() {
-          _isLoading = true;
-        });
-        OrderServices()
-            .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
-
-        AllServices().toastMessage(
-            "Order Submitted\n$ret_str", Colors.green, Colors.white, 16);
-        if (!mounted) return;
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-      } else {
-        AllServices()
-            .toastMessage("Order Failed", Colors.red, Colors.white, 16);
-        setState(() {
-          _isLoading = true;
-        });
-      }
-    } else {
-      setState(() {
-        _isLoading = true;
-      });
-      AllServices()
-          .toastMessage('Please Order something', Colors.red, Colors.white, 16);
-    }
-  }
-
-  //=====================================================S
   getData() async {
     List mymap = await AllServices().getSyncSavedData('syncItemData');
     syncItemList = mymap;
@@ -1342,6 +1293,64 @@ class _NewOrderPageState extends State<NewOrderPage> {
     DT = newDate;
     dateSelected = DateFormat('yyyy-MM-dd').format(newDate);
     setState(() => DT = newDate);
+  }
+//===================================================================================================================================================================
+//===========================================================Submit Api call========================================================================================================
+//===================================================================================================================================================================
+
+  Future orderSubmit() async {
+    if (itemString != '') {
+      String status;
+      Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
+          dmPathData!.submitUrl,
+          cid,
+          userLoginInfo!.userId,
+          userPassword,
+          deviceId,
+          widget.clientId,
+          dateSelected,
+          selectedDeliveryTime,
+          slectedPayMethod,
+          initialOffer,
+          noteText,
+          itemString,
+          latitude,
+          longitude);
+      status = orderInfo['status'];
+      String ret_str = orderInfo['ret_str'];
+
+      if (status == "Success") {
+        setState(() {
+          _isLoading = true;
+        });
+        OrderServices()
+            .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
+
+        AllServices().toastMessage(
+            "Order Submitted\n$ret_str", Colors.green, Colors.white, 16);
+        if (!mounted) return;
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      } else {
+        AllServices()
+            .toastMessage("Order Failed", Colors.red, Colors.white, 16);
+        setState(() {
+          _isLoading = true;
+        });
+      }
+    } else {
+      setState(() {
+        _isLoading = true;
+      });
+      AllServices()
+          .toastMessage('Please Order something', Colors.red, Colors.white, 16);
+    }
+  }
+
+//===========================================================end========================================================================================================
+
+  initialValue(String val) {
+    return TextEditingController(text: val);
   }
 }
 

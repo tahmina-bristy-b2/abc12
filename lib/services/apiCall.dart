@@ -36,131 +36,15 @@ sharedpref() async {
 }
 
 ///*************************************************** *************************************///
-///******************************** Target Achievement *************************************///
-///******************************** ********************************************************///
-
-Future getTarAch(BuildContext context, String userSalesCollAchUrl, cid, userId,
-    userPassword, deviceId) async {
-  print(
-      '$userSalesCollAchUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId');
-  try {
-    final http.Response response = await http.get(
-        Uri.parse(
-            '$userSalesCollAchUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
-
-    var userInfo = json.decode(response.body);
-    var status = userInfo['status'];
-    print(status);
-    if (status == 'Success') {
-      List tarAchievementList = userInfo['userSalesCollAchList'];
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => TargetAchievement(
-                    tarAchievementList: tarAchievementList,
-                  )));
-    } else {
-      // _submitToastforOrder2();
-    }
-  } on Exception catch (_) {
-    // throw Exception("Error on server");
-    Fluttertoast.showToast(msg: "No Target Achievement ");
-  }
-}
-
-///*************************************************** *************************************///
-///******************************** Order History ******************************************///
-///******************************** ********************************************************///
-
-Future getOrderHistory() async {
-  try {
-    final http.Response response = await http.get(
-        Uri.parse(
-            'http://w305.yeapps.com/acme_api/api_ord_history/ord_history'),
-        headers: <String, String>{
-          'Content-Type': 'Application/json; charset=UTF-8'
-        });
-
-    var orderHistoryInfo = json.decode(response.body);
-    String status = orderHistoryInfo['status'];
-    if (status == 'Success') {
-      return null;
-    }
-  } catch (e) {
-    print('Order History error message: $e');
-  }
-  return null;
-}
-
-///*************************************************** *************************************///
-///******************************** Invoice History ******************************************///
-///******************************** ********************************************************///
-
-Future getInvoiceHistory() async {
-  try {
-    final http.Response response = await http.get(
-        Uri.parse(
-            'http://w305.yeapps.com/acme_api/api_inv_history/inv_history'),
-        headers: <String, String>{
-          'Content-Type': 'Application/json; charset=UTF-8'
-        });
-
-    var invoiceHistoryInfo = json.decode(response.body);
-    String status = invoiceHistoryInfo['status'];
-    if (status == 'Success') {
-      return null;
-    }
-  } catch (e) {
-    print('Invoice history error message: $e');
-  }
-  return null;
-}
-
-///*************************************************** *************************************///
-///******************************** OutStanding Details ***********************************///
-///******************************** ********************************************************///
-
-Future getOutStandingDetails() async {
-  try {
-    final http.Response response = await http.get(
-        Uri.parse('http://w305.yeapps.com/acme_api/api_os_details/os_details'),
-        headers: <String, String>{
-          'Content-Type': 'Application/json; charset=UTF-8'
-        });
-
-    var outDetailsInfo = json.decode(response.body);
-    String status = outDetailsInfo['status'];
-    if (status == 'Success') {
-      return null;
-    }
-  } catch (e) {
-    print('OutStanding Details error message: $e');
-  }
-  return null;
-}
-
-///*************************************************** *************************************///
 ///******************************** Edit URL *************************************///
 ///******************************** ********************************************************///
-///
-///
-///
 
 Future timeTracker(String location) async {
   await sharedpref();
-  // print("ok ok ${timer_track_url}");
-  // print(cid);
-  // print(user_id);
-  // print(user_pass);
-  // print(device_id);
+
   if (location != "") {
     final response = await http.post(
-      Uri.parse(
-          // 'w05.yeapps.com/acme_api/api_expense_submit/submit_data'
-          timer_track_url),
+      Uri.parse(timer_track_url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -186,31 +70,31 @@ Future timeTracker(String location) async {
 ///******************************** Expense Entry ******************************************///
 ///******************************** ********************************************************///
 
-expenseEntry() async {
-  await sharedpref();
-  print("$expenseType?cid=$cid&user_id=$user_id&user_pass=$user_pass");
+// expenseEntry() async {
+//   await sharedpref();
+//   print("$expenseType?cid=$cid&user_id=$user_id&user_pass=$user_pass");
 
-  try {
-    final http.Response response = await http.get(
-        Uri.parse(
-            '$expenseType?cid=$cid&user_id=$user_id&user_pass=$user_pass'),
-        headers: <String, String>{
-          'Content-Type': 'Application/json; charset=UTF-8'
-        });
+//   try {
+//     final http.Response response = await http.get(
+//         Uri.parse(
+//             '$expenseType?cid=$cid&user_id=$user_id&user_pass=$user_pass'),
+//         headers: <String, String>{
+//           'Content-Type': 'Application/json; charset=UTF-8'
+//         });
 
-    var orderHistoryInfo = json.decode(response.body);
+//     var orderHistoryInfo = json.decode(response.body);
 
-    String status = orderHistoryInfo['status'];
-    List expTypeList = orderHistoryInfo['expTypeList'];
+//     String status = orderHistoryInfo['status'];
+//     List expTypeList = orderHistoryInfo['expTypeList'];
 
-    if (status == 'Success') {
-      return expTypeList;
-    }
-  } catch (e) {
-    print('Order History error message: $e');
-  }
-  return "error";
-}
+//     if (status == 'Success') {
+//       return expTypeList;
+//     }
+//   } catch (e) {
+//     print('Order History error message: $e');
+//   }
+//   return "error";
+// }
 
 ///*************************************************** *************************************///
 ///******************************** Expense Submit ******************************************///

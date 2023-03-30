@@ -1,3 +1,7 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/Expense/approval.dart';
@@ -24,38 +28,39 @@ class ExpensePage extends StatefulWidget {
 }
 
 class _ExpensePageState extends State<ExpensePage> {
-  String userId = "";
-  String userName = "";
-  String user_pass = "";
+  String userPass = "";
   String expApproval = "";
   String startTime = "";
+
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
   var prefix;
   var prefix2;
   @override
   void initState() {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        userId = prefs.getString("CID") ?? "";
-        userName = prefs.getString("USER_ID") ?? "";
-        user_pass = prefs.getString("PASSWORD") ?? "";
+        userPass = prefs.getString("PASSWORD") ?? "";
         expApproval = prefs.getString("exp_approval_url") ?? "";
         startTime = prefs.getString("startTime") ?? '';
-        // print("start time ashbe $startTime");
+
         var parts = startTime.split(' ');
         prefix = parts[0].trim();
-        // print(prefix);
         String dt = DateTime.now().toString();
         var parts2 = dt.split(' ');
         prefix2 = parts2[0].trim();
-        // print("dateTime ashbe$prefix2");
       });
     });
+
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
 
     super.initState();
   }
 
   List newList = [];
-  // List<ExpenseModel> expenseDraft = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,14 +69,13 @@ class _ExpensePageState extends State<ExpensePage> {
         title: const Text("Expense"),
         leading: IconButton(
             onPressed: () {
-              // Navigator.pop(context);
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                       builder: (context) => MyHomePage(
-                          userPassword: user_pass,
-                          userName: userName,
-                          userId: userId)),
+                          userPassword: userPass,
+                          userName: userInfo!.userName,
+                          userId: userInfo!.userId)),
                   (route) => false);
             },
             icon: const Icon(Icons.arrow_back)),
@@ -89,13 +93,13 @@ class _ExpensePageState extends State<ExpensePage> {
                         padding: const EdgeInsets.all(12.0),
                         child: Container(
                           height: 30,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.red,
                             borderRadius: BorderRadius.all(
                               Radius.circular(15),
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Please Give Meter Reading First",
                               style: TextStyle(
@@ -107,7 +111,7 @@ class _ExpensePageState extends State<ExpensePage> {
                         ),
                       )
                     // : Text("ok")
-                    : Text(""),
+                    : const Text(""),
 
                 //******************************************************************************************************/
                 //*******************************************************************************************************/
@@ -115,35 +119,36 @@ class _ExpensePageState extends State<ExpensePage> {
                 //*******************************************************************************************************/
                 Container(
                   height: MediaQuery.of(context).size.height / 6.7,
-                  color: Color(0xFFDDEBF7),
+                  color: const Color(0xFFDDEBF7),
                   child: Row(
                     children: [
                       Expanded(
                         child: customBuildButton(
                           onClick: () async {
-                            newList = await expenseEntry();
+                            newList = await Repositories().expenseEntryRepo(
+                                dmpathData!.expTypeUrl,
+                                cid,
+                                userInfo!.userId,
+                                userPass);
+                            if (!mounted) return;
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AttendanceScreen(
-                                    // expenseTypelist: newList,
-                                    // callback: () {}, tempExpList: [],
-                                    // expDraftDate: '',
-                                    // tempExpenseList: [],
-                                    ),
+                                builder: (context) => const AttendanceScreen(),
                               ),
                             );
                           },
                           title: "Attendance & \nMeter Reading",
                           sizeWidth: MediaQuery.of(context).size.width,
-                          inputColor: Color(0xff56CCF2).withOpacity(.3),
+                          inputColor: const Color(0xff56CCF2).withOpacity(.3),
                           icon: Icons.chrome_reader_mode_sharp,
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6,
                 ),
                 //******************************************************************************************************/
@@ -152,13 +157,19 @@ class _ExpensePageState extends State<ExpensePage> {
                 //*******************************************************************************************************/
                 Container(
                   height: MediaQuery.of(context).size.height / 3.5,
-                  color: Color(0xFFE2EFDA),
+                  color: const Color(0xFFE2EFDA),
                   child: Column(
                     children: [
                       Expanded(
                         child: customBuildButton(
                           onClick: () async {
-                            newList = await expenseEntry();
+                            newList = await Repositories().expenseEntryRepo(
+                                dmpathData!.expTypeUrl,
+                                cid,
+                                userInfo!.userId,
+                                userPass);
+                            if (!mounted) return;
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -174,10 +185,10 @@ class _ExpensePageState extends State<ExpensePage> {
                           // color: Colors.green,
                           title: "Expense Entry",
                           sizeWidth: 300, icon: Icons.draw_rounded,
-                          inputColor: Color(0xff56CCF2).withOpacity(.3),
+                          inputColor: const Color(0xff56CCF2).withOpacity(.3),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2,
                       ),
                       // //******************************************************************************************************/
@@ -209,13 +220,16 @@ class _ExpensePageState extends State<ExpensePage> {
                             child: customBuildButton(
                               onClick: () async {
                                 var expReport = await ExpenseReport();
-                                List ExpenseLog = expReport["expList"];
+                                List expenseLog = expReport["expList"];
+
+                                if (!mounted) return;
+
                                 // print(ExpenseLog);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ExpenseLogScreen(
-                                      expenseLog: ExpenseLog,
+                                      expenseLog: expenseLog,
                                     ),
                                   ),
                                 );
@@ -231,7 +245,7 @@ class _ExpensePageState extends State<ExpensePage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 // //******************************************************************************************************/
@@ -242,7 +256,7 @@ class _ExpensePageState extends State<ExpensePage> {
                 Container(
                   // height: MediaQuery.of(context).size.height / 4.5,
                   width: MediaQuery.of(context).size.width,
-                  color: Color(0xFFDDEBF7),
+                  color: const Color(0xFFDDEBF7),
                   child: Column(
                     children: [
                       // Expanded(
@@ -316,9 +330,9 @@ class _ExpensePageState extends State<ExpensePage> {
                       customBuildButton(
                         onClick: () async {
                           var url =
-                              '$expApproval?cid=$cid&user_id=$user_id&user_pass=$user_pass';
-                          if (await canLaunch(url)) {
-                            await launch(url);
+                              '$expApproval?cid=$cid&user_id=$user_id&userPass=$userPass';
+                          if (await canLaunchUrl(Uri.parse(url))) {
+                            await launchUrl(Uri.parse(url));
                           } else {
                             throw 'Could not launch $url';
                           }
@@ -326,10 +340,10 @@ class _ExpensePageState extends State<ExpensePage> {
                         title: "Approval & Report",
                         sizeWidth: 300,
                         icon: Icons.approval,
-                        inputColor: Color(0xff70BA85).withOpacity(.3),
+                        inputColor: const Color(0xff70BA85).withOpacity(.3),
                       ),
                       // ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                     ],

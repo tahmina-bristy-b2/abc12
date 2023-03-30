@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -41,31 +42,30 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
 
   String userId = "";
   String userName = "";
-  String user_pass = "";
+  String userPass = "";
   String? startTime;
   DateTime dateTime = DateTime.now();
 
   final _formkey = GlobalKey<FormState>();
 
   List expData = [];
-  String exp_type = "";
-  String Quantity = "";
+  String expType = "";
+
   Box? box;
 
   int _currentSelected = 2;
 
   var newInput;
   bool oncilck = true;
-  // final boxdata = Boxes.allData();
 
   _onItemTapped(int index) async {
     if (index == 0) {
       _formkey.currentState?.save();
       costController.forEach((key, value) {
         if (value.text != "") {
-          widget.expenseTypelist.forEach((element) {
+          for (var element in widget.expenseTypelist) {
             if (element["cat_type_id"] == key.toString()) {
-              exp_type = element["exp_type"];
+              expType = element["exp_type"];
               Map<String, dynamic> draftData = {
                 "exp_type": element["exp_type"],
                 "cat_type_id": key.toString(),
@@ -79,7 +79,7 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
                   : dateController.text,
               "expData": expData
             };
-          });
+          }
         }
       });
       Navigator.pushAndRemoveUntil(
@@ -87,11 +87,6 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
           MaterialPageRoute(
               builder: (context) => ExpenseDraft(temp: draftListTOhive)),
           (route) => false);
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => ExpenseDraft(temp: draftListTOhive)));
-      // draftListTOhive.clear();
 
       setState(() {
         _currentSelected = index;
@@ -105,42 +100,34 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
     }
     if (index == 2 && oncilck) {
       oncilck = false;
-
       _formkey.currentState?.save();
-
-      print("Onclick $oncilck");
 
       var itemString = "";
       dynamic desireKey;
       box = Hive.box("draftForExpense");
       var expDAteforSubmit =
           widget.expDraftDate == "" ? dateController.text : widget.expDraftDate;
-      print("date before setting condition$expDAteforSubmit");
+
       if (startTime != "") {
         if (expDAteforSubmit != "") {
           costController.forEach((key, value) async {
             if (value.text != "") {
-              if (widget.tempExpList.isNotEmpty) {
-                widget.tempExpList.forEach((e) {
-                  // print(e["cat_type_id"]);
-                  // if (e["cat_type_id"] == key &&
-                  //     e["expQuantity"] == value.text) {}
-                });
-              }
+              // if (widget.tempExpList.isNotEmpty) {
+              //   widget.tempExpList.forEach((e) {});
+              // }
 
               if (itemString == '') {
-                itemString = key.toString() + '|' + value.text.toString();
+                itemString = '$key|${value.text}';
               } else {
-                itemString +=
-                    '||' + key.toString() + '|' + value.text.toString();
+                itemString += '||$key|${value.text}';
               }
             }
           });
-          // print("date before submission$expDAteforSubmit");
 
           var expSubmission =
               await SubmitToExpense(expDAteforSubmit, itemString);
           var retString = expSubmission["ret_str"];
+
           if (expSubmission["status"] == "Success") {
             box!.toMap().forEach((key, value) {
               if (value["expDate"] == dateController.text) {
@@ -148,50 +135,28 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
               }
             });
             box!.delete(desireKey);
+            AllServices().toastMessage(
+                "Expense Submitted", Colors.green.shade900, Colors.white, 16.0);
 
-            print("success is $oncilck");
-            Fluttertoast.showToast(
-                msg: "Expense Submitted",
-                // msg: "Order Submitted\n$ret_str",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.CENTER,
-                backgroundColor: Colors.green.shade900,
-                textColor: Colors.white,
-                fontSize: 16.0);
-            // Navigator.pop(context);
+            if (!mounted) return;
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => ExpensePage()),
+                MaterialPageRoute(builder: (context) => const ExpensePage()),
                 (route) => false);
           } else {
-            Fluttertoast.showToast(
-                msg: retString,
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.SNACKBAR,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            AllServices()
+                .toastMessage(retString, Colors.red, Colors.white, 16.0);
           }
         } else {
-          Fluttertoast.showToast(
-              msg: 'Please Select Date First',
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.SNACKBAR,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0);
+          AllServices().toastMessage(
+              "Please Select Date First", Colors.red, Colors.white, 16.0);
         }
         setState(() {
           _currentSelected = index;
         });
       } else {
-        Fluttertoast.showToast(
-            msg: 'Please Give Meter Reading First',
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.SNACKBAR,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+        AllServices().toastMessage(
+            "Please Give Meter Reading First", Colors.red, Colors.white, 16.0);
       }
       oncilck = true;
     }
@@ -201,16 +166,11 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
   void initState() {
     super.initState();
 
-    // setState(() {
-    //   userId = boxdata.get("CID") ?? "";
-    //   userName = boxdata.get("USER_ID") ?? "";
-    //   user_pass = boxdata.get("PASSWORD") ?? "";
-    //   startTime = boxdata.get("startTime") ?? '';
-    // });
     dateController.text = widget.expDraftDate;
 
-    widget.expenseTypelist.forEach((item) =>
-        costController["${item['cat_type_id']}"] = TextEditingController());
+    for (var item in widget.expenseTypelist) {
+      costController["${item['cat_type_id']}"] = TextEditingController();
+    }
 
     for (var element in widget.tempExpList) {
       costController.forEach((key, value) {
@@ -245,10 +205,6 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
                     setState(
                       () {
                         dateController.text = DateFormat.yMd().format(date);
-                        // print(dateController.text);
-
-                        // dateTime = date;
-                        // DateFormat.yMEd().format(dateTime);
                       },
                     );
                   }
@@ -272,8 +228,6 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
                     shrinkWrap: true,
                     itemCount: widget.expenseTypelist.length,
                     itemBuilder: (context, index) {
-                      // print(costController[index]);
-
                       return Card(
                         elevation: 3,
                         child: Padding(
@@ -298,12 +252,7 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
                                   child: TextField(
                                     controller: costController[
                                         "${widget.expenseTypelist[index]['cat_type_id']}"],
-                                    onChanged: (value) {
-                                      // dateForExpense =
-                                      //     "${dateTime.year}-${dateTime.month}-${dateTime.day}";
-
-                                      // print(widget.expenseTypelist[index]);
-                                    },
+                                    onChanged: (value) {},
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
                                     ),
@@ -332,7 +281,6 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
             label: 'Save Drafts',
             icon: Icon(Icons.drafts),
           ),
-
           BottomNavigationBarItem(
             label: '',
             backgroundColor: Colors.white,
@@ -345,10 +293,6 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
             label: 'Submit',
             icon: Icon(Icons.save),
           ),
-          // BottomNavigationBarItem(
-          //   label: 'Drawer',
-          //   icon: Icon(Icons.menu),
-          // )
         ],
       ),
     );
@@ -366,8 +310,8 @@ class _ExpenseEntryState extends State<ExpenseEntry> {
                 primary: Color(0xFFE2EFDA),
                 surface: Color.fromARGB(255, 37, 199, 78),
               ),
-              dialogBackgroundColor: Color.fromARGB(255, 38, 187, 233),
-            ), // This will change to light theme.
+              dialogBackgroundColor: const Color.fromARGB(255, 38, 187, 233),
+            ),
             child: child!,
           );
         },

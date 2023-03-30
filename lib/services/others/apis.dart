@@ -12,4 +12,8 @@ class Apis {
 
   static areaBaseDoctorApi(areaDoctorUrl, params) =>
       "$areaDoctorUrl/api_doctor/get_doctor?$params";
+
+  static getTargerAch(tarAchUrl, params) => "$tarAchUrl?$params";
+
+  static expenseEntryApi(expType, params) => "$expType?$params";
 }

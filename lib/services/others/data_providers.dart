@@ -115,4 +115,40 @@ class DataProviders {
 
     return response;
   }
+
+  // ==============================area Base Doctor Data Providers===========
+
+  Future<http.Response> tarAchDP(
+    String tarAchUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String deviceId,
+  ) async {
+    String params =
+        "cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId";
+    print(Apis.getTargerAch(tarAchUrl, params));
+    http.Response response = await http.get(
+      Uri.parse(Apis.getTargerAch(tarAchUrl, params)),
+    );
+
+    return response;
+  }
+
+  // ==============================Expense Entry Data Providers===========
+
+  Future<http.Response> expenseEntryDP(
+    String expenseType,
+    String cid,
+    String userId,
+    String userPass,
+  ) async {
+    String params = "cid=$cid&user_id=$userId&user_pass=$userPass";
+    print(Apis.getTargerAch(expenseType, params));
+    http.Response response = await http.get(
+      Uri.parse(Apis.getTargerAch(expenseType, params)),
+    );
+
+    return response;
+  }
 }

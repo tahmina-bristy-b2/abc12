@@ -1,8 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
-// import 'package:http/http.dart' as http;
 
 class TargetAchievement extends StatefulWidget {
   List tarAchievementList;
@@ -15,30 +11,6 @@ class TargetAchievement extends StatefulWidget {
 }
 
 class _TargetAchievementState extends State<TargetAchievement> {
-  String user_sales_coll_ach_url = '';
-
-  String cid = '';
-  String userId = '';
-  String userPassword = '';
-  String deviceId = '';
-
-  @override
-  void initState() {
-    super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   SharedPreferences.getInstance().then((prefs) {
-    //     userPassword = prefs.getString("PASSWORD") ?? widget.userPassword!;
-    //     cid = prefs.getString("CID")!;
-
-    //     userId = prefs.getString("USER_ID") ?? widget.user_id!;
-    //     user_sales_coll_ach_url = prefs.getString("user_sales_coll_ach_url") ??
-    //         widget.user_sales_coll_ach_url;
-    //     deviceId = prefs.getString("deviceId") ?? '';
-    //     setState(() {});
-    //   });
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -315,10 +287,7 @@ class _TargetAchievementState extends State<TargetAchievement> {
                                         padding: const EdgeInsets.fromLTRB(
                                             4, 8, 0, 8),
                                         child: Text(
-                                            widget.tarAchievementList[index]
-                                                        ['COLL_ACHV']
-                                                    .toString() +
-                                                ' % ',
+                                            '${widget.tarAchievementList[index]['COLL_ACHV']} % ',
                                             style: const TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)),

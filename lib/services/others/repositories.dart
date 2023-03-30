@@ -340,4 +340,54 @@ class Repositories {
     }
     return doctorList;
   }
+
+//=============Area Base Doctor Repository====================================
+
+  Future<List> targetAchRepo(String tarAchUrl, String cid, String userId,
+      String userPass, String deviceId) async {
+    List tarAchList = [];
+    Map<String, dynamic> tarAchJsonData = {};
+    print(DataProviders().tarAchDP(tarAchUrl, cid, userId, userPass, deviceId));
+    try {
+      http.Response response = await DataProviders()
+          .tarAchDP(tarAchUrl, cid, userId, userPass, deviceId);
+      tarAchJsonData = json.decode(response.body);
+      print(tarAchJsonData);
+      String tarAchStatus = tarAchJsonData['status'];
+
+      if (tarAchStatus == 'Success') {
+        tarAchList = tarAchJsonData['userSalesCollAchList'];
+
+        return tarAchList;
+      }
+    } on Exception catch (e) {
+      throw Exception("Error on server");
+    }
+    return tarAchList;
+  }
+
+//=============Expense Type Repository====================================
+
+  Future<List> expenseEntryRepo(
+      String expenseType, String cid, String userId, String userPass) async {
+    List expenseTypeList = [];
+    Map<String, dynamic> expenseTypeJsonData = {};
+
+    try {
+      http.Response response = await DataProviders()
+          .expenseEntryDP(expenseType, cid, userId, userPass);
+      expenseTypeJsonData = json.decode(response.body);
+
+      String expenseTypeStatus = expenseTypeJsonData['status'];
+
+      if (expenseTypeStatus == 'Success') {
+        expenseTypeList = expenseTypeJsonData['expTypeList'];
+
+        return expenseTypeList;
+      }
+    } on Exception catch (e) {
+      throw Exception("Error on server");
+    }
+    return expenseTypeList;
+  }
 }

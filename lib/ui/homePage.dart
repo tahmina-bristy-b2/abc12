@@ -4,7 +4,9 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
+import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
+import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -245,9 +247,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.w500,
                     color: Color.fromARGB(255, 15, 53, 85)),
               ),
-              onTap: () {
-                getTarAch(context, dmpathData!.userSalesCollAchUrl, cid, userId,
-                    userPassword, deviceId);
+              onTap: () async {
+                List tarAchievementList = await Repositories().targetAchRepo(
+                    dmpathData!.userSalesCollAchUrl,
+                    cid,
+                    userId,
+                    userPassword,
+                    deviceId);
+
+                if (tarAchievementList.isNotEmpty) {
+                  if (!mounted) return;
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => TargetAchievement(
+                                tarAchievementList: tarAchievementList,
+                              )));
+                } else {
+                  AllServices().toastMessage(
+                      "No Target Achievement ", Colors.red, Colors.white, 16.0);
+                }
               },
             ),
             const SizedBox(height: 10),

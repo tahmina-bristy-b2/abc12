@@ -1,3 +1,4 @@
+import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/Expense/expense_entry.dart';
@@ -112,22 +113,26 @@ class _ExpenseDraftState extends State<ExpenseDraft> {
                                     ),
                                     TextButton.icon(
                                       onPressed: () async {
-                                        newList = await expenseEntry();
+                                        //         newList = await Repositories().expenseEntryRepo(
+                                        // dmpathData!.expTypeUrl,
+                                        // cid,
+                                        // userInfo!.userId,
+                                        // userPass);
 
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => ExpenseEntry(
-                                                expenseTypelist: newList,
-                                                callback: (value) {},
-                                                tempExpList:
-                                                    expenseDraftList[index]
-                                                        ["expData"],
-                                                expDraftDate:
-                                                    expenseDraftList[index]
-                                                        ["expDate"]),
-                                          ),
-                                        );
+                                        //         Navigator.push(
+                                        //           context,
+                                        //           MaterialPageRoute(
+                                        //             builder: (_) => ExpenseEntry(
+                                        //                 expenseTypelist: newList,
+                                        //                 callback: (value) {},
+                                        //                 tempExpList:
+                                        //                     expenseDraftList[index]
+                                        //                         ["expData"],
+                                        //                 expDraftDate:
+                                        //                     expenseDraftList[index]
+                                        //                         ["expDate"]),
+                                        //           ),
+                                        //         );
                                       },
                                       icon: const Icon(
                                         Icons.arrow_forward_outlined,

@@ -23,7 +23,6 @@ class DcrListPage extends StatefulWidget {
 }
 
 class _DcrListPageState extends State<DcrListPage> {
-  // Box<DmPathDataModel> dmpathBox = Boxes.getDmpath();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 

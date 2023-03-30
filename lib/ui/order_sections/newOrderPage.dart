@@ -1278,16 +1278,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
   }
 
-  Future openBox() async {
-    var dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-    box = await Hive.openBox('syncItemData');
-  }
-
+  //=====================================================S
   getData() async {
-    await openBox();
-    var mymap = box!.toMap().values.toList();
-
+    List mymap = await AllServices().getSyncSavedData('syncItemData');
     if (mymap.isEmpty) {
       syncItemList.add('empty');
     } else {
@@ -1301,15 +1294,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
             tempList: finalItemDataList,
             tempListFunc: (value) {
               finalItemDataList = value;
-              finalItemDataList.forEach((element) {
+              for (var element in finalItemDataList) {
                 controllers[element.item_id] = TextEditingController();
                 controllers[element.item_id]?.text =
                     element.quantity.toString();
-              });
-              // finalItemDataList.forEach((element) {
-
-              // });
-
+              }
               setState(() {
                 itemString = OrderServices().ordertotalAmount(
                     itemString,

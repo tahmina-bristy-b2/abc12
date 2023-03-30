@@ -168,6 +168,7 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
                                 deliveryTime: user[index].deliveryTime,
                                 paymentMethod: user[index].paymentMethod,
                                 offer: user[index].offer,
+                                note: user[index].note,
                                 clientName: user[index].clientName,
                                 clientId: user[index].clientId,
                                 marketName: user[index].marketName,

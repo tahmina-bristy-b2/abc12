@@ -8,18 +8,12 @@ import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/order_sections/order_item_list.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,22 +21,19 @@ DateTime DT = DateTime.now();
 String dateSelected = DateFormat('yyyy-MM-dd').format(DT);
 
 class NewOrderPage extends StatefulWidget {
-  //String  ckey;
   String clientName;
   String marketName;
   String clientId;
-  // int uniqueId;
   String deliveryTime;
   String deliveryDate;
   String paymentMethod;
   String? outStanding;
   String? offer;
+  String note;
 
   List<AddItemModel> draftOrderItem;
   NewOrderPage(
       {Key? key,
-      //required this.ckey,
-      //required this.uniqueId,
       required this.draftOrderItem,
       required this.clientName,
       required this.clientId,
@@ -51,6 +42,7 @@ class NewOrderPage extends StatefulWidget {
       required this.deliveryTime,
       required this.paymentMethod,
       this.offer,
+      required this.note,
       required this.marketName})
       : super(key: key);
 
@@ -62,6 +54,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
+  final customerBox = Boxes.getCustomerUsers();
+  final itemBox = Boxes.getDraftOrderedData();
+
   final TextEditingController datefieldController = TextEditingController();
   final TextEditingController timefieldController = TextEditingController();
   final TextEditingController paymentfieldController = TextEditingController();
@@ -69,18 +64,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
   final List<TextEditingController> _itemController = [];
   final _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-
-  final customerBox = Boxes.getCustomerUsers();
-  final itemBox = Boxes.getDraftOrderedData();
-
   double screenHeight = 0.0;
   double screenWidth = 0.0;
-
-  bool isSaved = false;
-  bool isSaved2 = false;
-
   List<AddItemModel> finalItemDataList = [];
-
   List syncItemList = [];
   List<String> deliveryTime = ['Morning', 'Evening'];
   String selectedDeliveryTime = 'Morning';
@@ -90,18 +76,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
   String initialOffer = '_';
   DateTime deliveryDate = DateTime.now();
 
-  bool dr = false;
+  bool _isLoading = true;
   double orderAmount = 0;
   String totalAmount = '';
-  double unitPrice = 0;
-  double vat = 0;
   double total = 0;
-
   String noteText = '';
-  String? cid;
 
+  String? cid;
   String? userPassword;
-  var resultofOuts = "";
+  String resultofOuts = "";
   String itemString = '';
   String startTime = '';
   String endTime = '';
@@ -113,13 +96,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
   String? deviceModel = '';
   Map<String, TextEditingController> controllers = {};
 
-  bool _isLoading = true;
-
   @override
   void initState() {
     super.initState();
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
+    box = Boxes.getCustomerUsers();
+    dateSelected = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
@@ -134,7 +117,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
     });
 
     tempCount = widget.draftOrderItem.length;
-    box = Boxes.getCustomerUsers();
 
     if (widget.deliveryDate != '' && widget.deliveryTime != '') {
       finalItemDataList = widget.draftOrderItem;
@@ -142,6 +124,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
       dateSelected = widget.deliveryDate;
       slectedPayMethod = widget.paymentMethod;
       initialOffer = widget.offer ?? 'Offer';
+      noteController.text = widget.note;
     }
     if (widget.draftOrderItem.isNotEmpty) {
       for (var element in finalItemDataList) {
@@ -153,7 +136,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
             }
           });
         }
-        print("controller ${controllers[element.item_id]!.text}");
       }
     }
     setState(() {
@@ -161,9 +143,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           finalItemDataList, total, totalAmount)["ItemString"];
       totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
           finalItemDataList, total, totalAmount)["TotalAmount"];
-      print("itemString= $itemString");
     });
-    setState(() {});
 
     // FocusScope.of(context).requestFocus(FocusNode());
   }
@@ -1319,7 +1299,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
         dateSelected,
         selectedDeliveryTime,
         initialOffer,
-        noteController.text,
+        noteText,
         slectedPayMethod,
       );
     } else {
@@ -1335,7 +1315,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           deliveryTime: selectedDeliveryTime,
           offer: initialOffer,
           paymentMethod: slectedPayMethod,
-          note: noteController.text,
+          note: noteText,
           itemList: finalItemDataList));
     }
   }

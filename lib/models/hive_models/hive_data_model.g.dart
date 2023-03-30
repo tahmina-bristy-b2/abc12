@@ -80,7 +80,7 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       deliveryTime: fields[8] as String,
       paymentMethod: fields[9] as String,
       offer: fields[10] as String?,
-      note: fields[11] as String?,
+      note: fields[11] as String,
       itemList: (fields[12] as List).cast<AddItemModel>(),
     );
   }

@@ -240,7 +240,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             onTap: () {
               setState(() {
                 _counter = OrderServices().incrementCounter(_counter);
-                //print("_counter=$_counter");
               });
 
               Navigator.push(
@@ -259,6 +258,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                                 '(${foundUsers[index]['area_id']})' +
                                 "," +
                                 foundUsers[index]['address'],
+                            note: '',
                           )));
               setState(() {});
             },

@@ -56,7 +56,7 @@ class CustomerDataModel extends HiveObject {
   @HiveField(10)
   String? offer;
   @HiveField(11)
-  String? note;
+  String note;
   @HiveField(12)
   List<AddItemModel> itemList;
 

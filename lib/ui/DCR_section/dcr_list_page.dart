@@ -39,7 +39,7 @@ class _DcrListPageState extends State<DcrListPage> {
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    // print(dmpathBox.values);
+
     dmpathData = Boxes.getDmpath().get("dmPathData");
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;

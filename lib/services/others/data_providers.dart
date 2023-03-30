@@ -9,7 +9,6 @@ class DataProviders {
         Uri.parse(Apis.dmpath(cid)),
       );
     } catch (e) {
-      // ignore: avoid_print
       print('dmPath: $e');
     }
     return response;
@@ -32,9 +31,88 @@ class DataProviders {
             '_$version'),
       );
     } catch (e) {
-      // ignore: avoid_print
       print('UserLogin: $e');
     }
+    return response;
+  }
+
+  // ==============================Attendance Data Providers===========
+
+  Future<http.Response> attendanceDP(
+      String attendanceUrl,
+      String? cid,
+      String userId,
+      String? userPass,
+      String deviceId,
+      String lat,
+      String long,
+      String address,
+      String submitType,
+      String mtrReading) async {
+    String params =
+        "cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId&latitude=$lat&longitude=$long&address=$address&submit_type=$submitType&meter_reading=$mtrReading";
+
+    http.Response response = await http.get(
+      Uri.parse(Apis.attendanceApi(attendanceUrl, params)),
+    );
+
+    return response;
+  }
+
+  // ==============================area Data Providers===========
+
+  Future<http.Response> areaDP(
+    String areaUrl,
+    String? cid,
+    String userId,
+    String? userPass,
+  ) async {
+    String params = "cid=$cid&user_id=$userId&user_pass=$userPass";
+
+    print(params);
+
+    http.Response response = await http.get(
+      Uri.parse(Apis.areaApi(areaUrl, params)),
+    );
+
+    return response;
+  }
+
+  // ==============================area Base Client Data Providers===========
+
+  Future<http.Response> areaBaseClientDP(
+    String areaBaseClientUrl,
+    String? cid,
+    String userId,
+    String? userPass,
+    String areaId,
+  ) async {
+    String params =
+        "cid=$cid&user_id=$userId&user_pass=$userPass&area_id=$areaId";
+
+    http.Response response = await http.get(
+      Uri.parse(Apis.areaBaseClientApi(areaBaseClientUrl, params)),
+    );
+
+    return response;
+  }
+
+  // ==============================area Base Doctor Data Providers===========
+
+  Future<http.Response> areaBaseDoctorDP(
+    String areaBaseDoctorUrl,
+    String? cid,
+    String userId,
+    String? userPass,
+    String areaId,
+  ) async {
+    String params =
+        "cid=$cid&user_id=$userId&user_pass=$userPass&area_id=$areaId";
+
+    http.Response response = await http.get(
+      Uri.parse(Apis.areaBaseDoctorApi(areaBaseDoctorUrl, params)),
+    );
+
     return response;
   }
 }

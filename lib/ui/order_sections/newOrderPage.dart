@@ -94,24 +94,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
   double vat = 0;
   double total = 0;
 
-  // String submit_url = '';
-  // String client_edit_url = '';
-  // // String client_outst_url = '';
-  // String repOutsUrl = '';
-  // String repLastOrdUrl = '';
-  // String repLastInvUrl = '';
-
   String noteText = '';
   String? cid;
   String? userId;
   String? userPassword;
-  // bool offer_flag = false;
-  // bool note_flag = false;
-  // bool client_edit_flag = false;
-  // bool os_show_flag = false;
-  // bool os_details_flag = false;
-  // bool ord_history_flag = false;
-  // bool inv_histroy_flag = false;
+
   var body = "";
   var resultofOuts = "";
   String itemString = '';
@@ -133,34 +120,18 @@ class _NewOrderPageState extends State<NewOrderPage> {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
 
-    print("client_edit_flag=${userLoginInfo!.clientEditFlag}");
-
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        // client_outst_url = prefs.getString("client_outst_url") ?? "";
-        // submit_url = prefs.getString("submit_url")!;
-        // client_edit_url = prefs.getString("client_edit_url")!;
-
         cid = prefs.getString("CID");
         userId = prefs.getString("USER_ID");
         userPassword = prefs.getString("PASSWORD");
-        userName = prefs.getString("userName") ?? '';
-        user_id = prefs.getString("user_id") ?? '';
-        // offer_flag = prefs.getBool("offer_flag")!;
-        // note_flag = prefs.getBool("note_flag")!;
-        // client_edit_flag = prefs.getBool("client_edit_flag")!;
-        // os_show_flag = prefs.getBool("os_show_flag")!;
-        // os_details_flag = prefs.getBool("os_details_flag")!;
-        // ord_history_flag = prefs.getBool("ord_history_flag")!;
-        // inv_histroy_flag = prefs.getBool("inv_histroy_flag")!;
-        latitude = prefs.getDouble("latitude") ?? 0.0;
-        longitude = prefs.getDouble("longitude") ?? 0.0;
+        userName = prefs.getString("userName")!;
+        user_id = prefs.getString("user_id")!;
+        latitude = prefs.getDouble("latitude")!;
+        longitude = prefs.getDouble("longitude")!;
         deviceId = prefs.getString("deviceId");
         deviceBrand = prefs.getString("deviceBrand");
         deviceModel = prefs.getString("deviceModel");
-        // repOutsUrl = prefs.getString("report_outst_url") ?? "";
-        // repLastOrdUrl = prefs.getString("report_last_ord_url") ?? "";
-        // repLastInvUrl = prefs.getString("report_last_inv_url") ?? "";
       });
     });
 
@@ -1383,7 +1354,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
       syncItemList.add('empty');
     } else {
       syncItemList = mymap;
-
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -1393,11 +1364,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
             tempList: finalItemDataList,
             tempListFunc: (value) {
               finalItemDataList = value;
-              finalItemDataList.forEach((element) {
+              for (var element in finalItemDataList) {
                 controllers[element.item_id] = TextEditingController();
                 controllers[element.item_id]?.text =
                     element.quantity.toString();
-              });
+              }
               // finalItemDataList.forEach((element) {
 
               // });

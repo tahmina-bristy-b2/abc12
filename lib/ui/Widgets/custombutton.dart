@@ -7,7 +7,7 @@ class customBuildButton extends StatelessWidget {
   final double sizeWidth;
   final Color inputColor;
 
-  customBuildButton({
+  const customBuildButton({
     Key? key,
     required this.onClick,
     required this.icon,
@@ -37,8 +37,8 @@ class customBuildButton extends StatelessWidget {
                 color: title == 'New Order' ||
                         title == 'New DCR' ||
                         title == 'RX Capture'
-                    ? Color.fromARGB(255, 43, 114, 236)
-                    : Color.fromARGB(255, 27, 56, 34),
+                    ? const Color.fromARGB(255, 43, 114, 236)
+                    : const Color.fromARGB(255, 27, 56, 34),
                 size: 28,
               ),
             ),

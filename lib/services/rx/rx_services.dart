@@ -57,8 +57,6 @@ class RxServices {
       rxDcrData.presImage = rxDcrlist.first.presImage;
       rxDcrData.rxMedicineList = addedDcrMedList;
       rxDcrData.rxType = rxType;
-      // rxDcrData.visitedWith = visitedWith;
-      // rxDcrData.notes = notes;
     }
 
     rxDcrBox.put(desirekey, rxDcrData);

@@ -90,7 +90,6 @@ class _RxPageState extends State<RxPage> {
       String removeSpace = widget.draftRxData!.presImage
           .substring(space + 1, widget.draftRxData!.presImage.length);
       finalImage = removeSpace.replaceAll("'", '');
-      print("from draft in initState $finalImage");
 
       dropdownRxTypevalue = widget.draftRxData!.rxType;
     }
@@ -339,7 +338,6 @@ class _RxPageState extends State<RxPage> {
                                         ),
                                       ),
                                     );
-                                    // getRxDoctorData();
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: 'Please Take Image First ',
@@ -952,7 +950,7 @@ class _RxPageState extends State<RxPage> {
                   finalMedicineList.removeAt(index);
                   setState(() {});
                 }
-                // print('Confirmed');
+
                 Navigator.of(context).pop();
               },
             ),
@@ -988,8 +986,6 @@ class _RxPageState extends State<RxPage> {
   Future rxSubmit() async {
     String fileName = "";
     if (finalDoctorList[0].docId != "") {
-      print(" in rx Submit $finalImage");
-
       // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
 
       final jsonData = await RxRepositories()
@@ -1011,8 +1007,6 @@ class _RxPageState extends State<RxPage> {
             latitude,
             longitude,
             itemString);
-
-        print("orderInfo $orderInfo");
 
         if (orderInfo['status'] == "Success") {
           String retStr = orderInfo['ret_str'];

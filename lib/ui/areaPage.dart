@@ -1,5 +1,12 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
+import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/services/apiCall.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AreaPage extends StatefulWidget {
@@ -15,22 +22,23 @@ class AreaPage extends StatefulWidget {
 
 class _AreaPageState extends State<AreaPage> {
   String cid = '';
-  String userId = '';
   String userPassword = '';
-  String areaPageUrl = '';
-  String syncUrl = '';
   bool _isLoading = false;
+
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
 
   @override
   void initState() {
     super.initState();
+
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        cid = prefs.getString("CID")!;
-        userId = prefs.getString("USER_ID")!;
-        areaPageUrl = prefs.getString('user_area_url')!;
+        cid = prefs.getString("CID") ?? " ";
         userPassword = prefs.getString("PASSWORD")!;
-        syncUrl = prefs.getString("sync_url")!;
       });
     });
   }
@@ -44,7 +52,8 @@ class _AreaPageState extends State<AreaPage> {
       ),
       body: SafeArea(
         child: FutureBuilder(
-          future: getAreaPage(areaPageUrl, cid, userId, userPassword),
+          future: Repositories().areaRepo(
+              dmpathData!.userAreaUrl, cid, userInfo!.userId, userPassword),
           builder: ((context, AsyncSnapshot<List> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -60,21 +69,49 @@ class _AreaPageState extends State<AreaPage> {
                             setState1(() {
                               _isLoading = true;
                             });
-                            bool response = widget.screenName == 'order'
-                                ? await getAreaBaseClient(
+                            bool response = false;
+
+                            if (widget.screenName == 'order') {
+                              List clientList = await Repositories()
+                                  .areaBaseClientRepo(
+                                      dmpathData!.syncUrl,
+                                      cid,
+                                      userInfo!.userId,
+                                      userPassword,
+                                      snapshot.data![index]['area_id']);
+
+                              if (clientList.isNotEmpty) {
+                                response = true;
+
+                                if (!mounted) return;
+                                Navigator.push(
                                     context,
-                                    syncUrl,
-                                    cid,
-                                    userId,
-                                    userPassword,
-                                    snapshot.data![index]['area_id'])
-                                : await getAreaBaseDoctor(
+                                    MaterialPageRoute(
+                                        builder: (_) => CustomerListScreen(
+                                              data: clientList,
+                                            )));
+                              }
+                            } else if (widget.screenName == 'dcr') {
+                              List doctorList = await Repositories()
+                                  .areaBaseDoctorRepo(
+                                      dmpathData!.syncUrl,
+                                      cid,
+                                      userInfo!.userId,
+                                      userPassword,
+                                      snapshot.data![index]['area_id']);
+
+                              if (doctorList.isNotEmpty) {
+                                response = true;
+
+                                if (!mounted) return;
+                                Navigator.push(
                                     context,
-                                    syncUrl,
-                                    cid,
-                                    userId,
-                                    userPassword,
-                                    snapshot.data![index]['area_id']);
+                                    MaterialPageRoute(
+                                        builder: (_) => DcrListPage(
+                                              dcrDataList: doctorList,
+                                            )));
+                              }
+                            }
 
                             setState1(() {
                               _isLoading = response;
@@ -110,25 +147,60 @@ class _AreaPageState extends State<AreaPage> {
                                               setState1(() {
                                                 _isLoading = true;
                                               });
+                                              bool response = false;
+                                              if (widget.screenName ==
+                                                  'order') {
+                                                List clientList =
+                                                    await Repositories()
+                                                        .areaBaseDoctorRepo(
+                                                            dmpathData!.syncUrl,
+                                                            cid,
+                                                            userInfo!.userId,
+                                                            userPassword,
+                                                            snapshot.data![
+                                                                    index]
+                                                                ['area_id']);
 
-                                              bool response =
-                                                  widget.screenName == 'order'
-                                                      ? await getAreaBaseClient(
-                                                          context,
-                                                          syncUrl,
-                                                          cid,
-                                                          userId,
-                                                          userPassword,
-                                                          snapshot.data![index]
-                                                              ['area_id'])
-                                                      : await getAreaBaseDoctor(
-                                                          context,
-                                                          syncUrl,
-                                                          cid,
-                                                          userId,
-                                                          userPassword,
-                                                          snapshot.data![index]
-                                                              ['area_id']);
+                                                if (clientList.isNotEmpty) {
+                                                  response = true;
+
+                                                  if (!mounted) return;
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              CustomerListScreen(
+                                                                data:
+                                                                    clientList,
+                                                              )));
+                                                }
+                                              } else if (widget.screenName ==
+                                                  'dcr') {
+                                                List doctorList =
+                                                    await Repositories()
+                                                        .areaBaseDoctorRepo(
+                                                            dmpathData!.syncUrl,
+                                                            cid,
+                                                            userInfo!.userId,
+                                                            userPassword,
+                                                            snapshot.data![
+                                                                    index]
+                                                                ['area_id']);
+
+                                                if (doctorList.isNotEmpty) {
+                                                  response = true;
+
+                                                  if (!mounted) return;
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              DcrListPage(
+                                                                dcrDataList:
+                                                                    doctorList,
+                                                              )));
+                                                }
+                                              }
 
                                               setState1(() {
                                                 _isLoading = response;

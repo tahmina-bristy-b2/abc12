@@ -127,8 +127,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
         userPassword = prefs.getString("PASSWORD");
         userName = prefs.getString("userName")!;
         user_id = prefs.getString("user_id")!;
-        latitude = prefs.getDouble("latitude")!;
-        longitude = prefs.getDouble("longitude")!;
+        latitude = prefs.getDouble("latitude") ?? 0.0;
+        longitude = prefs.getDouble("longitude") ?? 0.0;
         deviceId = prefs.getString("deviceId");
         deviceBrand = prefs.getString("deviceBrand");
         deviceModel = prefs.getString("deviceModel");

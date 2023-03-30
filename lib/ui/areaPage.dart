@@ -1,6 +1,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
@@ -69,7 +70,7 @@ class _AreaPageState extends State<AreaPage> {
                             setState1(() {
                               _isLoading = true;
                             });
-                            bool response = false;
+                            // bool response = false;
 
                             if (widget.screenName == 'order') {
                               List clientList = await Repositories()
@@ -81,7 +82,10 @@ class _AreaPageState extends State<AreaPage> {
                                       snapshot.data![index]['area_id']);
 
                               if (clientList.isNotEmpty) {
-                                response = true;
+                                // response = true;
+                                setState1(() {
+                                  _isLoading = false;
+                                });
 
                                 if (!mounted) return;
                                 Navigator.push(
@@ -90,6 +94,15 @@ class _AreaPageState extends State<AreaPage> {
                                         builder: (_) => CustomerListScreen(
                                               data: clientList,
                                             )));
+                              } else {
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+                                AllServices().toastMessage(
+                                    'Customer Loading failed!',
+                                    Colors.red,
+                                    Colors.white,
+                                    16);
                               }
                             } else if (widget.screenName == 'dcr') {
                               List doctorList = await Repositories()
@@ -101,7 +114,10 @@ class _AreaPageState extends State<AreaPage> {
                                       snapshot.data![index]['area_id']);
 
                               if (doctorList.isNotEmpty) {
-                                response = true;
+                                // response = true;
+                                setState1(() {
+                                  _isLoading = false;
+                                });
 
                                 if (!mounted) return;
                                 Navigator.push(
@@ -110,12 +126,17 @@ class _AreaPageState extends State<AreaPage> {
                                         builder: (_) => DcrListPage(
                                               dcrDataList: doctorList,
                                             )));
+                              } else {
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+                                AllServices().toastMessage(
+                                    'Doctor Loading failed!',
+                                    Colors.red,
+                                    Colors.white,
+                                    16);
                               }
                             }
-
-                            setState1(() {
-                              _isLoading = response;
-                            });
                           },
                           child: Card(
                             // color: Colors.blue.withOpacity(.03),
@@ -142,73 +163,8 @@ class _AreaPageState extends State<AreaPage> {
                                                   CircularProgressIndicator(),
                                             ),
                                           )
-                                        : IconButton(
-                                            onPressed: () async {
-                                              setState1(() {
-                                                _isLoading = true;
-                                              });
-                                              bool response = false;
-                                              if (widget.screenName ==
-                                                  'order') {
-                                                List clientList =
-                                                    await Repositories()
-                                                        .areaBaseDoctorRepo(
-                                                            dmpathData!.syncUrl,
-                                                            cid,
-                                                            userInfo!.userId,
-                                                            userPassword,
-                                                            snapshot.data![
-                                                                    index]
-                                                                ['area_id']);
-
-                                                if (clientList.isNotEmpty) {
-                                                  response = true;
-
-                                                  if (!mounted) return;
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              CustomerListScreen(
-                                                                data:
-                                                                    clientList,
-                                                              )));
-                                                }
-                                              } else if (widget.screenName ==
-                                                  'dcr') {
-                                                List doctorList =
-                                                    await Repositories()
-                                                        .areaBaseDoctorRepo(
-                                                            dmpathData!.syncUrl,
-                                                            cid,
-                                                            userInfo!.userId,
-                                                            userPassword,
-                                                            snapshot.data![
-                                                                    index]
-                                                                ['area_id']);
-
-                                                if (doctorList.isNotEmpty) {
-                                                  response = true;
-
-                                                  if (!mounted) return;
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              DcrListPage(
-                                                                dcrDataList:
-                                                                    doctorList,
-                                                              )));
-                                                }
-                                              }
-
-                                              setState1(() {
-                                                _isLoading = response;
-                                              });
-                                            },
-                                            icon: const Icon(
-                                                Icons.arrow_forward_ios_sharp),
-                                          ),
+                                        : const Icon(
+                                            Icons.arrow_forward_ios_sharp),
                                   ],
                                 )),
                           ),

@@ -65,6 +65,7 @@ class OrderServices {
     }
     mapData["TotalAmount"] = totalAmount;
     mapData["ItemString"] = itemString;
+    print("1itemSTring= $itemString");
     return mapData;
   }
 
@@ -99,15 +100,6 @@ class OrderServices {
       }
     });
     customerBox.delete(desireKey);
-
-    //final box = Hive.box<AddItemModel>("orderedItem");
-
-    // final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-    // dynamic desiredKey;
-    // deliveriesMap.forEach((key, value) {
-    //   if (value.item_id == id) desiredKey = key;
-    // });
-    // box.delete(desiredKey);
   }
 
   //=======================================client Outstanding APi Data=================================================================================

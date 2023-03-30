@@ -187,10 +187,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
       slectedPayMethod = widget.paymentMethod;
       initialOffer = widget.offer ?? 'Offer';
 
-      setState(() {
-        mapData = OrderServices().ordertotalAmount(
-            itemString, orderAmount, finalItemDataList, total, totalAmount);
-      });
       print("mapData====$mapData");
 
       print("itemString====$itemString");
@@ -214,6 +210,15 @@ class _NewOrderPageState extends State<NewOrderPage> {
         print("controller ${controllers[element.item_id]!.text}");
       }
     }
+    setState(() {
+      // mapData = OrderServices().ordertotalAmount(
+      //     itemString, orderAmount, finalItemDataList, total, totalAmount);
+      itemString = OrderServices().ordertotalAmount(itemString, orderAmount,
+          finalItemDataList, total, totalAmount)["ItemString"];
+      totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
+          finalItemDataList, total, totalAmount)["TotalAmount"];
+      print("itemString= $itemString");
+    });
     setState(() {});
 
     // FocusScope.of(context).requestFocus(FocusNode());
@@ -369,15 +374,35 @@ class _NewOrderPageState extends State<NewOrderPage> {
                   OrderServices().deleteSingleOrderItem(customerBox, itemBox,
                       widget.clientId, finalItemDataList[index].item_id);
 
-                  OrderServices().ordertotalAmount(itemString, orderAmount,
-                      finalItemDataList, total, totalAmount);
+                  itemString = OrderServices().ordertotalAmount(
+                      itemString,
+                      orderAmount,
+                      finalItemDataList,
+                      total,
+                      totalAmount)["ItemString"];
+                  totalAmount = OrderServices().ordertotalAmount(
+                      itemString,
+                      orderAmount,
+                      finalItemDataList,
+                      total,
+                      totalAmount)["TotalAmount"];
 
                   setState(() {});
                 } else {
                   finalItemDataList.removeAt(index);
 
-                  OrderServices().ordertotalAmount(itemString, orderAmount,
-                      finalItemDataList, total, totalAmount);
+                  itemString = OrderServices().ordertotalAmount(
+                      itemString,
+                      orderAmount,
+                      finalItemDataList,
+                      total,
+                      totalAmount)["ItemString"];
+                  totalAmount = OrderServices().ordertotalAmount(
+                      itemString,
+                      orderAmount,
+                      finalItemDataList,
+                      total,
+                      totalAmount)["TotalAmount"];
 
                   setState(() {});
                 }
@@ -600,8 +625,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
           setState(() {});
         },
         style: ElevatedButton.styleFrom(
-          foregroundColor: Color.fromARGB(255, 27, 43, 23),
-          backgroundColor: Color.fromARGB(223, 146, 212, 157),
+          foregroundColor: const Color.fromARGB(255, 27, 43, 23),
+          backgroundColor: const Color.fromARGB(223, 146, 212, 157),
           fixedSize: const Size(20, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -619,30 +644,29 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
-        onPressed: () async {
-          var url =
-              '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          if (await canLaunchUrl(Uri.parse(url))) {
-            await launchUrl(Uri.parse(url));
-          } else {
-            throw 'Could not launch $url';
-          }
+          onPressed: () async {
+            var url =
+                '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
+            if (await canLaunchUrl(Uri.parse(url))) {
+              await launchUrl(Uri.parse(url));
+            } else {
+              throw 'Could not launch $url';
+            }
 
-          setState(() {});
-        },
-        child: const Text(
-          "Last Order",
-          style: TextStyle(fontSize: 16),
-        ),
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Color.fromARGB(255, 27, 43, 23),
-          backgroundColor: Color.fromARGB(223, 146, 212, 157),
-          fixedSize: const Size(20, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            setState(() {});
+          },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Color.fromARGB(255, 27, 43, 23),
+            backgroundColor: Color.fromARGB(223, 146, 212, 157),
+            fixedSize: const Size(20, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
           ),
-        ),
-      ),
+          child: const Text(
+            "Last Order",
+            style: TextStyle(fontSize: 16),
+          )),
     );
   }
 
@@ -663,10 +687,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
           setState(() {});
         },
-        child: const Text(
-          "Outstanding",
-          style: TextStyle(fontSize: 16),
-        ),
         style: ElevatedButton.styleFrom(
           foregroundColor: const Color.fromARGB(255, 27, 43, 23),
           backgroundColor: const Color.fromARGB(223, 146, 212, 157),
@@ -674,6 +694,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
+        ),
+        child: const Text(
+          "Outstanding",
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );
@@ -1145,15 +1169,24 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                           : 0;
 
                                   setState(() {
-                                    mapData = OrderServices().ordertotalAmount(
-                                        itemString,
-                                        orderAmount,
-                                        finalItemDataList,
-                                        total,
-                                        totalAmount);
-                                    print("mapData= $mapData");
+                                    itemString = OrderServices()
+                                        .ordertotalAmount(
+                                            itemString,
+                                            orderAmount,
+                                            finalItemDataList,
+                                            total,
+                                            totalAmount)["ItemString"];
+                                    totalAmount = OrderServices()
+                                        .ordertotalAmount(
+                                            itemString,
+                                            orderAmount,
+                                            finalItemDataList,
+                                            total,
+                                            totalAmount)["TotalAmount"];
+
+                                    print("itemSTring= $itemString");
                                   });
-                                  // setState(() {});
+                                  setState(() {});
                                 },
                               ),
                             ),
@@ -1313,9 +1346,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
         });
         OrderServices()
             .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
-        Navigator.of(context).pop;
-        Navigator.of(context).pop;
+
         AllServices().toastMessage(ret_str, Colors.green, Colors.white, 16);
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
       } else {
         AllServices()
             .toastMessage("Order Failed", Colors.red, Colors.white, 16);
@@ -1402,8 +1436,19 @@ class _NewOrderPageState extends State<NewOrderPage> {
               // });
 
               setState(() {
-                OrderServices().ordertotalAmount(itemString, orderAmount,
-                    finalItemDataList, total, totalAmount);
+                itemString = OrderServices().ordertotalAmount(
+                    itemString,
+                    orderAmount,
+                    finalItemDataList,
+                    total,
+                    totalAmount)["ItemString"];
+                totalAmount = OrderServices().ordertotalAmount(
+                    itemString,
+                    orderAmount,
+                    finalItemDataList,
+                    total,
+                    totalAmount)["TotalAmount"];
+                print("itemSTring= $itemString");
               });
             },
           ),

@@ -80,7 +80,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   double orderAmount = 0;
   String totalAmount = '';
   double total = 0;
-  String noteText = '';
+  // String noteText = '';
 
   String? cid;
   String? userPassword;
@@ -927,8 +927,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
                 labelText: '  Notes...',
                 labelStyle: TextStyle(color: Colors.blueGrey)),
             onChanged: (value) {
-              noteText =
-                  (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+              (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+
+              setState(() {});
             },
           ),
         ),
@@ -1250,7 +1251,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
         dateSelected,
         selectedDeliveryTime,
         initialOffer,
-        noteText,
+        noteController.text,
         slectedPayMethod,
       );
     } else {
@@ -1266,7 +1267,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           deliveryTime: selectedDeliveryTime,
           offer: initialOffer,
           paymentMethod: slectedPayMethod,
-          note: noteText,
+          note: noteController.text,
           itemList: finalItemDataList));
     }
   }
@@ -1312,7 +1313,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           selectedDeliveryTime,
           slectedPayMethod,
           initialOffer,
-          noteText,
+          noteController.text,
           itemString,
           latitude,
           longitude);

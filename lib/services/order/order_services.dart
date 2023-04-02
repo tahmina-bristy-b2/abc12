@@ -86,6 +86,7 @@ class OrderServices {
         desireKey = key;
       }
     });
+    print("forder services=$note");
 
     CustomerDataModel? clientData = customerBox.get(desireKey);
     if (clientData!.isInBox) {
@@ -95,6 +96,7 @@ class OrderServices {
       clientData.offer = initialOffer;
       clientData.note = note;
       clientData.paymentMethod = slectedPayMethod;
+      print("order services 2=$note");
     }
     customerBox.put(desireKey, clientData);
   }
@@ -139,5 +141,35 @@ class OrderServices {
       AllServices().toastMessage('Order Failed', Colors.red, Colors.white, 16);
     }
     return resultofOuts;
+  }
+
+  //======================================Client Delete in Draft order page==========================================================================
+  deleteEachClient(Box<CustomerDataModel> customerBox,
+      List<AddItemModel> orderDataBox, String clientId) {
+    dynamic desireKey;
+    customerBox.toMap().forEach((key, value) {
+      if (value.clientId == clientId) {
+        desireKey = key;
+      }
+    });
+    customerBox.delete(desireKey);
+  }
+
+  //========================================item details in Draft order page======================================================================
+  showDetailsDraftItem(List<AddItemModel> finalItemDataList,
+      List<CustomerDataModel> user, int index) {
+    finalItemDataList
+        .where((item) => item.item_id == user[index].clientId)
+        .forEach((item) {
+      user[index].itemList.add(AddItemModel(
+            quantity: item.quantity,
+            item_name: item.item_name,
+            tp: item.tp,
+            item_id: item.item_id,
+            category_id: item.category_id,
+            vat: item.vat,
+            manufacturer: item.manufacturer,
+          ));
+    });
   }
 }

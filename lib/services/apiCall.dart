@@ -1,13 +1,6 @@
 import 'dart:convert';
-
-import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 // import 'package:MREPORTING/ui/loginPage.dart';
-import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
-import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:MREPORTING/models/area_page_model.dart';
@@ -15,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 String timer_track_url = "";
 String sync_notice_url = "";
 String expenseSubmit = "";
-String expenseType = "";
 String expenseReport = "";
 String cid = "";
 String user_id = "";
@@ -26,7 +18,6 @@ sharedpref() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   timer_track_url = prefs.getString("timer_track_url") ?? "";
   expenseSubmit = prefs.getString("exp_submit_url") ?? "";
-  expenseType = prefs.getString("exp_type_url") ?? "";
   sync_notice_url = prefs.getString("sync_notice_url") ?? "";
   expenseReport = prefs.getString("report_exp_url") ?? "";
   cid = prefs.getString("CID") ?? '';

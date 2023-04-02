@@ -16,22 +16,6 @@ import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
-// List<String> dcr_visitedWithList = [];
-// List<String> rxTypeList = [];
-// bool offer_flag = false;
-// bool? note_flag;
-// bool? client_edit_flag;
-// bool? os_show_flag;
-// bool? os_details_flag;
-// bool? ord_history_flag;
-// bool? inv_histroy_flag;
-// bool? timer_flag;
-// bool? rx_doc_must;
-// bool? rx_type_must;
-// bool? rx_gallery_allow;
-
-// String version = "test";
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -69,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     });
-    // print("offer flag result $offer_flag");
+
     super.initState();
   }
 
@@ -77,14 +61,12 @@ class _LoginScreenState extends State<LoginScreen> {
     var deviceInfo = DeviceInfoPlugin();
 
     var androidDeviceInfo = await deviceInfo.androidInfo;
-    // deviceId = androidDeviceInfo.id!;
 
     deviceBrand = androidDeviceInfo.brand!;
     deviceModel = androidDeviceInfo.model!;
 
     try {
       deviceId = (await PlatformDeviceId.getDeviceId)!;
-      // print(deviceId);
     } on PlatformException {
       deviceId = 'Failed to get deviceId.';
     }
@@ -396,51 +378,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Colors.white,
                                               16);
                                         }
-
-                                        // odl call
-                                        // dmPath(
-                                        //     deviceId,
-                                        //     deviceBrand,
-                                        //     deviceModel,
-                                        //     _companyIdController.text
-                                        //         .toUpperCase(),
-                                        //     _userIdController.text,
-                                        //     _passwordController.text,
-                                        //     context);
-
-                                        // end old call
-
-                                        //   bool result =
-                                        //       await InternetConnectionChecker()
-                                        //           .hasConnection;
-
-                                        //   if (result == true) {
-                                        //     dmPath(
-                                        //         deviceId,
-                                        //         deviceBrand,
-                                        //         deviceModel,
-                                        //         _companyIdController.text
-                                        //             .toUpperCase(),
-                                        //         _userIdController.text,
-                                        //         _passwordController.text,
-                                        //         context);
-                                        //     // SharedPreferncesMethod()
-                                        //     //     .sharedPreferenceSetDataForLogin(
-                                        //     //         _companyIdController.text
-                                        //     //             .toUpperCase(),
-                                        //     //         _userIdController.text,
-                                        //     //         _passwordController.text);
-                                        //     print("1");
-                                        //   } else {
-                                        //     setState(() {
-                                        //       isLoading = false;
-                                        //     });
-                                        //     _submitToastforOrder3();
-
-                                        //     // print(InternetConnectionChecker()
-                                        //     //     .lastTryResults);
-                                        //     print("2");
-                                        //   }
                                       } else {}
                                     },
                                     child: const Text(
@@ -477,44 +414,5 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           );
-  }
-
-  // buildShowDialog(BuildContext context) {
-  //   return showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       builder: (BuildContext context) {
-  //         return Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: const [
-  //             CircularProgressIndicator(
-  //               color: Colors.white,
-  //             ),
-  //             SizedBox(
-  //               height: 10,
-  //             ),
-  //           ],
-  //         );
-  //       });
-  // }
-
-  void _submitToastforOrder2() {
-    Fluttertoast.showToast(
-        msg: 'Wrong user Id and Password',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
-  void _submitToastforOrder3() {
-    Fluttertoast.showToast(
-        msg: 'No Internet Connection\nPlease check your internet connection.',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 }

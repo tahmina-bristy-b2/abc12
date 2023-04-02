@@ -1,8 +1,7 @@
+import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/order_sections/newOrderPage.dart';
-
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 
@@ -15,54 +14,20 @@ class DraftOrderPage extends StatefulWidget {
 
 class _DraftOrderPageState extends State<DraftOrderPage> {
   Box? box;
-  double total = 0;
-  List itemDraftList = [];
+
+  final customerBox = Boxes.getCustomerUsers();
+  final draftOrderData = Boxes.getDraftOrderedData();
   List<AddItemModel> finalItemDataList = [];
-  List<AddItemModel> filteredOrder = [];
-  List<CustomerDataModel> customerItemDataList = [];
 
   @override
   void initState() {
-    box = Boxes.getDraftOrderedData();
-    finalItemDataList = box!.toMap().values.toList().cast<AddItemModel>();
-    finalItemDataList.forEach(
-      (element) {
-        // print(element.item_name);
-      },
-    );
-
-    box = Boxes.getCustomerUsers();
-    customerItemDataList =
-        box!.toMap().values.toList().cast<CustomerDataModel>();
+    finalItemDataList =
+        draftOrderData.toMap().values.toList().cast<AddItemModel>();
 
     super.initState();
   }
 
-  double totalCount(index) {
-    double subtotal = index['tp'] * index['quantity'];
-    double newVat = index['vat'] / 100;
-    double total1 = subtotal * newVat;
-    total = total1 + subtotal;
-
-    return total;
-  }
-
-  int _currentSelected = 0;
-
-  Future<void> deleteClient(CustomerDataModel customerModel) async {
-    customerModel.delete();
-  }
-
-  deleteOrderItem(int id) {
-    final box = Hive.box<AddItemModel>("orderedItem");
-
-    final Map<dynamic, AddItemModel> deliveriesMap = box.toMap();
-    dynamic desiredKey;
-    deliveriesMap.forEach((key, value) {
-      if (value.uiqueKey1 == id) desiredKey = key;
-    });
-    box.delete(desiredKey);
-  }
+  //int _currentSelected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +42,10 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
           centerTitle: true),
       body: SafeArea(
         child: ValueListenableBuilder(
-          valueListenable: Boxes.getCustomerUsers().listenable(),
+          valueListenable: customerBox.listenable(),
           builder: (BuildContext context, Box box, Widget? child) {
             final orderCustomers =
-                box.values.toList().cast<CustomerDataModel>();
+                customerBox.values.toList().cast<CustomerDataModel>();
 
             return genContent(orderCustomers);
           },
@@ -89,6 +54,7 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
     );
   }
 
+//=============================================widget===============================================================
   Widget genContent(List<CustomerDataModel> user) {
     if (user.isEmpty) {
       return const Center(
@@ -102,7 +68,6 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
         itemCount: user.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {},
             child: Card(
               color: Colors.white,
               child: ExpansionTile(
@@ -124,10 +89,8 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
                     children: [
                       TextButton.icon(
                         onPressed: () {
-                          final ckey = user[index].uiqueKey;
-                          deleteClient(user[index]);
-
-                          deleteOrderItem(ckey);
+                          OrderServices().deleteEachClient(customerBox,
+                              finalItemDataList, user[index].clientId);
                         },
                         icon: const Icon(
                           Icons.delete,
@@ -140,36 +103,20 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          final ckey = user[index].uiqueKey;
-                          filteredOrder = [];
-                          finalItemDataList
-                              .where((item) => item.uiqueKey1 == ckey)
-                              .forEach((item) {
-                            final temp = AddItemModel(
-                              uiqueKey1: item.uiqueKey1,
-                              quantity: item.quantity,
-                              item_name: item.item_name,
-                              tp: item.tp,
-                              item_id: item.item_id,
-                              category_id: item.category_id,
-                              vat: item.vat,
-                              manufacturer: item.manufacturer,
-                            );
-                            filteredOrder.add(temp);
-                          });
+                          OrderServices().showDetailsDraftItem(
+                              finalItemDataList, user, index);
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => NewOrderPage(
-                                ckey: ckey,
-                                uniqueId: ckey,
-                                draftOrderItem: filteredOrder,
+                                draftOrderItem: user[index].itemList,
                                 outStanding: user[index].outstanding,
                                 deliveryDate: user[index].deliveryDate,
                                 deliveryTime: user[index].deliveryTime,
                                 paymentMethod: user[index].paymentMethod,
                                 offer: user[index].offer,
+                                note: user[index].note,
                                 clientName: user[index].clientName,
                                 clientId: user[index].clientId,
                                 marketName: user[index].marketName,

@@ -370,6 +370,8 @@ class Repositories {
 
   Future<List> expenseEntryRepo(
       String expenseType, String cid, String userId, String userPass) async {
+    print("a01");
+    print("$expenseType?cid=$cid&user_id=$userId&user_pass=$userPass");
     List expenseTypeList = [];
     Map<String, dynamic> expenseTypeJsonData = {};
 

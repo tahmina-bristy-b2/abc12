@@ -1,11 +1,13 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/Expense/expense_entry.dart';
 import 'package:MREPORTING/ui/Expense/expense_section.dart';
-import 'package:MREPORTING/ui/expense_page.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/services/apiCall.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpenseDraft extends StatefulWidget {
   Map temp;
@@ -20,11 +22,25 @@ class _ExpenseDraftState extends State<ExpenseDraft> {
   Box? box;
   List newList = [];
   var element_ids;
+  String userPass = " ";
   List expenseDraftList = [];
   List finalExpenselist = [];
   List showDraftList = [];
+
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
   @override
   void initState() {
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        userPass = prefs.getString("PASSWORD") ?? "";
+      });
+    });
+
     // print("draft page is having temp file of expense${widget.temp}");
     box = Hive.box("draftForExpense");
     dynamic desireKey;
@@ -113,26 +129,30 @@ class _ExpenseDraftState extends State<ExpenseDraft> {
                                     ),
                                     TextButton.icon(
                                       onPressed: () async {
-                                        //         newList = await Repositories().expenseEntryRepo(
-                                        // dmpathData!.expTypeUrl,
-                                        // cid,
-                                        // userInfo!.userId,
-                                        // userPass);
+                                        print(dmpathData!.expTypeUrl);
+                                        newList = await Repositories()
+                                            .expenseEntryRepo(
+                                                dmpathData!.expTypeUrl,
+                                                cid,
+                                                userInfo!.userId,
+                                                userPass);
 
-                                        //         Navigator.push(
-                                        //           context,
-                                        //           MaterialPageRoute(
-                                        //             builder: (_) => ExpenseEntry(
-                                        //                 expenseTypelist: newList,
-                                        //                 callback: (value) {},
-                                        //                 tempExpList:
-                                        //                     expenseDraftList[index]
-                                        //                         ["expData"],
-                                        //                 expDraftDate:
-                                        //                     expenseDraftList[index]
-                                        //                         ["expDate"]),
-                                        //           ),
-                                        //         );
+                                        if (!mounted) return;
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ExpenseEntry(
+                                                expenseTypelist: newList,
+                                                callback: (value) {},
+                                                tempExpList:
+                                                    expenseDraftList[index]
+                                                        ["expData"],
+                                                expDraftDate:
+                                                    expenseDraftList[index]
+                                                        ["expDate"]),
+                                          ),
+                                        );
                                       },
                                       icon: const Icon(
                                         Icons.arrow_forward_outlined,

@@ -3,21 +3,14 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/Expense/approval.dart';
-import 'package:MREPORTING/ui/Expense/attendanceMtrHistory.dart';
 import 'package:MREPORTING/ui/Expense/expense_draft.dart';
 import 'package:MREPORTING/ui/Expense/expense_entry.dart';
 import 'package:MREPORTING/ui/Expense/expense_log.dart';
-import 'package:MREPORTING/ui/Expense/expense_summary.dart';
 import 'package:MREPORTING/ui/attendance_page.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/ui/Widgets/custombutton.dart';
-import 'package:MREPORTING/ui/Widgets/syncCustomButton.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExpensePage extends StatefulWidget {
@@ -35,8 +28,8 @@ class _ExpensePageState extends State<ExpensePage> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 
-  var prefix;
-  var prefix2;
+  String prefix = " ";
+  String prefix2 = " ";
   @override
   void initState() {
     SharedPreferences.getInstance().then((prefs) {
@@ -53,10 +46,10 @@ class _ExpensePageState extends State<ExpensePage> {
       });
     });
 
+    super.initState();
+
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-
-    super.initState();
   }
 
   List newList = [];
@@ -125,6 +118,7 @@ class _ExpensePageState extends State<ExpensePage> {
                       Expanded(
                         child: customBuildButton(
                           onClick: () async {
+                            print("a00");
                             newList = await Repositories().expenseEntryRepo(
                                 dmpathData!.expTypeUrl,
                                 cid,

@@ -172,4 +172,40 @@ class OrderServices {
           ));
     });
   }
+
+  //===============================================order Count==================================================================================
+  Map<String, dynamic> orderCount(
+      List<dynamic> foundUsers,
+      int index,
+      Map<String, TextEditingController> controllers,
+      List<AddItemModel> tempList,
+      bool incLen,
+      double neworderamount,
+      double total) {
+    Map<String, dynamic> mapData = {
+      "neworderamount": neworderamount,
+      "total": total
+    };
+
+    final temp = AddItemModel(
+      quantity: int.parse(controllers[foundUsers[index]['item_id']]!.text),
+      item_name: foundUsers[index]['item_name'],
+      tp: foundUsers[index]['tp'],
+      item_id: foundUsers[index]['item_id'],
+      category_id: foundUsers[index]['category_id'],
+      vat: foundUsers[index]['vat'],
+      manufacturer: foundUsers[index]['manufacturer'],
+    );
+    tempList.removeWhere((item) => item.item_id == temp.item_id);
+    tempList.add(temp);
+    incLen = false;
+    neworderamount = 0.0;
+    tempList.forEach((element) {
+      total = (element.tp + element.vat) * element.quantity;
+      neworderamount = neworderamount + total;
+    });
+    mapData["total"] = total;
+    mapData["neworderamount"] = neworderamount;
+    return mapData;
+  }
 }

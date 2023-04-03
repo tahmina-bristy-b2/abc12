@@ -416,11 +416,11 @@ class Repositories {
     return promoData;
   }
 
-//============= Promo Repository====================================
+  //============= Promo Repository====================================
 
   Future<StockModel?> getStock(
       String promoUrl, String cid, String userId, String uesrpass) async {
-    StockModel? promoData;
+    StockModel? stockData;
 
     try {
       http.Response response =
@@ -428,12 +428,33 @@ class Repositories {
       Map<String, dynamic> status = json.decode(response.body);
 
       if (status['status'] == 'Success') {
-        promoData = stockModelFromJson(response.body);
-        return promoData;
+        stockData = stockModelFromJson(response.body);
+        return stockData;
       }
     } on Exception catch (e) {
       throw Exception("Error on server");
     }
-    return promoData;
+    return stockData;
+  }
+
+  //============= Approved Repository====================================
+// didn't complete
+  Future<StockModel?> getApprovedRate(String approvedUrl, String cid,
+      String userId, String uesrpass, String clientId) async {
+    StockModel? approvedRateData;
+
+    try {
+      http.Response response = await DataProviders()
+          .approvedDP(approvedUrl, cid, userId, uesrpass, clientId);
+      Map<String, dynamic> status = json.decode(response.body);
+
+      if (status['status'] == 'Success') {
+        approvedRateData = stockModelFromJson(response.body);
+        return approvedRateData;
+      }
+    } on Exception catch (e) {
+      throw Exception("Error on server");
+    }
+    return approvedRateData;
   }
 }

@@ -7,16 +7,17 @@ import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 
-class StockPage extends StatefulWidget {
-  const StockPage({super.key, required this.cid, required this.userPassword});
+class ApprovedPage extends StatefulWidget {
+  const ApprovedPage(
+      {super.key, required this.cid, required this.userPassword});
   final String cid;
   final String userPassword;
 
   @override
-  State<StockPage> createState() => _StockPageState();
+  State<ApprovedPage> createState() => _ApprovedPageState();
 }
 
-class _StockPageState extends State<StockPage> {
+class _ApprovedPageState extends State<ApprovedPage> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 
@@ -40,7 +41,7 @@ class _StockPageState extends State<StockPage> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Stock'),
+          title: const Text('Approved Rate'),
           centerTitle: true,
         ),
         bottomNavigationBar: BottomNavigationBar(

@@ -24,4 +24,8 @@ class Apis {
   static stockApi(
           String stockUrl, String cid, String userId, String uesrpass) =>
       "$stockUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass"; //Stock Api
+
+  static approvedApi(String approvedUrl, String cid, String userId,
+          String uesrpass, String clientId) =>
+      "$approvedUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass&client_id=$clientId"; //Approved Api
 }

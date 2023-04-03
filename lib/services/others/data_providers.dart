@@ -175,4 +175,15 @@ class DataProviders {
 
     return response;
   }
+
+//########################## Approved section##############################
+  Future<http.Response> approvedDP(String approvedUrl, String cid,
+      String userId, String uesrpass, String clientId) async {
+    // print(Apis.promoApi(promoUrl, cid, userId, uesrpass));
+    http.Response response = await http.get(
+      Uri.parse(Apis.approvedApi(approvedUrl, cid, userId, uesrpass, clientId)),
+    );
+
+    return response;
+  }
 }

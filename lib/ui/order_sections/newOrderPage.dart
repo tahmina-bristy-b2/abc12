@@ -1,21 +1,16 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
+import 'package:MREPORTING/ui/order_sections/approved_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
 import 'package:MREPORTING/ui/order_sections/order_item_list.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
@@ -26,18 +21,18 @@ DateTime DT = DateTime.now();
 String dateSelected = DateFormat('yyyy-MM-dd').format(DT);
 
 class NewOrderPage extends StatefulWidget {
-  String clientName;
-  String marketName;
-  String clientId;
-  String deliveryTime;
-  String deliveryDate;
-  String paymentMethod;
-  String? outStanding;
-  String? offer;
-  String note;
+  final String clientName;
+  final String marketName;
+  final String clientId;
+  final String deliveryTime;
+  final String deliveryDate;
+  final String paymentMethod;
+  final String? outStanding;
+  final String? offer;
+  final String note;
 
-  List<AddItemModel> draftOrderItem;
-  NewOrderPage(
+  final List<AddItemModel> draftOrderItem;
+  const NewOrderPage(
       {Key? key,
       required this.draftOrderItem,
       required this.clientName,
@@ -94,8 +89,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
   // String repLastInvUrl = '';
 
   String noteText = '';
-  String? cid;
-  String? userPassword;
+  String cid = '';
+  String userPassword = '';
   // bool offer_flag = false;
   // bool note_flag = false;
   // bool client_edit_flag = false;
@@ -126,8 +121,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        cid = prefs.getString("CID");
-        userPassword = prefs.getString("PASSWORD");
+        cid = prefs.getString("CID") ?? '';
+        userPassword = prefs.getString("PASSWORD") ?? '';
         latitude = prefs.getDouble("latitude") ?? 0.0;
         longitude = prefs.getDouble("longitude") ?? 0.0;
         deviceId = prefs.getString("deviceId");
@@ -392,7 +387,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
           userLoginInfo!.osShowFlag ? clientOutStandingWidget() : Container(),
           outstandingURLShowWidget(),
           reportLastOrderShowWidget(),
-          reportLastInvoiceShowWidget()
+          reportLastInvoiceShowWidget(),
+          approvedShowWidget(),
           // widget.os_details_flag == true
           //     ? Padding(
           //         padding: const EdgeInsets.all(8.0),
@@ -565,6 +561,34 @@ class _NewOrderPageState extends State<NewOrderPage> {
         ),
         child: const Text(
           "Last Invoice",
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+//========================================================= Last Invoice Report==========================================================
+  Padding approvedShowWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: ElevatedButton(
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => ApprovedPage(
+                      cid: cid,
+                      userPassword: userPassword,
+                    ))),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: const Color.fromARGB(255, 27, 43, 23),
+          backgroundColor: const Color.fromARGB(223, 146, 212, 157),
+          fixedSize: const Size(20, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        child: const Text(
+          "Approved",
           style: TextStyle(fontSize: 16),
         ),
       ),

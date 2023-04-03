@@ -6,6 +6,9 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
+import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
+import 'package:MREPORTING/ui/promo_page.dart';
+import 'package:MREPORTING/ui/stock_page.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -64,10 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String? userName;
   String? startTime;
-  String timer_track_url = '';
-  String? user_id;
+
   String deviceId = "";
-  String mobile_no = '';
+
   String? endTime;
   // String version = 'test';
   var prefix;
@@ -92,17 +94,13 @@ class _MyHomePageState extends State<MyHomePage> {
           timer_track_url = prefs.getString("timer_track_url") ?? '';
 
           userName = prefs.getString("userName");
-          user_id = prefs.getString("user_id");
-          mobile_no = prefs.getString("mobile_no") ?? '';
           deviceId = prefs.getString("deviceId") ?? '';
 
           var parts = startTime?.split(' ');
           prefix = parts![0].trim();
-          // print("prefix ashbe $prefix");
           String dt = DateTime.now().toString();
           var parts2 = dt.split(' ');
           prefix2 = parts2[0].trim();
-          // print("dateTime ashbe$prefix2");
         });
 
         setState(() {
@@ -270,6 +268,43 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.local_offer, color: Colors.blueAccent),
+              title: const Text(
+                'Promo',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 15, 53, 85),
+                ),
+              ),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => PromoPage(
+                            cid: cid,
+                            userPassword: userPassword,
+                          ))),
+            ),
+            ListTile(
+              leading:
+                  const Icon(Icons.dataset_sharp, color: Colors.blueAccent),
+              title: const Text(
+                'Stoc',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 15, 53, 85),
+                ),
+              ),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => StockPage(
+                            cid: cid,
+                            userPassword: userPassword,
+                          ))),
+            ),
             const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.vpn_key, color: Colors.blueAccent),
@@ -397,7 +432,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 FittedBox(
                                   child: Text(
-                                    'ID: ${widget.userId}\n$mobile_no',
+                                    'ID: ${widget.userId}\n${userInfo!.mobileNo}',
                                     // ' $userName',
                                     style: const TextStyle(
                                       color: Color.fromARGB(255, 15, 53, 85),
@@ -1095,97 +1130,146 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Link(
-                                        uri: Uri.parse(
-                                            '${dmpathData!.pluginUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                        target: LinkTarget.blank,
-                                        builder: (BuildContext ctx,
-                                            FollowLink? openLink) {
-                                          return Card(
-                                            elevation: 5,
-                                            child: Container(
-                                              color: Colors.white,
-                                              width: screenWidth,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  8,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: TextButton.icon(
-                                                  onPressed: openLink,
-                                                  label: const Text(
-                                                    'Plugg-in & Reports',
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 29, 67, 78),
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.insert_drive_file,
-                                                    color: Color.fromARGB(
-                                                        255, 27, 56, 34),
-                                                    size: 28,
-                                                  ),
-                                                ),
+                                      child: customBuildButton(
+                                        icon: Icons.insert_drive_file,
+                                        onClick: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  CommonInAppWebView(
+                                                cid: cid,
+                                                userId: userInfo!.userId,
+                                                userPassword: userPassword,
+                                                url: dmpathData!.pluginUrl,
                                               ),
                                             ),
                                           );
                                         },
+                                        title: 'Plugg-in & Reports',
+                                        sizeWidth: screenWidth,
+                                        inputColor: Colors.white,
                                       ),
                                     ),
                                     const SizedBox(
                                       width: 5,
                                     ),
                                     Expanded(
-                                      child: Link(
-                                        uri: Uri.parse(
-                                            '${dmpathData!.activityLogUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                        target: LinkTarget.blank,
-                                        builder: (BuildContext ctx,
-                                            FollowLink? openLink) {
-                                          // print(
-                                          //     '$activity_log_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
-                                          return Card(
-                                            elevation: 5,
-                                            child: Container(
-                                              color: Colors.white,
-                                              width: screenWidth,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  8,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: TextButton.icon(
-                                                  onPressed: openLink,
-                                                  label: const Text(
-                                                    'Activity Log',
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 29, 67, 78),
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons
-                                                        .local_activity_rounded,
-                                                    color: Color.fromARGB(
-                                                        255, 27, 56, 34),
-                                                    size: 28,
-                                                  ),
-                                                ),
+                                      child: customBuildButton(
+                                        icon: Icons.local_activity_rounded,
+                                        onClick: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  CommonInAppWebView(
+                                                cid: cid,
+                                                userId: userInfo!.userId,
+                                                userPassword: userPassword,
+                                                url: dmpathData!.activityLogUrl,
                                               ),
                                             ),
                                           );
                                         },
+                                        title: 'Activity Log',
+                                        sizeWidth: screenWidth,
+                                        inputColor: Colors.white,
                                       ),
                                     ),
+                                    // Expanded(
+                                    //   child: Link(
+                                    //     uri: Uri.parse(
+                                    //         '${dmpathData!.pluginUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                    //     target: LinkTarget.blank,
+                                    //     builder: (BuildContext ctx,
+                                    //         FollowLink? openLink) {
+                                    //       return Card(
+                                    //         elevation: 5,
+                                    //         child: Container(
+                                    //           color: Colors.white,
+                                    //           width: screenWidth,
+                                    //           height: MediaQuery.of(context)
+                                    //                   .size
+                                    //                   .height /
+                                    //               8,
+                                    //           child: Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.all(10.0),
+                                    //             child: TextButton.icon(
+                                    //               onPressed: openLink,
+                                    //               label: const Text(
+                                    //                 'Plugg-in & Reports',
+                                    //                 style: TextStyle(
+                                    //                     color: Color.fromARGB(
+                                    //                         255, 29, 67, 78),
+                                    //                     fontSize: 16,
+                                    //                     fontWeight:
+                                    //                         FontWeight.w500),
+                                    //               ),
+                                    //               icon: const Icon(
+                                    //                 Icons.insert_drive_file,
+                                    //                 color: Color.fromARGB(
+                                    //                     255, 27, 56, 34),
+                                    //                 size: 28,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       );
+                                    //     },
+                                    //   ),
+                                    // ),
+
+                                    // const SizedBox(
+                                    //   width: 5,
+                                    // ),
+
+                                    // Expanded(
+                                    //   child: Link(
+                                    //     uri: Uri.parse(
+                                    //         '${dmpathData!.activityLogUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                                    //     target: LinkTarget.blank,
+                                    //     builder: (BuildContext ctx,
+                                    //         FollowLink? openLink) {
+                                    //       // print(
+                                    //       //     '$activity_log_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
+                                    //       return Card(
+                                    //         elevation: 5,
+                                    //         child: Container(
+                                    //           color: Colors.white,
+                                    //           width: screenWidth,
+                                    //           height: MediaQuery.of(context)
+                                    //                   .size
+                                    //                   .height /
+                                    //               8,
+                                    //           child: Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.all(10.0),
+                                    //             child: TextButton.icon(
+                                    //               onPressed: openLink,
+                                    //               label: const Text(
+                                    //                 'Activity Log',
+                                    //                 style: TextStyle(
+                                    //                     color: Color.fromARGB(
+                                    //                         255, 29, 67, 78),
+                                    //                     fontSize: 16,
+                                    //                     fontWeight:
+                                    //                         FontWeight.w500),
+                                    //               ),
+                                    //               icon: const Icon(
+                                    //                 Icons
+                                    //                     .local_activity_rounded,
+                                    //                 color: Color.fromARGB(
+                                    //                     255, 27, 56, 34),
+                                    //                 size: 28,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       );
+                                    //     },
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ],

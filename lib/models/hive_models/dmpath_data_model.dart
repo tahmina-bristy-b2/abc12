@@ -50,7 +50,10 @@ class DmPathDataModel extends HiveObject {
       required this.syncNoticeUrl,
       required this.reportAttenUrl,
       required this.doctorAddUrl,
-      required this.doctorEditSubmitUrl});
+      required this.doctorEditSubmitUrl,
+      required this.reportPromoApUrl,
+      required this.reportPromoUrl,
+      required this.reportStockUrl});
   @HiveField(0)
   final String loginUrl;
   @HiveField(1)
@@ -121,45 +124,55 @@ class DmPathDataModel extends HiveObject {
   final String doctorAddUrl;
   @HiveField(34)
   final String doctorEditSubmitUrl;
+  //added new field at 02-04-2023
+  @HiveField(35)
+  final String reportPromoApUrl;
+  @HiveField(36)
+  final String reportPromoUrl;
+  @HiveField(37)
+  final String reportStockUrl;
+  //end
 
   factory DmPathDataModel.fromJson(Map<String, dynamic> json) =>
       DmPathDataModel(
-        leaveRequestUrl: json["leave_request_url"],
-        reportAttenUrl: json["report_atten_url"],
-        reportLastInvUrl: json["report_last_inv_url"],
-        loginUrl: json["login_url"],
-        reportSalesUrl: json["report_sales_url"],
-        clientUrl: json["client_url"],
-        userAreaUrl: json["user_area_url"],
-        doctorEditUrl: json["doctor_edit_url"],
-        tourPlanUrl: json["tour_plan_url"],
-        reportDcrUrl: json["report_dcr_url"],
-        clientEditUrl: json["client_edit_url"],
-        syncNoticeUrl: json["sync_notice_url"],
-        userSalesCollAchUrl: json["user_sales_coll_ach_url"],
-        reportLastOrdUrl: json["report_last_ord_url"],
-        reportExpUrl: json["report_exp_url"],
-        clientOutstUrl: json["client_outst_url"],
-        photoUrl: json["photo_url"],
-        reportRxUrl: json["report_rx_url"],
-        osDetailsUrl: json["os_details_url"],
-        reportOutstUrl: json["report_outst_url"],
-        doctorAddUrl: json["doctor_add_url"],
-        timerTrackUrl: json["timer_track_url"],
-        leaveReportUrl: json["leave_report_url"],
-        expTypeUrl: json["exp_type_url"],
-        activityLogUrl: json["activity_log_url"],
-        syncUrl: json["sync_url"],
-        submitUrl: json["submit_url"],
-        ordHistoryUrl: json["ord_history_url"],
-        expSubmitUrl: json["exp_submit_url"],
-        pluginUrl: json["plugin_url"],
-        invHistoryUrl: json["inv_history_url"],
-        photoSubmitUrl: json["photo_submit_url"],
-        expApprovalUrl: json["exp_approval_url"],
-        tourComplianceUrl: json["tour_compliance_url"],
-        doctorEditSubmitUrl: json["doctor_edit_submit_url"],
-      );
+          leaveRequestUrl: json["leave_request_url"],
+          reportAttenUrl: json["report_atten_url"],
+          reportLastInvUrl: json["report_last_inv_url"],
+          loginUrl: json["login_url"],
+          reportSalesUrl: json["report_sales_url"],
+          clientUrl: json["client_url"],
+          userAreaUrl: json["user_area_url"],
+          doctorEditUrl: json["doctor_edit_url"],
+          tourPlanUrl: json["tour_plan_url"],
+          reportDcrUrl: json["report_dcr_url"],
+          clientEditUrl: json["client_edit_url"],
+          syncNoticeUrl: json["sync_notice_url"],
+          userSalesCollAchUrl: json["user_sales_coll_ach_url"],
+          reportLastOrdUrl: json["report_last_ord_url"],
+          reportExpUrl: json["report_exp_url"],
+          clientOutstUrl: json["client_outst_url"],
+          photoUrl: json["photo_url"],
+          reportRxUrl: json["report_rx_url"],
+          osDetailsUrl: json["os_details_url"],
+          reportOutstUrl: json["report_outst_url"],
+          doctorAddUrl: json["doctor_add_url"],
+          timerTrackUrl: json["timer_track_url"],
+          leaveReportUrl: json["leave_report_url"],
+          expTypeUrl: json["exp_type_url"],
+          activityLogUrl: json["activity_log_url"],
+          syncUrl: json["sync_url"],
+          submitUrl: json["submit_url"],
+          ordHistoryUrl: json["ord_history_url"],
+          expSubmitUrl: json["exp_submit_url"],
+          pluginUrl: json["plugin_url"],
+          invHistoryUrl: json["inv_history_url"],
+          photoSubmitUrl: json["photo_submit_url"],
+          expApprovalUrl: json["exp_approval_url"],
+          tourComplianceUrl: json["tour_compliance_url"],
+          doctorEditSubmitUrl: json["doctor_edit_submit_url"],
+          reportPromoApUrl: json["report_promo_ap_url"],
+          reportPromoUrl: json["report_promo_url"],
+          reportStockUrl: json["report_stock_url"]);
 
   Map<String, dynamic> toJson() => {
         "leave_request_url": leaveRequestUrl,
@@ -197,5 +210,8 @@ class DmPathDataModel extends HiveObject {
         "exp_approval_url": expApprovalUrl,
         "tour_compliance_url": tourComplianceUrl,
         "doctor_edit_submit_url": doctorEditSubmitUrl,
+        "report_promo_ap_url": reportPromoApUrl,
+        "report_promo_url": reportPromoUrl,
+        "report_stock_url": reportStockUrl
       };
 }

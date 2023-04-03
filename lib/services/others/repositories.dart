@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:MREPORTING/models/promo_model.dart';
+import 'package:MREPORTING/models/stock_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:MREPORTING/utils/constant.dart';
 
@@ -391,5 +393,47 @@ class Repositories {
       throw Exception("Error on server");
     }
     return expenseTypeList;
+  }
+
+//============= Promo Repository====================================
+
+  Future<PromoModel?> getPromo(
+      String promoUrl, String cid, String userId, String uesrpass) async {
+    PromoModel? promoData;
+
+    try {
+      http.Response response =
+          await DataProviders().promoDP(promoUrl, cid, userId, uesrpass);
+      Map<String, dynamic> status = json.decode(response.body);
+
+      if (status['status'] == 'Success') {
+        promoData = promoModelFromJson(response.body);
+        return promoData;
+      }
+    } on Exception catch (e) {
+      throw Exception("Error on server");
+    }
+    return promoData;
+  }
+
+//============= Promo Repository====================================
+
+  Future<StockModel?> getStock(
+      String promoUrl, String cid, String userId, String uesrpass) async {
+    StockModel? promoData;
+
+    try {
+      http.Response response =
+          await DataProviders().stockDP(promoUrl, cid, userId, uesrpass);
+      Map<String, dynamic> status = json.decode(response.body);
+
+      if (status['status'] == 'Success') {
+        promoData = stockModelFromJson(response.body);
+        return promoData;
+      }
+    } on Exception catch (e) {
+      throw Exception("Error on server");
+    }
+    return promoData;
   }
 }

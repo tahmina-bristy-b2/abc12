@@ -16,4 +16,12 @@ class Apis {
   static getTargerAch(tarAchUrl, params) => "$tarAchUrl?$params";
 
   static expenseEntryApi(expType, params) => "$expType?$params";
+
+  static promoApi(
+          String promoUrl, String cid, String userId, String uesrpass) =>
+      "$promoUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass"; //Promo Api
+
+  static stockApi(
+          String stockUrl, String cid, String userId, String uesrpass) =>
+      "$stockUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass"; //Stock Api
 }

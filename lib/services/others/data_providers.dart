@@ -153,4 +153,26 @@ class DataProviders {
 
     return response;
   }
+
+//########################## Promo section##############################
+  Future<http.Response> promoDP(
+      String promoUrl, String cid, String userId, String uesrpass) async {
+    // print(Apis.promoApi(promoUrl, cid, userId, uesrpass));
+    http.Response response = await http.get(
+      Uri.parse(Apis.promoApi(promoUrl, cid, userId, uesrpass)),
+    );
+
+    return response;
+  }
+
+//########################## Stock section##############################
+  Future<http.Response> stockDP(
+      String stockUrl, String cid, String userId, String uesrpass) async {
+    // print(Apis.promoApi(promoUrl, cid, userId, uesrpass));
+    http.Response response = await http.get(
+      Uri.parse(Apis.stockApi(stockUrl, cid, userId, uesrpass)),
+    );
+
+    return response;
+  }
 }

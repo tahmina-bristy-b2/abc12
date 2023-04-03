@@ -178,9 +178,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                   children: [
                     customerInfoWidget(),
                     itemDeliveryDetailsWidget(),
-                    userLoginInfo!.noteFlag
-                        ? customerNotesTextFieldWidget()
-                        : Container(),
+                    customerNotesTextFieldWidget(),
                     SizedBox(
                       height: screenHeight / 1.7,
                       child: perItemCalculationListViewWidget(),
@@ -863,9 +861,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 211, 220, 230),
+          color: Colors.teal.shade50,
           border: Border.all(
-            color: Colors.teal.shade100,
+            color: Colors.blue.shade200,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(3),
@@ -952,40 +950,62 @@ class _NewOrderPageState extends State<NewOrderPage> {
         height: 55,
         child: Row(
           children: [
+            userLoginInfo!.noteFlag
+                ? Expanded(
+                    flex: 6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(255, 138, 201, 149)
+                            .withOpacity(.5),
+                      ),
+                      // elevation: 6,
+
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        // inputFormatters: <TextInputFormatter>[
+                        //   FilteringTextInputFormatter.deny(
+                        //       RegExp(r'[@#%^!~\\/:;]'))
+                        // ],
+
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
+                        controller: noteController,
+                        focusNode: FocusNode(),
+                        autofocus: false,
+                        decoration: const InputDecoration(
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                            labelText: '  Notes...',
+                            labelStyle: TextStyle(color: Colors.blueGrey)),
+                        onChanged: (value) {
+                          // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                          (noteController.text)
+                              .replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                        },
+                      ),
+                    ),
+                  )
+                : const Text(''),
             Expanded(
-              flex: 6,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color:
-                      const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
-                ),
-                // elevation: 6,
-
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  // inputFormatters: <TextInputFormatter>[
-                  //   FilteringTextInputFormatter.deny(
-                  //       RegExp(r'[@#%^!~\\/:;]'))
-                  // ],
-
-                  style: const TextStyle(fontSize: 18, color: Colors.black),
-                  controller: noteController,
-                  focusNode: FocusNode(),
-                  autofocus: false,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      labelText: '  Notes...',
-                      labelStyle: TextStyle(color: Colors.blueGrey)),
-                  onChanged: (value) {
-                    // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                    (noteController.text)
-                        .replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                  },
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  height: 80,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                      color: Colors.teal.shade50,
+                      border: Border.all(color: Colors.blue.shade200),
+                      borderRadius: BorderRadius.circular(80)),
+                  child: Center(
+                      child: Text(
+                    finalItemDataList.length.toString(),
+                    style: const TextStyle(fontSize: 16),
+                  )),
                 ),
               ),
             ),
-            Expanded(flex: 2, child: Text('hello')),
             userLoginInfo!.offerFlag ? offerDrapdownWidget() : Container(),
           ],
         ),

@@ -6,24 +6,21 @@ part 'hive_data_model.g.dart';
 @HiveType(typeId: 0)
 class AddItemModel extends HiveObject {
   @HiveField(0)
-  int uiqueKey1;
-  @HiveField(1)
   int quantity;
-  @HiveField(2)
+  @HiveField(1)
   String item_name;
-  @HiveField(3)
+  @HiveField(2)
   double tp;
-  @HiveField(4)
+  @HiveField(3)
   String item_id;
-  @HiveField(5)
+  @HiveField(4)
   String category_id;
-  @HiveField(6)
+  @HiveField(5)
   double vat;
-  @HiveField(7)
+  @HiveField(6)
   String manufacturer;
-  @HiveField(8)
+
   AddItemModel({
-    required this.uiqueKey1,
     required this.quantity,
     required this.item_name,
     required this.tp,
@@ -37,43 +34,47 @@ class AddItemModel extends HiveObject {
 @HiveType(typeId: 1)
 class CustomerDataModel extends HiveObject {
   @HiveField(0)
-  int uiqueKey;
-  @HiveField(1)
   String clientName;
-  @HiveField(2)
+  @HiveField(1)
   String marketName;
-  @HiveField(3)
+  @HiveField(2)
   String areaId;
-  @HiveField(4)
+  @HiveField(3)
   String clientId;
-  @HiveField(5)
+  @HiveField(4)
   String outstanding;
-  @HiveField(6)
+  @HiveField(5)
   String thana;
-  @HiveField(7)
+  @HiveField(6)
   String address;
-  @HiveField(8)
+  @HiveField(7)
   String deliveryDate;
-  @HiveField(9)
+  @HiveField(8)
   String deliveryTime;
-  @HiveField(10)
+  @HiveField(9)
   String paymentMethod;
-  @HiveField(11)
+  @HiveField(10)
   String? offer;
+  @HiveField(11)
+  String note;
+  @HiveField(12)
+  List<AddItemModel> itemList;
 
-  CustomerDataModel(
-      {required this.uiqueKey,
-      required this.clientName,
-      required this.marketName,
-      required this.areaId,
-      required this.clientId,
-      required this.outstanding,
-      required this.thana,
-      required this.address,
-      required this.deliveryDate,
-      required this.deliveryTime,
-      required this.paymentMethod,
-      this.offer});
+  CustomerDataModel({
+    required this.clientName,
+    required this.marketName,
+    required this.areaId,
+    required this.clientId,
+    required this.outstanding,
+    required this.thana,
+    required this.address,
+    required this.deliveryDate,
+    required this.deliveryTime,
+    required this.paymentMethod,
+    this.offer,
+    required this.note,
+    required this.itemList,
+  });
 }
 
 @HiveType(typeId: 2)

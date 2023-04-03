@@ -40,49 +40,6 @@ class Boxes {
     });
   }
 
-  // for dcr test...........
-  // static deleteDcrGspFromDraft(Box<DcrDataModel> box, String docId) {
-  //   box.toMap().forEach((key, value) {
-  //     if (value.docId == docId) {
-  //       box.delete(key);
-  //     }
-  //   });
-  // }
-
-  // static updateDcrWithGspToDraft(Box<DcrDataModel> dcrBox,
-  //     List<DcrGSPDataModel> addedDcrGSPList, String docId) {
-  //   dynamic desirekey;
-  //   dcrBox.toMap().forEach((key, value) {
-  //     if (value.docId == docId) {
-  //       desirekey = key;
-  //     }
-  //   });
-  //   DcrDataModel? dcrData = dcrBox.get(desirekey);
-
-  //   if (dcrData!.isInBox) {
-  //     dcrData.dceGspList = addedDcrGSPList;
-  //   }
-
-  //   dcrBox.put(desirekey, dcrData);
-  // }
-
-  // // for test...........
-  // static singleDeleteGspItemFromDraft(
-  //     Box<DcrDataModel> box, String docId, String id) {
-  //   dynamic desirekey;
-  //   box.toMap().forEach((key, value) {
-  //     if (value.docId == docId) {
-  //       desirekey = key;
-  //     }
-  //   });
-  //   DcrDataModel? dcrData = box.get(desirekey);
-  //   if (dcrData!.isInBox) {
-  //     dcrData.dceGspList.removeWhere((element) => element.giftId == id);
-  //   }
-
-  //   box.put(desirekey, dcrData);
-  // }
-
   static clearBox() {
     Hive.openBox('data').then((value) => value.clear());
     Hive.openBox('syncItemData').then((value) => value.clear());

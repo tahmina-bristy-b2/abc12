@@ -1,4 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/approved_promo_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/models/stock_model.dart';
@@ -9,9 +10,15 @@ import 'package:data_table_2/data_table_2.dart';
 
 class ApprovedPage extends StatefulWidget {
   const ApprovedPage(
-      {super.key, required this.cid, required this.userPassword});
+      {super.key,
+      required this.cid,
+      required this.userPassword,
+      required this.clientId,
+      required this.clientName});
   final String cid;
   final String userPassword;
+  final String clientId;
+  final String clientName;
 
   @override
   State<ApprovedPage> createState() => _ApprovedPageState();
@@ -44,18 +51,22 @@ class _ApprovedPageState extends State<ApprovedPage> {
           title: const Text('Approved Rate'),
           centerTitle: true,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) => _onTap(index),
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.refresh), label: 'Refresh'),
-          ],
-        ),
-        body: FutureBuilder<StockModel?>(
-          future: Repositories().getStock(dmpathData!.reportStockUrl,
-              widget.cid, userInfo!.userId, widget.userPassword),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   currentIndex: currentIndex,
+        //   onTap: (index) => _onTap(index),
+        //   items: const [
+        //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        //     BottomNavigationBarItem(
+        //         icon: Icon(Icons.refresh), label: 'Refresh'),
+        //   ],
+        // ),
+        body: FutureBuilder<ApprovedPromoModel?>(
+          future: Repositories().getApprovedRate(
+              dmpathData!.reportPromoApUrl,
+              widget.cid,
+              userInfo!.userId,
+              widget.userPassword,
+              widget.clientId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -63,10 +74,11 @@ class _ApprovedPageState extends State<ApprovedPage> {
               );
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                AllServices().toastMessage(
-                    'Data Not found!', Colors.red, Colors.white, 16);
-                return const Text('');
-              } else if (snapshot.data!.stockList.isNotEmpty) {
+                return const Center(
+                  child:
+                      Text('Data Not found!', style: TextStyle(fontSize: 16)),
+                );
+              } else if (snapshot.data!.apPromoList.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -90,7 +102,7 @@ class _ApprovedPageState extends State<ApprovedPage> {
                                       child: FittedBox(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'Depot Id: ${snapshot.data!.depotId}',
+                                          'Customer Id: ${widget.clientId}',
                                           style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 23, 41, 23),
@@ -107,7 +119,7 @@ class _ApprovedPageState extends State<ApprovedPage> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'Depot Name: ${snapshot.data!.depotName}',
+                                        'Customer Name: ${widget.clientName}',
                                         style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 26, 66, 28),
@@ -132,9 +144,9 @@ class _ApprovedPageState extends State<ApprovedPage> {
                               (states) => Colors.blue.shade200),
                           dataRowColor: MaterialStateColor.resolveWith(
                               (states) => Colors.teal.shade50),
-                          columnSpacing: 12,
-                          horizontalMargin: 12,
-                          minWidth: 600,
+                          columnSpacing: 5,
+                          horizontalMargin: 5,
+                          minWidth: 1000,
                           columns: dataColumn(),
                           rows: dataRow(snapshot.data!),
                         ),
@@ -142,60 +154,106 @@ class _ApprovedPageState extends State<ApprovedPage> {
                     ],
                   ),
                 );
+              } else {
+                return const Center(
+                  child:
+                      Text('No Approved Rate!', style: TextStyle(fontSize: 16)),
+                );
               }
             }
-            return const Text('Data Not found!',
-                style: TextStyle(fontSize: 16));
+            return const Center(
+              child: Text('Data Not found!', style: TextStyle(fontSize: 16)),
+            );
           },
         ));
   }
 
-  _onTap(index) {
-    if (index == 0) {
-      Navigator.pop(context);
-      currentIndex = index;
-      setState(() {});
-    }
+  // _onTap(index) {
+  //   if (index == 0) {
+  //     Navigator.pop(context);
+  //     currentIndex = index;
+  //     setState(() {});
+  //   }
 
-    if (index == 1) {
-      setState(() {
-        currentIndex = index;
-      });
-    }
-  }
+  //   if (index == 1) {
+  //     setState(() {
+  //       currentIndex = index;
+  //     });
+  //   }
+  // }
 
   List<DataColumn> dataColumn() {
     return const [
       DataColumn2(
-        numeric: true,
-        fixedWidth: 60,
+        fixedWidth: 80,
         label: Center(
           child: Text(
-            'Stock',
+            'From',
             style: TextStyle(fontSize: 16),
           ),
         ),
         size: ColumnSize.S,
       ),
       DataColumn2(
-        // numeric: true,
-        fixedWidth: 310,
+        fixedWidth: 85,
         label: Center(
           child: Text(
-            'Product',
+            'to',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        size: ColumnSize.S,
+      ),
+      DataColumn2(
+        fixedWidth: 60,
+        label: Text(
+          'Pr. Id',
+          style: TextStyle(fontSize: 16),
+        ),
+        size: ColumnSize.S,
+      ),
+      DataColumn2(
+        // numeric: true,
+        fixedWidth: 200,
+        label: Center(
+          child: Text(
+            'Product Name',
             style: TextStyle(fontSize: 16),
           ),
         ),
         size: ColumnSize.M,
       ),
+      DataColumn2(
+        fixedWidth: 85,
+        label: Text(
+          'BonusType',
+          style: TextStyle(fontSize: 16),
+        ),
+        size: ColumnSize.S,
+      ),
+      DataColumn2(
+        numeric: true,
+        fixedWidth: 80,
+        label: Center(
+          child: Text(
+            'F. Percent',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        size: ColumnSize.S,
+      ),
     ];
   }
 
-  List<DataRow> dataRow(StockModel promoData) {
-    return promoData.stockList
+  List<DataRow> dataRow(ApprovedPromoModel promoData) {
+    return promoData.apPromoList
         .map((e) => DataRow(cells: [
-              DataCell(Text(e.stockQty.toString())),
-              DataCell(Text(e.itemDes))
+              DataCell(Text(e.fromDate)),
+              DataCell(Text(e.toDate)),
+              DataCell(Text(e.productId)),
+              DataCell(Text(e.productName)),
+              DataCell(Text(e.bonusType)),
+              DataCell(Text(e.fixedPercentRate.toString())),
             ]))
         .toList();
   }

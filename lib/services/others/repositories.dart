@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:MREPORTING/models/approved_promo_model.dart';
 import 'package:MREPORTING/models/promo_model.dart';
 import 'package:MREPORTING/models/stock_model.dart';
 import 'package:http/http.dart' as http;
@@ -438,10 +439,10 @@ class Repositories {
   }
 
   //============= Approved Repository====================================
-// didn't complete
-  Future<StockModel?> getApprovedRate(String approvedUrl, String cid,
+
+  Future<ApprovedPromoModel?> getApprovedRate(String approvedUrl, String cid,
       String userId, String uesrpass, String clientId) async {
-    StockModel? approvedRateData;
+    ApprovedPromoModel? approvedRateData;
 
     try {
       http.Response response = await DataProviders()
@@ -449,7 +450,7 @@ class Repositories {
       Map<String, dynamic> status = json.decode(response.body);
 
       if (status['status'] == 'Success') {
-        approvedRateData = stockModelFromJson(response.body);
+        approvedRateData = approvedPromoModelFromJson(response.body);
         return approvedRateData;
       }
     } on Exception catch (e) {

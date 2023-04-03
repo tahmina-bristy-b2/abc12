@@ -81,23 +81,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
   String totalAmount = '';
   double total = 0;
 
-  // String submit_url = '';
-  // String client_edit_url = '';
-  // // String client_outst_url = '';
-  // String repOutsUrl = '';
-  // String repLastOrdUrl = '';
-  // String repLastInvUrl = '';
-
   String noteText = '';
   String cid = '';
   String userPassword = '';
-  // bool offer_flag = false;
-  // bool note_flag = false;
-  // bool client_edit_flag = false;
-  // bool os_show_flag = false;
-  // bool os_details_flag = false;
-  // bool ord_history_flag = false;
-  // bool inv_histroy_flag = false;
+
   var body = "";
   var resultofOuts = "";
   String itemString = '';
@@ -578,6 +565,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
                 builder: (_) => ApprovedPage(
                       cid: cid,
                       userPassword: userPassword,
+                      clientId: widget.clientId,
+                      clientName: widget.clientName,
                     ))),
         style: ElevatedButton.styleFrom(
           foregroundColor: const Color.fromARGB(255, 27, 43, 23),
@@ -749,9 +738,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),
-                    userLoginInfo!.offerFlag
-                        ? offerDrapdownWidget()
-                        : Container(),
                   ],
                 ),
               ),
@@ -867,11 +853,20 @@ class _NewOrderPageState extends State<NewOrderPage> {
   Expanded offerDrapdownWidget() {
     return Expanded(
       flex: 2,
-      child: SizedBox(
-        // width: 220,
+      child: Container(
+        height: 40,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 211, 220, 230),
+          border: Border.all(
+            color: Colors.teal.shade100,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(3),
+        ),
         child: Center(
           child: DropdownButton<String>(
             value: initialOffer,
+            borderRadius: BorderRadius.circular(5),
             items: offer
                 .map(
                   (String item) => DropdownMenuItem<String>(
@@ -948,34 +943,44 @@ class _NewOrderPageState extends State<NewOrderPage> {
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: SizedBox(
         height: 55,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
-          ),
-          // elevation: 6,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 6,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color:
+                      const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
+                ),
+                // elevation: 6,
 
-          child: TextFormField(
-            // keyboardType: TextInputType.text,
-            // inputFormatters: <TextInputFormatter>[
-            //   FilteringTextInputFormatter.deny(
-            //       RegExp(r'[@#%^!~\\/:;]'))
-            // ],
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  // inputFormatters: <TextInputFormatter>[
+                  //   FilteringTextInputFormatter.deny(
+                  //       RegExp(r'[@#%^!~\\/:;]'))
+                  // ],
 
-            style: const TextStyle(fontSize: 18, color: Colors.black),
-            controller: noteController,
-            focusNode: FocusNode(),
-            autofocus: false,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(borderSide: BorderSide.none),
-                labelText: '  Notes...',
-                labelStyle: TextStyle(color: Colors.blueGrey)),
-            onChanged: (value) {
-              (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-
-              setState(() {});
-            },
-          ),
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                  controller: noteController,
+                  focusNode: FocusNode(),
+                  autofocus: false,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      labelText: '  Notes...',
+                      labelStyle: TextStyle(color: Colors.blueGrey)),
+                  onChanged: (value) {
+                    // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                    (noteController.text)
+                        .replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                  },
+                ),
+              ),
+            ),
+            Expanded(flex: 2, child: Text('hello')),
+            userLoginInfo!.offerFlag ? offerDrapdownWidget() : Container(),
+          ],
         ),
       ),
     );

@@ -69,6 +69,21 @@ class OrderServices {
     return mapData;
   }
 
+  //===================================================Total Order Calculation================================================================
+  String orderTotalTPAmount(List<AddItemModel> finalItemDataList) {
+    double totalTP = 0.0;
+    double total = 0.0;
+    if (finalItemDataList.isNotEmpty) {
+      for (var element in finalItemDataList) {
+        total = element.tp * element.quantity;
+
+        totalTP = totalTP + total;
+      }
+    }
+
+    return totalTP.toStringAsFixed(2);
+  }
+
 //=======================================================Oder Draft Data Update===================================================================================
   orderDraftDataUpdate(
     List<AddItemModel> itemList,

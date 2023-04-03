@@ -727,15 +727,22 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        'Count:  ${finalItemDataList.length} ',
-                        style: const TextStyle(fontSize: 16),
+                        'CPP: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
+                        style: const TextStyle(fontSize: 17),
                       ),
                     ),
                     Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: Text(
-                        'Amt: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
-                        style: const TextStyle(fontSize: 17),
+                        'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)} ',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const Expanded(
+                      flex: 3,
+                      child: Text(
+                        'RegDisOn:  ',
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
@@ -1344,9 +1351,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
     dateSelected = DateFormat('yyyy-MM-dd').format(newDate);
     setState(() => DT = newDate);
   }
-//===================================================================================================================================================================
-//===========================================================Submit Api call========================================================================================================
-//===================================================================================================================================================================
+
+  //===========================Submit Api call==============================================
 
   Future orderSubmit() async {
     if (itemString != '') {

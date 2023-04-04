@@ -185,6 +185,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                         foundUsers[index]['promo'],
                                         style: const TextStyle(
                                             color:
+                                                // Color.fromARGB(255, 4, 248, 13),
                                                 Color.fromARGB(255, 238, 4, 4),
                                             fontSize: 14),
                                       )

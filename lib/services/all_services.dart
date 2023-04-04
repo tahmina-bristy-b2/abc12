@@ -1,7 +1,9 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:geolocator/geolocator.dart';
 
 class AllServices {
@@ -33,34 +35,53 @@ class AllServices {
     return results;
   }
 
-//               // Todo!<<<<<<<<<<<<<<<<<<<<<<       Splash Screen     >>>>>>>>>>>>>>>>>>>>>>>>>>
+//// Todo!<<<<<<<<<<<<<<<<<<<<<<       Splash Screen     >>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //                             //todo Get Position for Track Location
 
-//  Future<Position> determinePosition() async {
-//     bool serviceEnabled;
-//     LocationPermission permission;
+  Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-//     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//     if (!serviceEnabled) {
-//       return Future.error('Location services are disabled.');
-//     }
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
 
-//     permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
-//         return Future.error('Location permissions are denied');
-//       }
-//     }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
 
-//     if (permission == LocationPermission.deniedForever) {
-//       return Future.error(
-//           'Location permissions are permanently denied, we cannot request permissions.');
-//     }
-//     return await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.high);
-//   }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  getLatLong() {
+    Future<Position> data = determinePosition();
+    double latitude = 0.0;
+    double longitude = 0.0;
+    data.then((value) {
+      // print("value $value");
+
+      latitude = value.latitude;
+      longitude = value.longitude;
+
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setDouble("latitude", latitude);
+        prefs.setDouble("longitude", longitude);
+      });
+    }).catchError((error) {
+      // print("Error $error");
+    });
+  }
 
 // //todo!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  HOME PAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -110,9 +131,9 @@ class AllServices {
   }
 
 // toast messages updated into RX for submitToastforphoto Only
-//===================================================================================================================================
-//==========================================SAMIRA========================================================================
-//===================================================================================================================================
+//============================================================================================
+//===============================SAMIRA===================================================
+//==================================================================================
 
   // void rejectMessageForUser(String msg) {
   //   Fluttertoast.showToast(

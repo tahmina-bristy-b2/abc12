@@ -1,6 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -20,12 +23,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
   String cid = '';
-  String userId = '';
+  // String userId = '';
   String userPassword = '';
-  bool? areaPage;
-  String? user_id;
-  String? userName;
+  // bool? areaPage;
+  // String? user_id;
+  // String? userName;
   List itemToken = [];
   List clientToken = [];
   List dcrtToken = [];
@@ -37,7 +42,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // getLatLong();
+    // get user and dmPath data from hive
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+    AllServices().getLatLong();
 
     Hive.openBox('data').then(
       (value) {
@@ -49,14 +57,14 @@ class _SplashScreenState extends State<SplashScreen> {
         SharedPreferences.getInstance().then(
           (prefs) {
             cid = prefs.getString("CID") ?? '';
-            userId = prefs.getString("USER_ID") ?? '';
+            // userId = prefs.getString("USER_ID") ?? '';
             userPassword = prefs.getString("PASSWORD") ?? '';
             // areaPage = prefs.getString("areaPage");
-            userName = prefs.getString("userName");
-            user_id = prefs.getString("user_id");
+            // userName = prefs.getString("userName");
+            // user_id = prefs.getString("user_id");
             // print(areaPage);
 
-            if (cid != '' && userId != '' && userPassword != '') {
+            if (cid != '' && userInfo!.userId != '' && userPassword != '') {
               // print(clientToken);
               if (clientToken.isNotEmpty) {
                 Timer(
@@ -65,8 +73,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => MyHomePage(
-                        userName: userName.toString(),
-                        userId: userId,
+                        userName: userInfo!.userName,
+                        userId: userInfo!.userId,
                         userPassword: userPassword,
                       ),
                     ),
@@ -80,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     MaterialPageRoute(
                       builder: (_) => SyncDataTabScreen(
                         cid: cid,
-                        userId: userId,
+                        userId: userInfo!.userId,
                         userPassword: userPassword,
                       ),
                     ),
@@ -103,49 +111,6 @@ class _SplashScreenState extends State<SplashScreen> {
       },
     );
   }
-
-  // Future<Position> _determinePosition() async {
-  //   bool serviceEnabled;
-  //   LocationPermission permission;
-
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     return Future.error('Location services are disabled.');
-  //   }
-
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       return Future.error('Location permissions are denied');
-  //     }
-  //   }
-
-  //   if (permission == LocationPermission.deniedForever) {
-  //     return Future.error(
-  //         'Location permissions are permanently denied, we cannot request permissions.');
-  //   }
-  //   return await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.high);
-  // }
-
-  // getLatLong() {
-  //   Future<Position> data = _determinePosition();
-  //   data.then((value) {
-  //     // print("value $value");
-  //     setState(() {
-  //       latitude = value.latitude;
-  //       longitude = value.longitude;
-
-  //       SharedPreferences.getInstance().then((prefs) {
-  //         prefs.setDouble("latitude", latitude!);
-  //         prefs.setDouble("longitude", longitude!);
-  //       });
-  //     });
-  //   }).catchError((error) {
-  //     // print("Error $error");
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

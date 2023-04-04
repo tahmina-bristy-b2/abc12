@@ -12,8 +12,6 @@ import 'package:MREPORTING/ui/stock_page.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:MREPORTING/ui/DCR_section/draft_dcr_page.dart';
 import 'package:MREPORTING/ui/Expense/expense_section.dart';
 import 'package:MREPORTING/ui/areaPage.dart';
@@ -25,7 +23,6 @@ import 'package:MREPORTING/ui/Rx/rxDraftPage.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_report.dart';
 import 'package:MREPORTING/ui/order_sections/order_report_page.dart';
 import 'package:MREPORTING/ui/Rx/rx_report_page.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:url_launcher/link.dart';
 import 'package:MREPORTING/ui/reset_password.dart';
 import 'package:MREPORTING/ui/syncDataTabPaga.dart';
@@ -33,9 +30,9 @@ import 'package:MREPORTING/ui/Rx/rxPage.dart';
 import 'package:MREPORTING/ui/Widgets/custombutton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-double? lat;
-double? long;
-String? address;
+// double? lat;
+// double? long;
+// String? address;
 
 class MyHomePage extends StatefulWidget {
   final String userName;
@@ -54,24 +51,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Box? box;
-
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
 
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
-  List data = [];
   double screenHeight = 0.0;
   double screenWidth = 0.0;
 
-  String? userName;
   String? startTime;
 
   String deviceId = "";
 
   String? endTime;
-  // String version = 'test';
   var prefix;
   var prefix2;
 
@@ -81,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
+    AllServices().getLatLong();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SharedPreferences.getInstance().then((prefs) {
@@ -93,7 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
           timer_track_url = prefs.getString("timer_track_url") ?? '';
 
-          userName = prefs.getString("userName");
           deviceId = prefs.getString("deviceId") ?? '';
 
           var parts = startTime?.split(' ');
@@ -116,63 +108,63 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  getLoc() {
-    String location = "";
-    Timer.periodic(const Duration(minutes: 3), (timer) {
-      getLatLong();
-      if (lat != 0.0 && long != 0.0) {
-        if (location == "") {
-          location = "$lat|$long";
-        } else {
-          location = "$location||$lat|$long";
-        }
-      }
-    });
-  }
+  // getLoc() {
+  //   String location = "";
+  //   Timer.periodic(const Duration(minutes: 3), (timer) {
+  //     getLatLong();
+  //     if (lat != 0.0 && long != 0.0) {
+  //       if (location == "") {
+  //         location = "$lat|$long";
+  //       } else {
+  //         location = "$location||$lat|$long";
+  //       }
+  //     }
+  //   });
+  // }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   return await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  // }
 
-  getLatLong() {
-    Future<Position> data = _determinePosition();
-    data.then((value) {
-      setState(() {
-        lat = value.latitude;
-        long = value.longitude;
-      });
-      getAddress(value.latitude, value.longitude);
-    }).catchError((error) {});
-  }
+  // getLatLong() {
+  //   Future<Position> data = _determinePosition();
+  //   data.then((value) {
+  //     setState(() {
+  //       lat = value.latitude;
+  //       long = value.longitude;
+  //     });
+  //     getAddress(value.latitude, value.longitude);
+  //   }).catchError((error) {});
+  // }
 
-  getAddress(lat, long) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-    setState(() {
-      address = "${placemarks[0].street!} ${placemarks[0].country!}";
-    });
-    for (int i = 0; i < placemarks.length; i++) {}
-  }
+  // getAddress(lat, long) async {
+  //   List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+  //   setState(() {
+  //     address = "${placemarks[0].street!} ${placemarks[0].country!}";
+  //   });
+  //   for (int i = 0; i < placemarks.length; i++) {}
+  // }
 
   int _currentSelected = 0;
   _onItemTapped(int index) async {

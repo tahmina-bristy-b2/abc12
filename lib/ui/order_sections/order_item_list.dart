@@ -149,7 +149,8 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                 itemCount: foundUsers.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    elevation: 2,
+                    color: Colors.yellow.shade50,
+                    // elevation: 2,
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(
                           color: Color.fromARGB(108, 255, 255, 255), width: 1),
@@ -269,36 +270,35 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
       child: Row(
         children: [
           Expanded(
-            flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 70,
-                child: TextFormField(
-                  onChanged: (value) => AllServices().searchDynamicMethod(
-                      value, widget.syncItemList, 'item_name'),
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    labelText: 'Item Search',
-                    suffixIcon: searchController.text.isEmpty &&
-                            searchController.text == ''
-                        ? const Icon(Icons.search)
-                        : IconButton(
-                            onPressed: () {
-                              searchController.clear();
-                              AllServices().searchDynamicMethod(
-                                  '', widget.syncItemList, 'item_name');
-                              setState(() {});
-                            },
-                            icon: const Icon(
-                              Icons.clear,
-                              color: Colors.black,
-                              // size: 28,
-                            ),
+              child: TextFormField(
+                onChanged: (value) {
+                  foundUsers = AllServices().searchDynamicMethod(
+                      value, widget.syncItemList, 'item_name');
+                  setState(() {});
+                },
+                controller: searchController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  labelText: 'Item Search',
+                  suffixIcon: searchController.text.isEmpty &&
+                          searchController.text == ''
+                      ? const Icon(Icons.search)
+                      : IconButton(
+                          onPressed: () {
+                            searchController.clear();
+                            foundUsers = AllServices().searchDynamicMethod(
+                                '', widget.syncItemList, 'item_name');
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: Colors.black,
+                            // size: 28,
                           ),
-                  ),
+                        ),
                 ),
               ),
             ),

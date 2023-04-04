@@ -23,6 +23,7 @@ class _PromoPageState extends State<PromoPage> {
   String cid = '';
   String userPassword = '';
   int currentIndex = 0;
+  double screenWidth = 0.0;
 
   @override
   void initState() {
@@ -34,6 +35,8 @@ class _PromoPageState extends State<PromoPage> {
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Promo'),
@@ -63,7 +66,7 @@ class _PromoPageState extends State<PromoPage> {
                 return const Text('');
               } else if (snapshot.data!.promoList.isNotEmpty) {
                 return Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(3),
                   child: DataTable2(
                     border: TableBorder.all(),
                     headingRowColor: MaterialStateColor.resolveWith(
@@ -72,7 +75,7 @@ class _PromoPageState extends State<PromoPage> {
                         (states) => Colors.teal.shade50),
                     columnSpacing: 12,
                     horizontalMargin: 12,
-                    minWidth: 600,
+                    minWidth: screenWidth,
                     columns: dataColumn(),
                     rows: dataRow(snapshot.data!),
                   ),
@@ -100,10 +103,10 @@ class _PromoPageState extends State<PromoPage> {
   }
 
   List<DataColumn> dataColumn() {
-    return const [
+    return [
       DataColumn2(
-        fixedWidth: 310,
-        label: Center(
+        fixedWidth: screenWidth / 1.30,
+        label: const Center(
           child: Text(
             'Offer',
             style: TextStyle(fontSize: 16),
@@ -113,8 +116,8 @@ class _PromoPageState extends State<PromoPage> {
       ),
       DataColumn2(
         numeric: true,
-        fixedWidth: 60,
-        label: Text(
+        fixedWidth: screenWidth / 7.5,
+        label: const Text(
           'MinQty',
           style: TextStyle(fontSize: 16),
         ),

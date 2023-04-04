@@ -55,38 +55,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     super.dispose();
   }
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  //   SharedPreferences.getInstance().then((prefs) {
-  //     prefs.setInt('_counter', _counter);
-  //   });
-
-  //   setState(() {});
-  // }
-
-  // int _currentSelected = 0;
-
-  // _onItemTapped(int index) async {
-  //   if (index == 0) {
-  //     Navigator.pop(context);
-  //     setState(() {
-  //       _currentSelected = index;
-  //     });
-  //   }
-  //   if (index == 1) {
-  //     getDrawer();
-  //     setState(() {
-  //       _currentSelected = index;
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // print(
-    //     'clentUrl==${dmPathData!.clientUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(

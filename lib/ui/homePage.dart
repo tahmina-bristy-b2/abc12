@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
@@ -282,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
               leading:
                   const Icon(Icons.dataset_sharp, color: Colors.blueAccent),
               title: const Text(
-                'Stoc',
+                'Stock',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

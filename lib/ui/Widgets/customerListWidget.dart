@@ -1,15 +1,14 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class CustomerListCardWidget extends StatelessWidget {
-  String clientName;
-  bool boolIcon;
-  Icon icon;
-  VoidCallback onPressed;
-  String base;
-  String marketName;
-  String outstanding;
-  CustomerListCardWidget({
+  final String clientName;
+  final bool boolIcon;
+  final Icon icon;
+  final VoidCallback onPressed;
+  final String base;
+  final String marketName;
+  final String outstanding;
+  const CustomerListCardWidget({
     Key? key,
     required this.clientName,
     required this.boolIcon,
@@ -23,7 +22,8 @@ class CustomerListCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      // elevation: 2,
+      color: Colors.yellow.shade50,
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.white70, width: 1),
         borderRadius: BorderRadius.circular(10),

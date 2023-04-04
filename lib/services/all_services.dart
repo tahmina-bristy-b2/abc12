@@ -1,4 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/stock_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -155,5 +156,36 @@ class AllServices {
       return getList;
     }
     return getList;
+  }
+
+  // For Stock Product search======================
+
+  List<StockList> searchStockProduct(
+    String enteredKeyword,
+    StockModel data,
+  ) {
+    List<StockList> serachedData;
+    serachedData = data.stockList;
+    List<StockList> results = [];
+    if (enteredKeyword.isEmpty && enteredKeyword == '') {
+      results = serachedData;
+    } else {
+      var starts = serachedData
+          .where((s) =>
+              s.itemDes.toLowerCase().startsWith(enteredKeyword.toLowerCase()))
+          .toList();
+
+      List<StockList> contains = serachedData
+          .where((s) =>
+              s.itemDes.toLowerCase().contains(enteredKeyword.toLowerCase()) &&
+              !s.itemDes.toLowerCase().startsWith(enteredKeyword.toLowerCase()))
+          .toList()
+        ..sort((a, b) =>
+            a.itemDes.toLowerCase().compareTo(b.itemDes.toLowerCase()));
+
+      results = [...starts, ...contains];
+    }
+
+    return results;
   }
 }

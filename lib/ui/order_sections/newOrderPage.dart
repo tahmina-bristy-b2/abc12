@@ -739,60 +739,74 @@ class _NewOrderPageState extends State<NewOrderPage> {
   }
 
 //============================================Item Delivery Details================================================================
-  Card itemDeliveryDetailsWidget() {
-    return Card(
-      color: const Color(0xFFDDEBF7),
-      elevation: 5,
-      child: SizedBox(
-        // height: screenHeight / 9,
-        height: 80,
+  itemDeliveryDetailsWidget() {
+    return SizedBox(
+      // height: screenHeight / 9,
+      height: 80,
 
-        width: screenWidth,
+      width: screenWidth,
 
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'CPP: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
-                        style: const TextStyle(fontSize: 17),
+      child: Column(
+        children: [
+          Expanded(
+            child: Card(
+              color: const Color.fromARGB(255, 172, 194, 231),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      'CPP: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(13, 106, 129, 1),
                       ),
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)} ',
-                        // style: const TextStyle(fontSize: 16),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)} ',
+                      // style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  const Expanded(
+                    flex: 3,
+                    child: Text(
+                      'RegDisOnTP:  ',
+                      // style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Count: ${finalItemDataList.length}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(13, 106, 129, 1),
                       ),
                     ),
-                    const Expanded(
-                      flex: 3,
-                      child: Text(
-                        'RegDisOnTP:  ',
-                        // style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              // const SizedBox(height: 5.0),
-              Expanded(
-                child: Row(
-                  children: [
-                    deliveryDatePickerWidget(),
-                    deliveryShiftWidget(),
-                    paymentDropdownWidget(),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          // const SizedBox(height: 5.0),
+          Expanded(
+            child: Card(
+              child: Row(
+                children: [
+                  deliveryDatePickerWidget(),
+                  deliveryShiftWidget(),
+                  paymentDropdownWidget(),
+                  offerDrapdownWidget()
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -800,7 +814,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
 //============================================Item Delivery Date================================================================
   Expanded deliveryDatePickerWidget() {
     return Expanded(
-      flex: 3,
+      flex: 2,
       child: TextField(
         autofocus: false,
         controller: initialValue(dateSelected),
@@ -808,9 +822,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
         style: const TextStyle(color: Colors.black),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          fillColor: Colors.white,
+          // fillColor: Colors.white,
           filled: true,
-          hintText: 'Start Date',
+          hintText: 'Delivery Date',
           contentPadding: const EdgeInsets.all(2.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
         ),
@@ -829,7 +843,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
 //============================================Item Delivery Shift================================================================
   Expanded deliveryShiftWidget() {
     return Expanded(
-      flex: 3,
+      flex: 2,
       child: SizedBox(
         // width: 220,
         child: Center(
@@ -860,7 +874,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
 //============================================Item Delivery Payment Method================================================================
   Expanded paymentDropdownWidget() {
     return Expanded(
-      flex: 3,
+      flex: 2,
       child: SizedBox(
         // width: 220,
         child: Center(
@@ -892,36 +906,26 @@ class _NewOrderPageState extends State<NewOrderPage> {
   Expanded offerDrapdownWidget() {
     return Expanded(
       flex: 2,
-      child: Container(
-        // height: 40,
-        decoration: BoxDecoration(
-          color: Colors.teal.shade50,
-          border: Border.all(
-            color: Colors.blue.shade200,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(3),
-        ),
-        child: Center(
-          child: DropdownButton<String>(
-            value: initialOffer,
-            borderRadius: BorderRadius.circular(5),
-            items: offer
-                .map(
-                  (String item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 15),
-                    ),
+      child: Center(
+        child: DropdownButton<String>(
+          value: initialOffer,
+          borderRadius: BorderRadius.circular(5),
+          // underline: ,
+          items: offer
+              .map(
+                (String item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: const TextStyle(fontSize: 15),
                   ),
-                )
-                .toList(),
-            onChanged: (item) => setState(
-              () {
-                initialOffer = item.toString();
-              },
-            ),
+                ),
+              )
+              .toList(),
+          onChanged: (item) => setState(
+            () {
+              initialOffer = item.toString();
+            },
           ),
         ),
       ),
@@ -979,71 +983,35 @@ class _NewOrderPageState extends State<NewOrderPage> {
 //============================================Note================================================================
   Padding customerNotesTextFieldWidget() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-      child: SizedBox(
-        height: 65,
-        child: Row(
-          children: [
-            userLoginInfo!.noteFlag
-                ? Expanded(
-                    flex: 6,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromARGB(255, 138, 201, 149)
-                            .withOpacity(.5),
-                      ),
-                      // elevation: 6,
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+      child: userLoginInfo!.noteFlag
+          ? SizedBox(
+              height: 60,
+              width: screenWidth,
+              // color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
+              child: TextFormField(
+                maxLength: 100,
+                keyboardType: TextInputType.text,
 
-                      child: TextFormField(
-                        maxLength: 100,
-                        keyboardType: TextInputType.text,
-
-                        style: const TextStyle(color: Colors.black),
-                        controller: noteController,
-                        // focusNode: FocusNode(),
-                        autofocus: false,
-                        decoration: const InputDecoration(
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                            labelText: '  Notes...',
-                            labelStyle: TextStyle(color: Colors.blueGrey)),
-                        onChanged: (value) {
-                          // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                          (noteController.text)
-                              .replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                        },
-                      ),
-                    ),
-                  )
-                : const Text(''),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        'Count: ${finalItemDataList.length}',
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(13, 106, 129, 1)),
-                      ),
-                    ),
-                    userLoginInfo!.offerFlag
-                        ? offerDrapdownWidget()
-                        : Container(),
-                  ],
-                ),
+                style: const TextStyle(color: Colors.black),
+                controller: noteController,
+                // focusNode: FocusNode(),
+                autofocus: false,
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 167, 209, 174)
+                        .withOpacity(.5),
+                    border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    labelText: 'Notes',
+                    labelStyle: const TextStyle(color: Colors.blueGrey)),
+                onChanged: (value) {
+                  // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                  (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                },
               ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : const Text(''),
     );
   }
 

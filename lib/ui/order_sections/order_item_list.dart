@@ -2,17 +2,15 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class ShowSyncItemData extends StatefulWidget {
-  List syncItemList;
-  List<AddItemModel> tempList;
-  // int uniqueId;
-  Function tempListFunc;
+  final List syncItemList;
+  final List<AddItemModel> tempList;
+  final Function tempListFunc;
 
-  ShowSyncItemData(
+  const ShowSyncItemData(
       {Key? key,
       required this.syncItemList,
       required this.tempList,
@@ -48,9 +46,9 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     dmpathData = Boxes.getDmpath().get('dmPathData');
 
     foundUsers = widget.syncItemList;
-    foundUsers.forEach((element) {
+    for (var element in foundUsers) {
       controllers[element['item_id']] = TextEditingController();
-    });
+    }
     for (var element in widget.tempList) {
       controllers.forEach((key, value) {
         if (key == element.item_id) {
@@ -59,20 +57,20 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
       });
     }
 
-    widget.tempList.forEach((element) {
+    for (var element in widget.tempList) {
       total = (element.tp + element.vat) * element.quantity;
 
       orderamount = orderamount + total;
-    });
+    }
 
     super.initState();
   }
 
   @override
   void dispose() {
-    foundUsers.forEach((element) {
+    for (var element in foundUsers) {
       controllers[element['item_id']]!.dispose();
-    });
+    }
 
     searchController.dispose();
     super.dispose();
@@ -103,9 +101,9 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     );
   }
 
-//========================================================================================================================================================================================================
-//============================================================================ All Widget ============================================================================================================================
-//========================================================================================================================================================================================================
+//=================================================================================================================
+//======================================= All Widget ===============================================================
+//==================================================================================================================
   AppBar appBarWidget() {
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 138, 201, 149),
@@ -138,7 +136,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     );
   }
 
-//=======================================================================ListView Builder===========================================================================================
+//=======================================================ListView Builder=================================================
   Expanded itemListViewBuilderWIdget() {
     return Expanded(
       flex: 9,
@@ -157,106 +155,100 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                           color: Color.fromARGB(108, 255, 255, 255), width: 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 7,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                // crossAxisAlignment: ,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      foundUsers[index]['item_name'],
-                                      style: const TextStyle(
-                                          color: Color.fromARGB(255, 8, 18, 20),
-                                          fontSize: 17),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      foundUsers[index]['category_id'],
-                                      style: const TextStyle(
-                                          color: Color.fromARGB(255, 8, 18, 20),
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                  userLoginInfo!.promoFlag
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: AnimatedTextKit(
-                                            repeatForever: true,
-                                            animatedTexts: [
-                                              ColorizeAnimatedText(
-                                                foundUsers[index]['promo'],
-                                                textStyle: const TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 8, 18, 20),
-                                                    fontSize: 15),
-                                                colors: [
-                                                  Color.fromARGB(
-                                                      255, 18, 137, 235),
-                                                  Colors.red
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : const Text(""),
-                                ],
-                              ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 7,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // crossAxisAlignment: ,
+                              children: [
+                                Text(
+                                  foundUsers[index]['item_name'],
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 8, 18, 20),
+                                      fontSize: 16),
+                                ),
+                                Text(
+                                  foundUsers[index]['category_id'],
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 8, 18, 20),
+                                      fontSize: 14),
+                                ),
+                                userLoginInfo!.promoFlag
+                                    ? Text(
+                                        foundUsers[index]['promo'],
+                                        style: const TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 238, 4, 4),
+                                            fontSize: 14),
+                                      )
+                                    // ? Padding(
+                                    //     padding: const EdgeInsets.all(4.0),
+                                    //     child: AnimatedTextKit(
+                                    //       repeatForever: true,
+                                    //       animatedTexts: [
+                                    //         ColorizeAnimatedText(
+                                    //           foundUsers[index]['promo'],
+                                    //           textStyle: const TextStyle(
+                                    //               color: Color.fromARGB(
+                                    //                   255, 8, 18, 20),
+                                    //               fontSize: 15),
+                                    //           colors: [
+                                    //             const Color.fromARGB(
+                                    //                 255, 18, 137, 235),
+                                    //             Colors.red
+                                    //           ],
+                                    //         ),
+                                    //       ],
+                                    //     ),
+                                    //   )
+                                    : const Text(""),
+                              ],
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Card(
-                                    elevation: 1,
-                                    child: Container(
-                                      // height: 50,
-                                      color: const Color.fromARGB(
-                                              255, 138, 201, 149)
-                                          .withOpacity(.3),
-                                      width: 70,
-                                      child: TextFormField(
-                                        textDirection: TextDirection.ltr,
-                                        // maxLength: 1000,
-                                        textAlign: TextAlign.center,
-                                        controller: controllers[
-                                            foundUsers[index]['item_id']],
-                                        keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                        ),
-                                        onChanged: (value) {
-                                          itemCount(value, index);
-                                        },
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Card(
+                                  elevation: 1,
+                                  child: Container(
+                                    // height: 50,
+                                    color:
+                                        const Color.fromARGB(255, 138, 201, 149)
+                                            .withOpacity(.3),
+                                    width: 60,
+                                    child: TextFormField(
+                                      textDirection: TextDirection.ltr,
+                                      // maxLength: 1000,
+                                      textAlign: TextAlign.center,
+                                      controller: controllers[foundUsers[index]
+                                          ['item_id']],
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
                                       ),
+                                      onChanged: (value) {
+                                        itemCount(value, index);
+                                      },
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -269,7 +261,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     );
   }
 
-//================================================ Item search==================================================================================================
+//================================================ Item search============================================================
   Expanded itemSearchTextFormWidget() {
     return Expanded(
       flex: 1,
@@ -315,7 +307,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     );
   }
 
-//====================================================== Add to Cart ===========================================================================
+//====================================================== Add to Cart ====================================================
   Align addtoCartButtonWidget(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
@@ -354,7 +346,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
     );
   }
 
-//=========================================== Item count Method ================================================================================
+//=========================================== Item count Method ===================================================
   itemCount(String value, int index) {
     if (value != '') {
       final temp = AddItemModel(
@@ -371,11 +363,11 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
       widget.tempList.add(temp);
       incLen = false;
       neworderamount = 0.0;
-      widget.tempList.forEach((element) {
+      for (var element in widget.tempList) {
         total = (element.tp + element.vat) * element.quantity;
 
         neworderamount = neworderamount + total;
-      });
+      }
 
       setState(() {});
     } else if (value == '') {
@@ -395,10 +387,10 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
       // orderamount = 0.0;
       incLen = false;
       neworderamount = 0.0;
-      widget.tempList.forEach((element) {
+      for (var element in widget.tempList) {
         total = (element.tp + element.vat) * element.quantity;
         neworderamount = neworderamount + total;
-      });
+      }
 
       setState(() {});
     }

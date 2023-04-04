@@ -1,3 +1,4 @@
+import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -7,11 +8,13 @@ class CommonInAppWebView extends StatefulWidget {
       required this.url,
       required this.cid,
       required this.userId,
-      required this.userPassword});
+      required this.userPassword,
+      this.clientId});
   final String url;
   final String cid;
   final String userId;
   final String userPassword;
+  final String? clientId;
 
   @override
   State<CommonInAppWebView> createState() => _CommonInAppWebViewState();
@@ -28,8 +31,8 @@ class _CommonInAppWebViewState extends State<CommonInAppWebView> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        '${widget.url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}');
+    // print(
+    //     '${widget.url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}');
     return Scaffold(
         appBar: AppBar(
           title: const Text('Plugin'),
@@ -47,8 +50,14 @@ class _CommonInAppWebViewState extends State<CommonInAppWebView> {
                 child: Center(
                   child: InAppWebView(
                     initialUrlRequest: URLRequest(
-                        url: Uri.parse(
-                            "${widget.url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}")),
+                        url: Uri.parse(widget.clientId != null
+                            ? OrderApis.orderDynamicReportApi(
+                                widget.url,
+                                widget.cid,
+                                widget.userId,
+                                widget.userPassword,
+                                widget.clientId!)
+                            : "${widget.url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}")),
                     onReceivedServerTrustAuthRequest:
                         (controller, challenge) async {
                       return ServerTrustAuthResponse(

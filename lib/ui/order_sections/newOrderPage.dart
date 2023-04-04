@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
+import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/order_sections/approved_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -198,9 +199,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
           );
   }
 
-  //************************************ WIDGETS **********************************************************/
-  //*******************************************************************************************************/
-  //*******************************************************************************************************/
+  //************************************ WIDGETS ***************************************/
+  //************************************************************************************/
+  //************************************************************************************/
 
   AppBar appBarDetailsWidget(BuildContext context) {
     return AppBar(
@@ -254,7 +255,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
-//************************************ DIALOG ****************************************************/
+  //************************************ DIALOG ******************************************/
   Future<void> _showMyDialog(int index) async {
     return showDialog<void>(
       context: context,
@@ -332,7 +333,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
-//************************************ END DRAWER **********************************************************/
+//************************************ END DRAWER ****************************************/
   Drawer EndDrawerWidget() {
     return Drawer(
       child: ListView(
@@ -524,17 +525,28 @@ class _NewOrderPageState extends State<NewOrderPage> {
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
         onPressed: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CommonInAppWebView(
+                  cid: cid,
+                  userId: userLoginInfo!.userId,
+                  userPassword: userPassword,
+                  url: dmPathData!.reportLastInvUrl,
+                  clientId: widget.clientId),
+            ),
+          );
           // var url =
           //     '${dmPathData!.reportLastInvUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          var url = OrderApis.lastInvoiceApi(dmPathData!.reportLastInvUrl, cid,
-              userLoginInfo!.userId, userPassword, widget.clientId);
-          if (await canLaunchUrl(Uri.parse(url))) {
-            await launchUrl(Uri.parse(url));
-          } else {
-            throw 'Could not launch $url';
-          }
+          // var url = OrderApis.lastInvoiceApi(dmPathData!.reportLastInvUrl, cid,
+          //     userLoginInfo!.userId, userPassword, widget.clientId);
+          // if (await canLaunchUrl(Uri.parse(url))) {
+          //   await launchUrl(Uri.parse(url));
+          // } else {
+          //   throw 'Could not launch $url';
+          // }
 
-          setState(() {});
+          // setState(() {});
         },
         style: ElevatedButton.styleFrom(
           foregroundColor: const Color.fromARGB(255, 27, 43, 23),
@@ -582,7 +594,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
-//=================================================================Last Order Report===========================================================
+//===============================Last Order Report==================================
   Padding reportLastOrderShowWidget() {
     return Padding(
       padding: const EdgeInsets.all(12.0),
@@ -590,16 +602,27 @@ class _NewOrderPageState extends State<NewOrderPage> {
           onPressed: () async {
             // var url =
             //     '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-            var url = OrderApis.lastOrderInvoice(dmPathData!.reportLastOrdUrl,
-                cid, userLoginInfo!.userId, userPassword, widget.clientId);
-            print('lastOrderApi=$url');
-            if (await canLaunchUrl(Uri.parse(url))) {
-              await launchUrl(Uri.parse(url));
-            } else {
-              throw 'Could not launch $url';
-            }
+            // var url = OrderApis.lastOrderInvoice(dmPathData!.reportLastOrdUrl,
+            //     cid, userLoginInfo!.userId, userPassword, widget.clientId);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CommonInAppWebView(
+                    cid: cid,
+                    userId: userLoginInfo!.userId,
+                    userPassword: userPassword,
+                    url: dmPathData!.reportLastOrdUrl,
+                    clientId: widget.clientId),
+              ),
+            );
+            // print('lastOrderApi=$url');
+            // if (await canLaunchUrl(Uri.parse(url))) {
+            //   await launchUrl(Uri.parse(url));
+            // } else {
+            //   throw 'Could not launch $url';
+            // }
 
-            setState(() {});
+            // setState(() {});
           },
           style: ElevatedButton.styleFrom(
             foregroundColor: const Color.fromARGB(255, 27, 43, 23),
@@ -622,16 +645,27 @@ class _NewOrderPageState extends State<NewOrderPage> {
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
         onPressed: () async {
-          var url = OrderApis.outstandingReport(dmPathData!.reportOutstUrl, cid,
-              userLoginInfo!.userId, userPassword, widget.clientId);
-          print("outStandingurl=$url");
-          if (await canLaunchUrl(Uri.parse(url))) {
-            await launchUrl(Uri.parse(url));
-          } else {
-            throw 'Could not launch $url';
-          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CommonInAppWebView(
+                  cid: cid,
+                  userId: userLoginInfo!.userId,
+                  userPassword: userPassword,
+                  url: dmPathData!.reportOutstUrl,
+                  clientId: widget.clientId),
+            ),
+          );
+          // var url = OrderApis.outstandingReport(dmPathData!.reportOutstUrl, cid,
+          //     userLoginInfo!.userId, userPassword, widget.clientId);
+          // // print("outStandingurl=$url");
+          // if (await canLaunchUrl(Uri.parse(url))) {
+          //   await launchUrl(Uri.parse(url));
+          // } else {
+          //   throw 'Could not launch $url';
+          // }
 
-          setState(() {});
+          // setState(() {});
         },
         style: ElevatedButton.styleFrom(
           foregroundColor: const Color.fromARGB(255, 27, 43, 23),
@@ -653,8 +687,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
   IconButton customerEditUrlWidget() {
     return IconButton(
       onPressed: () async {
-        print(
-            "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userLoginInfo!.userId&rep_pass=$userPassword");
+        // print(
+        //     "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userLoginInfo!.userId&rep_pass=$userPassword");
         // var url =
         //     '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
         var url = OrderApis.cutomerEditUrlApi(dmPathData!.clientEditUrl, cid,
@@ -730,17 +764,17 @@ class _NewOrderPageState extends State<NewOrderPage> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: Text(
                         'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)} ',
-                        style: const TextStyle(fontSize: 16),
+                        // style: const TextStyle(fontSize: 16),
                       ),
                     ),
                     const Expanded(
                       flex: 3,
                       child: Text(
-                        'RegDisOn:  ',
-                        style: TextStyle(fontSize: 16),
+                        'RegDisOnTP:  ',
+                        // style: TextStyle(fontSize: 14),
                       ),
                     ),
                   ],
@@ -859,7 +893,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return Expanded(
       flex: 2,
       child: Container(
-        height: 40,
+        // height: 40,
         decoration: BoxDecoration(
           color: Colors.teal.shade50,
           border: Border.all(
@@ -945,9 +979,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
 //============================================Note================================================================
   Padding customerNotesTextFieldWidget() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: SizedBox(
-        height: 55,
+        height: 65,
         child: Row(
           children: [
             userLoginInfo!.noteFlag
@@ -962,16 +996,12 @@ class _NewOrderPageState extends State<NewOrderPage> {
                       // elevation: 6,
 
                       child: TextFormField(
+                        maxLength: 100,
                         keyboardType: TextInputType.text,
-                        // inputFormatters: <TextInputFormatter>[
-                        //   FilteringTextInputFormatter.deny(
-                        //       RegExp(r'[@#%^!~\\/:;]'))
-                        // ],
 
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         controller: noteController,
-                        focusNode: FocusNode(),
+                        // focusNode: FocusNode(),
                         autofocus: false,
                         decoration: const InputDecoration(
                             border:
@@ -990,23 +1020,27 @@ class _NewOrderPageState extends State<NewOrderPage> {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  height: 80,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                      color: Colors.teal.shade50,
-                      border: Border.all(color: Colors.blue.shade200),
-                      borderRadius: BorderRadius.circular(80)),
-                  child: Center(
+                padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
                       child: Text(
-                    finalItemDataList.length.toString(),
-                    style: const TextStyle(fontSize: 16),
-                  )),
+                        'Count: ${finalItemDataList.length}',
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(13, 106, 129, 1)),
+                      ),
+                    ),
+                    userLoginInfo!.offerFlag
+                        ? offerDrapdownWidget()
+                        : Container(),
+                  ],
                 ),
               ),
             ),
-            userLoginInfo!.offerFlag ? offerDrapdownWidget() : Container(),
           ],
         ),
       ),

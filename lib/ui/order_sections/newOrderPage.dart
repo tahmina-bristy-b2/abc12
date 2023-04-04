@@ -742,7 +742,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   itemDeliveryDetailsWidget() {
     return SizedBox(
       // height: screenHeight / 9,
-      height: 80,
+      height: 90,
 
       width: screenWidth,
 

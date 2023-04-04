@@ -59,7 +59,7 @@ class _StockPageState extends State<StockPage> {
 
   @override
   Widget build(BuildContext context) {
-    // screenHeight = MediaQuery.of(context).size.height;
+    screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     return stockData == null
         ? const Center(
@@ -88,7 +88,7 @@ class _StockPageState extends State<StockPage> {
                   const SizedBox(height: 5),
                   Container(
                     width: screenWidth,
-                    height: screenHeight / 1,
+                    height: screenHeight / 13,
                     color: const Color.fromARGB(223, 171, 241, 153),
                     child: Padding(
                       padding: const EdgeInsets.all(3.0),

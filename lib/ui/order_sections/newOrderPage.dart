@@ -828,7 +828,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
           labelText: 'Delivery Date',
           labelStyle: const TextStyle(color: Color.fromARGB(255, 1, 99, 89)),
           contentPadding: const EdgeInsets.all(2.0),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2.0),
+              borderSide: const BorderSide(color: Colors.green)),
         ),
         onChanged: (String value) {
           setState(() {});

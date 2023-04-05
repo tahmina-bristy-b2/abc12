@@ -99,6 +99,8 @@ class _RxPageState extends State<RxPage> {
       setState(() {});
       cid = prefs.getString("CID") ?? '';
       userPassword = prefs.getString("PASSWORD") ?? '';
+      latitude = prefs.getDouble("latitude") ?? 0.0;
+      longitude = prefs.getDouble("longitude") ?? 0.0;
       deviceId = prefs.getString("deviceId") ?? '';
       deviceBrand = prefs.getString("deviceBrand") ?? '';
       deviceModel = prefs.getString("deviceModel") ?? '';

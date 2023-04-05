@@ -206,11 +206,11 @@ class _DcrGiftDataPageState extends State<DcrGiftDataPage> {
           _itemController.add(TextEditingController());
           return Card(
             // elevation: 2,
-            color: Colors.yellow.shade50,
+            // color: Colors.yellow.shade50,
             shape: RoundedRectangleBorder(
               side: const BorderSide(
                   color: Color.fromARGB(108, 255, 255, 255), width: 1),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 2, 0),

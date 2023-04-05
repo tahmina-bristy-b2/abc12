@@ -149,7 +149,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                 itemCount: foundUsers.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Colors.yellow.shade50,
+                    // color: Colors.yellow.shade50,
                     // elevation: 2,
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(
@@ -181,14 +181,21 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                       color: Color.fromARGB(255, 8, 18, 20),
                                       fontSize: 14),
                                 ),
-                                userLoginInfo!.promoFlag
-                                    ? Text(
-                                        foundUsers[index]['promo'],
-                                        style: const TextStyle(
-                                            color:
-                                                // Color.fromARGB(255, 4, 248, 13),
-                                                Color.fromARGB(255, 238, 4, 4),
-                                            fontSize: 14),
+                                userLoginInfo!.promoFlag &&
+                                        foundUsers[index]['promo'] != ''
+                                    ? Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        color: Colors.yellow,
+                                        child: Text(
+                                          foundUsers[index]['promo'],
+                                          style: const TextStyle(
+                                              color:
+                                                  // Colors.teal,
+                                                  Color.fromARGB(
+                                                      255, 238, 4, 4),
+                                              fontSize: 14),
+                                        ),
                                       )
                                     // ? Padding(
                                     //     padding: const EdgeInsets.all(4.0),
@@ -210,7 +217,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                     //       ],
                                     //     ),
                                     //   )
-                                    : const Text(""),
+                                    : Container(),
                               ],
                             ),
                           ),

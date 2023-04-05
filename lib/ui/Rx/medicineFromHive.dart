@@ -126,7 +126,7 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                           child: Card(
                             color: pressAttention!
                                 ? const Color.fromARGB(255, 143, 199, 248)
-                                : Colors.yellow.shade50,
+                                : Colors.white,
                             // elevation: 10,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(

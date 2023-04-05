@@ -107,11 +107,11 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                           },
                           child: Card(
                             // elevation: 10,
-                            color: Colors.yellow.shade50,
+                            // color: Colors.yellow.shade50,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: ListTile(
                               contentPadding:

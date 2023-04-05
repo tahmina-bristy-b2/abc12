@@ -1,6 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
-import 'package:MREPORTING/models/doctor_edit_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -214,7 +213,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                           foundUsers[index]['area_id']);
                                   if (clientList.isNotEmpty) {
 //=======================================================================================================================================
-                                    //======================================================DOCEditApi======================================================================
+//======================================================DOCEditApi======================================================================
 //=======================================================================================================================================
                                     final Map<String, dynamic>
                                         responseOfDoEditInfo =
@@ -225,8 +224,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                             userPassword,
                                             foundUsers[index]['area_id'],
                                             foundUsers[index]['doc_id']);
-
-                                    //=======================================================================================================================================
+//=======================================================================================================================================
 //======================================================DOCSettingsApi======================================================================
 //=======================================================================================================================================
                                     final DocSettingsModel?
@@ -237,7 +235,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                             userPassword);
 
 //=======================================================================================================================================
-                                    //======================================================Navigation======================================================================
+//======================================================Navigation======================================================================
 //=======================================================================================================================================
                                     if (responseOfDoEditInfo != {} &&
                                         responseOfDocSettings != null) {
@@ -245,7 +243,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                         _isLoading = false;
                                       });
                                       if (!mounted) return;
-                                      print(responseOfDocSettings);
+                                      // print(responseOfDocSettings);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

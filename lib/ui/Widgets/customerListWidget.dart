@@ -23,19 +23,19 @@ class CustomerListCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       // elevation: 2,
-      color: Colors.yellow.shade50,
+      // color: Colors.yellow.shade50,
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.white70, width: 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+        contentPadding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         minVerticalPadding: 0,
         title: Text(
           clientName,
           style: const TextStyle(
               color: Color.fromARGB(255, 30, 66, 77),
-              fontSize: 19,
+              fontSize: 18,
               fontWeight: FontWeight.w600),
         ),
         subtitle: Text(

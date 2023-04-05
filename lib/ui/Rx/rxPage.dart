@@ -110,11 +110,30 @@ class _RxPageState extends State<RxPage> {
   //===================================== Rx Submit Validations===========================================
 
   rxValidationSubmit() async {
-    if ((finalImage != '' || imagePath != null) &&
-        finalMedicineList.isNotEmpty) {
+    if (widget.isRxEdit == false && imagePath == null) {
+      setState(() {
+        _isLoading = true;
+      });
+      AllServices()
+          .toastMessage('Please Take Image', Colors.red, Colors.white, 16);
+    } else if (finalMedicineList.isEmpty) {
+      setState(() {
+        _isLoading = true;
+      });
+      AllServices().toastMessage(
+          'Please  Select Medicine', Colors.red, Colors.white, 16);
+    } else {
       if (await InternetConnectionChecker().hasConnection) {
         if (userInfo!.rxDocMust) {
-          await rxSubmit();
+          if (finalDoctorList.first.docId != '') {
+            await rxSubmit();
+          } else {
+            setState(() {
+              _isLoading = true;
+            });
+            AllServices().toastMessage(
+                'Please  Select Doctor', Colors.red, Colors.white, 16);
+          }
         } else {
           await rxSubmit();
         }
@@ -128,12 +147,6 @@ class _RxPageState extends State<RxPage> {
           _isLoading = true;
         });
       }
-    } else {
-      setState(() {
-        _isLoading = true;
-      });
-      AllServices().toastMessage('Please Take Image and Select Medicine',
-          Colors.red, Colors.white, 16);
     }
   }
 
@@ -985,76 +998,77 @@ class _RxPageState extends State<RxPage> {
 
   Future rxSubmit() async {
     String fileName = "";
-    if (finalDoctorList[0].docId != "") {
-      // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
+    // if (finalDoctorList[0].docId != "") {
+    // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
 
-      final jsonData = await RxRepositories()
-          .rxImageSubmitRepo(dmpathData!.photoSubmitUrl, finalImage);
-      fileName = jsonData["fileName"];
+    final jsonData = await RxRepositories().rxImageSubmitRepo(
+        dmpathData!.photoSubmitUrl,
+        widget.isRxEdit ? finalImage : imagePath!.path.toString());
+    fileName = jsonData["fileName"];
 
-      if (fileName != "") {
-        // _rxSubmit();       // _rxSubmit();       // _rxSubmit();
+    if (fileName != "") {
+      // _rxSubmit();       // _rxSubmit();       // _rxSubmit();
 
-        final orderInfo = await RxRepositories().rxSubmit(
-            dmpathData!.submitUrl,
-            fileName,
-            cid,
-            userInfo!.userId,
-            userPassword,
-            deviceId,
-            finalDoctorList,
-            dropdownRxTypevalue,
-            latitude,
-            longitude,
-            itemString);
+      final orderInfo = await RxRepositories().rxSubmit(
+          dmpathData!.submitUrl,
+          fileName,
+          cid,
+          userInfo!.userId,
+          userPassword,
+          deviceId,
+          finalDoctorList,
+          dropdownRxTypevalue,
+          latitude,
+          longitude,
+          itemString);
 
-        if (orderInfo['status'] == "Success") {
-          String retStr = orderInfo['ret_str'];
-          RxServices.deleteRxDataFromDraft(
-              rxDcrBox,
-              widget.isRxEdit
-                  ? widget.draftRxData!.uid
-                  : finalDoctorList.first.uid);
-          if (!mounted) return;
-
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MyHomePage(
-                        userName: userInfo!.userName,
-                        userId: userInfo!.userId,
-                        userPassword: userPassword,
-                      )),
-              (route) => false);
-
-          AllServices().toastMessage(
-              "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
-        } else {
-          if (!mounted) return;
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Rx submit Failed'), backgroundColor: Colors.red),
-          );
-        }
-
-        ///RXSUBMIT FUNCTION
-      } else {
-        setState(() {
-          _isLoading = true;
-        });
+      if (orderInfo['status'] == "Success") {
+        String retStr = orderInfo['ret_str'];
+        RxServices.deleteRxDataFromDraft(
+            rxDcrBox,
+            widget.isRxEdit
+                ? widget.draftRxData!.uid
+                : finalDoctorList.first.uid);
         if (!mounted) return;
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                      userName: userInfo!.userName,
+                      userId: userInfo!.userId,
+                      userPassword: userPassword,
+                    )),
+            (route) => false);
+
+        AllServices().toastMessage(
+            "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
+      } else {
+        if (!mounted) return;
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('Rx Image submit Failed'),
-              backgroundColor: Colors.red),
+              content: Text('Rx submit Failed'), backgroundColor: Colors.red),
         );
       }
+
+      ///RXSUBMIT FUNCTION
+      // } else {
+      //   setState(() {
+      //     _isLoading = true;
+      //   });
+      //   if (!mounted) return;
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(
+      //         content: Text('Rx Image submit Failed'),
+      //         backgroundColor: Colors.red),
+      //   );
+      // }
 
       ///ImageRXSUBMIT FUNCTION
     } else {
       AllServices()
-          .toastMessage(" Please Select Doctor.", Colors.red, Colors.white, 16);
+          .toastMessage("Image didn't submit!", Colors.red, Colors.white, 16);
 
       setState(() {
         _isLoading = true;

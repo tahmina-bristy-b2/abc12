@@ -183,9 +183,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                 ),
                                 userLoginInfo!.promoFlag &&
                                         foundUsers[index]['promo'] != ''
-                                    ? Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
+                                    ? Card(
                                         color: Colors.yellow,
                                         child: Text(
                                           foundUsers[index]['promo'],

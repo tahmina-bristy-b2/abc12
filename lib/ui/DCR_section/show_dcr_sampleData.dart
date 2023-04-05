@@ -121,6 +121,8 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
                         },
                         controller: searchController,
                         decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.teal.shade50,
                           border: const OutlineInputBorder(),
                           labelText: 'Sample Search',
                           suffixIcon: searchController.text.isEmpty &&
@@ -212,7 +214,8 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
         itemCount: foundDcrSample.length,
         itemBuilder: (context, index) {
           return Card(
-            elevation: 2,
+            // elevation: 2,
+            color: Colors.yellow.shade50,
             shape: RoundedRectangleBorder(
               side: const BorderSide(
                   color: Color.fromARGB(108, 255, 255, 255), width: 1),
@@ -220,116 +223,109 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 2, 0),
-              child: Container(
-                height: 90,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                foundDcrSample[index]['sample_name'],
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 30, 66, 77),
-                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              foundDcrSample[index]['sample_name'],
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 30, 66, 77),
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ),
+                            Text(
+                              foundDcrSample[index]['sample_id'],
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 30, 66, 77),
+                                // fontSize: 16
                               ),
-                              Text(
-                                foundDcrSample[index]['sample_id'],
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 30, 66, 77),
-                                    fontSize: 16),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              Card(
-                                elevation: 1,
-                                child: Container(
-                                  height: 40,
-                                  color:
-                                      const Color.fromARGB(255, 138, 201, 149)
-                                          .withOpacity(.3),
-                                  width: 70,
-                                  child: TextFormField(
-                                    textAlign: TextAlign.center,
-                                    controller: controllers[
-                                        foundDcrSample[index]['sample_id']],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(2.0)),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {});
-                                      if (value != '') {
-                                        var temp = DcrGSPDataModel(
-                                            // uiqueKey: widget.uniqueId,
-                                            quantity: int.parse(controllers[
-                                                    foundDcrSample[index]
-                                                        ['sample_id']]!
-                                                .text),
-                                            giftName: foundDcrSample[index]
-                                                ['sample_name'],
-                                            giftId: foundDcrSample[index]
-                                                ['sample_id'],
-                                            giftType: 'Sample');
-
-                                        String tempItemId = temp.giftId;
-
-                                        widget.tempList.removeWhere((item) =>
-                                            item.giftId == tempItemId);
-
-                                        widget.tempList.add(temp);
-                                        setState(() {});
-                                      } else if (value == '') {
-                                        final temp = DcrGSPDataModel(
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Card(
+                              elevation: 1,
+                              child: Container(
+                                height: 40,
+                                color: const Color.fromARGB(255, 138, 201, 149)
+                                    .withOpacity(.3),
+                                width: 70,
+                                child: TextFormField(
+                                  textAlign: TextAlign.center,
+                                  controller: controllers[foundDcrSample[index]
+                                      ['sample_id']],
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(2.0)),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                    if (value != '') {
+                                      var temp = DcrGSPDataModel(
                                           // uiqueKey: widget.uniqueId,
-                                          quantity: value == ''
-                                              ? 0
-                                              : int.parse(controllers[
-                                                      foundDcrSample[index]
-                                                          ['sample_id']]!
-                                                  .text),
+                                          quantity: int.parse(controllers[
+                                                  foundDcrSample[index]
+                                                      ['sample_id']]!
+                                              .text),
                                           giftName: foundDcrSample[index]
                                               ['sample_name'],
                                           giftId: foundDcrSample[index]
                                               ['sample_id'],
-                                          giftType: 'Sample',
-                                        );
+                                          giftType: 'Sample');
 
-                                        String tempItemId = temp.giftId;
+                                      String tempItemId = temp.giftId;
 
-                                        widget.tempList.removeWhere((item) =>
-                                            item.giftId == tempItemId);
+                                      widget.tempList.removeWhere(
+                                          (item) => item.giftId == tempItemId);
 
-                                        setState(() {});
-                                      }
-                                    },
-                                  ),
+                                      widget.tempList.add(temp);
+                                      setState(() {});
+                                    } else if (value == '') {
+                                      final temp = DcrGSPDataModel(
+                                        // uiqueKey: widget.uniqueId,
+                                        quantity: value == ''
+                                            ? 0
+                                            : int.parse(controllers[
+                                                    foundDcrSample[index]
+                                                        ['sample_id']]!
+                                                .text),
+                                        giftName: foundDcrSample[index]
+                                            ['sample_name'],
+                                        giftId: foundDcrSample[index]
+                                            ['sample_id'],
+                                        giftType: 'Sample',
+                                      );
+
+                                      String tempItemId = temp.giftId;
+
+                                      widget.tempList.removeWhere(
+                                          (item) => item.giftId == tempItemId);
+
+                                      setState(() {});
+                                    }
+                                  },
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );

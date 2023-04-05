@@ -58,6 +58,8 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
               },
               controller: searchController,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.teal.shade50,
                 border: const OutlineInputBorder(),
                 labelText: 'Search Doctor',
                 suffixIcon:
@@ -104,33 +106,31 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                             Navigator.pop(context);
                           },
                           child: Card(
-                            elevation: 10,
+                            // elevation: 10,
+                            color: Colors.yellow.shade50,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Colors.white70, width: 1),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: SizedBox(
-                              height: 75,
-                              child: ListTile(
-                                contentPadding:
-                                    const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                minVerticalPadding: 0,
-                                title: Text(
-                                  '${foundUsers[index]['doc_name']} '
-                                  '(${foundUsers[index]['doc_id']})',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 19,
-                                  ),
+                            child: ListTile(
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                              minVerticalPadding: 0,
+                              title: Text(
+                                '${foundUsers[index]['doc_name']} '
+                                '(${foundUsers[index]['doc_id']})',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 19,
                                 ),
-                                subtitle: Text(
-                                  '${foundUsers[index]['area_name']}(${foundUsers[index]['area_id']}) , ${foundUsers[index]['address']}',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    // fontSize: 19,
-                                  ),
+                              ),
+                              subtitle: Text(
+                                '${foundUsers[index]['area_name']}(${foundUsers[index]['area_id']}) , ${foundUsers[index]['address']}',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  // fontSize: 19,
                                 ),
                               ),
                             ),

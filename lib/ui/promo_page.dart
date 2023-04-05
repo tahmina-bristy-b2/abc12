@@ -70,10 +70,21 @@ class _PromoPageState extends State<PromoPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        //=====================for Bonus=========================
                         const SizedBox(height: 5),
-                        const Text(
-                          'Bonus:',
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: screenWidth,
+                          height: 40,
+                          color: const Color.fromARGB(255, 21, 67, 218)
+                              .withOpacity(.7),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Bonus:',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                          ),
                         ),
                         const SizedBox(height: 5),
                         SizedBox(
@@ -91,9 +102,24 @@ class _PromoPageState extends State<PromoPage> {
                             rows: dataRow(snapshot.data!),
                           ),
                         ),
+                        //================= for Special Rate ====================
                         const SizedBox(height: 5),
-                        const Text('Spcial Rate:',
-                            style: TextStyle(fontSize: 18)),
+                        Container(
+                          width: screenWidth,
+                          height: 40,
+                          color: const Color.fromARGB(255, 21, 67, 218)
+                              .withOpacity(.7),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Special Rate:',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                        // const Text('Special Rate:',
+                        //     style: TextStyle(fontSize: 18)),
                         const SizedBox(height: 5),
                         SizedBox(
                           height: 300,
@@ -108,6 +134,74 @@ class _PromoPageState extends State<PromoPage> {
                             minWidth: screenWidth,
                             columns: spDataColumn(),
                             rows: spDataRow(snapshot.data!),
+                          ),
+                        ),
+
+                        //================= for Flat Rate ====================
+                        const SizedBox(height: 5),
+                        Container(
+                          width: screenWidth,
+                          height: 40,
+                          color: const Color.fromARGB(255, 21, 67, 218)
+                              .withOpacity(.7),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Flat Rate:',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+
+                        const SizedBox(height: 5),
+                        SizedBox(
+                          height: 300,
+                          child: DataTable2(
+                            border: TableBorder.all(),
+                            headingRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.blue.shade200),
+                            dataRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.teal.shade50),
+                            columnSpacing: 12,
+                            horizontalMargin: 12,
+                            minWidth: screenWidth,
+                            columns: flatDataColumn(),
+                            rows: flatDataRow(snapshot.data!),
+                          ),
+                        ),
+
+                        //================= for Approved Datte ====================
+                        const SizedBox(height: 5),
+                        Container(
+                          width: screenWidth,
+                          height: 40,
+                          color: const Color.fromARGB(255, 21, 67, 218)
+                              .withOpacity(.7),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Declared Item:',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+
+                        const SizedBox(height: 5),
+                        SizedBox(
+                          height: 300,
+                          child: DataTable2(
+                            border: TableBorder.all(),
+                            headingRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.blue.shade200),
+                            dataRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.teal.shade50),
+                            columnSpacing: 12,
+                            horizontalMargin: 12,
+                            minWidth: screenWidth,
+                            columns: declaredDataColumn(),
+                            rows: declaredDataRow(snapshot.data!),
                           ),
                         ),
                       ],
@@ -136,7 +230,7 @@ class _PromoPageState extends State<PromoPage> {
     }
   }
 
-  //==================== For Promo List================
+  //==================== For Promo ================
 
   List<DataColumn> dataColumn() {
     return [
@@ -170,7 +264,7 @@ class _PromoPageState extends State<PromoPage> {
             ]))
         .toList();
   }
-  //==================== For Promo List================
+  //==================== For Special ================
 
   List<DataColumn> spDataColumn() {
     return [
@@ -214,6 +308,91 @@ class _PromoPageState extends State<PromoPage> {
               ),
               DataCell(
                 Text(e.specialRateTp.toString()),
+              )
+            ]))
+        .toList();
+  }
+
+  //==================== For Flat Rate ================
+
+  List<DataColumn> flatDataColumn() {
+    return [
+      DataColumn2(
+        fixedWidth: screenWidth / 1.9,
+        label: const Center(
+          child: Text(
+            'Product',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        size: ColumnSize.L,
+      ),
+      DataColumn2(
+        numeric: true,
+        fixedWidth: screenWidth / 6.5,
+        label: const Text(
+          'MinQty',
+          style: TextStyle(fontSize: 16),
+        ),
+        size: ColumnSize.S,
+      ),
+      DataColumn2(
+        numeric: true,
+        fixedWidth: screenWidth / 5.0,
+        label: const Text(
+          'FlatRate',
+          style: TextStyle(fontSize: 16),
+        ),
+        size: ColumnSize.S,
+      ),
+    ];
+  }
+
+  List<DataRow> flatDataRow(PromoModel promoData) {
+    return promoData.promoFlatList
+        .map((e) => DataRow(cells: [
+              DataCell(Text(e.promoDes)),
+              DataCell(
+                Text(e.minQty.toString()),
+              ),
+              DataCell(
+                Text(e.flatRate.toString()),
+              )
+            ]))
+        .toList();
+  }
+  //==================== For Approved Date ===================
+
+  List<DataColumn> declaredDataColumn() {
+    return [
+      DataColumn2(
+        fixedWidth: screenWidth / 1.7,
+        label: const Center(
+          child: Text(
+            'Product',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        size: ColumnSize.L,
+      ),
+      DataColumn2(
+        numeric: true,
+        fixedWidth: screenWidth / 3.5,
+        label: const Text(
+          'ApprovedDate',
+          style: TextStyle(fontSize: 16),
+        ),
+        size: ColumnSize.S,
+      ),
+    ];
+  }
+
+  List<DataRow> declaredDataRow(PromoModel promoData) {
+    return promoData.promoDiList
+        .map((e) => DataRow(cells: [
+              DataCell(Text(e.promoDes)),
+              DataCell(
+                Text(e.approvedDate.toString().substring(0, 10)),
               )
             ]))
         .toList();

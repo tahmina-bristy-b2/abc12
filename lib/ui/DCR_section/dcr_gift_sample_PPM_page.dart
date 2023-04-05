@@ -6,7 +6,6 @@ import 'package:MREPORTING/services/dcr/dcr_services.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -17,7 +16,6 @@ import 'package:MREPORTING/ui/DCR_section/show_dcr_sampleData.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DcrGiftSamplePpmPage extends StatefulWidget {

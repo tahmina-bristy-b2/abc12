@@ -75,6 +75,8 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                 },
                 controller: searchController,
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.teal.shade50,
                   border: const OutlineInputBorder(),
                   labelText: 'Search Medicine',
                   suffixIcon: searchController.text.isEmpty &&
@@ -124,33 +126,30 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
                           child: Card(
                             color: pressAttention!
                                 ? const Color.fromARGB(255, 143, 199, 248)
-                                : Colors.white,
-                            elevation: 10,
+                                : Colors.yellow.shade50,
+                            // elevation: 10,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Row(
                               children: [
-                                SizedBox(
-                                  height: 60,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          foundUsers[index]['name'],
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 19,
-                                          ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        foundUsers[index]['name'],
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 19,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

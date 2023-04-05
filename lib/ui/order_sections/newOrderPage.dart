@@ -822,9 +822,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
         style: const TextStyle(color: Colors.black),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          // fillColor: Colors.white,
+          fillColor: Colors.teal.shade50,
           filled: true,
           hintText: 'Delivery Date',
+          labelText: 'Delivery Date',
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 1, 99, 89)),
           contentPadding: const EdgeInsets.all(2.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
         ),
@@ -844,11 +846,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
   Expanded deliveryShiftWidget() {
     return Expanded(
       flex: 2,
-      child: SizedBox(
-        // width: 220,
+      child: Card(
+        color: Colors.teal.shade50,
         child: Center(
           child: DropdownButton<String>(
             value: selectedDeliveryTime,
+            iconEnabledColor: Colors.teal,
+            iconDisabledColor: Colors.grey,
+            iconSize: 28,
             items: deliveryTime
                 .map(
                   (String item) => DropdownMenuItem<String>(
@@ -875,11 +880,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
   Expanded paymentDropdownWidget() {
     return Expanded(
       flex: 2,
-      child: SizedBox(
-        // width: 220,
+      child: Card(
+        color: Colors.teal.shade50,
         child: Center(
           child: DropdownButton<String>(
             value: slectedPayMethod,
+            iconEnabledColor: Colors.teal,
+            iconDisabledColor: Colors.grey,
+            iconSize: 28,
             items: payMethod
                 .map(
                   (String item) => DropdownMenuItem<String>(
@@ -906,26 +914,32 @@ class _NewOrderPageState extends State<NewOrderPage> {
   Expanded offerDrapdownWidget() {
     return Expanded(
       flex: 2,
-      child: Center(
-        child: DropdownButton<String>(
-          value: initialOffer,
-          borderRadius: BorderRadius.circular(5),
-          // underline: ,
-          items: offer
-              .map(
-                (String item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(fontSize: 15),
+      child: Card(
+        color: Colors.teal.shade50,
+        child: Center(
+          child: DropdownButton<String>(
+            value: initialOffer,
+            iconEnabledColor: Colors.teal,
+            iconDisabledColor: Colors.grey,
+            iconSize: 28,
+            // borderRadius: BorderRadius.circular(5),
+            // underline: ,
+            items: offer
+                .map(
+                  (String item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(fontSize: 15),
+                    ),
                   ),
-                ),
-              )
-              .toList(),
-          onChanged: (item) => setState(
-            () {
-              initialOffer = item.toString();
-            },
+                )
+                .toList(),
+            onChanged: (item) => setState(
+              () {
+                initialOffer = item.toString();
+              },
+            ),
           ),
         ),
       ),

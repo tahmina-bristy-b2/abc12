@@ -280,8 +280,10 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                 },
                 controller: searchController,
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.teal.shade50,
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
                   labelText: 'Item Search',
                   suffixIcon: searchController.text.isEmpty &&
                           searchController.text == ''

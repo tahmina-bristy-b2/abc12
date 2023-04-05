@@ -5,11 +5,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class CommonInAppWebView extends StatefulWidget {
   const CommonInAppWebView(
       {super.key,
+      required this.title,
       required this.url,
       required this.cid,
       required this.userId,
       required this.userPassword,
       this.clientId});
+  final String title;
   final String url;
   final String cid;
   final String userId;
@@ -35,7 +37,7 @@ class _CommonInAppWebViewState extends State<CommonInAppWebView> {
     //     '${widget.url}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}');
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin'),
+          title: Text(widget.title),
           centerTitle: true,
           leading: IconButton(
             onPressed: () => Navigator.pop(context),

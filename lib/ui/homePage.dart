@@ -1129,6 +1129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (_) =>
                                                   CommonInAppWebView(
+                                                title: 'Plugin',
                                                 cid: cid,
                                                 userId: userInfo!.userId,
                                                 userPassword: userPassword,
@@ -1154,6 +1155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (_) =>
                                                   CommonInAppWebView(
+                                                title: 'Activity',
                                                 cid: cid,
                                                 userId: userInfo!.userId,
                                                 userPassword: userPassword,

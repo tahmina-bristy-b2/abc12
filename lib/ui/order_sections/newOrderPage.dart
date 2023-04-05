@@ -529,6 +529,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             context,
             MaterialPageRoute(
               builder: (_) => CommonInAppWebView(
+                  title: "Last Invoice",
                   cid: cid,
                   userId: userLoginInfo!.userId,
                   userPassword: userPassword,
@@ -608,6 +609,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
               context,
               MaterialPageRoute(
                 builder: (_) => CommonInAppWebView(
+                    title: "Last Order",
                     cid: cid,
                     userId: userLoginInfo!.userId,
                     userPassword: userPassword,
@@ -649,6 +651,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             context,
             MaterialPageRoute(
               builder: (_) => CommonInAppWebView(
+                  title: 'Outstanding',
                   cid: cid,
                   userId: userLoginInfo!.userId,
                   userPassword: userPassword,

@@ -116,7 +116,7 @@ class _ExpensePageState extends State<ExpensePage> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: customBuildButton(
+                        child: CustomBuildButton(
                           onClick: () async {
                             print("a00");
                             newList = await Repositories().expenseEntryRepo(
@@ -155,7 +155,7 @@ class _ExpensePageState extends State<ExpensePage> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: customBuildButton(
+                        child: CustomBuildButton(
                           onClick: () async {
                             newList = await Repositories().expenseEntryRepo(
                                 dmpathData!.expTypeUrl,
@@ -192,7 +192,7 @@ class _ExpensePageState extends State<ExpensePage> {
                       Row(
                         children: [
                           Expanded(
-                            child: customBuildButton(
+                            child: CustomBuildButton(
                               onClick: () {
                                 Navigator.push(
                                     context,
@@ -211,7 +211,7 @@ class _ExpensePageState extends State<ExpensePage> {
                           // //**************************MY EXPENSE LOG***************************************************/
                           // //*******************************************************************************************************/
                           Expanded(
-                            child: customBuildButton(
+                            child: CustomBuildButton(
                               onClick: () async {
                                 var expReport = await ExpenseReport();
                                 List expenseLog = expReport["expList"];
@@ -321,7 +321,7 @@ class _ExpensePageState extends State<ExpensePage> {
                       // ),
                       // Expanded(
                       //   child:
-                      customBuildButton(
+                      CustomBuildButton(
                         onClick: () async {
                           var url =
                               '$expApproval?cid=$cid&user_id=$user_id&userPass=$userPass';

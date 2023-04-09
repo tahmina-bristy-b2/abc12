@@ -52,7 +52,7 @@ class _StockPageState extends State<StockPage> {
     dmpathData = Boxes.getDmpath().get('dmPathData');
 
     // getStock();
-    refreshTimeDiffrence();
+    // refreshTimeDiffrence();
     getDepotList();
   }
 
@@ -65,16 +65,15 @@ class _StockPageState extends State<StockPage> {
   Future<int> refreshTimeDiffrence() async {
     var refReshTimeBox = await Hive.openBox('StockRefreshTime');
 
-    // DateTime startTime = DateTime.now(); // 10:30 AM
+    DateTime endTime = DateTime(2023, 4, 10, 00, 00); // 11:15 AM
 
-    DateTime endTime = DateTime.now(); // 11:15 AM
-    DateTime lastRefreshTime = refReshTimeBox.get('lastRefreshTime') ?? endTime;
+    DateTime lastRefreshTime = refReshTimeBox.get('lastRefreshTime');
 
     Duration difference = endTime.difference(lastRefreshTime);
     int minutes = difference.inMinutes;
+    return minutes;
 
     // print('The difference between start and end time is $minutes minutes.');
-    return minutes;
   }
 
   getDepotList() async {
@@ -110,8 +109,14 @@ class _StockPageState extends State<StockPage> {
       // } else {
       //   timeDiff = minut - lstSavedminut;
       // }
-
-      if (await refreshTimeDiffrence() >= 10) {
+      if (depotId == '') {
+        setState(() {
+          _isLoading = false;
+        });
+        AllServices().toastMessage(
+            'Please select Depot.', Colors.teal, Colors.white, 16);
+      } else {
+        // if (await refreshTimeDiffrence() >= 5) {
         StockModel? stockData2 = await Repositories().getStock(
             dmpathData!.reportStockUrl,
             widget.cid,
@@ -157,13 +162,15 @@ class _StockPageState extends State<StockPage> {
             _isLoading = false;
           });
         }
-      } else {
-        AllServices().toastMessage(
-            'Pleease refresh after 10 minutes.', Colors.teal, Colors.white, 16);
-        setState(() {
-          _isLoading = false;
-        });
       }
+
+      // } else {
+      //   AllServices().toastMessage(
+      //       'Pleease refresh after 10 minutes.', Colors.teal, Colors.white, 16);
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      // }
     } else {
       AllServices()
           .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
@@ -277,7 +284,7 @@ class _StockPageState extends State<StockPage> {
                                 child: const Text('Show'),
                               ),
                             ),
-                            const SizedBox(width: 60)
+                            const SizedBox(width: 40)
                           ],
                         ),
                       ),

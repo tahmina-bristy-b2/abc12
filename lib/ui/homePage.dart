@@ -331,6 +331,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (_) => const LoginScreen()));
               },
             ),
+            const SizedBox(height: 100),
+            Row(
+              children: [
+                const Spacer(),
+                SizedBox(
+                  width: screenWidth / 3,
+                  // height: screenHeight / 10,
+                  child: Text(
+                    loginPageVersionName,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black.withOpacity(.5),
+                      // color: Color.fromARGB(255, 129, 188, 236),
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

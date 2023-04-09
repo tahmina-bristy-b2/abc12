@@ -201,8 +201,8 @@ class _DcrListPageState extends State<DcrListPage> {
                                     _isLoading = true;
                                   });
 
-                                  //=======================================================================================================================================
-                                  //======================================================CustomerApi======================================================================
+//=======================================================================================================================================
+//======================================================CustomerApi======================================================================
 //=======================================================================================================================================
                                   List clientList = await DcrRepositories()
                                       .getDCRAreaBaseClient(
@@ -211,75 +211,73 @@ class _DcrListPageState extends State<DcrListPage> {
                                           userInfo!.userId,
                                           userPassword,
                                           foundUsers[index]['area_id']);
-                                  if (clientList.isNotEmpty) {
+                                  // if (clientList.isNotEmpty) {
 //=======================================================================================================================================
 //======================================================DOCEditApi======================================================================
 //=======================================================================================================================================
-                                    final Map<String, dynamic>
-                                        responseOfDoEditInfo =
-                                        await DcrRepositories().docEditInfo(
-                                            dmpathData!.doctorEditUrl,
-                                            cid,
-                                            userInfo!.userId,
-                                            userPassword,
-                                            foundUsers[index]['area_id'],
-                                            foundUsers[index]['doc_id']);
+                                  final Map<String, dynamic>
+                                      responseOfDoEditInfo =
+                                      await DcrRepositories().docEditInfo(
+                                          dmpathData!.doctorEditUrl,
+                                          cid,
+                                          userInfo!.userId,
+                                          userPassword,
+                                          foundUsers[index]['area_id'],
+                                          foundUsers[index]['doc_id']);
 //=======================================================================================================================================
 //======================================================DOCSettingsApi======================================================================
 //=======================================================================================================================================
-                                    final DocSettingsModel?
-                                        responseOfDocSettings =
-                                        await DcrRepositories().docSettingsRepo(
-                                            cid,
-                                            userInfo!.userId,
-                                            userPassword);
+                                  final DocSettingsModel?
+                                      responseOfDocSettings =
+                                      await DcrRepositories().docSettingsRepo(
+                                          cid, userInfo!.userId, userPassword);
 
 //=======================================================================================================================================
 //======================================================Navigation======================================================================
 //=======================================================================================================================================
-                                    if (responseOfDoEditInfo != {} &&
-                                        responseOfDocSettings != null) {
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                      if (!mounted) return;
-                                      // print(responseOfDocSettings);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => DcotorInfoScreen(
-                                            isEdit: true,
-                                            areaName: foundUsers[index]
-                                                ['area_id'],
-                                            editDoctorInfo: foundUsers[index],
-                                            docSettings: responseOfDocSettings,
-                                            customerList: clientList,
-                                            docEditInfo: responseOfDoEditInfo,
-                                            areaID: foundUsers[index]
-                                                ['area_id'],
-                                          ),
+                                  if (responseOfDoEditInfo != {} &&
+                                      responseOfDocSettings != null &&
+                                      clientList.isNotEmpty) {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    if (!mounted) return;
+                                    // print(responseOfDocSettings);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => DcotorInfoScreen(
+                                          isEdit: true,
+                                          areaName: foundUsers[index]
+                                              ['area_id'],
+                                          editDoctorInfo: foundUsers[index],
+                                          docSettings: responseOfDocSettings,
+                                          customerList: clientList,
+                                          docEditInfo: responseOfDoEditInfo,
+                                          areaID: foundUsers[index]['area_id'],
                                         ),
-                                      );
-                                    } else {
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                      AllServices().toastMessage(
-                                          'Doctor data Not found',
-                                          Colors.red,
-                                          Colors.white,
-                                          16);
-                                    }
+                                      ),
+                                    );
                                   } else {
                                     setState(() {
                                       _isLoading = false;
                                     });
                                     AllServices().toastMessage(
-                                        'Client Not found',
+                                        'Doctor data Not found',
                                         Colors.red,
                                         Colors.white,
                                         16);
                                   }
+                                  // } else {
+                                  //   setState(() {
+                                  //     _isLoading = false;
+                                  //   });
+                                  //   AllServices().toastMessage(
+                                  //       'Client Not found',
+                                  //       Colors.red,
+                                  //       Colors.white,
+                                  //       16);
+                                  // }
                                 },
                               ),
                             );

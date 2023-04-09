@@ -255,7 +255,7 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
                         child: Column(
                           children: [
                             Card(
-                              elevation: 1,
+                              // elevation: 1,
                               child: Container(
                                 height: 40,
                                 color: const Color.fromARGB(255, 138, 201, 149)

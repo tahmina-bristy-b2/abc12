@@ -1052,7 +1052,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
         // _itemController[index].text =
         //     finalItemDataList[index].quantity.toString();
         return Card(
-          elevation: 15,
+          // elevation: 15,
           color: const Color.fromARGB(255, 222, 233, 243),
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.white70, width: 1),
@@ -1097,7 +1097,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       color: const Color.fromARGB(255, 200, 250, 207),
-                      elevation: 2,
+                      // elevation: 2,
                       child: Row(
                         children: const [
                           Expanded(

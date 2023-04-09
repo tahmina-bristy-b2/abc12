@@ -2,6 +2,7 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
@@ -83,39 +84,44 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                     userInfo!.userId,
                     userPassword,
                     snapshot.data![index]['area_id']);
-                if (clientList.isNotEmpty) {
-                  final DocSettingsModel? responseOfDocSettings =
-                      await DcrRepositories()
-                          .docSettingsRepo(cid, userInfo!.userId, userPassword);
+                // if (clientList.isNotEmpty) {
+                final DocSettingsModel? responseOfDocSettings =
+                    await DcrRepositories()
+                        .docSettingsRepo(cid, userInfo!.userId, userPassword);
 
-                  if (responseOfDocSettings != null) {
-                    setState1(() {
-                      _isLoading = false;
-                    });
-                    if (!mounted) return;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DcotorInfoScreen(
-                          isEdit: false,
-                          areaName: snapshot.data![index]['area_name'],
-                          customerList: clientList,
-                          docSettings: responseOfDocSettings,
-                          areaID: snapshot.data![index]['area_id'],
-                        ),
+                if (responseOfDocSettings != null) {
+                  setState1(() {
+                    _isLoading = false;
+                  });
+                  if (!mounted) return;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DcotorInfoScreen(
+                        isEdit: false,
+                        areaName: snapshot.data![index]['area_name'],
+                        customerList: clientList,
+                        docSettings: responseOfDocSettings,
+                        areaID: snapshot.data![index]['area_id'],
                       ),
-                    );
-                  } else {
-                    setState1(() {
-                      _isLoading = false;
-                    });
-                  }
+                    ),
+                  );
                 } else {
-                  _isLoading = false;
+                  setState1(() {
+                    _isLoading = false;
+                  });
+                  AllServices().toastMessage('Doctor Settings data Not found',
+                      Colors.red, Colors.white, 16);
                 }
+                // }
+                // else {
+                //   setState1(() {
+                //     _isLoading = false;
+                //   });
+                // }
               },
               child: Card(
-                elevation: 2,
+                // elevation: 2,
                 child: SizedBox(
                     height: 40,
                     child: Row(

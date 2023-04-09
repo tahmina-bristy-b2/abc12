@@ -66,7 +66,7 @@ class _RxDraftPageState extends State<RxDraftPage> {
           return GestureDetector(
             onTap: () {},
             child: Card(
-              elevation: 10,
+              // elevation: 10,
               color: const Color.fromARGB(255, 207, 240, 207),
               child: ExpansionTile(
                 childrenPadding: const EdgeInsets.all(0),

@@ -139,7 +139,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                               userId, userPassword);
                                       if (itemList.isNotEmpty) {
                                         AllServices().toastMessage(
-                                            'Sync all data Done.',
+                                            'Sync Item data Done.',
                                             Colors.teal,
                                             Colors.white,
                                             16);

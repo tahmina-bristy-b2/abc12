@@ -2,16 +2,16 @@ import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class RxServices {
-  String calculateRxItemString(finalMedicineList) {
+  String calculateRxItemString(List<MedicineListModel> finalMedicineList) {
     String itemString = "";
     if (finalMedicineList.isNotEmpty) {
-      finalMedicineList.forEach((element) {
+      for (var element in finalMedicineList) {
         if (itemString == '') {
           itemString = '${element.itemId}|${element.quantity}';
         } else {
           itemString += '||${element.itemId}|${element.quantity}';
         }
-      });
+      }
     }
 
     return itemString;

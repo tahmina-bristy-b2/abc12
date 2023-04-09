@@ -239,7 +239,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                 child: Column(
                   children: [
                     Card(
-                      elevation: 5,
+                      // elevation: 5,
                       child: Container(
                         width: screenWidth,
                         height: screenHeight / 10,
@@ -387,7 +387,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext itemBuilder, index) {
                           return Card(
-                            elevation: 15,
+                            // elevation: 15,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Colors.white70, width: 1),
@@ -755,6 +755,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   }
 
   Future<dynamic> dcrGSPSubmit() async {
+    itemString = DcrServices().calculatingGspItemString(addedDcrGSPList);
     if (itemString != '') {
       Map<String, dynamic> dcrResponsedata = await DcrRepositories()
           .dcrGspSubmit(

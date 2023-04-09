@@ -190,7 +190,7 @@ class DataProviders {
 //###################### User Depot data for stock ########################
   Future<http.Response> userDepotDP(
       String userDepotUrl, String cid, String userId, String uesrpass) async {
-    print(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass));
+    // print(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass));
     http.Response response = await http.get(
       Uri.parse(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass)),
     );

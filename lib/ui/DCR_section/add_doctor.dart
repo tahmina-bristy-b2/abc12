@@ -1387,7 +1387,9 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         onPressed: () async {
           if (cid != "") {
             if (userPassword != "") {
-              if (categoryValue!.isNotEmpty) {
+              if (docCategoryValue != null &&
+                  docTypeValue != null &&
+                  docSpecialityValue != null) {
                 if (categoryValue!.isNotEmpty) {
                   if (adressController.text.isNotEmpty) {
                     if (mobileController.text.isNotEmpty) {
@@ -1449,13 +1451,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                 setState(() {
                                   _isLoading = false;
                                 });
-                                String resString = a['ret_str'] ?? "";
+                                // String resString = a['ret_str'] ?? "";
 
-                                AllServices().toastMessage(
-                                    "$status for $resString",
-                                    Colors.red,
-                                    Colors.white,
-                                    14);
+                                AllServices().toastMessage("Submit Faild",
+                                    Colors.red, Colors.white, 14);
                               }
                             } else {
                               AllServices().toastMessage(
@@ -1502,7 +1501,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                 }
               } else {
                 AllServices().toastMessage(
-                    "Please select your Doctor Category first",
+                    "Please select your Doctor Category, Type and Speciality.",
                     Colors.red,
                     Colors.white,
                     14);
@@ -1534,8 +1533,10 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
         onPressed: () async {
           if (cid != "") {
             if (userPassword != "") {
-              if (categoryValue!.isNotEmpty) {
-                if (categoryValue!.isNotEmpty) {
+              if (docCategoryValue != null &&
+                  docTypeValue != null &&
+                  docSpecialityValue != null) {
+                if (categoryValue != null) {
                   if (adressController.text.isNotEmpty) {
                     if (districtSelectedId != '' && thanaSelectedId != '') {
                       if (mobileController.text.isNotEmpty) {
@@ -1566,7 +1567,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                     marriageDayController.text.toString(),
                                     dobChild1Controller.text.toString(),
                                     dobChild2Controller.text.toString(),
-                                    collarSize!,
+                                    collarSize ?? '',
                                     patientNumController.text.toString(),
                                     docIDController.text.toString(),
                                     docNameController.text.toString(),
@@ -1583,12 +1584,14 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                   Colors.green,
                                   Colors.white,
                                   14);
+                              if (!mounted) return;
                               Navigator.pop(context);
                             } else {
-                              String resString = a['ret_str'] ?? "";
+                              // String resString = a['ret_str'] ?? "";
 
                               AllServices().toastMessage(
-                                  "$status for $resString",
+                                  "Update Faild",
+                                  // Colors.teal.shade300,
                                   Colors.red,
                                   Colors.white,
                                   14);
@@ -1628,7 +1631,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                 }
               } else {
                 AllServices().toastMessage(
-                    "Please select your Doctor Category first",
+                    "Please select your Doctor Category, Type and Speciality.",
                     Colors.red,
                     Colors.white,
                     14);

@@ -236,8 +236,7 @@ class _DcrListPageState extends State<DcrListPage> {
 //======================================================Navigation======================================================================
 //=======================================================================================================================================
                                   if (responseOfDoEditInfo != {} &&
-                                      responseOfDocSettings != null &&
-                                      clientList.isNotEmpty) {
+                                      responseOfDocSettings != null) {
                                     setState(() {
                                       _isLoading = false;
                                     });

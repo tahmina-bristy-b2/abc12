@@ -67,14 +67,14 @@ class _StockPageState extends State<StockPage> {
 
     DateTime endTime = DateTime(2023, 4, 8, 00, 00); // 11:15 AM
     DateTime now = DateTime.now(); // 11:15 AM
-    print(now);
+    // print(now);
 
     DateTime lastRefreshTime = refReshTimeBox.get('lastRefreshTime') ?? endTime;
-    print(lastRefreshTime);
+    // print(lastRefreshTime);
 
     Duration difference = now.difference(lastRefreshTime);
     int minutes = difference.inMinutes;
-    print(minutes);
+    // print(minutes);
     return minutes;
 
     // print('The difference between start and end time is $minutes minutes.');
@@ -98,78 +98,78 @@ class _StockPageState extends State<StockPage> {
 
   void getStock(String depoId) async {
     var refReshTimeBox = await Hive.openBox('StockRefreshTime');
-    setState(() {
-      _isLoading = true;
-    });
-    bool result = await InternetConnectionChecker().hasConnection;
-    if (result) {
-      if (depotId == '') {
+    if (depotId == '') {
+      setState(() {
+        _isLoading = false;
+      });
+      AllServices()
+          .toastMessage('Please select Depot.', Colors.teal, Colors.white, 16);
+    } else {
+      if (await refreshTimeDiffrence() >= 5) {
         setState(() {
-          _isLoading = false;
+          _isLoading = true;
         });
-        AllServices().toastMessage(
-            'Please select Depot.', Colors.teal, Colors.white, 16);
-      } else {
-        // if (await refreshTimeDiffrence() >= 5) {
-        StockModel? stockData2 = await Repositories().getStock(
-            dmpathData!.reportStockUrl,
-            widget.cid,
-            userInfo!.userId,
-            widget.userPassword,
-            depoId);
-
-        if (stockData2 != null) {
-          List itemList = await OrderRepositories().syncItem(
-              dmpathData!.syncUrl,
+        bool result = await InternetConnectionChecker().hasConnection;
+        if (result) {
+          StockModel? stockData2 = await Repositories().getStock(
+              dmpathData!.reportStockUrl,
               widget.cid,
               userInfo!.userId,
-              widget.userPassword);
-          if (itemList.isNotEmpty) {
-            DateTime now = DateTime.now();
+              widget.userPassword,
+              depoId);
 
-            refReshTimeBox.put('lastRefreshTime', now);
+          if (stockData2 != null) {
+            List itemList = await OrderRepositories().syncItem(
+                dmpathData!.syncUrl,
+                widget.cid,
+                userInfo!.userId,
+                widget.userPassword);
+            if (itemList.isNotEmpty) {
+              DateTime now = DateTime.now();
 
-            // print(itemList);
-            // AllServices().toastMessage(
-            //     'Sync Item data Done.', Colors.teal, Colors.white, 16);
-            setState(() {
-              _isLoading = false;
-              stockData = stockData2;
-              stockList = stockData2.stockList;
-            });
+              refReshTimeBox.put('lastRefreshTime', now);
+
+              // print(itemList);
+              // AllServices().toastMessage(
+              //     'Sync Item data Done.', Colors.teal, Colors.white, 16);
+              setState(() {
+                _isLoading = false;
+                stockData = stockData2;
+                stockList = stockData2.stockList;
+              });
+            } else {
+              AllServices().toastMessage(
+                  'Didn\'t sync Item Data', Colors.red, Colors.white, 16);
+
+              setState(() {
+                _isLoading = false;
+              });
+            }
+
+            // setState(() {
+            //   _isLoading = false;
+            //   stockData = stockData2;
+            //   stockList = stockData2.stockList;
+            // });
           } else {
-            AllServices().toastMessage(
-                'Didn\'t sync Item Data', Colors.red, Colors.white, 16);
-
             setState(() {
               _isLoading = false;
             });
           }
-
-          // setState(() {
-          //   _isLoading = false;
-          //   stockData = stockData2;
-          //   stockList = stockData2.stockList;
-          // });
         } else {
+          AllServices()
+              .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
           setState(() {
             _isLoading = false;
           });
         }
-        // } else {
-        //   AllServices().toastMessage('Pleease refresh after 10 minutes.',
-        //       Colors.teal, Colors.white, 16);
-        //   setState(() {
-        //     _isLoading = false;
-        //   });
-        // }
+      } else {
+        AllServices().toastMessage('Pleease refresh after 10 minutes.',
+            Colors.yellow, Colors.black, 16);
+        setState(() {
+          _isLoading = false;
+        });
       }
-    } else {
-      AllServices()
-          .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
@@ -248,17 +248,16 @@ class _StockPageState extends State<StockPage> {
                                         ? userDepotList!.depotList
                                             .map((e) => DropdownMenuItem(
                                                 value: e.depotName,
+                                                alignment:
+                                                    AlignmentDirectional.center,
                                                 child: Text(e.depotName)))
                                             .toList()
                                         : tempList
                                             .map((String e) => DropdownMenuItem(
                                                 value: e,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 5),
-                                                  child: Text(e),
-                                                )))
+                                                alignment:
+                                                    AlignmentDirectional.center,
+                                                child: Text(e)))
                                             .toList(),
                                     style: const TextStyle(
                                       color: Colors.black,

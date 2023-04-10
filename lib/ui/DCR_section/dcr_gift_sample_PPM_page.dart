@@ -36,8 +36,6 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
     required this.address,
     required this.areaId,
     required this.isDraft,
-    // required this.dcrKey,
-    // required this.uniqueId,
     required this.docName,
     required this.docId,
     required this.areaName,
@@ -92,7 +90,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   String userName = '';
   String startTime = '';
   String endTime = '';
-  // List visitedWith = [];
   double latitude = 0.0;
   double longitude = 0.0;
   String deviceId = '';

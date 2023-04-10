@@ -65,12 +65,16 @@ class _StockPageState extends State<StockPage> {
   Future<int> refreshTimeDiffrence() async {
     var refReshTimeBox = await Hive.openBox('StockRefreshTime');
 
-    DateTime endTime = DateTime(2023, 4, 10, 00, 00); // 11:15 AM
+    DateTime endTime = DateTime(2023, 4, 8, 00, 00); // 11:15 AM
+    DateTime now = DateTime.now(); // 11:15 AM
+    print(now);
 
-    DateTime lastRefreshTime = refReshTimeBox.get('lastRefreshTime');
+    DateTime lastRefreshTime = refReshTimeBox.get('lastRefreshTime') ?? endTime;
+    print(lastRefreshTime);
 
-    Duration difference = endTime.difference(lastRefreshTime);
+    Duration difference = now.difference(lastRefreshTime);
     int minutes = difference.inMinutes;
+    print(minutes);
     return minutes;
 
     // print('The difference between start and end time is $minutes minutes.');
@@ -99,16 +103,6 @@ class _StockPageState extends State<StockPage> {
     });
     bool result = await InternetConnectionChecker().hasConnection;
     if (result) {
-      // DateTime getTime = DateTime.now();
-      // DateTime lastRefreshTime = refReshTimeBox.get('lastRefreshTime');
-      // int lstSavedminut = lastRefreshTime.minute;
-      // int minut = getTime.minute;
-      // int timeDiff = 0;
-      // if (lstSavedminut > minut) {
-      //   timeDiff = lstSavedminut - minut;
-      // } else {
-      //   timeDiff = minut - lstSavedminut;
-      // }
       if (depotId == '') {
         setState(() {
           _isLoading = false;
@@ -162,15 +156,14 @@ class _StockPageState extends State<StockPage> {
             _isLoading = false;
           });
         }
+        // } else {
+        //   AllServices().toastMessage('Pleease refresh after 10 minutes.',
+        //       Colors.teal, Colors.white, 16);
+        //   setState(() {
+        //     _isLoading = false;
+        //   });
+        // }
       }
-
-      // } else {
-      //   AllServices().toastMessage(
-      //       'Pleease refresh after 10 minutes.', Colors.teal, Colors.white, 16);
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      // }
     } else {
       AllServices()
           .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);

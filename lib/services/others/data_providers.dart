@@ -166,11 +166,11 @@ class DataProviders {
   }
 
 //########################## Stock section##############################
-  Future<http.Response> stockDP(
-      String stockUrl, String cid, String userId, String uesrpass) async {
+  Future<http.Response> stockDP(String stockUrl, String cid, String userId,
+      String uesrpass, String depotId) async {
     // print(Apis.promoApi(promoUrl, cid, userId, uesrpass));
     http.Response response = await http.get(
-      Uri.parse(Apis.stockApi(stockUrl, cid, userId, uesrpass)),
+      Uri.parse(Apis.stockApi(stockUrl, cid, userId, uesrpass, depotId)),
     );
 
     return response;
@@ -182,6 +182,17 @@ class DataProviders {
     // print(Apis.promoApi(promoUrl, cid, userId, uesrpass));
     http.Response response = await http.get(
       Uri.parse(Apis.approvedApi(approvedUrl, cid, userId, uesrpass, clientId)),
+    );
+
+    return response;
+  }
+
+//###################### User Depot data for stock ########################
+  Future<http.Response> userDepotDP(
+      String userDepotUrl, String cid, String userId, String uesrpass) async {
+    // print(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass));
+    http.Response response = await http.get(
+      Uri.parse(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass)),
     );
 
     return response;

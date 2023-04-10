@@ -1,6 +1,8 @@
 class Apis {
   static dmpath(String cid) =>
-      'http://w03.yeapps.com/dmpath/dmpath_test/get_dmpath?cid=$cid';
+      'http://w03.yeapps.com/dmpath/dmpath_230409/get_dmpath?cid=$cid';
+  // static dmpath(String cid) =>
+  //     'http://w03.yeapps.com/dmpath/dmpath_test/get_dmpath?cid=$cid';
 
   static attendanceApi(attendanceUrl, params) =>
       "${attendanceUrl}api_attendance_submit/submit_data?$params";
@@ -21,11 +23,15 @@ class Apis {
           String promoUrl, String cid, String userId, String uesrpass) =>
       "$promoUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass"; //Promo Api
 
-  static stockApi(
-          String stockUrl, String cid, String userId, String uesrpass) =>
-      "$stockUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass"; //Stock Api
+  static stockApi(String stockUrl, String cid, String userId, String uesrpass,
+          String depotId) =>
+      "$stockUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass&depot_id=$depotId "; //Stock Api
 
   static approvedApi(String approvedUrl, String cid, String userId,
           String uesrpass, String clientId) =>
       "$approvedUrl?cid=$cid&user_id=$userId&user_pass=$uesrpass&client_id=$clientId"; //Approved Api
+
+  static userDepotApi(String userDepotUrl, String? cid, String? userId,
+          String? userPassword) =>
+      '$userDepotUrl?cid=$cid&user_id=$userId&user_pass=$userPassword'; //user Depor Api for stock
 }

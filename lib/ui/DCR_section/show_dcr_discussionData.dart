@@ -178,7 +178,7 @@ class _DcrDiscussionPageState extends State<DcrDiscussionPage> {
                             }
                           },
                           child: Card(
-                            elevation: 2,
+                            // elevation: 2,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Color.fromARGB(108, 255, 255, 255),

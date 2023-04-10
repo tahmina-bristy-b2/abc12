@@ -331,6 +331,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (_) => const LoginScreen()));
               },
             ),
+            const SizedBox(height: 100),
+            Row(
+              children: [
+                const Spacer(),
+                SizedBox(
+                  width: screenWidth / 3,
+                  // height: screenHeight / 10,
+                  child: Text(
+                    loginPageVersionName,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black.withOpacity(.5),
+                      // color: Color.fromARGB(255, 129, 188, 236),
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -388,7 +406,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //   )
               ],
             )
-          : Text(""),
+          : Container(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -510,7 +528,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.add,
                                         onClick: () async {
                                           List orderList = await AllServices()
@@ -554,7 +572,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.drafts_sharp,
                                         onClick: () {
                                           Navigator.push(
@@ -574,7 +592,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       width: 5,
                                     ),
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.insert_drive_file,
                                         onClick: () {
                                           Navigator.push(
@@ -626,7 +644,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.add,
                                         onClick: () async {
                                           List dcrList = await AllServices()
@@ -672,7 +690,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.drafts_sharp,
                                         onClick: () {
                                           Navigator.push(
@@ -690,7 +708,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       width: 5,
                                     ),
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.insert_drive_file,
                                         onClick: () {
                                           Navigator.push(
@@ -743,7 +761,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.camera_alt_sharp,
                                         onClick: () {
                                           Navigator.push(
@@ -770,7 +788,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.drafts_rounded,
                                         onClick: () {
                                           Navigator.push(
@@ -788,7 +806,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       width: 5,
                                     ),
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.insert_drive_file,
                                         onClick: () {
                                           Navigator.push(
@@ -835,7 +853,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: customBuildButton(
+                                  child: CustomBuildButton(
                                     icon: Icons.add,
                                     onClick: () {
                                       Navigator.push(
@@ -853,7 +871,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   width: 5,
                                 ),
                                 Expanded(
-                                  child: customBuildButton(
+                                  child: CustomBuildButton(
                                     onClick: () {
                                       Navigator.push(
                                           context,
@@ -1121,7 +1139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.insert_drive_file,
                                         onClick: () {
                                           Navigator.push(
@@ -1129,6 +1147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (_) =>
                                                   CommonInAppWebView(
+                                                title: 'Plugin',
                                                 cid: cid,
                                                 userId: userInfo!.userId,
                                                 userPassword: userPassword,
@@ -1146,7 +1165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       width: 5,
                                     ),
                                     Expanded(
-                                      child: customBuildButton(
+                                      child: CustomBuildButton(
                                         icon: Icons.local_activity_rounded,
                                         onClick: () {
                                           Navigator.push(
@@ -1154,6 +1173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                               builder: (_) =>
                                                   CommonInAppWebView(
+                                                title: 'Activity',
                                                 cid: cid,
                                                 userId: userInfo!.userId,
                                                 userPassword: userPassword,
@@ -1288,7 +1308,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           //==========================================================Notice flag +Notice url will be here====================================
                           userInfo!.noteFlag
                               ? Expanded(
-                                  child: customBuildButton(
+                                  child: CustomBuildButton(
                                     icon: Icons.note_alt,
                                     onClick: () async {
                                       // var noticeBody = await noticeEvent();
@@ -1311,7 +1331,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
 
                           Expanded(
-                            child: customBuildButton(
+                            child: CustomBuildButton(
                               icon: Icons.sync,
                               onClick: () {
                                 Navigator.push(

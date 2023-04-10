@@ -139,7 +139,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                               userId, userPassword);
                                       if (itemList.isNotEmpty) {
                                         AllServices().toastMessage(
-                                            'Sync all data Done.',
+                                            'Sync Item data Done.',
                                             Colors.teal,
                                             Colors.white,
                                             16);
@@ -418,6 +418,24 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                         ),
                       ],
                     ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        SizedBox(
+                          width: screenWidth / 2.5,
+                          // height: screenHeight / 10,
+                          child: Text(
+                            loginPageVersionName,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black.withOpacity(.5),
+                              // color: Color.fromARGB(255, 129, 188, 236),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

@@ -55,13 +55,14 @@ class DmPathDataModelAdapter extends TypeAdapter<DmPathDataModel> {
       reportPromoApUrl: fields[35] as String,
       reportPromoUrl: fields[36] as String,
       reportStockUrl: fields[37] as String,
+      reportUserDepotUrl: fields[38] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, DmPathDataModel obj) {
     writer
-      ..writeByte(38)
+      ..writeByte(39)
       ..writeByte(0)
       ..write(obj.loginUrl)
       ..writeByte(1)
@@ -137,7 +138,9 @@ class DmPathDataModelAdapter extends TypeAdapter<DmPathDataModel> {
       ..writeByte(36)
       ..write(obj.reportPromoUrl)
       ..writeByte(37)
-      ..write(obj.reportStockUrl);
+      ..write(obj.reportStockUrl)
+      ..writeByte(38)
+      ..write(obj.reportUserDepotUrl);
   }
 
   @override

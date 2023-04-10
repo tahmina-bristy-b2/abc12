@@ -527,6 +527,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             context,
             MaterialPageRoute(
               builder: (_) => CommonInAppWebView(
+                  title: "Last Invoice",
                   cid: cid,
                   userId: userLoginInfo!.userId,
                   userPassword: userPassword,
@@ -606,6 +607,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
               context,
               MaterialPageRoute(
                 builder: (_) => CommonInAppWebView(
+                    title: "Last Order",
                     cid: cid,
                     userId: userLoginInfo!.userId,
                     userPassword: userPassword,
@@ -647,6 +649,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             context,
             MaterialPageRoute(
               builder: (_) => CommonInAppWebView(
+                  title: 'Outstanding',
                   cid: cid,
                   userId: userLoginInfo!.userId,
                   userPassword: userPassword,
@@ -740,7 +743,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   itemDeliveryDetailsWidget() {
     return SizedBox(
       // height: screenHeight / 9,
-      height: 90,
+      height: 100,
 
       width: screenWidth,
 
@@ -748,7 +751,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
         children: [
           Expanded(
             child: Card(
-              color: const Color.fromARGB(255, 172, 194, 231),
+              color: const Color.fromARGB(255, 196, 209, 231),
               child: Row(
                 children: [
                   Expanded(
@@ -772,7 +775,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                   const Expanded(
                     flex: 3,
                     child: Text(
-                      'RegDisOnTP:  ',
+                      'R.DiscOnTP:',
                       // style: TextStyle(fontSize: 14),
                     ),
                   ),
@@ -849,26 +852,28 @@ class _NewOrderPageState extends State<NewOrderPage> {
       child: Card(
         color: Colors.teal.shade50,
         child: Center(
-          child: DropdownButton<String>(
-            value: selectedDeliveryTime,
-            iconEnabledColor: Colors.teal,
-            iconDisabledColor: Colors.grey,
-            iconSize: 28,
-            items: deliveryTime
-                .map(
-                  (String item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 15),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedDeliveryTime,
+              iconEnabledColor: Colors.teal,
+              iconDisabledColor: Colors.grey,
+              iconSize: 28,
+              items: deliveryTime
+                  .map(
+                    (String item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(fontSize: 15),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-            onChanged: (item) => setState(
-              () {
-                selectedDeliveryTime = item.toString();
-              },
+                  )
+                  .toList(),
+              onChanged: (item) => setState(
+                () {
+                  selectedDeliveryTime = item.toString();
+                },
+              ),
             ),
           ),
         ),
@@ -883,26 +888,28 @@ class _NewOrderPageState extends State<NewOrderPage> {
       child: Card(
         color: Colors.teal.shade50,
         child: Center(
-          child: DropdownButton<String>(
-            value: slectedPayMethod,
-            iconEnabledColor: Colors.teal,
-            iconDisabledColor: Colors.grey,
-            iconSize: 28,
-            items: payMethod
-                .map(
-                  (String item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 14),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: slectedPayMethod,
+              iconEnabledColor: Colors.teal,
+              iconDisabledColor: Colors.grey,
+              iconSize: 28,
+              items: payMethod
+                  .map(
+                    (String item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(fontSize: 14),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-            onChanged: (item) => setState(
-              () {
-                slectedPayMethod = item.toString();
-              },
+                  )
+                  .toList(),
+              onChanged: (item) => setState(
+                () {
+                  slectedPayMethod = item.toString();
+                },
+              ),
             ),
           ),
         ),
@@ -917,28 +924,30 @@ class _NewOrderPageState extends State<NewOrderPage> {
       child: Card(
         color: Colors.teal.shade50,
         child: Center(
-          child: DropdownButton<String>(
-            value: initialOffer,
-            iconEnabledColor: Colors.teal,
-            iconDisabledColor: Colors.grey,
-            iconSize: 28,
-            // borderRadius: BorderRadius.circular(5),
-            // underline: ,
-            items: offer
-                .map(
-                  (String item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 15),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: initialOffer,
+              iconEnabledColor: Colors.teal,
+              iconDisabledColor: Colors.grey,
+              iconSize: 28,
+              // borderRadius: BorderRadius.circular(5),
+              // underline: ,
+              items: offer
+                  .map(
+                    (String item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(fontSize: 15),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-            onChanged: (item) => setState(
-              () {
-                initialOffer = item.toString();
-              },
+                  )
+                  .toList(),
+              onChanged: (item) => setState(
+                () {
+                  initialOffer = item.toString();
+                },
+              ),
             ),
           ),
         ),
@@ -1041,7 +1050,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
         // _itemController[index].text =
         //     finalItemDataList[index].quantity.toString();
         return Card(
-          elevation: 15,
+          // elevation: 15,
           color: const Color.fromARGB(255, 222, 233, 243),
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.white70, width: 1),
@@ -1086,7 +1095,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       color: const Color.fromARGB(255, 200, 250, 207),
-                      elevation: 2,
+                      // elevation: 2,
                       child: Row(
                         children: const [
                           Expanded(

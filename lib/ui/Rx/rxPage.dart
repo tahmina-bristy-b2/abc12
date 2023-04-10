@@ -243,7 +243,7 @@ class _RxPageState extends State<RxPage> {
                     Row(
                       children: [
                         Card(
-                          elevation: 5,
+                          // elevation: 5,
                           child: Container(
                             height: screenHeight / 3.3,
                             width: screenWidth / 1.8,
@@ -368,7 +368,7 @@ class _RxPageState extends State<RxPage> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
-                                    elevation: 5,
+                                    // elevation: 5,
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),
                                       child: Column(
@@ -459,7 +459,7 @@ class _RxPageState extends State<RxPage> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
-                                    elevation: 5,
+                                    // elevation: 5,
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),
                                       child: Column(
@@ -524,7 +524,7 @@ class _RxPageState extends State<RxPage> {
                             height: screenHeight / 9,
                             child: Card(
                               color: const Color(0xffDDEBF7),
-                              elevation: 10,
+                              // elevation: 10,
                               shape: const RoundedRectangleBorder(
                                 side:
                                     BorderSide(color: Colors.white70, width: 1),
@@ -635,7 +635,7 @@ class _RxPageState extends State<RxPage> {
                             height: screenHeight / 9,
                             child: Card(
                               color: const Color(0xffDDEBF7),
-                              elevation: 10,
+                              // elevation: 5,
                               shape: const RoundedRectangleBorder(
                                 side:
                                     BorderSide(color: Colors.white70, width: 1),
@@ -726,7 +726,7 @@ class _RxPageState extends State<RxPage> {
                     ////////////////////////////////medicine List View////////////////
                     finalMedicineList.isNotEmpty
                         ? Card(
-                            elevation: 15,
+                            // elevation: 15,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Colors.white70, width: 1),
@@ -741,7 +741,7 @@ class _RxPageState extends State<RxPage> {
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (BuildContext itemBuilder, index) {
                                   return Card(
-                                    elevation: 10,
+                                    // elevation: 10,
                                     color: const Color.fromARGB(
                                         255, 217, 248, 219),
                                     shape: RoundedRectangleBorder(
@@ -1022,7 +1022,7 @@ class _RxPageState extends State<RxPage> {
           dropdownRxTypevalue,
           latitude,
           longitude,
-          itemString);
+          RxServices().calculateRxItemString(finalMedicineList));
 
       if (orderInfo['status'] == "Success") {
         String retStr = orderInfo['ret_str'];

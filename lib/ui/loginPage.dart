@@ -7,7 +7,6 @@ import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/ui/syncDataTabPaga.dart';
@@ -122,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Container(
-                      height: screenHeight - screenHeight / 2.8,
+                      height: screenHeight - screenHeight / 2.5,
                       width: screenWidth,
                       color: const Color(0xFFE2EFDA),
                       child: Padding(
@@ -403,8 +402,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             loginPageVersionName,
                             style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 129, 188, 236)),
+                              fontSize: 16,
+                              color: Colors.black,
+                              // color: Color.fromARGB(255, 129, 188, 236),
+                            ),
                           ),
                         ),
                       ],

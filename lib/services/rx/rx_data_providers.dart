@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/services/rx/rx_apis.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class RxDataProviders {
-  //================================================================================  ===================================================================
-  //================================================================================ RX Submit ===================================================================
-  //===================================================================================================================================================
+  //===================================== RX Submit ================================
+  //=======================================================================
   Future<http.Response> rxSubmit(
       String submitUrl,
       String fileName,
@@ -27,6 +25,7 @@ class RxDataProviders {
     final http.Response response;
     // print(RxApis.rxSubmitApi(
     //     "$submitUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList[0].docId}&area_id=${finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${dt.toString()}&item_list=$itemString"));
+
     response = await http.post(
       Uri.parse(RxApis.rxSubmitApi(submitUrl)),
       headers: <String, String>{

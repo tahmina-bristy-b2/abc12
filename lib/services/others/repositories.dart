@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:MREPORTING/models/approved_promo_model.dart';
 import 'package:MREPORTING/models/promo_model.dart';
 import 'package:MREPORTING/models/stock_model.dart';
+import 'package:MREPORTING/models/user_depot_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:MREPORTING/utils/constant.dart';
 
@@ -419,13 +420,13 @@ class Repositories {
 
   //============= Promo Repository====================================
 
-  Future<StockModel?> getStock(
-      String promoUrl, String cid, String userId, String uesrpass) async {
+  Future<StockModel?> getStock(String promoUrl, String cid, String userId,
+      String uesrpass, String depotId) async {
     StockModel? stockData;
 
     try {
-      http.Response response =
-          await DataProviders().stockDP(promoUrl, cid, userId, uesrpass);
+      http.Response response = await DataProviders()
+          .stockDP(promoUrl, cid, userId, uesrpass, depotId);
       Map<String, dynamic> status = json.decode(response.body);
 
       if (status['status'] == 'Success') {
@@ -457,5 +458,26 @@ class Repositories {
       throw Exception("Error on server");
     }
     return approvedRateData;
+  }
+
+  //============= Approved Repository====================================
+
+  Future<UserDepotModel?> getUserDepotList(
+      String userDepotUrl, String cid, String userId, String uesrpass) async {
+    UserDepotModel? userDepotList;
+
+    try {
+      http.Response response = await DataProviders()
+          .userDepotDP(userDepotUrl, cid, userId, uesrpass);
+      Map<String, dynamic> status = json.decode(response.body);
+
+      if (status['status'] == 'Success') {
+        userDepotList = userDepotModelFromJson(response.body);
+        return userDepotList;
+      }
+    } on Exception catch (e) {
+      throw Exception("Error on server");
+    }
+    return userDepotList;
   }
 }

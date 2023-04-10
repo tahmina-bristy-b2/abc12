@@ -229,7 +229,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Card(
-                                  elevation: 1,
+                                  // elevation: 1,
                                   child: Container(
                                     // height: 50,
                                     color:

@@ -40,7 +40,7 @@ class _StockPageState extends State<StockPage> {
   bool _sortAsc = true;
   final int _sortColumnIndex = 0;
   bool _isLoading = false;
-  bool _isLoading2 = false;
+  // bool _isLoading2 = false;
   String? depotValue;
   String depotId = '';
 
@@ -89,9 +89,9 @@ class _StockPageState extends State<StockPage> {
     if (userDepotList == null) {
       AllServices()
           .toastMessage('Depot data not found.', Colors.red, Colors.white, 16);
-      setState(() {
-        _isLoading2 = false;
-      });
+      // setState(() {
+      //   _isLoading2 = false;
+      // });
     }
     setState(() {});
   }

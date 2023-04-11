@@ -1092,7 +1092,7 @@ class _RxPageState extends State<RxPage> {
       imagePath = File(file!.path);
 
       if (imagePath != null && widget.isRxEdit == false) {
-        await GallerySaver.saveImage(imagePath!.path);
+        await GallerySaver.saveImage(imagePath!.path); // image save to gallery
         if (finalDoctorList.isEmpty) {
           final rxDcrDataModel = RxDcrDataModel(
               uid: const Uuid().v1(),
@@ -1132,7 +1132,7 @@ class _RxPageState extends State<RxPage> {
           setState(() {});
         }
       } else if (imagePath != null && widget.isRxEdit) {
-        await GallerySaver.saveImage(imagePath!.path);
+        await GallerySaver.saveImage(imagePath!.path); // image save to gallery
         finalDoctorList[0].presImage = imagePath.toString();
         finalImage = imagePath!.path;
         setState(() {});

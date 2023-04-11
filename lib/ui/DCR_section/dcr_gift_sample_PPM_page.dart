@@ -131,6 +131,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     if (widget.isDraft) {
       addedDcrGSPList = widget.draftOrderItem;
       noteController.text = widget.notes;
+      noteText = widget.notes;
       dcrString = widget.visitedWith;
 
       List dcrStringList = dcrString.split("|");

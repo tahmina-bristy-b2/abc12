@@ -31,8 +31,8 @@ class OrderDataProviders {
       String? userPassword,
       String deviceId,
       String clientId) async {
-    print(
-        "object=${OrderApis.showOutstandingApi(clientOutstUrl, cid, userId, userPassword, deviceId, clientId)}");
+    // print(
+    //     "object=${OrderApis.showOutstandingApi(clientOutstUrl, cid, userId, userPassword, deviceId, clientId)}");
     final response = await http.get(
       Uri.parse(OrderApis.showOutstandingApi(
           clientOutstUrl, cid, userId, userPassword, deviceId, clientId)),
@@ -61,7 +61,7 @@ class OrderDataProviders {
       double longitude) async {
     http.Response response;
 
-    print("${OrderApis.orderSubmitApi(submitUrl)}");
+    // print("${OrderApis.orderSubmitApi(submitUrl)}");
     response = await http.post(
       Uri.parse(OrderApis.orderSubmitApi(submitUrl)),
       headers: <String, String>{

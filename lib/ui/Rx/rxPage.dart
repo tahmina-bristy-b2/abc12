@@ -119,12 +119,13 @@ class _RxPageState extends State<RxPage> {
       });
       AllServices()
           .toastMessage('Please Take Image', Colors.red, Colors.white, 16);
-    } else if (finalMedicineList.isEmpty) {
+    } else if (finalMedicineList.isEmpty &&
+        RxServices().calculateRxItemString(finalMedicineList) == '') {
       setState(() {
         _isLoading = true;
       });
-      AllServices().toastMessage(
-          'Please  Select Medicine', Colors.red, Colors.white, 16);
+      AllServices()
+          .toastMessage('Please Select Medicine', Colors.red, Colors.white, 16);
     } else {
       if (await InternetConnectionChecker().hasConnection) {
         if (userInfo!.rxDocMust) {
@@ -574,55 +575,39 @@ class _RxPageState extends State<RxPage> {
                                       ),
                                       userInfo!.rxTypeMust
                                           ? Expanded(
-                                              // flex: 3,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    child:
-                                                        DropdownButtonFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              enabled: false),
-                                                      isExpanded: true,
-                                                      value:
-                                                          dropdownRxTypevalue,
+                                              child: DropdownButtonFormField(
+                                                decoration:
+                                                    const InputDecoration(
+                                                        enabled: false),
+                                                isExpanded: true,
+                                                value: dropdownRxTypevalue,
 
-                                                      icon: const Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
+                                                icon: const Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: Colors.black,
+                                                ),
+
+                                                // Array list of items
+                                                items: userInfo!.rxTypeList
+                                                    .map((String items) {
+                                                  return DropdownMenuItem(
+                                                    value: items,
+                                                    child: Text(
+                                                      items,
+                                                      style: const TextStyle(
                                                         color: Colors.black,
+                                                        // fontSize: 16,
                                                       ),
-
-                                                      // Array list of items
-                                                      items: userInfo!
-                                                          .rxTypeList
-                                                          .map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(
-                                                            items,
-                                                            style:
-                                                                const TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              // fontSize: 16,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }).toList(),
-
-                                                      onChanged:
-                                                          (String? newValue) {
-                                                        setState(() {
-                                                          dropdownRxTypevalue =
-                                                              newValue!;
-                                                        });
-                                                      },
                                                     ),
-                                                  )
-                                                ],
+                                                  );
+                                                }).toList(),
+
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    dropdownRxTypevalue =
+                                                        newValue!;
+                                                  });
+                                                },
                                               ),
                                             )
                                           : Container(),
@@ -656,64 +641,49 @@ class _RxPageState extends State<RxPage> {
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 19,
+                                            fontSize: 16,
                                           ),
                                         ),
                                       ),
                                       userInfo!.rxTypeMust
                                           ? Expanded(
-                                              // flex: 3,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    child:
-                                                        DropdownButtonFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              enabled: false),
-                                                      // isExpanded: true,
-                                                      // Initial Value
-                                                      value: userInfo!
-                                                          .rxTypeList.first,
+                                              child: DropdownButtonFormField(
+                                                decoration:
+                                                    const InputDecoration(
+                                                        enabled: false),
+                                                isExpanded: true,
+                                                // Initial Value
+                                                value:
+                                                    userInfo!.rxTypeList.first,
 
-                                                      // Down Arrow Icon
-                                                      icon: const Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
+                                                // Down Arrow Icon
+                                                icon: const Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: Colors.black,
+                                                ),
+
+                                                // Array list of items
+                                                items: userInfo!.rxTypeList
+                                                    .map((String items) {
+                                                  return DropdownMenuItem(
+                                                    value: items,
+                                                    child: Text(
+                                                      items,
+                                                      style: const TextStyle(
                                                         color: Colors.black,
+                                                        // fontSize: 16,
                                                       ),
-
-                                                      // Array list of items
-                                                      items: userInfo!
-                                                          .rxTypeList
-                                                          .map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(
-                                                            items,
-                                                            style:
-                                                                const TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              // fontSize: 16,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }).toList(),
-                                                      // After selecting the desired option,it will
-                                                      // change button value to selected value
-                                                      onChanged:
-                                                          (String? newValue) {
-                                                        setState(() {
-                                                          dropdownRxTypevalue =
-                                                              newValue!;
-                                                        });
-                                                      },
                                                     ),
-                                                  ),
-                                                ],
+                                                  );
+                                                }).toList(),
+                                                // After selecting the desired option,it will
+                                                // change button value to selected value
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    dropdownRxTypevalue =
+                                                        newValue!;
+                                                  });
+                                                },
                                               ),
                                             )
                                           : Container(),

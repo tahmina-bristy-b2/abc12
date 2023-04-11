@@ -18,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'medicineFromHive.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 class RxPage extends StatefulWidget {
   final bool isRxEdit;
@@ -1091,6 +1092,7 @@ class _RxPageState extends State<RxPage> {
       imagePath = File(file!.path);
 
       if (imagePath != null && widget.isRxEdit == false) {
+        await GallerySaver.saveImage(imagePath!.path);
         if (finalDoctorList.isEmpty) {
           final rxDcrDataModel = RxDcrDataModel(
               uid: const Uuid().v1(),
@@ -1130,6 +1132,7 @@ class _RxPageState extends State<RxPage> {
           setState(() {});
         }
       } else if (imagePath != null && widget.isRxEdit) {
+        await GallerySaver.saveImage(imagePath!.path);
         finalDoctorList[0].presImage = imagePath.toString();
         finalImage = imagePath!.path;
         setState(() {});

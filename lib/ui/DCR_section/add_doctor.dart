@@ -1457,11 +1457,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                     Colors.red, Colors.white, 14);
                               }
                             } else {
-                              AllServices().toastMessage(
-                                  "Please select brand Day",
-                                  Colors.red,
-                                  Colors.white,
-                                  14);
+                              AllServices().toastMessage("Please select brand",
+                                  Colors.red, Colors.white, 14);
                             }
                           } else {
                             AllServices().toastMessage(

@@ -1121,10 +1121,54 @@ class _RxPageState extends State<RxPage> {
       maxWidth: 700,
     );
     if (file != null) {
-      setState(() {
-        file;
-        imagePath = File(file!.path);
-      });
+      // file;
+      imagePath = File(file!.path);
+      if (imagePath != null && widget.isRxEdit == false) {
+        // await GallerySaver.saveImage(imagePath!.path); // image save to gallery
+        if (finalDoctorList.isEmpty) {
+          final rxDcrDataModel = RxDcrDataModel(
+              uid: const Uuid().v1(),
+              docName: uniqueIdForImage().toString(),
+              docId: '',
+              areaId: '',
+              areaName: 'areaName',
+              address: 'address',
+              presImage: imagePath.toString(),
+              rxMedicineList: [],
+              rxType: dropdownRxTypevalue);
+          finalDoctorList.add(rxDcrDataModel); // add to list
+
+          rxDcrBox.add(rxDcrDataModel); // add to draft
+
+          setState(() {});
+        } else if (finalDoctorList.first.docId == '') {
+          finalDoctorList.clear();
+
+          final rxDcrDataModel = RxDcrDataModel(
+              uid: const Uuid().v1(),
+              docName: uniqueIdForImage().toString(),
+              docId: '',
+              areaId: '',
+              areaName: 'areaName',
+              address: 'address',
+              presImage: imagePath.toString(),
+              rxMedicineList: [],
+              rxType: dropdownRxTypevalue);
+          finalDoctorList.add(rxDcrDataModel); // add to list
+
+          rxDcrBox.add(rxDcrDataModel); // add to draft
+
+          setState(() {});
+        } else {
+          finalDoctorList[0].presImage = imagePath.toString();
+          setState(() {});
+        }
+      } else if (imagePath != null && widget.isRxEdit) {
+        // await GallerySaver.saveImage(imagePath!.path); // image save to gallery
+        finalDoctorList[0].presImage = imagePath.toString();
+        finalImage = imagePath!.path;
+        setState(() {});
+      }
     }
   }
 }

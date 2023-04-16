@@ -39,8 +39,8 @@ class _OrderReportWebViewScreenState extends State<OrderReportWebViewScreen> {
   Widget build(BuildContext context) {
     // var a = widget.report_url +
     //     "sales_report_invoice/sales_report_detail_url?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=$deviceId";
-    print(
-        "${widget.report_url}?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=$deviceId");
+    // print(
+    //     "${widget.report_url}?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=$deviceId");
 
     return Scaffold(
         appBar: AppBar(

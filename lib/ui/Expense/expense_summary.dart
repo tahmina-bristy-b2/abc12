@@ -34,7 +34,7 @@ class _ExpenseSummaryScreenState extends State<ExpenseSummaryScreen> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Expense Summary"),
+        title: const Text("Expense Summary"),
         centerTitle: true,
       ),
       body: Column(
@@ -69,7 +69,7 @@ class _ExpenseSummaryScreenState extends State<ExpenseSummaryScreen> {
             padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text(
                   "Date Range:",
                   style: TextStyle(fontSize: 16),
@@ -109,7 +109,7 @@ class _ExpenseSummaryScreenState extends State<ExpenseSummaryScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "Show",
                     style: TextStyle(fontSize: 16),
                   ),
@@ -117,7 +117,7 @@ class _ExpenseSummaryScreenState extends State<ExpenseSummaryScreen> {
               ],
             ),
           ),
-          ListTile(
+          const ListTile(
             leading: Text(
               "Expense Head",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -134,7 +134,8 @@ class _ExpenseSummaryScreenState extends State<ExpenseSummaryScreen> {
                   return ListTile(
                     // horizontalTitleGap: 0.0,
                     // minVerticalPadding: 0.0,
-                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                    visualDensity:
+                        const VisualDensity(horizontal: 0, vertical: -4),
                     leading: Text(ExpenseSummary[index]["exp_type"]),
                     trailing: Text(ExpenseSummary[index]["exp_amt"].toString()),
                   );

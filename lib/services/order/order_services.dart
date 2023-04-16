@@ -65,7 +65,7 @@ class OrderServices {
     }
     mapData["TotalAmount"] = totalAmount;
     mapData["ItemString"] = itemString;
-    print("1itemSTring= $itemString");
+    // print("1itemSTring= $itemString");
     return mapData;
   }
 
@@ -111,7 +111,7 @@ class OrderServices {
       clientData.offer = initialOffer;
       clientData.note = note;
       clientData.paymentMethod = slectedPayMethod;
-      print("order services 2=$note");
+      // print("order services 2=$note");
     }
     customerBox.put(desireKey, clientData);
   }
@@ -215,10 +215,10 @@ class OrderServices {
     tempList.add(temp);
     incLen = false;
     neworderamount = 0.0;
-    tempList.forEach((element) {
+    for (var element in tempList) {
       total = (element.tp + element.vat) * element.quantity;
       neworderamount = neworderamount + total;
-    });
+    }
     mapData["total"] = total;
     mapData["neworderamount"] = neworderamount;
     return mapData;

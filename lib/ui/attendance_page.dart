@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -102,7 +100,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   getAddress(lat, long) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-    print(placemarks);
+    // print(placemarks);
     setState(() {
       address = "${placemarks[0].street!} ${placemarks[0].country!}";
     });

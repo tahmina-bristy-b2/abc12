@@ -57,8 +57,8 @@ class DcrDataProviders {
   //################################ DCR Area Client Data########################
   Future<http.Response> dcrAreaBaseClient(String syncUrl, String cid,
       String userId, String userpass, String areaID) async {
-    print(
-        "DCR apis=${DcrApis.dcrAreBaseClientApi(syncUrl, cid, userId, userpass, areaID)}");
+    // print(
+    //     "DCR apis=${DcrApis.dcrAreBaseClientApi(syncUrl, cid, userId, userpass, areaID)}");
 
     final response = await http.get(
       Uri.parse(
@@ -84,7 +84,7 @@ class DcrDataProviders {
   Future<http.Response> getDoctorAddUrl(String addUrl, String params) async {
     final http.Response response;
 
-    print("object=${DcrApis.doctorAddUrl(addUrl, params)}");
+    // print("object=${DcrApis.doctorAddUrl(addUrl, params)}");
     response = await http.get(Uri.parse(DcrApis.doctorAddUrl(addUrl, params)));
     return response;
   }
@@ -93,7 +93,7 @@ class DcrDataProviders {
       String editSubmitUrl, String params) async {
     final http.Response response;
 
-    print("object=${DcrApis.doctorEditUrl(editSubmitUrl, params)}");
+    // print("object=${DcrApis.doctorEditUrl(editSubmitUrl, params)}");
     response =
         await http.get(Uri.parse(DcrApis.doctorEditUrl(editSubmitUrl, params)));
     return response;

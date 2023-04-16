@@ -29,7 +29,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notice"),
+        title: const Text("Notice"),
         centerTitle: true,
       ),
       body: Column(
@@ -48,7 +48,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                   var lastPart = prefixSplit[2];
                   var secPart = prefixSplit[1];
                   var firstPart = prefixSplit[0];
-                  print(prefixSplit[2]);
+                  // print(prefixSplit[2]);
 
                   // prefix: "date"
                   // var date =
@@ -56,7 +56,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                   return Card(
                     elevation: 6,
                     child: Container(
-                      color: Color.fromARGB(255, 189, 247, 237),
+                      color: const Color.fromARGB(255, 189, 247, 237),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(5, 8, 0, 6),
                         child: Row(
@@ -66,7 +66,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                               height: 60,
                               width: 80,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   begin: Alignment.bottomCenter,
                                   end: Alignment.centerRight,
                                   colors: [
@@ -88,7 +88,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                   children: [
                                     Text(
                                       lastPart,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 30,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white),
@@ -99,17 +99,17 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                         Text(
                                           secPart,
                                           // + "," + firstPart
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Text(
                                           firstPart,
                                           // + "," + firstPart
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white),
                                         ),
@@ -119,7 +119,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
@@ -129,7 +129,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                 children: [
                                   Text(
                                     prefixTime,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
@@ -137,15 +137,15 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                   Text(
                                     widget.noticelist[index]["notice"],
                                     textAlign: TextAlign.justify,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],

@@ -267,8 +267,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-                                      primary: Colors.teal,
-                                      onPrimary: Colors.white,
+                                      backgroundColor: Colors.teal,
+                                      foregroundColor: Colors.white,
                                     ),
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
@@ -287,6 +287,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                           distanceController.clear();
                                           vehicleTypeController.clear();
                                           amountController.clear();
+                                          if (!mounted) return;
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                                   content: Text(
@@ -373,6 +374,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       setState(() {
         _isLoading = true;
       });
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Submit Failed')));
     }

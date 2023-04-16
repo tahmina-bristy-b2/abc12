@@ -118,7 +118,7 @@ class _ExpensePageState extends State<ExpensePage> {
                       Expanded(
                         child: CustomBuildButton(
                           onClick: () async {
-                            print("a00");
+                            // print("a00");
                             newList = await Repositories().expenseEntryRepo(
                                 dmpathData!.expTypeUrl,
                                 cid,

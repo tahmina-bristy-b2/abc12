@@ -57,7 +57,7 @@ class _ApprovalPageState extends State<ApprovalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Approval"),
+        title: const Text("Approval"),
         centerTitle: true,
       ),
       body: Column(
@@ -67,7 +67,7 @@ class _ApprovalPageState extends State<ApprovalPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Date Range:",
                   style: TextStyle(fontSize: 16),
                 ),
@@ -79,13 +79,15 @@ class _ApprovalPageState extends State<ApprovalPage> {
                   padding: EdgeInsets.zero,
                   width: 120,
                   height: 45,
-                  color: Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
+                  color:
+                      const Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
                   child: TextField(
                     controller: initialController,
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ),
-                Text(
+                const Text(
                   "To",
                   style: TextStyle(fontSize: 16),
                 ),
@@ -93,20 +95,22 @@ class _ApprovalPageState extends State<ApprovalPage> {
                   padding: EdgeInsets.zero,
                   width: 120,
                   height: 45,
-                  color: Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
+                  color:
+                      const Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
                   child: TextField(
                     controller: lastController,
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ),
                 // ElevatedButton(onPressed: () {}, child: Text("Show")),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
@@ -114,11 +118,11 @@ class _ApprovalPageState extends State<ApprovalPage> {
             child: Row(
               children: [
                 // DropdownButtonFormField(items: items, onChanged: (onChanged){
-                Flexible(
+                const Flexible(
                   // flex: 2,
                   child: Text("FF Type:"),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -126,14 +130,14 @@ class _ApprovalPageState extends State<ApprovalPage> {
                   child: CustomDropdown(
                     // hintText: ff_type[0],
                     hintText: "Select Job Role",
-                    fillColor:
-                        Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
+                    fillColor: const Color.fromARGB(255, 138, 201, 149)
+                        .withOpacity(.3),
                     items: ff_type,
 
                     controller: jobRoleCtrl,
                     onChanged: (p0) {
                       role = p0;
-                      print("developer select list $role");
+                      // print("developer select list $role");
                     },
                   ),
                 )
@@ -147,7 +151,7 @@ class _ApprovalPageState extends State<ApprovalPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "Show",
                     style: TextStyle(fontSize: 16),
                   ),
@@ -157,7 +161,7 @@ class _ApprovalPageState extends State<ApprovalPage> {
           ),
           DataTable(
               columnSpacing: 40.0,
-              columns: [
+              columns: const [
                 DataColumn(
                   label: Text("Territory"),
                 ),
@@ -191,7 +195,7 @@ class _ApprovalPageState extends State<ApprovalPage> {
                                   )),
                                 );
                               },
-                              icon: Icon(Icons.double_arrow_sharp))
+                              icon: const Icon(Icons.double_arrow_sharp))
                         ],
                       ),
                     ),
@@ -205,7 +209,7 @@ class _ApprovalPageState extends State<ApprovalPage> {
                           setState(() {
                             // e["status"]== true?
                             approved = !approved;
-                            print("approval ashbe $approved");
+                            // print("approval ashbe $approved");
 
                             // if (approved == true) {
                             //   newApprovalList.add(approved);
@@ -223,12 +227,12 @@ class _ApprovalPageState extends State<ApprovalPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(onPressed: () {}, child: Text("Reject")),
-              SizedBox(
+              ElevatedButton(onPressed: () {}, child: const Text("Reject")),
+              const SizedBox(
                 width: 15,
               ),
-              ElevatedButton(onPressed: () {}, child: Text("Approve")),
-              SizedBox(
+              ElevatedButton(onPressed: () {}, child: const Text("Approve")),
+              const SizedBox(
                 width: 15,
               ),
             ],

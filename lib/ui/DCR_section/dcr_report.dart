@@ -25,8 +25,8 @@ class _DcrReportWebViewState extends State<DcrReportWebView> {
 
   @override
   void initState() {
-    print(
-        "${widget.reportUrl}?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=${widget.deviceId}");
+    // print(
+    //     "${widget.reportUrl}?cid=${widget.cid}&rep_id=${widget.userId}&password=${widget.userPassword}&device_id=${widget.deviceId}");
     super.initState();
   }
 

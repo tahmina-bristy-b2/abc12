@@ -841,12 +841,12 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                                 districtValue)
                                             .toList();
 
-                                        print(getThanaWithDist
-                                            .first.districtName);
+                                        // print(getThanaWithDist
+                                        //     .first.districtName);
                                         districtSelectedId =
                                             getThanaWithDist.first.districtId;
-                                        print(
-                                            'districtSelectedId:$districtSelectedId');
+                                        // print(
+                                        //     'districtSelectedId:$districtSelectedId');
                                         thanaValue = null;
                                         thanaSelectedId = '';
 
@@ -913,8 +913,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                             thanaSelectedId = element.thanaId;
                                           }
                                         }
-                                        print(
-                                            'thanaSelectedId: $thanaSelectedId');
+                                        // print(
+                                        //     'thanaSelectedId: $thanaSelectedId');
 
                                         setState(() {});
                                       },
@@ -1010,7 +1010,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                         date.toString().split(' ');
                                     dobController.text =
                                         splittedDate[0].toString();
-                                    print(dobController.text);
+                                    // print(dobController.text);
                                     // DateFormat.yMd().format(date);
                                   },
                                 );
@@ -1053,7 +1053,7 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                                         date.toString().split(' ');
                                     marriageDayController.text =
                                         splittedDate[0].toString();
-                                    print(marriageDayController.text);
+                                    // print(marriageDayController.text);
                                     // DateFormat.yMd().format(date);
                                   },
                                 );

@@ -408,12 +408,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     statusCode = response.statusCode;
     if (statusCode == 200) {
       var data = json.decode(response.body);
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Completed Reset Password')));
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const LoginScreen()));
       // print('reset');
     } else {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('InCompleted Reset Password')));
     }

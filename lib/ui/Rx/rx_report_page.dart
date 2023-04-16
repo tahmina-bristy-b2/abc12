@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RxReportPageWebView extends StatefulWidget {
   String reportUrl;
@@ -30,8 +29,8 @@ class _RxReportPageWebViewState extends State<RxReportPageWebView> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "${widget.reportUrl}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}&device_id=$deviceId");
+    // print(
+    //     "${widget.reportUrl}?cid=${widget.cid}&rep_id=${widget.userId}&rep_pass=${widget.userPassword}&device_id=$deviceId");
     return Scaffold(
         appBar: AppBar(
           title: const Text('Rx Report'),

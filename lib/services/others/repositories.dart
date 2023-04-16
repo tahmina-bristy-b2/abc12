@@ -170,9 +170,9 @@ class Repositories {
           dcr_visitedWithList.add(dcrVisitWithList[i]);
         }
         List<String> rxTypeList = [];
-        rx_type_list.forEach((element) {
+        for (var element in rx_type_list) {
           rxTypeList.add(element);
-        });
+        }
 
         final prefs = await SharedPreferences.getInstance();
         // await prefs.clear();
@@ -356,7 +356,7 @@ class Repositories {
       http.Response response = await DataProviders()
           .tarAchDP(tarAchUrl, cid, userId, userPass, deviceId);
       tarAchJsonData = json.decode(response.body);
-      print(tarAchJsonData);
+      // print(tarAchJsonData);
       String tarAchStatus = tarAchJsonData['status'];
 
       if (tarAchStatus == 'Success') {
@@ -374,8 +374,8 @@ class Repositories {
 
   Future<List> expenseEntryRepo(
       String expenseType, String cid, String userId, String userPass) async {
-    print("a01");
-    print("$expenseType?cid=$cid&user_id=$userId&user_pass=$userPass");
+    // print("a01");
+    // print("$expenseType?cid=$cid&user_id=$userId&user_pass=$userPass");
     List expenseTypeList = [];
     Map<String, dynamic> expenseTypeJsonData = {};
 

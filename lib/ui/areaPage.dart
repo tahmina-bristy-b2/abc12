@@ -6,8 +6,6 @@ import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/services/apiCall.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AreaPage extends StatefulWidget {

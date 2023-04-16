@@ -54,7 +54,7 @@ class RxDataProviders {
 //################################ Sync Rx Item  Data ########################
   Future<http.Response> syncRxItemDP(
       String syncUrl, String cid, String userId, String userpass) async {
-    print(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass));
+    // print(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass));
     final response = await http.get(
       Uri.parse(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass)),
     );

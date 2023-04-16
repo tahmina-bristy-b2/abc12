@@ -15,7 +15,7 @@ class _AttendanceMeterHistoryState extends State<AttendanceMeterHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Attendance Meter History"),
+        title: const Text("Attendance Meter History"),
         centerTitle: true,
       ),
       body: Column(
@@ -47,17 +47,17 @@ class _AttendanceMeterHistoryState extends State<AttendanceMeterHistory> {
           //   ),
           // ),
 
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
 
           Card(
-            color: Color.fromARGB(255, 162, 220, 243),
+            color: const Color.fromARGB(255, 162, 220, 243),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
+                children: const <Widget>[
                   Text(
                     "DateTime",
                     style: TextStyle(
@@ -84,45 +84,40 @@ class _AttendanceMeterHistoryState extends State<AttendanceMeterHistory> {
             ),
           ),
 
-       Expanded(
-         child: ListView.builder(
-          itemCount: 4,
-          itemBuilder: (context,index){
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                   Text(
-                      "12-12-12",
-                      style: TextStyle(
-                        fontSize: 16,
-                       
+          Expanded(
+            child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "12-12-12",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            "1120",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            "Dhaka",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                   Text(
-                      "1120",
-                      style: TextStyle(
-                        fontSize: 16,
-                       
-                      ),
-                    ),
-                   Text(
-                      "Dhaka",
-                      style: TextStyle(
-                        fontSize: 16,
-                       
-                      ),
-                    ),
-                   
-                ],
-              ),
-            ),
-          );
-         }),
-       )
-       
+                  );
+                }),
+          )
         ],
       ),
     );

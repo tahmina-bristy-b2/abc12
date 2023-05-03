@@ -184,7 +184,8 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                           fontSize: 14),
                                     ),
                                     Container(
-                                      color: Colors.deepOrange,
+                                      color:
+                                          const Color.fromARGB(255, 4, 60, 105),
                                       child: Text(
                                         'Stock: ${foundUsers[index]['stock']}',
                                         style: const TextStyle(

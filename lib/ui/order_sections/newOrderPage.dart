@@ -1063,10 +1063,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            finalItemDataList[index].item_name,
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 16),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3),
+                            child: Text(
+                              finalItemDataList[index].item_name,
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
+                            ),
                           ),
                           userLoginInfo!.promoFlag &&
                                   finalItemDataList[index].promo != '' &&

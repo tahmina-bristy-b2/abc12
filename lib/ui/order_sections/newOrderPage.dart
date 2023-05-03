@@ -1070,10 +1070,28 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     children: [
                       Expanded(
                         flex: 10,
-                        child: Text(
-                          finalItemDataList[index].item_name,
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              finalItemDataList[index].item_name,
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
+                            ),
+                            userLoginInfo!.promoFlag &&
+                                    finalItemDataList[index].promo != '' &&
+                                    finalItemDataList[index].promo != null
+                                ? Card(
+                                    color: Colors.yellow,
+                                    child: Text(
+                                      finalItemDataList[index].promo!,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                          ],
                         ),
                       ),
                       IconButton(

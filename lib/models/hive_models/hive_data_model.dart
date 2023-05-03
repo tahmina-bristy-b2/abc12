@@ -19,16 +19,21 @@ class AddItemModel extends HiveObject {
   double vat;
   @HiveField(6)
   String manufacturer;
+  @HiveField(7)
+  String? promo;
+  @HiveField(8)
+  String? stock;
 
-  AddItemModel({
-    required this.quantity,
-    required this.item_name,
-    required this.tp,
-    required this.item_id,
-    required this.category_id,
-    required this.vat,
-    required this.manufacturer,
-  });
+  AddItemModel(
+      {required this.quantity,
+      required this.item_name,
+      required this.tp,
+      required this.item_id,
+      required this.category_id,
+      required this.vat,
+      required this.manufacturer,
+      this.promo,
+      this.stock});
 }
 
 @HiveType(typeId: 1)

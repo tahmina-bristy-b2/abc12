@@ -358,14 +358,15 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
   itemCount(String value, int index) {
     if (value != '') {
       final temp = AddItemModel(
-        quantity: int.parse(controllers[foundUsers[index]['item_id']]!.text),
-        item_name: foundUsers[index]['item_name'],
-        tp: foundUsers[index]['tp'],
-        item_id: foundUsers[index]['item_id'],
-        category_id: foundUsers[index]['category_id'],
-        vat: foundUsers[index]['vat'],
-        manufacturer: foundUsers[index]['manufacturer'],
-      );
+          quantity: int.parse(controllers[foundUsers[index]['item_id']]!.text),
+          item_name: foundUsers[index]['item_name'],
+          tp: foundUsers[index]['tp'],
+          item_id: foundUsers[index]['item_id'],
+          category_id: foundUsers[index]['category_id'],
+          vat: foundUsers[index]['vat'],
+          manufacturer: foundUsers[index]['manufacturer'],
+          promo: foundUsers[index]['promo'],
+          stock: '0');
 
       widget.tempList.removeWhere((item) => item.item_id == temp.item_id);
       widget.tempList.add(temp);
@@ -380,16 +381,17 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
       setState(() {});
     } else if (value == '') {
       final temp = AddItemModel(
-        quantity: value == ''
-            ? 0
-            : int.parse(controllers[foundUsers[index]['item_id']]!.text),
-        item_name: foundUsers[index]['item_name'],
-        tp: foundUsers[index]['tp'],
-        item_id: foundUsers[index]['item_id'],
-        category_id: foundUsers[index]['category_id'],
-        vat: foundUsers[index]['vat'],
-        manufacturer: foundUsers[index]['manufacturer'],
-      );
+          quantity: value == ''
+              ? 0
+              : int.parse(controllers[foundUsers[index]['item_id']]!.text),
+          item_name: foundUsers[index]['item_name'],
+          tp: foundUsers[index]['tp'],
+          item_id: foundUsers[index]['item_id'],
+          category_id: foundUsers[index]['category_id'],
+          vat: foundUsers[index]['vat'],
+          manufacturer: foundUsers[index]['manufacturer'],
+          promo: foundUsers[index]['promo'],
+          stock: '0');
 
       widget.tempList.removeWhere((item) => item.item_id == temp.item_id);
       // orderamount = 0.0;

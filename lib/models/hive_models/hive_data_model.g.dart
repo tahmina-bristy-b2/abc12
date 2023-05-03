@@ -24,13 +24,15 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       category_id: fields[4] as String,
       vat: fields[5] as double,
       manufacturer: fields[6] as String,
+      promo: fields[7] as String?,
+      stock: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AddItemModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.quantity)
       ..writeByte(1)
@@ -44,7 +46,11 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       ..writeByte(5)
       ..write(obj.vat)
       ..writeByte(6)
-      ..write(obj.manufacturer);
+      ..write(obj.manufacturer)
+      ..writeByte(7)
+      ..write(obj.promo)
+      ..writeByte(8)
+      ..write(obj.stock);
   }
 
   @override

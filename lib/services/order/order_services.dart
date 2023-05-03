@@ -236,6 +236,6 @@ class OrderServices {
         regDisOnTp = regDisOnTp + (element.tp * element.quantity);
       }
     }
-    return regDisOnTp.toStringAsFixed(0);
+    return regDisOnTp.toStringAsFixed(2);
   }
 }

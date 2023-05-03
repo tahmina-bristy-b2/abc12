@@ -42,8 +42,7 @@ class RxDataProviders {
           'rx_type': dropdownRxTypevalue,
           "latitude": latitude,
           'longitude': longitude,
-          'upload_file': fileName, //image file name
-          // 'image_name': fileName,
+          'image_name': fileName,
           'cap_time': dt.toString(),
           "item_list": itemString,
         },
@@ -77,7 +76,7 @@ class RxDataProviders {
     Uri uri = Uri.parse(photosubmitUrl);
     http.MultipartRequest request = http.MultipartRequest("POST", uri);
     http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-      'productImage',
+      'upload_file',
       finalImage,
     );
     request.files.add(multipartFile);

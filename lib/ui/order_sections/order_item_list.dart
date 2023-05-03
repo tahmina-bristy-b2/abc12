@@ -175,11 +175,23 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
                                       color: Color.fromARGB(255, 8, 18, 20),
                                       fontSize: 16),
                                 ),
-                                Text(
-                                  foundUsers[index]['category_id'],
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 18, 20),
-                                      fontSize: 14),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${foundUsers[index]['category_id']}  | ',
+                                      style: const TextStyle(
+                                          color: Color.fromARGB(255, 8, 18, 20),
+                                          fontSize: 14),
+                                    ),
+                                    Container(
+                                      color: Colors.deepOrange,
+                                      child: Text(
+                                        'Stock: ${foundUsers[index]['stock']}',
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 14),
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 userLoginInfo!.promoFlag &&
                                         foundUsers[index]['promo'] != ''
@@ -366,7 +378,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
           vat: foundUsers[index]['vat'],
           manufacturer: foundUsers[index]['manufacturer'],
           promo: foundUsers[index]['promo'],
-          stock: '0');
+          stock: foundUsers[index]['stock'].toString());
 
       widget.tempList.removeWhere((item) => item.item_id == temp.item_id);
       widget.tempList.add(temp);
@@ -391,7 +403,7 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
           vat: foundUsers[index]['vat'],
           manufacturer: foundUsers[index]['manufacturer'],
           promo: foundUsers[index]['promo'],
-          stock: '0');
+          stock: foundUsers[index]['stock'].toString());
 
       widget.tempList.removeWhere((item) => item.item_id == temp.item_id);
       // orderamount = 0.0;

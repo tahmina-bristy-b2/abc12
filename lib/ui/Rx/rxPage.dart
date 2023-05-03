@@ -977,11 +977,11 @@ class _RxPageState extends State<RxPage> {
     final jsonData = await RxRepositories().rxImageSubmitRepo(
         dmpathData!.photoSubmitUrl,
         widget.isRxEdit ? finalImage : imagePath!.path.toString());
-    fileName = jsonData["fileName"];
+    if (jsonData['res_data']['status'] == 'Success') {
+      fileName = jsonData['res_data']["ret_str"];
+    }
 
     if (fileName != "") {
-      // _rxSubmit();       // _rxSubmit();       // _rxSubmit();
-
       final orderInfo = await RxRepositories().rxSubmit(
           dmpathData!.submitUrl,
           fileName,

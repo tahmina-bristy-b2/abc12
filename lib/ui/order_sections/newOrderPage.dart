@@ -172,18 +172,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
             appBar: appBarDetailsWidget(context),
             endDrawer: EndDrawerWidget(),
             body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    customerInfoWidget(),
-                    itemDeliveryDetailsWidget(),
-                    customerNotesTextFieldWidget(),
-                    SizedBox(
-                      height: screenHeight / 1.7,
-                      child: perItemCalculationListViewWidget(),
-                    ),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  customerInfoWidget(),
+                  itemDeliveryDetailsWidget(),
+                  customerNotesTextFieldWidget(),
+                  Expanded(child: perItemCalculationListViewWidget()),
+                ],
               ),
             ),
             bottomNavigationBar: bottomNavigation(),
@@ -1056,225 +1051,210 @@ class _NewOrderPageState extends State<NewOrderPage> {
             side: const BorderSide(color: Colors.white70, width: 1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Container(
-            height: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 10,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              finalItemDataList[index].item_name,
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 16),
-                            ),
-                            userLoginInfo!.promoFlag &&
-                                    finalItemDataList[index].promo != '' &&
-                                    finalItemDataList[index].promo != null
-                                ? Card(
-                                    color: Colors.yellow,
-                                    child: Text(
-                                      finalItemDataList[index].promo!,
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                      ),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      // flex: 10,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            finalItemDataList[index].item_name,
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 16),
+                          ),
+                          userLoginInfo!.promoFlag &&
+                                  finalItemDataList[index].promo != '' &&
+                                  finalItemDataList[index].promo != null
+                              ? Card(
+                                  color: Colors.yellow,
+                                  child: Text(
+                                    finalItemDataList[index].promo!,
+                                    style: const TextStyle(
+                                      color: Colors.red,
                                     ),
-                                  )
-                                : Container(),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          _showMyDialog(index);
-                        },
-                        icon: const Icon(
-                          Icons.clear,
-                          size: 20,
-                          color: Colors.grey,
-                        ),
-                      )
-                    ],
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      color: const Color.fromARGB(255, 200, 250, 207),
-                      // elevation: 2,
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Text(
-                                'QT',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Text(
-                                'TP',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Text(
-                                'Vat',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Text(
-                                'Total',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
+                                  ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ),
+                    IconButton(
+                      onPressed: () {
+                        _showMyDialog(index);
+                      },
+                      icon: const Icon(
+                        Icons.clear,
+                        size: 20,
+                        color: Colors.grey,
+                      ),
+                    )
+                  ],
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  const SizedBox(
-                    height: 5,
+                  color: const Color.fromARGB(255, 200, 250, 207),
+                  // elevation: 2,
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'QT',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'TP',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Vat',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Total',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          // flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                            child: Container(
-                              color: const Color.fromARGB(255, 138, 201, 149)
-                                  .withOpacity(.3),
-                              child: TextFormField(
-                                textAlign: TextAlign.center,
-                                controller: controllers[
-                                    finalItemDataList[index].item_id],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      // flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Container(
+                          height: 30,
+                          color: const Color.fromARGB(255, 138, 201, 149)
+                              .withOpacity(.3),
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            controller:
+                                controllers[finalItemDataList[index].item_id],
 
-                                keyboardType: TextInputType.number,
-                                // focusNode: FocusNode(),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                ),
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
-
-                                onChanged: (value) {
-                                  //_itemController[index].clear();
-                                  finalItemDataList[index].quantity =
-                                      controllers[finalItemDataList[index]
-                                                      .item_id]
-                                                  ?.text !=
-                                              ''
-                                          ? int.parse(controllers[
-                                                  finalItemDataList[index]
-                                                      .item_id]!
-                                              .text)
-                                          : 0;
-
-                                  setState(() {
-                                    itemString = OrderServices()
-                                        .ordertotalAmount(
-                                            itemString,
-                                            orderAmount,
-                                            finalItemDataList,
-                                            total,
-                                            totalAmount)["ItemString"];
-                                    totalAmount = OrderServices()
-                                        .ordertotalAmount(
-                                            itemString,
-                                            orderAmount,
-                                            finalItemDataList,
-                                            total,
-                                            totalAmount)["TotalAmount"];
-                                  });
-                                  setState(() {});
-                                },
-                              ),
+                            keyboardType: TextInputType.number,
+                            // focusNode: FocusNode(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
                             ),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+
+                            onChanged: (value) {
+                              //_itemController[index].clear();
+                              finalItemDataList[index].quantity =
+                                  controllers[finalItemDataList[index].item_id]
+                                              ?.text !=
+                                          ''
+                                      ? int.parse(controllers[
+                                              finalItemDataList[index].item_id]!
+                                          .text)
+                                      : 0;
+
+                              setState(() {
+                                itemString = OrderServices().ordertotalAmount(
+                                    itemString,
+                                    orderAmount,
+                                    finalItemDataList,
+                                    total,
+                                    totalAmount)["ItemString"];
+                                totalAmount = OrderServices().ordertotalAmount(
+                                    itemString,
+                                    orderAmount,
+                                    finalItemDataList,
+                                    total,
+                                    totalAmount)["TotalAmount"];
+                              });
+                              setState(() {});
+                            },
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text(
-                              '${finalItemDataList[index].tp}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text(
-                              '${finalItemDataList[index].vat}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text(
-                              OrderServices()
-                                  .totalCount(finalItemDataList[index])
-                                  .toStringAsFixed(2),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Text(
+                          '${finalItemDataList[index].tp}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Text(
+                          '${finalItemDataList[index].vat}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Text(
+                          OrderServices()
+                              .totalCount(finalItemDataList[index])
+                              .toStringAsFixed(2),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         );

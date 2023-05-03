@@ -223,4 +223,19 @@ class OrderServices {
     mapData["neworderamount"] = neworderamount;
     return mapData;
   }
+
+  //=========================regular Discount On Tp ==================================
+
+  String regDiscOnTp(List<AddItemModel> orderedItem) {
+    double regDisOnTp = 0.0;
+    // orderedItem
+    //     .removeWhere((element) => element.promo != '' && element.promo != null);
+
+    for (var element in orderedItem) {
+      if (element.promo == '') {
+        regDisOnTp = regDisOnTp + (element.tp * element.quantity);
+      }
+    }
+    return regDisOnTp.toStringAsFixed(0);
+  }
 }

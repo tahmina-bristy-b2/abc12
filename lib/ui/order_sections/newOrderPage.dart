@@ -768,14 +768,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)} ',
+                      'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)}',
                       // style: const TextStyle(fontSize: 16),
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     flex: 3,
                     child: Text(
-                      'R.DiscOnTP:',
+                      ' R.DiscOnTP: ${OrderServices().regDiscOnTp(finalItemDataList)}',
                       // style: TextStyle(fontSize: 14),
                     ),
                   ),

@@ -42,7 +42,8 @@ class RxDataProviders {
           'rx_type': dropdownRxTypevalue,
           "latitude": latitude,
           'longitude': longitude,
-          'image_name': fileName,
+          'upload_file': fileName, //image file name
+          // 'image_name': fileName,
           'cap_time': dt.toString(),
           "item_list": itemString,
         },

@@ -109,8 +109,8 @@ class _DcrListPageState extends State<DcrListPage> {
             )
           : Column(
               children: [
-                Expanded(
-                  flex: 1,
+                SizedBox(
+                  height: 60,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(

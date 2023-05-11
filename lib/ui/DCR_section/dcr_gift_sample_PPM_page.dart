@@ -354,6 +354,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                             const TextStyle(fontSize: 18, color: Colors.black),
                         controller: noteController,
                         focusNode: FocusNode(),
+                        textInputAction: TextInputAction.done,
                         autofocus: false,
                         decoration: const InputDecoration(
                             border:

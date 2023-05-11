@@ -416,7 +416,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///*****************************************************  User information Section***********************************************///
 
                 Container(
-                  height: screenHeight / 9.3,
+                  height: 75,
+                  // height: screenHeight / 9.3,
                   width: MediaQuery.of(context).size.width,
                   color: const Color.fromARGB(255, 222, 237, 250),
                   child: Row(
@@ -517,104 +518,100 @@ class _MyHomePageState extends State<MyHomePage> {
                 userInfo!.orderFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 3.5,
+                        height: screenHeight / 3.4,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Column(
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.add,
-                                        onClick: () async {
-                                          List orderList = await AllServices()
-                                              .getSyncSavedData('data');
+                                Expanded(
+                                  child: CustomBuildButton(
+                                    icon: Icons.add,
+                                    onClick: () async {
+                                      List orderList = await AllServices()
+                                          .getSyncSavedData('data');
 
-                                          if (userInfo!.areaPage == false) {
-                                            if (!mounted) return;
+                                      if (userInfo!.areaPage == false) {
+                                        if (!mounted) return;
 
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        CustomerListScreen(
-                                                          data: orderList,
-                                                        )));
-                                          } else {
-                                            if (!mounted) return;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    CustomerListScreen(
+                                                      data: orderList,
+                                                    )));
+                                      } else {
+                                        if (!mounted) return;
 
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) => AreaPage(
-                                                        screenName: 'order',
-                                                      )),
-                                            );
-                                          }
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => AreaPage(
+                                                    screenName: 'order',
+                                                  )),
+                                        );
+                                      }
 
-                                          //  print(areaPage);
-                                        },
-                                        title: 'New Order',
-                                        sizeWidth: screenWidth,
-                                        inputColor: const Color(0xff70BA85)
-                                            .withOpacity(.3),
-                                      ),
-                                    ),
-                                  ],
+                                      //  print(areaPage);
+                                    },
+                                    title: 'New Order',
+                                    sizeWidth: screenWidth,
+                                    inputColor:
+                                        const Color(0xff70BA85).withOpacity(.3),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // const SizedBox(
+                            //   height: 5,
+                            // ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CustomBuildButton(
+                                    icon: Icons.drafts_sharp,
+                                    onClick: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              const DraftOrderPage(),
+                                        ),
+                                      );
+                                    },
+                                    title: 'Draft Order',
+                                    sizeWidth: screenWidth,
+                                    inputColor: Colors.white,
+                                  ),
                                 ),
                                 const SizedBox(
-                                  height: 5,
+                                  width: 5,
                                 ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.drafts_sharp,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const DraftOrderPage(),
-                                            ),
-                                          );
-                                        },
-                                        title: 'Draft Order',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.insert_drive_file,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  OrderReportWebViewScreen(
-                                                report_url:
-                                                    dmpathData!.reportSalesUrl,
-                                                cid: cid,
-                                                userId: userId,
-                                                userPassword: userPassword,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: 'Report',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: CustomBuildButton(
+                                    icon: Icons.insert_drive_file,
+                                    onClick: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              OrderReportWebViewScreen(
+                                            report_url:
+                                                dmpathData!.reportSalesUrl,
+                                            cid: cid,
+                                            userId: userId,
+                                            userPassword: userPassword,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    title: 'Report',
+                                    sizeWidth: screenWidth,
+                                    inputColor: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
@@ -632,7 +629,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 userInfo!.dcrFlag
                     ? Container(
-                        height: screenHeight / 3.5,
+                        height: screenHeight / 3.4,
                         width: MediaQuery.of(context).size.width,
                         color: const Color(0xFFDDEBF7),
                         child: Column(
@@ -684,9 +681,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -750,7 +747,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 userInfo!.rxFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 3.5,
+                        height: screenHeight / 3.4,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -782,9 +779,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -846,7 +843,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 userInfo!.othersFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 6.9,
+                        height: screenHeight / 6.80,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
@@ -867,9 +864,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     inputColor: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
+                                // const SizedBox(
+                                //   width: 5,
+                                // ),
                                 Expanded(
                                   child: CustomBuildButton(
                                     onClick: () {
@@ -901,7 +898,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 userInfo!.leaveFlag
                     ? Container(
                         color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 6.9,
+                        height: screenHeight / 6.8,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
@@ -950,9 +947,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     },
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
+                                // const SizedBox(
+                                //   width: 5,
+                                // ),
                                 Expanded(
                                   child: Link(
                                     uri: Uri.parse(
@@ -1128,7 +1125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 userInfo!.plaginFlag
                     ? Container(
                         color: const Color(0xFFDDEBF7),
-                        height: screenHeight / 7,
+                        height: screenHeight / 6.8,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1298,7 +1295,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///****************************************** Sync Data************************************************///
                 Container(
                   color: const Color(0xFFE2EFDA),
-                  height: screenHeight / 7,
+                  height: screenHeight / 6.8,
                   width: screenWidth,
                   child: Column(
                     children: [

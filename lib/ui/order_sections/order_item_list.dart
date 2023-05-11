@@ -282,9 +282,9 @@ class _ShowSyncItemDataState extends State<ShowSyncItemData> {
   }
 
 //================================================ Item search============================================================
-  Expanded itemSearchTextFormWidget() {
-    return Expanded(
-      flex: 1,
+  SizedBox itemSearchTextFormWidget() {
+    return SizedBox(
+      height: 60,
       child: Row(
         children: [
           Expanded(

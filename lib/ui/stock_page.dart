@@ -191,199 +191,200 @@ class _StockPageState extends State<StockPage> {
                 icon: Icon(Icons.refresh), label: 'Refresh'),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 5),
-              SizedBox(
-                width: screenWidth,
-                height: screenHeight / 14,
-                // color: const Color.fromARGB(223, 171, 241, 153),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                'Depot: ',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 23, 41, 23),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              ),
+        body: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 5),
+            SizedBox(
+              width: screenWidth,
+              height: 50,
+              // height: screenHeight / 14,
+              // color: const Color.fromARGB(223, 171, 241, 153),
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'Depot: ',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 23, 41, 23),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            Expanded(
-                              flex: 2,
-                              child: Card(
-                                color: Colors.teal.shade50,
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                    iconEnabledColor: Colors.teal,
-                                    iconDisabledColor: Colors.grey,
-                                    iconSize: 28,
-                                    // decoration:
-                                    //     const InputDecoration(enabled: false),
-                                    isExpanded: true,
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        depotValue = value!;
-                                      });
-                                      for (var element
-                                          in userDepotList!.depotList) {
-                                        if (element.depotName == depotValue) {
-                                          depotId = element.depotId;
-                                        }
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Card(
+                              color: Colors.teal.shade50,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  iconEnabledColor: Colors.teal,
+                                  iconDisabledColor: Colors.grey,
+                                  iconSize: 28,
+                                  // decoration:
+                                  //     const InputDecoration(enabled: false),
+                                  isExpanded: true,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      depotValue = value!;
+                                    });
+                                    for (var element
+                                        in userDepotList!.depotList) {
+                                      if (element.depotName == depotValue) {
+                                        depotId = element.depotId;
                                       }
-                                      setState(() {});
-                                    },
-                                    value: depotValue,
-                                    items: userDepotList != null
-                                        ? userDepotList!.depotList
-                                            .map((e) => DropdownMenuItem(
-                                                value: e.depotName,
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                child: Text(e.depotName)))
-                                            .toList()
-                                        : tempList
-                                            .map((String e) => DropdownMenuItem(
-                                                value: e,
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                child: Text(e)))
-                                            .toList(),
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      // fontSize: 16,
-                                    ),
+                                    }
+                                    setState(() {});
+                                  },
+                                  value: depotValue,
+                                  items: userDepotList != null
+                                      ? userDepotList!.depotList
+                                          .map((e) => DropdownMenuItem(
+                                              value: e.depotName,
+                                              alignment:
+                                                  AlignmentDirectional.center,
+                                              child: Text(e.depotName)))
+                                          .toList()
+                                      : tempList
+                                          .map((String e) => DropdownMenuItem(
+                                              value: e,
+                                              alignment:
+                                                  AlignmentDirectional.center,
+                                              child: Text(e)))
+                                          .toList(),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    // fontSize: 16,
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 60),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  getStock(depotId);
-                                },
-                                child: const Text('Show'),
+                          ),
+                          const SizedBox(
+                            width: 60,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                getStock(depotId);
+                              },
+                              child: const FittedBox(child: Text('Show')),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                    // Expanded(
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Text(
+                    //           'Depot Name: ${stockData!.depotName}',
+                    //           style: const TextStyle(
+                    //               color: Color.fromARGB(
+                    //                   255, 26, 66, 28),
+                    //               fontSize: 16),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
+                  ],
+                ),
+              ),
+            ),
+            _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : stockData == null
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
+                          child: Text('No Data found!'),
+                        ),
+                      )
+                    : Expanded(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+                              child: Container(
+                                height: 45,
+                                decoration: BoxDecoration(
+                                    // color: Color.fromARGB(255, 188, 223, 191),
+                                    // border: Border.all(
+                                    //   color: Colors.teal.shade100,
+                                    // ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: TextFormField(
+                                  controller: _searchController,
+                                  onChanged: (value) {
+                                    stockList = AllServices()
+                                        .searchStockProduct(value, stockData!);
+                                    setState(() {});
+                                  },
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.teal.shade50,
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    labelText: 'Product Search',
+                                    suffixIcon:
+                                        _searchController.text.isEmpty &&
+                                                _searchController.text == ''
+                                            ? const Icon(Icons.search)
+                                            : IconButton(
+                                                onPressed: () {
+                                                  _searchController.clear();
+                                                  stockList = AllServices()
+                                                      .searchStockProduct(
+                                                          '', stockData!);
+                                                  setState(() {});
+                                                },
+                                                icon: const Icon(
+                                                  Icons.clear,
+                                                  color: Colors.black,
+                                                  // size: 28,
+                                                ),
+                                              ),
+                                  ),
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 40)
+                            const SizedBox(height: 10),
+                            Expanded(
+                              // flex: 9,
+                              child: DataTable2(
+                                border: TableBorder.all(),
+                                headingRowColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.blue.shade200),
+                                dataRowColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.teal.shade50),
+                                columnSpacing: 12,
+                                horizontalMargin: 12,
+                                minWidth: screenWidth,
+                                sortColumnIndex: _sortColumnIndex,
+                                sortAscending: _sortAsc,
+                                columns: dataColumn(),
+                                rows: dataRow(stockList),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      // Expanded(
-                      //   child: Row(
-                      //     children: [
-                      //       Expanded(
-                      //         child: Text(
-                      //           'Depot Name: ${stockData!.depotName}',
-                      //           style: const TextStyle(
-                      //               color: Color.fromARGB(
-                      //                   255, 26, 66, 28),
-                      //               fontSize: 16),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // )
-                    ],
-                  ),
-                ),
-              ),
-              _isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : stockData == null
-                      ? const Center(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
-                            child: Text('No Data found!'),
-                          ),
-                        )
-                      : Expanded(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      // color: Color.fromARGB(255, 188, 223, 191),
-                                      // border: Border.all(
-                                      //   color: Colors.teal.shade100,
-                                      // ),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: TextFormField(
-                                    controller: _searchController,
-                                    onChanged: (value) {
-                                      stockList = AllServices()
-                                          .searchStockProduct(
-                                              value, stockData!);
-                                      setState(() {});
-                                    },
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.teal.shade50,
-                                      border: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                      labelText: 'Product Search',
-                                      suffixIcon:
-                                          _searchController.text.isEmpty &&
-                                                  _searchController.text == ''
-                                              ? const Icon(Icons.search)
-                                              : IconButton(
-                                                  onPressed: () {
-                                                    _searchController.clear();
-                                                    stockList = AllServices()
-                                                        .searchStockProduct(
-                                                            '', stockData!);
-                                                    setState(() {});
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.clear,
-                                                    color: Colors.black,
-                                                    // size: 28,
-                                                  ),
-                                                ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Expanded(
-                                // flex: 9,
-                                child: DataTable2(
-                                  border: TableBorder.all(),
-                                  headingRowColor:
-                                      MaterialStateColor.resolveWith(
-                                          (states) => Colors.blue.shade200),
-                                  dataRowColor: MaterialStateColor.resolveWith(
-                                      (states) => Colors.teal.shade50),
-                                  columnSpacing: 12,
-                                  horizontalMargin: 12,
-                                  minWidth: screenWidth,
-                                  sortColumnIndex: _sortColumnIndex,
-                                  sortAscending: _sortAsc,
-                                  columns: dataColumn(),
-                                  rows: dataRow(stockList),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-            ],
-          ),
+          ],
         ));
   }
 

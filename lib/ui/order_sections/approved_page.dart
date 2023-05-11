@@ -86,7 +86,8 @@ class _ApprovedPageState extends State<ApprovedPage> {
                       const SizedBox(height: 5),
                       Container(
                         width: screenWidth,
-                        height: screenHeight / 13,
+                        height: 60,
+                        // height: screenHeight / 13,
                         color: const Color.fromARGB(223, 171, 241, 153),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

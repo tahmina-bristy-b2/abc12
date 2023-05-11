@@ -82,8 +82,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
       ),
       body: Column(
         children: [
-          Expanded(
-            flex: 1,
+          SizedBox(
+            height: 60,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: customerSearchTextFieldWidget(),

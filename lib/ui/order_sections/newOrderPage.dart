@@ -168,6 +168,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     screenWidth = MediaQuery.of(context).size.width;
     return _isLoading
         ? Scaffold(
+            resizeToAvoidBottomInset: false,
             key: _drawerKey,
             appBar: appBarDetailsWidget(context),
             endDrawer: EndDrawerWidget(),

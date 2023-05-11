@@ -212,6 +212,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     screenWidth = MediaQuery.of(context).size.width;
     return _isLoading
         ? Scaffold(
+            resizeToAvoidBottomInset: false,
             key: _drawerKey,
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 138, 201, 149),
@@ -501,8 +502,102 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () async {
+                      // GestureDetector(
+                      //   onTap: () async {
+                      //     List doctorGiftlist = await AllServices()
+                      //         .getSyncSavedData('dcrGiftListData');
+
+                      //     if (!mounted) return;
+
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (_) => DcrGiftDataPage(
+                      //           // uniqueId: widget.uniqueId,
+                      //           doctorGiftlist: doctorGiftlist,
+                      //           tempList: addedDcrGSPList,
+                      //           tempListFunc: (value) {
+                      //             addedDcrGSPList = value;
+                      //             itemString = DcrServices()
+                      //                 .calculatingGspItemString(
+                      //                     addedDcrGSPList);
+
+                      //             setState(() {});
+                      //           },
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: Container(
+                      //     height: MediaQuery.of(context).size.height / 16,
+                      //     width: screenWidth / 5.7,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       color: const Color.fromARGB(255, 138, 201, 149),
+                      //     ),
+                      //     child: const Center(
+                      //       child: FittedBox(
+                      //         child: Text(
+                      //           'Gift',
+                      //           style: TextStyle(
+                      //               color: Color.fromARGB(255, 8, 15, 9),
+                      //               fontWeight: FontWeight.w500,
+                      //               fontSize: 16),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
+                      // GestureDetector(
+                      //   onTap: () async {
+                      //     List doctorSamplelist = await AllServices()
+                      //         .getSyncSavedData('dcrSampleListData');
+
+                      //     if (!mounted) return;
+
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (_) => DcrSampleDataPage(
+                      //           // uniqueId: widget.uniqueId,
+                      //           doctorSamplelist: doctorSamplelist.isNotEmpty
+                      //               ? doctorSamplelist
+                      //               : [],
+                      //           tempList: addedDcrGSPList,
+                      //           tempListFunc: (value) {
+                      //             addedDcrGSPList = value;
+                      //             itemString = DcrServices()
+                      //                 .calculatingGspItemString(
+                      //                     addedDcrGSPList);
+
+                      //             setState(() {});
+                      //           },
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: Container(
+                      //     height: MediaQuery.of(context).size.height / 16,
+                      //     width: screenWidth / 4,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       color: const Color.fromARGB(255, 138, 201, 149),
+                      //     ),
+                      //     child: const Center(
+                      //       child: Text(
+                      //         'Sample',
+                      //         style: TextStyle(
+                      //             color: Color.fromARGB(255, 7, 14, 8),
+                      //             fontWeight: FontWeight.w500,
+                      //             fontSize: 16),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
+                      ElevatedButton(
+                        onPressed: () async {
                           List doctorGiftlist = await AllServices()
                               .getSyncSavedData('dcrGiftListData');
 
@@ -527,28 +622,28 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                             ),
                           );
                         },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 16,
-                          width: screenWidth / 5.7,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 138, 201, 149),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(screenWidth / 4.8,
+                              MediaQuery.of(context).size.height / 16),
+                          backgroundColor:
+                              const Color.fromARGB(255, 138, 201, 149),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(10), // <-- Radius
                           ),
-                          child: const Center(
-                            child: FittedBox(
-                              child: Text(
-                                'Gift',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 8, 15, 9),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16),
-                              ),
-                            ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Gift',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 9, 19, 11),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () async {
+                      ElevatedButton(
+                        onPressed: () async {
                           List doctorSamplelist = await AllServices()
                               .getSyncSavedData('dcrSampleListData');
 
@@ -575,24 +670,27 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                             ),
                           );
                         },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 16,
-                          width: screenWidth / 4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 138, 201, 149),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(screenWidth / 4,
+                              MediaQuery.of(context).size.height / 16),
+                          backgroundColor:
+                              const Color.fromARGB(255, 138, 201, 149),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(10), // <-- Radius
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Sample',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 7, 14, 8),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
-                            ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Sample',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 9, 19, 11),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
                           ),
                         ),
                       ),
+
                       ElevatedButton(
                         onPressed: () async {
                           List doctorPpmlist = await AllServices()

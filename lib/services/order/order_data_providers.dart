@@ -61,7 +61,8 @@ class OrderDataProviders {
       double longitude) async {
     http.Response response;
 
-    // print("${OrderApis.orderSubmitApi(submitUrl)}");
+    // print(
+    //     "${OrderApis.orderSubmitApi(submitUrl)}?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$clientId");
     response = await http.post(
       Uri.parse(OrderApis.orderSubmitApi(submitUrl)),
       headers: <String, String>{

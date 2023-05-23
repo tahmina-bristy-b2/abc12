@@ -787,6 +787,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                           : Container()
                     ],
                   ),
+                  const SizedBox(
+                    height: 5,
+                  )
                 ],
               ),
             ),

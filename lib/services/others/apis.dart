@@ -1,8 +1,8 @@
 class Apis {
   static dmpath(String cid) =>
-      'http://w03.yeapps.com/dmpath/dmpath_230503/get_dmpath?cid=$cid';
+      'http://w03.yeapps.com/dmpath/dmpath_230503/get_dmpath?cid=$cid'; //v04
   // static dmpath(String cid) =>
-  //     'http://w03.yeapps.com/dmpath/dmpath_test/get_dmpath?cid=$cid';
+  //     'http://w03.yeapps.com/dmpath/dmpath_test/get_dmpath?cid=$cid';//v03
 
   static attendanceApi(attendanceUrl, params) =>
       "${attendanceUrl}api_attendance_submit/submit_data?$params";

@@ -1422,7 +1422,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           longitude);
       if (orderInfo.isNotEmpty) {
         status = orderInfo['status'];
-        String ret_str = orderInfo['ret_str'];
+        var ret_str = orderInfo['ret_str']; //for reponse return message
 
         if (status == "Success") {
           setState(() {
@@ -1431,14 +1431,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
           OrderServices()
               .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
 
-          AllServices().toastMessage(
-              "Order Submitted\n$ret_str", Colors.green, Colors.white, 16);
+          AllServices().toastMessage("Order Submitted\n$ret_str", Colors.green,
+              Colors.white, 16); //order submit success message
           if (!mounted) return;
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         } else {
           AllServices().toastMessage(
-              "Order Failed\n$ret_str", Colors.red, Colors.white, 16);
+              ret_str, Colors.red, Colors.white, 16); //order faild message
           setState(() {
             _isLoading = true;
           });

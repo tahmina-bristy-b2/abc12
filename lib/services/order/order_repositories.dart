@@ -122,6 +122,7 @@ class OrderRepositories {
       }
     } on Exception catch (e) {
       // throw Exception(e);
+      AllServices().toastMessage('$e', Colors.red, Colors.white, 16);
       print('Error Message: $e');
       return orderInfo;
     }

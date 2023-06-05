@@ -114,6 +114,23 @@ class DcrDataProviders {
       String note) async {
     // print(
     //     '${gspSubmitUrl}api_dcr_submit_test/submit_data?cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId&doc_id=$docId&doc_area_id=$areaId&visit_with=$dcrString&latitude=$lat&longitude=$lon&item_list_gsp=$itemString&remarks=$note');
+    // print(
+    //   jsonEncode(
+    //     <String, dynamic>{
+    //       'cid': cid,
+    //       'user_id': userId,
+    //       'user_pass': userPass,
+    //       'device_id': deviceId,
+    //       'doc_id': docId,
+    //       'doc_area_id': areaId,
+    //       'visit_with': dcrString,
+    //       "latitude": lat,
+    //       'longitude': lon,
+    //       "item_list_gsp": itemString,
+    //       "remarks": note,
+    //     },
+    //   ),
+    // );
     final response = await http.post(
       Uri.parse(DcrApis.gspSubmitApi(gspSubmitUrl)),
       headers: <String, String>{

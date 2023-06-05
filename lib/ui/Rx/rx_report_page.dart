@@ -44,6 +44,11 @@ class _RxReportPageWebViewState extends State<RxReportPageWebView> {
             //   onPressed: () => Navigator.pop(context),
             //   icon: const Icon(Icons.home),
             // ),
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.home))
+            ],
           ),
           body: Stack(
             children: [

@@ -25,6 +25,22 @@ class RxDataProviders {
     final http.Response response;
     // print(RxApis.rxSubmitApi(
     //     "$submitUrl?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&doctor_id=${finalDoctorList[0].docId}&area_id=${finalDoctorList[0].areaId}&rx_type=$dropdownRxTypevalue&latitude=$latitude&longitude=$longitude&image_name=$fileName&cap_time=${dt.toString()}&item_list=$itemString"));
+    // print(jsonEncode(
+    //     <String, dynamic>{
+    //       'cid': cid,
+    //       'user_id': userId,
+    //       'user_pass': userPassword,
+    //       'device_id': deviceId,
+    //       'doctor_id': finalDoctorList.isEmpty ? '' : finalDoctorList[0].docId,
+    //       'area_id': finalDoctorList.isEmpty ? '' : finalDoctorList[0].areaId,
+    //       'rx_type': dropdownRxTypevalue,
+    //       "latitude": latitude,
+    //       'longitude': longitude,
+    //       'image_name': fileName,
+    //       'cap_time': dt.toString(),
+    //       "item_list": itemString,
+    //     },
+    //   ),);
 
     response = await http.post(
       Uri.parse(RxApis.rxSubmitApi(submitUrl)),
@@ -63,7 +79,7 @@ class RxDataProviders {
   }
 
   //================================================================================  ===================================================================
-  //================================================================================ RX image Submit ===================================================================
+  //================================================================================ RX image Submit ====================================================
   //===================================================================================================================================================
   Future<http.Response> rxImageSubmitDataprovider(
     String photosubmitUrl,

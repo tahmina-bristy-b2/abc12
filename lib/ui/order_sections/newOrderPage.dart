@@ -1420,21 +1420,29 @@ class _NewOrderPageState extends State<NewOrderPage> {
           itemString,
           latitude,
           longitude);
-      status = orderInfo['status'];
-      String ret_str = orderInfo['ret_str'];
+      if (orderInfo.isNotEmpty) {
+        status = orderInfo['status'];
+        String ret_str = orderInfo['ret_str'];
 
-      if (status == "Success") {
-        setState(() {
-          _isLoading = true;
-        });
-        OrderServices()
-            .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
+        if (status == "Success") {
+          setState(() {
+            _isLoading = true;
+          });
+          OrderServices()
+              .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
 
-        AllServices().toastMessage(
-            "Order Submitted\n$ret_str", Colors.green, Colors.white, 16);
-        if (!mounted) return;
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+          AllServices().toastMessage(
+              "Order Submitted\n$ret_str", Colors.green, Colors.white, 16);
+          if (!mounted) return;
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        } else {
+          AllServices().toastMessage(
+              "Order Failed\n$ret_str", Colors.red, Colors.white, 16);
+          setState(() {
+            _isLoading = true;
+          });
+        }
       } else {
         AllServices()
             .toastMessage("Order Failed", Colors.red, Colors.white, 16);

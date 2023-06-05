@@ -994,9 +994,9 @@ class _RxPageState extends State<RxPage> {
           latitude,
           longitude,
           RxServices().calculateRxItemString(finalMedicineList));
-
-      if (orderInfo['status'] == "Success") {
-        String retStr = orderInfo['ret_str'];
+      String retStr = '';
+      if (orderInfo.isNotEmpty && orderInfo['status'] == "Success") {
+        retStr = orderInfo['ret_str'];
         RxServices.deleteRxDataFromDraft(
             rxDcrBox,
             widget.isRxEdit
@@ -1017,12 +1017,18 @@ class _RxPageState extends State<RxPage> {
         AllServices().toastMessage(
             "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
       } else {
-        if (!mounted) return;
+        // if (!mounted) return;
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Rx submit Failed'), backgroundColor: Colors.red),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //       content: Text('Rx submit Failed\n$retStr'),
+        //       backgroundColor: Colors.red),
+        // );
+        AllServices().toastMessage(
+            'Rx submit Failed\n$retStr', Colors.red, Colors.white, 16);
+        setState(() {
+          _isLoading = true;
+        });
       }
 
       ///RXSUBMIT FUNCTION

@@ -61,8 +61,35 @@ class OrderDataProviders {
       double longitude) async {
     http.Response response;
 
+    // print(submitUrl);
+
     // print(
-    //     "${OrderApis.orderSubmitApi(submitUrl)}?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$clientId");
+    //     "${OrderApis.orderSubmitApi(submitUrl)}?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$clientId&delivery_date=$dateSelected&delivery_time=$selectedDeliveryTime&payment_mode=$slectedPayMethod&offer=$initialOffer&note=$noteText&item_list=$itemString&latitude=$latitude&longitude=$longitude");
+    // var param =
+    //     "${OrderApis.orderSubmitApi(submitUrl)}?cid=$cid&user_id=$userId&user_pass=$userPassword&device_id=$deviceId&client_id=$clientId&delivery_date=$dateSelected&delivery_time=$selectedDeliveryTime&payment_mode=$slectedPayMethod&offer=$initialOffer&note=$noteText&item_list=$itemString&latitude=$latitude&longitude=$longitude";
+    // print(param);
+    // // response = await http.get(
+    // //   Uri.parse(param),
+    // // );
+    // var a = jsonEncode(
+    //   <String, dynamic>{
+    //     'cid': cid,
+    //     'user_id': userId,
+    //     'user_pass': userPassword,
+    //     'device_id': deviceId,
+    //     'client_id': clientId,
+    //     'delivery_date': dateSelected,
+    //     'delivery_time': selectedDeliveryTime,
+    //     'payment_mode': slectedPayMethod,
+    //     'offer': initialOffer,
+    //     'note': noteText,
+    //     "item_list": itemString,
+    //     "latitude": latitude,
+    //     'longitude': longitude,
+    //   },
+    // );
+    // print(a);
+
     response = await http.post(
       Uri.parse(OrderApis.orderSubmitApi(submitUrl)),
       headers: <String, String>{

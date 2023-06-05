@@ -50,6 +50,12 @@ class _CommonInAppWebViewState extends State<CommonInAppWebView> {
             //   onPressed: () => Navigator.pop(context),
             //   icon: const Icon(Icons.home),
             // ),
+
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.home))
+            ],
           ),
           body: Stack(
             children: [

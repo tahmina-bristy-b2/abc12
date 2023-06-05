@@ -888,8 +888,11 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
         setState(() {
           _isLoading = true;
         });
-        AllServices()
-            .toastMessage("DCR Submit Failed", Colors.red, Colors.white, 16);
+        AllServices().toastMessage(
+            "DCR Submit Failed\n${dcrResponsedata['ret_str']}",
+            Colors.red,
+            Colors.white,
+            16);
       }
     } else {
       setState(() {

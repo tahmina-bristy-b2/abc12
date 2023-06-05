@@ -41,8 +41,9 @@ class RxRepositories {
       if (status == "Success") {
         return orderInfo;
       }
-    } on Exception catch (_) {
-      throw Exception("Error on server");
+    } on Exception catch (e) {
+      // throw Exception("Error on server");
+      print('Error message: $e');
     }
     return orderInfo;
   }

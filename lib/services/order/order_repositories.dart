@@ -98,6 +98,7 @@ class OrderRepositories {
       double longitude) async {
     final http.Response response;
     Map<String, dynamic> orderInfo = {};
+    // print();
     try {
       response = await OrderDataProviders().orerSubmitDp(
           submitUrl,
@@ -114,10 +115,16 @@ class OrderRepositories {
           itemString,
           latitude,
           longitude);
-      orderInfo = json.decode(response.body);
-      return orderInfo;
+
+      if (response.statusCode == 200) {
+        orderInfo = json.decode(response.body);
+        return orderInfo;
+      }
     } on Exception catch (e) {
-      throw Exception(e);
+      // throw Exception(e);
+      print('Error Message: $e');
+      return orderInfo;
     }
+    return orderInfo;
   }
 }

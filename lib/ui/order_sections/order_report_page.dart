@@ -58,6 +58,11 @@ class _OrderReportWebViewScreenState extends State<OrderReportWebViewScreen> {
             //     onPressed: () => Navigator.pop(context),
             //     icon: const Icon(Icons.home)),
             // automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.home))
+            ],
           ),
           body: Stack(
             children: [

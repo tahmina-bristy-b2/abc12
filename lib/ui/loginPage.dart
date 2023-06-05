@@ -282,8 +282,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                         if (result == true) {
                                           String loginUrl = await Repositories()
-                                              .getDmPath(
-                                                  _companyIdController.text);
+                                              .getDmPath(_companyIdController
+                                                  .text
+                                                  .trim());
                                           if (loginUrl != '') {
                                             UserLoginModel userLoginModelData =
                                                 await Repositories().login(
@@ -291,7 +292,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     deviceId,
                                                     deviceBrand,
                                                     deviceModel,
-                                                    _companyIdController.text,
+                                                    _companyIdController.text
+                                                        .trim(),
                                                     _userIdController.text,
                                                     _passwordController.text);
 
@@ -361,11 +363,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                             setState(() {
                                               isLoading = false;
                                             });
-                                            AllServices().toastMessage(
-                                                'Wrong CID',
-                                                Colors.red,
-                                                Colors.white,
-                                                16);
+                                            // AllServices().toastMessage(
+                                            //     'Wrong CID',
+                                            //     Colors.red,
+                                            //     Colors.white,
+                                            //     16);
                                           }
                                         } else {
                                           setState(() {

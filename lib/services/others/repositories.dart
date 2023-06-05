@@ -104,6 +104,8 @@ class Repositories {
 
           return loginUrl;
         } else {
+          var returnStr = resData['ret_res'];
+          AllServices().toastMessage(returnStr, Colors.red, Colors.white, 16);
           return loginUrl;
         }
       }

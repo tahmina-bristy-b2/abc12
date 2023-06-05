@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_services.dart';
 import 'package:MREPORTING/ui/homePage.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +45,7 @@ class _RxPageState extends State<RxPage> {
 
   Box? box;
   File? imagePath;
+  File? rxSmallImage;
   XFile? file;
 
   List<RxDcrDataModel> finalDoctorList = [];
@@ -74,6 +76,7 @@ class _RxPageState extends State<RxPage> {
   String dropdownRxTypevalue = 'Rx Type';
 
   String finalImage = '';
+  String rxShortImage = ''; //for image comming from draft
 
   @override
   void initState() {
@@ -87,10 +90,13 @@ class _RxPageState extends State<RxPage> {
     if (widget.isRxEdit) {
       finalDoctorList.add(widget.draftRxData!);
       finalMedicineList = widget.draftRxData!.rxMedicineList;
-      int space = widget.draftRxData!.presImage.indexOf(" ");
-      String removeSpace = widget.draftRxData!.presImage
-          .substring(space + 1, widget.draftRxData!.presImage.length);
-      finalImage = removeSpace.replaceAll("'", '');
+      finalImage = widget.draftRxData!.presImage; // for original size image
+      rxShortImage = widget.draftRxData!.rxSmallImage; //for small size image
+
+      // int space = widget.draftRxData!.presImage.indexOf(" ");
+      // String removeSpace = widget.draftRxData!.presImage
+      //     .substring(space + 1, widget.draftRxData!.presImage.length);
+      // finalImage = removeSpace.replaceAll("'", '');
 
       dropdownRxTypevalue = widget.draftRxData!.rxType;
     }
@@ -266,8 +272,8 @@ class _RxPageState extends State<RxPage> {
                                     },
                                     child: Hero(
                                       tag: "imageForDraft",
-                                      child: Image.file(
-                                        File(finalImage),
+                                      child: ExtendedImage.file(
+                                        File(rxShortImage),
                                       ),
                                     ),
                                   )
@@ -314,7 +320,9 @@ class _RxPageState extends State<RxPage> {
                                         },
                                         child: Hero(
                                           tag: "img",
-                                          child: Image.file(imagePath!),
+                                          child:
+                                              ExtendedImage.file(rxSmallImage!),
+                                          // child: Image.file(imagePath!),
                                         ),
                                       ),
                             // : FullScreenWidget(
@@ -972,11 +980,12 @@ class _RxPageState extends State<RxPage> {
   Future rxSubmit() async {
     String fileName = "";
     // if (finalDoctorList[0].docId != "") {
-    // _rxImageSubmit();       // _rxImageSubmit();       // _rxImageSubmit();
+    // _rxImageSubmit();
+    File? rxImageFile = await RxServices().getImageFrom(
+        imageFile: widget.isRxEdit ? File(finalImage) : imagePath);
 
     final jsonData = await RxRepositories().rxImageSubmitRepo(
-        dmpathData!.photoSubmitUrl,
-        widget.isRxEdit ? finalImage : imagePath!.path.toString());
+        dmpathData!.photoSubmitUrl, rxImageFile!.path.toString());
     if (jsonData['res_data']['status'] == 'Success') {
       fileName = jsonData['res_data']["ret_str"];
     }
@@ -1057,14 +1066,17 @@ class _RxPageState extends State<RxPage> {
   Future<void> _cameraFuntionality() async {
     file = await ImagePicker().pickImage(
       source: ImageSource.camera,
-      imageQuality: 90,
-      maxHeight: 800,
-      maxWidth: 700,
+      imageQuality: 70,
+      // maxHeight: 800,
+      // maxWidth: 700,
     );
     if (file != null) {
       imagePath = File(file!.path);
+      rxSmallImage = await RxServices.compress2(image: imagePath!);
 
-      if (imagePath != null && widget.isRxEdit == false) {
+      if (imagePath != null &&
+          rxSmallImage != null &&
+          widget.isRxEdit == false) {
         await GallerySaver.saveImage(imagePath!.path); // image save to gallery
         if (finalDoctorList.isEmpty) {
           final rxDcrDataModel = RxDcrDataModel(
@@ -1074,7 +1086,8 @@ class _RxPageState extends State<RxPage> {
               areaId: '',
               areaName: 'areaName',
               address: 'address',
-              presImage: imagePath.toString(),
+              presImage: imagePath!.path,
+              rxSmallImage: rxSmallImage!.path, //for small size image
               rxMedicineList: [],
               rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
@@ -1092,7 +1105,8 @@ class _RxPageState extends State<RxPage> {
               areaId: '',
               areaName: 'areaName',
               address: 'address',
-              presImage: imagePath.toString(),
+              presImage: imagePath!.path,
+              rxSmallImage: rxSmallImage!.path, //for small size image
               rxMedicineList: [],
               rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
@@ -1101,12 +1115,14 @@ class _RxPageState extends State<RxPage> {
 
           setState(() {});
         } else {
-          finalDoctorList[0].presImage = imagePath.toString();
+          finalDoctorList[0].presImage = imagePath!.path;
+          finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
           setState(() {});
         }
       } else if (imagePath != null && widget.isRxEdit) {
         await GallerySaver.saveImage(imagePath!.path); // image save to gallery
-        finalDoctorList[0].presImage = imagePath.toString();
+        finalDoctorList[0].presImage = imagePath!.path;
+        finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
         finalImage = imagePath!.path;
         setState(() {});
       }
@@ -1120,13 +1136,16 @@ class _RxPageState extends State<RxPage> {
       source: ImageSource.gallery,
       imageQuality: 90,
       //preferredCameraDevice: CameraDevice.rear,
-      maxHeight: 800,
-      maxWidth: 700,
+      // maxHeight: 800,
+      // maxWidth: 700,
     );
     if (file != null) {
       // file;
       imagePath = File(file!.path);
-      if (imagePath != null && widget.isRxEdit == false) {
+      rxSmallImage = await RxServices.compress2(image: imagePath!);
+      if (imagePath != null &&
+          rxSmallImage != null &&
+          widget.isRxEdit == false) {
         // await GallerySaver.saveImage(imagePath!.path); // image save to gallery
         if (finalDoctorList.isEmpty) {
           final rxDcrDataModel = RxDcrDataModel(
@@ -1136,7 +1155,8 @@ class _RxPageState extends State<RxPage> {
               areaId: '',
               areaName: 'areaName',
               address: 'address',
-              presImage: imagePath.toString(),
+              presImage: imagePath!.path,
+              rxSmallImage: rxSmallImage!.path, //for small size image
               rxMedicineList: [],
               rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
@@ -1154,7 +1174,8 @@ class _RxPageState extends State<RxPage> {
               areaId: '',
               areaName: 'areaName',
               address: 'address',
-              presImage: imagePath.toString(),
+              presImage: imagePath!.path,
+              rxSmallImage: rxSmallImage!.path, //for small size image
               rxMedicineList: [],
               rxType: dropdownRxTypevalue);
           finalDoctorList.add(rxDcrDataModel); // add to list
@@ -1163,13 +1184,16 @@ class _RxPageState extends State<RxPage> {
 
           setState(() {});
         } else {
-          finalDoctorList[0].presImage = imagePath.toString();
+          finalDoctorList[0].presImage = imagePath!.path;
+          finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
           setState(() {});
         }
       } else if (imagePath != null && widget.isRxEdit) {
         // await GallerySaver.saveImage(imagePath!.path); // image save to gallery
-        finalDoctorList[0].presImage = imagePath.toString();
+        finalDoctorList[0].presImage = imagePath!.path;
+        finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
         finalImage = imagePath!.path;
+        rxShortImage = rxSmallImage!.path;
         setState(() {});
       }
     }
@@ -1185,7 +1209,7 @@ class ZoomForRxImage extends StatelessWidget {
       body: GestureDetector(
         child: Center(
           child: Hero(
-              tag: 'imageHero',
+              tag: 'img',
               child: PhotoView(
                 imageProvider: FileImage(img!),
               )),

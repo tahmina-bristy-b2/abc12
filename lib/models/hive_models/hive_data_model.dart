@@ -134,6 +134,8 @@ class RxDcrDataModel extends HiveObject {
   String rxType;
   @HiveField(8)
   List<MedicineListModel> rxMedicineList;
+  @HiveField(9)
+  String rxSmallImage;
 
   RxDcrDataModel({
     required this.uid,
@@ -145,6 +147,7 @@ class RxDcrDataModel extends HiveObject {
     required this.presImage,
     required this.rxType,
     required this.rxMedicineList,
+    required this.rxSmallImage,
   });
 }
 

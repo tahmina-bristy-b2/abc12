@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:MREPORTING/services/rx/rx_services.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:MREPORTING/ui/Rx/rxPage.dart';
@@ -54,102 +56,187 @@ class _RxDraftPageState extends State<RxDraftPage> {
         ),
       );
     } else {
-      return ListView.builder(
+      return GridView.builder(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 180,
+            childAspectRatio: 3 / 3,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10),
+        padding: const EdgeInsets.all(8),
         itemCount: user.length,
-        itemBuilder: (BuildContext context, int index) {
-          int space = user[index].presImage.indexOf(" ");
-          String removeSpace = user[index]
-              .presImage
-              .substring(space + 1, user[index].presImage.length);
-          String finalImage = removeSpace.replaceAll("'", '');
+        itemBuilder: (BuildContext ctx, index) {
+          // int space = user[index].presImage.indexOf(" ");
+          // String removeSpace = user[index]
+          //     .presImage
+          //     .substring(space + 1, user[index].presImage.length);
+          // String finalImage = removeSpace.replaceAll("'", '');
+          // File? imageFile = File(user[index].presImage);
+          //   File? rxImageFile = await RxServices().getImageFrom(
+          // imageFile:  File(finalImage) );
 
-          return GestureDetector(
-            onTap: () {},
-            child: Card(
-              // elevation: 10,
-              color: const Color.fromARGB(255, 207, 240, 207),
-              child: ExpansionTile(
-                childrenPadding: const EdgeInsets.all(0),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: screenHeight / 8,
-                        width: screenWidth / 6,
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: FileImage(File(finalImage)),
-                        ),
-                      ),
+          return Stack(
+            // alignment: AlignmentDirectional.topEnd,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          RxPage(isRxEdit: true, draftRxData: user[index]),
                     ),
-                    const SizedBox(
-                      width: 30,
+                  );
+                },
+                child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(0)),
+                    child: ExtendedImage.file(File(user[index].rxSmallImage),
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover)
+                    // Image.file(imageFile)
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Text(
-                            "${user[index].docName} (${user[index].docId}) ",
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          Text(
-                            user[index].areaName,
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextButton.icon(
-                        onPressed: () {
-                          deleteRxDoctor(user[index]);
-                          setState(() {});
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        label: const Text(
-                          "Delete",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                      TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => RxPage(
-                                  isRxEdit: true, draftRxData: user[index]),
-                            ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.arrow_forward_outlined,
-                          color: Colors.blue,
-                        ),
-                        label: const Text(
-                          "Details",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
               ),
-            ),
+              Positioned(
+                top: -8,
+                right: -8,
+                child: IconButton(
+                  onPressed: () {
+                    deleteRxDoctor(user[index]);
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.cancel,
+                    // color: Colors.amber,
+                    // fill: 1.0,
+                  ),
+                  color: Colors.red.withOpacity(.8),
+                  iconSize: 28,
+                  tooltip: 'Delete',
+                ),
+              ),
+              Positioned(
+                bottom: 15,
+                left: 2,
+                child: Text(
+                  "${user[index].docName} (${user[index].docId}) ",
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      // fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              Positioned(
+                bottom: 2,
+                left: 2,
+                child: Text(
+                  user[index].areaName,
+                  // style: const TextStyle(fontSize: 13),
+                ),
+              ),
+            ],
           );
         },
       );
+
+      // ListView.builder(
+      //   itemCount: user.length,
+      //   itemBuilder: (BuildContext context, int index) {
+      //     int space = user[index].presImage.indexOf(" ");
+      //     String removeSpace = user[index]
+      //         .presImage
+      //         .substring(space + 1, user[index].presImage.length);
+      //     String finalImage = removeSpace.replaceAll("'", '');
+
+      //     return GestureDetector(
+      //       onTap: () {},
+      //       child: Card(
+      //         // elevation: 10,
+      //         color: const Color.fromARGB(255, 207, 240, 207),
+      //         child: ExpansionTile(
+      //           childrenPadding: const EdgeInsets.all(0),
+      //           title: Row(
+      //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //             children: [
+      //               Expanded(
+      //                 child: SizedBox(
+      //                   height: screenHeight / 8,
+      //                   width: screenWidth / 6,
+      //                   child: Image(
+      //                     fit: BoxFit.cover,
+      //                     image: FileImage(File(finalImage)),
+      //                   ),
+      //                 ),
+      //               ),
+      //               const SizedBox(
+      //                 width: 30,
+      //               ),
+      //               Expanded(
+      //                 flex: 2,
+      //                 child: Column(
+      //                   children: [
+      //                     Text(
+      //                       "${user[index].docName} (${user[index].docId}) ",
+      //                       overflow: TextOverflow.ellipsis,
+      //                       style: const TextStyle(
+      //                           fontWeight: FontWeight.bold, fontSize: 16),
+      //                     ),
+      //                     Text(
+      //                       user[index].areaName,
+      //                       style: const TextStyle(fontSize: 13),
+      //                     ),
+      //                   ],
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //           children: [
+      //             Row(
+      //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //               children: [
+      //                 TextButton.icon(
+      //                   onPressed: () {
+      //                     deleteRxDoctor(user[index]);
+      //                     setState(() {});
+      //                   },
+      //                   icon: const Icon(
+      //                     Icons.delete,
+      //                     color: Colors.red,
+      //                   ),
+      //                   label: const Text(
+      //                     "Delete",
+      //                     style: TextStyle(color: Colors.red),
+      //                   ),
+      //                 ),
+      //                 TextButton.icon(
+      //                   onPressed: () {
+      //                     Navigator.push(
+      //                       context,
+      //                       MaterialPageRoute(
+      //                         builder: (_) => RxPage(
+      //                             isRxEdit: true, draftRxData: user[index]),
+      //                       ),
+      //                     );
+      //                   },
+      //                   icon: const Icon(
+      //                     Icons.arrow_forward_outlined,
+      //                     color: Colors.blue,
+      //                   ),
+      //                   label: const Text(
+      //                     "Details",
+      //                     style: TextStyle(color: Colors.blue),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // );
     }
   }
 }

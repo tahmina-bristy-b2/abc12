@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class RxServices {
@@ -84,6 +87,58 @@ class RxServices {
     }
 
     box.put(desirekey, dcrData);
+  }
+
+  Future<File?> getImageFrom({required File? imageFile}) async {
+    if (imageFile != null) {
+      var image = File(imageFile.path.toString());
+      final _sizeInKbBefore = image.lengthSync() / 1024;
+      print('Before Compress $_sizeInKbBefore kb');
+      var _compressedImage = await compress(image: image);
+      final _sizeInKbAfter = _compressedImage.lengthSync() / 1024;
+      print('After Compress $_sizeInKbAfter kb');
+      // var _croppedImage = await AppHelper.cropImage(_compressedImage);
+      // if (_croppedImage == null) {
+      //   return;
+      // }
+
+      return _compressedImage;
+    }
+  }
+
+  static Future<File> compress({
+    required File image,
+    int quality = 80,
+    int percentage = 20,
+  }) async {
+    var path = await FlutterNativeImage.compressImage(
+      image.absolute.path,
+      quality: quality,
+      percentage: percentage,
+      // targetWidth: targetW, //user for heigght
+
+      // targetHeight: targetW, // used for width
+    );
+    return path;
+  }
+
+  static Future<File> compress2(
+      {required File image,
+      int quality = 70,
+      int percentage = 20,
+      targetW = 600,
+      targetH = 450}) async {
+    var path = await FlutterNativeImage.compressImage(
+      image.absolute.path,
+      quality: quality,
+      percentage: percentage,
+      targetWidth: targetW, //user for heigght
+
+      targetHeight: targetH, // used for width
+    );
+    final _sizeInKbAfter = path.lengthSync() / 1024;
+    print('After Compress $_sizeInKbAfter kb');
+    return path;
   }
 }
     // var dt = DateFormat('HH:mm:ss').format(DateTime.now());

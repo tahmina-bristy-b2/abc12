@@ -880,7 +880,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             (Route<dynamic> route) => false);
 
         AllServices().toastMessageForSubmitData(
-            "DCR Submitted\n${dcrResponsedata['ret_str']}",
+            "DCR Submitted\n${dcrResponsedata['ret_str']}", //dcr submit success return message
             Colors.green.shade900,
             Colors.white,
             16);
@@ -889,7 +889,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           _isLoading = true;
         });
         AllServices().toastMessage(
-            "DCR Submit Failed\n${dcrResponsedata['ret_str']}",
+            "${dcrResponsedata['ret_str']}", // dcr submit falid return message
+            // "DCR Submit Failed\n${dcrResponsedata['ret_str']}",
             Colors.red,
             Colors.white,
             16);

@@ -3,6 +3,8 @@ import 'package:MREPORTING/models/approved_promo_model.dart';
 import 'package:MREPORTING/models/promo_model.dart';
 import 'package:MREPORTING/models/stock_model.dart';
 import 'package:MREPORTING/models/user_depot_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:MREPORTING/utils/constant.dart';
 
@@ -132,6 +134,8 @@ class Repositories {
 
       var userInfo = json.decode(response.body);
       var status = userInfo['status'];
+      var returnStr =
+          userInfo['ret_str']; //for login faild return dynamic message
 
       if (status == 'Success') {
         userLoginModelData = userLoginModelFromJson(response.body);
@@ -212,6 +216,8 @@ class Repositories {
             .sharedPreferenceSetDataForLogin(cid, userId, password);
 
         return userLoginModelData;
+      } else {
+        AllServices().toastMessage(returnStr, Colors.red, Colors.white, 16);
       }
     } on Exception catch (_) {
       throw Exception("Error on server");

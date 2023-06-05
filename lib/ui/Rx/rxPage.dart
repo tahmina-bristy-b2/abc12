@@ -1015,17 +1015,14 @@ class _RxPageState extends State<RxPage> {
             (route) => false);
 
         AllServices().toastMessage(
-            "Rx Submitted\n$retStr", Colors.green.shade900, Colors.white, 16);
+            "Rx Submitted\n$retStr",
+            Colors.green.shade900,
+            Colors.white,
+            16); //Rx submit success return message
       } else {
-        // if (!mounted) return;
-
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //       content: Text('Rx submit Failed\n$retStr'),
-        //       backgroundColor: Colors.red),
-        // );
-        AllServices().toastMessage(
-            'Rx submit Failed\n$retStr', Colors.red, Colors.white, 16);
+        retStr = orderInfo['ret_str'];
+        AllServices().toastMessage(retStr, Colors.red, Colors.white,
+            16); //Rx submit faild return message
         setState(() {
           _isLoading = true;
         });

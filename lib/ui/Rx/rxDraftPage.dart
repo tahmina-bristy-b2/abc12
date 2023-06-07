@@ -61,7 +61,7 @@ class _RxDraftPageState extends State<RxDraftPage> {
             maxCrossAxisExtent: 180,
             childAspectRatio: 3 / 3,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 20),
+            mainAxisSpacing: 10),
         padding: const EdgeInsets.all(8),
         itemCount: user.length,
         itemBuilder: (BuildContext ctx, index) {
@@ -87,21 +87,33 @@ class _RxDraftPageState extends State<RxDraftPage> {
                     ),
                   );
                 },
-                child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(0)),
-                    child: ExtendedImage.file(File(user[index].rxSmallImage),
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.cover)
-                    // Image.file(imageFile)
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        height: 100,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(0)),
+                        child:
+                            ExtendedImage.file(File(user[index].rxSmallImage),
+                                // height: 100,
+                                // width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.cover)
+                        // Image.file(imageFile)
+                        ),
+                    Text(
+                      user[index].docName,
+                      overflow: TextOverflow.ellipsis,
                     ),
+                  ],
+                ),
               ),
               Positioned(
-                top: -13,
-                right: -15,
+                top: -10,
+                right: -10,
                 child: IconButton(
                   onPressed: () {
                     showAlertDialog(context, user[index]);
@@ -119,25 +131,25 @@ class _RxDraftPageState extends State<RxDraftPage> {
                   tooltip: 'Delete',
                 ),
               ),
-              Positioned(
-                bottom: 15,
-                left: 2,
-                child: Text(
-                  "${user[index].docName} (${user[index].docId}) ",
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      // fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              Positioned(
-                bottom: 2,
-                left: 2,
-                child: Text(
-                  user[index].areaName,
-                  // style: const TextStyle(fontSize: 13),
-                ),
-              ),
+              // Positioned(
+              //   bottom: -15,
+              //   left: 2,
+              //   child: Text(
+              //     "${user[index].docName} (${user[index].docId}) ",
+              //     overflow: TextOverflow.ellipsis,
+              //     style: const TextStyle(
+              //         // fontWeight: FontWeight.bold,
+              //         ),
+              //   ),
+              // ),
+              // Positioned(
+              //   bottom: 2,
+              //   left: 2,
+              //   child: Text(
+              //     user[index].areaName,
+              //     // style: const TextStyle(fontSize: 13),
+              //   ),
+              // ),
             ],
           );
         },
@@ -248,20 +260,23 @@ class _RxDraftPageState extends State<RxDraftPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+
             // icon: const Icon(
             //   Icons.dangerous,
             //   size: 30,
             //   color: Colors.red,
             // ),
-            title: const Text('Delete This Prescription?'),
-            content: const Text(
-                "This will delete the Prescription from your Draft."),
+            // title: const Text('Delete This RX?'),
+            content: const Text("Delete This RX?"),
+            //  // content: const Text(
+            //     "This will delete the Prescription from your Draft."),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Cancel')),
+                  child: const Text('No')),
               TextButton(
                   onPressed: () {
                     deleteRxDoctor(rxDcr);
@@ -270,7 +285,7 @@ class _RxDraftPageState extends State<RxDraftPage> {
                     Navigator.pop(context);
                   },
                   child: const Text(
-                    'Delete',
+                    'Yes',
                     style: TextStyle(color: Colors.red),
                   )),
             ],

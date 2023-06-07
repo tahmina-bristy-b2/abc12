@@ -43,6 +43,15 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
       pressedActivity[element['item_id']] = false;
     }
 
+//find the selected item
+    for (var element1 in widget.medicinTempList) {
+      for (var element2 in foundUsers) {
+        if (element1.itemId == element2['item_id']) {
+          pressedActivity[element2['item_id']] = true;
+        }
+      }
+    }
+
     super.initState();
   }
 
@@ -184,6 +193,11 @@ class _MedicineListFromHiveData1State extends State<MedicineListFromHiveData1> {
 
             widget.medicinTempList.add(temp);
           }
+          pressedActivity.forEach((key, value) {
+            if (value == false) {
+              widget.medicinTempList.removeWhere((item) => item.itemId == key);
+            }
+          });
 
           widget.tempListFunc(widget.medicinTempList);
           Navigator.pop(context);

@@ -126,8 +126,8 @@ class RxServices {
       {required File image,
       int quality = 70,
       int percentage = 20,
-      targetW = 600,
-      targetH = 450}) async {
+      targetW = 450,
+      targetH = 600}) async {
     var path = await FlutterNativeImage.compressImage(
       image.absolute.path,
       quality: quality,

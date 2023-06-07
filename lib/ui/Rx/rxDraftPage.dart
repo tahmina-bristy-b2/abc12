@@ -61,7 +61,7 @@ class _RxDraftPageState extends State<RxDraftPage> {
             maxCrossAxisExtent: 180,
             childAspectRatio: 3 / 3,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 10),
+            mainAxisSpacing: 20),
         padding: const EdgeInsets.all(8),
         itemCount: user.length,
         itemBuilder: (BuildContext ctx, index) {
@@ -100,20 +100,22 @@ class _RxDraftPageState extends State<RxDraftPage> {
                     ),
               ),
               Positioned(
-                top: -8,
-                right: -8,
+                top: -13,
+                right: -15,
                 child: IconButton(
                   onPressed: () {
-                    deleteRxDoctor(user[index]);
-                    setState(() {});
+                    showAlertDialog(context, user[index]);
+                    // deleteRxDoctor(user[index]);
+                    // setState(() {});
                   },
+                  // visualDensity: VisualDensity.adaptivePlatformDensity,
                   icon: const Icon(
                     Icons.cancel,
                     // color: Colors.amber,
                     // fill: 1.0,
                   ),
-                  color: Colors.red.withOpacity(.8),
-                  iconSize: 28,
+                  color: Colors.redAccent[700],
+                  iconSize: 23,
                   tooltip: 'Delete',
                 ),
               ),
@@ -238,5 +240,41 @@ class _RxDraftPageState extends State<RxDraftPage> {
       //   },
       // );
     }
+  }
+
+//show Alert Dialog.......................
+  showAlertDialog(BuildContext context, RxDcrDataModel rxDcr) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // icon: const Icon(
+            //   Icons.dangerous,
+            //   size: 30,
+            //   color: Colors.red,
+            // ),
+            title: const Text('Delete This Prescription?'),
+            content: const Text(
+                "This will delete the Prescription from your Draft."),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel')),
+              TextButton(
+                  onPressed: () {
+                    deleteRxDoctor(rxDcr);
+
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(color: Colors.red),
+                  )),
+            ],
+          );
+        });
   }
 }

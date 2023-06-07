@@ -8,6 +8,7 @@ import 'package:MREPORTING/services/rx/rx_services.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -16,6 +17,7 @@ import 'package:MREPORTING/ui/Rx/doctorListfromHive.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thumbnailer/thumbnailer.dart';
 import 'medicineFromHive.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
@@ -76,7 +78,7 @@ class _RxPageState extends State<RxPage> {
   String dropdownRxTypevalue = 'Rx Type';
 
   String finalImage = '';
-  String rxShortImage = ''; //for image comming from draft
+  // String rxShortImage = ''; //for image comming from draft
 
   @override
   void initState() {
@@ -91,7 +93,8 @@ class _RxPageState extends State<RxPage> {
       finalDoctorList.add(widget.draftRxData!);
       finalMedicineList = widget.draftRxData!.rxMedicineList;
       finalImage = widget.draftRxData!.presImage; // for original size image
-      rxShortImage = widget.draftRxData!.rxSmallImage; //for small size image
+      rxSmallImage =
+          File(widget.draftRxData!.rxSmallImage); //for small size image
 
       // int space = widget.draftRxData!.presImage.indexOf(" ");
       // String removeSpace = widget.draftRxData!.presImage
@@ -112,6 +115,10 @@ class _RxPageState extends State<RxPage> {
       deviceBrand = prefs.getString("deviceBrand") ?? '';
       deviceModel = prefs.getString("deviceModel") ?? '';
     });
+
+    // Thumbnailer.addCustomMimeTypesToIconDataMappings(<String, IconData>{
+    //   'custom/mimeType': FontAwesomeIcons.key,
+    // });
 
     setState(() {});
   }
@@ -272,8 +279,20 @@ class _RxPageState extends State<RxPage> {
                                     },
                                     child: Hero(
                                       tag: "imageForDraft",
-                                      child: ExtendedImage.file(
-                                        File(rxShortImage),
+                                      child:
+                                          // Thumbnail(
+                                          //   dataResolver: () async {
+                                          //     return (await DefaultAssetBundle.of(
+                                          //                 context)
+                                          //             .load(finalImage))
+                                          //         .buffer
+                                          //         .asUint8List();
+                                          //   },
+                                          //   mimeType: 'image/jpg',
+                                          //   widgetSize: 230,
+                                          // ),
+                                          ExtendedImage.file(
+                                        rxSmallImage!,
                                       ),
                                     ),
                                   )
@@ -321,6 +340,20 @@ class _RxPageState extends State<RxPage> {
                                         child: Hero(
                                           tag: "img",
                                           child:
+                                              // Center(
+                                              //   child: Thumbnail(
+                                              //     dataResolver: () async {
+                                              //       return (await DefaultAssetBundle
+                                              //                   .of(context)
+                                              //               .load(imagePath!.path))
+                                              //           .buffer
+                                              //           .asUint8List();
+                                              //     },
+                                              //     mimeType: 'image/jpg',
+                                              //     widgetSize: 230,
+                                              //     dataSize: 12345,
+                                              //   ),
+                                              // ),
                                               ExtendedImage.file(rxSmallImage!),
                                           // child: Image.file(imagePath!),
                                         ),
@@ -1070,8 +1103,11 @@ class _RxPageState extends State<RxPage> {
       // maxHeight: 800,
       // maxWidth: 700,
     );
+
     if (file != null) {
       imagePath = File(file!.path);
+      // rxSmallImage = File(file!.path);
+
       rxSmallImage = await RxServices.compress2(image: imagePath!);
 
       if (imagePath != null &&
@@ -1119,7 +1155,7 @@ class _RxPageState extends State<RxPage> {
           finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
           setState(() {});
         }
-      } else if (imagePath != null && widget.isRxEdit) {
+      } else if (imagePath != null && rxSmallImage != null && widget.isRxEdit) {
         await GallerySaver.saveImage(imagePath!.path); // image save to gallery
         finalDoctorList[0].presImage = imagePath!.path;
         finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
@@ -1193,7 +1229,7 @@ class _RxPageState extends State<RxPage> {
         finalDoctorList[0].presImage = imagePath!.path;
         finalDoctorList[0].rxSmallImage = rxSmallImage!.path;
         finalImage = imagePath!.path;
-        rxShortImage = rxSmallImage!.path;
+        // rxShortImage = rxSmallImage!.path;
         setState(() {});
       }
     }

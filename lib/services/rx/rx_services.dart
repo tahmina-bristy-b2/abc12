@@ -92,17 +92,17 @@ class RxServices {
   Future<File?> getImageFrom({required File? imageFile}) async {
     if (imageFile != null) {
       var image = File(imageFile.path.toString());
-      final _sizeInKbBefore = image.lengthSync() / 1024;
-      print('Before Compress $_sizeInKbBefore kb');
-      var _compressedImage = await compress(image: image);
-      final _sizeInKbAfter = _compressedImage.lengthSync() / 1024;
-      print('After Compress $_sizeInKbAfter kb');
+      final sizeInKbBefore = image.lengthSync() / 1024;
+      print('Before Compress $sizeInKbBefore kb');
+      var compressedImage = await compress(image: image);
+      final sizeInKbAfter = compressedImage.lengthSync() / 1024;
+      print('After Compress $sizeInKbAfter kb');
       // var _croppedImage = await AppHelper.cropImage(_compressedImage);
       // if (_croppedImage == null) {
       //   return;
       // }
 
-      return _compressedImage;
+      return compressedImage;
     }
   }
 
@@ -136,8 +136,8 @@ class RxServices {
 
       targetHeight: targetH, // used for width
     );
-    final _sizeInKbAfter = path.lengthSync() / 1024;
-    print('After Compress $_sizeInKbAfter kb');
+    final sizeInKbAfter = path.lengthSync() / 1024;
+    print('After Compress $sizeInKbAfter kb');
     return path;
   }
 }

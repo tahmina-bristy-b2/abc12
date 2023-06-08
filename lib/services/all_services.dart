@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:geolocator/geolocator.dart';
 
 class AllServices {
-  //************************************* This method works for seraching *******************************/
+  //******************* This method works for data seraching *****************/
   List searchDynamicMethod(String enteredKeyword, List data, String keyName) {
     List serachedData;
     serachedData = data;
@@ -30,6 +30,60 @@ class AllServices {
           .toList()
         ..sort((a, b) =>
             a[keyName].toLowerCase().compareTo(b[keyName].toLowerCase()));
+
+      results = [...starts, ...contains];
+    }
+    return results;
+  }
+
+  //******************* This method works for Doctor seraching *****************/
+  List searchDoctor(
+    String enteredKeyword,
+    List data,
+    String sField1, //serach field name
+    String sField2,
+    String sField3,
+  ) {
+    List serachedData;
+    serachedData = data;
+    List results = [];
+    if (enteredKeyword.isEmpty) {
+      results = serachedData;
+    } else {
+      var starts = serachedData
+          .where((s) =>
+              s[sField1]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s[sField2]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s[sField3].toLowerCase().startsWith(enteredKeyword.toLowerCase()))
+          .toList();
+
+      var contains = serachedData
+          .where((s) =>
+              (s[sField1]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) ||
+                  s[sField2]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) ||
+                  s[sField3]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase())) &&
+              !(s[sField1]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase()) ||
+                  s[sField2]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase()) ||
+                  s[sField3]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())))
+          .toList()
+        ..sort((a, b) =>
+            a[sField1].toLowerCase().compareTo(b[sField1].toLowerCase()));
 
       results = [...starts, ...contains];
     }

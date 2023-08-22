@@ -1,3 +1,4 @@
+import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:hive/hive.dart';
@@ -13,6 +14,7 @@ class Boxes {
   static Box<MedicineListModel> getMedicine() => Hive.box('draftMdicinList');
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
+  static Box<EdsrDataModel> geteDSRsetData() => Hive.box('eDSRSettingsData');
 
   // This method Used for only sync Data
   Future openAndAddDataToBox(String tableName, List syncData) async {

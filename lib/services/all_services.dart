@@ -242,4 +242,62 @@ class AllServices {
 
     return results;
   }
+
+  //************************************* This method works for EDSR Doctor seraching *******************************/
+  List doctorSearch(String enteredKeyword, List serachedData, String keyName1,
+      String keyName2, String keyName3, String keyName4) {
+    List results = [];
+    if (enteredKeyword.isEmpty || enteredKeyword == "") {
+      results = serachedData;
+    } else {
+      var starts = serachedData
+          .where((s) =>
+              s[keyName1]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s[keyName2]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s[keyName2]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s[keyName3]
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()))
+          .toList();
+
+      var contains = serachedData
+          .where((s) =>
+              (s[keyName1]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s[keyName1]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())) ||
+              (s[keyName2]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s[keyName2]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())) ||
+              (s[keyName3]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s[keyName3]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())) ||
+              (s[keyName4]
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s[keyName4]
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())))
+          .toList()
+        ..sort((a, b) =>
+            a[keyName1].toLowerCase().compareTo(b[keyName1].toLowerCase()));
+
+      results = [...starts, ...contains];
+    }
+    return results;
+  }
 }

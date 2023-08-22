@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
+import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
 import 'package:MREPORTING/ui/stock_page.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
@@ -741,6 +742,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 10,
                       )
                     : const SizedBox.shrink(),
+                // Container(
+                //   height: screenHeight / 7.4,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: Row(
+                //     children: [
+                //       CustomBuildButton(
+                //         icon: Icons.add,
+                //         onClick: () {
+                //           Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => const EDcrScreen()),
+                //           );
+                //         },
+                //         title: '   eDSR',
+                //         sizeWidth: screenWidth,
+                //         inputColor: const Color(0xff56CCF2).withOpacity(.3),
+                //       ),
+                //     ],
+                //   ),
+                // ),
 
                 ///********************************************* New Rx section **************************************///
 
@@ -1298,6 +1320,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: screenHeight / 6.8,
                   width: screenWidth,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -1341,6 +1365,59 @@ class _MyHomePageState extends State<MyHomePage> {
                                             )));
                               },
                               title: 'Sync Data',
+                              sizeWidth: screenWidth,
+                              inputColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                ///****************************************** Sync Data************************************************///
+                Container(
+                  color: const Color(0xFFDDEBF7),
+                  height: screenHeight / 6.8,
+                  width: screenWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //==========================================================Notice flag +Notice url will be here====================================
+                          userInfo!.noteFlag
+                              ? Expanded(
+                                  child: CustomBuildButton(
+                                    icon: Icons.add,
+                                    onClick: () async {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const EDcrScreen()));
+                                    },
+                                    title: 'Add eDSR',
+                                    sizeWidth: screenWidth,
+                                    inputColor: Colors.white,
+                                  ),
+                                )
+                              : const SizedBox(
+                                  width: 5,
+                                ),
+
+                          Expanded(
+                            child: CustomBuildButton(
+                              icon: Icons.note_alt,
+                              onClick: () {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                // builder: (_) => EDcrScreen()));
+                              },
+                              title: 'eDSR Approve',
                               sizeWidth: screenWidth,
                               inputColor: Colors.white,
                             ),

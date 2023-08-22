@@ -4,5 +4,6 @@ const loginPageVersionName =
 // String cid = '';
 String userId = '';
 String userPassword = '';
+List result = [];
 String interNetErrorMsg =
     'No Internet Connection\nPlease check your internet connection.';

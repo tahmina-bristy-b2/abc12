@@ -1,10 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, unused_local_variable, file_names
 
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/services/eDSR/eDSR_services.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -338,10 +340,10 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                             : const Text(""),
                       ],
                     ),
-                    userInfo!.rxFlag || userInfo!.dcrFlag
-                        ? Row(
-                            children: [
-                              Expanded(
+                    Row(
+                      children: [
+                        userInfo!.rxFlag || userInfo!.dcrFlag
+                            ? Expanded(
                                 child: syncCustomBuildButton(
                                   onClick: () async {
                                     setState(() {
@@ -355,6 +357,17 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                       List doctorList = await DcrRepositories()
                                           .syncDCR(dmpathData!.syncUrl, cid,
                                               userId, userPassword);
+
+                                      // RegionListModel? body =
+                                      //     await EDsrServices()
+                                      //         .getRegionListInHive(
+                                      //   "dmpathData!.areaUrl",
+                                      //   cid,
+                                      //   userInfo!.userId,
+                                      //   userPassword,
+                                      //   deviceId,
+                                      // );
+
                                       if (doctorList.isNotEmpty) {
                                         AllServices().toastMessage(
                                             'Sync Doctor data Done.',
@@ -387,11 +400,57 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                   title: 'DOCTOR',
                                   sizeWidth: screenWidth,
                                 ),
-                              ),
-                              const Expanded(child: SizedBox())
-                            ],
-                          )
-                        : const Text(""),
+                              )
+                            : const Expanded(child: SizedBox()),
+                        Expanded(
+                          child: syncCustomBuildButton(
+                            onClick: () async {
+                              setState(() {
+                                syncMsg = 'eDSR data synchronizing... ';
+                                _loading = true;
+                              });
+                              bool result = await InternetConnectionChecker()
+                                  .hasConnection;
+                              if (result == true) {
+                                EdsrDataModel? body = await EDsrServices()
+                                    .geteDSRDataSettingsInfo(
+                                  cid,
+                                  userInfo!.userId,
+                                  userPassword,
+                                );
+
+                                if (body != null) {
+                                  AllServices().toastMessage(
+                                      'Sync eDSR data Done.',
+                                      Colors.teal,
+                                      Colors.white,
+                                      16);
+                                  setState(() {
+                                    _loading = false;
+                                  });
+                                } else {
+                                  AllServices().toastMessage(
+                                      'Didn\'t sync eDSR Data',
+                                      Colors.red,
+                                      Colors.white,
+                                      16);
+
+                                  setState(() {
+                                    _loading = false;
+                                  });
+                                }
+                              } else {
+                                AllServices().toastMessage(interNetErrorMsg,
+                                    Colors.red, Colors.white, 16);
+                              }
+                            },
+                            color: Colors.white,
+                            title: 'eDSR',
+                            sizeWidth: screenWidth,
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -459,13 +518,19 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         .syncRxItem(dmpathData!.syncUrl, cid, userId, userPassword);
     List doctorList = await DcrRepositories()
         .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
+    EdsrDataModel? eDsRData = await EDsrServices().geteDSRDataSettingsInfo(
+      cid,
+      userInfo!.userId,
+      userPassword,
+    );
     if (itemList.isNotEmpty &&
         clientList.isNotEmpty &&
         dcrGiftList.isNotEmpty &&
         sampleList.isNotEmpty &&
         ppmList.isNotEmpty &&
         rxItemList.isNotEmpty &&
-        doctorList.isNotEmpty) {
+        doctorList.isNotEmpty &&
+        eDsRData != null) {
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

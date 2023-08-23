@@ -29,6 +29,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   DsrDetailsModel? dsrDetails;
 
   bool isLoading = true;
+  double total = 0.0;
 
   @override
   void initState() {
@@ -57,11 +58,12 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   child: ListView.builder(
                       itemCount: dsrDetails!.resData.dataList.length,
                       itemBuilder: (itemBuilder, index) {
-                        dsrDetails!.resData.dataList[index].brandList
-                            .forEach((element) {
+                        for (var element
+                            in dsrDetails!.resData.dataList[index].brandList) {
                           controller[element.rowId] =
                               TextEditingController(text: element.amount);
-                        });
+                        }
+                        total = 0.0;
                         return Container(
                           constraints:
                               const BoxConstraints(maxHeight: double.infinity),
@@ -190,6 +192,13 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       .length,
                                                   itemBuilder:
                                                       (itemBuilder, index2) {
+                                                    total = total +
+                                                        double.parse(dsrDetails!
+                                                            .resData
+                                                            .dataList[index]
+                                                            .brandList[index2]
+                                                            .amount);
+                                                    print(total);
                                                     return Container(
                                                       height: 40,
                                                       padding:
@@ -282,6 +291,47 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       ),
                                                     );
                                                   }),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Container(
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: Colors.blue[500],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  const Expanded(
+                                                      child: Text(
+                                                    'Total',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12),
+                                                  )),
+                                                  const Expanded(
+                                                      child: Text(
+                                                    '',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12),
+                                                  )),
+                                                  Expanded(
+                                                      child: Text(
+                                                    total.toStringAsFixed(2),
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12),
+                                                  )),
+                                                  const Expanded(
+                                                      child: Text(
+                                                    '',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12),
+                                                  )),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),

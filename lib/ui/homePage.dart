@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
+import 'package:MREPORTING/ui/eDSR_section/approve_eDSR.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
 import 'package:MREPORTING/ui/stock_page.dart';
@@ -1412,10 +1413,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: CustomBuildButton(
                               icon: Icons.note_alt,
                               onClick: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                // builder: (_) => EDcrScreen()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const ApproveEDSR()));
                               },
                               title: 'eDSR Approve',
                               sizeWidth: screenWidth,

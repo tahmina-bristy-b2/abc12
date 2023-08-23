@@ -52,8 +52,10 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
             child: TextFormField(
               onChanged: (value) {
                 setState(() {
-                  foundUsers = AllServices().searchDynamicMethod(
-                      value, widget.doctorData, "doc_name");
+                  foundUsers = AllServices().searchDoctor(value,
+                      widget.doctorData, "doc_name", "area_name", "address");
+                  // foundUsers = AllServices().searchDynamicMethod(
+                  //     value, widget.doctorData, "doc_name");
                 });
               },
               controller: searchController,
@@ -69,8 +71,12 @@ class _DoctorListFromHiveDataState extends State<DoctorListFromHiveData> {
                             onPressed: () {
                               searchController.clear();
                               setState(() {
-                                foundUsers = AllServices().searchDynamicMethod(
-                                    "", widget.doctorData, "doc_name");
+                                foundUsers = AllServices().searchDoctor(
+                                    "",
+                                    widget.doctorData,
+                                    "doc_name",
+                                    "area_name",
+                                    "address");
                               });
                             },
                             icon: const Icon(

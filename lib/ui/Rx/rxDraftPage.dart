@@ -97,11 +97,12 @@ class _RxDraftPageState extends State<RxDraftPage> {
                         decoration: BoxDecoration(
                             color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(0)),
-                        child:
-                            ExtendedImage.file(File(user[index].rxSmallImage),
-                                // height: 100,
-                                // width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.cover)
+                        child: ExtendedImage.file(
+                          File(user[index].rxSmallImage),
+                          // height: 100,
+                          // width: MediaQuery.of(context).size.width,
+                          // fit: BoxFit.cover,
+                        )
                         // Image.file(imageFile)
                         ),
                     Text(

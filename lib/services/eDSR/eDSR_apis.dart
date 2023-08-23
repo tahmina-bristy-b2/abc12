@@ -15,4 +15,13 @@ class eDSRApis {
     String userPass,
   ) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_settings/dsr_setting?cid=SKF&user_id=IT006&user_pass=1900";
+
+//=============================== eDSR Approval Section =================================
+  static eDSRfmListApi(
+          String fmListUrl, String cid, String userId, String userPass) =>
+      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
+
+  static dsrDetailsApi(String dsrDetailsApi, String cid, String userId,
+          String userPass, String submitedBy, String territoryId) =>
+      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/dsr_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&territory_id=$territoryId";
 }

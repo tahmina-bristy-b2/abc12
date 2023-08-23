@@ -56,4 +56,42 @@ class EDSRDataProvider {
     );
     return response;
   }
+
+  //=============================== eDSR Approval Section =================================
+  Future<http.Response> getEdsrFmList(
+    String fmListUrl,
+    String cid,
+    String userId,
+    String userPass,
+  ) async {
+    final http.Response response;
+
+    response = await http.get(
+      Uri.parse(eDSRApis.eDSRfmListApi(fmListUrl, cid, userId, userPass)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
+
+  Future<http.Response> getDsrDetails(
+    String fmListUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String submitedBy,
+    String territoryId,
+  ) async {
+    final http.Response response;
+
+    response = await http.get(
+      Uri.parse(eDSRApis.dsrDetailsApi(
+          fmListUrl, cid, userId, userPass, submitedBy, territoryId)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
 }

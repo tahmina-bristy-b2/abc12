@@ -443,6 +443,7 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
       pref.setString("Region", regionID);
       pref.setString("Area", areaID);
       pref.setString("Territory", terrorID);
+      pref.setString("DoctorType", initialDoctorType!);
     } else {
       Fluttertoast.showToast(
           msg: '${data["res_data"]["ret_str"]}',

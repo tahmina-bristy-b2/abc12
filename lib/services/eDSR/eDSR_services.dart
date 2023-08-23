@@ -9,12 +9,16 @@ class EDsrServices {
   //================================get eDSR Data Settings Info=================================
 
   Future<EdsrDataModel?> geteDSRDataSettingsInfo(
-      String cid, String userId, String userPassward) async {
+    String eDsrSettingsUrl,
+    String cid,
+    String userId,
+    String userPass,
+  ) async {
     EdsrDataModel? eDsrDataModelData;
     try {
-      eDsrDataModelData =
-          await eDSRRepository().getEDSRSettingsInfo(cid, userId, userPassward);
-      if (eDsrDataModelData.status == "Success") {
+      eDsrDataModelData = await eDSRRepository()
+          .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass);
+      if (eDsrDataModelData!.status == "Success") {
         await putEdsrSettingsData(eDsrDataModelData);
         return eDsrDataModelData;
       } else {

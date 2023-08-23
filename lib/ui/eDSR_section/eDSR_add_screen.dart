@@ -1,6 +1,10 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EDSRScreen extends StatefulWidget {
   List<dynamic> docInfo;
@@ -17,6 +21,12 @@ class EDSRScreen extends StatefulWidget {
 }
 
 class _EDSRScreenState extends State<EDSRScreen> {
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+  TextEditingController noOfPatientController = TextEditingController();
+  TextEditingController addDescriptionController = TextEditingController();
+  TextEditingController addModeDescripController = TextEditingController();
+
   EdsrDataModel? eDSRSettingsData;
   List<BrandList>? eBrandList = [];
   List<String> eCatergoryList = [];
@@ -25,6 +35,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
   List<String> ePurposeList = [];
   List<String> eSubpurposeList = [];
   List<String> eRxDurationMonthList = [];
+  List<String> eRxDurationMonthListTo = [];
+  List<String> eDsrDurationMonthList = [];
+  List<String> eDsrDurationMonthListTo = [];
 
   String? initialBrand;
   String? initialCategory;
@@ -33,22 +46,96 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String? initialPayMode;
   String? initialPaySchdedule;
   String? initialRxDurationMonthList;
+  String? initialRxDurationMonthListTo;
+  String? initialdsrDurationMonthList;
+  String? initialdsrDurationMonthListTo;
+
+  String? cid;
+  String? password;
 
   String categoryId = "";
   String purposeId = "";
   String subPurposeId = "";
+  String? doctorType;
+  String dsrFromdate = '';
+  String dsrTodate = '';
+  String rxFromDate = '';
+  String rxToDate = '';
+  //var prefs;
 
-  String? _selectedItem; // Selected item from the dropdown
-
-  List<String> _items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  bool isPurpose = true;
-  bool isBrand = false;
-  bool isRXDSR = false;
   @override
   void initState() {
     super.initState();
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
     eDSRSettingsData = Boxes.geteDSRsetData().get("eDSRSettingsData")!;
     allSettingsDataGet(eDSRSettingsData);
+    SharedPreferences.getInstance().then((prefs) {
+      password = prefs.getString("PASSWORD") ?? '';
+      cid = prefs.getString("CID") ?? '';
+
+      doctorType = prefs.getString("DoctorType") ?? '';
+    });
+  }
+
+  //===============================All Settings Data get Method============================
+  allSettingsDataGet(EdsrDataModel? eDSRsettingsData) {
+    eCatergoryList = eDSRsettingsData!.categoryList;
+
+    ePayModeList = eDSRSettingsData!.payModeList;
+    ePayScheduleList = eDSRSettingsData!.payScheduleList;
+    eBrandList = eDSRsettingsData.brandList;
+    eRxDurationMonthList =
+        eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
+    eDsrDurationMonthList =
+        eDSRsettingsData.dsrDurationMonthList.map((e) => e.nextDateV).toList();
+  }
+
+  //================================ get Purpose List=====================================
+  getEDsrPurposeList(String dsrType, String? categoryName) {
+    ePurposeList = eDSRSettingsData!.purposeList
+        .where((e) => e.dsrCategory == categoryName! && e.dsrType == dsrType)
+        .map((e) => e.purposeName)
+        .toList();
+    initialSubPurpose = null;
+    eSubpurposeList = [];
+  }
+
+  //================================ get sub Purpose List=====================================
+  getEDsrSubPurposeList(String purposeId, String category, String doctorType) {
+    eSubpurposeList = eDSRSettingsData!.subPurposeList
+        .where((element) =>
+            element.sDsrCategory == category &&
+            element.sDsrType == doctorType &&
+            element.sPurposeId == purposeId)
+        .map((e) => e.sPurposeSubName)
+        .toList();
+  }
+
+  //============================  get rxDurationMonthList ==========================
+  List<String> getRXDurationMonthListTo(String value) {
+    int selectedIndex = eRxDurationMonthList.indexOf(value);
+    eRxDurationMonthListTo = [];
+    if (selectedIndex == -1) {
+      eRxDurationMonthListTo = [];
+    } else {
+      eRxDurationMonthListTo = eRxDurationMonthList.sublist(selectedIndex);
+      initialRxDurationMonthListTo = eRxDurationMonthListTo.first;
+    }
+    return eRxDurationMonthListTo;
+  }
+
+  //============================  get dsrDurationMonthList ==========================
+  List<String> getDsrDurationMonthListTo(String value) {
+    int selectedIndex = eDsrDurationMonthList.indexOf(value);
+    eDsrDurationMonthListTo = [];
+    if (selectedIndex == -1) {
+      eDsrDurationMonthListTo = [];
+    } else {
+      eDsrDurationMonthListTo = eDsrDurationMonthList.sublist(selectedIndex);
+      initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
+    }
+    return eDsrDurationMonthListTo;
   }
 
   @override
@@ -58,7 +145,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff8AC995),
-        title: Text(
+        title: const Text(
           "eDSR Add",
         ),
       ),
@@ -92,14 +179,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                       ),
                       Text(
                         "${widget.docInfo[widget.index]["address"]}",
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 64, 64, 64)),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 64, 64, 64)),
                       ),
                     ],
                   ),
-                  // Align(
-                  //     alignment: Alignment.centerRight,
-                  //     child: Icon(Icons.edit, size: 30, color: Color(0xff8AC995))),
                 ],
               ),
               const SizedBox(
@@ -134,7 +218,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               DropdownButton<String>(
                                 value: initialCategory,
                                 hint: const Text("Select Category"),
-                                items: eCatergoryList!.map((String item) {
+                                items: eCatergoryList.map((String item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
                                     child: SizedBox(
@@ -159,7 +243,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     eSubpurposeList = [];
 
                                     getEDsrPurposeList(
-                                        widget.dsrType, initialCategory);
+                                        doctorType!, initialCategory);
                                   });
                                 },
                               ),
@@ -204,7 +288,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           }
                                           initialSubPurpose = null;
                                           eSubpurposeList = [];
-                                          getEDsrSubPurposeList(purposeId);
+                                          getEDsrSubPurposeList(purposeId,
+                                              initialCategory!, doctorType!);
                                         });
                                       },
                                     )
@@ -245,10 +330,20 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       onChanged: (String? value) {
                                         setState(() {
                                           initialSubPurpose = value!;
+                                          for (var sPurpose in eDSRSettingsData!
+                                              .subPurposeList) {
+                                            if (sPurpose.sPurposeSubName ==
+                                                value) {
+                                              subPurposeId =
+                                                  sPurpose.sPurposeId;
+                                              // print(
+                                              //     "rx data======================$dsrFromdate   $dsrTodate");
+                                            }
+                                          }
                                         });
                                       },
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               const SizedBox(
                                 height: 15,
                               ),
@@ -265,10 +360,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               DropdownButton<String>(
                                 value: initialPaySchdedule,
                                 hint: const Text("Select Pay Schedule*"),
-                                items: ePayScheduleList!.map((String item) {
+                                items: ePayScheduleList.map((String item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
-                                    child: Container(
+                                    child: SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 1.2,
@@ -295,7 +390,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   width:
                                       MediaQuery.of(context).size.width / 1.1,
                                   height: 35,
-                                  child: TextField()),
+                                  child: TextField(
+                                    controller: noOfPatientController,
+                                  )),
                               const SizedBox(
                                 height: 15,
                               ),
@@ -310,7 +407,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   width:
                                       MediaQuery.of(context).size.width / 1.1,
                                   height: 35,
-                                  child: TextField()),
+                                  child: TextField(
+                                    controller: addDescriptionController,
+                                  )),
                               const SizedBox(
                                 height: 15,
                               ),
@@ -344,6 +443,17 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     onChanged: (String? value) {
                                       setState(() {
                                         initialRxDurationMonthList = value!;
+
+                                        getRXDurationMonthListTo(value);
+                                        for (var date in eDSRSettingsData!
+                                            .rxDurationMonthList) {
+                                          if (date.nextDateV == value) {
+                                            rxFromDate = date.nextDate;
+                                            rxToDate = date.nextDate;
+                                            // print(
+                                            //     "rx data======================$rxFromDate   $rxToDate");
+                                          }
+                                        }
                                       });
                                     },
                                   ),
@@ -355,12 +465,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   DropdownButton<String>(
-                                    value: _selectedItem,
+                                    value: initialRxDurationMonthListTo,
                                     hint: const Text("Select  Schedule"),
-                                    items: _items.map((String item) {
+                                    items: eRxDurationMonthListTo
+                                        .map((String item) {
                                       return DropdownMenuItem<String>(
                                         value: item,
-                                        child: Container(
+                                        child: SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -370,7 +481,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     }).toList(),
                                     onChanged: (String? value) {
                                       setState(() {
-                                        _selectedItem = value!;
+                                        initialRxDurationMonthListTo = value!;
+                                        for (var date in eDSRSettingsData!
+                                            .rxDurationMonthList) {
+                                          if (date.nextDateV == value) {
+                                            rxToDate = date.nextDate;
+                                            // print(
+                                            //     "rx data to======================$rxFromDate   $rxToDate");
+                                          }
+                                        }
                                       });
                                     },
                                   ),
@@ -392,9 +511,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               Row(
                                 children: [
                                   DropdownButton<String>(
-                                    value: _selectedItem,
-                                    hint: const Text("Select  Schedule"),
-                                    items: _items.map((String item) {
+                                    value: initialdsrDurationMonthList,
+                                    hint: const Text("Select DSR From"),
+                                    items: eDsrDurationMonthList
+                                        .map((String item) {
                                       return DropdownMenuItem<String>(
                                         value: item,
                                         child: SizedBox(
@@ -407,7 +527,18 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     }).toList(),
                                     onChanged: (String? value) {
                                       setState(() {
-                                        _selectedItem = value!;
+                                        initialdsrDurationMonthList = value!;
+                                        getDsrDurationMonthListTo(value);
+                                        for (var date in eDSRSettingsData!
+                                            .dsrDurationMonthList) {
+                                          if (date.nextDateV == value) {
+                                            dsrFromdate = date.nextDate;
+                                            dsrTodate = date.nextDate;
+
+                                            // print(
+                                            //     "rx data======================$dsrFromdate   $dsrTodate");
+                                          }
+                                        }
                                       });
                                     },
                                   ),
@@ -419,12 +550,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   DropdownButton<String>(
-                                    value: _selectedItem,
-                                    hint: const Text("Select  Schedule"),
-                                    items: _items.map((String item) {
+                                    value: initialdsrDurationMonthListTo,
+                                    hint: const Text("Select DSR To"),
+                                    items: eDsrDurationMonthListTo
+                                        .map((String item) {
                                       return DropdownMenuItem<String>(
                                         value: item,
-                                        child: Container(
+                                        child: SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -434,13 +566,21 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     }).toList(),
                                     onChanged: (String? value) {
                                       setState(() {
-                                        _selectedItem = value!;
+                                        initialdsrDurationMonthListTo = value!;
+                                        for (var date in eDSRSettingsData!
+                                            .dsrDurationMonthList) {
+                                          if (date.nextDateV == value) {
+                                            dsrTodate = date.nextDate;
+                                            // print(
+                                            //     "rx data======================$dsrFromdate   $dsrTodate");
+                                          }
+                                        }
                                       });
                                     },
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               const Text(
@@ -456,7 +596,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               DropdownButton<String>(
                                 value: initialPayMode,
                                 hint: const Text("Select Pay Mode"),
-                                items: ePayModeList!.map((String item) {
+                                items: ePayModeList.map((String item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
                                     child: Container(
@@ -471,7 +611,28 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     initialPayMode = value!;
                                   });
                                 },
-                              )
+                              ),
+                              SizedBox(
+                                height: initialPayMode != null ? 15 : 0,
+                              ),
+                              initialPayMode != null
+                                  ? const Text(
+                                      "Mode Description*",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  : const SizedBox(),
+                              initialPayMode != null
+                                  ? SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.1,
+                                      height: 35,
+                                      child: TextField(
+                                        controller: addModeDescripController,
+                                      ))
+                                  : const SizedBox(),
                             ],
                           ),
                         ),
@@ -480,9 +641,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                   ),
                 ),
               ),
-              // isPurpose ? _purposeWidget(context) : SizedBox(),
-              // isRXDSR ? _rxDSRWidget(context) : SizedBox(),
-              //const Spacer(),
+
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -537,7 +696,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   color: Color.fromARGB(255, 255, 255, 255),
                                 ))),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        eDseSubmit();
+                      },
                     ),
                   ],
                 ),
@@ -550,41 +711,66 @@ class _EDSRScreenState extends State<EDSRScreen> {
     );
   }
 
-  //===============================All Settings Data get Method============================
-  allSettingsDataGet(EdsrDataModel? eDSRsettingsData) {
-    eCatergoryList = eDSRsettingsData!.categoryList;
+  //eDseSubmit() {}
+  //=============================================== get Territory Based Doctor Button (Api call)================================
+  eDseSubmit() async {
+    String data = await eDSRRepository().submitEDSR(
+        dmpathData!.submitUrl,
+        cid!,
+        userInfo!.userId,
+        password!,
+        "123",
+        "AGGRA|4|500",
+        widget.docInfo[widget.index]["area_id"],
+        widget.docInfo[widget.index]["doc_name"],
+        widget.docInfo[widget.index]["doc_id"],
+        initialCategory!,
+        "0",
+        "0",
+        doctorType!,
+        initialCategory!,
+        purposeId,
+        subPurposeId,
+        noOfPatientController.text,
+        rxFromDate,
+        rxToDate,
+        noOfPatientController.text,
+        dsrFromdate,
+        dsrTodate,
+        initialPaySchdedule!,
+        "0",
+        initialPayMode!,
+        "",
+        "0");
+    print("submit data===========$data");
+    // if (data["res_data"]["status"] == "Success") {
+    //List doctorData = data["res_data"]["doctorList"];
 
-    ePayModeList = eDSRSettingsData!.payModeList;
-    ePayScheduleList = eDSRSettingsData!.payScheduleList;
-    eBrandList = eDSRsettingsData.brandList;
-    eRxDurationMonthList =
-        eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
-  }
+    //   result = doctorData;
+    //   doctroList.clear();
 
-  //================================ get Purpose List=====================================
-  getEDsrPurposeList(String dsrType, String? categoryName) {
-    ePurposeList = eDSRSettingsData!.purposeList
-        .where((e) => e.dsrCategory == categoryName! && e.dsrType == dsrType)
-        .map((e) => e.purposeName)
-        .toList();
-    initialSubPurpose = null;
-    eSubpurposeList = [];
-  }
+    //   for (var disco in result) {
+    //     box?.add(disco);
+    //   }
+    //   widget.callbackData["dsr_Type"] = initialDoctorType;
+    //   widget.callbackData["Region"] = initialRegion;
+    //   widget.callbackData["Area"] = initialDocroeArea;
+    //   widget.callbackData["Territory"] = initialTerritory;
+    //   widget.callbackFuc(widget.callbackData);
 
-  //================================ get sub Purpose List=====================================
-  getEDsrSubPurposeList(String purposeId) {
-    eSubpurposeList = eDSRSettingsData!.subPurposeList
-        .where((element) =>
-            element.sDsrCategory == "DSR" &&
-            element.sDsrType == "DOCTOR" &&
-            element.sPurposeId == purposeId)
-        .map((e) => e.sPurposeSubName)
-        .toList();
-  }
-
-  //============================  get rxDurationMonthList ==========================
-  getRxDurationMonthList() {
-    eRxDurationMonthList =
-        eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
+    //   var pref = await SharedPreferences.getInstance();
+    //   pref.setString("Region", regionID);
+    //   pref.setString("Area", areaID);
+    //   pref.setString("Territory", terrorID);
+    //   pref.setString("DoctorType", initialDoctorType!);
+    // } else {
+    //   Fluttertoast.showToast(
+    //       msg: '${data["res_data"]["ret_str"]}',
+    //       toastLength: Toast.LENGTH_LONG,
+    //       gravity: ToastGravity.BOTTOM,
+    //       backgroundColor: Colors.red,
+    //       textColor: Colors.white,
+    //       fontSize: 16.0);
+    // }
   }
 }

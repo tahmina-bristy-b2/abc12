@@ -1,20 +1,15 @@
 class eDSRApis {
-  String regionListUri(String areaUrl, String cid, String userId,
-          String userPass, String deviceId) =>
-      // '$areaUrl?cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId';
-      "http://w03.yeapps.com/skf_rx_api_101/api_area/get_region_list?cid=SKF&user_id=it006&user_pass=1900&device_id=a5581593ed4adf8b";
-
   String getDoctor(String doctorUrl, String cid, String userId, String userPass,
           String regionId, String areaId, String terroId, String dsrType) =>
-      // "$doctorUrl?cid=$cid&user_id=$userId&user_pass=$userPass&region_id=$regionId&area_id=$areaId&territory_id=$terroId";
       "${doctorUrl}api_dsr_settings/get_area_doctor?cid=$cid&user_id=$userId&user_pass=$userPass&region_id=$regionId&area_id=$areaId&territory_id=$terroId&dsr_type=$dsrType";
 
   String getEDsrSettingApi(
+    String eDsrSettingsUrl,
     String cid,
     String userId,
     String userPass,
   ) =>
-      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_settings/dsr_setting?cid=SKF&user_id=IT006&user_pass=1900";
+      "${eDsrSettingsUrl}api_dsr_settings/dsr_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
 
 //=============================== eDSR Approval Section =================================
   static eDSRfmListApi(
@@ -24,4 +19,35 @@ class eDSRApis {
   static dsrDetailsApi(String dsrDetailsApi, String cid, String userId,
           String userPass, String submitedBy, String territoryId) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/dsr_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&territory_id=$territoryId";
+
+  String eDsrAddApi(
+    String eDsrSettingsUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String syncCode,
+    String brandStr,
+    String areaId,
+    String doctorId,
+    String doctorName,
+    String doctorCategory,
+    String latitude,
+    String longitude,
+    String dsrType,
+    String dsrCat,
+    String purpose,
+    String purposeSub,
+    String pDes,
+    String pDtFrom,
+    String pDtTo,
+    String noOfPatient,
+    String payFrom,
+    String payTo,
+    String schedule,
+    String payNMonth,
+    String payMode,
+    String chequeTo,
+    String rsmCash,
+  ) =>
+      "https://w03.yeapps.com/skf/dsr_mobile/data_submit?cid=$cid&rep_id=$userId&rep_pass=$userPass&synccode=$syncCode&brand_Str=$brandStr&areaId=$areaId&doctor_id=$doctorId&doctor_name=$doctorName&doctor_category=$doctorCategory&latitude=$latitude&longitude=$longitude&dsr_type=$dsrType&dsr_cat=$dsrCat&purpose=$purpose&purpose_sub=$purposeSub&p_des=$pDes&p_dt_from=$pDtFrom&p_dt_to=$pDtTo&no_of_patient=$noOfPatient&pay_from=$payFrom&pay_to=$payTo&schedule=$schedule&pay_n_month=$payNMonth&pay_mode=$payMode&cheque_to=$chequeTo&rsm_cash=$rsmCash";
 }

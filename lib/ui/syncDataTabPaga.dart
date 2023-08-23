@@ -414,6 +414,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               if (result == true) {
                                 EdsrDataModel? body = await EDsrServices()
                                     .geteDSRDataSettingsInfo(
+                                  dmpathData!.submitUrl,
                                   cid,
                                   userInfo!.userId,
                                   userPassword,
@@ -519,6 +520,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
     List doctorList = await DcrRepositories()
         .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
     EdsrDataModel? eDsRData = await EDsrServices().geteDSRDataSettingsInfo(
+      dmpathData!.submitUrl,
       cid,
       userInfo!.userId,
       userPassword,

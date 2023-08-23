@@ -11,27 +11,27 @@ String edsrDataModelToJson(EdsrDataModel data) => json.encode(data.toJson());
 @HiveType(typeId: 60)
 class EdsrDataModel extends HiveObject {
   @HiveField(0)
-  final String status;
+  String status;
   @HiveField(1)
-  final List<CategoryList> categoryList;
+  List<String> categoryList;
   @HiveField(2)
-  final List<BrandList> brandList;
+  List<BrandList> brandList;
   @HiveField(3)
-  final List<String> payScheduleList;
+  List<String> payScheduleList;
   @HiveField(4)
-  final List<String> payModeList;
+  List<String> payModeList;
   @HiveField(5)
-  final List<PurposeList> purposeList;
+  List<PurposeList> purposeList;
   @HiveField(6)
-  final List<SubPurposeList> subPurposeList;
+  List<SubPurposeList> subPurposeList;
   @HiveField(7)
-  final List<String> dsrTypeList;
+  List<String> dsrTypeList;
   @HiveField(8)
-  final List<RegionList> regionList;
+  List<RegionList> regionList;
   @HiveField(9)
-  final List<RxDurationMonthList> rxDurationMonthList;
+  List<RxDurationMonthList> rxDurationMonthList;
   @HiveField(10)
-  final List<DsrDurationMonthList> dsrDurationMonthList;
+  List<DsrDurationMonthList> dsrDurationMonthList;
 
   EdsrDataModel({
     required this.status,
@@ -48,33 +48,36 @@ class EdsrDataModel extends HiveObject {
   });
 
   factory EdsrDataModel.fromJson(Map<String, dynamic> json) => EdsrDataModel(
-        status: json["status"],
-        categoryList: List<CategoryList>.from(
-            json["category_list"].map((x) => CategoryList.fromJson(x))),
+        status: json["status"] ?? "",
+        categoryList:
+            List<String>.from(json["category_list"].map((x) => x) ?? []),
         brandList: List<BrandList>.from(
-            json["brand_list"].map((x) => BrandList.fromJson(x))),
+            json["brand_list"].map((x) => BrandList.fromJson(x)) ?? []),
         payScheduleList:
-            List<String>.from(json["payScheduleList"].map((x) => x)),
-        payModeList: List<String>.from(json["payModeList"].map((x) => x)),
+            List<String>.from(json["payScheduleList"].map((x) => x) ?? []),
+        payModeList: List<String>.from(json["payModeList"].map((x) => x) ?? []),
         purposeList: List<PurposeList>.from(
-            json["purpose_list"].map((x) => PurposeList.fromJson(x))),
+            json["purpose_list"].map((x) => PurposeList.fromJson(x)) ?? []),
         subPurposeList: List<SubPurposeList>.from(
-            json["sub_purpose_list"].map((x) => SubPurposeList.fromJson(x))),
-        dsrTypeList: List<String>.from(json["dsr_typeList"].map((x) => x)),
+            json["sub_purpose_list"].map((x) => SubPurposeList.fromJson(x)) ??
+                []),
+        dsrTypeList:
+            List<String>.from(json["dsr_typeList"].map((x) => x) ?? []),
         regionList: List<RegionList>.from(
-            json["region_list"].map((x) => RegionList.fromJson(x))),
+            json["region_list"].map((x) => RegionList.fromJson(x)) ?? []),
         rxDurationMonthList: List<RxDurationMonthList>.from(
             json["rxDurationMonthList"]
-                .map((x) => RxDurationMonthList.fromJson(x))),
+                    .map((x) => RxDurationMonthList.fromJson(x)) ??
+                []),
         dsrDurationMonthList: List<DsrDurationMonthList>.from(
             json["dsrDurationMonthList"]
-                .map((x) => DsrDurationMonthList.fromJson(x))),
+                    .map((x) => DsrDurationMonthList.fromJson(x)) ??
+                []),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "category_list":
-            List<dynamic>.from(categoryList.map((x) => x.toJson())),
+        "category_list": List<dynamic>.from(categoryList.map((x) => x)),
         "brand_list": List<dynamic>.from(brandList.map((x) => x.toJson())),
         "payScheduleList": List<dynamic>.from(payScheduleList.map((x) => x)),
         "payModeList": List<dynamic>.from(payModeList.map((x) => x)),
@@ -105,8 +108,8 @@ class BrandList {
   });
 
   factory BrandList.fromJson(Map<String, dynamic> json) => BrandList(
-        brandId: json["brand_id"],
-        brandName: json["brand_name"],
+        brandId: json["brand_id"] ?? '',
+        brandName: json["brand_name"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -115,28 +118,28 @@ class BrandList {
       };
 }
 
-@HiveType(typeId: 62)
-class CategoryList {
-  @HiveField(0)
-  final String catId;
-  @HiveField(1)
-  final String category;
+// @HiveType(typeId: 62)
+// class CategoryList {
+//   @HiveField(0)
+//   final String catId;
+//   @HiveField(1)
+//   final String category;
 
-  CategoryList({
-    required this.catId,
-    required this.category,
-  });
+//   CategoryList({
+//     required this.catId,
+//     required this.category,
+//   });
 
-  factory CategoryList.fromJson(Map<String, dynamic> json) => CategoryList(
-        catId: json["cat_id"],
-        category: json["category"],
-      );
+//   factory CategoryList.fromJson(Map<String, dynamic> json) => CategoryList(
+//         catId: json["cat_id"] ?? "",
+//         category: json["category"] ?? "",
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "cat_id": catId,
-        "category": category,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "cat_id": catId,
+//         "category": category,
+//       };
+// }
 
 @HiveType(typeId: 63)
 class RegionList {
@@ -154,10 +157,10 @@ class RegionList {
   });
 
   factory RegionList.fromJson(Map<String, dynamic> json) => RegionList(
-        regionId: json["region_id"],
-        regionName: json["region_name"],
+        regionId: json["region_id"] ?? "",
+        regionName: json["region_name"] ?? "",
         areaList: List<AreaList>.from(
-            json["area_list"].map((x) => AreaList.fromJson(x))),
+            json["area_list"].map((x) => AreaList.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
@@ -183,10 +186,10 @@ class AreaList {
   });
 
   factory AreaList.fromJson(Map<String, dynamic> json) => AreaList(
-        areaId: json["area_id"],
-        areaName: json["area_name"],
+        areaId: json["area_id"] ?? "",
+        areaName: json["area_name"] ?? "",
         territoryList: List<TerritoryList>.from(
-            json["territory_list"].map((x) => TerritoryList.fromJson(x))),
+            json["territory_list"].map((x) => TerritoryList.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
@@ -210,8 +213,8 @@ class TerritoryList {
   });
 
   factory TerritoryList.fromJson(Map<String, dynamic> json) => TerritoryList(
-        territoryId: json["territory_id"],
-        territoryName: json["territory_name"],
+        territoryId: json["territory_id"] ?? "",
+        territoryName: json["territory_name"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -239,10 +242,10 @@ class PurposeList {
   });
 
   factory PurposeList.fromJson(Map<String, dynamic> json) => PurposeList(
-        dsrType: json["dsr_type"],
-        dsrCategory: json["dsr_category"],
-        purposeId: json["purpose_id"],
-        purposeName: json["purpose_name"],
+        dsrType: json["dsr_type"] ?? "",
+        dsrCategory: json["dsr_category"] ?? "",
+        purposeId: json["purpose_id"] ?? "",
+        purposeName: json["purpose_name"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -278,12 +281,12 @@ class SubPurposeList {
   });
 
   factory SubPurposeList.fromJson(Map<String, dynamic> json) => SubPurposeList(
-        sDsrType: json["s_dsr_type"],
-        sDsrCategory: json["s_dsr_category"],
-        sPurposeId: json["s_purpose_id"],
-        sPurposeName: json["s_purpose_name"],
-        sPurposeSubId: json["s_purpose_sub_id"],
-        sPurposeSubName: json["s_purpose_sub_name"],
+        sDsrType: json["s_dsr_type"] ?? "",
+        sDsrCategory: json["s_dsr_category"] ?? "",
+        sPurposeId: json["s_purpose_id"] ?? "",
+        sPurposeName: json["s_purpose_name"] ?? "",
+        sPurposeSubId: json["s_purpose_sub_id"] ?? "",
+        sPurposeSubName: json["s_purpose_sub_name"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -310,8 +313,8 @@ class RxDurationMonthList {
 
   factory RxDurationMonthList.fromJson(Map<String, dynamic> json) =>
       RxDurationMonthList(
-        nextDate: json["nextDate"],
-        nextDateV: json["nextDateV"],
+        nextDate: json["nextDate"] ?? "",
+        nextDateV: json["nextDateV"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -334,8 +337,8 @@ class DsrDurationMonthList {
 
   factory DsrDurationMonthList.fromJson(Map<String, dynamic> json) =>
       DsrDurationMonthList(
-        nextDate: json["nextDate"],
-        nextDateV: json["nextDateV"],
+        nextDate: json["nextDate"] ?? "",
+        nextDateV: json["nextDateV"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

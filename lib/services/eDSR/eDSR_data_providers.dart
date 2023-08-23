@@ -50,6 +50,9 @@ class EDSRDataProvider {
         "getEDSRSettingsInfo==${eDSRApis().getEDsrSettingApi(cid, userId, userPass)}");
     response = await http.get(
       Uri.parse(eDSRApis().getEDsrSettingApi(cid, userId, userPass)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
     );
     return response;
   }

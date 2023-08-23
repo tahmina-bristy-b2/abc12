@@ -17,12 +17,14 @@ class HiveAdapter {
 
     Hive.registerAdapter(EdsrDataModelAdapter());
     Hive.registerAdapter(BrandListAdapter());
-    Hive.registerAdapter(CategoryListAdapter());
+
     Hive.registerAdapter(RegionListAdapter());
     Hive.registerAdapter(AreaListAdapter());
     Hive.registerAdapter(TerritoryListAdapter());
     Hive.registerAdapter(PurposeListAdapter());
     Hive.registerAdapter(SubPurposeListAdapter());
+    Hive.registerAdapter(RxDurationMonthListAdapter());
+    Hive.registerAdapter(DsrDurationMonthListAdapter());
 
     await Hive.openBox<AddItemModel>('orderedItem');
     await Hive.openBox<CustomerDataModel>('customerHive');

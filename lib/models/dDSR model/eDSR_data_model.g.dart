@@ -18,7 +18,7 @@ class EdsrDataModelAdapter extends TypeAdapter<EdsrDataModel> {
     };
     return EdsrDataModel(
       status: fields[0] as String,
-      categoryList: (fields[1] as List).cast<CategoryList>(),
+      categoryList: (fields[1] as List).cast<String>(),
       brandList: (fields[2] as List).cast<BrandList>(),
       payScheduleList: (fields[3] as List).cast<String>(),
       payModeList: (fields[4] as List).cast<String>(),
@@ -103,43 +103,6 @@ class BrandListAdapter extends TypeAdapter<BrandList> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BrandListAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class CategoryListAdapter extends TypeAdapter<CategoryList> {
-  @override
-  final int typeId = 62;
-
-  @override
-  CategoryList read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return CategoryList(
-      catId: fields[0] as String,
-      category: fields[1] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, CategoryList obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.catId)
-      ..writeByte(1)
-      ..write(obj.category);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CategoryListAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

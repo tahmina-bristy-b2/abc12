@@ -19,11 +19,12 @@ class EDSRScreen extends StatefulWidget {
 class _EDSRScreenState extends State<EDSRScreen> {
   EdsrDataModel? eDSRSettingsData;
   List<BrandList>? eBrandList = [];
-  List<String>? eCatergoryList = [];
-  List<String>? ePayModeList = [];
-  List<String>? ePayScheduleList = [];
+  List<String> eCatergoryList = [];
+  List<String> ePayModeList = [];
+  List<String> ePayScheduleList = [];
   List<String> ePurposeList = [];
   List<String> eSubpurposeList = [];
+  List<String> eRxDurationMonthList = [];
 
   String? initialBrand;
   String? initialCategory;
@@ -31,6 +32,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String? initialSubPurpose;
   String? initialPayMode;
   String? initialPaySchdedule;
+  String? initialRxDurationMonthList;
 
   String categoryId = "";
   String purposeId = "";
@@ -145,85 +147,108 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 onChanged: (String? value) {
                                   setState(() {
                                     initialCategory = value!;
+
+                                    initialPurpose = null;
+                                    initialSubPurpose = null;
+                                    ePurposeList = [];
+                                    eSubpurposeList = [];
+
+                                    initialPurpose = null;
+                                    initialSubPurpose = null;
+                                    ePurposeList = [];
+                                    eSubpurposeList = [];
+
                                     getEDsrPurposeList(
                                         widget.dsrType, initialCategory);
                                   });
                                 },
                               ),
-                              const SizedBox(
-                                height: 15,
+                              SizedBox(
+                                height: ePurposeList.isNotEmpty ? 15 : 0,
                               ),
-                              const Text(
-                                "Select Purpose",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
+                              ePurposeList.isNotEmpty
+                                  ? const Text(
+                                      "Select Purpose",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  : const SizedBox(),
+                              SizedBox(
+                                height: ePurposeList.isNotEmpty ? 5 : 0,
                               ),
-                              const SizedBox(
-                                height: 5,
+                              ePurposeList.isNotEmpty
+                                  ? DropdownButton<String>(
+                                      value: initialPurpose,
+                                      hint: const Text("Select Purpose"),
+                                      items: ePurposeList.map((String item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item,
+                                          child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.2,
+                                              child: Text(item)),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          initialPurpose = value!;
+                                          for (var data in eDSRSettingsData!
+                                              .purposeList) {
+                                            if (data.purposeName == value) {
+                                              purposeId = data.purposeId;
+                                            }
+                                          }
+                                          initialSubPurpose = null;
+                                          eSubpurposeList = [];
+                                          getEDsrSubPurposeList(purposeId);
+                                        });
+                                      },
+                                    )
+                                  : const SizedBox(),
+                              eSubpurposeList.isNotEmpty
+                                  ? const SizedBox(
+                                      height: 15,
+                                    )
+                                  : const SizedBox(),
+                              eSubpurposeList.isNotEmpty
+                                  ? const Text(
+                                      "Select Sub-purpose",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  : const SizedBox(),
+                              SizedBox(
+                                height: eSubpurposeList.isNotEmpty ? 5 : 0,
                               ),
-                              DropdownButton<String>(
-                                value: initialPurpose,
-                                hint: const Text("Select Purpose"),
-                                items: ePurposeList.map((String item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
-                                    child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        child: Text(item)),
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    initialPurpose = value!;
-                                    for (var data
-                                        in eDSRSettingsData!.purposeList) {
-                                      if (data.purposeName == value) {
-                                        purposeId = data.purposeId;
-                                      }
-                                    }
-                                    initialSubPurpose = null;
-                                    eSubpurposeList = [];
-                                    getEDsrSubPurposeList(purposeId);
-                                  });
-                                },
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              const Text(
-                                "Select Sub-purpose",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              DropdownButton<String>(
-                                //isExpanded: true,
-                                value: initialSubPurpose,
-                                hint: const Text("Select Sub-purpose"),
-                                items: eSubpurposeList.map((String item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
-                                    child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        child: Text(item)),
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    initialSubPurpose = value!;
-                                  });
-                                },
-                              ),
+                              eSubpurposeList.isNotEmpty
+                                  ? DropdownButton<String>(
+                                      //isExpanded: true,
+                                      value: initialSubPurpose,
+                                      hint: const Text("Select Sub-purpose"),
+                                      items: eSubpurposeList.map((String item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item,
+                                          child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.2,
+                                              child: Text(item)),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          initialSubPurpose = value!;
+                                        });
+                                      },
+                                    )
+                                  : SizedBox(),
                               const SizedBox(
                                 height: 15,
                               ),
@@ -302,9 +327,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               Row(
                                 children: [
                                   DropdownButton<String>(
-                                    value: _selectedItem,
+                                    value: initialRxDurationMonthList,
                                     hint: const Text("Select  Schedule"),
-                                    items: _items.map((String item) {
+                                    items:
+                                        eRxDurationMonthList.map((String item) {
                                       return DropdownMenuItem<String>(
                                         value: item,
                                         child: SizedBox(
@@ -317,7 +343,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     }).toList(),
                                     onChanged: (String? value) {
                                       setState(() {
-                                        _selectedItem = value!;
+                                        initialRxDurationMonthList = value!;
                                       });
                                     },
                                   ),
@@ -526,14 +552,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   //===============================All Settings Data get Method============================
   allSettingsDataGet(EdsrDataModel? eDSRsettingsData) {
-    eCatergoryList =
-        eDSRsettingsData!.categoryList.map((e) => e.category).toList();
-    initialPurpose = null;
-    initialSubPurpose = null;
+    eCatergoryList = eDSRsettingsData!.categoryList;
 
     ePayModeList = eDSRSettingsData!.payModeList;
     ePayScheduleList = eDSRSettingsData!.payScheduleList;
     eBrandList = eDSRsettingsData.brandList;
+    eRxDurationMonthList =
+        eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
   }
 
   //================================ get Purpose List=====================================
@@ -555,5 +580,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
             element.sPurposeId == purposeId)
         .map((e) => e.sPurposeSubName)
         .toList();
+  }
+
+  //============================  get rxDurationMonthList ==========================
+  getRxDurationMonthList() {
+    eRxDurationMonthList =
+        eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
   }
 }

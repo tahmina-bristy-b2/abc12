@@ -565,32 +565,40 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                         flex: 8,
                                         child: StatefulBuilder(
                                           builder: (context, setState_2) {
-                                            return DropdownButton(
-                                              value: dropdownValue,
-                                              iconEnabledColor:
-                                                  Colors.blue[900],
-                                              iconDisabledColor: Colors.red,
-                                              items: <String>[
-                                                "YES",
-                                                "NO"
-                                              ].map<DropdownMenuItem<String>>(
-                                                  (String value) {
-                                                return DropdownMenuItem<String>(
-                                                    value: value,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              right: 10),
-                                                      child: Text(value),
-                                                    ));
-                                              }).toList(),
-                                              underline: null,
-                                              onChanged: (String? newValue) {
-                                                setState_2(() {
-                                                  dropdownValue = newValue;
-                                                });
-                                              },
+                                            return Row(
+                                              children: [
+                                                DropdownButton(
+                                                  value: dropdownValue,
+                                                  iconEnabledColor:
+                                                      Colors.blue[900],
+                                                  iconDisabledColor: Colors.red,
+                                                  items: <String>["YES", "NO"]
+                                                      .map<
+                                                              DropdownMenuItem<
+                                                                  String>>(
+                                                          (String value) {
+                                                    return DropdownMenuItem<
+                                                            String>(
+                                                        value: value,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10,
+                                                                  right: 10),
+                                                          child: Text(value),
+                                                        ));
+                                                  }).toList(),
+                                                  underline: null,
+                                                  onChanged:
+                                                      (String? newValue) {
+                                                    setState_2(() {
+                                                      dropdownValue = newValue;
+                                                    });
+                                                  },
+                                                ),
+                                                const SizedBox.shrink()
+                                              ],
                                             );
                                           },
                                         )

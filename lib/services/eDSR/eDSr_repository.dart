@@ -195,4 +195,43 @@ class eDSRRepository {
 
     return edsrFmList;
   }
+
+  Future<Map<String, dynamic>> brandAmountUpdate(
+    String brandAmountUpdateUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String brandAmountUpdateParams,
+  ) async {
+    Map<String, dynamic> resData = {};
+    try {
+      http.Response response = await EDSRDataProvider().brandAmountUpdate(
+          brandAmountUpdateUrl, cid, userId, userPass, brandAmountUpdateParams);
+
+      resData = json.decode(response.body);
+      // print(resData["res_data"]["status"]);
+
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          AllServices().toastMessage(
+              resData["res_data"]["status"], Colors.green, Colors.white, 14);
+          return resData;
+        } else {
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return resData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach th Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+
+    return resData;
+  }
 }

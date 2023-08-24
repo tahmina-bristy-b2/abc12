@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/dSR_details_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
@@ -28,8 +26,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   DmPathDataModel? dmpathData;
   DsrDetailsModel? dsrDetails;
 
+  String? dropdownValue = "NO";
+
   bool isLoading = true;
-  double total = 0.0;
+  bool isUpdate = false;
 
   @override
   void initState() {
@@ -37,6 +37,15 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     getDsrDetailsData();
+  }
+
+  double totalBrandSales(List<BrandList> brandList) {
+    double total = 0.0;
+    for (var element in brandList) {
+      total = total + double.parse(element.amount);
+    }
+
+    return total;
   }
 
   @override
@@ -63,7 +72,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                           controller[element.rowId] =
                               TextEditingController(text: element.amount);
                         }
-                        total = 0.0;
+
+                        dropdownValue =
+                            dsrDetails!.resData.dataList[index].rsmCash;
+
                         return Container(
                           constraints:
                               const BoxConstraints(maxHeight: double.infinity),
@@ -153,25 +165,31 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                         fontSize: 12),
                                                   )),
                                                   Expanded(
-                                                      child: Text(
-                                                    'Sales Objectives',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12),
+                                                      child: Center(
+                                                    child: Text(
+                                                      'Sales Objectives',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12),
+                                                    ),
                                                   )),
                                                   Expanded(
-                                                      child: Text(
-                                                    'Monthly Avg. Sales',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12),
+                                                      child: Center(
+                                                    child: Text(
+                                                      'Monthly Avg. Sales',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12),
+                                                    ),
                                                   )),
                                                   Expanded(
-                                                      child: Text(
-                                                    'Action',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12),
+                                                      child: Center(
+                                                    child: Text(
+                                                      'Action',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12),
+                                                    ),
                                                   )),
                                                 ],
                                               ),
@@ -192,13 +210,6 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       .length,
                                                   itemBuilder:
                                                       (itemBuilder, index2) {
-                                                    total = total +
-                                                        double.parse(dsrDetails!
-                                                            .resData
-                                                            .dataList[index]
-                                                            .brandList[index2]
-                                                            .amount);
-                                                    print(total);
                                                     return Container(
                                                       height: 40,
                                                       padding:
@@ -230,63 +241,91 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                                         12),
                                                           )),
                                                           Expanded(
-                                                              child: Text(
-                                                            dsrDetails!
-                                                                .resData
-                                                                .dataList[index]
-                                                                .brandList[
-                                                                    index2]
-                                                                .rxPerDay,
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        12),
+                                                              child: Center(
+                                                            child: Text(
+                                                              dsrDetails!
+                                                                  .resData
+                                                                  .dataList[
+                                                                      index]
+                                                                  .brandList[
+                                                                      index2]
+                                                                  .rxPerDay,
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          12),
+                                                            ),
                                                           )),
                                                           Expanded(
-                                                              child:
-                                                                  TextFormField(
-                                                            controller: controller[
-                                                                dsrDetails!
-                                                                    .resData
-                                                                    .dataList[
-                                                                        index]
-                                                                    .brandList[
-                                                                        index2]
-                                                                    .rowId],
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                            // decoration: const InputDecoration(
-                                                            // border:
-                                                            //     OutlineInputBorder(
-                                                            //         gapPadding:
-                                                            //             0.0)
-                                                            // ),
-                                                          )
-                                                              //  Text(
-                                                              //   '500.00',
-                                                              //   style: TextStyle(
-                                                              //       fontSize: 12),
-                                                              // ),
-                                                              ),
+                                                            child:
+                                                                TextFormField(
+                                                              controller: controller[
+                                                                  dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .brandList[
+                                                                          index2]
+                                                                      .rowId],
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              textInputAction:
+                                                                  TextInputAction
+                                                                      .done,
+                                                            ),
+                                                          ),
                                                           const SizedBox(
                                                               width: 5),
                                                           Expanded(
-                                                              child:
-                                                                  ElevatedButton(
-                                                                      style: ElevatedButton
-                                                                          .styleFrom(
-                                                                        backgroundColor:
-                                                                            Colors.blue[700],
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {},
-                                                                      child:
-                                                                          const FittedBox(
-                                                                        child: Text(
-                                                                            'Update'),
-                                                                      ))),
+                                                            child:
+                                                                StatefulBuilder(
+                                                              builder: (context,
+                                                                  setState_2) {
+                                                                return isUpdate
+                                                                    ? Center(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          height:
+                                                                              20,
+                                                                          width:
+                                                                              20,
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            color:
+                                                                                Colors.blue[700],
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : ElevatedButton(
+                                                                        style: ElevatedButton.styleFrom(
+                                                                            backgroundColor:
+                                                                                Colors.blue[700]),
+                                                                        onPressed:
+                                                                            () {
+                                                                          String
+                                                                              brandAmountUpdateParams =
+                                                                              "row_id=${dsrDetails!.resData.dataList[index].brandList[index2].rowId}&sl=${dsrDetails!.resData.dataList[index].sl}&brand_id=${dsrDetails!.resData.dataList[index].brandList[index2].brandId}&brand_name=${dsrDetails!.resData.dataList[index].brandList[index2].brandName}&rx_per_day=${dsrDetails!.resData.dataList[index].brandList[index2].rxPerDay}&new_amount=${controller[dsrDetails!.resData.dataList[index].brandList[index2].rowId]!.text}&old_amount=${dsrDetails!.resData.dataList[index].brandList[index2].amount}";
+
+                                                                          brandAmountUpdate(
+                                                                              brandAmountUpdateParams,
+                                                                              setState_2);
+                                                                        },
+                                                                        child:
+                                                                            const FittedBox(
+                                                                          child:
+                                                                              Text('Update'),
+                                                                        ),
+                                                                      );
+                                                              },
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
                                                     );
@@ -318,7 +357,11 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                   )),
                                                   Expanded(
                                                       child: Text(
-                                                    total.toStringAsFixed(2),
+                                                    totalBrandSales(dsrDetails!
+                                                            .resData
+                                                            .dataList[index]
+                                                            .brandList)
+                                                        .toStringAsFixed(2),
                                                     style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 12),
@@ -513,10 +556,42 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                         flex: 3, child: Text('RSM Cash')),
                                     const Text(':'),
                                     Expanded(
-                                      flex: 8,
-                                      child: Text(
-                                          '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
-                                    ),
+                                        flex: 8,
+                                        child: StatefulBuilder(
+                                          builder: (context, setState_2) {
+                                            return DropdownButton(
+                                              value: dropdownValue,
+                                              iconEnabledColor:
+                                                  Colors.blue[900],
+                                              iconDisabledColor: Colors.red,
+                                              items: <String>[
+                                                "YES",
+                                                "NO"
+                                              ].map<DropdownMenuItem<String>>(
+                                                  (String value) {
+                                                return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 10,
+                                                              right: 10),
+                                                      child: Text(value),
+                                                    ));
+                                              }).toList(),
+                                              underline: null,
+                                              onChanged: (String? newValue) {
+                                                setState_2(() {
+                                                  dropdownValue = newValue;
+                                                });
+                                              },
+                                            );
+                                          },
+                                        )
+
+                                        // Text(
+                                        //     '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
+                                        ),
                                   ],
                                 ),
                               ),
@@ -592,6 +667,30 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     } else {
       setState(() {
         isLoading = false;
+      });
+    }
+  }
+
+  brandAmountUpdate(String brandAmountUpdateParams, setState_2) async {
+    setState_2(() {
+      isUpdate = true;
+    });
+    Map<String, dynamic> updateResponse =
+        await eDSRRepository().brandAmountUpdate(
+      "",
+      widget.cid,
+      userInfo!.userId,
+      widget.userPass,
+      brandAmountUpdateParams,
+    );
+
+    if (updateResponse.isNotEmpty) {
+      setState_2(() {
+        isUpdate = false;
+      });
+    } else {
+      setState_2(() {
+        isUpdate = false;
       });
     }
   }

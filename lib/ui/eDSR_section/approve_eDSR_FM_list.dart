@@ -158,76 +158,77 @@ class _EdsrFmListState extends State<EdsrFmList> {
                                       maxHeight: double.infinity),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: index % 2 == 0
+                                    color: index % 2 != 0
                                         ? Colors.grey[300]
                                         : Colors.white,
                                   ),
                                   // color: index % 2 == 0 ? Colors.grey[300] : Colors.white,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(edsrFmList!.resData
-                                                .dataList![index].submitBy)),
-                                        Expanded(
-                                            child: Text(edsrFmList!.resData
-                                                .dataList![index].territoryId)),
-                                        Expanded(
-                                            child: Center(
-                                                child: Text(edsrFmList!
-                                                    .resData
-                                                    .dataList![index]
-                                                    .dueCount))),
-                                        Expanded(
-                                            child: Center(
-                                                child: Text(edsrFmList!
-                                                    .resData
-                                                    .dataList![index]
-                                                    .countDoctor))),
-                                        Expanded(
-                                            child: Center(
-                                                child: Text(edsrFmList!
-                                                    .resData
-                                                    .dataList![index]
-                                                    .countDcc))),
-                                        Expanded(
-                                            flex: 2,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ApproveEDSR(
+                                              cid: widget.cid,
+                                              userPass: widget.userPass,
+                                              submittedBy: edsrFmList!.resData
+                                                  .dataList![index].submitBy,
+                                              territoryId: edsrFmList!.resData
+                                                  .dataList![index].territoryId,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(edsrFmList!.resData
+                                                  .dataList![index].submitBy)),
+                                          Expanded(
+                                              child: Text(edsrFmList!
+                                                  .resData
+                                                  .dataList![index]
+                                                  .territoryId)),
+                                          Expanded(
+                                              child: Center(
+                                                  child: Text(edsrFmList!
+                                                      .resData
+                                                      .dataList![index]
+                                                      .dueCount))),
+                                          Expanded(
+                                              child: Center(
+                                                  child: Text(edsrFmList!
+                                                      .resData
+                                                      .dataList![index]
+                                                      .countDoctor))),
+                                          Expanded(
+                                              child: Center(
+                                                  child: Text(edsrFmList!
+                                                      .resData
+                                                      .dataList![index]
+                                                      .countDcc))),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(edsrFmList!
+                                                      .resData
+                                                      .dataList![index]
+                                                      .amount))),
+                                          Expanded(
                                             child: Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(edsrFmList!.resData
-                                                    .dataList![index].amount))),
-                                        Expanded(
-                                            child: Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (_) =>
-                                                                  ApproveEDSR(
-                                                                    cid: widget
-                                                                        .cid,
-                                                                    userPass: widget
-                                                                        .userPass,
-                                                                    submittedBy: edsrFmList!
-                                                                        .resData
-                                                                        .dataList![
-                                                                            index]
-                                                                        .submitBy,
-                                                                    territoryId: edsrFmList!
-                                                                        .resData
-                                                                        .dataList![
-                                                                            index]
-                                                                        .territoryId,
-                                                                  )));
-                                                    },
-                                                    child: const Icon(Icons
-                                                        .arrow_forward_ios)))),
-                                      ],
+                                              alignment: Alignment.centerRight,
+                                              child: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 16,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

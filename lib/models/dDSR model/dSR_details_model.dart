@@ -153,12 +153,14 @@ class DataList {
 class BrandList {
   final String rowId;
   final String brandName;
+  final String brandId;
   final String rxPerDay;
   final String amount;
 
   BrandList({
     required this.rowId,
     required this.brandName,
+    required this.brandId,
     required this.rxPerDay,
     required this.amount,
   });
@@ -166,6 +168,7 @@ class BrandList {
   factory BrandList.fromJson(Map<String, dynamic> json) => BrandList(
         rowId: json["row_id"],
         brandName: json["brand_name"],
+        brandId: json["brand_id"] ?? 'BR1245',
         rxPerDay: json["rx_per_day"],
         amount: json["amount"],
       );
@@ -173,6 +176,7 @@ class BrandList {
   Map<String, dynamic> toJson() => {
         "row_id": rowId,
         "brand_name": brandName,
+        "brand_id": brandId,
         "rx_per_day": rxPerDay,
         "amount": amount,
       };

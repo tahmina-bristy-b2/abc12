@@ -271,6 +271,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                                   TextAlign
                                                                       .center,
                                                               style: const TextStyle(
+                                                                  fontSize: 13,
                                                                   color: Colors
                                                                       .black),
                                                               keyboardType:
@@ -356,15 +357,20 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                         fontSize: 12),
                                                   )),
                                                   Expanded(
-                                                      child: Text(
-                                                    totalBrandSales(dsrDetails!
-                                                            .resData
-                                                            .dataList[index]
-                                                            .brandList)
-                                                        .toStringAsFixed(2),
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12),
+                                                      child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      totalBrandSales(
+                                                              dsrDetails!
+                                                                  .resData
+                                                                  .dataList[
+                                                                      index]
+                                                                  .brandList)
+                                                          .toStringAsFixed(2),
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 13),
+                                                    ),
                                                   )),
                                                   const Expanded(
                                                       child: Text(

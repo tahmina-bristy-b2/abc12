@@ -163,26 +163,28 @@ class _EDSRScreenState extends State<EDSRScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${widget.docInfo[widget.index]["doc_name"]}",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "${widget.docInfo[widget.index]["address"]}",
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 64, 64, 64)),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${widget.docInfo[widget.index]["doc_name"]}",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "${widget.docInfo[widget.index]["address"]}",
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 64, 64, 64)),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -208,7 +210,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               const Text(
                                 "Select Category*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
                               ),
@@ -216,8 +218,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 5,
                               ),
                               DropdownButton<String>(
+                                iconEnabledColor: const Color(0xff8AC995),
                                 value: initialCategory,
-                                hint: const Text("Select Category"),
+                                hint: const Text(
+                                  "Select Category",
+                                  style: TextStyle(fontSize: 14),
+                                ),
                                 items: eCatergoryList.map((String item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
@@ -225,7 +231,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 1.2,
-                                        child: Text(item)),
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(fontSize: 14),
+                                        )),
                                   );
                                 }).toList(),
                                 onChanged: (String? value) {
@@ -248,13 +257,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 },
                               ),
                               SizedBox(
-                                height: ePurposeList.isNotEmpty ? 15 : 0,
+                                height: ePurposeList.isNotEmpty ? 10 : 0,
                               ),
                               ePurposeList.isNotEmpty
                                   ? const Text(
                                       "Select Purpose",
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 15,
                                           color: Color.fromARGB(255, 0, 0, 0),
                                           fontWeight: FontWeight.w600),
                                     )
@@ -264,8 +273,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               ),
                               ePurposeList.isNotEmpty
                                   ? DropdownButton<String>(
+                                      iconEnabledColor: const Color(0xff8AC995),
                                       value: initialPurpose,
-                                      hint: const Text("Select Purpose"),
+                                      hint: const Text("Select Purpose",
+                                          style: TextStyle(fontSize: 14)),
                                       items: ePurposeList.map((String item) {
                                         return DropdownMenuItem<String>(
                                           value: item,
@@ -274,7 +285,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       .size
                                                       .width /
                                                   1.2,
-                                              child: Text(item)),
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                    fontSize: 14),
+                                              )),
                                         );
                                       }).toList(),
                                       onChanged: (String? value) {
@@ -296,14 +311,14 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   : const SizedBox(),
                               eSubpurposeList.isNotEmpty
                                   ? const SizedBox(
-                                      height: 15,
+                                      height: 10,
                                     )
                                   : const SizedBox(),
                               eSubpurposeList.isNotEmpty
                                   ? const Text(
                                       "Select Sub-purpose",
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 15,
                                           color: Color.fromARGB(255, 0, 0, 0),
                                           fontWeight: FontWeight.w600),
                                     )
@@ -313,10 +328,14 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               ),
                               eSubpurposeList.isNotEmpty
                                   ? DropdownButton<String>(
+                                      iconEnabledColor: const Color(0xff8AC995),
                                       //isExpanded: true,
                                       value: initialSubPurpose,
-                                      hint: const Text("Select Sub-purpose"),
-                                      items: eSubpurposeList.map((String item) {
+                                      hint: const Text("Select Sub-purpose",
+                                          style: TextStyle(fontSize: 14)),
+                                      items: eSubpurposeList.map((
+                                        String item,
+                                      ) {
                                         return DropdownMenuItem<String>(
                                           value: item,
                                           child: SizedBox(
@@ -324,7 +343,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       .size
                                                       .width /
                                                   1.2,
-                                              child: Text(item)),
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                    fontSize: 14),
+                                              )),
                                         );
                                       }).toList(),
                                       onChanged: (String? value) {
@@ -350,7 +373,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               const Text(
                                 "Select DSR Schedule*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
                               ),
@@ -358,8 +381,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 5,
                               ),
                               DropdownButton<String>(
+                                iconEnabledColor: const Color(0xff8AC995),
                                 value: initialPaySchdedule,
-                                hint: const Text("Select Pay Schedule*"),
+                                hint: const Text("Select DSR Schedule*",
+                                    style: TextStyle(fontSize: 14)),
                                 items: ePayScheduleList.map((String item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
@@ -367,7 +392,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 1.2,
-                                        child: Text(item)),
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(fontSize: 14),
+                                        )),
                                   );
                                 }).toList(),
                                 onChanged: (String? value) {
@@ -377,46 +405,69 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 },
                               ),
                               const SizedBox(
-                                height: 15,
+                                height: 10,
                               ),
                               const Text(
                                 "Number Of Patient*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 5,
                               ),
                               SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width / 1.1,
-                                  height: 35,
-                                  child: TextField(
+                                  height: 45,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     controller: noOfPatientController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                    ),
                                   )),
                               const SizedBox(
-                                height: 15,
+                                height: 10,
                               ),
                               const Text(
                                 "Add Descripton*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
                               ),
                               SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width / 1.1,
-                                  height: 35,
-                                  child: TextField(
+                                  height: 45,
+                                  child: TextFormField(
                                     controller: addDescriptionController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                    ),
                                   )),
                               const SizedBox(
-                                height: 15,
+                                height: 10,
                               ),
                               const Text(
                                 "Select RX Duration*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
                               ),
@@ -426,8 +477,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               Row(
                                 children: [
                                   DropdownButton<String>(
+                                    iconEnabledColor: const Color(0xff8AC995),
                                     value: initialRxDurationMonthList,
-                                    hint: const Text("Select  Schedule"),
+                                    hint: const Text("Select  Schedule",
+                                        style: TextStyle(fontSize: 14)),
                                     items:
                                         eRxDurationMonthList.map((String item) {
                                       return DropdownMenuItem<String>(
@@ -437,7 +490,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     .size
                                                     .width /
                                                 2.9,
-                                            child: Text(item)),
+                                            child: Text(
+                                              item,
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            )),
                                       );
                                     }).toList(),
                                     onChanged: (String? value) {
@@ -460,13 +517,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   const Text(
                                     "   To   ",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
                                   ),
                                   DropdownButton<String>(
+                                    iconEnabledColor: const Color(0xff8AC995),
                                     value: initialRxDurationMonthListTo,
-                                    hint: const Text("Select  Schedule"),
+                                    hint: const Text("Select  Schedule",
+                                        style: TextStyle(fontSize: 14)),
                                     items: eRxDurationMonthListTo
                                         .map((String item) {
                                       return DropdownMenuItem<String>(
@@ -476,7 +535,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     .size
                                                     .width /
                                                 2.9,
-                                            child: Text(item)),
+                                            child: Text(
+                                              item,
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            )),
                                       );
                                     }).toList(),
                                     onChanged: (String? value) {
@@ -501,7 +564,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               const Text(
                                 "Select DSR Duration*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
                               ),
@@ -511,8 +574,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               Row(
                                 children: [
                                   DropdownButton<String>(
+                                    iconEnabledColor: const Color(0xff8AC995),
                                     value: initialdsrDurationMonthList,
-                                    hint: const Text("Select DSR From"),
+                                    hint: const Text("Select DSR From",
+                                        style: TextStyle(fontSize: 14)),
                                     items: eDsrDurationMonthList
                                         .map((String item) {
                                       return DropdownMenuItem<String>(
@@ -522,7 +587,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     .size
                                                     .width /
                                                 2.9,
-                                            child: Text(item)),
+                                            child: Text(
+                                              item,
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            )),
                                       );
                                     }).toList(),
                                     onChanged: (String? value) {
@@ -550,8 +619,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   DropdownButton<String>(
+                                    iconEnabledColor: const Color(0xff8AC995),
                                     value: initialdsrDurationMonthListTo,
-                                    hint: const Text("Select DSR To"),
+                                    hint: const Text("Select DSR To",
+                                        style: TextStyle(fontSize: 14)),
                                     items: eDsrDurationMonthListTo
                                         .map((String item) {
                                       return DropdownMenuItem<String>(
@@ -561,7 +632,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     .size
                                                     .width /
                                                 2.9,
-                                            child: Text(item)),
+                                            child: Text(item,
+                                                style: const TextStyle(
+                                                    fontSize: 14))),
                                       );
                                     }).toList(),
                                     onChanged: (String? value) {
@@ -584,9 +657,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 15,
                               ),
                               const Text(
-                                "Select Mode",
+                                "Select Mode*",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontWeight: FontWeight.w600),
                               ),
@@ -594,16 +667,20 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 5,
                               ),
                               DropdownButton<String>(
+                                iconEnabledColor: const Color(0xff8AC995),
                                 value: initialPayMode,
-                                hint: const Text("Select Pay Mode"),
+                                hint: const Text("Select Pay Mode",
+                                    style: TextStyle(fontSize: 14)),
                                 items: ePayModeList.map((String item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
-                                    child: Container(
+                                    child: SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 1.2,
-                                        child: Text(item)),
+                                        child: Text(item,
+                                            style:
+                                                const TextStyle(fontSize: 14))),
                                   );
                                 }).toList(),
                                 onChanged: (String? value) {
@@ -613,24 +690,35 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 },
                               ),
                               SizedBox(
-                                height: initialPayMode != null ? 15 : 0,
+                                height: initialPayMode != null ? 10 : 0,
                               ),
                               initialPayMode != null
                                   ? const Text(
                                       "Mode Description*",
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 15,
                                           color: Color.fromARGB(255, 0, 0, 0),
                                           fontWeight: FontWeight.w600),
                                     )
                                   : const SizedBox(),
+                              const SizedBox(
+                                height: 6,
+                              ),
                               initialPayMode != null
                                   ? SizedBox(
                                       width: MediaQuery.of(context).size.width /
                                           1.1,
-                                      height: 35,
-                                      child: TextField(
+                                      height: 45,
+                                      child: TextFormField(
                                         controller: addModeDescripController,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                          ),
+                                        ),
                                       ))
                                   : const SizedBox(),
                             ],
@@ -641,16 +729,19 @@ class _EDSRScreenState extends State<EDSRScreen> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 15,
+              ),
 
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       child: Container(
-                        height: 50,
-                        width: 170,
+                        height: 55,
+                        width: 160,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: const Border(
@@ -680,12 +771,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                       onTap: () {},
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 8,
                     ),
                     InkWell(
                       child: Container(
-                        height: 50,
-                        width: 170,
+                        height: 55,
+                        width: 160,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: const Color.fromARGB(255, 44, 114, 66),

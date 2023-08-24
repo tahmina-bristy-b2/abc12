@@ -20,6 +20,10 @@ class eDSRApis {
           String userPass, String submitedBy, String territoryId) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/dsr_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&territory_id=$territoryId";
 
+  static brandAmountUpdate(String brandAmountUpdateUrl, String cid,
+          String userId, String userPass, String brandAmountUpdateParams) =>
+      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/brand_amount_update?cid=$cid&user_id=$userId&user_pass=$userPass&$brandAmountUpdateParams";
+
   String eDsrAddApi(
     String eDsrSettingsUrl,
     String cid,

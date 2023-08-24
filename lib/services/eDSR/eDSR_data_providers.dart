@@ -160,4 +160,23 @@ class EDSRDataProvider {
     );
     return response;
   }
+
+  Future<http.Response> brandAmountUpdate(
+    String brandAmountUpdateUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String brandAmountUpdateParams,
+  ) async {
+    final http.Response response;
+
+    response = await http.get(
+      Uri.parse(eDSRApis.brandAmountUpdate(brandAmountUpdateUrl, cid, userId,
+          userPass, brandAmountUpdateParams)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
 }

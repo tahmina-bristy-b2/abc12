@@ -48,6 +48,7 @@ class eDSRApis {
     String payMode,
     String chequeTo,
     String rsmCash,
+    String issueTo,
   ) =>
-      "https://w03.yeapps.com/skf/dsr_mobile/data_submit?cid=$cid&rep_id=$userId&rep_pass=$userPass&synccode=$syncCode&brand_Str=$brandStr&areaId=$areaId&doctor_id=$doctorId&doctor_name=$doctorName&doctor_category=$doctorCategory&latitude=$latitude&longitude=$longitude&dsr_type=$dsrType&dsr_cat=$dsrCat&purpose=$purpose&purpose_sub=$purposeSub&p_des=$pDes&p_dt_from=$pDtFrom&p_dt_to=$pDtTo&no_of_patient=$noOfPatient&pay_from=$payFrom&pay_to=$payTo&schedule=$schedule&pay_n_month=$payNMonth&pay_mode=$payMode&cheque_to=$chequeTo&rsm_cash=$rsmCash";
+      "${eDsrSettingsUrl}api_dsr_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=$userPass&synccode=$syncCode&brand_Str=$brandStr&areaId=$areaId&doctor_id=$doctorId&doctor_name=$doctorName&doctor_category=$doctorCategory&latitude=$latitude&longitude=$longitude&dsr_type=$dsrType&dsr_cat=$dsrCat&purpose=$purpose&purpose_sub=$purposeSub&p_des=$pDes&p_dt_from=$pDtFrom&p_dt_to=$pDtTo&no_of_patient=$noOfPatient&pay_from=$payFrom&pay_to=$payTo&schedule=$schedule&pay_n_month=$payNMonth&pay_mode=$payMode&cheque_to=$chequeTo&rsm_cash=$rsmCash&pay_mode_bill_to=$issueTo";
 }

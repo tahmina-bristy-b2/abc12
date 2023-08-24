@@ -79,11 +79,12 @@ class EDSRDataProvider {
     String payMode,
     String chequeTo,
     String rsmCash,
+    String issueTo,
   ) async {
     final http.Response response;
 
     print(
-        "eDsr Submit api==${eDSRApis().eDsrAddApi(eDsrSettingsUrl, cid, userId, userPass, syncCode, brandStr, areaId, doctorId, doctorName, doctorCategory, latitude, longitude, dsrType, dsrCat, purpose, purposeSub, pDes, pDtFrom, pDtTo, noOfPatient, payFrom, payTo, schedule, payNMonth, payMode, chequeTo, rsmCash)}");
+        "eDsr Submit api==${eDSRApis().eDsrAddApi(eDsrSettingsUrl, cid, userId, userPass, syncCode, brandStr, areaId, doctorId, doctorName, doctorCategory, latitude, longitude, dsrType, dsrCat, purpose, purposeSub, pDes, pDtFrom, pDtTo, noOfPatient, payFrom, payTo, schedule, payNMonth, payMode, chequeTo, rsmCash, issueTo)}");
     response = await http.get(
       Uri.parse(eDSRApis().eDsrAddApi(
           eDsrSettingsUrl,
@@ -112,7 +113,8 @@ class EDSRDataProvider {
           payNMonth,
           payMode,
           chequeTo,
-          rsmCash)),
+          rsmCash,
+          issueTo)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

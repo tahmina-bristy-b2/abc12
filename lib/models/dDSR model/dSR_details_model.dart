@@ -155,7 +155,7 @@ class BrandList {
   final String brandName;
   final String brandId;
   final String rxPerDay;
-  final String amount;
+  String amount;
 
   BrandList({
     required this.rowId,

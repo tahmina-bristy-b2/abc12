@@ -12,17 +12,21 @@ class eDSRApis {
       "${eDsrSettingsUrl}api_dsr_settings/dsr_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
 
 //=============================== eDSR Approval Section =================================
-  static eDSRfmListApi(
+  static String eDSRfmListApi(
           String fmListUrl, String cid, String userId, String userPass) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
 
-  static dsrDetailsApi(String dsrDetailsApi, String cid, String userId,
+  static String dsrDetailsApi(String dsrDetailsApi, String cid, String userId,
           String userPass, String submitedBy, String territoryId) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/dsr_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&territory_id=$territoryId";
 
-  static brandAmountUpdate(String brandAmountUpdateUrl, String cid,
+  static String brandAmountUpdate(String brandAmountUpdateUrl, String cid,
           String userId, String userPass, String brandAmountUpdateParams) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/brand_amount_update?cid=$cid&user_id=$userId&user_pass=$userPass&$brandAmountUpdateParams";
+
+  static String approveEDSR(String approveEDSRUrl, String cid, String userId,
+          String userPass, String approvedEdsrParams) =>
+      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/approved_dsr?cid=$cid&user_id=$userId&user_pass=$userPass&$approvedEdsrParams";
 
   String eDsrAddApi(
     String eDsrSettingsUrl,

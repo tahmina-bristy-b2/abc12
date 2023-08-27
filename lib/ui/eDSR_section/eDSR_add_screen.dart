@@ -28,9 +28,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
   TextEditingController noOfPatientController = TextEditingController();
   TextEditingController addDescriptionController = TextEditingController();
   TextEditingController issueToController = TextEditingController();
+  TextEditingController rxPerDayController = TextEditingController();
+  TextEditingController DSrController = TextEditingController();
 
   EdsrDataModel? eDSRSettingsData;
-  List<BrandList>? eBrandList = [];
+  List<String>? eBrandList = [];
   List<String> eCatergoryList = [];
   List<String> ePayModeList = [];
   List<String> ePayScheduleList = [];
@@ -40,6 +42,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   List<String> eRxDurationMonthListTo = [];
   List<String> eDsrDurationMonthList = [];
   List<String> eDsrDurationMonthListTo = [];
+  List rows = [];
 
   String? initialBrand;
   String? initialCategory;
@@ -63,7 +66,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String dsrTodate = '';
   String rxFromDate = '';
   String rxToDate = '';
-  String brandStr = "AGGRA|4|500";
+  //String brandStr = "AGGRA|4|500";
+  String brandString = '';
 
   @override
   void initState() {
@@ -85,7 +89,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
     ePayModeList = eDSRSettingsData!.payModeList;
     ePayScheduleList = eDSRSettingsData!.payScheduleList;
-    eBrandList = eDSRsettingsData.brandList;
+    eBrandList = eDSRsettingsData.brandList.map((e) => e.brandName).toList();
     eRxDurationMonthList =
         eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
   }
@@ -155,9 +159,25 @@ class _EDSRScreenState extends State<EDSRScreen> {
     return eDsrDurationMonthListTo;
   }
 
+  //=============================== get brand String ===============================
+  getbrandString(String value, String rxPerDay, String dsrAmount) {
+    for (var element in eDSRSettingsData!.brandList) {
+      if (element.brandName == value) {
+        if (brandString == "") {
+          brandString +=
+              "${element.brandName}|${element.brandId}|$rxPerDay|$dsrAmount";
+        } else {
+          brandString +=
+              "||${element.brandName}|${element.brandId}|$rxPerDay|$dsrAmount";
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -277,6 +297,549 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   });
                                 },
                               ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Brand",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const SizedBox(
+                                    width: 280,
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color(0xff8AC995),
+                                    ),
+                                    child: Center(
+                                      child: IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return SizedBox(
+                                                    child: AlertDialog(
+                                                      title: const Text(
+                                                          "Brand Details"),
+                                                      content: SizedBox(
+                                                        height: 300,
+                                                        child: Column(
+                                                          children: [
+                                                            const Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                "Brand*",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            DropdownButtonHideUnderline(
+                                                              child:
+                                                                  ButtonTheme(
+                                                                alignedDropdown:
+                                                                    true,
+                                                                child:
+                                                                    DropdownButtonFormField<
+                                                                        String>(
+                                                                  isExpanded:
+                                                                      true,
+                                                                  iconEnabledColor:
+                                                                      const Color(
+                                                                          0xff8AC995),
+                                                                  value:
+                                                                      initialBrand,
+                                                                  hint: const Text(
+                                                                      "Select Brand",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w600)),
+                                                                  items: eBrandList!
+                                                                      .map((String
+                                                                          item) {
+                                                                    return DropdownMenuItem<
+                                                                        String>(
+                                                                      value:
+                                                                          item,
+                                                                      child: SizedBox(
+                                                                          width: MediaQuery.of(context).size.width /
+                                                                              1.2,
+                                                                          child: Text(
+                                                                              item,
+                                                                              style: const TextStyle(fontSize: 14))),
+                                                                    );
+                                                                  }).toList(),
+                                                                  onChanged:
+                                                                      (String?
+                                                                          value) {
+                                                                    setState(
+                                                                        () {
+                                                                      initialBrand =
+                                                                          value!;
+                                                                    });
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            const Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                "RX/Day*",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    1.1,
+                                                                height: 45,
+                                                                child:
+                                                                    TextFormField(
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  controller:
+                                                                      rxPerDayController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                              color: Colors.white),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5.0),
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                            const SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            const Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                "DSR*",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    1.1,
+                                                                height: 45,
+                                                                child:
+                                                                    TextFormField(
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  controller:
+                                                                      DSrController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                              color: Colors.white),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5.0),
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                      child: Container(
+                                                                        height:
+                                                                            40,
+                                                                        //width: 160,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                          color: const Color.fromARGB(
+                                                                              255,
+                                                                              170,
+                                                                              172,
+                                                                              170),
+                                                                        ),
+                                                                        child: const Center(
+                                                                            child: Text("Cancel",
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                                ))),
+                                                                      ),
+                                                                      onTap: () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                      child: Container(
+                                                                        height:
+                                                                            40,
+                                                                        //width: 160,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                          color: const Color.fromARGB(
+                                                                              255,
+                                                                              44,
+                                                                              114,
+                                                                              66),
+                                                                        ),
+                                                                        child: const Center(
+                                                                            child: Text("Add",
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                                ))),
+                                                                      ),
+                                                                      onTap: () {
+                                                                        if (initialBrand !=
+                                                                            null) {
+                                                                          rows.add([
+                                                                            initialBrand,
+                                                                            rxPerDayController.text,
+                                                                            DSrController.text
+                                                                          ]);
+                                                                          getbrandString(
+                                                                              initialBrand!,
+                                                                              rxPerDayController.text == "" ? "0" : rxPerDayController.text,
+                                                                              DSrController.text == "" ? "0" : DSrController.text);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          setState(
+                                                                              () {
+                                                                            initialBrand =
+                                                                                null;
+                                                                            rxPerDayController.clear();
+                                                                            DSrController.clear();
+                                                                          });
+                                                                        } else {
+                                                                          AllServices().toastMessage(
+                                                                              "Please Select Brand First",
+                                                                              Colors.red,
+                                                                              Colors.white,
+                                                                              16);
+                                                                        }
+                                                                      }),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          icon: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          )),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              rows.length > 0
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            color: const Color(0xff8AC995),
+                                            child: Row(
+                                              children: const [
+                                                SizedBox(
+                                                  width: 75,
+                                                  height: 35,
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Name",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Color.fromARGB(
+                                                              255, 0, 0, 0),
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 20,
+                                                  ),
+                                                  child: SizedBox(
+                                                    width: 75,
+                                                    height: 35,
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Rx/Day",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    0,
+                                                                    0,
+                                                                    0),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 20,
+                                                  ),
+                                                  child: SizedBox(
+                                                    width: 75,
+                                                    height: 35,
+                                                    child: Center(
+                                                      child: Text(
+                                                        "DSR",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    0,
+                                                                    0,
+                                                                    0),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 20,
+                                                  ),
+                                                  child: SizedBox(
+                                                    width: 75,
+                                                    height: 35,
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Action",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    0,
+                                                                    0,
+                                                                    0),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: rows.length * 35,
+                                            width: 360,
+                                            child: ListView.builder(
+                                                itemCount: rows.length,
+                                                itemBuilder: (context, index) {
+                                                  return Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 75,
+                                                        height: 35,
+                                                        child: Center(
+                                                          child: Text(
+                                                            rows[index][0],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 14,
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 20,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 75,
+                                                          height: 35,
+                                                          child: Center(
+                                                            child: Text(
+                                                              rows[index][1] ==
+                                                                      ""
+                                                                  ? "0"
+                                                                  : rows[index]
+                                                                      [1],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 20,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 75,
+                                                          height: 35,
+                                                          child: Center(
+                                                            child: Text(
+                                                              rows[index][2] ==
+                                                                      ""
+                                                                  ? "0"
+                                                                  : rows[index]
+                                                                      [2],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          left: 20,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 75,
+                                                          height: 35,
+                                                          child: Center(
+                                                            child: Text(
+                                                              "Action",
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      // Expanded(
+                                                      //     flex: 1,
+                                                      //     child: Text(
+                                                      //       "DSR",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 14,
+                                                      //           color:
+                                                      //               Color.fromARGB(255, 0, 0, 0),
+                                                      //           fontWeight: FontWeight.w600),
+                                                      //     )),
+                                                      // Expanded(
+                                                      //     flex: 1,
+                                                      //     child: Text(
+                                                      //       "TYpe",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 14,
+                                                      //           color:
+                                                      //               Color.fromARGB(255, 0, 0, 0),
+                                                      //           fontWeight: FontWeight.w600),
+                                                      //     )),
+                                                      // Expanded(
+                                                      //     flex: 1,
+                                                      //     child: Text(
+                                                      //       "Action",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 14,
+                                                      //           color:
+                                                      //               Color.fromARGB(255, 0, 0, 0),
+                                                      //           fontWeight: FontWeight.w600),
+                                                      //     )),
+                                                    ],
+                                                  );
+                                                }),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox(),
                               SizedBox(
                                 height: ePurposeList.isNotEmpty ? 10 : 0,
                               ),
@@ -810,7 +1373,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       ))),
                             ),
                             onTap: () {
-                              brandStr != ""
+                              brandString != ""
                                   ? widget.docInfo[widget.index]["area_id"] !=
                                           null
                                       ? widget.docInfo[widget.index]
@@ -879,11 +1442,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
         userInfo!.userId,
         password!,
         "123",
-        "AGGRA|4|500",
+        brandString,
         widget.docInfo[widget.index]["area_id"],
-        widget.docInfo[widget.index]["doc_name"],
         widget.docInfo[widget.index]["doc_id"],
-        initialCategory!,
+        widget.docInfo[widget.index]["doc_name"],
+        "",
         "0",
         "0",
         doctorType!,

@@ -124,7 +124,7 @@ class EDSRRepositories {
     return submitInfo;
   }
 
-  //=============================== eDSR Approval Section =================================
+  //=================== eDSR Approval Section ==========================
 
   Future<EdsrFmListModel?> getEdsrFmlist(
       String fmListUrl, String cid, String userId, String userPass) async {
@@ -142,7 +142,7 @@ class EDSRRepositories {
           return edsrFmList;
         } else {
           AllServices().toastMessage(
-              resData["res_data"]["status"], Colors.red, Colors.white, 14);
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
           return edsrFmList;
         }
       } else {

@@ -242,7 +242,7 @@ class _EdsrFmListState extends State<EdsrFmList> {
   }
 
   getEdsrFm() async {
-    edsrFmList = await eDSRRepository()
+    edsrFmList = await EDSRRepositories()
         .getEdsrFmlist("", widget.cid, userInfo!.userId, widget.userPass);
 
     if (edsrFmList != null) {

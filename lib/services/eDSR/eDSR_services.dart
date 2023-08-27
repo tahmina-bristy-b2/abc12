@@ -3,9 +3,8 @@ import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
-class EDsrServices {
+class EDSRServices {
   //================================get eDSR Data Settings Info=================================
 
   Future<EdsrDataModel?> geteDSRDataSettingsInfo(
@@ -16,7 +15,7 @@ class EDsrServices {
   ) async {
     EdsrDataModel? eDsrDataModelData;
     try {
-      eDsrDataModelData = await eDSRRepository()
+      eDsrDataModelData = await EDSRRepositories()
           .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass);
       if (eDsrDataModelData!.status == "Success") {
         await putEdsrSettingsData(eDsrDataModelData);

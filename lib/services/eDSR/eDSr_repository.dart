@@ -8,7 +8,7 @@ import 'package:MREPORTING/services/eDSR/eDSR_data_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class eDSRRepository {
+class EDSRRepositories {
   //=========================================== Territory Based Doctor ==========================================
   Future<Map<String, dynamic>> getTerritoryBasedDoctor(
       String doctorUrl,

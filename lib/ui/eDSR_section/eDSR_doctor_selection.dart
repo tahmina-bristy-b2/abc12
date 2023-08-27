@@ -415,15 +415,9 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
   getTerriBaesdDoctor() async {
     box = Hive.box("doctorList");
     box?.clear();
-    Map<String, dynamic> data = await eDSRRepository().getTerritoryBasedDoctor(
-        dmPathData!.submitUrl,
-        cid!,
-        userId!,
-        password!,
-        regionID,
-        areaID,
-        terrorID,
-        initialDoctorType!);
+    Map<String, dynamic> data = await EDSRRepositories()
+        .getTerritoryBasedDoctor(dmPathData!.submitUrl, cid!, userId!,
+            password!, regionID, areaID, terrorID, initialDoctorType!);
     if (data["res_data"]["status"] == "Success") {
       List doctorData = data["res_data"]["doctorList"];
 

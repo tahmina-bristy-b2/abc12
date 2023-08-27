@@ -359,7 +359,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                               userId, userPassword);
 
                                       // RegionListModel? body =
-                                      //     await EDsrServices()
+                                      //     await EDSRServices()
                                       //         .getRegionListInHive(
                                       //   "dmpathData!.areaUrl",
                                       //   cid,
@@ -412,7 +412,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               bool result = await InternetConnectionChecker()
                                   .hasConnection;
                               if (result == true) {
-                                EdsrDataModel? body = await EDsrServices()
+                                EdsrDataModel? body = await EDSRServices()
                                     .geteDSRDataSettingsInfo(
                                   dmpathData!.submitUrl,
                                   cid,
@@ -519,7 +519,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         .syncRxItem(dmpathData!.syncUrl, cid, userId, userPassword);
     List doctorList = await DcrRepositories()
         .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
-    EdsrDataModel? eDsRData = await EDsrServices().geteDSRDataSettingsInfo(
+    EdsrDataModel? eDsRData = await EDSRServices().geteDSRDataSettingsInfo(
       dmpathData!.submitUrl,
       cid,
       userInfo!.userId,

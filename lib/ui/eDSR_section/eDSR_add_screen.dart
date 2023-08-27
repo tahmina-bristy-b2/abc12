@@ -1436,7 +1436,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //eDseSubmit() {}
   //=============================================== get Territory Based Doctor Button (Api call)================================
   eDseSubmit() async {
-    Map<String, dynamic> data = await eDSRRepository().submitEDSR(
+    Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
         dmpathData!.submitUrl,
         cid!,
         userInfo!.userId,

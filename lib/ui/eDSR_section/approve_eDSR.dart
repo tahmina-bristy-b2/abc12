@@ -684,7 +684,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   }
 
   void getDsrDetailsData() async {
-    dsrDetails = await eDSRRepository().getDsrDetailsData(
+    dsrDetails = await EDSRRepositories().getDsrDetailsData(
         "",
         widget.cid,
         userInfo!.userId,
@@ -708,7 +708,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
       isUpdate = true;
     });
     Map<String, dynamic> updateResponse =
-        await eDSRRepository().brandAmountUpdate(
+        await EDSRRepositories().brandAmountUpdate(
       "",
       widget.cid,
       userInfo!.userId,
@@ -732,7 +732,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
       isLoading = true;
     });
     Map<String, dynamic> approvedResponse =
-        await eDSRRepository().approvedOrRejectedDsr(
+        await EDSRRepositories().approvedOrRejectedDsr(
       "",
       widget.cid,
       userInfo!.userId,

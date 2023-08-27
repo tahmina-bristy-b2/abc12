@@ -1,4 +1,4 @@
-class eDSRApis {
+class EDSRApis {
   String getDoctor(String doctorUrl, String cid, String userId, String userPass,
           String regionId, String areaId, String terroId, String dsrType) =>
       "${doctorUrl}api_dsr_settings/get_area_doctor?cid=$cid&user_id=$userId&user_pass=$userPass&region_id=$regionId&area_id=$areaId&territory_id=$terroId&dsr_type=$dsrType";

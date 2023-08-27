@@ -177,4 +177,18 @@ class EDSRDataProvider {
     );
     return response;
   }
+
+  Future<http.Response> approvedDSR(String approveEDSRUrl, String cid,
+      String userId, String userPass, String approvedEdsrParams) async {
+    final http.Response response;
+
+    response = await http.get(
+      Uri.parse(eDSRApis.approveEDSR(
+          approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
 }

@@ -48,6 +48,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     return total;
   }
 
+  void removeDSR(int index) {
+    dsrDetails!.resData.dataList.removeAt(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +157,9 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: Colors.blue[700],
+                                                color: Color.fromARGB(
+                                                    255, 138, 201, 149),
+                                                // color: Colors.blue[700],
                                               ),
                                               child: Row(
                                                 children: const [
@@ -161,7 +167,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       child: Text(
                                                     'Name',
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                         fontSize: 12),
                                                   )),
                                                   Expanded(
@@ -169,7 +175,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                     child: Text(
                                                       'Sales Objectives',
                                                       style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                           fontSize: 12),
                                                     ),
                                                   )),
@@ -178,7 +184,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                     child: Text(
                                                       'Monthly Avg. Sales',
                                                       style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                           fontSize: 12),
                                                     ),
                                                   )),
@@ -187,7 +193,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                     child: Text(
                                                       'Action',
                                                       style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                           fontSize: 12),
                                                     ),
                                                   )),
@@ -338,7 +344,9 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: Colors.blue[500],
+                                                color: Color.fromARGB(
+                                                    255, 138, 201, 149),
+                                                // color: Colors.blue[500],
                                               ),
                                               child: Row(
                                                 children: [
@@ -346,7 +354,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       child: Text(
                                                     'Total',
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                         fontSize: 12),
                                                   )),
                                                   const Expanded(
@@ -368,7 +376,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                                   .brandList)
                                                           .toStringAsFixed(2),
                                                       style: const TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                           fontSize: 13),
                                                     ),
                                                   )),
@@ -635,7 +643,12 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      String approvedEdsrParams =
+                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=$dropdownValue&status=REJECTED";
+                                      approvedOrRejectedDsr(
+                                          approvedEdsrParams, index);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red,
                                         fixedSize: const Size(150, 30)),
@@ -643,7 +656,12 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                         style: TextStyle(color: Colors.white)),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      String approvedEdsrParams =
+                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=$dropdownValue&status=APPROVED";
+                                      approvedOrRejectedDsr(
+                                          approvedEdsrParams, index);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.blue[700],
                                         fixedSize: const Size(150, 30)),
@@ -665,7 +683,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     );
   }
 
-  getDsrDetailsData() async {
+  void getDsrDetailsData() async {
     dsrDetails = await eDSRRepository().getDsrDetailsData(
         "",
         widget.cid,
@@ -685,7 +703,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     }
   }
 
-  brandAmountUpdate(String brandAmountUpdateParams, setState_2) async {
+  void brandAmountUpdate(String brandAmountUpdateParams, setState_2) async {
     setState_2(() {
       isUpdate = true;
     });
@@ -705,6 +723,32 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     } else {
       setState_2(() {
         isUpdate = false;
+      });
+    }
+  }
+
+  void approvedOrRejectedDsr(String approvedEdsrParams, int index) async {
+    setState(() {
+      isLoading = true;
+    });
+    Map<String, dynamic> approvedResponse =
+        await eDSRRepository().approvedOrRejectedDsr(
+      "",
+      widget.cid,
+      userInfo!.userId,
+      widget.userPass,
+      approvedEdsrParams,
+    );
+
+    if (approvedResponse.isNotEmpty &&
+        approvedResponse["res_data"]["status"] == "Success") {
+      removeDSR(index);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
       });
     }
   }

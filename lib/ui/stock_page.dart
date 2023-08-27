@@ -136,6 +136,7 @@ class _StockPageState extends State<StockPage> {
                 _isLoading = false;
                 stockData = stockData2;
                 stockList = stockData2.stockList;
+                stockList.sort((a, b) => a.itemDes.compareTo(b.itemDes));
               });
             } else {
               AllServices().toastMessage(

@@ -1381,7 +1381,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     final newDate = await showDatePicker(
       context: context,
       initialDate: DT,
-      firstDate: DateTime(DateTime.now().year - 100),
+      firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 10),
       builder: (context, child) {
         return Theme(

@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => const RxPage(
+              builder: (_) => RxPage(
                     isRxEdit: false,
                   )));
       setState(() {
@@ -787,8 +787,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const RxPage(
+                                              builder: (context) => RxPage(
                                                 isRxEdit: false,
                                               ),
                                             ),

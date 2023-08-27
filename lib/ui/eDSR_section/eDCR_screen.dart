@@ -120,36 +120,36 @@ class _EDcrScreenState extends State<EDcrScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  //******************************************************orphan doctor******************************************* */
+                  //******************************************************eDsr doctor Selection******************************************* */
                   Expanded(
                       child: InkWell(
                     onTap: () async {
-                      // if (regionListData != null) {
-                      await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return EDsrDoctorSelection(
-                                callbackData: mapData,
-                                callbackFuc: (value) {
-                                  region = value["Region"];
-                                  area = value["Area"];
-                                  territory = value["Territory"];
-                                  dSRType = value["dsr_Type"];
-                                  setState(() {});
-                                });
-                          });
-                      setState(() {
-                        box = Hive.box("doctorList");
-                        result = box!.toMap().values.toList();
-                      });
-                      // } else {
-                      //   AllServices().toastMessage(
-                      //       "Doctor regionList did not found, sync again",
-                      //       Colors.red,
-                      //       Colors.white,
-                      //       16);
-                      //   setState(() {});
-                      // }
+                      if (regionListData != null) {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return EDsrDoctorSelection(
+                                  callbackData: mapData,
+                                  callbackFuc: (value) {
+                                    region = value["Region"];
+                                    area = value["Area"];
+                                    territory = value["Territory"];
+                                    dSRType = value["dsr_Type"];
+                                    setState(() {});
+                                  });
+                            });
+                        setState(() {
+                          box = Hive.box("doctorList");
+                          result = box!.toMap().values.toList();
+                        });
+                      } else {
+                        AllServices().toastMessage(
+                            "eDSR Settings Information Did not Found, Sync Again",
+                            Colors.red,
+                            Colors.white,
+                            16);
+                        setState(() {});
+                      }
                       // if (regionListData != null) {
                       //   await showDialog(
                       //       context: context,

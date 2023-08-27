@@ -29,7 +29,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   String? dropdownValue = "NO";
 
   bool isLoading = true;
-  bool isUpdate = false;
+  Map<String, bool> isUpdate = {};
 
   @override
   void initState() {
@@ -37,6 +37,14 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     getDsrDetailsData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.forEach((key, value) {
+      value.dispose();
+    });
   }
 
   double totalBrandSales(List<BrandList> brandList) {
@@ -75,6 +83,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             in dsrDetails!.resData.dataList[index].brandList) {
                           controller[element.rowId] =
                               TextEditingController(text: element.amount);
+                          isUpdate[element.rowId] = false;
                         }
 
                         dropdownValue =
@@ -148,154 +157,169 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     const Text(':'),
                                     Expanded(
                                       flex: 8,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: Color.fromARGB(
-                                                    255, 138, 201, 149),
-                                                // color: Colors.blue[700],
-                                              ),
-                                              child: Row(
-                                                children: const [
-                                                  Expanded(
-                                                      child: Text(
-                                                    'Name',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12),
-                                                  )),
-                                                  Expanded(
-                                                      child: Center(
-                                                    child: Text(
-                                                      'Sales Objectives',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12),
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Center(
-                                                    child: Text(
-                                                      'Monthly Avg. Sales',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12),
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Center(
-                                                    child: Text(
-                                                      'Action',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12),
-                                                    ),
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            SizedBox(
-                                              height: dsrDetails!
-                                                      .resData
-                                                      .dataList[index]
-                                                      .brandList
-                                                      .length *
-                                                  40,
-                                              child: ListView.builder(
-                                                  itemCount: dsrDetails!
-                                                      .resData
-                                                      .dataList[index]
-                                                      .brandList
-                                                      .length,
-                                                  itemBuilder:
-                                                      (itemBuilder, index2) {
-                                                    return Container(
-                                                      height: 40,
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5,
-                                                              bottom: 5,
-                                                              left: 5),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        color: index2 % 2 == 0
-                                                            ? Colors.grey[300]
-                                                            : Colors.white,
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                              child: Text(
-                                                            dsrDetails!
-                                                                .resData
-                                                                .dataList[index]
-                                                                .brandList[
-                                                                    index2]
-                                                                .brandName,
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        12),
-                                                          )),
-                                                          Expanded(
-                                                              child: Center(
-                                                            child: Text(
-                                                              dsrDetails!
-                                                                  .resData
-                                                                  .dataList[
-                                                                      index]
-                                                                  .brandList[
-                                                                      index2]
-                                                                  .rxPerDay,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          12),
-                                                            ),
-                                                          )),
-                                                          Expanded(
-                                                            child:
-                                                                TextFormField(
-                                                              controller: controller[
+                                      child: StatefulBuilder(
+                                        builder: (context, setState_2) {
+                                          return Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color: Color.fromARGB(
+                                                        255, 138, 201, 149),
+                                                    // color: Colors.blue[700],
+                                                  ),
+                                                  child: Row(
+                                                    children: const [
+                                                      Expanded(
+                                                          child: Text(
+                                                        'Name',
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12),
+                                                      )),
+                                                      Expanded(
+                                                          child: Center(
+                                                        child: Text(
+                                                          'Sales Objectives',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12),
+                                                        ),
+                                                      )),
+                                                      Expanded(
+                                                          child: Center(
+                                                        child: Text(
+                                                          'Monthly Avg. Sales',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12),
+                                                        ),
+                                                      )),
+                                                      Expanded(
+                                                          child: Center(
+                                                        child: Text(
+                                                          'Action',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12),
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                SizedBox(
+                                                  height: dsrDetails!
+                                                          .resData
+                                                          .dataList[index]
+                                                          .brandList
+                                                          .length *
+                                                      40,
+                                                  child: ListView.builder(
+                                                      itemCount: dsrDetails!
+                                                          .resData
+                                                          .dataList[index]
+                                                          .brandList
+                                                          .length,
+                                                      itemBuilder: (itemBuilder,
+                                                          index2) {
+                                                        return Container(
+                                                          height: 40,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 5,
+                                                                  bottom: 5,
+                                                                  left: 5),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            color: index2 % 2 ==
+                                                                    0
+                                                                ? Colors
+                                                                    .grey[300]
+                                                                : Colors.white,
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                  child: Text(
+                                                                dsrDetails!
+                                                                    .resData
+                                                                    .dataList[
+                                                                        index]
+                                                                    .brandList[
+                                                                        index2]
+                                                                    .brandName,
+                                                                style:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            12),
+                                                              )),
+                                                              Expanded(
+                                                                  child: Center(
+                                                                child: Text(
                                                                   dsrDetails!
                                                                       .resData
                                                                       .dataList[
                                                                           index]
                                                                       .brandList[
                                                                           index2]
+                                                                      .rxPerDay,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                              )),
+                                                              Expanded(
+                                                                child:
+                                                                    TextFormField(
+                                                                  controller: controller[dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .brandList[
+                                                                          index2]
                                                                       .rowId],
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: const TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: Colors
-                                                                      .black),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .done,
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 5),
-                                                          Expanded(
-                                                            child:
-                                                                StatefulBuilder(
-                                                              builder: (context,
-                                                                  setState_2) {
-                                                                return isUpdate
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Colors
+                                                                          .black),
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  textInputAction:
+                                                                      TextInputAction
+                                                                          .done,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 5),
+                                                              Expanded(
+                                                                child: isUpdate[dsrDetails!
+                                                                        .resData
+                                                                        .dataList[
+                                                                            index]
+                                                                        .brandList[
+                                                                            index2]
+                                                                        .rowId]!
                                                                     ? Center(
                                                                         child:
                                                                             SizedBox(
@@ -322,6 +346,9 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
 
                                                                           brandAmountUpdate(
                                                                               brandAmountUpdateParams,
+                                                                              index,
+                                                                              index2,
+                                                                              dsrDetails!.resData.dataList[index].brandList[index2].rowId,
                                                                               setState_2);
                                                                         },
                                                                         child:
@@ -329,69 +356,75 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                                           child:
                                                                               Text('Update'),
                                                                         ),
-                                                                      );
-                                                              },
-                                                            ),
+                                                                      ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
+                                                        );
+                                                      }),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color: Color.fromARGB(
+                                                        255, 138, 201, 149),
+                                                    // color: Colors.blue[500],
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const Expanded(
+                                                          child: Text(
+                                                        'Total',
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12),
+                                                      )),
+                                                      const Expanded(
+                                                          child: Text(
+                                                        '',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+                                                      )),
+                                                      Expanded(
+                                                          child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          totalBrandSales(
+                                                                  dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .brandList)
+                                                              .toStringAsFixed(
+                                                                  2),
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 13),
+                                                        ),
+                                                      )),
+                                                      const Expanded(
+                                                          child: Text(
+                                                        '',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(height: 5),
-                                            Container(
-                                              padding: const EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: Color.fromARGB(
-                                                    255, 138, 201, 149),
-                                                // color: Colors.blue[500],
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  const Expanded(
-                                                      child: Text(
-                                                    'Total',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12),
-                                                  )),
-                                                  const Expanded(
-                                                      child: Text(
-                                                    '',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12),
-                                                  )),
-                                                  Expanded(
-                                                      child: Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      totalBrandSales(
-                                                              dsrDetails!
-                                                                  .resData
-                                                                  .dataList[
-                                                                      index]
-                                                                  .brandList)
-                                                          .toStringAsFixed(2),
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 13),
-                                                    ),
-                                                  )),
-                                                  const Expanded(
-                                                      child: Text(
-                                                    '',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12),
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -703,9 +736,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     }
   }
 
-  void brandAmountUpdate(String brandAmountUpdateParams, setState_2) async {
+  void brandAmountUpdate(String brandAmountUpdateParams, int index, int index2,
+      String rowId, setState_2) async {
     setState_2(() {
-      isUpdate = true;
+      isUpdate[rowId] = true;
     });
     Map<String, dynamic> updateResponse =
         await EDSRRepositories().brandAmountUpdate(
@@ -717,12 +751,15 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     );
 
     if (updateResponse.isNotEmpty) {
+      dsrDetails!.resData.dataList[index].brandList[index2].amount = controller[
+              dsrDetails!.resData.dataList[index].brandList[index2].rowId]!
+          .text;
       setState_2(() {
-        isUpdate = false;
+        isUpdate[rowId] = false;
       });
     } else {
       setState_2(() {
-        isUpdate = false;
+        isUpdate[rowId] = false;
       });
     }
   }

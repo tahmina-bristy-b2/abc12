@@ -29,7 +29,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   TextEditingController addDescriptionController = TextEditingController();
   TextEditingController issueToController = TextEditingController();
   TextEditingController rxPerDayController = TextEditingController();
-  TextEditingController DSrController = TextEditingController();
+  TextEditingController dSrController = TextEditingController();
 
   EdsrDataModel? eDSRSettingsData;
   List<String>? eBrandList = [];
@@ -42,7 +42,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   List<String> eRxDurationMonthListTo = [];
   List<String> eDsrDurationMonthList = [];
   List<String> eDsrDurationMonthListTo = [];
-  List rows = [];
+  List dynamicRowsListForBrand = [];
 
   String? initialBrand;
   String? initialCategory;
@@ -66,7 +66,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String dsrTodate = '';
   String rxFromDate = '';
   String rxToDate = '';
-  //String brandStr = "AGGRA|4|500";
   String brandString = '';
 
   @override
@@ -153,25 +152,42 @@ class _EDSRScreenState extends State<EDSRScreen> {
         initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
       }
     }
-
     setState(() {});
-
     return eDsrDurationMonthListTo;
   }
 
   //=============================== get brand String ===============================
-  getbrandString(String value, String rxPerDay, String dsrAmount) {
-    for (var element in eDSRSettingsData!.brandList) {
-      if (element.brandName == value) {
-        if (brandString == "") {
-          brandString +=
-              "${element.brandName}|${element.brandId}|$rxPerDay|$dsrAmount";
-        } else {
-          brandString +=
-              "||${element.brandName}|${element.brandId}|$rxPerDay|$dsrAmount";
+  String getbrandString() {
+    brandString = '';
+    for (var element1 in eDSRSettingsData!.brandList) {
+      if (dynamicRowsListForBrand.isNotEmpty) {
+        for (int i = 0; i < dynamicRowsListForBrand.length; i++) {
+          if (element1.brandName == dynamicRowsListForBrand[i][0]) {
+            if (brandString == "") {
+              brandString +=
+                  "${element1.brandId}|${element1.brandName}|${dynamicRowsListForBrand[i][1]}|${dynamicRowsListForBrand[i][2]}";
+            } else {
+              brandString +=
+                  "||${element1.brandId}|${element1.brandName}|${dynamicRowsListForBrand[i][1]}|${dynamicRowsListForBrand[i][2]}";
+            }
+          }
         }
+      } else {
+        brandString = "";
       }
     }
+    setState(() {});
+    return brandString;
+  }
+
+  @override
+  void dispose() {
+    noOfPatientController.dispose();
+    addDescriptionController.dispose();
+    issueToController.dispose();
+    rxPerDayController.dispose();
+    dSrController.dispose();
+    super.dispose();
   }
 
   @override
@@ -472,7 +488,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       TextInputType
                                                                           .number,
                                                                   controller:
-                                                                      DSrController,
+                                                                      dSrController,
                                                                   decoration:
                                                                       InputDecoration(
                                                                     border:
@@ -546,15 +562,17 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       onTap: () {
                                                                         if (initialBrand !=
                                                                             null) {
-                                                                          rows.add([
+                                                                          dynamicRowsListForBrand
+                                                                              .add([
                                                                             initialBrand,
-                                                                            rxPerDayController.text,
-                                                                            DSrController.text
+                                                                            rxPerDayController.text == ""
+                                                                                ? "0"
+                                                                                : rxPerDayController.text,
+                                                                            dSrController.text == ""
+                                                                                ? "0"
+                                                                                : dSrController.text
                                                                           ]);
-                                                                          getbrandString(
-                                                                              initialBrand!,
-                                                                              rxPerDayController.text == "" ? "0" : rxPerDayController.text,
-                                                                              DSrController.text == "" ? "0" : DSrController.text);
+
                                                                           Navigator.pop(
                                                                               context);
                                                                           setState(
@@ -562,7 +580,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                             initialBrand =
                                                                                 null;
                                                                             rxPerDayController.clear();
-                                                                            DSrController.clear();
+                                                                            dSrController.clear();
                                                                           });
                                                                         } else {
                                                                           AllServices().toastMessage(
@@ -590,7 +608,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   )
                                 ],
                               ),
-                              rows.length > 0
+                              dynamicRowsListForBrand.isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.only(
                                           top: 8, bottom: 8),
@@ -694,10 +712,14 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: rows.length * 35,
+                                            height:
+                                                dynamicRowsListForBrand.length *
+                                                    35,
                                             width: 360,
                                             child: ListView.builder(
-                                                itemCount: rows.length,
+                                                itemCount:
+                                                    dynamicRowsListForBrand
+                                                        .length,
                                                 itemBuilder: (context, index) {
                                                   return Row(
                                                     children: [
@@ -706,7 +728,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         height: 35,
                                                         child: Center(
                                                           child: Text(
-                                                            rows[index][0],
+                                                            dynamicRowsListForBrand[
+                                                                index][0],
                                                             style:
                                                                 const TextStyle(
                                                               fontSize: 14,
@@ -717,121 +740,101 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           ),
                                                         ),
                                                       ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 20,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 75,
+                                                          height: 35,
+                                                          child: Center(
+                                                            child: Text(
+                                                              dynamicRowsListForBrand[
+                                                                              index]
+                                                                          [1] ==
+                                                                      ""
+                                                                  ? "0"
+                                                                  : dynamicRowsListForBrand[
+                                                                      index][1],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 20,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 75,
+                                                          height: 35,
+                                                          child: Center(
+                                                            child: Text(
+                                                              dynamicRowsListForBrand[
+                                                                              index]
+                                                                          [2] ==
+                                                                      ""
+                                                                  ? "0"
+                                                                  : dynamicRowsListForBrand[
+                                                                      index][2],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 20,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 75,
+                                                          height: 35,
+                                                          child: Center(
+                                                            child: IconButton(
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .delete_forever,
+                                                                color:
+                                                                    Colors.red,
+                                                              ),
+                                                              onPressed: () {
+                                                                dynamicRowsListForBrand
+                                                                    .removeAt(
+                                                                        index);
+                                                                //removePerItem();
 
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          left: 20,
-                                                        ),
-                                                        child: SizedBox(
-                                                          width: 75,
-                                                          height: 35,
-                                                          child: Center(
-                                                            child: Text(
-                                                              rows[index][1] ==
-                                                                      ""
-                                                                  ? "0"
-                                                                  : rows[index]
-                                                                      [1],
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                              ),
+                                                                setState(() {});
+                                                                print(
+                                                                    "dynamicRowsListForBrand========================$dynamicRowsListForBrand");
+                                                              },
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          left: 20,
-                                                        ),
-                                                        child: SizedBox(
-                                                          width: 75,
-                                                          height: 35,
-                                                          child: Center(
-                                                            child: Text(
-                                                              rows[index][2] ==
-                                                                      ""
-                                                                  ? "0"
-                                                                  : rows[index]
-                                                                      [2],
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                          left: 20,
-                                                        ),
-                                                        child: SizedBox(
-                                                          width: 75,
-                                                          height: 35,
-                                                          child: Center(
-                                                            child: Text(
-                                                              "Action",
-                                                              style: TextStyle(
-                                                                fontSize: 14,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      // Expanded(
-                                                      //     flex: 1,
-                                                      //     child: Text(
-                                                      //       "DSR",
-                                                      //       style: TextStyle(
-                                                      //           fontSize: 14,
-                                                      //           color:
-                                                      //               Color.fromARGB(255, 0, 0, 0),
-                                                      //           fontWeight: FontWeight.w600),
-                                                      //     )),
-                                                      // Expanded(
-                                                      //     flex: 1,
-                                                      //     child: Text(
-                                                      //       "TYpe",
-                                                      //       style: TextStyle(
-                                                      //           fontSize: 14,
-                                                      //           color:
-                                                      //               Color.fromARGB(255, 0, 0, 0),
-                                                      //           fontWeight: FontWeight.w600),
-                                                      //     )),
-                                                      // Expanded(
-                                                      //     flex: 1,
-                                                      //     child: Text(
-                                                      //       "Action",
-                                                      //       style: TextStyle(
-                                                      //           fontSize: 14,
-                                                      //           color:
-                                                      //               Color.fromARGB(255, 0, 0, 0),
-                                                      //           fontWeight: FontWeight.w600),
-                                                      //     )),
                                                     ],
                                                   );
                                                 }),
@@ -1135,6 +1138,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   eDsrDurationMonthListTo = [];
                                   initialdsrDurationMonthListTo = null;
                                   initialdsrDurationMonthList = null;
+                                  dsrFromdate = "";
+                                  dsrTodate = "";
 
                                   getDSRDurationMonthListFrom();
                                   setState(() {});
@@ -1178,7 +1183,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     }).toList(),
                                     onChanged: (String? value) {
                                       initialdsrDurationMonthList = value!;
-                                      initialRxDurationMonthListTo = null;
                                       eDsrDurationMonthListTo = [];
                                       getDsrDurationMonthListTo(value);
 
@@ -1373,15 +1377,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       ))),
                             ),
                             onTap: () {
-                              brandString != ""
+                              getbrandString() != ""
                                   ? widget.docInfo[widget.index]["area_id"] !=
-                                          null
+                                          ""
                                       ? widget.docInfo[widget.index]
                                                   ["doc_id"] !=
-                                              null
+                                              ""
                                           ? widget.docInfo[widget.index]
                                                       ["doc_name"] !=
-                                                  null
+                                                  ""
                                               ? initialCategory != null
                                                   ? initialCategory != null
                                                       ? purposeId != ""
@@ -1399,7 +1403,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                                       ? noOfPatientController.text != ""
                                                                                           ? initialIssueMode != null
                                                                                               ? issueToController.text != ""
-                                                                                                  ? eDseSubmit()
+                                                                                                  ? eDsrSubmit()
                                                                                                   : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
                                                                                               : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
                                                                                           : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
@@ -1433,9 +1437,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
     );
   }
 
-  //eDseSubmit() {}
   //=============================================== get Territory Based Doctor Button (Api call)================================
-  eDseSubmit() async {
+  eDsrSubmit() async {
     Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
         dmpathData!.submitUrl,
         cid!,

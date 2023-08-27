@@ -67,6 +67,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String rxFromDate = '';
   String rxToDate = '';
   String brandString = '';
+  String territoryid = '';
 
   @override
   void initState() {
@@ -79,6 +80,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
       password = prefs.getString("PASSWORD") ?? '';
       cid = prefs.getString("CID") ?? '';
       doctorType = prefs.getString("DoctorType") ?? '';
+      territoryid = prefs.getString("Territory") ?? '';
     });
   }
 
@@ -227,9 +229,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${widget.docInfo[widget.index]["doc_name"]}",
+                            "${widget.docInfo[widget.index]["doc_name"]}(${widget.docInfo[widget.index]["degree"]})(${widget.docInfo[widget.index]["specialty"]})",
                             style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 fontWeight: FontWeight.bold),
                           ),
@@ -237,7 +239,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                             height: 5,
                           ),
                           Text(
-                            "${widget.docInfo[widget.index]["address"]}",
+                            "${widget.docInfo[widget.index]["address"]}($territoryid)",
+                            style: const TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 64, 64, 64)),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "${widget.docInfo[widget.index]["mobile"]}",
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 64, 64, 64)),
                           ),
@@ -247,11 +258,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
-                ),
-
-                const SizedBox(
-                  height: 25,
+                  height: 30,
                 ),
 
                 SizedBox(
@@ -327,7 +334,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   const SizedBox(
-                                    width: 280,
+                                    width: 250,
                                   ),
                                   Container(
                                     height: 40,

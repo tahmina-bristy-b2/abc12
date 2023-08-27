@@ -2,7 +2,9 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +27,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   DmPathDataModel? dmpathData;
   TextEditingController noOfPatientController = TextEditingController();
   TextEditingController addDescriptionController = TextEditingController();
-  TextEditingController addModeDescripController = TextEditingController();
+  TextEditingController issueToController = TextEditingController();
 
   EdsrDataModel? eDSRSettingsData;
   List<BrandList>? eBrandList = [];
@@ -43,7 +45,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String? initialCategory;
   String? initialPurpose;
   String? initialSubPurpose;
-  String? initialPayMode;
+  String? initialIssueMode;
   String? initialPaySchdedule;
   String? initialRxDurationMonthList;
   String? initialRxDurationMonthListTo;
@@ -61,7 +63,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String dsrTodate = '';
   String rxFromDate = '';
   String rxToDate = '';
-  //var prefs;
+  String brandStr = "AGGRA|4|500";
 
   @override
   void initState() {
@@ -73,7 +75,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
       cid = prefs.getString("CID") ?? '';
-
       doctorType = prefs.getString("DoctorType") ?? '';
     });
   }
@@ -87,8 +88,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     eBrandList = eDSRsettingsData.brandList;
     eRxDurationMonthList =
         eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
-    eDsrDurationMonthList =
-        eDSRsettingsData.dsrDurationMonthList.map((e) => e.nextDateV).toList();
   }
 
   //================================ get Purpose List=====================================
@@ -122,82 +121,104 @@ class _EDSRScreenState extends State<EDSRScreen> {
       eRxDurationMonthListTo = eRxDurationMonthList.sublist(selectedIndex);
       initialRxDurationMonthListTo = eRxDurationMonthListTo.first;
     }
+    setState(() {});
     return eRxDurationMonthListTo;
   }
 
-  //============================  get dsrDurationMonthList ==========================
+  //============================  get dsrDurationMonthList from ==========================
+  getDSRDurationMonthListFrom() {
+    eDsrDurationMonthList =
+        eDSRSettingsData!.dsrDurationMonthList.map((e) => e.nextDateV).toList();
+    setState(() {});
+  }
+
+  //============================  get dsrDurationMonthList to ==========================
   List<String> getDsrDurationMonthListTo(String value) {
     int selectedIndex = eDsrDurationMonthList.indexOf(value);
     eDsrDurationMonthListTo = [];
+
     if (selectedIndex == -1) {
       eDsrDurationMonthListTo = [];
     } else {
-      eDsrDurationMonthListTo = eDsrDurationMonthList.sublist(selectedIndex);
-      initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
+      if (initialPaySchdedule == "MONTHLY") {
+        eDsrDurationMonthListTo = eDsrDurationMonthList.sublist(selectedIndex);
+        initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
+      } else {
+        eDsrDurationMonthListTo =
+            eDsrDurationMonthList.sublist(selectedIndex, selectedIndex + 1);
+        initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
+      }
     }
+
+    setState(() {});
+
     return eDsrDurationMonthListTo;
   }
 
   @override
   Widget build(BuildContext context) {
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color(0xff8AC995),
+        backgroundColor: const Color(0xff8AC995),
         title: const Text(
           "eDSR Add",
         ),
       ),
       body: SingleChildScrollView(
+        reverse: true,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.person, size: 40, color: Color(0xff8AC995)),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${widget.docInfo[widget.index]["doc_name"]}",
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "${widget.docInfo[widget.index]["address"]}",
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 64, 64, 64)),
-                        ),
-                      ],
+          padding: EdgeInsets.only(bottom: bottom),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    const Icon(Icons.person,
+                        size: 40, color: Color(0xff8AC995)),
+                    const SizedBox(
+                      width: 10,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${widget.docInfo[widget.index]["doc_name"]}",
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "${widget.docInfo[widget.index]["address"]}",
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 64, 64, 64)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
 
-              const SizedBox(
-                height: 25,
-              ),
+                const SizedBox(
+                  height: 25,
+                ),
 
-              SizedBox(
-                child: SingleChildScrollView(
+                SizedBox(
                   child: Row(
                     children: [
                       Padding(
@@ -329,7 +350,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               eSubpurposeList.isNotEmpty
                                   ? DropdownButton<String>(
                                       iconEnabledColor: const Color(0xff8AC995),
-                                      //isExpanded: true,
                                       value: initialSubPurpose,
                                       hint: const Text("Select Sub-purpose",
                                           style: TextStyle(fontSize: 14)),
@@ -359,8 +379,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 value) {
                                               subPurposeId =
                                                   sPurpose.sPurposeId;
-                                              // print(
-                                              //     "rx data======================$dsrFromdate   $dsrTodate");
                                             }
                                           }
                                         });
@@ -368,44 +386,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     )
                                   : const SizedBox(),
                               const SizedBox(
-                                height: 15,
-                              ),
-                              const Text(
-                                "Select DSR Schedule*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              DropdownButton<String>(
-                                iconEnabledColor: const Color(0xff8AC995),
-                                value: initialPaySchdedule,
-                                hint: const Text("Select DSR Schedule*",
-                                    style: TextStyle(fontSize: 14)),
-                                items: ePayScheduleList.map((String item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
-                                    child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(fontSize: 14),
-                                        )),
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    initialPaySchdedule = value!;
-                                  });
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
+                                height: 0,
                               ),
                               const Text(
                                 "Number Of Patient*",
@@ -507,8 +488,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           if (date.nextDateV == value) {
                                             rxFromDate = date.nextDate;
                                             rxToDate = date.nextDate;
-                                            // print(
-                                            //     "rx data======================$rxFromDate   $rxToDate");
                                           }
                                         }
                                       });
@@ -549,14 +528,54 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             .rxDurationMonthList) {
                                           if (date.nextDateV == value) {
                                             rxToDate = date.nextDate;
-                                            // print(
-                                            //     "rx data to======================$rxFromDate   $rxToDate");
                                           }
                                         }
                                       });
                                     },
                                   ),
                                 ],
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Text(
+                                "Select DSR Schedule*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              DropdownButton<String>(
+                                iconEnabledColor: const Color(0xff8AC995),
+                                value: initialPaySchdedule,
+                                hint: const Text("Select DSR Schedule*",
+                                    style: TextStyle(fontSize: 14)),
+                                items: ePayScheduleList.map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.2,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(fontSize: 14),
+                                        )),
+                                  );
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  initialPaySchdedule = value!;
+                                  eDsrDurationMonthList = [];
+                                  eDsrDurationMonthListTo = [];
+                                  initialdsrDurationMonthListTo = null;
+                                  initialdsrDurationMonthList = null;
+
+                                  getDSRDurationMonthListFrom();
+                                  setState(() {});
+                                },
                               ),
                               const SizedBox(
                                 height: 15,
@@ -595,20 +614,19 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       );
                                     }).toList(),
                                     onChanged: (String? value) {
-                                      setState(() {
-                                        initialdsrDurationMonthList = value!;
-                                        getDsrDurationMonthListTo(value);
-                                        for (var date in eDSRSettingsData!
-                                            .dsrDurationMonthList) {
-                                          if (date.nextDateV == value) {
-                                            dsrFromdate = date.nextDate;
-                                            dsrTodate = date.nextDate;
+                                      initialdsrDurationMonthList = value!;
+                                      initialRxDurationMonthListTo = null;
+                                      eDsrDurationMonthListTo = [];
+                                      getDsrDurationMonthListTo(value);
 
-                                            // print(
-                                            //     "rx data======================$dsrFromdate   $dsrTodate");
-                                          }
+                                      for (var date in eDSRSettingsData!
+                                          .dsrDurationMonthList) {
+                                        if (date.nextDateV == value) {
+                                          dsrFromdate = date.nextDate;
+                                          dsrTodate = date.nextDate;
                                         }
-                                      });
+                                      }
+                                      setState(() {});
                                     },
                                   ),
                                   const Text(
@@ -644,8 +662,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             .dsrDurationMonthList) {
                                           if (date.nextDateV == value) {
                                             dsrTodate = date.nextDate;
-                                            // print(
-                                            //     "rx data======================$dsrFromdate   $dsrTodate");
                                           }
                                         }
                                       });
@@ -657,7 +673,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 15,
                               ),
                               const Text(
-                                "Select Mode*",
+                                "Select Issue Mode*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -668,8 +684,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               ),
                               DropdownButton<String>(
                                 iconEnabledColor: const Color(0xff8AC995),
-                                value: initialPayMode,
-                                hint: const Text("Select Pay Mode",
+                                value: initialIssueMode,
+                                hint: const Text("Select Issue Mode",
                                     style: TextStyle(fontSize: 14)),
                                 items: ePayModeList.map((String item) {
                                   return DropdownMenuItem<String>(
@@ -685,16 +701,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 }).toList(),
                                 onChanged: (String? value) {
                                   setState(() {
-                                    initialPayMode = value!;
+                                    initialIssueMode = value!;
                                   });
                                 },
                               ),
                               SizedBox(
-                                height: initialPayMode != null ? 10 : 0,
+                                height: initialIssueMode != null ? 10 : 0,
                               ),
-                              initialPayMode != null
+                              initialIssueMode != null
                                   ? const Text(
-                                      "Mode Description*",
+                                      "Issue To*",
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -704,13 +720,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               const SizedBox(
                                 height: 6,
                               ),
-                              initialPayMode != null
+                              initialIssueMode != null
                                   ? SizedBox(
                                       width: MediaQuery.of(context).size.width /
                                           1.1,
                                       height: 45,
                                       child: TextFormField(
-                                        controller: addModeDescripController,
+                                        controller: issueToController,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(
                                             borderSide: const BorderSide(
@@ -728,74 +744,126 @@ class _EDSRScreenState extends State<EDSRScreen> {
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      child: Container(
-                        height: 55,
-                        width: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: const Border(
-                              top: BorderSide(
-                                color: Color.fromARGB(255, 44, 114, 66),
-                                width: 2,
-                              ),
-                              bottom: BorderSide(
-                                color: Color.fromARGB(255, 44, 114, 66),
-                                width: 2,
-                              ),
-                              left: BorderSide(
-                                color: Color.fromARGB(255, 44, 114, 66),
-                                width: 2,
-                              ),
-                              right: BorderSide(
-                                color: Color.fromARGB(255, 44, 114, 66),
-                                width: 2,
-                              ),
-                            )),
-                        child: const Center(
-                            child: Text("Back",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 44, 114, 66),
-                                ))),
-                      ),
-                      onTap: () {},
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    InkWell(
-                      child: Container(
-                        height: 55,
-                        width: 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromARGB(255, 44, 114, 66),
-                        ),
-                        child: const Center(
-                            child: Text("Continue",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ))),
-                      ),
-                      onTap: () {
-                        eDseSubmit();
-                      },
-                    ),
-                  ],
+                const SizedBox(
+                  height: 15,
                 ),
-              )
-              // TextFormField()
-            ],
+
+                SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              height: 55,
+                              //width: 160,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: const Border(
+                                    top: BorderSide(
+                                      color: Color.fromARGB(255, 44, 114, 66),
+                                      width: 2,
+                                    ),
+                                    bottom: BorderSide(
+                                      color: Color.fromARGB(255, 44, 114, 66),
+                                      width: 2,
+                                    ),
+                                    left: BorderSide(
+                                      color: Color.fromARGB(255, 44, 114, 66),
+                                      width: 2,
+                                    ),
+                                    right: BorderSide(
+                                      color: Color.fromARGB(255, 44, 114, 66),
+                                      width: 2,
+                                    ),
+                                  )),
+                              child: const Center(
+                                  child: Text("Back",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 44, 114, 66),
+                                      ))),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              height: 55,
+                              //width: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color.fromARGB(255, 44, 114, 66),
+                              ),
+                              child: const Center(
+                                  child: Text("Continue",
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ))),
+                            ),
+                            onTap: () {
+                              brandStr != ""
+                                  ? widget.docInfo[widget.index]["area_id"] !=
+                                          null
+                                      ? widget.docInfo[widget.index]
+                                                  ["doc_id"] !=
+                                              null
+                                          ? widget.docInfo[widget.index]
+                                                      ["doc_name"] !=
+                                                  null
+                                              ? initialCategory != null
+                                                  ? initialCategory != null
+                                                      ? purposeId != ""
+                                                          ? subPurposeId != ""
+                                                              ? addDescriptionController
+                                                                          .text !=
+                                                                      ""
+                                                                  ? rxFromDate !=
+                                                                          ""
+                                                                      ? rxToDate !=
+                                                                              ""
+                                                                          ? initialPaySchdedule != null
+                                                                              ? dsrFromdate != ""
+                                                                                  ? dsrTodate != ""
+                                                                                      ? noOfPatientController.text != ""
+                                                                                          ? initialIssueMode != null
+                                                                                              ? issueToController.text != ""
+                                                                                                  ? eDseSubmit()
+                                                                                                  : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                                                                              : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
+                                                                                          : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
+                                                                                      : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
+                                                                                  : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
+                                                                              : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
+                                                                          : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
+                                                                      : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
+                                                                  : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
+                                                              : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
+                                                          : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
+                                                      : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                  : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                              : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
+                                          : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
+                                      : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
+                                  : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                // TextFormField()
+              ],
+            ),
           ),
         ),
       ),
@@ -805,7 +873,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //eDseSubmit() {}
   //=============================================== get Territory Based Doctor Button (Api call)================================
   eDseSubmit() async {
-    String data = await eDSRRepository().submitEDSR(
+    Map<String, dynamic> data = await eDSRRepository().submitEDSR(
         dmpathData!.submitUrl,
         cid!,
         userInfo!.userId,
@@ -822,7 +890,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
         initialCategory!,
         purposeId,
         subPurposeId,
-        noOfPatientController.text,
+        addDescriptionController.text,
         rxFromDate,
         rxToDate,
         noOfPatientController.text,
@@ -830,38 +898,21 @@ class _EDSRScreenState extends State<EDSRScreen> {
         dsrTodate,
         initialPaySchdedule!,
         "0",
-        initialPayMode!,
+        initialIssueMode!,
         "",
-        "0");
+        "0",
+        issueToController.text);
+
     print("submit data===========$data");
-    // if (data["res_data"]["status"] == "Success") {
-    //List doctorData = data["res_data"]["doctorList"];
-
-    //   result = doctorData;
-    //   doctroList.clear();
-
-    //   for (var disco in result) {
-    //     box?.add(disco);
-    //   }
-    //   widget.callbackData["dsr_Type"] = initialDoctorType;
-    //   widget.callbackData["Region"] = initialRegion;
-    //   widget.callbackData["Area"] = initialDocroeArea;
-    //   widget.callbackData["Territory"] = initialTerritory;
-    //   widget.callbackFuc(widget.callbackData);
-
-    //   var pref = await SharedPreferences.getInstance();
-    //   pref.setString("Region", regionID);
-    //   pref.setString("Area", areaID);
-    //   pref.setString("Territory", terrorID);
-    //   pref.setString("DoctorType", initialDoctorType!);
-    // } else {
-    //   Fluttertoast.showToast(
-    //       msg: '${data["res_data"]["ret_str"]}',
-    //       toastLength: Toast.LENGTH_LONG,
-    //       gravity: ToastGravity.BOTTOM,
-    //       backgroundColor: Colors.red,
-    //       textColor: Colors.white,
-    //       fontSize: 16.0);
-    // }
+    if (data["status"] == "Success") {
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
+      if (!mounted) return;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const EDcrScreen()));
+    } else {
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
+    }
   }
 }

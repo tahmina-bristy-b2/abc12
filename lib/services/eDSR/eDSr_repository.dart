@@ -53,7 +53,7 @@ class eDSRRepository {
   }
 
   //=========================================== Territory Based Doctor ==========================================
-  Future<String> submitEDSR(
+  Future<Map<String, dynamic>> submitEDSR(
     String eDsrSettingsUrl,
     String cid,
     String userId,
@@ -81,9 +81,10 @@ class eDSRRepository {
     String payMode,
     String chequeTo,
     String rsmCash,
+    String issueTo,
   ) async {
-    //Map<String, dynamic> submitInfo = {};
-    String submitInfo = "";
+    Map<String, dynamic> submitInfo = {};
+    //String submitInfo = "";
     try {
       http.Response response = await EDSRDataProvider().submiteDSRForAdd(
           eDsrSettingsUrl,
@@ -112,7 +113,8 @@ class eDSRRepository {
           payNMonth,
           payMode,
           chequeTo,
-          rsmCash);
+          rsmCash,
+          issueTo);
 
       submitInfo = json.decode(response.body);
       return submitInfo;

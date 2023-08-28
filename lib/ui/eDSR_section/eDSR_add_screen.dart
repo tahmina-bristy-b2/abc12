@@ -229,7 +229,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${widget.docInfo[widget.index]["doc_name"]}(${widget.docInfo[widget.index]["degree"]})(${widget.docInfo[widget.index]["specialty"]})",
+                            "${widget.docInfo[widget.index]["doc_name"]}|${widget.docInfo[widget.index]["degree"]}|${widget.docInfo[widget.index]["specialty"]}",
                             style: const TextStyle(
                                 fontSize: 16,
                                 color: Color.fromARGB(255, 0, 0, 0),
@@ -239,7 +239,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                             height: 5,
                           ),
                           Text(
-                            "${widget.docInfo[widget.index]["address"]}($territoryid)",
+                            "${widget.docInfo[widget.index]["address"]}|$territoryid",
                             style: const TextStyle(
                                 fontSize: 14,
                                 color: Color.fromARGB(255, 64, 64, 64)),
@@ -962,35 +962,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 0,
                               ),
                               const Text(
-                                "Number Of Patient*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: noOfPatientController,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.white),
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                    ),
-                                  )),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
                                 "Add Descripton*",
                                 style: TextStyle(
                                     fontSize: 15,
@@ -1245,6 +1216,35 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               ),
                               const SizedBox(
                                 height: 15,
+                              ),
+                              const Text(
+                                "Number Of Patient*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: noOfPatientController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                    ),
+                                  )),
+                              const SizedBox(
+                                height: 10,
                               ),
                               const Text(
                                 "Select Issue Mode*",

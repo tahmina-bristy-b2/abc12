@@ -215,8 +215,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                     // color: Colors.blue[700],
                                                   ),
                                                   child: Row(
-                                                    children: const [
-                                                      Expanded(
+                                                    children: [
+                                                      const Expanded(
                                                           child: Text(
                                                         'Name',
                                                         style: TextStyle(
@@ -226,24 +226,40 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       Expanded(
                                                           child: Center(
                                                         child: Text(
-                                                          'Sales Objectives',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
+                                                          dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .dsrType ==
+                                                                  'DCC'
+                                                              ? 'Sales Objectives'
+                                                              : 'Rx/Day',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 12),
                                                         ),
                                                       )),
                                                       Expanded(
                                                           child: Center(
                                                         child: Text(
-                                                          'Monthly Avg. Sales',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
+                                                          dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .dsrType ==
+                                                                  'DCC'
+                                                              ? 'Monthly Avg. Sales'
+                                                              : 'Amount',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 12),
                                                         ),
                                                       )),
-                                                      Expanded(
+                                                      const Expanded(
                                                           child: Center(
                                                         child: Text(
                                                           'Action',

@@ -252,13 +252,13 @@ class EDSRRepositories {
       // print(resData["res_data"]["status"]);
 
       if (response.statusCode == 200) {
-        if (resData["res_data"]["status"] == "Success") {
-          AllServices().toastMessage(
-              resData["res_data"]["status"], Colors.green, Colors.white, 14);
+        if (resData["status"] == "Success") {
+          AllServices()
+              .toastMessage(resData["ret_str"], Colors.green, Colors.white, 14);
           return resData;
         } else {
-          AllServices().toastMessage(
-              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          AllServices()
+              .toastMessage(resData["ret_str"], Colors.red, Colors.white, 14);
           return resData;
         }
       } else {

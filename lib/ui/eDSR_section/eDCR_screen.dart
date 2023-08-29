@@ -37,7 +37,11 @@ class _EDcrScreenState extends State<EDcrScreen> {
 
   @override
   void initState() {
-    regionListData = Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
+    if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
+      regionListData =
+          Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
+    }
+
     box = Hive.box("doctorList");
     result = box!.toMap().values.toList();
     SharedPreferences.getInstance().then((prefs) {
@@ -233,7 +237,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
                               " ",
                             )
                           : Text(
-                              " ${territory} ",
+                              " $territory ",
                               style: const TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 15),
                             ),

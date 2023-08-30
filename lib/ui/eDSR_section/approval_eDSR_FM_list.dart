@@ -3,7 +3,7 @@ import 'package:MREPORTING/models/dDSR%20model/eDSR_FM_list_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/ui/eDSR_section/approve_eDSR.dart';
+import 'package:MREPORTING/ui/eDSR_section/approval_eDSR.dart';
 import 'package:flutter/material.dart';
 
 class EdsrFmList extends StatefulWidget {

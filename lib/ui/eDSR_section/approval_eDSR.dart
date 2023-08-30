@@ -5,6 +5,8 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:flutter/material.dart';
 
+// enum ApprovalStatus { APPROVED, REJECTED }
+
 class ApproveEDSR extends StatefulWidget {
   const ApproveEDSR(
       {super.key,
@@ -26,10 +28,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   DmPathDataModel? dmpathData;
   DsrDetailsModel? dsrDetails;
 
-  String? dropdownValue = "NO";
-
   bool isLoading = true;
   Map<String, bool> isUpdate = {};
+  bool rsmCashError = false;
+  Map<String, String> dropdownValue = {};
 
   @override
   void initState() {
@@ -86,8 +88,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                           isUpdate[element.rowId] = false;
                         }
 
-                        dropdownValue =
-                            dsrDetails!.resData.dataList[index].rsmCash;
+                        // dropdownValue =
+                        //     dsrDetails!.resData.dataList[index].rsmCash;
 
                         return Container(
                           constraints:
@@ -135,12 +137,55 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Expanded(flex: 3, child: Text('DCC')),
+                                    const Expanded(
+                                        flex: 3, child: Text('Doctor')),
                                     const Text(':'),
                                     Expanded(
                                       flex: 8,
                                       child: Text(
-                                          '  ${dsrDetails!.resData.dataList[index].doctorName}|${dsrDetails!.resData.dataList[index].doctorId}'),
+                                          '  ${dsrDetails!.resData.dataList[index].doctorName} | ${dsrDetails!.resData.dataList[index].doctorId}'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Expanded(
+                                        flex: 3, child: Text('Degree')),
+                                    const Text(':'),
+                                    Expanded(
+                                      flex: 8,
+                                      child: Text((dsrDetails!.resData
+                                                      .dataList[index].degree ==
+                                                  'null' ||
+                                              dsrDetails!.resData
+                                                      .dataList[index].degree ==
+                                                  'None')
+                                          ? ''
+                                          : '  ${dsrDetails!.resData.dataList[index].degree}'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Expanded(
+                                        flex: 3, child: Text('Speciality')),
+                                    const Text(':'),
+                                    Expanded(
+                                      flex: 8,
+                                      child: Text(
+                                          '  ${dsrDetails!.resData.dataList[index].specialty}'),
                                     ),
                                   ],
                                 ),
@@ -171,13 +216,13 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8),
-                                                    color: Color.fromARGB(
+                                                    color: const Color.fromARGB(
                                                         255, 138, 201, 149),
                                                     // color: Colors.blue[700],
                                                   ),
                                                   child: Row(
-                                                    children: const [
-                                                      Expanded(
+                                                    children: [
+                                                      const Expanded(
                                                           child: Text(
                                                         'Name',
                                                         style: TextStyle(
@@ -187,24 +232,40 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                       Expanded(
                                                           child: Center(
                                                         child: Text(
-                                                          'Sales Objectives',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
+                                                          dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .dsrType ==
+                                                                  'DCC'
+                                                              ? 'Sales Objective'
+                                                              : 'Rx/Day',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 12),
                                                         ),
                                                       )),
                                                       Expanded(
                                                           child: Center(
                                                         child: Text(
-                                                          'Monthly Avg. Sales',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
+                                                          dsrDetails!
+                                                                      .resData
+                                                                      .dataList[
+                                                                          index]
+                                                                      .dsrType ==
+                                                                  'DCC'
+                                                              ? 'Monthly Avg. Sales'
+                                                              : 'Amount',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 12),
                                                         ),
                                                       )),
-                                                      Expanded(
+                                                      const Expanded(
                                                           child: Center(
                                                         child: Text(
                                                           'Action',
@@ -371,7 +432,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8),
-                                                    color: Color.fromARGB(
+                                                    color: const Color.fromARGB(
                                                         255, 138, 201, 149),
                                                     // color: Colors.blue[500],
                                                   ),
@@ -609,7 +670,16 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                             return Row(
                                               children: [
                                                 DropdownButton(
-                                                  value: dropdownValue,
+                                                  value: dropdownValue[
+                                                      dsrDetails!.resData
+                                                          .dataList[index].sl],
+                                                  hint: const Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: Text('Select',
+                                                        style: TextStyle(
+                                                            fontSize: 12)),
+                                                  ),
                                                   iconEnabledColor:
                                                       Colors.blue[900],
                                                   iconDisabledColor: Colors.red,
@@ -634,7 +704,11 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                   onChanged:
                                                       (String? newValue) {
                                                     setState_2(() {
-                                                      dropdownValue = newValue;
+                                                      dropdownValue[dsrDetails!
+                                                              .resData
+                                                              .dataList[index]
+                                                              .sl] =
+                                                          newValue ?? "NO";
                                                     });
                                                   },
                                                 ),
@@ -650,6 +724,41 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                   ],
                                 ),
                               ),
+                              rsmCashError
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Expanded(
+                                              flex: 3, child: Text('')),
+                                          const Text(''),
+                                          Expanded(
+                                              flex: 8,
+                                              child: StatefulBuilder(
+                                                builder: (context, setState_2) {
+                                                  return Row(
+                                                    children: const [
+                                                      Text(
+                                                          'RSM Cash is Resqired.',
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 12)),
+                                                      SizedBox.shrink()
+                                                    ],
+                                                  );
+                                                },
+                                              )
+
+                                              // Text(
+                                              //     '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
+                                              ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 5, bottom: 5),
@@ -677,10 +786,15 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
+                                      // if (dropdownValue != null) {
                                       String approvedEdsrParams =
-                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=$dropdownValue&status=REJECTED";
+                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
                                       approvedOrRejectedDsr(
                                           approvedEdsrParams, index);
+                                      // } else {
+                                      //   rsmCashError = true;
+                                      //   setState(() {});
+                                      // }
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red,
@@ -691,7 +805,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                   ElevatedButton(
                                     onPressed: () {
                                       String approvedEdsrParams =
-                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=$dropdownValue&status=APPROVED";
+                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
                                       approvedOrRejectedDsr(
                                           approvedEdsrParams, index);
                                     },
@@ -726,6 +840,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
         widget.territoryId);
 
     if (dsrDetails != null) {
+      for (var element in dsrDetails!.resData.dataList) {
+        dropdownValue[element.sl] = "NO";
+      }
+
       setState(() {
         isLoading = false;
       });
@@ -778,8 +896,9 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     );
 
     if (approvedResponse.isNotEmpty &&
-        approvedResponse["res_data"]["status"] == "Success") {
+        approvedResponse["status"] == "Success") {
       removeDSR(index);
+      rsmCashError = false;
       setState(() {
         isLoading = false;
       });

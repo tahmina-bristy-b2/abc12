@@ -6,7 +6,7 @@ import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
-import 'package:MREPORTING/ui/eDSR_section/approve_eDSR_FM_list.dart';
+import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
 import 'package:MREPORTING/ui/stock_page.dart';

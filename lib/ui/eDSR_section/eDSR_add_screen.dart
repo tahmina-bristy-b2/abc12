@@ -5,7 +5,9 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EDSRScreen extends StatefulWidget {
@@ -68,6 +70,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
   String rxToDate = '';
   String brandString = '';
   String territoryid = '';
+  double latitude = 0.0;
+  double longitude = 0.0;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -81,6 +86,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
       cid = prefs.getString("CID") ?? '';
       doctorType = prefs.getString("DoctorType") ?? '';
       territoryid = prefs.getString("Territory") ?? '';
+      latitude = prefs.getDouble("latitude") ?? 0.0;
+      longitude = prefs.getDouble("longitude") ?? 0.0;
     });
   }
 
@@ -424,12 +431,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             const SizedBox(
                                                               height: 15,
                                                             ),
-                                                            const Align(
+                                                            Align(
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                "RX/Day*",
-                                                                style: TextStyle(
+                                                                doctorType ==
+                                                                        "DOCTOR"
+                                                                    ? "RX/Day*"
+                                                                    : "Sales Objective*",
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600),
@@ -468,12 +478,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             const SizedBox(
                                                               height: 15,
                                                             ),
-                                                            const Align(
+                                                            Align(
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                "DSR*",
-                                                                style: TextStyle(
+                                                                doctorType ==
+                                                                        "DOCTOR"
+                                                                    ? "DSR*"
+                                                                    : "Monthly Avg.Sales*",
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600),
@@ -624,15 +637,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           Container(
                                             color: const Color(0xff8AC995),
                                             child: Row(
-                                              children: const [
-                                                SizedBox(
+                                              children: [
+                                                const SizedBox(
                                                   width: 75,
                                                   height: 35,
                                                   child: Center(
                                                     child: Text(
                                                       "Name",
                                                       style: TextStyle(
-                                                          fontSize: 14,
+                                                          fontSize: 13,
                                                           color: Color.fromARGB(
                                                               255, 0, 0, 0),
                                                           fontWeight:
@@ -641,7 +654,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding:
+                                                      const EdgeInsets.only(
                                                     left: 20,
                                                   ),
                                                   child: SizedBox(
@@ -649,9 +663,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     height: 35,
                                                     child: Center(
                                                       child: Text(
-                                                        "Rx/Day",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
+                                                        doctorType == "DOCTOR"
+                                                            ? "Rx/Day"
+                                                            : "Sales Objective*",
+                                                        style: const TextStyle(
+                                                            fontSize: 13,
                                                             color:
                                                                 Color.fromARGB(
                                                                     255,
@@ -666,7 +682,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding:
+                                                      const EdgeInsets.only(
                                                     left: 20,
                                                   ),
                                                   child: SizedBox(
@@ -674,9 +691,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     height: 35,
                                                     child: Center(
                                                       child: Text(
-                                                        "DSR",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
+                                                        doctorType == "DOCTOR"
+                                                            ? "DSR"
+                                                            : "Monthly Avg.Sales*",
+                                                        style: const TextStyle(
+                                                            fontSize: 13,
                                                             color:
                                                                 Color.fromARGB(
                                                                     255,
@@ -690,7 +709,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     ),
                                                   ),
                                                 ),
-                                                Padding(
+                                                const Padding(
                                                   padding: EdgeInsets.only(
                                                     left: 20,
                                                   ),
@@ -701,7 +720,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       child: Text(
                                                         "Action",
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 13,
                                                             color:
                                                                 Color.fromARGB(
                                                                     255,
@@ -739,7 +758,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                 index][0],
                                                             style:
                                                                 const TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 13,
                                                               color: Color
                                                                   .fromARGB(255,
                                                                       0, 0, 0),
@@ -767,7 +786,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       index][1],
                                                               style:
                                                                   const TextStyle(
-                                                                fontSize: 14,
+                                                                fontSize: 13,
                                                                 color: Color
                                                                     .fromARGB(
                                                                         255,
@@ -799,7 +818,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       index][2],
                                                               style:
                                                                   const TextStyle(
-                                                                fontSize: 14,
+                                                                fontSize: 13,
                                                                 color: Color
                                                                     .fromARGB(
                                                                         255,
@@ -1322,119 +1341,141 @@ class _EDSRScreenState extends State<EDSRScreen> {
                   height: 15,
                 ),
 
-                SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            child: Container(
-                              height: 55,
-                              //width: 160,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: const Border(
-                                    top: BorderSide(
-                                      color: Color.fromARGB(255, 44, 114, 66),
-                                      width: 2,
-                                    ),
-                                    bottom: BorderSide(
-                                      color: Color.fromARGB(255, 44, 114, 66),
-                                      width: 2,
-                                    ),
-                                    left: BorderSide(
-                                      color: Color.fromARGB(255, 44, 114, 66),
-                                      width: 2,
-                                    ),
-                                    right: BorderSide(
-                                      color: Color.fromARGB(255, 44, 114, 66),
-                                      width: 2,
-                                    ),
-                                  )),
-                              child: const Center(
-                                  child: Text("Back",
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 44, 114, 66),
-                                      ))),
-                            ),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            child: Container(
-                              height: 55,
-                              //width: 160,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color.fromARGB(255, 44, 114, 66),
+                isLoading == false
+                    ? SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  child: Container(
+                                    height: 55,
+                                    //width: 160,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: const Border(
+                                          top: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                          left: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                          right: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                        )),
+                                    child: const Center(
+                                        child: Text("Back",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 44, 114, 66),
+                                            ))),
+                                  ),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
                               ),
-                              child: const Center(
-                                  child: Text("Continue",
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ))),
-                            ),
-                            onTap: () {
-                              getbrandString() != ""
-                                  ? widget.docInfo[widget.index]["area_id"] !=
-                                          ""
-                                      ? widget.docInfo[widget.index]
-                                                  ["doc_id"] !=
-                                              ""
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  child: Container(
+                                    height: 55,
+                                    //width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color.fromARGB(
+                                          255, 44, 114, 66),
+                                    ),
+                                    child: const Center(
+                                        child: Text("Continue",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                            ))),
+                                  ),
+                                  onTap: () async {
+                                    bool result =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (result == true) {
+                                      getbrandString() != ""
                                           ? widget.docInfo[widget.index]
-                                                      ["doc_name"] !=
+                                                      ["area_id"] !=
                                                   ""
-                                              ? initialCategory != null
-                                                  ? initialCategory != null
-                                                      ? purposeId != ""
-                                                          ? subPurposeId != ""
-                                                              ? addDescriptionController
-                                                                          .text !=
-                                                                      ""
-                                                                  ? rxFromDate !=
+                                              ? widget.docInfo[widget.index]
+                                                          ["doc_id"] !=
+                                                      ""
+                                                  ? widget.docInfo[widget.index]
+                                                              ["doc_name"] !=
+                                                          ""
+                                                      ? initialCategory != null
+                                                          ? initialCategory !=
+                                                                  null
+                                                              ? purposeId != ""
+                                                                  ? subPurposeId !=
                                                                           ""
-                                                                      ? rxToDate !=
+                                                                      ? addDescriptionController.text !=
                                                                               ""
-                                                                          ? initialPaySchdedule != null
-                                                                              ? dsrFromdate != ""
-                                                                                  ? dsrTodate != ""
-                                                                                      ? noOfPatientController.text != ""
-                                                                                          ? initialIssueMode != null
-                                                                                              ? issueToController.text != ""
-                                                                                                  ? eDsrSubmit()
-                                                                                                  : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                                                                              : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
-                                                                                          : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
-                                                                                      : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
-                                                                                  : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
-                                                                              : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
-                                                                          : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
-                                                                      : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
-                                                                  : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
-                                                              : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
-                                                          : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
-                                                      : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                  : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                              : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
-                                          : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
-                                      : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
-                                  : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
-                            },
+                                                                          ? rxFromDate != ""
+                                                                              ? rxToDate != ""
+                                                                                  ? initialPaySchdedule != null
+                                                                                      ? dsrFromdate != ""
+                                                                                          ? dsrTodate != ""
+                                                                                              ? noOfPatientController.text != ""
+                                                                                                  ? initialIssueMode != null
+                                                                                                      ? issueToController.text != ""
+                                                                                                          ? eDsrSubmit()
+                                                                                                          : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                                                                                      : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
+                                                                                                  : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
+                                                                                              : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
+                                                                                          : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
+                                                                                      : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
+                                                                                  : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
+                                                                              : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
+                                                                          : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
+                                                                      : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
+                                                                  : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
+                                                              : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                          : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                      : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
+                                                  : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
+                                              : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
+                                          : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
+                      )
+                    : const CircularProgressIndicator()
                 // TextFormField()
               ],
             ),
@@ -1446,6 +1487,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   //=============================================== get Territory Based Doctor Button (Api call)================================
   eDsrSubmit() async {
+    setState(() {
+      isLoading = true;
+    });
     Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
         dmpathData!.submitUrl,
         cid!,
@@ -1457,8 +1501,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
         widget.docInfo[widget.index]["doc_id"],
         widget.docInfo[widget.index]["doc_name"],
         "",
-        "0",
-        "0",
+        latitude.toString(),
+        longitude.toString(),
         doctorType!,
         initialCategory!,
         purposeId,
@@ -1478,12 +1522,18 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
     print("submit data===========$data");
     if (data["status"] == "Success") {
+      setState(() {
+        isLoading = false;
+      });
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
       if (!mounted) return;
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const EDcrScreen()));
     } else {
+      setState(() {
+        isLoading = false;
+      });
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
     }

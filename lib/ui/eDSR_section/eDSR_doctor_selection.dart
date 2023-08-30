@@ -4,11 +4,13 @@ import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EDsrDoctorSelection extends StatefulWidget {
@@ -55,6 +57,7 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
   String? cid;
   String? userId;
   String? password;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -378,31 +381,45 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
                 const SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      if (regionID != "") {
-                        if (areaID != "") {
-                          getTerriBaesdDoctor();
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: 'Please Select Area ',
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.BOTTOM,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                        }
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: 'Please Select Region ',
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.BOTTOM,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      }
-                    },
-                    child: const Text("Get Doctor List"))
+                isLoading != true
+                    ? ElevatedButton(
+                        onPressed: () async {
+                          bool hasInternet =
+                              await InternetConnectionChecker().hasConnection;
+                          if (hasInternet == true) {
+                            if (regionID != "") {
+                              if (areaID != "") {
+                                getTerriBaesdDoctor();
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'Please Select Area ',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              }
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: 'Please Select Region ',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+                          } else {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            AllServices().toastMessage(
+                                interNetErrorMsg, Colors.red, Colors.white, 16);
+                          }
+                        },
+                        child: const Text("Get Doctor List"))
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      )
               ],
             ),
           );
@@ -413,6 +430,9 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
 
   //=============================================== get Territory Based Doctor Button (Api call)================================
   getTerriBaesdDoctor() async {
+    setState(() {
+      isLoading = true;
+    });
     box = Hive.box("doctorList");
     box?.clear();
     Map<String, dynamic> data = await EDSRRepositories()
@@ -422,6 +442,9 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
       List doctorData = data["res_data"]["doctorList"];
 
       result = doctorData;
+      setState(() {
+        isLoading = false;
+      });
       doctroList.clear();
 
       for (var disco in result) {
@@ -439,6 +462,9 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
       pref.setString("Territory", terrorID);
       pref.setString("DoctorType", initialDoctorType!);
     } else {
+      setState(() {
+        isLoading = false;
+      });
       Fluttertoast.showToast(
           msg: '${data["res_data"]["ret_str"]}',
           toastLength: Toast.LENGTH_LONG,

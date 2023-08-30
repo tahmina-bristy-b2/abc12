@@ -3,7 +3,6 @@ import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_add_screen.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_doctor_selection.dart';
-//import 'package:pharma_rx/models/regionListModel.dart' as r;
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';

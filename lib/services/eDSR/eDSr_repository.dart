@@ -173,7 +173,7 @@ class EDSRRepositories {
           fmListUrl, cid, userId, userPass, submitedBy, territoryId);
 
       var resData = json.decode(response.body);
-      print(resData["res_data"]["status"]);
+      // print(resData["res_data"]["status"]);
 
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {

@@ -160,8 +160,14 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     const Text(':'),
                                     Expanded(
                                       flex: 8,
-                                      child: Text(
-                                          '  ${dsrDetails!.resData.dataList[index].degree}'),
+                                      child: Text((dsrDetails!.resData
+                                                      .dataList[index].degree ==
+                                                  'null' ||
+                                              dsrDetails!.resData
+                                                      .dataList[index].degree ==
+                                                  'None')
+                                          ? ''
+                                          : '  ${dsrDetails!.resData.dataList[index].degree}'),
                                     ),
                                   ],
                                 ),
@@ -232,7 +238,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                                           index]
                                                                       .dsrType ==
                                                                   'DCC'
-                                                              ? 'Sales Objectives'
+                                                              ? 'Sales Objective'
                                                               : 'Rx/Day',
                                                           style:
                                                               const TextStyle(
@@ -782,7 +788,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     onPressed: () {
                                       // if (dropdownValue != null) {
                                       String approvedEdsrParams =
-                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=REJECTED";
+                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
                                       approvedOrRejectedDsr(
                                           approvedEdsrParams, index);
                                       // } else {
@@ -799,7 +805,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                   ElevatedButton(
                                     onPressed: () {
                                       String approvedEdsrParams =
-                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=APPROVED";
+                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
                                       approvedOrRejectedDsr(
                                           approvedEdsrParams, index);
                                     },

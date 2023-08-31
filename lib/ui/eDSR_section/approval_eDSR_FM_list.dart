@@ -233,11 +233,11 @@ class _EdsrFmListState extends State<EdsrFmList> {
                                                           .resData
                                                           .dataList![index]
                                                           .amount))),
-                                              Expanded(
+                                              const Expanded(
                                                 child: Align(
                                                   alignment:
                                                       Alignment.centerRight,
-                                                  child: const Icon(
+                                                  child: Icon(
                                                     Icons.arrow_forward_ios,
                                                     size: 16,
                                                   ),

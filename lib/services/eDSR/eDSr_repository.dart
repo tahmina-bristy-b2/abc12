@@ -147,7 +147,7 @@ class EDSRRepositories {
         }
       } else {
         AllServices().toastMessage(
-            "System Unable to reach th Server,\n StatusCode: ${response.statusCode}",
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
             Colors.red,
             Colors.white,
             14);
@@ -186,7 +186,7 @@ class EDSRRepositories {
         }
       } else {
         AllServices().toastMessage(
-            "System Unable to reach th Server,\n StatusCode: ${response.statusCode}",
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
             Colors.red,
             Colors.white,
             14);
@@ -216,7 +216,10 @@ class EDSRRepositories {
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
           AllServices().toastMessage(
-              resData["res_data"]["status"], Colors.green, Colors.white, 14);
+              "Updated ${resData["res_data"]["status"]}fully",
+              Colors.green,
+              Colors.white,
+              14);
           return resData;
         } else {
           AllServices().toastMessage(
@@ -225,7 +228,7 @@ class EDSRRepositories {
         }
       } else {
         AllServices().toastMessage(
-            "System Unable to reach th Server,\n StatusCode: ${response.statusCode}",
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
             Colors.red,
             Colors.white,
             14);
@@ -263,7 +266,7 @@ class EDSRRepositories {
         }
       } else {
         AllServices().toastMessage(
-            "System Unable to reach th Server,\n StatusCode: ${response.statusCode}",
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
             Colors.red,
             Colors.white,
             14);

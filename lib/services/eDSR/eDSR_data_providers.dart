@@ -150,6 +150,8 @@ class EDSRDataProvider {
     String territoryId,
   ) async {
     final http.Response response;
+    print(
+        "eDSR details api=${EDSRApis.dsrDetailsApi(fmListUrl, cid, userId, userPass, submitedBy, territoryId)}");
 
     response = await http.get(
       Uri.parse(EDSRApis.dsrDetailsApi(

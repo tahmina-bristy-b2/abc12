@@ -167,7 +167,7 @@ class EDSRRepositories {
     String submitedBy,
     String territoryId,
   ) async {
-    DsrDetailsModel? edsrFmList;
+    DsrDetailsModel? dsrDetailsData;
     try {
       http.Response response = await EDSRDataProvider().getDsrDetails(
           fmListUrl, cid, userId, userPass, submitedBy, territoryId);
@@ -177,12 +177,12 @@ class EDSRRepositories {
 
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
-          edsrFmList = dsrDetailsModelFromJson(response.body);
-          return edsrFmList;
+          dsrDetailsData = dsrDetailsModelFromJson(response.body);
+          return dsrDetailsData;
         } else {
           AllServices().toastMessage(
-              resData["res_data"]["status"], Colors.red, Colors.white, 14);
-          return edsrFmList;
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return dsrDetailsData;
         }
       } else {
         AllServices().toastMessage(
@@ -195,7 +195,7 @@ class EDSRRepositories {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
 
-    return edsrFmList;
+    return dsrDetailsData;
   }
 
   Future<Map<String, dynamic>> brandAmountUpdate(

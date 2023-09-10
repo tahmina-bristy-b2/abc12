@@ -63,7 +63,7 @@ class DataList {
   final String purposeSub;
   final String purpose;
   final String dsrType;
-  final DateTime submitDate;
+  final String submitDate;
   final String sl;
   final String refId;
   final String doctorId;
@@ -114,7 +114,7 @@ class DataList {
       purposeSub: json["purpose_sub"],
       purpose: json["purpose"],
       dsrType: json["dsr_type"],
-      submitDate: DateTime.parse(json["submit_date"]),
+      submitDate: json["submit_date"],
       sl: json["sl"],
       refId: json["ref_id"],
       doctorId: json["doctor_id"],
@@ -140,8 +140,7 @@ class DataList {
         "purpose_sub": purposeSub,
         "purpose": purpose,
         "dsr_type": dsrType,
-        "submit_date":
-            "${submitDate.year.toString().padLeft(4, '0')}-${submitDate.month.toString().padLeft(2, '0')}-${submitDate.day.toString().padLeft(2, '0')}",
+        "submit_date": submitDate,
         "sl": sl,
         "ref_id": refId,
         "doctor_id": doctorId,

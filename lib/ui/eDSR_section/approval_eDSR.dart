@@ -76,9 +76,9 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : dsrDetails!.resData.dataList.isEmpty
+          : dsrDetails == null
               ? const Center(
-                  child: Text("No Data Found!"),
+                  child: Text('No Data Found'),
                 )
               : SafeArea(
                   child: ListView.builder(

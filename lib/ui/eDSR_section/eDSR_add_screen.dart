@@ -202,6 +202,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
+    double wholeHeight = MediaQuery.of(context).size.height;
+    double wholeWidth = MediaQuery.of(context).size.width;
+    // print("$wholeHeight, $wholeWidth");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -220,15 +223,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: wholeHeight / 75.927,
                 ),
                 Row(
                   children: [
                     const Icon(Icons.person,
                         size: 40, color: Color(0xff8AC995)),
-                    const SizedBox(
-                      width: 10,
+                    SizedBox(
+                      width: wholeWidth / 39.272,
                     ),
                     Expanded(
                       child: Column(
@@ -264,8 +267,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: wholeHeight / 25.309,
                 ),
 
                 SizedBox(
@@ -327,8 +330,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   });
                                 },
                               ),
-                              const SizedBox(
-                                height: 10,
+                              SizedBox(
+                                height: wholeHeight / 75.927,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,12 +343,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  const SizedBox(
-                                    width: 250,
+                                  SizedBox(
+                                    width: wholeWidth / 1.45,
                                   ),
                                   Container(
-                                    height: 40,
-                                    width: 40,
+                                    height: wholeHeight / 18.98,
+                                    width: wholeWidth / 9.8,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: const Color(0xff8AC995),
@@ -638,10 +641,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             color: const Color(0xff8AC995),
                                             child: Row(
                                               children: [
-                                                const SizedBox(
-                                                  width: 75,
-                                                  height: 35,
-                                                  child: Center(
+                                                SizedBox(
+                                                  width: wholeHeight / 10.1236,
+                                                  height: wholeWidth / 11.22,
+                                                  child: const Center(
                                                     child: Text(
                                                       "Name",
                                                       style: TextStyle(
@@ -659,8 +662,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     left: 20,
                                                   ),
                                                   child: SizedBox(
-                                                    width: 75,
-                                                    height: 35,
+                                                    width:
+                                                        wholeHeight / 10.1236,
+                                                    height: wholeWidth / 11.22,
                                                     child: Center(
                                                       child: Text(
                                                         doctorType == "DOCTOR"
@@ -687,8 +691,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     left: 20,
                                                   ),
                                                   child: SizedBox(
-                                                    width: 75,
-                                                    height: 35,
+                                                    width:
+                                                        wholeHeight / 10.1236,
+                                                    height: wholeWidth / 11.22,
                                                     child: Center(
                                                       child: Text(
                                                         doctorType == "DOCTOR"
@@ -709,14 +714,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     ),
                                                   ),
                                                 ),
-                                                const Padding(
-                                                  padding: EdgeInsets.only(
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
                                                     left: 20,
                                                   ),
                                                   child: SizedBox(
-                                                    width: 75,
-                                                    height: 35,
-                                                    child: Center(
+                                                    width:
+                                                        wholeHeight / 10.1236,
+                                                    height: wholeWidth / 11.22,
+                                                    child: const Center(
                                                       child: Text(
                                                         "Action",
                                                         style: TextStyle(
@@ -750,8 +757,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   return Row(
                                                     children: [
                                                       SizedBox(
-                                                        width: 75,
-                                                        height: 35,
+                                                        width:
+                                                            wholeHeight / 10.13,
+                                                        height:
+                                                            wholeWidth / 11.22,
                                                         child: Center(
                                                           child: Text(
                                                             dynamicRowsListForBrand[
@@ -773,8 +782,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           left: 20,
                                                         ),
                                                         child: SizedBox(
-                                                          width: 75,
-                                                          height: 35,
+                                                          width: wholeHeight /
+                                                              10.1236,
+                                                          height: wholeWidth /
+                                                              11.22,
                                                           child: Center(
                                                             child: Text(
                                                               dynamicRowsListForBrand[
@@ -805,8 +816,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           left: 20,
                                                         ),
                                                         child: SizedBox(
-                                                          width: 75,
-                                                          height: 35,
+                                                          width: wholeHeight /
+                                                              10.1236,
+                                                          height: wholeWidth /
+                                                              11.22,
                                                           child: Center(
                                                             child: Text(
                                                               dynamicRowsListForBrand[
@@ -837,8 +850,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           left: 20,
                                                         ),
                                                         child: SizedBox(
-                                                          width: 75,
-                                                          height: 35,
+                                                          width: wholeHeight /
+                                                              10.1236,
+                                                          height: wholeWidth /
+                                                              11.22,
                                                           child: Center(
                                                             child: IconButton(
                                                               icon: const Icon(
@@ -851,11 +866,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                 dynamicRowsListForBrand
                                                                     .removeAt(
                                                                         index);
-                                                                //removePerItem();
 
                                                                 setState(() {});
-                                                                print(
-                                                                    "dynamicRowsListForBrand========================$dynamicRowsListForBrand");
                                                               },
                                                             ),
                                                           ),
@@ -1049,8 +1061,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         for (var date in eDSRSettingsData!
                                             .rxDurationMonthList) {
                                           if (date.nextDateV == value) {
-                                            rxFromDate = date.nextDate;
-                                            rxToDate = date.nextDate;
+                                            if (date.nextDate == "-") {
+                                              rxFromDate = '';
+                                              rxToDate = '';
+                                            } else {
+                                              rxFromDate = date.nextDate;
+                                              rxToDate = date.nextDate;
+                                            }
                                           }
                                         }
                                       });
@@ -1098,8 +1115,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 15,
+                              SizedBox(
+                                height: wholeHeight / 50.618,
                               ),
                               const Text(
                                 "Select DSR Schedule*",
@@ -1142,8 +1159,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   setState(() {});
                                 },
                               ),
-                              const SizedBox(
-                                height: 15,
+                              SizedBox(
+                                height: wholeHeight / 50.618,
                               ),
                               const Text(
                                 "Select DSR Duration*",
@@ -1186,8 +1203,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       for (var date in eDSRSettingsData!
                                           .dsrDurationMonthList) {
                                         if (date.nextDateV == value) {
-                                          dsrFromdate = date.nextDate;
-                                          dsrTodate = date.nextDate;
+                                          if (date.nextDate == "-") {
+                                            dsrFromdate = '';
+                                            dsrTodate = '';
+                                          } else {
+                                            dsrFromdate = date.nextDate;
+                                            dsrTodate = date.nextDate;
+                                          }
                                         }
                                       }
                                       setState(() {});
@@ -1233,8 +1255,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 15,
+                              SizedBox(
+                                height: wholeHeight / 50.618,
                               ),
                               const Text(
                                 "Number Of Patient*",

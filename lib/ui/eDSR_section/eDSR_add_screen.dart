@@ -220,7 +220,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
         child: Padding(
           padding: EdgeInsets.only(bottom: bottom),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               children: [
                 SizedBox(
@@ -365,7 +365,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       title: const Text(
                                                           "Brand Details"),
                                                       content: SizedBox(
-                                                        height: 300,
+                                                        height: 310,
                                                         child: Column(
                                                           children: [
                                                             const Align(
@@ -642,8 +642,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             child: Row(
                                               children: [
                                                 SizedBox(
-                                                  width: wholeHeight / 10.1236,
+                                                  width: wholeHeight / 14,
                                                   height: wholeWidth / 11.22,
+                                                  // width: 30,
+                                                  // height: wholeWidth / 11.22,
                                                   child: const Center(
                                                     child: Text(
                                                       "Name",
@@ -748,7 +750,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             height:
                                                 dynamicRowsListForBrand.length *
                                                     35,
-                                            width: 360,
+                                            width: 340,
                                             child: ListView.builder(
                                                 itemCount:
                                                     dynamicRowsListForBrand
@@ -758,7 +760,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     children: [
                                                       SizedBox(
                                                         width:
-                                                            wholeHeight / 10.13,
+                                                            wholeHeight / 10.4,
                                                         height:
                                                             wholeWidth / 11.22,
                                                         child: Center(
@@ -783,7 +785,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ),
                                                         child: SizedBox(
                                                           width: wholeHeight /
-                                                              10.1236,
+                                                              10.4,
                                                           height: wholeWidth /
                                                               11.22,
                                                           child: Center(
@@ -817,7 +819,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ),
                                                         child: SizedBox(
                                                           width: wholeHeight /
-                                                              10.1236,
+                                                              10.4,
                                                           height: wholeWidth /
                                                               11.22,
                                                           child: Center(
@@ -851,7 +853,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ),
                                                         child: SizedBox(
                                                           width: wholeHeight /
-                                                              10.1236,
+                                                              10.4,
                                                           height: wholeWidth /
                                                               11.22,
                                                           child: Center(
@@ -1550,8 +1552,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
       if (!mounted) return;
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const EDcrScreen()));
+      Navigator.pop(context);
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (_) => const EDcrScreen()));
     } else {
       setState(() {
         isLoading = false;

@@ -28,6 +28,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   DmPathDataModel? dmpathData;
   DsrDetailsModel? dsrDetails;
 
+  String levelDepth = '1';
   bool isLoading = true;
   Map<String, bool> isUpdate = {};
   bool rsmCashError = false;
@@ -348,6 +349,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                                               Expanded(
                                                                 child:
                                                                     TextFormField(
+                                                                  readOnly:
+                                                                      true,
                                                                   controller: controller[dsrDetails!
                                                                       .resData
                                                                       .dataList[
@@ -780,42 +783,50 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // if (dropdownValue != null) {
-                                      String approvedEdsrParams =
-                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
-                                      approvedOrRejectedDsr(
-                                          approvedEdsrParams, index);
-                                      // } else {
-                                      //   rsmCashError = true;
-                                      //   setState(() {});
-                                      // }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                        fixedSize: const Size(150, 30)),
-                                    child: const Text('Reject',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      String approvedEdsrParams =
-                                          "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
-                                      approvedOrRejectedDsr(
-                                          approvedEdsrParams, index);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blue[700],
-                                        fixedSize: const Size(150, 30)),
-                                    child: const Text('Approve'),
-                                  ),
-                                ],
-                              ),
+                              (dsrDetails!.resData.dataList[index].lastAction ==
+                                              'Approve' ||
+                                          dsrDetails!.resData.dataList[index]
+                                                  .lastAction ==
+                                              'Submitted') &&
+                                      levelDepth == '1'
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            // if (dropdownValue != null) {
+                                            String approvedEdsrParams =
+                                                "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
+                                            approvedOrRejectedDsr(
+                                                approvedEdsrParams, index);
+                                            // } else {
+                                            //   rsmCashError = true;
+                                            //   setState(() {});
+                                            // }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red,
+                                              fixedSize: const Size(150, 30)),
+                                          child: const Text('Reject',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            String approvedEdsrParams =
+                                                "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
+                                            approvedOrRejectedDsr(
+                                                approvedEdsrParams, index);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.blue[700],
+                                              fixedSize: const Size(150, 30)),
+                                          child: const Text('Approve'),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
                               const SizedBox(
                                 height: 10,
                               ),

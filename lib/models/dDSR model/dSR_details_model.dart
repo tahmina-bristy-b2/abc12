@@ -71,6 +71,7 @@ class DataList {
   final String degree;
   final String specialty;
   final List<BrandList> brandList;
+  final String step;
 
   DataList({
     required this.lastAction,
@@ -95,33 +96,34 @@ class DataList {
     required this.degree,
     required this.specialty,
     required this.brandList,
+    required this.step,
   });
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
-        lastAction: json["last_action"],
-        rsmCash: json["rsm_cash"],
-        payMode: json["pay_mode"],
-        payNOfMonth: json["pay_n_of_month"],
-        scheduleType: json["schedule_type"],
-        payToFirstDate: json["pay_to_first_date"],
-        payFromFirstDate: json["pay_from_first_date"],
-        noOfPatient: json["no_of_patient"],
-        purposeDurationTo: json["purpose_duration_to"],
-        purposeDurationFrom: json["purpose_duration_from"],
-        purposeDes: json["purpose_des"],
-        purposeSub: json["purpose_sub"],
-        purpose: json["purpose"],
-        dsrType: json["dsr_type"],
-        submitDate: DateTime.parse(json["submit_date"]),
-        sl: json["sl"],
-        refId: json["ref_id"],
-        doctorId: json["doctor_id"],
-        doctorName: json["doctor_name"],
-        degree: json["degree"],
-        specialty: json["specialty"],
-        brandList: List<BrandList>.from(
-            json["brand_list"].map((x) => BrandList.fromJson(x))),
-      );
+      lastAction: json["last_action"],
+      rsmCash: json["rsm_cash"],
+      payMode: json["pay_mode"],
+      payNOfMonth: json["pay_n_of_month"],
+      scheduleType: json["schedule_type"],
+      payToFirstDate: json["pay_to_first_date"],
+      payFromFirstDate: json["pay_from_first_date"],
+      noOfPatient: json["no_of_patient"],
+      purposeDurationTo: json["purpose_duration_to"],
+      purposeDurationFrom: json["purpose_duration_from"],
+      purposeDes: json["purpose_des"],
+      purposeSub: json["purpose_sub"],
+      purpose: json["purpose"],
+      dsrType: json["dsr_type"],
+      submitDate: DateTime.parse(json["submit_date"]),
+      sl: json["sl"],
+      refId: json["ref_id"],
+      doctorId: json["doctor_id"],
+      doctorName: json["doctor_name"],
+      degree: json["degree"],
+      specialty: json["specialty"],
+      brandList: List<BrandList>.from(
+          json["brand_list"].map((x) => BrandList.fromJson(x))),
+      step: json["step"].toString().toUpperCase());
 
   Map<String, dynamic> toJson() => {
         "last_action": lastAction,

@@ -32,13 +32,14 @@ class ResData {
   final List<DataList>? dataList;
   final String budget;
   final String expense;
+  final String levelDepth;
 
-  ResData({
-    required this.status,
-    required this.dataList,
-    required this.budget,
-    required this.expense,
-  });
+  ResData(
+      {required this.status,
+      required this.dataList,
+      required this.budget,
+      required this.expense,
+      required this.levelDepth});
 
   factory ResData.fromJson(Map<String, dynamic> json) => ResData(
         status: json["status"],
@@ -46,6 +47,7 @@ class ResData {
             json["data_list"].map((x) => DataList.fromJson(x))),
         budget: json["budget"],
         expense: json["expense"],
+        levelDepth: json["level_depth_no"] ?? '1',
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,6 +57,7 @@ class ResData {
             : List<dynamic>.from(dataList!.map((x) => x.toJson())),
         "budget": budget,
         "expense": expense,
+        "level_depth_no": levelDepth
       };
 }
 

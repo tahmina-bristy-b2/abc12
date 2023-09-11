@@ -182,6 +182,8 @@ class _EdsrFmListState extends State<EdsrFmList> {
                                                 builder: (_) => ApproveEDSR(
                                                   cid: widget.cid,
                                                   userPass: widget.userPass,
+                                                  levelDepth: edsrFmList!
+                                                      .resData.levelDepth,
                                                   submittedBy: edsrFmList!
                                                       .resData
                                                       .dataList![index]

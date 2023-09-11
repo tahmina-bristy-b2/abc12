@@ -166,23 +166,24 @@ class EDSRRepositories {
     String userPass,
     String submitedBy,
     String territoryId,
+    String levelDepth,
   ) async {
-    DsrDetailsModel? edsrFmList;
+    DsrDetailsModel? dsrDetailsData;
     try {
-      http.Response response = await EDSRDataProvider().getDsrDetails(
-          fmListUrl, cid, userId, userPass, submitedBy, territoryId);
+      http.Response response = await EDSRDataProvider().getDsrDetails(fmListUrl,
+          cid, userId, userPass, submitedBy, territoryId, levelDepth);
 
       var resData = json.decode(response.body);
       // print(resData["res_data"]["status"]);
 
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
-          edsrFmList = dsrDetailsModelFromJson(response.body);
-          return edsrFmList;
+          dsrDetailsData = dsrDetailsModelFromJson(response.body);
+          return dsrDetailsData;
         } else {
           AllServices().toastMessage(
-              resData["res_data"]["status"], Colors.red, Colors.white, 14);
-          return edsrFmList;
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return dsrDetailsData;
         }
       } else {
         AllServices().toastMessage(
@@ -195,7 +196,7 @@ class EDSRRepositories {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
 
-    return edsrFmList;
+    return dsrDetailsData;
   }
 
   Future<Map<String, dynamic>> brandAmountUpdate(

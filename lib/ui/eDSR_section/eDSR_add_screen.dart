@@ -223,7 +223,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
   
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xff8AC995),
@@ -872,7 +872,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ),
                                                         child: SizedBox(
                                                           width: wholeHeight /
-                                                              10.4,
+                                                              14,
                                                           height: wholeWidth /
                                                               11.22,
                                                           child: Center(
@@ -1423,7 +1423,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           ),
                                         )),
                                     child: const Center(
-                                        child: Text("Back",
+                                        child: Text("Cancel",
                                             style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 44, 114, 66),

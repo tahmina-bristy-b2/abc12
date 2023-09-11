@@ -37,7 +37,6 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   bool isLoading = true;
   Map<String, bool> isUpdate = {};
   bool rsmCashError = false;
-  String dataErrorMsg = '';
   Map<String, String> dropdownValue = {};
 
   @override
@@ -947,23 +946,34 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     setState(() {
       isLoading = true;
     });
-    Map<String, dynamic> approvedResponse =
-        await EDSRRepositories().approvedOrRejectedDsr(
-      dmpathData!.syncUrl,
-      widget.cid,
-      userInfo!.userId,
-      widget.userPass,
-      approvedEdsrParams,
-    );
 
-    if (approvedResponse.isNotEmpty &&
-        approvedResponse["status"] == "Success") {
-      removeDSR(index);
-      rsmCashError = false;
-      setState(() {
-        isLoading = false;
-      });
+    bool result = await InternetConnectionChecker().hasConnection;
+
+    if (result) {
+      Map<String, dynamic> approvedResponse =
+          await EDSRRepositories().approvedOrRejectedDsr(
+        dmpathData!.syncUrl,
+        widget.cid,
+        userInfo!.userId,
+        widget.userPass,
+        approvedEdsrParams,
+      );
+
+      if (approvedResponse.isNotEmpty &&
+          approvedResponse["status"] == "Success") {
+        removeDSR(index);
+        rsmCashError = false;
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
     } else {
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.yellow, Colors.black, 16);
       setState(() {
         isLoading = false;
       });

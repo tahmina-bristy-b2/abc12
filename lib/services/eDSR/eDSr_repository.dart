@@ -166,11 +166,12 @@ class EDSRRepositories {
     String userPass,
     String submitedBy,
     String territoryId,
+    String levelDepth,
   ) async {
     DsrDetailsModel? dsrDetailsData;
     try {
-      http.Response response = await EDSRDataProvider().getDsrDetails(
-          fmListUrl, cid, userId, userPass, submitedBy, territoryId);
+      http.Response response = await EDSRDataProvider().getDsrDetails(fmListUrl,
+          cid, userId, userPass, submitedBy, territoryId, levelDepth);
 
       var resData = json.decode(response.body);
       // print(resData["res_data"]["status"]);

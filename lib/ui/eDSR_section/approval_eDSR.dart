@@ -794,7 +794,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                 height: 10,
                               ),
                               dsrDetails!.resData.dataList[index].lastAction ==
-                                          'Approve' &&
+                                          'Approved' &&
                                       dsrDetails!
                                               .resData.dataList[index].step ==
                                           'RSM' &&
@@ -888,9 +888,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                           child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
-                                                'Approval Pending',
+                                                '----------- Approval pending from RSM -----------',
                                                 style: TextStyle(
-                                                    color: Colors.yellow),
+                                                    color: Colors.red,
+                                                    fontSize: 16),
                                               )),
                                         ),
                               const SizedBox(
@@ -914,7 +915,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
         userInfo!.userId,
         widget.userPass,
         widget.submittedBy,
-        widget.territoryId);
+        widget.territoryId,
+        widget.levelDepth);
 
     if (dsrDetails != null) {
       for (var element in dsrDetails!.resData.dataList) {

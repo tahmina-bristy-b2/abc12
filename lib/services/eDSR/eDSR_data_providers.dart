@@ -148,14 +148,15 @@ class EDSRDataProvider {
     String userPass,
     String submitedBy,
     String territoryId,
+    String levelDepth,
   ) async {
     final http.Response response;
-    print(
-        "eDSR details api=${EDSRApis.dsrDetailsApi(fmListUrl, cid, userId, userPass, submitedBy, territoryId)}");
+    // print(
+    //     "eDSR details api=${EDSRApis.dsrDetailsApi(fmListUrl, cid, userId, userPass, submitedBy, territoryId)}");
 
     response = await http.get(
-      Uri.parse(EDSRApis.dsrDetailsApi(
-          fmListUrl, cid, userId, userPass, submitedBy, territoryId)),
+      Uri.parse(EDSRApis.dsrDetailsApi(fmListUrl, cid, userId, userPass,
+          submitedBy, territoryId, levelDepth)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

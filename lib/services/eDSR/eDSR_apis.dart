@@ -16,9 +16,15 @@ class EDSRApis {
           String fmListUrl, String cid, String userId, String userPass) =>
       "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
 
-  static String dsrDetailsApi(String dsrDetailsApi, String cid, String userId,
-          String userPass, String submitedBy, String territoryId) =>
-      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/dsr_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&territory_id=$territoryId";
+  static String dsrDetailsApi(
+          String dsrDetailsApi,
+          String cid,
+          String userId,
+          String userPass,
+          String submitedBy,
+          String territoryId,
+          String levelDepth) =>
+      "https://skfmobileapi.azurewebsites.net/skf_api/api_dsr_approve/dsr_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&territory_id=$territoryId&level_depth_no=$levelDepth";
 
   static String brandAmountUpdate(String brandAmountUpdateUrl, String cid,
           String userId, String userPass, String brandAmountUpdateParams) =>

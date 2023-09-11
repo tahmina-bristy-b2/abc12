@@ -70,12 +70,13 @@ class DcrDataProviders {
 
   //################################ Doctor Settings########################
   Future<http.Response> docSettingsDP(
-      String cid, String userId, String userpass) async {
-    // print(DcrApis.docSettingsApi);
+      String syncUrl, String cid, String userId, String userpass) async {
+    // print(
+    //     "${DcrApis.docSettingsApi(syncUrl)}?cid=$cid&user_id=$userId&user_pass=$userpass");
 
     final response = await http.get(
       Uri.parse(
-          "${DcrApis.docSettingsApi}?cid=$cid&user_id=$userId&user_pass=$userpass"),
+          "${DcrApis.docSettingsApi(syncUrl)}?cid=$cid&user_id=$userId&user_pass=$userpass"),
     );
 
     return response;

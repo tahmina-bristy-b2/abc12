@@ -86,8 +86,8 @@ class _DCRAreaPageState extends State<DCRAreaPage> {
                     snapshot.data![index]['area_id']);
                 // if (clientList.isNotEmpty) {
                 final DocSettingsModel? responseOfDocSettings =
-                    await DcrRepositories()
-                        .docSettingsRepo(cid, userInfo!.userId, userPassword);
+                    await DcrRepositories().docSettingsRepo(dmpathData!.syncUrl,
+                        cid, userInfo!.userId, userPassword);
 
                 if (responseOfDocSettings != null) {
                   setState1(() {

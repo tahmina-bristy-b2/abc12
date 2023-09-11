@@ -221,11 +221,11 @@ class DcrRepositories {
 
   //################ Doctor Settings Repository ########################
   Future<DocSettingsModel?> docSettingsRepo(
-      String cid, String userId, String userpass) async {
+      String syncUrl, String cid, String userId, String userpass) async {
     DocSettingsModel? docSettingData;
     try {
-      final http.Response response =
-          await DcrDataProviders().docSettingsDP(cid, userId, userpass);
+      final http.Response response = await DcrDataProviders()
+          .docSettingsDP(syncUrl, cid, userId, userpass);
       docSettingData = docSettingsModelFromJson(response.body);
 
       if (docSettingData.resData.status == 'Success') {

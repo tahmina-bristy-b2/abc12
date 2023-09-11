@@ -40,13 +40,23 @@ class EDSRRepositories {
     String userPass,
   ) async {
     EdsrDataModel? eDSrDataModel;
+    Map<String, dynamic> wholeData = {};
+
     try {
       final http.Response response = await EDSRDataProvider()
           .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass);
-      eDSrDataModel = edsrDataModelFromJson(response.body);
+      wholeData = json.decode(response.body);
+      if (wholeData["status"] == "Success") {
+        eDSrDataModel = edsrDataModelFromJson(response.body);
+        return eDSrDataModel;
+      } else {
+        AllServices()
+            .toastMessage(wholeData["ret_str"], Colors.red, Colors.white, 14);
 
-      return eDSrDataModel;
+        return eDSrDataModel;
+      }
     } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
       print('Add eDSr: $e');
     }
     return eDSrDataModel;

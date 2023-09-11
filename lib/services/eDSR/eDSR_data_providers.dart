@@ -38,7 +38,7 @@ class EDSRDataProvider {
     final http.Response response;
 
     print(
-        "getEDSRSettingsInfo==${EDSRApis().getEDsrSettingApi(eDsrSettingsUrl, cid, "123", userPass)}");
+        "getEDSRSettingsInfo==${EDSRApis().getEDsrSettingApi(eDsrSettingsUrl, cid, userId, userPass)}");
     response = await http.get(
       Uri.parse(
           EDSRApis().getEDsrSettingApi(eDsrSettingsUrl, cid, userId, userPass)),

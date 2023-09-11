@@ -14,21 +14,15 @@ class EDSRServices {
     String userPass,
   ) async {
     EdsrDataModel? eDsrDataModelData;
-    try {
-      eDsrDataModelData = await EDSRRepositories()
-          .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass);
-      if (eDsrDataModelData!.status == "Success") {
-        await putEdsrSettingsData(eDsrDataModelData);
-        return eDsrDataModelData;
-      } else {
-        AllServices().toastMessage(
-            'eDSR Settings data load Failed', Colors.red, Colors.white, 16);
 
-        return eDsrDataModelData;
-      }
-    } on Exception catch (e) {
-      print("print eeeeeeeeeeeeeeeeeeeee $e");
+    eDsrDataModelData = await EDSRRepositories()
+        .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass);
+
+    if (eDsrDataModelData != null) {
+      await putEdsrSettingsData(eDsrDataModelData);
+      return eDsrDataModelData;
     }
+
     return eDsrDataModelData;
   }
 

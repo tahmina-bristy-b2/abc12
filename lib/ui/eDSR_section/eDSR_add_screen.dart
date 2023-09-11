@@ -44,7 +44,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
   List<String> eRxDurationMonthListTo = [];
   List<String> eDsrDurationMonthList = [];
   List<String> eDsrDurationMonthListTo = [];
-  List dynamicRowsListForBrand = [];
+  List<List<dynamic>> dynamicRowsListForBrand = [];
+  List<List<dynamic>> finalBrandListAftrRemoveDuplication=[];
 
   String? initialBrand;
   String? initialCategory;
@@ -168,16 +169,18 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //=============================== get brand String ===============================
   String getbrandString() {
     brandString = '';
+    print("all list====================$finalBrandListAftrRemoveDuplication");
+    
     for (var element1 in eDSRSettingsData!.brandList) {
-      if (dynamicRowsListForBrand.isNotEmpty) {
-        for (int i = 0; i < dynamicRowsListForBrand.length; i++) {
-          if (element1.brandName == dynamicRowsListForBrand[i][0]) {
+      if (finalBrandListAftrRemoveDuplication.isNotEmpty) {   
+        for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
+          if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {  
             if (brandString == "") {
               brandString +=
-                  "${element1.brandId}|${element1.brandName}|${dynamicRowsListForBrand[i][1]}|${dynamicRowsListForBrand[i][2]}";
+                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}";
             } else {
               brandString +=
-                  "||${element1.brandId}|${element1.brandName}|${dynamicRowsListForBrand[i][1]}|${dynamicRowsListForBrand[i][2]}";
+                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}";
             }
           }
         }
@@ -188,6 +191,18 @@ class _EDSRScreenState extends State<EDSRScreen> {
     setState(() {});
     return brandString;
   }
+
+  //=============================== Unique brand List ===============================
+  List<List<dynamic>> removeDuplicationForBrand(List<List<dynamic>> actualBrandList){
+    Map<String,List<dynamic>> uniqueBrandMap={};
+    for(var subList in actualBrandList ){
+      uniqueBrandMap[subList[0]]=subList;
+    }
+    print("unique List=================================${uniqueBrandMap.values.toList()}");  
+   return uniqueBrandMap.values.toList();
+  }
+
+
 
   @override
   void dispose() {
@@ -204,7 +219,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
-    // print("$wholeHeight, $wholeWidth");
+     getbrandString() ;   //=================================================================================
+  
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -282,7 +298,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
-                                "Select Category*",
+                                "Category*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -596,6 +612,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                                 : dSrController.text
                                                                           ]);
 
+
+                                                                          finalBrandListAftrRemoveDuplication=removeDuplicationForBrand(dynamicRowsListForBrand);
+
                                                                           Navigator.pop(
                                                                               context);
                                                                           setState(
@@ -748,12 +767,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           ),
                                           SizedBox(
                                             height:
-                                                dynamicRowsListForBrand.length *
+                                                finalBrandListAftrRemoveDuplication.length *
                                                     35,
                                             width: 340,
                                             child: ListView.builder(
                                                 itemCount:
-                                                    dynamicRowsListForBrand
+                                                    finalBrandListAftrRemoveDuplication
                                                         .length,
                                                 itemBuilder: (context, index) {
                                                   return Row(
@@ -765,7 +784,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             wholeWidth / 11.22,
                                                         child: Center(
                                                           child: Text(
-                                                            dynamicRowsListForBrand[
+                                                            finalBrandListAftrRemoveDuplication[
                                                                 index][0],
                                                             style:
                                                                 const TextStyle(
@@ -790,12 +809,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               11.22,
                                                           child: Center(
                                                             child: Text(
-                                                              dynamicRowsListForBrand[
+                                                              finalBrandListAftrRemoveDuplication[
                                                                               index]
                                                                           [1] ==
                                                                       ""
                                                                   ? "0"
-                                                                  : dynamicRowsListForBrand[
+                                                                  : finalBrandListAftrRemoveDuplication[
                                                                       index][1],
                                                               style:
                                                                   const TextStyle(
@@ -824,12 +843,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               11.22,
                                                           child: Center(
                                                             child: Text(
-                                                              dynamicRowsListForBrand[
+                                                              finalBrandListAftrRemoveDuplication[
                                                                               index]
                                                                           [2] ==
                                                                       ""
                                                                   ? "0"
-                                                                  : dynamicRowsListForBrand[
+                                                                  : finalBrandListAftrRemoveDuplication[
                                                                       index][2],
                                                               style:
                                                                   const TextStyle(
@@ -868,6 +887,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                 dynamicRowsListForBrand
                                                                     .removeAt(
                                                                         index);
+                                                                        finalBrandListAftrRemoveDuplication.removeAt(
+                                                                        index);
 
                                                                 setState(() {});
                                                               },
@@ -888,7 +909,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               ),
                               ePurposeList.isNotEmpty
                                   ? const Text(
-                                      "Select Purpose",
+                                      "Purpose*",
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -943,7 +964,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   : const SizedBox(),
                               eSubpurposeList.isNotEmpty
                                   ? const Text(
-                                      "Select Sub-purpose",
+                                      "Sub-purpose*",
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -957,7 +978,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   ? DropdownButton<String>(
                                       iconEnabledColor: const Color(0xff8AC995),
                                       value: initialSubPurpose,
-                                      hint: const Text("Select Sub-purpose",
+                                      hint: const Text("Sub-purpose",
                                           style: TextStyle(fontSize: 14)),
                                       items: eSubpurposeList.map((
                                         String item,
@@ -1023,7 +1044,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 10,
                               ),
                               const Text(
-                                "Select RX Duration*",
+                                "RX Duration*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -1037,7 +1058,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   DropdownButton<String>(
                                     iconEnabledColor: const Color(0xff8AC995),
                                     value: initialRxDurationMonthList,
-                                    hint: const Text("Select  Schedule",
+                                    hint: const Text("Select RX From",
                                         style: TextStyle(fontSize: 14)),
                                     items:
                                         eRxDurationMonthList.map((String item) {
@@ -1085,7 +1106,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   DropdownButton<String>(
                                     iconEnabledColor: const Color(0xff8AC995),
                                     value: initialRxDurationMonthListTo,
-                                    hint: const Text("Select  Schedule",
+                                    hint: const Text("Select RX to",
                                         style: TextStyle(fontSize: 14)),
                                     items: eRxDurationMonthListTo
                                         .map((String item) {
@@ -1121,7 +1142,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: wholeHeight / 50.618,
                               ),
                               const Text(
-                                "Select DSR Schedule*",
+                                "DSR Schedule*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -1165,7 +1186,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: wholeHeight / 50.618,
                               ),
                               const Text(
-                                "Select DSR Duration*",
+                                "DSR Duration*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -1290,7 +1311,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 height: 10,
                               ),
                               const Text(
-                                "Select Issue Mode*",
+                                "Issue Mode*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -1427,7 +1448,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           255, 44, 114, 66),
                                     ),
                                     child: const Center(
-                                        child: Text("Continue",
+                                        child: Text("Submit",
                                             style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 255, 255, 255),

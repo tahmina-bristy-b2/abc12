@@ -230,7 +230,10 @@ class _DcrListPageState extends State<DcrListPage> {
                                   final DocSettingsModel?
                                       responseOfDocSettings =
                                       await DcrRepositories().docSettingsRepo(
-                                          cid, userInfo!.userId, userPassword);
+                                          dmpathData!.syncUrl,
+                                          cid,
+                                          userInfo!.userId,
+                                          userPassword);
 
 //=======================================================================================================================================
 //======================================================Navigation======================================================================

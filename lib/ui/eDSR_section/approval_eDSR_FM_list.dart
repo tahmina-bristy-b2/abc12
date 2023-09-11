@@ -260,8 +260,8 @@ class _EdsrFmListState extends State<EdsrFmList> {
   }
 
   getEdsrFm() async {
-    edsrFmList = await EDSRRepositories()
-        .getEdsrFmlist("", widget.cid, userInfo!.userId, widget.userPass);
+    edsrFmList = await EDSRRepositories().getEdsrFmlist(
+        dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
 
     if (edsrFmList != null) {
       setState(() {

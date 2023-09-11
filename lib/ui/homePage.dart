@@ -24,6 +24,7 @@ import 'package:MREPORTING/ui/Rx/rxDraftPage.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_report.dart';
 import 'package:MREPORTING/ui/order_sections/order_report_page.dart';
 import 'package:MREPORTING/ui/Rx/rx_report_page.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:url_launcher/link.dart';
 import 'package:MREPORTING/ui/reset_password.dart';
 import 'package:MREPORTING/ui/syncDataTabPaga.dart';
@@ -1411,14 +1412,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           Expanded(
                             child: CustomBuildButton(
                               icon: Icons.note_alt,
-                              onClick: () {
-                                Navigator.push(
+                              onClick: () async {
+                                bool result = await InternetConnectionChecker()
+                                    .hasConnection;
+                                if (result == true) {
+                                  if (!mounted) return;
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => EdsrFmList(
-                                              cid: cid,
-                                              userPass: userPassword,
-                                            )));
+                                      builder: (_) => EdsrFmList(
+                                        cid: cid,
+                                        userPass: userPassword,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  AllServices().toastMessage(interNetErrorMsg,
+                                      Colors.yellow, Colors.black, 16);
+                                }
                               },
                               title: 'eDSR Approve',
                               sizeWidth: screenWidth,

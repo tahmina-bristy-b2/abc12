@@ -35,8 +35,8 @@ class DcrApis {
 //  static docSettingsApi(String syncUrl) =>
 //       syncUrl;
 
-  static String docSettingsApi =
-      'http://w03.yeapps.com/skf_api/api_doctor/get_doctor_setting_sync';
+  static String docSettingsApi(String syncUrl) =>
+      '${syncUrl}api_doctor/get_doctor_setting_sync';
 
   static String gspSubmitApi(String gspSubmitUrl) =>
       '${gspSubmitUrl}api_dcr_submit/submit_data';

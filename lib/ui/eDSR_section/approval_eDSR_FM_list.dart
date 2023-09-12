@@ -120,6 +120,7 @@ class _EdsrFmListState extends State<EdsrFmList> {
                                 child: Row(
                                   children: const [
                                     Expanded(
+                                        flex: 2,
                                         child: Text('FM',
                                             style: TextStyle(
                                                 color: Colors.white))),
@@ -180,25 +181,28 @@ class _EdsrFmListState extends State<EdsrFmList> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (_) => ApproveEDSR(
-                                                  cid: widget.cid,
-                                                  userPass: widget.userPass,
-                                                  levelDepth: edsrFmList!
-                                                      .resData.levelDepth,
-                                                  submittedBy: edsrFmList!
-                                                      .resData
-                                                      .dataList![index]
-                                                      .submitBy,
-                                                  territoryId: edsrFmList!
-                                                      .resData
-                                                      .dataList![index]
-                                                      .territoryId,
-                                                ),
+                                                    cid: widget.cid,
+                                                    userPass: widget.userPass,
+                                                    levelDepth: edsrFmList!
+                                                        .resData.levelDepth,
+                                                    submittedBy: edsrFmList!
+                                                        .resData
+                                                        .dataList![index]
+                                                        .submitBy,
+                                                    territoryId: edsrFmList!
+                                                        .resData
+                                                        .dataList![index]
+                                                        .territoryId,
+                                                    calledBackAction: (value) {
+                                                      getEdsrFm();
+                                                    }),
                                               ),
                                             );
                                           },
                                           child: Row(
                                             children: [
                                               Expanded(
+                                                  flex: 2,
                                                   child: Text(edsrFmList!
                                                       .resData
                                                       .dataList![index]

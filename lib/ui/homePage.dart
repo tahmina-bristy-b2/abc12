@@ -24,6 +24,7 @@ import 'package:MREPORTING/ui/Rx/rxDraftPage.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_report.dart';
 import 'package:MREPORTING/ui/order_sections/order_report_page.dart';
 import 'package:MREPORTING/ui/Rx/rx_report_page.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:url_launcher/link.dart';
 import 'package:MREPORTING/ui/reset_password.dart';
@@ -327,8 +328,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onTap: () async {
                 final prefs = await SharedPreferences.getInstance();
-
                 await prefs.setString('PASSWORD', '');
+                await prefs.setString("Region", '');
+                await prefs.setString("Area", '');
+                await prefs.setString("Territory", '');
+                Hive.box("doctorList").clear();
                 if (!mounted) return;
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const LoginScreen()));
@@ -357,18 +361,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        // flexibleSpace: Container(
-        //   decoration: const BoxDecoration(
-        //     // LinearGradient
-        //     gradient: LinearGradient(
-        //       // colors for gradient
-        //       colors: [
-        //         Color(0xff70BA85),
-        //         Color(0xff56CCF2),
-        //       ],
-        //     ),
-        //   ),
-        // ),
         title: const Text('MREPORTING $appVersion'),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),

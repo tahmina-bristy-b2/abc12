@@ -74,6 +74,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
   double latitude = 0.0;
   double longitude = 0.0;
   bool isLoading = false;
+  bool isAPC = false;
+  bool isCheck = false;
 
   @override
   void initState() {
@@ -231,6 +233,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        reverse: false,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Column(
@@ -563,6 +566,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                               ))),
                                                                     ),
                                                                     onTap: () {
+                                                                      initialBrand =
+                                                                          null;
+                                                                      rxPerDayController
+                                                                          .clear();
+                                                                      dSrController
+                                                                          .clear();
                                                                       Navigator.pop(
                                                                           context);
                                                                     }),
@@ -975,7 +984,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             .subPurposeList) {
                                           if (sPurpose.sPurposeSubName ==
                                               value) {
-                                            subPurposeId = sPurpose.sPurposeId;
+                                            subPurposeId =
+                                                sPurpose.sPurposeSubId;
+                                            print(
+                                                "id===================${sPurpose.sPurposeSubId}");
                                           }
                                         }
                                       });
@@ -1302,15 +1314,21 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 );
                               }).toList(),
                               onChanged: (String? value) {
+                                if (value == "APC" || value == "CT") {
+                                  isCheck = true;
+                                } else {
+                                  isCheck = false;
+                                }
                                 setState(() {
                                   initialIssueMode = value!;
+                                  issueToController.clear();
                                 });
                               },
                             ),
                             SizedBox(
                               height: initialIssueMode != null ? 10 : 0,
                             ),
-                            initialIssueMode != null
+                            isCheck == true
                                 ? const Text(
                                     "Issue To*",
                                     style: TextStyle(
@@ -1322,7 +1340,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                             const SizedBox(
                               height: 6,
                             ),
-                            initialIssueMode != null
+                            isCheck == true
                                 ? SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 1.1,
@@ -1449,9 +1467,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                                         ? dsrTodate != ""
                                                                                             ? noOfPatientController.text != ""
                                                                                                 ? initialIssueMode != null
-                                                                                                    ? issueToController.text != ""
-                                                                                                        ? eDsrSubmit()
-                                                                                                        : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                                                                                    ? isCheck == true
+                                                                                                        ? issueToController.text != ""
+                                                                                                            ? eDsrSubmit()
+                                                                                                            : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                                                                                        : eDsrSubmit()
                                                                                                     : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
                                                                                                 : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
                                                                                             : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)

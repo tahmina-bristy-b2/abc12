@@ -231,7 +231,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        reverse: true,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Column(

@@ -4,7 +4,6 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -172,7 +171,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //=============================== get brand String ===============================
   String getbrandString() {
     brandString = '';
-    print("all list====================$finalBrandListAftrRemoveDuplication");
 
     for (var element1 in eDSRSettingsData!.brandList) {
       if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
@@ -202,8 +200,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     for (var subList in actualBrandList) {
       uniqueBrandMap[subList[0]] = subList;
     }
-    print(
-        "unique List=================================${uniqueBrandMap.values.toList()}");
     return uniqueBrandMap.values.toList();
   }
 
@@ -222,7 +218,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
-    print("$wholeHeight $wholeWidth");
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -285,7 +280,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
               SizedBox(
                 height: wholeHeight / 25.309,
               ),
-
               SizedBox(
                 child: Row(
                   children: [
@@ -676,15 +670,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       Container(
                                         color: const Color(0xff8AC995),
                                         width: wholeWidth / 1.073,
-
-                                        //width: wholeWidth / 1.7,
                                         child: Row(
                                           children: [
                                             SizedBox(
                                               width: wholeWidth / 5.610,
                                               height: wholeHeight / 25.309,
-
-                                              // width: wholeWidth / 11.22,
                                               child: const Center(
                                                 child: Text(
                                                   "Name",
@@ -704,8 +694,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               child: SizedBox(
                                                 width: wholeWidth / 5.610,
                                                 height: wholeHeight / 25.309,
-                                                //height: wholeHeight / 11,
-                                                // width: 70,
                                                 child: Center(
                                                   child: Text(
                                                     doctorType == "DOCTOR"
@@ -726,10 +714,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 left: 20,
                                               ),
                                               child: SizedBox(
-                                                //height: wholeHeight / 11,
                                                 width: wholeWidth / 5.610,
                                                 height: wholeHeight / 25.309,
-                                                // width: 70,
                                                 child: Center(
                                                   child: Text(
                                                     doctorType == "DOCTOR"
@@ -752,8 +738,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               child: SizedBox(
                                                 width: wholeWidth / 5.610,
                                                 height: wholeHeight / 25.309,
-                                                // height: wholeHeight / 11,
-                                                // width: 70,
                                                 child: const Center(
                                                   child: Text(
                                                     "Action",
@@ -789,9 +773,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       width: wholeWidth / 5.610,
                                                       height:
                                                           wholeHeight / 25.309,
-                                                      //height: wholeHeight / 11,
-                                                      //width: wholeWidth / 11.22,
-                                                      //width: 70,
                                                       child: Center(
                                                         child: Text(
                                                           finalBrandListAftrRemoveDuplication[
@@ -819,9 +800,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             wholeWidth / 5.610,
                                                         height: wholeHeight /
                                                             25.309,
-                                                        // width: 70,
-                                                        //height: wholeHeight / 11,
-                                                        //width: wholeWidth / 11.22,
                                                         child: Center(
                                                           child: Text(
                                                             finalBrandListAftrRemoveDuplication[
@@ -852,8 +830,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             wholeWidth / 5.610,
                                                         height: wholeHeight /
                                                             25.309,
-                                                        // height: wholeHeight / 11,
-                                                        // width: wholeWidth / 11.22,
                                                         child: Center(
                                                           child: Text(
                                                             finalBrandListAftrRemoveDuplication[
@@ -884,8 +860,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             wholeWidth / 5.610,
                                                         height: wholeHeight /
                                                             25.309,
-                                                        // height: wholeHeight / 11,
-                                                        // width: wholeWidth / 11.22,
                                                         child: Center(
                                                           child: IconButton(
                                                             icon: const Icon(
@@ -912,7 +886,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               );
                                             }),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 15,
                                       )
                                     ],
@@ -1020,8 +994,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               value) {
                                             subPurposeId =
                                                 sPurpose.sPurposeSubId;
-                                            print(
-                                                "id===================${sPurpose.sPurposeSubId}");
                                           }
                                         }
                                       });
@@ -1401,7 +1373,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
               const SizedBox(
                 height: 15,
               ),
-
               isLoading == false
                   ? SizedBox(
                       child: Padding(
@@ -1413,7 +1384,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               child: InkWell(
                                 child: Container(
                                   height: 55,
-                                  //width: 160,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: const Border(
@@ -1457,7 +1427,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               child: InkWell(
                                 child: Container(
                                   height: 55,
-                                  //width: 160,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color:
@@ -1537,7 +1506,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                       ),
                     )
                   : const CircularProgressIndicator()
-              // TextFormField()
             ],
           ),
         ),
@@ -1579,8 +1547,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
         "",
         "0",
         issueToController.text);
-
-    print("submit data===========$data");
     if (data["status"] == "Success") {
       setState(() {
         isLoading = false;
@@ -1589,8 +1555,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
       if (!mounted) return;
       Navigator.pop(context);
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (_) => const EDcrScreen()));
     } else {
       setState(() {
         isLoading = false;

@@ -6,7 +6,11 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:neopop/widgets/buttons/neopop_button/neopop_button.dart';
+import 'package:neopop/widgets/buttons/neopop_tilted_button/neopop_tilted_button.dart';
+import 'package:neopop/widgets/shimmer/neopop_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EDSRScreen extends StatefulWidget {
@@ -1381,125 +1385,96 @@ class _EDSRScreenState extends State<EDSRScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: InkWell(
-                                child: Container(
-                                  height: 55,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: const Border(
-                                        top: BorderSide(
+                              child: NeoPopTiltedButton(
+                                  isFloating: true,
+                                  onTapUp: () async {
+                                    HapticFeedback.vibrate();
+
+                                    bool result =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (result == true) {
+                                      getbrandString() != ""
+                                          ? widget.docInfo[widget.index]
+                                                      ["area_id"] !=
+                                                  ""
+                                              ? widget.docInfo[widget.index]
+                                                          ["doc_id"] !=
+                                                      ""
+                                                  ? widget.docInfo[widget.index]
+                                                              ["doc_name"] !=
+                                                          ""
+                                                      ? initialCategory != null
+                                                          ? initialCategory !=
+                                                                  null
+                                                              ? purposeId != ""
+                                                                  ? subPurposeId !=
+                                                                          ""
+                                                                      ? addDescriptionController.text !=
+                                                                              ""
+                                                                          ? rxFromDate != ""
+                                                                              ? rxToDate != ""
+                                                                                  ? initialPaySchdedule != null
+                                                                                      ? dsrFromdate != ""
+                                                                                          ? dsrTodate != ""
+                                                                                              ? noOfPatientController.text != ""
+                                                                                                  ? initialIssueMode != null
+                                                                                                      ? isCheck == true
+                                                                                                          ? issueToController.text != ""
+                                                                                                              ? eDsrSubmit()
+                                                                                                              : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                                                                                          : eDsrSubmit()
+                                                                                                      : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
+                                                                                                  : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
+                                                                                              : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
+                                                                                          : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
+                                                                                      : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
+                                                                                  : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
+                                                                              : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
+                                                                          : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
+                                                                      : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
+                                                                  : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
+                                                              : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                          : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                      : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
+                                                  : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
+                                              : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
+                                          : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
+                                    }
+                                  },
+                                  onTapDown: () => HapticFeedback.vibrate(),
+                                  decoration:
+                                      const NeoPopTiltedButtonDecoration(
                                           color:
                                               Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        bottom: BorderSide(
-                                          color:
+                                          plunkColor:
                                               Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
+                                          shadowColor: Color.fromARGB(
+                                              255, 255, 255, 255)),
+                                  child: const NeoPopShimmer(
+                                      shimmerColor:
+                                          Color.fromARGB(255, 203, 207, 204),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 70, vertical: 10),
+                                        child: Center(
+                                          child: Text("Submit",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                  fontWeight: FontWeight.bold)),
                                         ),
-                                        left: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        right: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                      )),
-                                  child: const Center(
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 44, 114, 66),
-                                          ))),
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                child: Container(
-                                  height: 55,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromARGB(255, 44, 114, 66),
-                                  ),
-                                  child: const Center(
-                                      child: Text("Submit",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                          ))),
-                                ),
-                                onTap: () async {
-                                  bool result =
-                                      await InternetConnectionChecker()
-                                          .hasConnection;
-                                  if (result == true) {
-                                    getbrandString() != ""
-                                        ? widget.docInfo[widget.index]
-                                                    ["area_id"] !=
-                                                ""
-                                            ? widget.docInfo[widget.index]
-                                                        ["doc_id"] !=
-                                                    ""
-                                                ? widget.docInfo[widget.index]
-                                                            ["doc_name"] !=
-                                                        ""
-                                                    ? initialCategory != null
-                                                        ? initialCategory !=
-                                                                null
-                                                            ? purposeId != ""
-                                                                ? subPurposeId !=
-                                                                        ""
-                                                                    ? addDescriptionController.text !=
-                                                                            ""
-                                                                        ? rxFromDate !=
-                                                                                ""
-                                                                            ? rxToDate != ""
-                                                                                ? initialPaySchdedule != null
-                                                                                    ? dsrFromdate != ""
-                                                                                        ? dsrTodate != ""
-                                                                                            ? noOfPatientController.text != ""
-                                                                                                ? initialIssueMode != null
-                                                                                                    ? isCheck == true
-                                                                                                        ? issueToController.text != ""
-                                                                                                            ? eDsrSubmit()
-                                                                                                            : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                                                                                        : eDsrSubmit()
-                                                                                                    : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
-                                                                                                : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
-                                                                                            : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
-                                                                                        : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
-                                                                                    : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
-                                                                                : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
-                                                                            : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
-                                                                        : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
-                                                                    : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
-                                                                : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
-                                                            : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                        : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                    : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
-                                                : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
-                                            : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
-                                        : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
-                                  } else {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    AllServices().toastMessage(interNetErrorMsg,
-                                        Colors.red, Colors.white, 16);
-                                  }
-                                },
-                              ),
+                                      ))),
                             ),
                           ],
                         ),

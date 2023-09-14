@@ -389,7 +389,14 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
                           if (hasInternet == true) {
                             if (regionID != "") {
                               if (areaID != "") {
-                                getTerriBaesdDoctor();
+                                bool result = await InternetConnectionChecker()
+                                    .hasConnection;
+                                if (result == true) {
+                                  getTerriBaesdDoctor();
+                                } else {
+                                  AllServices().toastMessage(interNetErrorMsg,
+                                      Colors.red, Colors.white, 16);
+                                }
                               } else {
                                 Fluttertoast.showToast(
                                     msg: 'Please Select Area ',

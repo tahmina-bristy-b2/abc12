@@ -4,10 +4,13 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:neopop/widgets/buttons/neopop_button/neopop_button.dart';
+import 'package:neopop/widgets/buttons/neopop_tilted_button/neopop_tilted_button.dart';
+import 'package:neopop/widgets/shimmer/neopop_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EDSRScreen extends StatefulWidget {
@@ -83,6 +86,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eDSRSettingsData = Boxes.geteDSRsetData().get("eDSRSettingsData")!;
+
     allSettingsDataGet(eDSRSettingsData);
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
@@ -171,7 +175,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //=============================== get brand String ===============================
   String getbrandString() {
     brandString = '';
-    print("all list====================$finalBrandListAftrRemoveDuplication");
 
     for (var element1 in eDSRSettingsData!.brandList) {
       if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
@@ -201,8 +204,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     for (var subList in actualBrandList) {
       uniqueBrandMap[subList[0]] = subList;
     }
-    print(
-        "unique List=================================${uniqueBrandMap.values.toList()}");
     return uniqueBrandMap.values.toList();
   }
 
@@ -221,7 +222,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
-    print("$wholeHeight $wholeWidth");
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -284,12 +284,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
               SizedBox(
                 height: wholeHeight / 25.309,
               ),
-
               SizedBox(
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 10),
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,277 +371,287 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
-                                                return SizedBox(
-                                                  child: AlertDialog(
-                                                    title: const Text(
-                                                        "Brand Details"),
-                                                    content: SizedBox(
-                                                      height: 310,
-                                                      child: Column(
-                                                        children: [
-                                                          const Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "Brand*",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                return AlertDialog(
+                                                  scrollable: true,
+                                                  title: const Text(
+                                                      "Brand Details"),
+                                                  content: SizedBox(
+                                                    height: 310,
+                                                    child: Column(
+                                                      children: [
+                                                        const Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            "Brand*",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        DropdownButtonHideUnderline(
+                                                          child: ButtonTheme(
+                                                            alignedDropdown:
+                                                                true,
+                                                            child:
+                                                                DropdownButtonFormField<
+                                                                    String>(
+                                                              isExpanded: true,
+                                                              iconEnabledColor:
+                                                                  const Color(
+                                                                      0xff8AC995),
+                                                              value:
+                                                                  initialBrand,
+                                                              hint: const Text(
+                                                                  "Select Brand",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600)),
+                                                              items: eBrandList!
+                                                                  .map((String
+                                                                      item) {
+                                                                return DropdownMenuItem<
+                                                                    String>(
+                                                                  value: item,
+                                                                  child: SizedBox(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          1.2,
+                                                                      child: Text(
+                                                                          item,
+                                                                          style:
+                                                                              const TextStyle(fontSize: 14))),
+                                                                );
+                                                              }).toList(),
+                                                              onChanged:
+                                                                  (String?
+                                                                      value) {
+                                                                setState(() {
+                                                                  initialBrand =
+                                                                      value!;
+                                                                });
+                                                              },
                                                             ),
                                                           ),
-                                                          const SizedBox(
-                                                            height: 5,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            doctorType ==
+                                                                    "DOCTOR"
+                                                                ? "RX/Day*"
+                                                                : "Sales Objective*",
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                          DropdownButtonHideUnderline(
-                                                            child: ButtonTheme(
-                                                              alignedDropdown:
-                                                                  true,
-                                                              child:
-                                                                  DropdownButtonFormField<
-                                                                      String>(
-                                                                isExpanded:
-                                                                    true,
-                                                                iconEnabledColor:
-                                                                    const Color(
-                                                                        0xff8AC995),
-                                                                value:
-                                                                    initialBrand,
-                                                                hint: const Text(
-                                                                    "Select Brand",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.w600)),
-                                                                items: eBrandList!
-                                                                    .map((String
-                                                                        item) {
-                                                                  return DropdownMenuItem<
-                                                                      String>(
-                                                                    value: item,
-                                                                    child: SizedBox(
-                                                                        width: MediaQuery.of(context).size.width /
-                                                                            1.2,
-                                                                        child: Text(
-                                                                            item,
-                                                                            style:
-                                                                                const TextStyle(fontSize: 14))),
-                                                                  );
-                                                                }).toList(),
-                                                                onChanged:
-                                                                    (String?
-                                                                        value) {
-                                                                  setState(() {
-                                                                    initialBrand =
-                                                                        value!;
-                                                                  });
-                                                                },
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.1,
+                                                            height: 45,
+                                                            child:
+                                                                TextFormField(
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              controller:
+                                                                  rxPerDayController,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                          color:
+                                                                              Colors.white),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
                                                               ),
-                                                            ),
+                                                            )),
+                                                        const SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            doctorType ==
+                                                                    "DOCTOR"
+                                                                ? "DSR*"
+                                                                : "Monthly Avg.Sales*",
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "RX/Day*"
-                                                                  : "Sales Objective*",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    rxPerDayController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.1,
+                                                            height: 45,
+                                                            child:
+                                                                TextFormField(
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              controller:
+                                                                  dSrController,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                          color:
+                                                                              Colors.white),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
                                                                 ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "DSR*"
-                                                                  : "Monthly Avg.Sales*",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    dSrController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: InkWell(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          40,
-                                                                      //width: 160,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: const Color.fromARGB(
-                                                                            255,
-                                                                            170,
-                                                                            172,
-                                                                            170),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Text("Cancel",
-                                                                              style: TextStyle(
-                                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                              ))),
+                                                              ),
+                                                            )),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                  child:
+                                                                      Container(
+                                                                    height: 40,
+                                                                    //width: 160,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      color: const Color
+                                                                              .fromARGB(
+                                                                          255,
+                                                                          170,
+                                                                          172,
+                                                                          170),
                                                                     ),
-                                                                    onTap: () {
-                                                                      initialBrand =
-                                                                          null;
-                                                                      rxPerDayController
-                                                                          .clear();
-                                                                      dSrController
-                                                                          .clear();
+                                                                    child: const Center(
+                                                                        child: Text("Cancel",
+                                                                            style: TextStyle(
+                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                            ))),
+                                                                  ),
+                                                                  onTap: () {
+                                                                    initialBrand =
+                                                                        null;
+                                                                    rxPerDayController
+                                                                        .clear();
+                                                                    dSrController
+                                                                        .clear();
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  }),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 15,
+                                                            ),
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                  child:
+                                                                      Container(
+                                                                    height: 40,
+                                                                    //width: 160,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      color: const Color
+                                                                              .fromARGB(
+                                                                          255,
+                                                                          44,
+                                                                          114,
+                                                                          66),
+                                                                    ),
+                                                                    child: const Center(
+                                                                        child: Text("Add",
+                                                                            style: TextStyle(
+                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                            ))),
+                                                                  ),
+                                                                  onTap: () {
+                                                                    if (initialBrand !=
+                                                                        null) {
+                                                                      dynamicRowsListForBrand
+                                                                          .add([
+                                                                        initialBrand,
+                                                                        rxPerDayController.text ==
+                                                                                ""
+                                                                            ? "0"
+                                                                            : rxPerDayController.text,
+                                                                        dSrController.text ==
+                                                                                ""
+                                                                            ? "0"
+                                                                            : dSrController.text
+                                                                      ]);
+
+                                                                      finalBrandListAftrRemoveDuplication =
+                                                                          removeDuplicationForBrand(
+                                                                              dynamicRowsListForBrand);
+
                                                                       Navigator.pop(
                                                                           context);
-                                                                    }),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Expanded(
-                                                                child: InkWell(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          40,
-                                                                      //width: 160,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: const Color.fromARGB(
-                                                                            255,
-                                                                            44,
-                                                                            114,
-                                                                            66),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Text("Add",
-                                                                              style: TextStyle(
-                                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                              ))),
-                                                                    ),
-                                                                    onTap: () {
-                                                                      if (initialBrand !=
-                                                                          null) {
-                                                                        dynamicRowsListForBrand
-                                                                            .add([
-                                                                          initialBrand,
-                                                                          rxPerDayController.text == ""
-                                                                              ? "0"
-                                                                              : rxPerDayController.text,
-                                                                          dSrController.text == ""
-                                                                              ? "0"
-                                                                              : dSrController.text
-                                                                        ]);
-
-                                                                        finalBrandListAftrRemoveDuplication =
-                                                                            removeDuplicationForBrand(dynamicRowsListForBrand);
-
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                        setState(
-                                                                            () {
-                                                                          initialBrand =
-                                                                              null;
-                                                                          rxPerDayController
-                                                                              .clear();
-                                                                          dSrController
-                                                                              .clear();
-                                                                        });
-                                                                      } else {
-                                                                        AllServices().toastMessage(
-                                                                            "Please Select Brand First",
-                                                                            Colors.red,
-                                                                            Colors.white,
-                                                                            16);
-                                                                      }
-                                                                    }),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
+                                                                      setState(
+                                                                          () {
+                                                                        initialBrand =
+                                                                            null;
+                                                                        rxPerDayController
+                                                                            .clear();
+                                                                        dSrController
+                                                                            .clear();
+                                                                      });
+                                                                    } else {
+                                                                      AllServices().toastMessage(
+                                                                          "Please Select Brand First",
+                                                                          Colors
+                                                                              .red,
+                                                                          Colors
+                                                                              .white,
+                                                                          16);
+                                                                    }
+                                                                  }),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
                                                     ),
                                                   ),
                                                 );
@@ -656,26 +665,86 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 )
                               ],
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             dynamicRowsListForBrand.isNotEmpty
-                                ? Padding(
-                                    padding: EdgeInsets.only(
-                                        left: wholeWidth / 24.9,
-                                        top: 8,
-                                        bottom: 8),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          color: const Color(0xff8AC995),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: wholeHeight / 12,
-                                                height: wholeWidth / 11.22,
-                                                // width: 30,
-                                                // height: wholeWidth / 11.22,
+                                ? Column(
+                                    children: [
+                                      Container(
+                                        color: const Color(0xff8AC995),
+                                        width: wholeWidth / 1.073,
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: wholeWidth / 5.610,
+                                              height: wholeHeight / 25.309,
+                                              child: const Center(
+                                                child: Text(
+                                                  "Name",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Color.fromARGB(
+                                                          255, 0, 0, 0),
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 20,
+                                              ),
+                                              child: SizedBox(
+                                                width: wholeWidth / 5.610,
+                                                height: wholeHeight / 25.309,
+                                                child: Center(
+                                                  child: Text(
+                                                    doctorType == "DOCTOR"
+                                                        ? "Rx/Day"
+                                                        : "Sales Objective*",
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 20,
+                                              ),
+                                              child: SizedBox(
+                                                width: wholeWidth / 5.610,
+                                                height: wholeHeight / 25.309,
+                                                child: Center(
+                                                  child: Text(
+                                                    doctorType == "DOCTOR"
+                                                        ? "DSR"
+                                                        : "Monthly Avg.Sales*",
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 20,
+                                              ),
+                                              child: SizedBox(
+                                                width: wholeWidth / 5.610,
+                                                height: wholeHeight / 25.309,
                                                 child: const Center(
                                                   child: Text(
-                                                    "Name",
+                                                    "Action",
                                                     style: TextStyle(
                                                         fontSize: 13,
                                                         color: Color.fromARGB(
@@ -685,90 +754,29 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: wholeWidth / 21.176,
-                                                ),
-                                                child: SizedBox(
-                                                  width: wholeHeight / 10.1236,
-                                                  height: wholeWidth / 11.22,
-                                                  child: Center(
-                                                    child: Text(
-                                                      doctorType == "DOCTOR"
-                                                          ? "Rx/Day"
-                                                          : "Sales Objective*",
-                                                      style: const TextStyle(
-                                                          fontSize: 13,
-                                                          color: Color.fromARGB(
-                                                              255, 0, 0, 0),
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: wholeWidth / 21.176,
-                                                ),
-                                                child: SizedBox(
-                                                  width: wholeHeight / 10.1236,
-                                                  height: wholeWidth / 11.22,
-                                                  child: Center(
-                                                    child: Text(
-                                                      doctorType == "DOCTOR"
-                                                          ? "DSR"
-                                                          : "Monthly Avg.Sales*",
-                                                      style: const TextStyle(
-                                                          fontSize: 13,
-                                                          color: Color.fromARGB(
-                                                              255, 0, 0, 0),
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 20,
-                                                ),
-                                                child: SizedBox(
-                                                  width: wholeHeight / 17,
-                                                  height: wholeWidth / 11.22,
-                                                  child: const Center(
-                                                    child: Text(
-                                                      "Action",
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Color.fromARGB(
-                                                              255, 0, 0, 0),
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(
-                                          height:
-                                              finalBrandListAftrRemoveDuplication
-                                                      .length *
-                                                  35,
-                                          width: 340,
-                                          child: ListView.builder(
-                                              itemCount:
-                                                  finalBrandListAftrRemoveDuplication
-                                                      .length,
-                                              itemBuilder: (context, index) {
-                                                return Row(
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            finalBrandListAftrRemoveDuplication
+                                                    .length *
+                                                40,
+                                        width: wholeWidth / 1.073,
+                                        child: ListView.builder(
+                                            itemCount:
+                                                finalBrandListAftrRemoveDuplication
+                                                    .length,
+                                            itemBuilder: (context, index) {
+                                              return SizedBox(
+                                                height: 40,
+                                                child: Row(
                                                   children: [
                                                     SizedBox(
-                                                      width: wholeHeight / 10.4,
+                                                      width: wholeWidth / 5.610,
                                                       height:
-                                                          wholeWidth / 11.22,
+                                                          wholeHeight / 25.309,
                                                       child: Center(
                                                         child: Text(
                                                           finalBrandListAftrRemoveDuplication[
@@ -793,9 +801,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       ),
                                                       child: SizedBox(
                                                         width:
-                                                            wholeHeight / 10.4,
-                                                        height:
-                                                            wholeWidth / 11.22,
+                                                            wholeWidth / 5.610,
+                                                        height: wholeHeight /
+                                                            25.309,
                                                         child: Center(
                                                           child: Text(
                                                             finalBrandListAftrRemoveDuplication[
@@ -823,9 +831,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       ),
                                                       child: SizedBox(
                                                         width:
-                                                            wholeHeight / 10.4,
-                                                        height:
-                                                            wholeWidth / 11.22,
+                                                            wholeWidth / 5.610,
+                                                        height: wholeHeight /
+                                                            25.309,
                                                         child: Center(
                                                           child: Text(
                                                             finalBrandListAftrRemoveDuplication[
@@ -852,9 +860,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         left: 20,
                                                       ),
                                                       child: SizedBox(
-                                                        width: wholeHeight / 17,
-                                                        height:
-                                                            wholeWidth / 11.22,
+                                                        width:
+                                                            wholeWidth / 5.610,
+                                                        height: wholeHeight /
+                                                            25.309,
                                                         child: Center(
                                                           child: IconButton(
                                                             icon: const Icon(
@@ -877,11 +886,14 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       ),
                                                     ),
                                                   ],
-                                                );
-                                              }),
-                                        )
-                                      ],
-                                    ),
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      )
+                                    ],
                                   )
                                 : const SizedBox(),
                             SizedBox(
@@ -986,8 +998,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               value) {
                                             subPurposeId =
                                                 sPurpose.sPurposeSubId;
-                                            print(
-                                                "id===================${sPurpose.sPurposeSubId}");
                                           }
                                         }
                                       });
@@ -1367,7 +1377,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
               const SizedBox(
                 height: 15,
               ),
-
               isLoading == false
                   ? SizedBox(
                       child: Padding(
@@ -1376,134 +1385,102 @@ class _EDSRScreenState extends State<EDSRScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: InkWell(
-                                child: Container(
-                                  height: 55,
-                                  //width: 160,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: const Border(
-                                        top: BorderSide(
+                              child: NeoPopTiltedButton(
+                                  isFloating: true,
+                                  onTapUp: () async {
+                                    HapticFeedback.vibrate();
+
+                                    bool result =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (result == true) {
+                                      getbrandString() != ""
+                                          ? widget.docInfo[widget.index]
+                                                      ["area_id"] !=
+                                                  ""
+                                              ? widget.docInfo[widget.index]
+                                                          ["doc_id"] !=
+                                                      ""
+                                                  ? widget.docInfo[widget.index]
+                                                              ["doc_name"] !=
+                                                          ""
+                                                      ? initialCategory != null
+                                                          ? initialCategory !=
+                                                                  null
+                                                              ? purposeId != ""
+                                                                  ? subPurposeId !=
+                                                                          ""
+                                                                      ? addDescriptionController.text !=
+                                                                              ""
+                                                                          ? rxFromDate != ""
+                                                                              ? rxToDate != ""
+                                                                                  ? initialPaySchdedule != null
+                                                                                      ? dsrFromdate != ""
+                                                                                          ? dsrTodate != ""
+                                                                                              ? noOfPatientController.text != ""
+                                                                                                  ? initialIssueMode != null
+                                                                                                      ? isCheck == true
+                                                                                                          ? issueToController.text != ""
+                                                                                                              ? eDsrSubmit()
+                                                                                                              : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                                                                                          : eDsrSubmit()
+                                                                                                      : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
+                                                                                                  : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
+                                                                                              : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
+                                                                                          : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
+                                                                                      : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
+                                                                                  : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
+                                                                              : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
+                                                                          : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
+                                                                      : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
+                                                                  : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
+                                                              : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                          : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                                      : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
+                                                  : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
+                                              : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
+                                          : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
+                                    }
+                                  },
+                                  onTapDown: () => HapticFeedback.vibrate(),
+                                  decoration:
+                                      const NeoPopTiltedButtonDecoration(
                                           color:
                                               Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        bottom: BorderSide(
-                                          color:
+                                          plunkColor:
                                               Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
+                                          shadowColor: Color.fromARGB(
+                                              255, 255, 255, 255)),
+                                  child: const NeoPopShimmer(
+                                      shimmerColor:
+                                          Color.fromARGB(255, 203, 207, 204),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 70, vertical: 10),
+                                        child: Center(
+                                          child: Text("Submit",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                  fontWeight: FontWeight.bold)),
                                         ),
-                                        left: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        right: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                      )),
-                                  child: const Center(
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 44, 114, 66),
-                                          ))),
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                child: Container(
-                                  height: 55,
-                                  //width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromARGB(255, 44, 114, 66),
-                                  ),
-                                  child: const Center(
-                                      child: Text("Submit",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                          ))),
-                                ),
-                                onTap: () async {
-                                  bool result =
-                                      await InternetConnectionChecker()
-                                          .hasConnection;
-                                  if (result == true) {
-                                    getbrandString() != ""
-                                        ? widget.docInfo[widget.index]
-                                                    ["area_id"] !=
-                                                ""
-                                            ? widget.docInfo[widget.index]
-                                                        ["doc_id"] !=
-                                                    ""
-                                                ? widget.docInfo[widget.index]
-                                                            ["doc_name"] !=
-                                                        ""
-                                                    ? initialCategory != null
-                                                        ? initialCategory !=
-                                                                null
-                                                            ? purposeId != ""
-                                                                ? subPurposeId !=
-                                                                        ""
-                                                                    ? addDescriptionController.text !=
-                                                                            ""
-                                                                        ? rxFromDate !=
-                                                                                ""
-                                                                            ? rxToDate != ""
-                                                                                ? initialPaySchdedule != null
-                                                                                    ? dsrFromdate != ""
-                                                                                        ? dsrTodate != ""
-                                                                                            ? noOfPatientController.text != ""
-                                                                                                ? initialIssueMode != null
-                                                                                                    ? isCheck == true
-                                                                                                        ? issueToController.text != ""
-                                                                                                            ? eDsrSubmit()
-                                                                                                            : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                                                                                        : eDsrSubmit()
-                                                                                                    : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
-                                                                                                : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
-                                                                                            : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
-                                                                                        : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
-                                                                                    : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
-                                                                                : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
-                                                                            : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
-                                                                        : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
-                                                                    : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
-                                                                : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
-                                                            : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                        : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                    : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
-                                                : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
-                                            : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
-                                        : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
-                                  } else {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    AllServices().toastMessage(interNetErrorMsg,
-                                        Colors.red, Colors.white, 16);
-                                  }
-                                },
-                              ),
+                                      ))),
                             ),
                           ],
                         ),
                       ),
                     )
                   : const CircularProgressIndicator()
-              // TextFormField()
             ],
           ),
         ),
@@ -1545,8 +1522,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
         "",
         "0",
         issueToController.text);
-
-    print("submit data===========$data");
     if (data["status"] == "Success") {
       setState(() {
         isLoading = false;
@@ -1555,8 +1530,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
       if (!mounted) return;
       Navigator.pop(context);
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (_) => const EDcrScreen()));
     } else {
       setState(() {
         isLoading = false;

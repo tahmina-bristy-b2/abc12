@@ -134,23 +134,18 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
           padding: const EdgeInsets.all(8),
           child: Column(
             children: [
-              AnimatedContainer(
-                clipBehavior: Clip.hardEdge,
-                duration: const Duration(milliseconds: 1000),
-                curve: Curves.easeInOut,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Row(
-                    children: [
-                      const Expanded(flex: 3, child: Text('Ref')),
-                      const Text(':'),
-                      Expanded(
-                        flex: 8,
-                        child: Text(
-                            '  ${dsrDetails!.resData.dataList[index].refId}'),
-                      ),
-                    ],
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  children: [
+                    const Expanded(flex: 3, child: Text('Ref')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                          '  ${dsrDetails!.resData.dataList[index].refId}'),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -603,105 +598,105 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('RSM Cash')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child:
-                          // StatefulBuilder(
-                          //   builder: (context, setState_2) {
-                          //     return Row(
-                          //       children: [
-                          //         DropdownButton(
-                          //           value: dropdownValue[
-                          //               dsrDetails!.resData
-                          //                   .dataList[index].sl],
-                          //           hint: const Padding(
-                          //             padding:
-                          //                 EdgeInsets.all(8.0),
-                          //             child: Text('Select',
-                          //                 style: TextStyle(
-                          //                     fontSize: 12)),
-                          //           ),
-                          //           iconEnabledColor:
-                          //               Colors.blue[900],
-                          //           iconDisabledColor: Colors.red,
-                          //           items: <String>["YES", "NO"]
-                          //               .map<
-                          //                       DropdownMenuItem<
-                          //                           String>>(
-                          //                   (String value) {
-                          //             return DropdownMenuItem<
-                          //                     String>(
-                          //                 value: value,
-                          //                 child: Padding(
-                          //                   padding:
-                          //                       const EdgeInsets
-                          //                               .only(
-                          //                           left: 10,
-                          //                           right: 10),
-                          //                   child: Text(value),
-                          //                 ));
-                          //           }).toList(),
-                          //           underline: null,
-                          //           onChanged:
-                          //               (String? newValue) {
-                          //             setState_2(() {
-                          //               dropdownValue[dsrDetails!
-                          //                       .resData
-                          //                       .dataList[index]
-                          //                       .sl] =
-                          //                   newValue ?? "NO";
-                          //             });
-                          //           },
-                          //         ),
-                          //         const SizedBox.shrink()
-                          //       ],
-                          //     );
-                          //   },
-                          // )
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       const Expanded(flex: 3, child: Text('RSM Cash')),
+              //       const Text(':'),
+              //       Expanded(
+              //         flex: 8,
+              //         child:
+              //             // StatefulBuilder(
+              //             //   builder: (context, setState_2) {
+              //             //     return Row(
+              //             //       children: [
+              //             //         DropdownButton(
+              //             //           value: dropdownValue[
+              //             //               dsrDetails!.resData
+              //             //                   .dataList[index].sl],
+              //             //           hint: const Padding(
+              //             //             padding:
+              //             //                 EdgeInsets.all(8.0),
+              //             //             child: Text('Select',
+              //             //                 style: TextStyle(
+              //             //                     fontSize: 12)),
+              //             //           ),
+              //             //           iconEnabledColor:
+              //             //               Colors.blue[900],
+              //             //           iconDisabledColor: Colors.red,
+              //             //           items: <String>["YES", "NO"]
+              //             //               .map<
+              //             //                       DropdownMenuItem<
+              //             //                           String>>(
+              //             //                   (String value) {
+              //             //             return DropdownMenuItem<
+              //             //                     String>(
+              //             //                 value: value,
+              //             //                 child: Padding(
+              //             //                   padding:
+              //             //                       const EdgeInsets
+              //             //                               .only(
+              //             //                           left: 10,
+              //             //                           right: 10),
+              //             //                   child: Text(value),
+              //             //                 ));
+              //             //           }).toList(),
+              //             //           underline: null,
+              //             //           onChanged:
+              //             //               (String? newValue) {
+              //             //             setState_2(() {
+              //             //               dropdownValue[dsrDetails!
+              //             //                       .resData
+              //             //                       .dataList[index]
+              //             //                       .sl] =
+              //             //                   newValue ?? "NO";
+              //             //             });
+              //             //           },
+              //             //         ),
+              //             //         const SizedBox.shrink()
+              //             //       ],
+              //             //     );
+              //             //   },
+              //             // )
 
-                          Text(
-                              '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
-                    ),
-                  ],
-                ),
-              ),
-              rsmCashError
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 3, child: Text('')),
-                          const Text(''),
-                          Expanded(
-                              flex: 8,
-                              child: StatefulBuilder(
-                                builder: (context, setState_2) {
-                                  return Row(
-                                    children: const [
-                                      Text('RSM Cash is Resqired.',
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 12)),
-                                      SizedBox.shrink()
-                                    ],
-                                  );
-                                },
-                              )
+              //             Text(
+              //                 '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // rsmCashError
+              //     ? Padding(
+              //         padding: const EdgeInsets.only(top: 5, bottom: 5),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: [
+              //             const Expanded(flex: 3, child: Text('')),
+              //             const Text(''),
+              //             Expanded(
+              //                 flex: 8,
+              //                 child: StatefulBuilder(
+              //                   builder: (context, setState_2) {
+              //                     return Row(
+              //                       children: const [
+              //                         Text('RSM Cash is Resqired.',
+              //                             style: TextStyle(
+              //                                 color: Colors.red, fontSize: 12)),
+              //                         SizedBox.shrink()
+              //                       ],
+              //                     );
+              //                   },
+              //                 )
 
-                              // Text(
-                              //     '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
-                              ),
-                        ],
-                      ),
-                    )
-                  : Container(),
+              //                 // Text(
+              //                 //     '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
+              //                 ),
+              //           ],
+              //         ),
+              //       )
+              //     : Container(),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(

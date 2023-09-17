@@ -4,13 +4,12 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:neopop/widgets/buttons/neopop_button/neopop_button.dart';
-import 'package:neopop/widgets/buttons/neopop_tilted_button/neopop_tilted_button.dart';
-import 'package:neopop/widgets/shimmer/neopop_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EDSRScreen extends StatefulWidget {
@@ -35,6 +34,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
   TextEditingController issueToController = TextEditingController();
   TextEditingController rxPerDayController = TextEditingController();
   TextEditingController dSrController = TextEditingController();
+  TextEditingController emrRXController = TextEditingController();
+  TextEditingController p4RXController = TextEditingController();
+  TextEditingController doctorMobileNumberController = TextEditingController();
 
   EdsrDataModel? eDSRSettingsData;
   List<String>? eBrandList = [];
@@ -86,8 +88,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eDSRSettingsData = Boxes.geteDSRsetData().get("eDSRSettingsData")!;
+    print(
+        "mobile number ===============${widget.docInfo[widget.index]["mobile"]}");
 
     allSettingsDataGet(eDSRSettingsData);
+
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
       cid = prefs.getString("CID") ?? '';
@@ -100,11 +105,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   //===============================All Settings Data get Method============================
   allSettingsDataGet(EdsrDataModel? eDSRsettingsData) {
-    eCatergoryList = eDSRsettingsData!.categoryList;
-
+    eCatergoryList = eDSRSettingsData!.categoryList;
     ePayModeList = eDSRSettingsData!.payModeList;
     ePayScheduleList = eDSRSettingsData!.payScheduleList;
-    eBrandList = eDSRsettingsData.brandList.map((e) => e.brandName).toList();
+    eBrandList = eDSRsettingsData!.brandList.map((e) => e.brandName).toList();
     eRxDurationMonthList =
         eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
   }
@@ -182,10 +186,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
           if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
             if (brandString == "") {
               brandString +=
-                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}";
+                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}|${finalBrandListAftrRemoveDuplication[i][3]}|${finalBrandListAftrRemoveDuplication[i][4]}";
             } else {
               brandString +=
-                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}";
+                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}|${finalBrandListAftrRemoveDuplication[i][3]}|${finalBrandListAftrRemoveDuplication[i][4]}";
             }
           }
         }
@@ -196,6 +200,14 @@ class _EDSRScreenState extends State<EDSRScreen> {
     setState(() {});
     return brandString;
   }
+
+  // String _validatePhoneNumber(String value) {
+  //   final RegExp _validPhoneNumber = RegExp(r'^\d{11,13}$');
+  //   if (!_validPhoneNumber.hasMatch(value)) {
+  //     return 'Invalid phone number (11 to 13 digits required)';
+  //   }
+  //   return null;
+  // }
 
   //=============================== Unique brand List ===============================
   List<List<dynamic>> removeDuplicationForBrand(
@@ -214,11 +226,14 @@ class _EDSRScreenState extends State<EDSRScreen> {
     issueToController.dispose();
     rxPerDayController.dispose();
     dSrController.dispose();
+    p4RXController.dispose();
+    emrRXController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
@@ -279,6 +294,387 @@ class _EDSRScreenState extends State<EDSRScreen> {
                       ],
                     ),
                   ),
+                  widget.docInfo[widget.index]["mobile"] == "0"
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: IconButton(
+                            icon: const Icon(Icons.edit,
+                                size: 20, color: Color(0xff8AC995)),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      scrollable: true,
+                                      title: Center(
+                                          child: Text(
+                                              "${widget.docInfo[widget.index]["doc_name"]}")),
+                                      content: SizedBox(
+                                        height: 150,
+                                        child: FormBuilder(
+                                          key: _formKey,
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              const Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  "Mobile Number*",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              FormBuilderTextField(
+                                                key: _formKey,
+                                                name: 'phone_number',
+                                                decoration:
+                                                    const InputDecoration(
+                                                        labelText:
+                                                            'Phone Number'),
+                                                validator: (val) {
+                                                  if (val != null &&
+                                                      val.isNotEmpty) {
+                                                    final RegExp phoneRegex =
+                                                        RegExp(r'^\d{13}$');
+                                                    if (!phoneRegex
+                                                        .hasMatch(val)) {
+                                                      return 'Invalid phone number format';
+                                                    }
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              // SizedBox(
+                                              //   width: MediaQuery.of(context)
+                                              //           .size
+                                              //           .width /
+                                              //       1.1,
+                                              //   height: 45,
+                                              //   child: FormBuilderTextField(
+                                              //     name: 'phone_number',
+                                              //     decoration: InputDecoration(
+                                              //         labelText:
+                                              //             'Phone Number'),
+                                              //     validator:
+                                              //         FormBuilderValidators
+                                              //             .compose([
+                                              //       FormBuilderValidators
+                                              //           .required(context),
+                                              //       (val) {
+                                              //         if (val != null &&
+                                              //             val.isNotEmpty) {
+                                              //           final RegExp
+                                              //               phoneRegex =
+                                              //               RegExp(r'^\d{13}$');
+                                              //           if (!phoneRegex
+                                              //               .hasMatch(val)) {
+                                              //             return 'Invalid phone number format';
+                                              //           }
+                                              //         }
+                                              //         return null;
+                                              //       },
+                                              //     ]),
+                                              //   ),
+                                              //   // child:FormBuilderTextField(
+                                              //   //         attribute: 'phone_number',
+                                              //   //         decoration: InputDecoration(labelText: 'Phone Number'),
+                                              //   //         validators: [
+                                              //   //           FormBuilderValidators.required(),
+                                              //   //           (val) {
+                                              //   //             if (val != null && val.isNotEmpty) {
+                                              //   //               // Define a regular expression for a 13-digit phone number.
+                                              //   //               final RegExp phoneRegex = RegExp(r'^\d{13}$');
+
+                                              //   //               if (!phoneRegex.hasMatch(val)) {
+                                              //   //                 return 'Invalid phone number format';
+                                              //   //               }
+                                              //   //             }
+                                              //   //             return null;
+                                              //   //           },
+                                              //   // //                               child: TextFormField(
+                                              //   // // attribute: 'phone_number',
+                                              //   // // decoration: InputDecoration(labelText: 'Phone Number'),
+                                              //   // // validators: [
+                                              //   // //   FormBuilderValidators.required(),
+                                              //   // //   (val) {
+                                              //   // //     if (val != null && val.isNotEmpty) {
+                                              //   // //       // Define a regular expression for a 13-digit phone number.
+                                              //   // //       final RegExp phoneRegex = RegExp(r'^\d{13}$');
+
+                                              //   // //       if (!phoneRegex.hasMatch(val)) {
+                                              //   // //         return 'Invalid phone number format';
+                                              //   // //       }
+                                              //   // //     }
+                                              //   // //     return null;
+                                              //   // //   },
+                                              //   // // child: TextFormField(
+                                              //   // //   keyboardType:
+                                              //   // //       TextInputType.number,
+                                              //   // //   controller:
+                                              //   // //       doctorMobileNumberController,
+                                              //   // //   onChanged: (v) {
+                                              //   // //     if (RegExp(r"\s").hasMatch(
+                                              //   // //         doctorMobileNumberController
+                                              //   // //             .text)) {
+                                              //   // //       doctorMobileNumberController
+                                              //   // //               .text =
+                                              //   // //           doctorMobileNumberController
+                                              //   // //               .text
+                                              //   // //               .substring(
+                                              //   // //                   0,
+                                              //   // //                   doctorMobileNumberController
+                                              //   // //                           .text
+                                              //   // //                           .length -
+                                              //   // //                       1);
+
+                                              //   // //       doctorMobileNumberController
+                                              //   // //               .selection =
+                                              //   // //           TextSelection.collapsed(
+                                              //   // //               offset:
+                                              //   // //                   doctorMobileNumberController
+                                              //   // //                       .text
+                                              //   // //                       .length);
+
+                                              //   // //       ScaffoldMessenger.of(
+                                              //   // //               context)
+                                              //   // //           .showSnackBar(
+                                              //   // //         const SnackBar(
+                                              //   // //           content: Text(
+                                              //   // //               "Please do not type space"),
+                                              //   // //           duration: Duration(
+                                              //   // //               milliseconds: 200),
+                                              //   // //         ),
+                                              //   // //       );
+                                              //   // //     }
+                                              //   // //   },
+                                              //   //   // validators: [
+                                              //   //   //   FormBuilderValidators
+                                              //   //   //       .required(),
+                                              //   //   //   (val) {
+                                              //   //   //     if (val != null &&
+                                              //   //   //         val.isNotEmpty) {
+                                              //   //   //       // Define a regular expression for a 13-digit phone number.
+                                              //   //   //       final RegExp
+                                              //   //   //           phoneRegex =
+                                              //   //   //           RegExp(r'^\d{13}$');
+
+                                              //   //   //       if (!phoneRegex
+                                              //   //   //           .hasMatch(val)) {
+                                              //   //   //         return 'Invalid phone number format';
+                                              //   //   //       }
+                                              //   //   //     }
+                                              //   //   //     return null;
+                                              //   //   //   },
+                                              //   //   // ],
+                                              //   //   // inputFormatters: [
+                                              //   //   //   FilteringTextInputFormatter
+                                              //   //   //       .digitsOnly,
+                                              //   //   //   LengthLimitingTextInputFormatter(
+                                              //   //   //       13), // Maximum of 13 digits
+                                              //   //   //   TextInputFormatter
+                                              //   //   //       .withFunction(
+                                              //   //   //     (oldValue, newValue) {
+                                              //   //   //       print(
+                                              //   //   //           "okkkkkkkkkkkkkkkkkkkk");
+                                              //   //   //       final RegExp
+                                              //   //   //           _phoneNumberRegExp =
+                                              //   //   //           RegExp(
+                                              //   //   //               r'^\d{11,13}$');
+                                              //   //   //       // Validate against the RegExp
+                                              //   //   //       if (_phoneNumberRegExp
+                                              //   //   //           .hasMatch(
+                                              //   //   //               newValue.text)) {
+                                              //   //   //         return newValue;
+                                              //   //   //       }
+                                              //   //   //       return oldValue;
+                                              //   //   //     },
+                                              //   //   //   ),
+                                              //   //   // ],
+                                              //   //   // validator: (value) {
+                                              //   //   //   final RegExp
+                                              //   //   //       _validPhoneNumber =
+                                              //   //   //       RegExp(r'^\d{11,13}$');
+                                              //   //   //   if (value == null ||
+                                              //   //   //       !_validPhoneNumber
+                                              //   //   //           .hasMatch(value)) {
+                                              //   //   //     return 'Invalid phone number (11 to 13 digits required)';
+                                              //   //   //   }
+                                              //   //   //   return null;
+                                              //   //   // },
+                                              //   //   decoration, name: '',: InputDecoration(
+                                              //   //     border: OutlineInputBorder(
+                                              //   //       borderSide:
+                                              //   //           const BorderSide(
+                                              //   //               color:
+                                              //   //                   Colors.white),
+                                              //   //       borderRadius:
+                                              //   //           BorderRadius.circular(
+                                              //   //               5.0),
+                                              //   //     ),
+                                              //   //   ),
+                                              //   // ),
+                                              // ),
+                                              // const SizedBox(
+                                              //   height: 15,
+                                              // ),
+                                              // const Align(
+                                              //   alignment: Alignment.centerLeft,
+                                              //   child: Text(
+                                              //     "Customer ID",
+                                              //     style: TextStyle(
+                                              //         fontWeight: FontWeight.w500),
+                                              //   ),
+                                              // ),
+                                              // const SizedBox(
+                                              //   height: 5,
+                                              // ),
+                                              // SizedBox(
+                                              //     width: MediaQuery.of(context)
+                                              //             .size
+                                              //             .width /
+                                              //         1.1,
+                                              //     height: 45,
+                                              //     child: TextFormField(
+                                              //       keyboardType: TextInputType.number,
+                                              //       decoration: InputDecoration(
+                                              //         border: OutlineInputBorder(
+                                              //           borderSide: const BorderSide(
+                                              //               color: Colors.white),
+                                              //           borderRadius:
+                                              //               BorderRadius.circular(5.0),
+                                              //         ),
+                                              //       ),
+                                              //     )),
+                                              // const SizedBox(
+                                              //   height: 15,
+                                              // ),
+                                              // const Align(
+                                              //   alignment: Alignment.centerLeft,
+                                              //   child: Text(
+                                              //     "4P ID",
+                                              //     style: TextStyle(
+                                              //         fontWeight: FontWeight.w500),
+                                              //   ),
+                                              // ),
+                                              // const SizedBox(
+                                              //   height: 5,
+                                              // ),
+                                              // SizedBox(
+                                              //     width: MediaQuery.of(context)
+                                              //             .size
+                                              //             .width /
+                                              //         1.1,
+                                              //     height: 45,
+                                              //     child: TextFormField(
+                                              //       keyboardType: TextInputType.number,
+                                              //       decoration: InputDecoration(
+                                              //         border: OutlineInputBorder(
+                                              //           borderSide: const BorderSide(
+                                              //               color: Colors.white),
+                                              //           borderRadius:
+                                              //               BorderRadius.circular(5.0),
+                                              //         ),
+                                              //       ),
+                                              //     )),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: InkWell(
+                                                        child: Container(
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            color: const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                170,
+                                                                172,
+                                                                170),
+                                                          ),
+                                                          child: const Center(
+                                                              child: Text(
+                                                                  "Cancel",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            255),
+                                                                  ))),
+                                                        ),
+                                                        onTap: () {}),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Expanded(
+                                                    child: InkWell(
+                                                        child: Container(
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            color: const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                44,
+                                                                114,
+                                                                66),
+                                                          ),
+                                                          child: const Center(
+                                                              child: Text(
+                                                                  "Update",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            255),
+                                                                  ))),
+                                                        ),
+                                                        onTap: () {
+                                                          widget.docInfo[widget
+                                                                      .index]
+                                                                  ["mobile"] =
+                                                              doctorMobileNumberController
+                                                                  .text;
+                                                          setState(() {});
+                                                          Navigator.pop(
+                                                              context);
+                                                        }),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
               SizedBox(
@@ -376,7 +772,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   title: const Text(
                                                       "Brand Details"),
                                                   content: SizedBox(
-                                                    height: 310,
+                                                    height: 470,
                                                     child: Column(
                                                       children: [
                                                         const Align(
@@ -476,6 +872,98 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       .number,
                                                               controller:
                                                                   rxPerDayController,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                          color:
+                                                                              Colors.white),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                              ),
+                                                            )),
+                                                        const SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        const Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            "EMR_RX*",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.1,
+                                                            height: 45,
+                                                            child:
+                                                                TextFormField(
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              controller:
+                                                                  emrRXController,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                          color:
+                                                                              Colors.white),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                              ),
+                                                            )),
+                                                        const SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        const Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            "4P RX*",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.1,
+                                                            height: 45,
+                                                            child:
+                                                                TextFormField(
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              controller:
+                                                                  p4RXController,
                                                               decoration:
                                                                   InputDecoration(
                                                                 border:
@@ -620,7 +1108,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                         dSrController.text ==
                                                                                 ""
                                                                             ? "0"
-                                                                            : dSrController.text
+                                                                            : dSrController.text,
+                                                                        emrRXController
+                                                                            .text,
+                                                                        p4RXController
+                                                                            .text
                                                                       ]);
 
                                                                       finalBrandListAftrRemoveDuplication =
@@ -636,6 +1128,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                         rxPerDayController
                                                                             .clear();
                                                                         dSrController
+                                                                            .clear();
+                                                                        emrRXController
+                                                                            .clear();
+                                                                        p4RXController
                                                                             .clear();
                                                                       });
                                                                     } else {
@@ -677,13 +1173,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         child: Row(
                                           children: [
                                             SizedBox(
-                                              width: wholeWidth / 5.610,
+                                              width: wholeWidth / 7,
                                               height: wholeHeight / 25.309,
                                               child: const Center(
                                                 child: Text(
                                                   "Name",
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       color: Color.fromARGB(
                                                           255, 0, 0, 0),
                                                       fontWeight:
@@ -693,10 +1189,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                left: 20,
+                                                left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 5.610,
+                                                width: wholeWidth / 7,
                                                 height: wholeHeight / 25.309,
                                                 child: Center(
                                                   child: Text(
@@ -704,7 +1200,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ? "Rx/Day"
                                                         : "Sales Objective*",
                                                     style: const TextStyle(
-                                                        fontSize: 13,
+                                                        fontSize: 12,
                                                         color: Color.fromARGB(
                                                             255, 0, 0, 0),
                                                         fontWeight:
@@ -715,10 +1211,50 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                left: 20,
+                                                left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 5.610,
+                                                width: wholeWidth / 7,
+                                                height: wholeHeight / 25.309,
+                                                child: const Center(
+                                                  child: Text(
+                                                    "EMR_RX",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 5,
+                                              ),
+                                              child: SizedBox(
+                                                width: wholeWidth / 7,
+                                                height: wholeHeight / 25.309,
+                                                child: const Center(
+                                                  child: Text(
+                                                    "4P RX",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 5,
+                                              ),
+                                              child: SizedBox(
+                                                width: wholeWidth / 7,
                                                 height: wholeHeight / 25.309,
                                                 child: Center(
                                                   child: Text(
@@ -726,7 +1262,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ? "DSR"
                                                         : "Monthly Avg.Sales*",
                                                     style: const TextStyle(
-                                                        fontSize: 13,
+                                                        fontSize: 12,
                                                         color: Color.fromARGB(
                                                             255, 0, 0, 0),
                                                         fontWeight:
@@ -737,16 +1273,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                left: 20,
+                                                left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 5.610,
+                                                width: wholeWidth / 7,
                                                 height: wholeHeight / 25.309,
                                                 child: const Center(
                                                   child: Text(
                                                     "Action",
                                                     style: TextStyle(
-                                                        fontSize: 13,
+                                                        fontSize: 12,
                                                         color: Color.fromARGB(
                                                             255, 0, 0, 0),
                                                         fontWeight:
@@ -774,7 +1310,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 child: Row(
                                                   children: [
                                                     SizedBox(
-                                                      width: wholeWidth / 5.610,
+                                                      width: wholeWidth / 7,
                                                       height:
                                                           wholeHeight / 25.309,
                                                       child: Center(
@@ -797,11 +1333,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                        left: 20,
+                                                        left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width:
-                                                            wholeWidth / 5.610,
+                                                        width: wholeWidth / 7,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(
@@ -827,11 +1362,58 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                        left: 20,
+                                                        left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width:
-                                                            wholeWidth / 5.610,
+                                                        width: wholeWidth / 7,
+                                                        height: wholeHeight /
+                                                            25.309,
+                                                        child: Center(
+                                                          child: Text(
+                                                            finalBrandListAftrRemoveDuplication[
+                                                                index][3],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 13,
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                      ),
+                                                      child: SizedBox(
+                                                        width: wholeWidth / 7,
+                                                        height: wholeHeight /
+                                                            25.309,
+                                                        child: Center(
+                                                          child: Text(
+                                                            finalBrandListAftrRemoveDuplication[
+                                                                index][4],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 13,
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                      ),
+                                                      child: SizedBox(
+                                                        width: wholeWidth / 7,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(
@@ -857,11 +1439,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                        left: 20,
+                                                        left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width:
-                                                            wholeWidth / 5.610,
+                                                        width: wholeWidth / 7,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(

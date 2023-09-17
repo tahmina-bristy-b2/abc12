@@ -233,7 +233,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
@@ -311,362 +310,289 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               "${widget.docInfo[widget.index]["doc_name"]}")),
                                       content: SizedBox(
                                         height: 150,
-                                        child: FormBuilder(
-                                          key: _formKey,
-                                          child: Column(
-                                            children: [
-                                              const SizedBox(
-                                                height: 15,
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+                                            const Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                "Mobile Number*",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
-                                              const Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  "Mobile Number*",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.1,
+                                              height: 45,
+                                              //                               child: TextFormField(
+                                              // attribute: 'phone_number',
+                                              // decoration: InputDecoration(labelText: 'Phone Number'),
+                                              // validators: [
+                                              //   FormBuilderValidators.required(),
+                                              //   (val) {
+                                              //     if (val != null && val.isNotEmpty) {
+                                              //       // Define a regular expression for a 13-digit phone number.
+                                              //       final RegExp phoneRegex = RegExp(r'^\d{13}$');
+
+                                              //       if (!phoneRegex.hasMatch(val)) {
+                                              //         return 'Invalid phone number format';
+                                              //       }
+                                              //     }
+                                              //     return null;
+                                              //   },
+                                              child: TextFormField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                controller:
+                                                    doctorMobileNumberController,
+                                                onChanged: (v) {
+                                                  if (RegExp(r"\s").hasMatch(
+                                                      doctorMobileNumberController
+                                                          .text)) {
+                                                    doctorMobileNumberController
+                                                            .text =
+                                                        doctorMobileNumberController
+                                                            .text
+                                                            .substring(
+                                                                0,
+                                                                doctorMobileNumberController
+                                                                        .text
+                                                                        .length -
+                                                                    1);
+
+                                                    doctorMobileNumberController
+                                                            .selection =
+                                                        TextSelection.collapsed(
+                                                            offset:
+                                                                doctorMobileNumberController
+                                                                    .text
+                                                                    .length);
+
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        content: Text(
+                                                            "Please do not type space"),
+                                                        duration: Duration(
+                                                            milliseconds: 200),
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                // validators: [
+                                                //   FormBuilderValidators
+                                                //       .required(),
+                                                //   (val) {
+                                                //     if (val != null &&
+                                                //         val.isNotEmpty) {
+                                                //       // Define a regular expression for a 13-digit phone number.
+                                                //       final RegExp
+                                                //           phoneRegex =
+                                                //           RegExp(r'^\d{13}$');
+
+                                                //       if (!phoneRegex
+                                                //           .hasMatch(val)) {
+                                                //         return 'Invalid phone number format';
+                                                //       }
+                                                //     }
+                                                //     return null;
+                                                //   },
+                                                // ],
+                                                // inputFormatters: [
+                                                //   FilteringTextInputFormatter
+                                                //       .digitsOnly,
+                                                //   LengthLimitingTextInputFormatter(
+                                                //       13), // Maximum of 13 digits
+                                                //   TextInputFormatter
+                                                //       .withFunction(
+                                                //     (oldValue, newValue) {
+                                                //       print(
+                                                //           "okkkkkkkkkkkkkkkkkkkk");
+                                                //       final RegExp
+                                                //           _phoneNumberRegExp =
+                                                //           RegExp(
+                                                //               r'^\d{11,13}$');
+                                                //       // Validate against the RegExp
+                                                //       if (_phoneNumberRegExp
+                                                //           .hasMatch(
+                                                //               newValue.text)) {
+                                                //         return newValue;
+                                                //       }
+                                                //       return oldValue;
+                                                //     },
+                                                //   ),
+                                                // ],
+                                                // validator: (value) {
+                                                //   final RegExp
+                                                //       _validPhoneNumber =
+                                                //       RegExp(r'^\d{11,13}$');
+                                                //   if (value == null ||
+                                                //       !_validPhoneNumber
+                                                //           .hasMatch(value)) {
+                                                //     return 'Invalid phone number (11 to 13 digits required)';
+                                                //   }
+                                                //   return null;
+                                                // },
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color:
+                                                                Colors.white),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                  ),
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              FormBuilderTextField(
-                                                key: _formKey,
-                                                name: 'phone_number',
-                                                decoration:
-                                                    const InputDecoration(
-                                                        labelText:
-                                                            'Phone Number'),
-                                                validator: (val) {
-                                                  if (val != null &&
-                                                      val.isNotEmpty) {
-                                                    final RegExp phoneRegex =
-                                                        RegExp(r'^\d{13}$');
-                                                    if (!phoneRegex
-                                                        .hasMatch(val)) {
-                                                      return 'Invalid phone number format';
-                                                    }
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                              // SizedBox(
-                                              //   width: MediaQuery.of(context)
-                                              //           .size
-                                              //           .width /
-                                              //       1.1,
-                                              //   height: 45,
-                                              //   child: FormBuilderTextField(
-                                              //     name: 'phone_number',
-                                              //     decoration: InputDecoration(
-                                              //         labelText:
-                                              //             'Phone Number'),
-                                              //     validator:
-                                              //         FormBuilderValidators
-                                              //             .compose([
-                                              //       FormBuilderValidators
-                                              //           .required(context),
-                                              //       (val) {
-                                              //         if (val != null &&
-                                              //             val.isNotEmpty) {
-                                              //           final RegExp
-                                              //               phoneRegex =
-                                              //               RegExp(r'^\d{13}$');
-                                              //           if (!phoneRegex
-                                              //               .hasMatch(val)) {
-                                              //             return 'Invalid phone number format';
-                                              //           }
-                                              //         }
-                                              //         return null;
-                                              //       },
-                                              //     ]),
-                                              //   ),
-                                              //   // child:FormBuilderTextField(
-                                              //   //         attribute: 'phone_number',
-                                              //   //         decoration: InputDecoration(labelText: 'Phone Number'),
-                                              //   //         validators: [
-                                              //   //           FormBuilderValidators.required(),
-                                              //   //           (val) {
-                                              //   //             if (val != null && val.isNotEmpty) {
-                                              //   //               // Define a regular expression for a 13-digit phone number.
-                                              //   //               final RegExp phoneRegex = RegExp(r'^\d{13}$');
-
-                                              //   //               if (!phoneRegex.hasMatch(val)) {
-                                              //   //                 return 'Invalid phone number format';
-                                              //   //               }
-                                              //   //             }
-                                              //   //             return null;
-                                              //   //           },
-                                              //   // //                               child: TextFormField(
-                                              //   // // attribute: 'phone_number',
-                                              //   // // decoration: InputDecoration(labelText: 'Phone Number'),
-                                              //   // // validators: [
-                                              //   // //   FormBuilderValidators.required(),
-                                              //   // //   (val) {
-                                              //   // //     if (val != null && val.isNotEmpty) {
-                                              //   // //       // Define a regular expression for a 13-digit phone number.
-                                              //   // //       final RegExp phoneRegex = RegExp(r'^\d{13}$');
-
-                                              //   // //       if (!phoneRegex.hasMatch(val)) {
-                                              //   // //         return 'Invalid phone number format';
-                                              //   // //       }
-                                              //   // //     }
-                                              //   // //     return null;
-                                              //   // //   },
-                                              //   // // child: TextFormField(
-                                              //   // //   keyboardType:
-                                              //   // //       TextInputType.number,
-                                              //   // //   controller:
-                                              //   // //       doctorMobileNumberController,
-                                              //   // //   onChanged: (v) {
-                                              //   // //     if (RegExp(r"\s").hasMatch(
-                                              //   // //         doctorMobileNumberController
-                                              //   // //             .text)) {
-                                              //   // //       doctorMobileNumberController
-                                              //   // //               .text =
-                                              //   // //           doctorMobileNumberController
-                                              //   // //               .text
-                                              //   // //               .substring(
-                                              //   // //                   0,
-                                              //   // //                   doctorMobileNumberController
-                                              //   // //                           .text
-                                              //   // //                           .length -
-                                              //   // //                       1);
-
-                                              //   // //       doctorMobileNumberController
-                                              //   // //               .selection =
-                                              //   // //           TextSelection.collapsed(
-                                              //   // //               offset:
-                                              //   // //                   doctorMobileNumberController
-                                              //   // //                       .text
-                                              //   // //                       .length);
-
-                                              //   // //       ScaffoldMessenger.of(
-                                              //   // //               context)
-                                              //   // //           .showSnackBar(
-                                              //   // //         const SnackBar(
-                                              //   // //           content: Text(
-                                              //   // //               "Please do not type space"),
-                                              //   // //           duration: Duration(
-                                              //   // //               milliseconds: 200),
-                                              //   // //         ),
-                                              //   // //       );
-                                              //   // //     }
-                                              //   // //   },
-                                              //   //   // validators: [
-                                              //   //   //   FormBuilderValidators
-                                              //   //   //       .required(),
-                                              //   //   //   (val) {
-                                              //   //   //     if (val != null &&
-                                              //   //   //         val.isNotEmpty) {
-                                              //   //   //       // Define a regular expression for a 13-digit phone number.
-                                              //   //   //       final RegExp
-                                              //   //   //           phoneRegex =
-                                              //   //   //           RegExp(r'^\d{13}$');
-
-                                              //   //   //       if (!phoneRegex
-                                              //   //   //           .hasMatch(val)) {
-                                              //   //   //         return 'Invalid phone number format';
-                                              //   //   //       }
-                                              //   //   //     }
-                                              //   //   //     return null;
-                                              //   //   //   },
-                                              //   //   // ],
-                                              //   //   // inputFormatters: [
-                                              //   //   //   FilteringTextInputFormatter
-                                              //   //   //       .digitsOnly,
-                                              //   //   //   LengthLimitingTextInputFormatter(
-                                              //   //   //       13), // Maximum of 13 digits
-                                              //   //   //   TextInputFormatter
-                                              //   //   //       .withFunction(
-                                              //   //   //     (oldValue, newValue) {
-                                              //   //   //       print(
-                                              //   //   //           "okkkkkkkkkkkkkkkkkkkk");
-                                              //   //   //       final RegExp
-                                              //   //   //           _phoneNumberRegExp =
-                                              //   //   //           RegExp(
-                                              //   //   //               r'^\d{11,13}$');
-                                              //   //   //       // Validate against the RegExp
-                                              //   //   //       if (_phoneNumberRegExp
-                                              //   //   //           .hasMatch(
-                                              //   //   //               newValue.text)) {
-                                              //   //   //         return newValue;
-                                              //   //   //       }
-                                              //   //   //       return oldValue;
-                                              //   //   //     },
-                                              //   //   //   ),
-                                              //   //   // ],
-                                              //   //   // validator: (value) {
-                                              //   //   //   final RegExp
-                                              //   //   //       _validPhoneNumber =
-                                              //   //   //       RegExp(r'^\d{11,13}$');
-                                              //   //   //   if (value == null ||
-                                              //   //   //       !_validPhoneNumber
-                                              //   //   //           .hasMatch(value)) {
-                                              //   //   //     return 'Invalid phone number (11 to 13 digits required)';
-                                              //   //   //   }
-                                              //   //   //   return null;
-                                              //   //   // },
-                                              //   //   decoration, name: '',: InputDecoration(
-                                              //   //     border: OutlineInputBorder(
-                                              //   //       borderSide:
-                                              //   //           const BorderSide(
-                                              //   //               color:
-                                              //   //                   Colors.white),
-                                              //   //       borderRadius:
-                                              //   //           BorderRadius.circular(
-                                              //   //               5.0),
-                                              //   //     ),
-                                              //   //   ),
-                                              //   // ),
-                                              // ),
-                                              // const SizedBox(
-                                              //   height: 15,
-                                              // ),
-                                              // const Align(
-                                              //   alignment: Alignment.centerLeft,
-                                              //   child: Text(
-                                              //     "Customer ID",
-                                              //     style: TextStyle(
-                                              //         fontWeight: FontWeight.w500),
-                                              //   ),
-                                              // ),
-                                              // const SizedBox(
-                                              //   height: 5,
-                                              // ),
-                                              // SizedBox(
-                                              //     width: MediaQuery.of(context)
-                                              //             .size
-                                              //             .width /
-                                              //         1.1,
-                                              //     height: 45,
-                                              //     child: TextFormField(
-                                              //       keyboardType: TextInputType.number,
-                                              //       decoration: InputDecoration(
-                                              //         border: OutlineInputBorder(
-                                              //           borderSide: const BorderSide(
-                                              //               color: Colors.white),
-                                              //           borderRadius:
-                                              //               BorderRadius.circular(5.0),
-                                              //         ),
-                                              //       ),
-                                              //     )),
-                                              // const SizedBox(
-                                              //   height: 15,
-                                              // ),
-                                              // const Align(
-                                              //   alignment: Alignment.centerLeft,
-                                              //   child: Text(
-                                              //     "4P ID",
-                                              //     style: TextStyle(
-                                              //         fontWeight: FontWeight.w500),
-                                              //   ),
-                                              // ),
-                                              // const SizedBox(
-                                              //   height: 5,
-                                              // ),
-                                              // SizedBox(
-                                              //     width: MediaQuery.of(context)
-                                              //             .size
-                                              //             .width /
-                                              //         1.1,
-                                              //     height: 45,
-                                              //     child: TextFormField(
-                                              //       keyboardType: TextInputType.number,
-                                              //       decoration: InputDecoration(
-                                              //         border: OutlineInputBorder(
-                                              //           borderSide: const BorderSide(
-                                              //               color: Colors.white),
-                                              //           borderRadius:
-                                              //               BorderRadius.circular(5.0),
-                                              //         ),
-                                              //       ),
-                                              //     )),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: InkWell(
-                                                        child: Container(
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            color: const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                170,
-                                                                172,
-                                                                170),
-                                                          ),
-                                                          child: const Center(
-                                                              child: Text(
-                                                                  "Cancel",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            255),
-                                                                  ))),
+                                            ),
+                                            // const SizedBox(
+                                            //   height: 15,
+                                            // ),
+                                            // const Align(
+                                            //   alignment: Alignment.centerLeft,
+                                            //   child: Text(
+                                            //     "Customer ID",
+                                            //     style: TextStyle(
+                                            //         fontWeight: FontWeight.w500),
+                                            //   ),
+                                            // ),
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
+                                            // SizedBox(
+                                            //     width: MediaQuery.of(context)
+                                            //             .size
+                                            //             .width /
+                                            //         1.1,
+                                            //     height: 45,
+                                            //     child: TextFormField(
+                                            //       keyboardType: TextInputType.number,
+                                            //       decoration: InputDecoration(
+                                            //         border: OutlineInputBorder(
+                                            //           borderSide: const BorderSide(
+                                            //               color: Colors.white),
+                                            //           borderRadius:
+                                            //               BorderRadius.circular(5.0),
+                                            //         ),
+                                            //       ),
+                                            //     )),
+                                            // const SizedBox(
+                                            //   height: 15,
+                                            // ),
+                                            // const Align(
+                                            //   alignment: Alignment.centerLeft,
+                                            //   child: Text(
+                                            //     "4P ID",
+                                            //     style: TextStyle(
+                                            //         fontWeight: FontWeight.w500),
+                                            //   ),
+                                            // ),
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
+                                            // SizedBox(
+                                            //     width: MediaQuery.of(context)
+                                            //             .size
+                                            //             .width /
+                                            //         1.1,
+                                            //     height: 45,
+                                            //     child: TextFormField(
+                                            //       keyboardType: TextInputType.number,
+                                            //       decoration: InputDecoration(
+                                            //         border: OutlineInputBorder(
+                                            //           borderSide: const BorderSide(
+                                            //               color: Colors.white),
+                                            //           borderRadius:
+                                            //               BorderRadius.circular(5.0),
+                                            //         ),
+                                            //       ),
+                                            //     )),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: InkWell(
+                                                      child: Container(
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          color: const Color
+                                                                  .fromARGB(255,
+                                                              170, 172, 170),
                                                         ),
-                                                        onTap: () {}),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                        child: Container(
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            color: const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                44,
-                                                                114,
-                                                                66),
-                                                          ),
-                                                          child: const Center(
-                                                              child: Text(
-                                                                  "Update",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            255),
-                                                                  ))),
+                                                        child: const Center(
+                                                            child: Text(
+                                                                "Cancel",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                ))),
+                                                      ),
+                                                      onTap: () {}),
+                                                ),
+                                                const SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Expanded(
+                                                  child: InkWell(
+                                                      child: Container(
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          color: const Color
+                                                                  .fromARGB(
+                                                              255, 44, 114, 66),
                                                         ),
-                                                        onTap: () {
-                                                          widget.docInfo[widget
-                                                                      .index]
-                                                                  ["mobile"] =
-                                                              doctorMobileNumberController
-                                                                  .text;
-                                                          setState(() {});
-                                                          Navigator.pop(
-                                                              context);
-                                                        }),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                                        child: const Center(
+                                                            child: Text(
+                                                                "Update",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                ))),
+                                                      ),
+                                                      onTap: () {
+                                                        widget.docInfo[widget
+                                                                    .index]
+                                                                ["mobile"] =
+                                                            doctorMobileNumberController
+                                                                .text;
+                                                        setState(() {});
+                                                        Navigator.pop(context);
+                                                      }),
+                                                ),
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       ),
                                     );

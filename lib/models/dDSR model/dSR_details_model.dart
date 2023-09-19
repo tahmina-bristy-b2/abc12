@@ -157,6 +157,8 @@ class BrandList {
   final String brandId;
   final String rxPerDay;
   String amount;
+  final String emrx;
+  final String fourPRx;
 
   BrandList({
     required this.rowId,
@@ -164,14 +166,18 @@ class BrandList {
     required this.brandId,
     required this.rxPerDay,
     required this.amount,
+    required this.emrx,
+    required this.fourPRx,
   });
 
   factory BrandList.fromJson(Map<String, dynamic> json) => BrandList(
         rowId: json["row_id"],
         brandName: json["brand_name"],
         brandId: json["brand_id"] ?? 'BR1245',
-        rxPerDay: json["rx_per_day"],
-        amount: json["amount"],
+        rxPerDay: json["rx_per_day"].toString(),
+        emrx: json["emr_rx"].toString(),
+        fourPRx: json["four_p_rx"].toString(),
+        amount: json["amount"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -179,6 +185,8 @@ class BrandList {
         "brand_name": brandName,
         "brand_id": brandId,
         "rx_per_day": rxPerDay,
+        "emr_rx": emrx,
+        "four_p_rx": fourPRx,
         "amount": amount,
       };
 }

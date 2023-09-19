@@ -215,252 +215,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('Brand Details')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: StatefulBuilder(
-                        builder: (context, setState_2) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: const Color.fromARGB(
-                                        255, 138, 201, 149),
-                                    // color: Colors.blue[700],
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Expanded(
-                                          child: Text(
-                                        'Name',
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 12),
-                                      )),
-                                      Expanded(
-                                          child: Center(
-                                        child: Text(
-                                          dsrDetails!.resData.dataList[index]
-                                                      .dsrType ==
-                                                  'DCC'
-                                              ? 'Sales Objective'
-                                              : 'Rx/Day',
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                      )),
-                                      Expanded(
-                                          child: Center(
-                                        child: Text(
-                                          dsrDetails!.resData.dataList[index]
-                                                      .dsrType ==
-                                                  'DCC'
-                                              ? 'Monthly Avg. Sales'
-                                              : 'Amount',
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                      )),
-                                      // const Expanded(
-                                      //   child: Center(
-                                      //     child: Text(
-                                      //       'Action',
-                                      //       style: TextStyle(
-                                      //           color: Colors
-                                      //               .black,
-                                      //           fontSize: 12),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                SizedBox(
-                                  height: dsrDetails!.resData.dataList[index]
-                                          .brandList.length *
-                                      40,
-                                  child: ListView.builder(
-                                      itemCount: dsrDetails!.resData
-                                          .dataList[index].brandList.length,
-                                      itemBuilder: (itemBuilder, index2) {
-                                        return Container(
-                                          height: 40,
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5, left: 5),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: index2 % 2 == 0
-                                                ? Colors.grey[300]
-                                                : Colors.white,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                  child: Text(
-                                                dsrDetails!
-                                                    .resData
-                                                    .dataList[index]
-                                                    .brandList[index2]
-                                                    .brandName,
-                                                style: const TextStyle(
-                                                    fontSize: 12),
-                                              )),
-                                              Expanded(
-                                                  child: Center(
-                                                child: Text(
-                                                  dsrDetails!
-                                                      .resData
-                                                      .dataList[index]
-                                                      .brandList[index2]
-                                                      .rxPerDay,
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              )),
-                                              Expanded(
-                                                child: TextFormField(
-                                                  readOnly: true,
-                                                  controller: controller[
-                                                      dsrDetails!
-                                                          .resData
-                                                          .dataList[index]
-                                                          .brandList[index2]
-                                                          .rowId],
-                                                  decoration:
-                                                      const InputDecoration(
-                                                          border:
-                                                              InputBorder.none),
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black),
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  textInputAction:
-                                                      TextInputAction.done,
-                                                ),
-                                              ),
-                                              const SizedBox(width: 5),
-                                              // Expanded(
-                                              //   child: isUpdate[dsrDetails!
-                                              //           .resData
-                                              //           .dataList[
-                                              //               index]
-                                              //           .brandList[
-                                              //               index2]
-                                              //           .rowId]!
-                                              //       ? Center(
-                                              //           child:
-                                              //               SizedBox(
-                                              //             height:
-                                              //                 20,
-                                              //             width:
-                                              //                 20,
-                                              //             child:
-                                              //                 CircularProgressIndicator(
-                                              //               color:
-                                              //                   Colors.blue[700],
-                                              //             ),
-                                              //           ),
-                                              //         )
-                                              //       : ElevatedButton(
-                                              //           style: ElevatedButton.styleFrom(
-                                              //               backgroundColor:
-                                              //                   Colors.blue[700]),
-                                              //           onPressed:
-                                              //               () {
-                                              //             String
-                                              //                 brandAmountUpdateParams =
-                                              //                 "row_id=${dsrDetails!.resData.dataList[index].brandList[index2].rowId}&sl=${dsrDetails!.resData.dataList[index].sl}&brand_id=${dsrDetails!.resData.dataList[index].brandList[index2].brandId}&brand_name=${dsrDetails!.resData.dataList[index].brandList[index2].brandName}&rx_per_day=${dsrDetails!.resData.dataList[index].brandList[index2].rxPerDay}&new_amount=${controller[dsrDetails!.resData.dataList[index].brandList[index2].rowId]!.text}&old_amount=${dsrDetails!.resData.dataList[index].brandList[index2].amount}";
 
-                                              //             brandAmountUpdate(
-                                              //                 brandAmountUpdateParams,
-                                              //                 index,
-                                              //                 index2,
-                                              //                 dsrDetails!.resData.dataList[index].brandList[index2].rowId,
-                                              //                 setState_2);
-                                              //           },
-                                              //           child:
-                                              //               const FittedBox(
-                                              //             child:
-                                              //                 Text('Update'),
-                                              //           ),
-                                              //         ),
-                                              // ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                ),
-                                const SizedBox(height: 5),
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: const Color.fromARGB(
-                                        255, 138, 201, 149),
-                                    // color: Colors.blue[500],
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Expanded(
-                                          child: Text(
-                                        'Total',
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 12),
-                                      )),
-                                      const Expanded(
-                                          child: Text(
-                                        '',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      )),
-                                      Expanded(
-                                          child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          totalBrandSales(dsrDetails!.resData
-                                                  .dataList[index].brandList)
-                                              .toStringAsFixed(2),
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 13),
-                                        ),
-                                      )),
-                                      // const Expanded(
-                                      //   child: Text(
-                                      //     '',
-                                      //     style: TextStyle(
-                                      //         color:
-                                      //             Colors.white,
-                                      //         fontSize: 12),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(
@@ -712,6 +467,21 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Brand Details')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Container(),
+                    ),
+                  ],
+                ),
+              ),
+              brandDetails(index),
               const SizedBox(
                 height: 10,
               ),
@@ -810,6 +580,268 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
           ),
         );
       },
+    );
+  }
+
+  Padding brandDetails(int index) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 8,
+            child: StatefulBuilder(
+              builder: (context, setState_2) {
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: const Color.fromARGB(255, 138, 201, 149),
+                        // color: Colors.blue[700],
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                              child: Text(
+                            'Name',
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                          )),
+                          Expanded(
+                              child: Center(
+                            child: Text(
+                              dsrDetails!.resData.dataList[index].dsrType ==
+                                      'DCC'
+                                  ? 'Sales Objective'
+                                  : 'Rx/Day',
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 12),
+                            ),
+                          )),
+                          const Expanded(
+                              child: Center(
+                            child: Text(
+                              'EMRX',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 12),
+                            ),
+                          )),
+                          const Expanded(
+                              child: Center(
+                            child: Text(
+                              '4P RX',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 12),
+                            ),
+                          )),
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              dsrDetails!.resData.dataList[index].dsrType ==
+                                      'DCC'
+                                  ? 'Monthly Avg. Sales'
+                                  : 'Amount',
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 12),
+                            ),
+                          )),
+                          // const Expanded(
+                          //   child: Center(
+                          //     child: Text(
+                          //       'Action',
+                          //       style: TextStyle(
+                          //           color: Colors
+                          //               .black,
+                          //           fontSize: 12),
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      height:
+                          dsrDetails!.resData.dataList[index].brandList.length *
+                              30,
+                      child: ListView.builder(
+                          itemCount: dsrDetails!
+                              .resData.dataList[index].brandList.length,
+                          itemBuilder: (itemBuilder, index2) {
+                            return Container(
+                              height: 30,
+                              padding: const EdgeInsets.only(
+                                  top: 5, bottom: 5, left: 5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: index2 % 2 == 0
+                                    ? Colors.grey[300]
+                                    : Colors.white,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                    dsrDetails!.resData.dataList[index]
+                                        .brandList[index2].brandName,
+                                    style: const TextStyle(fontSize: 12),
+                                  )),
+                                  Expanded(
+                                      child: Center(
+                                    child: Text(
+                                      dsrDetails!.resData.dataList[index]
+                                          .brandList[index2].rxPerDay,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  )),
+                                  Expanded(
+                                      child: Center(
+                                    child: Text(
+                                      dsrDetails!.resData.dataList[index]
+                                          .brandList[index2].emrx,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  )),
+                                  Expanded(
+                                      child: Center(
+                                    child: Text(
+                                      dsrDetails!.resData.dataList[index]
+                                          .brandList[index2].fourPRx,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  )),
+                                  Expanded(
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      controller: controller[dsrDetails!
+                                          .resData
+                                          .dataList[index]
+                                          .brandList[index2]
+                                          .rowId],
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none),
+                                      textAlign: TextAlign.end,
+                                      style: const TextStyle(
+                                          fontSize: 13, color: Colors.black),
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.done,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  // Expanded(
+                                  //   child: isUpdate[dsrDetails!
+                                  //           .resData
+                                  //           .dataList[
+                                  //               index]
+                                  //           .brandList[
+                                  //               index2]
+                                  //           .rowId]!
+                                  //       ? Center(
+                                  //           child:
+                                  //               SizedBox(
+                                  //             height:
+                                  //                 20,
+                                  //             width:
+                                  //                 20,
+                                  //             child:
+                                  //                 CircularProgressIndicator(
+                                  //               color:
+                                  //                   Colors.blue[700],
+                                  //             ),
+                                  //           ),
+                                  //         )
+                                  //       : ElevatedButton(
+                                  //           style: ElevatedButton.styleFrom(
+                                  //               backgroundColor:
+                                  //                   Colors.blue[700]),
+                                  //           onPressed:
+                                  //               () {
+                                  //             String
+                                  //                 brandAmountUpdateParams =
+                                  //                 "row_id=${dsrDetails!.resData.dataList[index].brandList[index2].rowId}&sl=${dsrDetails!.resData.dataList[index].sl}&brand_id=${dsrDetails!.resData.dataList[index].brandList[index2].brandId}&brand_name=${dsrDetails!.resData.dataList[index].brandList[index2].brandName}&rx_per_day=${dsrDetails!.resData.dataList[index].brandList[index2].rxPerDay}&new_amount=${controller[dsrDetails!.resData.dataList[index].brandList[index2].rowId]!.text}&old_amount=${dsrDetails!.resData.dataList[index].brandList[index2].amount}";
+
+                                  //             brandAmountUpdate(
+                                  //                 brandAmountUpdateParams,
+                                  //                 index,
+                                  //                 index2,
+                                  //                 dsrDetails!.resData.dataList[index].brandList[index2].rowId,
+                                  //                 setState_2);
+                                  //           },
+                                  //           child:
+                                  //               const FittedBox(
+                                  //             child:
+                                  //                 Text('Update'),
+                                  //           ),
+                                  //         ),
+                                  // ),
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
+                    const SizedBox(height: 5),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: const Color.fromARGB(255, 138, 201, 149),
+                        // color: Colors.blue[500],
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                              child: Text(
+                            'Total',
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                          )),
+                          const Expanded(
+                              child: Text(
+                            '',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          )),
+                          const Expanded(
+                              child: Text(
+                            '',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          )),
+                          const Expanded(
+                              child: Text(
+                            '',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          )),
+                          Expanded(
+                              child: Align(
+                            alignment: const Alignment(0.9, 0.0),
+                            child: Text(
+                              totalBrandSales(dsrDetails!
+                                      .resData.dataList[index].brandList)
+                                  .toStringAsFixed(0),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 13),
+                            ),
+                          )),
+                          // const Expanded(
+                          //   child: Text(
+                          //     '',
+                          //     style: TextStyle(
+                          //         color:
+                          //             Colors.white,
+                          //         fontSize: 12),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -84,7 +84,7 @@ class DataList {
         dueCount: json["due_count"],
         countDoctor: json["count_doctor"],
         countDcc: json["count_dcc"] ?? '',
-        amount: json["amount"],
+        amount: double.parse(json["amount"]).toStringAsFixed(0),
       );
 
   Map<String, dynamic> toJson() => {

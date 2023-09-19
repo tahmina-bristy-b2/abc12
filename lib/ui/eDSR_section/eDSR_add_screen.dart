@@ -4,12 +4,11 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,12 +32,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
   final GlobalKey<FormState> _form1Key = GlobalKey();
   TextEditingController noOfPatientController = TextEditingController();
   TextEditingController addDescriptionController = TextEditingController();
-  TextEditingController issueToController = TextEditingController();
+  TextEditingController issueToController = TextEditingController(text: "");
   TextEditingController rxPerDayController = TextEditingController();
   TextEditingController dSrController = TextEditingController();
   TextEditingController emrRXController = TextEditingController();
   TextEditingController p4RXController = TextEditingController();
   TextEditingController doctorMobileNumberController = TextEditingController();
+  final brandSelectedController = TextEditingController();
 
   EdsrDataModel? eDSRSettingsData;
   List<String>? eBrandList = [];
@@ -92,6 +92,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eDSRSettingsData = Boxes.geteDSRsetData().get("eDSRSettingsData")!;
+    doctorMobileNumberController.text = widget.docInfo[widget.index]["mobile"];
 
     allSettingsDataGet(eDSRSettingsData);
 
@@ -118,13 +119,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //================================ get Purpose List=====================================
   getEDsrPurposeList(String dsrType, String? categoryName) {
     String newDsrType = (dsrType == "Others") ? "DCC" : dsrType;
-    print("purpose Id===============================$newDsrType");
     ePurposeList = eDSRSettingsData!.purposeList
         .where((e) => e.dsrCategory == categoryName! && e.dsrType == newDsrType)
         .map((e) => e.purposeName)
         .toList();
     dsrType = dsrType;
-    print("purpose Id 2===============================$dsrType");
     initialSubPurpose = null;
     eSubpurposeList = [];
   }
@@ -132,7 +131,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   //================================ get sub Purpose List=====================================
   getEDsrSubPurposeList(String purposeId, String category, String doctorType) {
     String newDsrType = (doctorType == "Others") ? "DCC" : doctorType;
-    print("Sub purpose Id===============================$newDsrType");
     eSubpurposeList = eDSRSettingsData!.subPurposeList
         .where((element) =>
             element.sDsrCategory == category &&
@@ -141,7 +139,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
         .map((e) => e.sPurposeSubName)
         .toList();
     doctorType = doctorType;
-    print("Sub purpose Id 2222222===============================$doctorType");
   }
 
   //============================  get rxDurationMonthList ==========================
@@ -210,14 +207,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     return brandString;
   }
 
-  // String _validatePhoneNumber(String value) {
-  //   final RegExp _validPhoneNumber = RegExp(r'^\d{11,13}$');
-  //   if (!_validPhoneNumber.hasMatch(value)) {
-  //     return 'Invalid phone number (11 to 13 digits required)';
-  //   }
-  //   return null;
-  // }
-
   //=============================== Unique brand List ===============================
   List<List<dynamic>> removeDuplicationForBrand(
       List<List<dynamic>> actualBrandList) {
@@ -237,6 +226,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
     dSrController.dispose();
     p4RXController.dispose();
     emrRXController.dispose();
+    brandSelectedController.clear();
     super.dispose();
   }
 
@@ -624,410 +614,561 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       "Brand Details"),
                                                   content: SizedBox(
                                                     height: 470,
-                                                    child: Column(
-                                                      children: [
-                                                        const Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            "Brand*",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Column(
+                                                        children: [
+                                                          const Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              "Brand*",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 5,
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              StatefulBuilder(
+                                                                builder: (context,
+                                                                    setState2) {
+                                                                  return DropdownButtonHideUnderline(
+                                                                    child:
+                                                                        DropdownButton2(
+                                                                      isExpanded:
+                                                                          true,
+                                                                      iconEnabledColor:
+                                                                          const Color(
+                                                                              0xff8AC995),
+                                                                      hint:
+                                                                          Text(
+                                                                        'Select Brand',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              Theme.of(context).hintColor,
+                                                                        ),
+                                                                      ),
+                                                                      items: eBrandList!
+                                                                          .map((item) => DropdownMenuItem<String>(
+                                                                                value: item,
+                                                                                child: Text(
+                                                                                  item,
+                                                                                  style: const TextStyle(
+                                                                                    fontSize: 14,
+                                                                                  ),
+                                                                                ),
+                                                                              ))
+                                                                          .toList(),
+                                                                      value:
+                                                                          initialBrand,
+                                                                      onChanged:
+                                                                          (value) {
+                                                                        setState2(
+                                                                            () {
+                                                                          initialBrand =
+                                                                              value;
+                                                                        });
+                                                                      },
+                                                                      buttonHeight:
+                                                                          50,
+                                                                      buttonWidth:
+                                                                          260,
+                                                                      itemHeight:
+                                                                          40,
+                                                                      dropdownMaxHeight:
+                                                                          200,
+                                                                      searchController:
+                                                                          brandSelectedController,
+                                                                      searchInnerWidgetHeight:
+                                                                          50,
+                                                                      searchInnerWidget:
+                                                                          Container(
+                                                                        height:
+                                                                            50,
+                                                                        padding:
+                                                                            const EdgeInsets.only(
+                                                                          top:
+                                                                              8,
+                                                                          bottom:
+                                                                              4,
+                                                                          right:
+                                                                              8,
+                                                                          left:
+                                                                              8,
+                                                                        ),
+                                                                        child:
+                                                                            TextFormField(
+                                                                          expands:
+                                                                              true,
+                                                                          maxLines:
+                                                                              null,
+                                                                          controller:
+                                                                              brandSelectedController,
+                                                                          decoration:
+                                                                              InputDecoration(
+                                                                            isDense:
+                                                                                true,
+                                                                            contentPadding:
+                                                                                const EdgeInsets.symmetric(
+                                                                              horizontal: 6,
+                                                                              vertical: 8,
+                                                                            ),
+                                                                            hintText:
+                                                                                'Search Brand here...',
+                                                                            hintStyle:
+                                                                                const TextStyle(fontSize: 12),
+                                                                            border:
+                                                                                OutlineInputBorder(
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      searchMatchFn:
+                                                                          (item,
+                                                                              searchValue) {
+                                                                        return (item
+                                                                            .value
+                                                                            .toString()
+                                                                            .startsWith(searchValue.toUpperCase()));
+                                                                      },
+                                                                      onMenuStateChange:
+                                                                          (isOpen) {
+                                                                        if (!isOpen) {
+                                                                          brandSelectedController
+                                                                              .clear();
+                                                                        }
+                                                                      },
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                // child: DropdownButtonHideUnderline(
+                                                                //   child:
+                                                                //       DropdownButton2(
+                                                                //     isExpanded:
+                                                                //         true,
+                                                                //     hint: Text(
+                                                                //       'Select Brand',
+                                                                //       style:
+                                                                //           TextStyle(
+                                                                //         fontSize:
+                                                                //             14,
+                                                                //         color: Theme.of(
+                                                                //                 context)
+                                                                //             .hintColor,
+                                                                //       ),
+                                                                //     ),
+                                                                //     items: eBrandList!
+                                                                //         .map((item) => DropdownMenuItem<String>(
+                                                                //               value:
+                                                                //                   item,
+                                                                //               child:
+                                                                //                   Text(
+                                                                //                 item,
+                                                                //                 style: const TextStyle(
+                                                                //                   fontSize: 14,
+                                                                //                 ),
+                                                                //               ),
+                                                                //             ))
+                                                                //         .toList(),
+                                                                //     value:
+                                                                //         initialBrand,
+                                                                //     onChanged:
+                                                                //         (value) {
+                                                                //       setState(
+                                                                //           () {
+                                                                //         initialBrand =
+                                                                //             value;
+                                                                //       });
+                                                                //     },
+                                                                //     buttonHeight:
+                                                                //         50,
+                                                                //     buttonWidth:
+                                                                //         260,
+                                                                //     itemHeight:
+                                                                //         40,
+                                                                //     dropdownMaxHeight:
+                                                                //         200,
+                                                                //     searchController:
+                                                                //         brandSelectedController,
+                                                                //     searchInnerWidgetHeight:
+                                                                //         50,
+                                                                //     searchInnerWidget:
+                                                                //         Container(
+                                                                //       height: 50,
+                                                                //       padding:
+                                                                //           const EdgeInsets
+                                                                //               .only(
+                                                                //         top: 8,
+                                                                //         bottom: 4,
+                                                                //         right: 8,
+                                                                //         left: 8,
+                                                                //       ),
+                                                                //       child:
+                                                                //           TextFormField(
+                                                                //         expands:
+                                                                //             true,
+                                                                //         maxLines:
+                                                                //             null,
+                                                                //         controller:
+                                                                //             brandSelectedController,
+                                                                //         decoration:
+                                                                //             InputDecoration(
+                                                                //           isDense:
+                                                                //               true,
+                                                                //           contentPadding:
+                                                                //               const EdgeInsets.symmetric(
+                                                                //             horizontal:
+                                                                //                 6,
+                                                                //             vertical:
+                                                                //                 8,
+                                                                //           ),
+                                                                //           hintText:
+                                                                //               'Search Brand here...',
+                                                                //           hintStyle:
+                                                                //               const TextStyle(fontSize: 12),
+                                                                //           border:
+                                                                //               OutlineInputBorder(
+                                                                //             borderRadius:
+                                                                //                 BorderRadius.circular(8),
+                                                                //           ),
+                                                                //         ),
+                                                                //       ),
+                                                                //     ),
+                                                                //     searchMatchFn:
+                                                                //         (item,
+                                                                //             searchValue) {
+                                                                //       return (item
+                                                                //           .value
+                                                                //           .toString()
+                                                                //           .contains(
+                                                                //               searchValue.toUpperCase()));
+                                                                //     },
+                                                                //     //This to clear the search value when you close the menu
+                                                                //     onMenuStateChange:
+                                                                //         (isOpen) {
+                                                                //       if (!isOpen) {
+                                                                //         brandSelectedController
+                                                                //             .clear();
+                                                                //       }
+                                                                //     },
+                                                                //   ),
+                                                                // ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              doctorType ==
+                                                                      "DOCTOR"
+                                                                  ? "RX/Day*"
+                                                                  : "Sales Objective*",
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  1.1,
+                                                              height: 45,
                                                               child:
-                                                                  DropdownButtonHideUnderline(
-                                                                child:
-                                                                    ButtonTheme(
-                                                                  alignedDropdown:
-                                                                      true,
-                                                                  child:
-                                                                      DropdownButtonFormField<
-                                                                          String>(
-                                                                    isExpanded:
-                                                                        true,
-                                                                    iconEnabledColor:
-                                                                        const Color(
-                                                                            0xff8AC995),
-                                                                    value:
-                                                                        initialBrand,
-                                                                    hint: const Text(
-                                                                        "Select Brand",
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontWeight:
-                                                                                FontWeight.w600)),
-                                                                    items: eBrandList!
-                                                                        .map((String
-                                                                            item) {
-                                                                      return DropdownMenuItem<
-                                                                          String>(
-                                                                        value:
-                                                                            item,
-                                                                        child: SizedBox(
-                                                                            width: MediaQuery.of(context).size.width /
-                                                                                1.2,
-                                                                            child:
-                                                                                Text(item, style: const TextStyle(fontSize: 14))),
-                                                                      );
-                                                                    }).toList(),
-                                                                    onChanged:
-                                                                        (String?
-                                                                            value) {
-                                                                      setState(
-                                                                          () {
-                                                                        initialBrand =
-                                                                            value!;
-                                                                      });
-                                                                    },
+                                                                  TextFormField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                controller:
+                                                                    rxPerDayController,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      OutlineInputBorder(
+                                                                    borderSide:
+                                                                        const BorderSide(
+                                                                            color:
+                                                                                Colors.white),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                   ),
                                                                 ),
-                                                              ),
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          const Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              "EMR RX*",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
                                                             ),
-                                                            Expanded(
-                                                                child:
-                                                                    IconButton(
-                                                                        onPressed:
-                                                                            () {},
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .search,
-                                                                          color:
-                                                                              const Color(0xff8AC995),
-                                                                        )))
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            doctorType ==
-                                                                    "DOCTOR"
-                                                                ? "RX/Day*"
-                                                                : "Sales Objective*",
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.1,
-                                                            height: 45,
-                                                            child:
-                                                                TextFormField(
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              controller:
-                                                                  rxPerDayController,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      const BorderSide(
-                                                                          color:
-                                                                              Colors.white),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5.0),
-                                                                ),
-                                                              ),
-                                                            )),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        const Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            "EMR RX*",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                          const SizedBox(
+                                                            height: 5,
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.1,
-                                                            height: 45,
-                                                            child:
-                                                                TextFormField(
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              controller:
-                                                                  emrRXController,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      const BorderSide(
-                                                                          color:
-                                                                              Colors.white),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5.0),
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  1.1,
+                                                              height: 45,
+                                                              child:
+                                                                  TextFormField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                controller:
+                                                                    emrRXController,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      OutlineInputBorder(
+                                                                    borderSide:
+                                                                        const BorderSide(
+                                                                            color:
+                                                                                Colors.white),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            )),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        const Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            "4P RX*",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 15,
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.1,
-                                                            height: 45,
-                                                            child:
-                                                                TextFormField(
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              controller:
-                                                                  p4RXController,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      const BorderSide(
-                                                                          color:
-                                                                              Colors.white),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5.0),
-                                                                ),
-                                                              ),
-                                                            )),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            doctorType ==
-                                                                    "DOCTOR"
-                                                                ? "DSR*"
-                                                                : "Monthly Avg.Sales*",
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                          const Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              "4P RX*",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.1,
-                                                            height: 45,
-                                                            child:
-                                                                TextFormField(
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              controller:
-                                                                  dSrController,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      const BorderSide(
-                                                                          color:
-                                                                              Colors.white),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5.0),
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  1.1,
+                                                              height: 45,
+                                                              child:
+                                                                  TextFormField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                controller:
+                                                                    p4RXController,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      OutlineInputBorder(
+                                                                    borderSide:
+                                                                        const BorderSide(
+                                                                            color:
+                                                                                Colors.white),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            )),
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: InkWell(
-                                                                  child:
-                                                                      Container(
-                                                                    height: 40,
-                                                                    //width: 160,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      color: const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          170,
-                                                                          172,
-                                                                          170),
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              doctorType ==
+                                                                      "DOCTOR"
+                                                                  ? "DSR*"
+                                                                  : "Monthly Avg.Sales*",
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  1.1,
+                                                              height: 45,
+                                                              child:
+                                                                  TextFormField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                controller:
+                                                                    dSrController,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      OutlineInputBorder(
+                                                                    borderSide:
+                                                                        const BorderSide(
+                                                                            color:
+                                                                                Colors.white),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                ),
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: InkWell(
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          40,
+                                                                      //width: 160,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
+                                                                        color: const Color.fromARGB(
+                                                                            255,
+                                                                            170,
+                                                                            172,
+                                                                            170),
+                                                                      ),
+                                                                      child: const Center(
+                                                                          child: Text("Cancel",
+                                                                              style: TextStyle(
+                                                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                                              ))),
                                                                     ),
-                                                                    child: const Center(
-                                                                        child: Text("Cancel",
-                                                                            style: TextStyle(
-                                                                              color: Color.fromARGB(255, 255, 255, 255),
-                                                                            ))),
-                                                                  ),
-                                                                  onTap: () {
-                                                                    initialBrand =
-                                                                        null;
-                                                                    rxPerDayController
-                                                                        .clear();
-                                                                    dSrController
-                                                                        .clear();
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  }),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 15,
-                                                            ),
-                                                            Expanded(
-                                                              child: InkWell(
-                                                                  child:
-                                                                      Container(
-                                                                    height: 40,
-                                                                    //width: 160,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      color: const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          44,
-                                                                          114,
-                                                                          66),
+                                                                    onTap: () {
+                                                                      initialBrand =
+                                                                          null;
+                                                                      rxPerDayController
+                                                                          .clear();
+                                                                      dSrController
+                                                                          .clear();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    }),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 15,
+                                                              ),
+                                                              Expanded(
+                                                                child: InkWell(
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          40,
+                                                                      //width: 160,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
+                                                                        color: const Color.fromARGB(
+                                                                            255,
+                                                                            44,
+                                                                            114,
+                                                                            66),
+                                                                      ),
+                                                                      child: const Center(
+                                                                          child: Text("Add",
+                                                                              style: TextStyle(
+                                                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                                              ))),
                                                                     ),
-                                                                    child: const Center(
-                                                                        child: Text("Add",
-                                                                            style: TextStyle(
-                                                                              color: Color.fromARGB(255, 255, 255, 255),
-                                                                            ))),
-                                                                  ),
-                                                                  onTap: () {
-                                                                    if (initialBrand !=
-                                                                        null) {
-                                                                      if (emrRXController
-                                                                              .text !=
-                                                                          '') {
-                                                                        if (p4RXController.text !=
-                                                                            "") {
-                                                                          dynamicRowsListForBrand
-                                                                              .add([
-                                                                            initialBrand,
-                                                                            rxPerDayController.text == ""
-                                                                                ? "0"
-                                                                                : rxPerDayController.text,
-                                                                            dSrController.text == ""
-                                                                                ? "0"
-                                                                                : dSrController.text,
-                                                                            emrRXController.text,
-                                                                            p4RXController.text
-                                                                          ]);
+                                                                    onTap: () {
+                                                                      if (initialBrand !=
+                                                                          null) {
+                                                                        if (emrRXController.text !=
+                                                                            '') {
+                                                                          if (p4RXController.text !=
+                                                                              "") {
+                                                                            dynamicRowsListForBrand.add([
+                                                                              initialBrand,
+                                                                              rxPerDayController.text == "" ? "0" : rxPerDayController.text,
+                                                                              dSrController.text == "" ? "0" : dSrController.text,
+                                                                              emrRXController.text,
+                                                                              p4RXController.text
+                                                                            ]);
 
-                                                                          finalBrandListAftrRemoveDuplication =
-                                                                              removeDuplicationForBrand(dynamicRowsListForBrand);
+                                                                            finalBrandListAftrRemoveDuplication =
+                                                                                removeDuplicationForBrand(dynamicRowsListForBrand);
 
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                          setState(
-                                                                              () {
-                                                                            initialBrand =
-                                                                                null;
-                                                                            rxPerDayController.clear();
-                                                                            dSrController.clear();
-                                                                            emrRXController.clear();
-                                                                            p4RXController.clear();
-                                                                          });
+                                                                            Navigator.pop(context);
+                                                                            setState(() {
+                                                                              initialBrand = null;
+                                                                              rxPerDayController.clear();
+                                                                              dSrController.clear();
+                                                                              emrRXController.clear();
+                                                                              p4RXController.clear();
+                                                                            });
+                                                                          } else {
+                                                                            AllServices().toastMessage(
+                                                                                "Please Enter 4P RX ",
+                                                                                Colors.red,
+                                                                                Colors.white,
+                                                                                16);
+                                                                          }
                                                                         } else {
                                                                           AllServices().toastMessage(
-                                                                              "Please Enter 4P RX ",
+                                                                              "Please Enter EMR RX ",
                                                                               Colors.red,
                                                                               Colors.white,
                                                                               16);
                                                                         }
                                                                       } else {
                                                                         AllServices().toastMessage(
-                                                                            "Please Enter EMR RX ",
+                                                                            "Please Select Brand First",
                                                                             Colors.red,
                                                                             Colors.white,
                                                                             16);
                                                                       }
-                                                                    } else {
-                                                                      AllServices().toastMessage(
-                                                                          "Please Select Brand First",
-                                                                          Colors
-                                                                              .red,
-                                                                          Colors
-                                                                              .white,
-                                                                          16);
-                                                                    }
-                                                                  }),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
+                                                                    }),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 );
@@ -1466,7 +1607,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   )
                                 : const SizedBox(),
                             const SizedBox(
-                              height: 0,
+                              height: 10,
                             ),
                             const Text(
                               "Add Descripton*",
@@ -1787,12 +1928,15 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               onChanged: (String? value) {
                                 if (value == "APC" || value == "CT") {
                                   isCheck = true;
+                                  issueToController.text = widget
+                                      .docInfo[widget.index]["doc_name"]
+                                      .toString();
                                 } else {
                                   isCheck = false;
+                                  issueToController.clear();
                                 }
                                 setState(() {
                                   initialIssueMode = value!;
-                                  issueToController.clear();
                                 });
                               },
                             ),

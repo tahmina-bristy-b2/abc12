@@ -686,11 +686,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       buttonHeight:
                                                                           50,
                                                                       buttonWidth:
-                                                                          260,
+                                                                          232,
                                                                       itemHeight:
                                                                           40,
                                                                       dropdownMaxHeight:
-                                                                          200,
+                                                                          252,
                                                                       searchController:
                                                                           brandSelectedController,
                                                                       searchInnerWidgetHeight:

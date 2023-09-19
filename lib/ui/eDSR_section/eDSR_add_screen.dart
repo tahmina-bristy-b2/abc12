@@ -384,7 +384,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       255),
                                                             ))),
                                                   ),
-                                                  onTap: () {}),
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                    doctorMobileNumberController
+                                                        .text = widget
+                                                            .docInfo[
+                                                        widget.index]["mobile"];
+                                                  }),
                                             ),
                                             const SizedBox(
                                               width: 15,

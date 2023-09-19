@@ -134,22 +134,6 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Area Id')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["area_id"] == null
-                          ? ""
-                          : '  ${widget.previewData["area_id"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
                     const Expanded(flex: 3, child: Text('Mobile')),
                     const Text(':'),
                     Expanded(
@@ -166,14 +150,181 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Brand Details')),
+                    const Expanded(flex: 3, child: Text('Purpose')),
                     const Text(':'),
                     Expanded(
                       flex: 8,
+                      child: Text(widget.previewData["purposeName"] == null
+                          ? ""
+                          : '  ${widget.previewData["purposeName"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Purpose Sub')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(widget.previewData["Sub_purpose_Name"] == null
+                          ? ""
+                          : '  ${widget.previewData["Sub_purpose_Name"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Doctor Type')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text('  ${widget.previewData["dsr_type"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Description')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text('  ${widget.previewData["Descripton"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Rx Duration')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                          '  ${widget.previewData["RX_Duration_from_Name"]}  To  ${widget.previewData["RX_Duration_to_name"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('DSR Schedule')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(widget.previewData["DSR_Schedule"] == null
+                          ? ""
+                          : '  ${widget.previewData["DSR_Schedule"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('DSR Duration')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                          ' ${widget.previewData["DSR_Duration_from_name"]}  To  ${widget.previewData["DSR_Duration_to_name"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('No. of Patient')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child:
+                          Text('  ${widget.previewData["Number_of_Patient"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Mode')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(widget.previewData["Issue_Mode"] == null
+                          ? ""
+                          : '  ${widget.previewData["Issue_Mode"]}'),
+                    ),
+                  ],
+                ),
+              ),
+              (widget.previewData["Issue_Mode"] == "APC" ||
+                      widget.previewData["Issue_Mode"] == "CT")
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 3, child: Text('Issue To')),
+                          const Text(':'),
+                          Expanded(
+                            flex: 8,
+                            child: Text(widget.previewData["Issue_To"] == null
+                                ? ""
+                                : ' ${widget.previewData["Issue_To"]}'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Expanded(flex: 3, child: Text('Brand Details')),
+                    Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(' '),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
                       child: StatefulBuilder(
                         builder: (context, setState_2) {
                           return Padding(
-                            padding: const EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.only(left: 0),
                             child: Column(
                               children: [
                                 Container(
@@ -210,7 +361,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       const Expanded(
                                           child: Center(
                                         child: Text(
-                                          "EMR_RX",
+                                          "EMR RX",
                                           style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 253, 253, 253),
@@ -388,150 +539,8 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('Purpose')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["purposeName"] == null
-                          ? ""
-                          : '  ${widget.previewData["purposeName"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('Purpose Sub')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["Sub_purpose_Name"] == null
-                          ? ""
-                          : '  ${widget.previewData["Sub_purpose_Name"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('Description')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text('  ${widget.previewData["Descripton"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('Rx Duration')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                          '  ${widget.previewData["RX_Duration_from_Name"]}  To  ${widget.previewData["RX_Duration_to_name"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('No. of Patient')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child:
-                          Text('  ${widget.previewData["Number_of_Patient"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('DSR Duration')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                          ' ${widget.previewData["DSR_Duration_from_name"]}  To  ${widget.previewData["DSR_Duration_to_name"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('DSR Schedule')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["DSR_Schedule"] == null
-                          ? ""
-                          : '  ${widget.previewData["DSR_Schedule"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 3, child: Text('Mode')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["Issue_Mode"] == null
-                          ? ""
-                          : '  ${widget.previewData["Issue_Mode"]}'),
-                    ),
-                  ],
-                ),
-              ),
-              (widget.previewData["Issue_Mode"] == "APC" ||
-                      widget.previewData["Issue_Mode"] == "CT")
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 3, child: Text('Issue To')),
-                          const Text(':'),
-                          Expanded(
-                            flex: 8,
-                            child: Text(widget.previewData["Issue_To"] == null
-                                ? ""
-                                : ' ${widget.previewData["Issue_To"]}'),
-                          ),
-                        ],
-                      ),
-                    )
-                  : const SizedBox(),
               const SizedBox(
-                height: 35,
+                height: 25,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

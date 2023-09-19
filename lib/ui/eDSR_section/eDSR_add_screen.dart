@@ -117,23 +117,31 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   //================================ get Purpose List=====================================
   getEDsrPurposeList(String dsrType, String? categoryName) {
+    String newDsrType = (dsrType == "Others") ? "DCC" : dsrType;
+    print("purpose Id===============================$newDsrType");
     ePurposeList = eDSRSettingsData!.purposeList
-        .where((e) => e.dsrCategory == categoryName! && e.dsrType == dsrType)
+        .where((e) => e.dsrCategory == categoryName! && e.dsrType == newDsrType)
         .map((e) => e.purposeName)
         .toList();
+    dsrType = dsrType;
+    print("purpose Id 2===============================$dsrType");
     initialSubPurpose = null;
     eSubpurposeList = [];
   }
 
   //================================ get sub Purpose List=====================================
   getEDsrSubPurposeList(String purposeId, String category, String doctorType) {
+    String newDsrType = (doctorType == "Others") ? "DCC" : doctorType;
+    print("Sub purpose Id===============================$newDsrType");
     eSubpurposeList = eDSRSettingsData!.subPurposeList
         .where((element) =>
             element.sDsrCategory == category &&
-            element.sDsrType == doctorType &&
+            element.sDsrType == newDsrType &&
             element.sPurposeId == purposeId)
         .map((e) => e.sPurposeSubName)
         .toList();
+    doctorType = doctorType;
+    print("Sub purpose Id 2222222===============================$doctorType");
   }
 
   //============================  get rxDurationMonthList ==========================
@@ -161,7 +169,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   List<String> getDsrDurationMonthListTo(String value) {
     int selectedIndex = eDsrDurationMonthList.indexOf(value);
     eDsrDurationMonthListTo = [];
-
     if (selectedIndex == -1) {
       eDsrDurationMonthListTo = [];
     } else {
@@ -294,253 +301,233 @@ class _EDSRScreenState extends State<EDSRScreen> {
                       ],
                     ),
                   ),
-                  widget.docInfo[widget.index]["mobile"] == "0"
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: IconButton(
-                            icon: const Icon(Icons.edit,
-                                size: 20, color: Color(0xff8AC995)),
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  //barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      scrollable: true,
-                                      title: Center(
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: IconButton(
+                      icon: const Icon(Icons.edit,
+                          size: 20, color: Color(0xff8AC995)),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                scrollable: true,
+                                title: Center(
+                                    child: Text(
+                                        "${widget.docInfo[widget.index]["doc_name"]}")),
+                                content: SizedBox(
+                                  height: 150,
+                                  child: Form(
+                                    key: _form1Key,
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        const Align(
+                                          alignment: Alignment.centerLeft,
                                           child: Text(
-                                              "${widget.docInfo[widget.index]["doc_name"]}")),
-                                      content: SizedBox(
-                                        height: 150,
-                                        child: Form(
-                                          key: _form1Key,
-                                          child: Column(
-                                            children: [
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              const Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  "Mobile Number*",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.1,
-                                                height: 45,
-                                                child: TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  controller:
-                                                      doctorMobileNumberController,
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .deny(
-                                                      RegExp(r'^\d{14,}$'),
-                                                    ),
-                                                  ],
-                                                  validator: (value) {
-                                                    if (value!.isEmpty) {
-                                                      return "Mobile Number is required";
-                                                    }
-                                                    if (value.length < 11 ||
-                                                        value.length > 13 ||
-                                                        value.length == 12) {
-                                                      return "Mobile Number should be  11 or 13 digits";
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: InkWell(
-                                                        child: Container(
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            color: const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                170,
-                                                                172,
-                                                                170),
-                                                          ),
-                                                          child: const Center(
-                                                              child: Text(
-                                                                  "Cancel",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            255),
-                                                                  ))),
-                                                        ),
-                                                        onTap: () {}),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                        child: Container(
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            color: const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                44,
-                                                                114,
-                                                                66),
-                                                          ),
-                                                          child: const Center(
-                                                              child: Text(
-                                                                  "Update",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            255),
-                                                                  ))),
-                                                        ),
-                                                        onTap: () async {
-                                                          if (_form1Key
-                                                              .currentState!
-                                                              .validate()) {
-                                                            setState(() {
-                                                              isMobileUpdate =
-                                                                  true;
-                                                            });
-                                                            bool result =
-                                                                await InternetConnectionChecker()
-                                                                    .hasConnection;
-                                                            if (result ==
-                                                                true) {
-                                                              Map<String, dynamic> responsData = await EDSRRepositories().getMobileNumberUpdation(
-                                                                  dmpathData!
-                                                                      .submitUrl,
-                                                                  cid!,
-                                                                  userInfo!
-                                                                      .userId,
-                                                                  userPassword,
-                                                                  widget.docInfo[
-                                                                          widget
-                                                                              .index]
-                                                                      [
-                                                                      "doc_id"],
-                                                                  doctorType!,
-                                                                  doctorMobileNumberController
-                                                                      .text,
-                                                                  widget.docInfo[
-                                                                          widget
-                                                                              .index]
-                                                                      [
-                                                                      "area_id"]);
-                                                              if (responsData
-                                                                  .isNotEmpty) {
-                                                                if (responsData[
-                                                                        "status"] ==
-                                                                    "Success") {
-                                                                  widget.docInfo[
-                                                                              widget.index]
-                                                                          [
-                                                                          "mobile"] =
-                                                                      doctorMobileNumberController
-                                                                          .text;
-                                                                  setState(() {
-                                                                    isMobileUpdate =
-                                                                        false;
-                                                                  });
-                                                                  AllServices().toastMessage(
-                                                                      responsData[
-                                                                          "ret_str"],
-                                                                      Colors
-                                                                          .green,
-                                                                      Colors
-                                                                          .white,
-                                                                      14);
-
-                                                                  if (!mounted) {
-                                                                    return;
-                                                                  }
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                } else {
-                                                                  setState(() {
-                                                                    isMobileUpdate =
-                                                                        false;
-                                                                  });
-                                                                  AllServices().toastMessage(
-                                                                      responsData[
-                                                                          "ret_str"],
-                                                                      Colors
-                                                                          .red,
-                                                                      Colors
-                                                                          .white,
-                                                                      14);
-                                                                }
-                                                              } else {
-                                                                setState(() {
-                                                                  isMobileUpdate =
-                                                                      false;
-                                                                });
-                                                              }
-                                                            } else {
-                                                              setState(() {
-                                                                isMobileUpdate =
-                                                                    false;
-                                                              });
-                                                              AllServices()
-                                                                  .toastMessage(
-                                                                      interNetErrorMsg,
-                                                                      Colors
-                                                                          .red,
-                                                                      Colors
-                                                                          .white,
-                                                                      16);
-                                                            }
-                                                          }
-                                                        }),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
+                                            "Mobile Number*",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  });
-                            },
-                          ),
-                        )
-                      : const SizedBox()
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.1,
+                                          height: 45,
+                                          child: TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            controller:
+                                                doctorMobileNumberController,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.deny(
+                                                RegExp(r'^\d{14,}$'),
+                                              ),
+                                            ],
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return "Mobile Number is required";
+                                              }
+                                              if (value.length < 11 ||
+                                                  value.length > 13 ||
+                                                  value.length == 12) {
+                                                return "Mobile Number should be  11 or 13 digits";
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: InkWell(
+                                                  child: Container(
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              170,
+                                                              172,
+                                                              170),
+                                                    ),
+                                                    child: const Center(
+                                                        child: Text("Cancel",
+                                                            style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      255),
+                                                            ))),
+                                                  ),
+                                                  onTap: () {}),
+                                            ),
+                                            const SizedBox(
+                                              width: 15,
+                                            ),
+                                            Expanded(
+                                              child: InkWell(
+                                                  child: Container(
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255, 44, 114, 66),
+                                                    ),
+                                                    child: const Center(
+                                                        child: Text("Update",
+                                                            style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      255),
+                                                            ))),
+                                                  ),
+                                                  onTap: () async {
+                                                    if (_form1Key.currentState!
+                                                        .validate()) {
+                                                      setState(() {
+                                                        isMobileUpdate = true;
+                                                      });
+                                                      bool result =
+                                                          await InternetConnectionChecker()
+                                                              .hasConnection;
+                                                      if (result == true) {
+                                                        Map<String, dynamic>
+                                                            responsData =
+                                                            await EDSRRepositories().getMobileNumberUpdation(
+                                                                dmpathData!
+                                                                    .submitUrl,
+                                                                cid!,
+                                                                userInfo!
+                                                                    .userId,
+                                                                userPassword,
+                                                                widget.docInfo[
+                                                                        widget
+                                                                            .index]
+                                                                    ["doc_id"],
+                                                                doctorType!,
+                                                                doctorMobileNumberController
+                                                                    .text,
+                                                                widget.docInfo[
+                                                                        widget
+                                                                            .index]
+                                                                    [
+                                                                    "area_id"]);
+                                                        if (responsData
+                                                            .isNotEmpty) {
+                                                          if (responsData[
+                                                                  "status"] ==
+                                                              "Success") {
+                                                            widget.docInfo[widget
+                                                                        .index]
+                                                                    ["mobile"] =
+                                                                doctorMobileNumberController
+                                                                    .text;
+                                                            setState(() {
+                                                              isMobileUpdate =
+                                                                  false;
+                                                            });
+                                                            AllServices()
+                                                                .toastMessage(
+                                                                    responsData[
+                                                                        "ret_str"],
+                                                                    Colors
+                                                                        .green,
+                                                                    Colors
+                                                                        .white,
+                                                                    14);
+
+                                                            if (!mounted) {
+                                                              return;
+                                                            }
+                                                            Navigator.pop(
+                                                                context);
+                                                          } else {
+                                                            setState(() {
+                                                              isMobileUpdate =
+                                                                  false;
+                                                            });
+                                                            AllServices()
+                                                                .toastMessage(
+                                                                    responsData[
+                                                                        "ret_str"],
+                                                                    Colors.red,
+                                                                    Colors
+                                                                        .white,
+                                                                    14);
+                                                          }
+                                                        } else {
+                                                          setState(() {
+                                                            isMobileUpdate =
+                                                                false;
+                                                          });
+                                                        }
+                                                      } else {
+                                                        setState(() {
+                                                          isMobileUpdate =
+                                                              false;
+                                                        });
+                                                        AllServices()
+                                                            .toastMessage(
+                                                                interNetErrorMsg,
+                                                                Colors.red,
+                                                                Colors.white,
+                                                                16);
+                                                      }
+                                                    }
+                                                  }),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                    ),
+                  )
                 ],
               ),
               SizedBox(
@@ -653,54 +640,73 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         const SizedBox(
                                                           height: 5,
                                                         ),
-                                                        DropdownButtonHideUnderline(
-                                                          child: ButtonTheme(
-                                                            alignedDropdown:
-                                                                true,
-                                                            child:
-                                                                DropdownButtonFormField<
-                                                                    String>(
-                                                              isExpanded: true,
-                                                              iconEnabledColor:
-                                                                  const Color(
-                                                                      0xff8AC995),
-                                                              value:
-                                                                  initialBrand,
-                                                              hint: const Text(
-                                                                  "Select Brand",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600)),
-                                                              items: eBrandList!
-                                                                  .map((String
-                                                                      item) {
-                                                                return DropdownMenuItem<
-                                                                    String>(
-                                                                  value: item,
-                                                                  child: SizedBox(
-                                                                      width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width /
-                                                                          1.2,
-                                                                      child: Text(
-                                                                          item,
-                                                                          style:
-                                                                              const TextStyle(fontSize: 14))),
-                                                                );
-                                                              }).toList(),
-                                                              onChanged:
-                                                                  (String?
-                                                                      value) {
-                                                                setState(() {
-                                                                  initialBrand =
-                                                                      value!;
-                                                                });
-                                                              },
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 5,
+                                                              child:
+                                                                  DropdownButtonHideUnderline(
+                                                                child:
+                                                                    ButtonTheme(
+                                                                  alignedDropdown:
+                                                                      true,
+                                                                  child:
+                                                                      DropdownButtonFormField<
+                                                                          String>(
+                                                                    isExpanded:
+                                                                        true,
+                                                                    iconEnabledColor:
+                                                                        const Color(
+                                                                            0xff8AC995),
+                                                                    value:
+                                                                        initialBrand,
+                                                                    hint: const Text(
+                                                                        "Select Brand",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.w600)),
+                                                                    items: eBrandList!
+                                                                        .map((String
+                                                                            item) {
+                                                                      return DropdownMenuItem<
+                                                                          String>(
+                                                                        value:
+                                                                            item,
+                                                                        child: SizedBox(
+                                                                            width: MediaQuery.of(context).size.width /
+                                                                                1.2,
+                                                                            child:
+                                                                                Text(item, style: const TextStyle(fontSize: 14))),
+                                                                      );
+                                                                    }).toList(),
+                                                                    onChanged:
+                                                                        (String?
+                                                                            value) {
+                                                                      setState(
+                                                                          () {
+                                                                        initialBrand =
+                                                                            value!;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
+                                                            Expanded(
+                                                                child:
+                                                                    IconButton(
+                                                                        onPressed:
+                                                                            () {},
+                                                                        icon:
+                                                                            const Icon(
+                                                                          Icons
+                                                                              .search,
+                                                                          color:
+                                                                              const Color(0xff8AC995),
+                                                                        )))
+                                                          ],
                                                         ),
                                                         const SizedBox(
                                                           height: 15,
@@ -758,7 +764,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
-                                                            "EMR_RX*",
+                                                            "EMR RX*",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -1003,7 +1009,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                         }
                                                                       } else {
                                                                         AllServices().toastMessage(
-                                                                            "Please Enter EMR_RX ",
+                                                                            "Please Enter EMR RX ",
                                                                             Colors.red,
                                                                             Colors.white,
                                                                             16);
@@ -1092,7 +1098,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 height: wholeHeight / 25.309,
                                                 child: const Center(
                                                   child: Text(
-                                                    "EMR_RX",
+                                                    "EMR RX",
                                                     style: TextStyle(
                                                         fontSize: 12,
                                                         color: Color.fromARGB(
@@ -1966,6 +1972,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
     setState(() {
       isLoading = true;
     });
+
     Map<String, dynamic> readyForPreviewData = {
       "submit_url": dmpathData!.submitUrl,
       "cid": cid!,

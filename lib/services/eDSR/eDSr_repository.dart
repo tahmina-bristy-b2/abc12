@@ -288,4 +288,35 @@ class EDSRRepositories {
 
     return resData;
   }
+
+  //=========================================== mobile Number Updation  ==========================================
+  Future<Map<String, dynamic>> getMobileNumberUpdation(
+      String approveEDSRUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String doctorId,
+      String dsrType,
+      String upMobileNumber,
+      String areaId) async {
+    Map<String, dynamic> wholeData = {};
+
+    try {
+      final http.Response response = await EDSRDataProvider().mobileUpdateDP(
+          approveEDSRUrl,
+          cid,
+          userId,
+          userPass,
+          doctorId,
+          dsrType,
+          upMobileNumber,
+          areaId);
+      wholeData = json.decode(response.body);
+      return wholeData;
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+      print('update error: $e');
+    }
+    return wholeData;
+  }
 }

@@ -196,4 +196,26 @@ class EDSRDataProvider {
     );
     return response;
   }
+
+  //================================= Mobile Number Updation=============================
+  Future<http.Response> mobileUpdateDP(
+      String approveEDSRUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String doctorId,
+      String dsrType,
+      String upMobileNumber,
+      String areaId) async {
+    final http.Response response;
+
+    response = await http.get(
+      Uri.parse(EDSRApis.mobileUpdateApi(approveEDSRUrl, cid, userId, userPass,
+          doctorId, dsrType, upMobileNumber, areaId)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
 }

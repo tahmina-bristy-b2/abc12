@@ -65,4 +65,15 @@ class EDSRApis {
     String issueTo,
   ) =>
       "${eDsrSettingsUrl}api_dsr_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=$userPass&synccode=$syncCode&brand_Str=$brandStr&areaId=$areaId&doctor_id=$doctorId&doctor_name=$doctorName&doctor_category=$doctorCategory&latitude=$latitude&longitude=$longitude&dsr_type=$dsrType&dsr_cat=$dsrCat&purpose=$purpose&purpose_sub=$purposeSub&p_des=$pDes&p_dt_from=$pDtFrom&p_dt_to=$pDtTo&no_of_patient=$noOfPatient&pay_from=$payFrom&pay_to=$payTo&schedule=$schedule&pay_n_month=$payNMonth&pay_mode=$payMode&cheque_to=$chequeTo&rsm_cash=$rsmCash&pay_mode_bill_to=$issueTo";
+
+  static String mobileUpdateApi(
+          String approveEDSRUrl,
+          String cid,
+          String userId,
+          String userPass,
+          String doctorId,
+          String dsrType,
+          String upMobileNumber,
+          String areaId) =>
+      "${approveEDSRUrl}api_dsr_approve/doc_mobile_update?cid=$cid&user_id=$userId&user_pass=$userPass&up_mobile=$upMobileNumber&area_id=$areaId&Doctor_id=$doctorId&dsr_type=$dsrType";
 }

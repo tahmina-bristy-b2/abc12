@@ -5,9 +5,11 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
+import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +30,7 @@ class EDSRScreen extends StatefulWidget {
 class _EDSRScreenState extends State<EDSRScreen> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
+  final GlobalKey<FormState> _form1Key = GlobalKey();
   TextEditingController noOfPatientController = TextEditingController();
   TextEditingController addDescriptionController = TextEditingController();
   TextEditingController issueToController = TextEditingController();
@@ -80,6 +83,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
   bool isLoading = false;
   bool isAPC = false;
   bool isCheck = false;
+  final RegExp phoneRegex = RegExp(r'^\d{13}$');
+  bool isMobileUpdate = false;
 
   @override
   void initState() {
@@ -87,8 +92,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eDSRSettingsData = Boxes.geteDSRsetData().get("eDSRSettingsData")!;
-    print(
-        "mobile number ===============${widget.docInfo[widget.index]["mobile"]}");
 
     allSettingsDataGet(eDSRSettingsData);
 
@@ -232,7 +235,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
 
@@ -301,6 +303,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                             onPressed: () {
                               showDialog(
                                   context: context,
+                                  //barrierDismissible: false,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       scrollable: true,
@@ -309,289 +312,227 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               "${widget.docInfo[widget.index]["doc_name"]}")),
                                       content: SizedBox(
                                         height: 150,
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            const Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "Mobile Number*",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                        child: Form(
+                                          key: _form1Key,
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 15,
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.1,
-                                              height: 45,
-                                              //                               child: TextFormField(
-                                              // attribute: 'phone_number',
-                                              // decoration: InputDecoration(labelText: 'Phone Number'),
-                                              // validators: [
-                                              //   FormBuilderValidators.required(),
-                                              //   (val) {
-                                              //     if (val != null && val.isNotEmpty) {
-                                              //       // Define a regular expression for a 13-digit phone number.
-                                              //       final RegExp phoneRegex = RegExp(r'^\d{13}$');
-
-                                              //       if (!phoneRegex.hasMatch(val)) {
-                                              //         return 'Invalid phone number format';
-                                              //       }
-                                              //     }
-                                              //     return null;
-                                              //   },
-                                              child: TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                controller:
-                                                    doctorMobileNumberController,
-                                                onChanged: (v) {
-                                                  if (RegExp(r"\s").hasMatch(
-                                                      doctorMobileNumberController
-                                                          .text)) {
-                                                    doctorMobileNumberController
-                                                            .text =
-                                                        doctorMobileNumberController
-                                                            .text
-                                                            .substring(
-                                                                0,
-                                                                doctorMobileNumberController
-                                                                        .text
-                                                                        .length -
-                                                                    1);
-
-                                                    doctorMobileNumberController
-                                                            .selection =
-                                                        TextSelection.collapsed(
-                                                            offset:
-                                                                doctorMobileNumberController
-                                                                    .text
-                                                                    .length);
-
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text(
-                                                            "Please do not type space"),
-                                                        duration: Duration(
-                                                            milliseconds: 200),
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                                // validators: [
-                                                //   FormBuilderValidators
-                                                //       .required(),
-                                                //   (val) {
-                                                //     if (val != null &&
-                                                //         val.isNotEmpty) {
-                                                //       // Define a regular expression for a 13-digit phone number.
-                                                //       final RegExp
-                                                //           phoneRegex =
-                                                //           RegExp(r'^\d{13}$');
-
-                                                //       if (!phoneRegex
-                                                //           .hasMatch(val)) {
-                                                //         return 'Invalid phone number format';
-                                                //       }
-                                                //     }
-                                                //     return null;
-                                                //   },
-                                                // ],
-                                                // inputFormatters: [
-                                                //   FilteringTextInputFormatter
-                                                //       .digitsOnly,
-                                                //   LengthLimitingTextInputFormatter(
-                                                //       13), // Maximum of 13 digits
-                                                //   TextInputFormatter
-                                                //       .withFunction(
-                                                //     (oldValue, newValue) {
-                                                //       print(
-                                                //           "okkkkkkkkkkkkkkkkkkkk");
-                                                //       final RegExp
-                                                //           _phoneNumberRegExp =
-                                                //           RegExp(
-                                                //               r'^\d{11,13}$');
-                                                //       // Validate against the RegExp
-                                                //       if (_phoneNumberRegExp
-                                                //           .hasMatch(
-                                                //               newValue.text)) {
-                                                //         return newValue;
-                                                //       }
-                                                //       return oldValue;
-                                                //     },
-                                                //   ),
-                                                // ],
-                                                // validator: (value) {
-                                                //   final RegExp
-                                                //       _validPhoneNumber =
-                                                //       RegExp(r'^\d{11,13}$');
-                                                //   if (value == null ||
-                                                //       !_validPhoneNumber
-                                                //           .hasMatch(value)) {
-                                                //     return 'Invalid phone number (11 to 13 digits required)';
-                                                //   }
-                                                //   return null;
-                                                // },
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                            color:
-                                                                Colors.white),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
+                                              const Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  "Mobile Number*",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.1,
+                                                height: 45,
+                                                child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  controller:
+                                                      doctorMobileNumberController,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .deny(
+                                                      RegExp(r'^\d{14,}$'),
+                                                    ),
+                                                  ],
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return "Mobile Number is required";
+                                                    }
+                                                    if (value.length < 11 ||
+                                                        value.length > 13 ||
+                                                        value.length == 12) {
+                                                      return "Mobile Number should be  11 or 13 digits";
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: InkWell(
+                                                        child: Container(
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            color: const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                170,
+                                                                172,
+                                                                170),
+                                                          ),
+                                                          child: const Center(
+                                                              child: Text(
+                                                                  "Cancel",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            255),
+                                                                  ))),
+                                                        ),
+                                                        onTap: () {}),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                            // const SizedBox(
-                                            //   height: 15,
-                                            // ),
-                                            // const Align(
-                                            //   alignment: Alignment.centerLeft,
-                                            //   child: Text(
-                                            //     "Customer ID",
-                                            //     style: TextStyle(
-                                            //         fontWeight: FontWeight.w500),
-                                            //   ),
-                                            // ),
-                                            // const SizedBox(
-                                            //   height: 5,
-                                            // ),
-                                            // SizedBox(
-                                            //     width: MediaQuery.of(context)
-                                            //             .size
-                                            //             .width /
-                                            //         1.1,
-                                            //     height: 45,
-                                            //     child: TextFormField(
-                                            //       keyboardType: TextInputType.number,
-                                            //       decoration: InputDecoration(
-                                            //         border: OutlineInputBorder(
-                                            //           borderSide: const BorderSide(
-                                            //               color: Colors.white),
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(5.0),
-                                            //         ),
-                                            //       ),
-                                            //     )),
-                                            // const SizedBox(
-                                            //   height: 15,
-                                            // ),
-                                            // const Align(
-                                            //   alignment: Alignment.centerLeft,
-                                            //   child: Text(
-                                            //     "4P ID",
-                                            //     style: TextStyle(
-                                            //         fontWeight: FontWeight.w500),
-                                            //   ),
-                                            // ),
-                                            // const SizedBox(
-                                            //   height: 5,
-                                            // ),
-                                            // SizedBox(
-                                            //     width: MediaQuery.of(context)
-                                            //             .size
-                                            //             .width /
-                                            //         1.1,
-                                            //     height: 45,
-                                            //     child: TextFormField(
-                                            //       keyboardType: TextInputType.number,
-                                            //       decoration: InputDecoration(
-                                            //         border: OutlineInputBorder(
-                                            //           borderSide: const BorderSide(
-                                            //               color: Colors.white),
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(5.0),
-                                            //         ),
-                                            //       ),
-                                            //     )),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: InkWell(
-                                                      child: Container(
-                                                        height: 40,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          color: const Color
-                                                                  .fromARGB(255,
-                                                              170, 172, 170),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Expanded(
+                                                    child: InkWell(
+                                                        child: Container(
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            color: const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                44,
+                                                                114,
+                                                                66),
+                                                          ),
+                                                          child: const Center(
+                                                              child: Text(
+                                                                  "Update",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            255),
+                                                                  ))),
                                                         ),
-                                                        child: const Center(
-                                                            child: Text(
-                                                                "Cancel",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          255),
-                                                                ))),
-                                                      ),
-                                                      onTap: () {}),
-                                                ),
-                                                const SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Expanded(
-                                                  child: InkWell(
-                                                      child: Container(
-                                                        height: 40,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          color: const Color
-                                                                  .fromARGB(
-                                                              255, 44, 114, 66),
-                                                        ),
-                                                        child: const Center(
-                                                            child: Text(
-                                                                "Update",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          255),
-                                                                ))),
-                                                      ),
-                                                      onTap: () {
-                                                        widget.docInfo[widget
-                                                                    .index]
-                                                                ["mobile"] =
-                                                            doctorMobileNumberController
-                                                                .text;
-                                                        setState(() {});
-                                                        Navigator.pop(context);
-                                                      }),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                        onTap: () async {
+                                                          if (_form1Key
+                                                              .currentState!
+                                                              .validate()) {
+                                                            setState(() {
+                                                              isMobileUpdate =
+                                                                  true;
+                                                            });
+                                                            bool result =
+                                                                await InternetConnectionChecker()
+                                                                    .hasConnection;
+                                                            if (result ==
+                                                                true) {
+                                                              Map<String, dynamic> responsData = await EDSRRepositories().getMobileNumberUpdation(
+                                                                  dmpathData!
+                                                                      .submitUrl,
+                                                                  cid!,
+                                                                  userInfo!
+                                                                      .userId,
+                                                                  userPassword,
+                                                                  widget.docInfo[
+                                                                          widget
+                                                                              .index]
+                                                                      [
+                                                                      "doc_id"],
+                                                                  doctorType!,
+                                                                  doctorMobileNumberController
+                                                                      .text,
+                                                                  widget.docInfo[
+                                                                          widget
+                                                                              .index]
+                                                                      [
+                                                                      "area_id"]);
+                                                              if (responsData
+                                                                  .isNotEmpty) {
+                                                                if (responsData[
+                                                                        "status"] ==
+                                                                    "Success") {
+                                                                  widget.docInfo[
+                                                                              widget.index]
+                                                                          [
+                                                                          "mobile"] =
+                                                                      doctorMobileNumberController
+                                                                          .text;
+                                                                  setState(() {
+                                                                    isMobileUpdate =
+                                                                        false;
+                                                                  });
+                                                                  AllServices().toastMessage(
+                                                                      responsData[
+                                                                          "ret_str"],
+                                                                      Colors
+                                                                          .green,
+                                                                      Colors
+                                                                          .white,
+                                                                      14);
+
+                                                                  if (!mounted) {
+                                                                    return;
+                                                                  }
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                } else {
+                                                                  setState(() {
+                                                                    isMobileUpdate =
+                                                                        false;
+                                                                  });
+                                                                  AllServices().toastMessage(
+                                                                      responsData[
+                                                                          "ret_str"],
+                                                                      Colors
+                                                                          .red,
+                                                                      Colors
+                                                                          .white,
+                                                                      14);
+                                                                }
+                                                              } else {
+                                                                setState(() {
+                                                                  isMobileUpdate =
+                                                                      false;
+                                                                });
+                                                              }
+                                                            } else {
+                                                              setState(() {
+                                                                isMobileUpdate =
+                                                                    false;
+                                                              });
+                                                              AllServices()
+                                                                  .toastMessage(
+                                                                      interNetErrorMsg,
+                                                                      Colors
+                                                                          .red,
+                                                                      Colors
+                                                                          .white,
+                                                                      16);
+                                                            }
+                                                          }
+                                                        }),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     );
@@ -653,10 +594,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                   ePurposeList = [];
                                   eSubpurposeList = [];
 
-                                  initialPurpose = null;
-                                  initialSubPurpose = null;
-                                  ePurposeList = [];
-                                  eSubpurposeList = [];
+                                  purposeId = '';
+                                  subPurposeId = '';
 
                                   getEDsrPurposeList(
                                       doctorType!, initialCategory);
@@ -1023,42 +962,52 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                   onTap: () {
                                                                     if (initialBrand !=
                                                                         null) {
-                                                                      dynamicRowsListForBrand
-                                                                          .add([
-                                                                        initialBrand,
-                                                                        rxPerDayController.text ==
-                                                                                ""
-                                                                            ? "0"
-                                                                            : rxPerDayController.text,
-                                                                        dSrController.text ==
-                                                                                ""
-                                                                            ? "0"
-                                                                            : dSrController.text,
-                                                                        emrRXController
-                                                                            .text,
-                                                                        p4RXController
-                                                                            .text
-                                                                      ]);
+                                                                      if (emrRXController
+                                                                              .text !=
+                                                                          '') {
+                                                                        if (p4RXController.text !=
+                                                                            "") {
+                                                                          dynamicRowsListForBrand
+                                                                              .add([
+                                                                            initialBrand,
+                                                                            rxPerDayController.text == ""
+                                                                                ? "0"
+                                                                                : rxPerDayController.text,
+                                                                            dSrController.text == ""
+                                                                                ? "0"
+                                                                                : dSrController.text,
+                                                                            emrRXController.text,
+                                                                            p4RXController.text
+                                                                          ]);
 
-                                                                      finalBrandListAftrRemoveDuplication =
-                                                                          removeDuplicationForBrand(
-                                                                              dynamicRowsListForBrand);
+                                                                          finalBrandListAftrRemoveDuplication =
+                                                                              removeDuplicationForBrand(dynamicRowsListForBrand);
 
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      setState(
-                                                                          () {
-                                                                        initialBrand =
-                                                                            null;
-                                                                        rxPerDayController
-                                                                            .clear();
-                                                                        dSrController
-                                                                            .clear();
-                                                                        emrRXController
-                                                                            .clear();
-                                                                        p4RXController
-                                                                            .clear();
-                                                                      });
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          setState(
+                                                                              () {
+                                                                            initialBrand =
+                                                                                null;
+                                                                            rxPerDayController.clear();
+                                                                            dSrController.clear();
+                                                                            emrRXController.clear();
+                                                                            p4RXController.clear();
+                                                                          });
+                                                                        } else {
+                                                                          AllServices().toastMessage(
+                                                                              "Please Enter 4P RX ",
+                                                                              Colors.red,
+                                                                              Colors.white,
+                                                                              16);
+                                                                        }
+                                                                      } else {
+                                                                        AllServices().toastMessage(
+                                                                            "Please Enter EMR_RX ",
+                                                                            Colors.red,
+                                                                            Colors.white,
+                                                                            16);
+                                                                      }
                                                                     } else {
                                                                       AllServices().toastMessage(
                                                                           "Please Select Brand First",
@@ -1936,26 +1885,22 @@ class _EDSRScreenState extends State<EDSRScreen> {
                             ),
                             Expanded(
                               child: InkWell(
-                                child: Container(
-                                  height: 55,
-                                  //width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromARGB(255, 44, 114, 66),
+                                  child: Container(
+                                    height: 55,
+                                    //width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color.fromARGB(
+                                          255, 44, 114, 66),
+                                    ),
+                                    child: const Center(
+                                        child: Text("Preview",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                            ))),
                                   ),
-                                  child: const Center(
-                                      child: Text("Submit",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                          ))),
-                                ),
-                                onTap: () async {
-                                  bool result =
-                                      await InternetConnectionChecker()
-                                          .hasConnection;
-                                  if (result == true) {
+                                  onTap: () async {
                                     getbrandString() != ""
                                         ? widget.docInfo[widget.index]
                                                     ["area_id"] !=
@@ -1984,9 +1929,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                                                 ? initialIssueMode != null
                                                                                                     ? isCheck == true
                                                                                                         ? issueToController.text != ""
-                                                                                                            ? eDsrSubmit()
+                                                                                                            ? readyForPreviewMethod()
                                                                                                             : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                                                                                        : eDsrSubmit()
+                                                                                                        : readyForPreviewMethod()
                                                                                                     : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
                                                                                                 : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
                                                                                             : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
@@ -2003,15 +1948,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
                                             : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
                                         : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
-                                  } else {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    AllServices().toastMessage(interNetErrorMsg,
-                                        Colors.red, Colors.white, 16);
-                                  }
-                                },
-                              ),
+                                  }),
                             ),
                           ],
                         ),
@@ -2025,54 +1962,59 @@ class _EDSRScreenState extends State<EDSRScreen> {
     );
   }
 
-  //=============================================== get Territory Based Doctor Button (Api call)================================
-  eDsrSubmit() async {
+  readyForPreviewMethod() {
     setState(() {
       isLoading = true;
     });
-    Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
-        dmpathData!.submitUrl,
-        cid!,
-        userInfo!.userId,
-        password!,
-        "123",
-        brandString,
-        widget.docInfo[widget.index]["area_id"],
-        widget.docInfo[widget.index]["doc_id"],
-        widget.docInfo[widget.index]["doc_name"],
-        "",
-        latitude.toString(),
-        longitude.toString(),
-        doctorType!,
-        initialCategory!,
-        purposeId,
-        subPurposeId,
-        addDescriptionController.text,
-        rxFromDate,
-        rxToDate,
-        noOfPatientController.text,
-        dsrFromdate,
-        dsrTodate,
-        initialPaySchdedule!,
-        "0",
-        initialIssueMode!,
-        "",
-        "0",
-        issueToController.text);
-    if (data["status"] == "Success") {
+    Map<String, dynamic> readyForPreviewData = {
+      "submit_url": dmpathData!.submitUrl,
+      "cid": cid!,
+      "userId": userInfo!.userId,
+      "password": password,
+      "brandString": brandString,
+      "area_id": widget.docInfo[widget.index]["area_id"],
+      "doc_id": widget.docInfo[widget.index]["doc_id"],
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString(),
+      "doc_name": widget.docInfo[widget.index]["doc_name"],
+      "degree": widget.docInfo[widget.index]["degree"],
+      "specialty": widget.docInfo[widget.index]["specialty"],
+      "address": widget.docInfo[widget.index]["address"],
+      "mobile": widget.docInfo[widget.index]["mobile"],
+      "Category": initialCategory,
+      "purposeName": initialPurpose,
+      "purposeId": purposeId,
+      "Sub_purpose_Name": initialSubPurpose,
+      "Sub_purpose": subPurposeId,
+      "Descripton": addDescriptionController.text,
+      "RX_Duration_from_Name": initialRxDurationMonthList,
+      "RX_Duration_from": rxFromDate,
+      "RX_Duration_to": rxToDate,
+      "RX_Duration_to_name": initialRxDurationMonthListTo,
+      "DSR_Schedule": initialPaySchdedule,
+      "DSR_Duration_from_name": initialdsrDurationMonthList,
+      "DSR_Duration_from": dsrFromdate,
+      "DSR_Duration_to": dsrTodate,
+      "DSR_Duration_to_name": initialdsrDurationMonthListTo,
+      "Number_of_Patient": noOfPatientController.text,
+      "Issue_Mode": initialIssueMode,
+      "Issue_To": issueToController.text,
+      "Brand": finalBrandListAftrRemoveDuplication,
+      "dsr_type": doctorType
+    };
+
+    if (readyForPreviewData.isNotEmpty) {
       setState(() {
         isLoading = false;
       });
-      AllServices()
-          .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
-      if (!mounted) return;
-      Navigator.pop(context);
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      AllServices()
-          .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PreviewEDSRADDScreen(
+            previewData: readyForPreviewData,
+          ),
+        ),
+      );
     }
   }
 }

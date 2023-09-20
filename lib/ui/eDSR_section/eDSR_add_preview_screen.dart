@@ -15,10 +15,10 @@ class PreviewEDSRADDScreen extends StatefulWidget {
 
 class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
   bool isLoading = false;
-  double totalRxperDay = 0.0;
-  double totalEmrX = 0.0;
-  double total4pRX = 0.0;
-  double totalAmount = 0.0;
+  int totalRxperDay = 0;
+  int totalEmrX = 0;
+  int total4pRX = 0;
+  int totalAmount = 0;
 
   @override
   void initState() {
@@ -43,10 +43,10 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
 
   //=======================
 
-  double dynamicTotalCalculation(double purposeTotal, int index) {
-    purposeTotal = 0.0;
+  int dynamicTotalCalculation(int purposeTotal, int index) {
+    purposeTotal = 0;
     widget.previewData["Brand"].forEach((element) {
-      purposeTotal = purposeTotal + double.parse(element[index]);
+      purposeTotal = purposeTotal + int.parse(element[index]);
     });
     return purposeTotal;
   }
@@ -485,7 +485,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            totalRxperDay.toStringAsFixed(1),
+                                            "$totalRxperDay",
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -496,7 +496,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            totalEmrX.toStringAsFixed(1),
+                                            "$totalEmrX",
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -507,7 +507,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            total4pRX.toStringAsFixed(1),
+                                            "$total4pRX",
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -519,7 +519,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            totalAmount.toStringAsFixed(1),
+                                            "$totalAmount",
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -646,12 +646,8 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
       if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const EDcrScreen(),
-        ),
-      );
+      Navigator.pop(context);
+      Navigator.pop(context);
     } else {
       setState(() {
         isLoading = false;

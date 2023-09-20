@@ -398,6 +398,24 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
+              dsrDetails!.resData.dataList[index].ct == 'APC' ||
+                      dsrDetails!.resData.dataList[index].ct == 'CT'
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 3, child: Text('CT')),
+                          const Text(':'),
+                          Expanded(
+                            flex: 8,
+                            child: Text(
+                                '  ${dsrDetails!.resData.dataList[index].ct}'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
               // Padding(
               //   padding: const EdgeInsets.only(top: 5, bottom: 5),
               //   child: Row(

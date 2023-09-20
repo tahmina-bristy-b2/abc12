@@ -73,6 +73,7 @@ class DataList {
   final List<BrandList> brandList;
   final String step;
   final String mobile;
+  final String ct;
 
   DataList({
     required this.lastAction,
@@ -99,6 +100,7 @@ class DataList {
     required this.brandList,
     required this.step,
     required this.mobile,
+    required this.ct,
   });
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
@@ -126,7 +128,8 @@ class DataList {
       brandList: List<BrandList>.from(
           json["brand_list"].map((x) => BrandList.fromJson(x))),
       step: json["step"].toString().toUpperCase(),
-      mobile: json["doc_mobile"].toString());
+      mobile: json["doc_mobile"].toString(),
+      ct: json["cheque_to"] ?? '');
 
   Map<String, dynamic> toJson() => {
         "last_action": lastAction,

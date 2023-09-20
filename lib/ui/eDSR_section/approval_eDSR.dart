@@ -135,7 +135,21 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  children: [
+                    const Expanded(flex: 3, child: Text('SL')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child:
+                          Text('  ${dsrDetails!.resData.dataList[index].sl}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(
                   children: [
                     const Expanded(flex: 3, child: Text('Ref')),
@@ -215,6 +229,21 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Mobile')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                          '  ${dsrDetails!.resData.dataList[index].mobile}'),
+                    ),
+                  ],
+                ),
+              ),
 
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -242,6 +271,21 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                       flex: 8,
                       child: Text(
                           '  ${dsrDetails!.resData.dataList[index].purposeSub}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('Dsr Type')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                          '  ${dsrDetails!.resData.dataList[index].dsrType}'),
                     ),
                   ],
                 ),
@@ -296,21 +340,6 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('DSR Duration')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                          '  ${dsrDetails!.resData.dataList[index].payFromFirstDate} To ${dsrDetails!.resData.dataList[index].payToFirstDate}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
                     const Expanded(flex: 3, child: Text('DSR Schedule')),
                     const Text(':'),
                     Expanded(
@@ -321,6 +350,22 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 3, child: Text('DSR Duration')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                          '  ${dsrDetails!.resData.dataList[index].payFromFirstDate} To ${dsrDetails!.resData.dataList[index].payToFirstDate}'),
+                    ),
+                  ],
+                ),
+              ),
+
               // Padding(
               //   padding: const EdgeInsets.only(top: 5, bottom: 5),
               //   child: Row(
@@ -515,7 +560,9 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             approvedOrRejectedDsr(approvedEdsrParams, index);
                           },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue[700],
+                              backgroundColor:
+                                  const Color.fromARGB(255, 44, 114, 66),
+                              // backgroundColor: Colors.blue[700],
                               fixedSize: const Size(150, 30)),
                           child: const Text('Approve'),
                         ),
@@ -554,7 +601,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     approvedEdsrParams, index);
                               },
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue[700],
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 44, 114, 66),
                                   fixedSize: const Size(150, 30)),
                               child: const Text('Approve'),
                             ),
@@ -596,10 +644,11 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                 return Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: const Color.fromARGB(255, 138, 201, 149),
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color.fromARGB(255, 98, 158, 219),
+                        // color: const Color.fromARGB(255, 138, 201, 149),
                         // color: Colors.blue[700],
                       ),
                       child: Row(
@@ -607,17 +656,17 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                           const Expanded(
                               child: Text(
                             'Name',
-                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           )),
                           Expanded(
                               child: Center(
                             child: Text(
                               dsrDetails!.resData.dataList[index].dsrType ==
                                       'DCC'
-                                  ? 'Sales Objective'
+                                  ? 'Monthly Avg. Sales'
                                   : 'Rx/Day',
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 12),
+                                  color: Colors.white, fontSize: 12),
                             ),
                           )),
                           const Expanded(
@@ -625,7 +674,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             child: Text(
                               'EMRX',
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 12),
+                                  TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           )),
                           const Expanded(
@@ -633,19 +682,20 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             child: Text(
                               '4P RX',
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 12),
+                                  TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           )),
-                          Expanded(
+                          const Expanded(
                               child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              dsrDetails!.resData.dataList[index].dsrType ==
-                                      'DCC'
-                                  ? 'Monthly Avg. Sales'
-                                  : 'Amount',
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 12),
+                              "DSR",
+                              // dsrDetails!.resData.dataList[index].dsrType ==
+                              //         'DCC'
+                              //     ? 'Monthly Avg. Sales'
+                              //     : 'Amount',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           )),
                           // const Expanded(
@@ -666,15 +716,15 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                     SizedBox(
                       height:
                           dsrDetails!.resData.dataList[index].brandList.length *
-                              30,
+                              25,
                       child: ListView.builder(
                           itemCount: dsrDetails!
                               .resData.dataList[index].brandList.length,
                           itemBuilder: (itemBuilder, index2) {
                             return Container(
-                              height: 30,
+                              height: 25,
                               padding: const EdgeInsets.only(
-                                  top: 5, bottom: 5, left: 5),
+                                  top: 5, bottom: 5, left: 10, right: 8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: index2 % 2 == 0
@@ -714,22 +764,31 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     ),
                                   )),
                                   Expanded(
-                                    child: TextFormField(
-                                      readOnly: true,
-                                      controller: controller[dsrDetails!
-                                          .resData
-                                          .dataList[index]
-                                          .brandList[index2]
-                                          .rowId],
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none),
-                                      textAlign: TextAlign.end,
-                                      style: const TextStyle(
-                                          fontSize: 13, color: Colors.black),
-                                      keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.done,
+                                      child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      dsrDetails!.resData.dataList[index]
+                                          .brandList[index2].amount,
+                                      style: const TextStyle(fontSize: 12),
                                     ),
-                                  ),
+                                  )),
+                                  // Expanded(
+                                  //   child: TextFormField(
+                                  //     readOnly: true,
+                                  //     controller: controller[dsrDetails!
+                                  //         .resData
+                                  //         .dataList[index]
+                                  //         .brandList[index2]
+                                  //         .rowId],
+                                  //     decoration: const InputDecoration(
+                                  //         border: InputBorder.none),
+                                  //     textAlign: TextAlign.end,
+                                  //     style: const TextStyle(
+                                  //         fontSize: 13, color: Colors.black),
+                                  //     keyboardType: TextInputType.number,
+                                  //     textInputAction: TextInputAction.done,
+                                  //   ),
+                                  // ),
                                   const SizedBox(width: 5),
                                   // Expanded(
                                   //   child: isUpdate[dsrDetails!
@@ -784,10 +843,11 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                     ),
                     const SizedBox(height: 5),
                     Container(
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: const Color.fromARGB(255, 138, 201, 149),
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color.fromARGB(255, 98, 158, 219),
+                        // color: const Color.fromARGB(255, 138, 201, 149),
                         // color: Colors.blue[500],
                       ),
                       child: Row(
@@ -795,7 +855,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                           const Expanded(
                               child: Text(
                             'Total',
-                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           )),
                           const Expanded(
                               child: Text(
@@ -820,7 +880,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                       .resData.dataList[index].brandList)
                                   .toStringAsFixed(0),
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 13),
+                                  color: Colors.white, fontSize: 13),
                             ),
                           )),
                           // const Expanded(

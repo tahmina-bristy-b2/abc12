@@ -77,8 +77,10 @@ class _EdsrFmListState extends State<EdsrFmList> {
           Container(
             constraints: const BoxConstraints(maxHeight: double.infinity),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                color: Colors.blue[900]),
+              borderRadius: BorderRadius.circular(18),
+              // color: Colors.blue[900]
+              color: const Color.fromARGB(255, 98, 158, 219),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -126,8 +128,10 @@ class _EdsrFmListState extends State<EdsrFmList> {
             constraints: const BoxConstraints(maxHeight: double.infinity),
             // color: Colors.blue[900],
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.blue[900]),
+              borderRadius: BorderRadius.circular(8),
+              color: const Color.fromARGB(255, 98, 158, 219),
+              // color: Colors.blue[900],
+            ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -249,84 +253,38 @@ class _EdsrFmListState extends State<EdsrFmList> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Container(
-            constraints: const BoxConstraints(maxHeight: double.infinity),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                color: Colors.blue[900]),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          'Budget :',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const VerticalDivider(
-                    color: Colors.white,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          'Expense :',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.white38,
+            child: Container(
+              height: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: Colors.grey[300],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: const [],
+                ),
               ),
             ),
           ),
           const SizedBox(height: 10),
-          Container(
-            constraints: const BoxConstraints(maxHeight: double.infinity),
-            // color: Colors.blue[900],
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.blue[900]),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const [
-                  Expanded(
-                      flex: 2,
-                      child: Text('FM', style: TextStyle(color: Colors.white))),
-                  Expanded(
-                      child: Text('Territory',
-                          style: TextStyle(color: Colors.white))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Due',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Doctor',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Dcc',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      flex: 2,
-                      child: Center(
-                          child: Text('Amount',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Action',
-                              style: TextStyle(color: Colors.white)))),
-                ],
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.white38,
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: Colors.grey[300],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: const [],
+                ),
               ),
             ),
           ),

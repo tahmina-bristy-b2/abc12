@@ -149,20 +149,20 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  children: [
-                    const Expanded(flex: 3, child: Text('Ref')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                          '  ${dsrDetails!.resData.dataList[index].refId}'),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+              //   child: Row(
+              //     children: [
+              //       const Expanded(flex: 3, child: Text('Ref')),
+              //       const Text(':'),
+              //       Expanded(
+              //         flex: 8,
+              //         child: Text(
+              //             '  ${dsrDetails!.resData.dataList[index].refId}'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(

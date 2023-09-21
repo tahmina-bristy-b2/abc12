@@ -348,9 +348,9 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                           child: Center(
                                         child: Text(
-                                          widget.previewData["dsr_type"] ==
-                                                  'DCC'
-                                              ? 'Sales Objective'
+                                          widget.previewData["dsr_type"] !=
+                                                  'DOCTOR'
+                                              ? 'Monthly Avg. Sales'
                                               : 'Rx/Day',
                                           style: const TextStyle(
                                               color: Color.fromARGB(
@@ -378,14 +378,12 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                               fontSize: 12),
                                         ),
                                       )),
-                                      Expanded(
-                                          child: Center(
+                                      const Expanded(
+                                          child: Align(
+                                        alignment: Alignment.centerRight,
                                         child: Text(
-                                          widget.previewData["dsr_type"] ==
-                                                  'DCC'
-                                              ? 'Monthly Avg. Sales'
-                                              : 'Amount',
-                                          style: const TextStyle(
+                                          "DSR",
+                                          style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 253, 253, 253),
                                               fontSize: 12),

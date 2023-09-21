@@ -686,7 +686,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       buttonHeight:
                                                                           50,
                                                                       buttonWidth:
-                                                                          232,
+                                                                          MediaQuery.of(context).size.width /
+                                                                              1.5,
                                                                       itemHeight:
                                                                           40,
                                                                       dropdownMaxHeight:
@@ -730,7 +731,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                             hintText:
                                                                                 'Search Brand here...',
                                                                             hintStyle:
-                                                                                const TextStyle(fontSize: 12),
+                                                                                const TextStyle(fontSize: 14),
                                                                             border:
                                                                                 OutlineInputBorder(
                                                                               borderRadius: BorderRadius.circular(8),
@@ -756,118 +757,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                     ),
                                                                   );
                                                                 },
-                                                                // child: DropdownButtonHideUnderline(
-                                                                //   child:
-                                                                //       DropdownButton2(
-                                                                //     isExpanded:
-                                                                //         true,
-                                                                //     hint: Text(
-                                                                //       'Select Brand',
-                                                                //       style:
-                                                                //           TextStyle(
-                                                                //         fontSize:
-                                                                //             14,
-                                                                //         color: Theme.of(
-                                                                //                 context)
-                                                                //             .hintColor,
-                                                                //       ),
-                                                                //     ),
-                                                                //     items: eBrandList!
-                                                                //         .map((item) => DropdownMenuItem<String>(
-                                                                //               value:
-                                                                //                   item,
-                                                                //               child:
-                                                                //                   Text(
-                                                                //                 item,
-                                                                //                 style: const TextStyle(
-                                                                //                   fontSize: 14,
-                                                                //                 ),
-                                                                //               ),
-                                                                //             ))
-                                                                //         .toList(),
-                                                                //     value:
-                                                                //         initialBrand,
-                                                                //     onChanged:
-                                                                //         (value) {
-                                                                //       setState(
-                                                                //           () {
-                                                                //         initialBrand =
-                                                                //             value;
-                                                                //       });
-                                                                //     },
-                                                                //     buttonHeight:
-                                                                //         50,
-                                                                //     buttonWidth:
-                                                                //         260,
-                                                                //     itemHeight:
-                                                                //         40,
-                                                                //     dropdownMaxHeight:
-                                                                //         200,
-                                                                //     searchController:
-                                                                //         brandSelectedController,
-                                                                //     searchInnerWidgetHeight:
-                                                                //         50,
-                                                                //     searchInnerWidget:
-                                                                //         Container(
-                                                                //       height: 50,
-                                                                //       padding:
-                                                                //           const EdgeInsets
-                                                                //               .only(
-                                                                //         top: 8,
-                                                                //         bottom: 4,
-                                                                //         right: 8,
-                                                                //         left: 8,
-                                                                //       ),
-                                                                //       child:
-                                                                //           TextFormField(
-                                                                //         expands:
-                                                                //             true,
-                                                                //         maxLines:
-                                                                //             null,
-                                                                //         controller:
-                                                                //             brandSelectedController,
-                                                                //         decoration:
-                                                                //             InputDecoration(
-                                                                //           isDense:
-                                                                //               true,
-                                                                //           contentPadding:
-                                                                //               const EdgeInsets.symmetric(
-                                                                //             horizontal:
-                                                                //                 6,
-                                                                //             vertical:
-                                                                //                 8,
-                                                                //           ),
-                                                                //           hintText:
-                                                                //               'Search Brand here...',
-                                                                //           hintStyle:
-                                                                //               const TextStyle(fontSize: 12),
-                                                                //           border:
-                                                                //               OutlineInputBorder(
-                                                                //             borderRadius:
-                                                                //                 BorderRadius.circular(8),
-                                                                //           ),
-                                                                //         ),
-                                                                //       ),
-                                                                //     ),
-                                                                //     searchMatchFn:
-                                                                //         (item,
-                                                                //             searchValue) {
-                                                                //       return (item
-                                                                //           .value
-                                                                //           .toString()
-                                                                //           .contains(
-                                                                //               searchValue.toUpperCase()));
-                                                                //     },
-                                                                //     //This to clear the search value when you close the menu
-                                                                //     onMenuStateChange:
-                                                                //         (isOpen) {
-                                                                //       if (!isOpen) {
-                                                                //         brandSelectedController
-                                                                //             .clear();
-                                                                //       }
-                                                                //     },
-                                                                //   ),
-                                                                // ),
                                                               ),
                                                             ],
                                                           ),
@@ -881,7 +770,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               doctorType ==
                                                                       "DOCTOR"
                                                                   ? "RX/Day*"
-                                                                  : "Sales Objective*",
+                                                                  : "Monthly Avg.Sales*",
                                                               style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
@@ -1012,15 +901,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           const SizedBox(
                                                             height: 15,
                                                           ),
-                                                          Align(
+                                                          const Align(
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "DSR*"
-                                                                  : "Monthly Avg.Sales*",
-                                                              style: const TextStyle(
+                                                              "DSR*",
+                                                              style: TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600),
@@ -1225,7 +1111,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   child: Text(
                                                     doctorType == "DOCTOR"
                                                         ? "Rx/Day"
-                                                        : "Sales Objective*",
+                                                        : "Monthly Avg.Sales**",
                                                     style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Color.fromARGB(
@@ -1283,12 +1169,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               child: SizedBox(
                                                 width: wholeWidth / 7,
                                                 height: wholeHeight / 25.309,
-                                                child: Center(
+                                                child: const Center(
                                                   child: Text(
-                                                    doctorType == "DOCTOR"
-                                                        ? "DSR"
-                                                        : "Monthly Avg.Sales*",
-                                                    style: const TextStyle(
+                                                    "DSR",
+                                                    style: TextStyle(
                                                         fontSize: 12,
                                                         color: Color.fromARGB(
                                                             255, 0, 0, 0),
@@ -1934,9 +1818,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                               onChanged: (String? value) {
                                 if (value == "APC" || value == "CT") {
                                   isCheck = true;
-                                  issueToController.text = widget
-                                      .docInfo[widget.index]["doc_name"]
-                                      .toString();
+                                  int indexNo = widget.docInfo[widget.index]
+                                          ["doc_name"]
+                                      .indexOf("(");
+                                  issueToController.text =
+                                      "${widget.docInfo[widget.index]["doc_name"].replaceRange(indexNo, widget.docInfo[widget.index]["doc_name"].length, "")}";
                                 } else {
                                   isCheck = false;
                                   issueToController.clear();
@@ -1958,8 +1844,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         fontWeight: FontWeight.w600),
                                   )
                                 : const SizedBox(),
-                            const SizedBox(
-                              height: 6,
+                            SizedBox(
+                              height: isCheck == true ? 6 : 0,
                             ),
                             isCheck == true
                                 ? SizedBox(
@@ -1978,6 +1864,18 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       ),
                                     ))
                                 : const SizedBox(),
+                            SizedBox(
+                              height: isCheck == true ? 2 : 0,
+                            ),
+                            isCheck == true
+                                ? const Text(
+                                    "**Please Fill With The Correct Name**",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : const SizedBox()
                           ],
                         ),
                       ),

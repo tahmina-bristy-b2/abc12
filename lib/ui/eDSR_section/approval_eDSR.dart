@@ -101,6 +101,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                 backgroundColor: const Color(0xffF0F0F0),
                               ),
                               onPressed: () {
+                                widget.calledBackAction('');
                                 Navigator.pop(context);
                               },
                               child: const Text(

@@ -271,7 +271,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Mode')),
+                    const Expanded(flex: 3, child: Text('Issue Mode')),
                     const Text(':'),
                     Expanded(
                       flex: 8,

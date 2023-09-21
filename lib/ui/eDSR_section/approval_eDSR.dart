@@ -80,7 +80,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Approve eDSR'),
+          title: const Text('Approval eDSR'),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -101,6 +101,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                 backgroundColor: const Color(0xffF0F0F0),
                               ),
                               onPressed: () {
+                                widget.calledBackAction('');
                                 Navigator.pop(context);
                               },
                               child: const Text(
@@ -138,7 +139,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   children: [
-                    const Expanded(flex: 3, child: Text('SL')),
+                    const Expanded(flex: 3, child: Text('Trans. ID')),
                     const Text(':'),
                     Expanded(
                       flex: 8,
@@ -148,20 +149,20 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  children: [
-                    const Expanded(flex: 3, child: Text('Ref')),
-                    const Text(':'),
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                          '  ${dsrDetails!.resData.dataList[index].refId}'),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+              //   child: Row(
+              //     children: [
+              //       const Expanded(flex: 3, child: Text('Ref')),
+              //       const Text(':'),
+              //       Expanded(
+              //         flex: 8,
+              //         child: Text(
+              //             '  ${dsrDetails!.resData.dataList[index].refId}'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(
@@ -182,14 +183,44 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Doctor')),
+                    Expanded(
+                        flex: 3,
+                        child: Text(
+                            dsrDetails!.resData.dataList[index].dsrType ==
+                                    'DOCTOR'
+                                ? 'Doctor ID'
+                                : 'Client ID')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child:
+                            Text(dsrDetails!.resData.dataList[index].doctorId),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Text(
+                            dsrDetails!.resData.dataList[index].dsrType ==
+                                    'DOCTOR'
+                                ? 'Doctor Name'
+                                : 'Client Name')),
                     const Text(':'),
                     Expanded(
                       flex: 8,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 7),
                         child: Text(
-                            '${dsrDetails!.resData.dataList[index].doctorName} | ${dsrDetails!.resData.dataList[index].doctorId}'),
+                            dsrDetails!.resData.dataList[index].doctorName),
                       ),
                     ),
                   ],
@@ -204,12 +235,33 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text((dsrDetails!.resData.dataList[index].degree ==
-                                  'null' ||
-                              dsrDetails!.resData.dataList[index].degree ==
-                                  'None')
-                          ? ''
-                          : '  ${dsrDetails!.resData.dataList[index].degree}'),
+                      child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                              'DOCTOR'
+                          ? '  ${dsrDetails!.resData.dataList[index].degree}'
+                          : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Text(
+                            dsrDetails!.resData.dataList[index].dsrType ==
+                                    'DOCTOR'
+                                ? 'Dr. Category'
+                                : 'Category')),
+                    const Text(':'),
+                    Expanded(
+                      flex: 8,
+                      child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                              'DOCTOR'
+                          ? '  ${dsrDetails!.resData.dataList[index].doctorsCategory}'
+                          : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
                     ),
                   ],
                 ),
@@ -223,8 +275,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text(
-                          '  ${dsrDetails!.resData.dataList[index].specialty}'),
+                      child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                              'DOCTOR'
+                          ? '  ${dsrDetails!.resData.dataList[index].specialty}'
+                          : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
                     ),
                   ],
                 ),
@@ -388,7 +442,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Mode')),
+                    const Expanded(flex: 3, child: Text('Issue Mode')),
                     const Text(':'),
                     Expanded(
                       flex: 8,
@@ -398,8 +452,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
-              dsrDetails!.resData.dataList[index].ct == 'APC' ||
-                      dsrDetails!.resData.dataList[index].ct == 'CT'
+              dsrDetails!.resData.dataList[index].payMode == 'APC' ||
+                      dsrDetails!.resData.dataList[index].payMode == 'CT'
                   ? Padding(
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Row(

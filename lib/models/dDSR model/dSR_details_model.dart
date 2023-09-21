@@ -129,7 +129,7 @@ class DataList {
           json["brand_list"].map((x) => BrandList.fromJson(x))),
       step: json["step"].toString().toUpperCase(),
       mobile: json["doc_mobile"].toString(),
-      ct: json["cheque_to"] ?? '');
+      ct: json["pay_mode_bill_to"] ?? '');
 
   Map<String, dynamic> toJson() => {
         "last_action": lastAction,

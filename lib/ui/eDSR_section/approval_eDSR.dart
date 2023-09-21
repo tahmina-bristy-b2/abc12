@@ -399,8 +399,8 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                   ],
                 ),
               ),
-              dsrDetails!.resData.dataList[index].ct == 'APC' ||
-                      dsrDetails!.resData.dataList[index].ct == 'CT'
+              dsrDetails!.resData.dataList[index].payMode == 'APC' ||
+                      dsrDetails!.resData.dataList[index].payMode == 'CT'
                   ? Padding(
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Row(

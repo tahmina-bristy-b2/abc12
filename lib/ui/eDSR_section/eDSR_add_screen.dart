@@ -123,9 +123,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
         .where((e) => e.dsrCategory == categoryName! && e.dsrType == newDsrType)
         .map((e) => e.purposeName)
         .toList();
-    print("dsrType1=========================$newDsrType");
+    //print("dsrType1=========================$newDsrType");
     dsrType = dsrType;
-    print("dsrType1  =========================$dsrType");
+    // print("dsrType1  =========================$dsrType");
     initialSubPurpose = null;
     eSubpurposeList = [];
   }

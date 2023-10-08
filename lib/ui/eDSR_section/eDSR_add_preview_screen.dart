@@ -14,7 +14,7 @@ class PreviewEDSRADDScreen extends StatefulWidget {
 }
 
 class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
-  bool isLoading = false;
+  bool isPreviewLoading = false;
   int totalRxperDay = 0;
   int totalEmrX = 0;
   int total4pRX = 0;
@@ -23,6 +23,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
   @override
   void initState() {
     super.initState();
+
     totalAmount = dynamicTotalCalculation(
       totalAmount,
       2,
@@ -271,7 +272,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Mode')),
+                    const Expanded(flex: 3, child: Text('Issue Mode')),
                     const Text(':'),
                     Expanded(
                       flex: 8,
@@ -283,7 +284,8 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                 ),
               ),
               (widget.previewData["Issue_Mode"] == "APC" ||
-                      widget.previewData["Issue_Mode"] == "CT")
+                      widget.previewData["Issue_Mode"] == "CT" ||
+                      widget.previewData["Issue_Mode"] == "CC")
                   ? Padding(
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Row(
@@ -563,39 +565,43 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      bool result =
-                          await InternetConnectionChecker().hasConnection;
-                      if (result == true) {
-                        eDsrSubmit();
-                      } else {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        AllServices().toastMessage(
-                            interNetErrorMsg, Colors.red, Colors.white, 16);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 44, 114, 66),
-                        fixedSize: const Size(160, 40)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.cloud_done, size: 18),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Submit',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 241, 240, 240))),
-                      ],
-                    ),
-                  ),
+                  isPreviewLoading == false
+                      ? ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              isPreviewLoading = true;
+                            });
+                            bool result =
+                                await InternetConnectionChecker().hasConnection;
+                            if (result == true) {
+                              eDsrSubmit();
+                            } else {
+                              setState(() {
+                                isPreviewLoading = true;
+                              });
+                              AllServices().toastMessage(interNetErrorMsg,
+                                  Colors.red, Colors.white, 16);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 44, 114, 66),
+                              fixedSize: const Size(160, 40)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.cloud_done, size: 18),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text('Submit',
+                                  style: TextStyle(
+                                      color:
+                                          Color.fromARGB(255, 241, 240, 240))),
+                            ],
+                          ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
                 ],
               ),
             ],
@@ -639,7 +645,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
     );
     if (data["status"] == "Success") {
       setState(() {
-        isLoading = false;
+        isPreviewLoading = false;
       });
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
@@ -648,7 +654,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
       Navigator.pop(context);
     } else {
       setState(() {
-        isLoading = false;
+        isPreviewLoading = false;
       });
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);

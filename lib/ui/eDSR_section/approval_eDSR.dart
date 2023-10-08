@@ -74,15 +74,16 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
     listKey.currentState!.removeItem(
       index,
       (context, animation) {
-        return SizeTransition(
-          sizeFactor: animation,
-          child: listItemView(index, animation),
-        );
+        return listItemView(index, animation);
       },
       duration: const Duration(seconds: 1),
     );
 
-    dsrDetails!.resData.dataList.removeAt(index);
+    if (index == dsrDetails!.resData.dataList.length - 1) {
+      return;
+    } else {
+      dsrDetails!.resData.dataList.removeAt(index);
+    }
   }
 
   @override
@@ -145,599 +146,604 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
         // dropdownValue =
         //     dsrDetails!.resData.dataList[index].rsmCash;
 
-        return SizeTransition(
-            key: UniqueKey(),
-            sizeFactor: animation,
-            child: listItemView(index, animation));
+        return listItemView(index, animation);
       },
     );
   }
 
-  Container listItemView(int index, Animation<double> animation) {
-    return Container(
-      constraints: const BoxConstraints(maxHeight: double.infinity),
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 5),
-            child: Row(
-              children: [
-                const Expanded(flex: 3, child: Text('Trans. ID')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text('  ${dsrDetails!.resData.dataList[index].sl}'),
-                ),
-              ],
-            ),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 5, bottom: 5),
-          //   child: Row(
-          //     children: [
-          //       const Expanded(flex: 3, child: Text('Ref')),
-          //       const Text(':'),
-          //       Expanded(
-          //         flex: 8,
-          //         child: Text(
-          //             '  ${dsrDetails!.resData.dataList[index].refId}'),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Date')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].submitDate}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    flex: 3,
-                    child: Text(
-                        dsrDetails!.resData.dataList[index].dsrType == 'DOCTOR'
-                            ? 'Doctor ID'
-                            : 'Client ID')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 7),
-                    child: Text(dsrDetails!.resData.dataList[index].doctorId),
+  SizeTransition listItemView(int index, Animation<double> animation) {
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: double.infinity),
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 5),
+              child: Row(
+                children: [
+                  const Expanded(flex: 3, child: Text('Trans. ID')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text('  ${dsrDetails!.resData.dataList[index].sl}'),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    flex: 3,
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+            //   child: Row(
+            //     children: [
+            //       const Expanded(flex: 3, child: Text('Ref')),
+            //       const Text(':'),
+            //       Expanded(
+            //         flex: 8,
+            //         child: Text(
+            //             '  ${dsrDetails!.resData.dataList[index].refId}'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Date')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
                     child: Text(
-                        dsrDetails!.resData.dataList[index].dsrType == 'DOCTOR'
-                            ? 'Doctor Name'
-                            : 'Client Name')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 7),
-                    child: Text(dsrDetails!.resData.dataList[index].doctorName),
+                        '  ${dsrDetails!.resData.dataList[index].submitDate}'),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Degree')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      dsrDetails!.resData.dataList[index].dsrType == 'DOCTOR'
-                          ? '  ${dsrDetails!.resData.dataList[index].degree}'
-                          : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    flex: 3,
-                    child: Text(
-                        dsrDetails!.resData.dataList[index].dsrType == 'DOCTOR'
-                            ? 'Dr. Category'
-                            : 'Category')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(dsrDetails!.resData.dataList[index].dsrType ==
-                          'DOCTOR'
-                      ? '  ${dsrDetails!.resData.dataList[index].doctorsCategory}'
-                      : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Speciality')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      dsrDetails!.resData.dataList[index].dsrType == 'DOCTOR'
-                          ? '  ${dsrDetails!.resData.dataList[index].specialty}'
-                          : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Mobile')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child:
-                      Text('  ${dsrDetails!.resData.dataList[index].mobile}'),
-                ),
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Purpose')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child:
-                      Text('  ${dsrDetails!.resData.dataList[index].purpose}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Purpose Sub')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].purposeSub}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Dsr Type')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child:
-                      Text('  ${dsrDetails!.resData.dataList[index].dsrType}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Description')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].purposeDes}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Rx Duration')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].purposeDurationFrom} To ${dsrDetails!.resData.dataList[index].purposeDurationTo}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('No. of Patient')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].noOfPatient}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('DSR Schedule')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].scheduleType}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('DSR Duration')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].payFromFirstDate} To ${dsrDetails!.resData.dataList[index].payToFirstDate}'),
-                ),
-              ],
-            ),
-          ),
-
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 5, bottom: 5),
-          //   child: Row(
-          //     mainAxisAlignment:
-          //         MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Expanded(
-          //           flex: 3, child: Text('No. of Month')),
-          //       const Text(':'),
-          //       Expanded(
-          //         flex: 8,
-          //         child: Text(
-          //             '  ${dsrDetails!.resData.dataList[index].payNOfMonth}'),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Issue Mode')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child:
-                      Text('  ${dsrDetails!.resData.dataList[index].payMode}'),
-                ),
-              ],
-            ),
-          ),
-          dsrDetails!.resData.dataList[index].payMode == 'APC' ||
-                  dsrDetails!.resData.dataList[index].payMode == 'CT'
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Expanded(flex: 3, child: Text('CT')),
-                      const Text(':'),
-                      Expanded(
-                        flex: 8,
-                        child:
-                            Text('  ${dsrDetails!.resData.dataList[index].ct}'),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 5, bottom: 5),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Expanded(flex: 3, child: Text('RSM Cash')),
-          //       const Text(':'),
-          //       Expanded(
-          //         flex: 8,
-          //         child:
-          //             // StatefulBuilder(
-          //             //   builder: (context, setState_2) {
-          //             //     return Row(
-          //             //       children: [
-          //             //         DropdownButton(
-          //             //           value: dropdownValue[
-          //             //               dsrDetails!.resData
-          //             //                   .dataList[index].sl],
-          //             //           hint: const Padding(
-          //             //             padding:
-          //             //                 EdgeInsets.all(8.0),
-          //             //             child: Text('Select',
-          //             //                 style: TextStyle(
-          //             //                     fontSize: 12)),
-          //             //           ),
-          //             //           iconEnabledColor:
-          //             //               Colors.blue[900],
-          //             //           iconDisabledColor: Colors.red,
-          //             //           items: <String>["YES", "NO"]
-          //             //               .map<
-          //             //                       DropdownMenuItem<
-          //             //                           String>>(
-          //             //                   (String value) {
-          //             //             return DropdownMenuItem<
-          //             //                     String>(
-          //             //                 value: value,
-          //             //                 child: Padding(
-          //             //                   padding:
-          //             //                       const EdgeInsets
-          //             //                               .only(
-          //             //                           left: 10,
-          //             //                           right: 10),
-          //             //                   child: Text(value),
-          //             //                 ));
-          //             //           }).toList(),
-          //             //           underline: null,
-          //             //           onChanged:
-          //             //               (String? newValue) {
-          //             //             setState_2(() {
-          //             //               dropdownValue[dsrDetails!
-          //             //                       .resData
-          //             //                       .dataList[index]
-          //             //                       .sl] =
-          //             //                   newValue ?? "NO";
-          //             //             });
-          //             //           },
-          //             //         ),
-          //             //         const SizedBox.shrink()
-          //             //       ],
-          //             //     );
-          //             //   },
-          //             // )
-
-          //             Text(
-          //                 '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // rsmCashError
-          //     ? Padding(
-          //         padding: const EdgeInsets.only(top: 5, bottom: 5),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             const Expanded(flex: 3, child: Text('')),
-          //             const Text(''),
-          //             Expanded(
-          //                 flex: 8,
-          //                 child: StatefulBuilder(
-          //                   builder: (context, setState_2) {
-          //                     return Row(
-          //                       children: const [
-          //                         Text('RSM Cash is Resqired.',
-          //                             style: TextStyle(
-          //                                 color: Colors.red, fontSize: 12)),
-          //                         SizedBox.shrink()
-          //                       ],
-          //                     );
-          //                   },
-          //                 )
-
-          //                 // Text(
-          //                 //     '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
-          //                 ),
-          //           ],
-          //         ),
-          //       )
-          //     : Container(),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Status')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                      '  ${dsrDetails!.resData.dataList[index].lastAction}'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(flex: 3, child: Text('Brand Details')),
-                const Text(':'),
-                Expanded(
-                  flex: 8,
-                  child: Container(),
-                ),
-              ],
-            ),
-          ),
-          brandDetails(index),
-          const SizedBox(
-            height: 10,
-          ),
-          dsrDetails!.resData.dataList[index].lastAction == 'Approved' &&
-                  dsrDetails!.resData.dataList[index].step == 'RSM' &&
-                  widget.levelDepth == '0'
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: isPressed
-                          ? () {}
-                          : () {
-                              setState(() {
-                                isPressed = true;
-                              });
-                              // if (dropdownValue != null) {
-                              String approvedEdsrParams =
-                                  "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
-                              approvedOrRejectedDsr(approvedEdsrParams, index);
-
-                              // } else {
-                              //   rsmCashError = true;
-                              //   setState(() {});
-                              // }
-                            },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: isPressed ? Colors.grey : Colors.red,
-                          fixedSize: const Size(150, 30)),
-                      child: const Text('Reject',
-                          style: TextStyle(color: Colors.white)),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 3,
+                      child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                              'DOCTOR'
+                          ? 'Doctor ID'
+                          : 'Client ID')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 7),
+                      child: Text(dsrDetails!.resData.dataList[index].doctorId),
                     ),
-                    ElevatedButton(
-                      onPressed: isPressed
-                          ? () {}
-                          : () {
-                              setState(() {
-                                isPressed = true;
-                              });
-                              String approvedEdsrParams =
-                                  "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
-                              approvedOrRejectedDsr(approvedEdsrParams, index);
-                            },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: isPressed
-                              ? Colors.grey
-                              : const Color.fromARGB(255, 44, 114, 66),
-                          // backgroundColor: Colors.blue[700],
-                          fixedSize: const Size(150, 30)),
-                      child: const Text('Approve'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 3,
+                      child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                              'DOCTOR'
+                          ? 'Doctor Name'
+                          : 'Client Name')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 7),
+                      child:
+                          Text(dsrDetails!.resData.dataList[index].doctorName),
                     ),
-                  ],
-                )
-              : dsrDetails!.resData.dataList[index].lastAction == 'Submitted' &&
-                      dsrDetails!.resData.dataList[index].step == 'FM' &&
-                      widget.levelDepth == '1'
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Degree')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                            'DOCTOR'
+                        ? '  ${dsrDetails!.resData.dataList[index].degree}'
+                        : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 3,
+                      child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                              'DOCTOR'
+                          ? 'Dr. Category'
+                          : 'Category')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                            'DOCTOR'
+                        ? '  ${dsrDetails!.resData.dataList[index].doctorsCategory}'
+                        : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Speciality')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(dsrDetails!.resData.dataList[index].dsrType ==
+                            'DOCTOR'
+                        ? '  ${dsrDetails!.resData.dataList[index].specialty}'
+                        : '  ${dsrDetails!.resData.dataList[index].dsrType}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Mobile')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child:
+                        Text('  ${dsrDetails!.resData.dataList[index].mobile}'),
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Purpose')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].purpose}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Purpose Sub')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].purposeSub}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Dsr Type')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].dsrType}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Description')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].purposeDes}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Rx Duration')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].purposeDurationFrom} To ${dsrDetails!.resData.dataList[index].purposeDurationTo}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('No. of Patient')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].noOfPatient}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('DSR Schedule')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].scheduleType}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('DSR Duration')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].payFromFirstDate} To ${dsrDetails!.resData.dataList[index].payToFirstDate}'),
+                  ),
+                ],
+              ),
+            ),
+
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+            //   child: Row(
+            //     mainAxisAlignment:
+            //         MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       const Expanded(
+            //           flex: 3, child: Text('No. of Month')),
+            //       const Text(':'),
+            //       Expanded(
+            //         flex: 8,
+            //         child: Text(
+            //             '  ${dsrDetails!.resData.dataList[index].payNOfMonth}'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Issue Mode')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].payMode}'),
+                  ),
+                ],
+              ),
+            ),
+            dsrDetails!.resData.dataList[index].payMode == 'APC' ||
+                    dsrDetails!.resData.dataList[index].payMode == 'CT'
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ElevatedButton(
-                          onPressed: isPressed
-                              ? () {}
-                              : () {
-                                  setState(() {
-                                    isPressed = true;
-                                  });
-                                  // if (dropdownValue != null) {
-                                  String approvedEdsrParams =
-                                      "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
-                                  approvedOrRejectedDsr(
-                                      approvedEdsrParams, index);
-
-                                  // } else {
-                                  //   rsmCashError = true;
-                                  //   setState(() {});
-                                  // }
-                                },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  isPressed ? Colors.grey : Colors.red,
-                              fixedSize: const Size(150, 30)),
-                          child: const Text('Reject',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                        ElevatedButton(
-                          onPressed: isPressed
-                              ? () {}
-                              : () {
-                                  String approvedEdsrParams =
-                                      "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
-                                  approvedOrRejectedDsr(
-                                      approvedEdsrParams, index);
-                                  setState(() {
-                                    isPressed = true;
-                                  });
-                                },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: isPressed
-                                  ? Colors.grey
-                                  : const Color.fromARGB(255, 44, 114, 66),
-                              fixedSize: const Size(150, 30)),
-                          child: const Text('Approve'),
+                        const Expanded(flex: 3, child: Text('CT')),
+                        const Text(':'),
+                        Expanded(
+                          flex: 8,
+                          child: Text(
+                              '  ${dsrDetails!.resData.dataList[index].ct}'),
                         ),
                       ],
-                    )
-                  : const Padding(
-                      padding: EdgeInsets.all(15.0),
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            '----------- Approval pending from RSM -----------',
-                            style: TextStyle(color: Colors.red, fontSize: 16),
-                          )),
                     ),
-          const SizedBox(
-            height: 10,
-          ),
-          Divider(
-            color: Colors.blue[700],
-          )
-        ],
+                  )
+                : Container(),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       const Expanded(flex: 3, child: Text('RSM Cash')),
+            //       const Text(':'),
+            //       Expanded(
+            //         flex: 8,
+            //         child:
+            //             // StatefulBuilder(
+            //             //   builder: (context, setState_2) {
+            //             //     return Row(
+            //             //       children: [
+            //             //         DropdownButton(
+            //             //           value: dropdownValue[
+            //             //               dsrDetails!.resData
+            //             //                   .dataList[index].sl],
+            //             //           hint: const Padding(
+            //             //             padding:
+            //             //                 EdgeInsets.all(8.0),
+            //             //             child: Text('Select',
+            //             //                 style: TextStyle(
+            //             //                     fontSize: 12)),
+            //             //           ),
+            //             //           iconEnabledColor:
+            //             //               Colors.blue[900],
+            //             //           iconDisabledColor: Colors.red,
+            //             //           items: <String>["YES", "NO"]
+            //             //               .map<
+            //             //                       DropdownMenuItem<
+            //             //                           String>>(
+            //             //                   (String value) {
+            //             //             return DropdownMenuItem<
+            //             //                     String>(
+            //             //                 value: value,
+            //             //                 child: Padding(
+            //             //                   padding:
+            //             //                       const EdgeInsets
+            //             //                               .only(
+            //             //                           left: 10,
+            //             //                           right: 10),
+            //             //                   child: Text(value),
+            //             //                 ));
+            //             //           }).toList(),
+            //             //           underline: null,
+            //             //           onChanged:
+            //             //               (String? newValue) {
+            //             //             setState_2(() {
+            //             //               dropdownValue[dsrDetails!
+            //             //                       .resData
+            //             //                       .dataList[index]
+            //             //                       .sl] =
+            //             //                   newValue ?? "NO";
+            //             //             });
+            //             //           },
+            //             //         ),
+            //             //         const SizedBox.shrink()
+            //             //       ],
+            //             //     );
+            //             //   },
+            //             // )
+
+            //             Text(
+            //                 '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // rsmCashError
+            //     ? Padding(
+            //         padding: const EdgeInsets.only(top: 5, bottom: 5),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           children: [
+            //             const Expanded(flex: 3, child: Text('')),
+            //             const Text(''),
+            //             Expanded(
+            //                 flex: 8,
+            //                 child: StatefulBuilder(
+            //                   builder: (context, setState_2) {
+            //                     return Row(
+            //                       children: const [
+            //                         Text('RSM Cash is Resqired.',
+            //                             style: TextStyle(
+            //                                 color: Colors.red, fontSize: 12)),
+            //                         SizedBox.shrink()
+            //                       ],
+            //                     );
+            //                   },
+            //                 )
+
+            //                 // Text(
+            //                 //     '  ${dsrDetails!.resData.dataList[index].rsmCash}'),
+            //                 ),
+            //           ],
+            //         ),
+            //       )
+            //     : Container(),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Status')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                        '  ${dsrDetails!.resData.dataList[index].lastAction}'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(flex: 3, child: Text('Brand Details')),
+                  const Text(':'),
+                  Expanded(
+                    flex: 8,
+                    child: Container(),
+                  ),
+                ],
+              ),
+            ),
+            brandDetails(index),
+            const SizedBox(
+              height: 10,
+            ),
+            dsrDetails!.resData.dataList[index].lastAction == 'Approved' &&
+                    dsrDetails!.resData.dataList[index].step == 'RSM' &&
+                    widget.levelDepth == '0'
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: isPressed
+                            ? () {}
+                            : () {
+                                setState(() {
+                                  isPressed = true;
+                                });
+                                // if (dropdownValue != null) {
+                                String approvedEdsrParams =
+                                    "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
+                                approvedOrRejectedDsr(
+                                    approvedEdsrParams, index);
+
+                                // } else {
+                                //   rsmCashError = true;
+                                //   setState(() {});
+                                // }
+                              },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                isPressed ? Colors.grey : Colors.red,
+                            fixedSize: const Size(150, 30)),
+                        child: const Text('Reject',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      ElevatedButton(
+                        onPressed: isPressed
+                            ? () {}
+                            : () {
+                                setState(() {
+                                  isPressed = true;
+                                });
+                                String approvedEdsrParams =
+                                    "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
+                                approvedOrRejectedDsr(
+                                    approvedEdsrParams, index);
+                              },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: isPressed
+                                ? Colors.grey
+                                : const Color.fromARGB(255, 44, 114, 66),
+                            // backgroundColor: Colors.blue[700],
+                            fixedSize: const Size(150, 30)),
+                        child: const Text('Approve'),
+                      ),
+                    ],
+                  )
+                : dsrDetails!.resData.dataList[index].lastAction ==
+                            'Submitted' &&
+                        dsrDetails!.resData.dataList[index].step == 'FM' &&
+                        widget.levelDepth == '1'
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: isPressed
+                                ? () {}
+                                : () {
+                                    setState(() {
+                                      isPressed = true;
+                                    });
+                                    // if (dropdownValue != null) {
+                                    String approvedEdsrParams =
+                                        "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
+                                    approvedOrRejectedDsr(
+                                        approvedEdsrParams, index);
+
+                                    // } else {
+                                    //   rsmCashError = true;
+                                    //   setState(() {});
+                                    // }
+                                  },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    isPressed ? Colors.grey : Colors.red,
+                                fixedSize: const Size(150, 30)),
+                            child: const Text('Reject',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                          ElevatedButton(
+                            onPressed: isPressed
+                                ? () {}
+                                : () {
+                                    setState(() {
+                                      isPressed = true;
+                                    });
+                                    String approvedEdsrParams =
+                                        "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
+                                    approvedOrRejectedDsr(
+                                        approvedEdsrParams, index);
+                                  },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: isPressed
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 44, 114, 66),
+                                fixedSize: const Size(150, 30)),
+                            child: const Text('Approve'),
+                          ),
+                        ],
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              '----------- Approval pending from RSM -----------',
+                              style: TextStyle(color: Colors.red, fontSize: 16),
+                            )),
+                      ),
+            const SizedBox(
+              height: 10,
+            ),
+            Divider(
+              color: Colors.blue[700],
+            )
+          ],
+        ),
       ),
     );
   }

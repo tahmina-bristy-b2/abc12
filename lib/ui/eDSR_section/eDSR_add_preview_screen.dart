@@ -284,7 +284,8 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                 ),
               ),
               (widget.previewData["Issue_Mode"] == "APC" ||
-                      widget.previewData["Issue_Mode"] == "CT")
+                      widget.previewData["Issue_Mode"] == "CT" ||
+                      widget.previewData["Issue_Mode"] == "CC")
                   ? Padding(
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Row(

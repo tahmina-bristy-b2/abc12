@@ -343,7 +343,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 const Spacer(),
                 SizedBox(
-                  width: screenWidth / 3,
+                  width: screenWidth / 2.7,
                   // height: screenHeight / 10,
                   child: Text(
                     loginPageVersionName,

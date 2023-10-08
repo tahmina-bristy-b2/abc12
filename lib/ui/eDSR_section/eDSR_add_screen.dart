@@ -118,19 +118,21 @@ class _EDSRScreenState extends State<EDSRScreen> {
 
   //================================ get Purpose List=====================================
   getEDsrPurposeList(String dsrType, String? categoryName) {
-    String newDsrType = (dsrType == "Others") ? "DCC" : dsrType;
+    String newDsrType = (dsrType == "OTHERS") ? "DCC" : dsrType;
     ePurposeList = eDSRSettingsData!.purposeList
         .where((e) => e.dsrCategory == categoryName! && e.dsrType == newDsrType)
         .map((e) => e.purposeName)
         .toList();
+    print("dsrType1=========================$newDsrType");
     dsrType = dsrType;
+    print("dsrType1  =========================$dsrType");
     initialSubPurpose = null;
     eSubpurposeList = [];
   }
 
   //================================ get sub Purpose List=====================================
   getEDsrSubPurposeList(String purposeId, String category, String doctorType) {
-    String newDsrType = (doctorType == "Others") ? "DCC" : doctorType;
+    String newDsrType = (doctorType == "OTHERS") ? "DCC" : doctorType;
     eSubpurposeList = eDSRSettingsData!.subPurposeList
         .where((element) =>
             element.sDsrCategory == category &&
@@ -1816,7 +1818,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 );
                               }).toList(),
                               onChanged: (String? value) {
-                                if (value == "APC" || value == "CT") {
+                                if (value == "APC" ||
+                                    value == "CT" ||
+                                    value == "CC") {
                                   isCheck = true;
                                   int indexNo = widget.docInfo[widget.index]
                                           ["doc_name"]

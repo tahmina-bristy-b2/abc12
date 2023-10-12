@@ -34,7 +34,7 @@ class _EdsrFmListState extends State<EdsrFmList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('eDSR FM List'),
+        title: const Text('eDSR MSO List'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -138,7 +138,8 @@ class _EdsrFmListState extends State<EdsrFmList> {
                 children: const [
                   Expanded(
                       flex: 2,
-                      child: Text('FM', style: TextStyle(color: Colors.white))),
+                      child:
+                          Text('MSO', style: TextStyle(color: Colors.white))),
                   Expanded(
                       child: Text('Territory',
                           style: TextStyle(color: Colors.white))),

@@ -79,11 +79,15 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
       duration: const Duration(seconds: 1),
     );
 
-    if (index == dsrDetails!.resData.dataList.length - 1) {
-      return;
-    } else {
+    Future.delayed(const Duration(seconds: 1), () {
       dsrDetails!.resData.dataList.removeAt(index);
-    }
+    });
+
+    // if (index == dsrDetails!.resData.dataList.length - 1) {
+    //   return;
+    // } else {
+    //   dsrDetails!.resData.dataList.removeAt(index);
+    // }
   }
 
   @override
@@ -133,6 +137,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   }
 
   AnimatedList dsrDetailsView() {
+    // print('main length:${dsrDetails!.resData.dataList.length}');
     return AnimatedList(
       key: listKey,
       initialItemCount: dsrDetails!.resData.dataList.length,
@@ -152,6 +157,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
   }
 
   SizeTransition listItemView(int index, Animation<double> animation) {
+    // print('index: $index');
     return SizeTransition(
       sizeFactor: animation,
       child: Container(
@@ -675,10 +681,14 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                       ),
                     ],
                   )
-                : dsrDetails!.resData.dataList[index].lastAction ==
-                            'Submitted' &&
-                        dsrDetails!.resData.dataList[index].step == 'FM' &&
-                        widget.levelDepth == '1'
+                : (dsrDetails!.resData.dataList[index].lastAction ==
+                                'Approved' &&
+                            dsrDetails!.resData.dataList[index].step == 'FM' &&
+                            widget.levelDepth == '1') ||
+                        (dsrDetails!.resData.dataList[index].lastAction ==
+                                'Submitted' &&
+                            dsrDetails!.resData.dataList[index].step == 'MSO' &&
+                            widget.levelDepth == '2')
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

@@ -50,9 +50,8 @@ class EDSRRepositories {
         eDSrDataModel = edsrDataModelFromJson(response.body);
         return eDSrDataModel;
       } else {
-        AllServices()
-            .toastMessage(wholeData["ret_str"], Colors.red, Colors.white, 14);
-
+        AllServices().toastMessage(" eDsr Data Sync ${wholeData["status"]}",
+            Colors.red, Colors.white, 14);
         return eDSrDataModel;
       }
     } catch (e) {

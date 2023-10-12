@@ -430,12 +430,6 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                     _loading = false;
                                   });
                                 } else {
-                                  AllServices().toastMessage(
-                                      'Didn\'t sync eDSR Data',
-                                      Colors.red,
-                                      Colors.white,
-                                      16);
-
                                   setState(() {
                                     _loading = false;
                                   });

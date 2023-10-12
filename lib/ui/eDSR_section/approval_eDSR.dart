@@ -681,10 +681,14 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                       ),
                     ],
                   )
-                : dsrDetails!.resData.dataList[index].lastAction ==
-                            'Submitted' &&
-                        dsrDetails!.resData.dataList[index].step == 'FM' &&
-                        widget.levelDepth == '1'
+                : (dsrDetails!.resData.dataList[index].lastAction ==
+                                'Approved' &&
+                            dsrDetails!.resData.dataList[index].step == 'FM' &&
+                            widget.levelDepth == '1') ||
+                        (dsrDetails!.resData.dataList[index].lastAction ==
+                                'Submitted' &&
+                            dsrDetails!.resData.dataList[index].step == 'MSO' &&
+                            widget.levelDepth == '2')
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

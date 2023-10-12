@@ -743,7 +743,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                         child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              '----------- Approval pending from RSM -----------',
+                              '----------- Approval pending from RSM/FM -----------',
                               style: TextStyle(color: Colors.red, fontSize: 16),
                             )),
                       ),

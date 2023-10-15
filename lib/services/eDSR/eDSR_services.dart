@@ -12,11 +12,12 @@ class EDSRServices {
     String cid,
     String userId,
     String userPass,
+    String path,
   ) async {
     EdsrDataModel? eDsrDataModelData;
 
     eDsrDataModelData = await EDSRRepositories()
-        .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass);
+        .getEDSRSettingsInfo(eDsrSettingsUrl, cid, userId, userPass, path);
 
     if (eDsrDataModelData != null) {
       await putEdsrSettingsData(eDsrDataModelData);

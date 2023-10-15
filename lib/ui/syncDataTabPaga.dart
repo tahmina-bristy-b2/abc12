@@ -414,11 +414,11 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               if (result == true) {
                                 EdsrDataModel? body = await EDSRServices()
                                     .geteDSRDataSettingsInfo(
-                                  dmpathData!.submitUrl,
-                                  cid,
-                                  userInfo!.userId,
-                                  userPassword,
-                                );
+                                        dmpathData!.submitUrl,
+                                        cid,
+                                        userInfo!.userId,
+                                        userPassword,
+                                        "");
 
                                 if (body != null) {
                                   AllServices().toastMessage(
@@ -514,11 +514,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
     List doctorList = await DcrRepositories()
         .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
     EdsrDataModel? eDsRData = await EDSRServices().geteDSRDataSettingsInfo(
-      dmpathData!.submitUrl,
-      cid,
-      userInfo!.userId,
-      userPassword,
-    );
+        dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "all");
     if (itemList.isNotEmpty &&
         clientList.isNotEmpty &&
         dcrGiftList.isNotEmpty &&

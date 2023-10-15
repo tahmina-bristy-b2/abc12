@@ -33,12 +33,8 @@ class EDSRRepositories {
   }
 
   //=========================================== getEDSRSettingsInfo  ==========================================
-  Future<EdsrDataModel?> getEDSRSettingsInfo(
-    String eDsrSettingsUrl,
-    String cid,
-    String userId,
-    String userPass,
-  ) async {
+  Future<EdsrDataModel?> getEDSRSettingsInfo(String eDsrSettingsUrl, String cid,
+      String userId, String userPass, String path) async {
     EdsrDataModel? eDSrDataModel;
     Map<String, dynamic> wholeData = {};
 
@@ -50,6 +46,10 @@ class EDSRRepositories {
         eDSrDataModel = edsrDataModelFromJson(response.body);
         return eDSrDataModel;
       } else {
+        if (path == "all") {
+          return eDSrDataModel;
+        }
+
         AllServices().toastMessage(" eDsr Data Sync ${wholeData["status"]}",
             Colors.red, Colors.white, 14);
         return eDSrDataModel;

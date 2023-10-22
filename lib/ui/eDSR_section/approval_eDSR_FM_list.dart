@@ -124,126 +124,225 @@ class _EdsrFmListState extends State<EdsrFmList> {
             ),
           ),
           const SizedBox(height: 10),
-          Container(
-            constraints: const BoxConstraints(maxHeight: double.infinity),
-            // color: Colors.blue[900],
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: const Color.fromARGB(255, 98, 158, 219),
-              // color: Colors.blue[900],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const [
-                  Expanded(
-                      flex: 2,
-                      child:
-                          Text('MSO', style: TextStyle(color: Colors.white))),
-                  Expanded(
-                      child: Text('Territory',
-                          style: TextStyle(color: Colors.white))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Due',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Doctor',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Dcc',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      flex: 2,
-                      child: Center(
-                          child: Text('Amount',
-                              style: TextStyle(color: Colors.white)))),
-                  Expanded(
-                      child: Center(
-                          child: Text('Action',
-                              style: TextStyle(color: Colors.white)))),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: edsrFmList!.resData.dataList!.length,
-                itemBuilder: (itemBuilder, index) {
-                  return Container(
-                    constraints:
-                        const BoxConstraints(maxHeight: double.infinity),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: index % 2 != 0 ? Colors.grey[300] : Colors.white,
-                    ),
-                    // color: index % 2 == 0 ? Colors.grey[300] : Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ApproveEDSR(
-                                  cid: widget.cid,
-                                  userPass: widget.userPass,
-                                  levelDepth: edsrFmList!.resData.levelDepth,
-                                  submittedBy: edsrFmList!
-                                      .resData.dataList![index].submitBy,
-                                  territoryId: edsrFmList!
-                                      .resData.dataList![index].territoryId,
-                                  calledBackAction: (value) {
-                                    getEdsrFm();
-                                  }),
-                            ),
-                          );
-                        },
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      constraints:
+                          const BoxConstraints(maxHeight: double.infinity),
+                      // color: Colors.blue[900],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: const Color.fromARGB(255, 98, 158, 219),
+                        // color: Colors.blue[900],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Text(edsrFmList!
-                                    .resData.dataList![index].submitBy)),
-                            Expanded(
-                                child: Text(edsrFmList!
-                                    .resData.dataList![index].territoryId)),
-                            Expanded(
+                          children: const [
+                            SizedBox(
+                                width: 150,
+                                child: Text('MSO',
+                                    style: TextStyle(color: Colors.white))),
+                            SizedBox(
+                                width: 100,
+                                child: Text('Territory',
+                                    style: TextStyle(color: Colors.white))),
+                            SizedBox(
+                                width: 60,
                                 child: Center(
-                                    child: Text(edsrFmList!
-                                        .resData.dataList![index].dueCount))),
-                            Expanded(
+                                    child: Text('Due',
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                            SizedBox(
+                                width: 60,
                                 child: Center(
-                                    child: Text(edsrFmList!.resData
-                                        .dataList![index].countDoctor))),
-                            Expanded(
+                                    child: Text('Doctor',
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                            SizedBox(
+                                width: 60,
                                 child: Center(
-                                    child: Text(edsrFmList!
-                                        .resData.dataList![index].countDcc))),
-                            Expanded(
-                                flex: 2,
-                                child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(edsrFmList!
-                                        .resData.dataList![index].amount))),
-                            const Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
+                                    child: Text('Dcc',
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                            SizedBox(
+                                width: 80,
+                                child: Center(
+                                    child: Text('Amount',
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                            SizedBox(
+                                width: 60,
+                                child: Center(
+                                    child: Text('Action',
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                            // Expanded(
+                            //     flex: 2,
+                            //     child: Text('MSO',
+                            //         style: TextStyle(color: Colors.white))),
+                            // Expanded(
+                            //     child: Text('Territory',
+                            //         style: TextStyle(color: Colors.white))),
+                            // Expanded(
+                            //     child: Center(
+                            //         child: Text('Due',
+                            //             style: TextStyle(color: Colors.white)))),
+                            // Expanded(
+                            //     child: Center(
+                            //         child: Text('Doctor',
+                            //             style: TextStyle(color: Colors.white)))),
+                            // Expanded(
+                            //     child: Center(
+                            //         child: Text('Dcc',
+                            //             style: TextStyle(color: Colors.white)))),
+                            // Expanded(
+                            //     flex: 2,
+                            //     child: Center(
+                            //         child: Text('Amount',
+                            //             style: TextStyle(color: Colors.white)))),
+                            // Expanded(
+                            //     child: Center(
+                            //         child: Text('Action',
+                            //             style: TextStyle(color: Colors.white)))),
                           ],
                         ),
                       ),
                     ),
-                  );
-                }),
-          )
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * .75,
+                      width: 586,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: edsrFmList!.resData.dataList!.length,
+                          itemBuilder: (itemBuilder, index) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 8),
+                              constraints: const BoxConstraints(
+                                  maxHeight: double.infinity,
+                                  maxWidth: double.infinity),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: index % 2 != 0
+                                    ? Colors.grey[300]
+                                    : Colors.white,
+                              ),
+                              // color: index % 2 == 0 ? Colors.grey[300] : Colors.white,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ApproveEDSR(
+                                          cid: widget.cid,
+                                          userPass: widget.userPass,
+                                          levelDepth:
+                                              edsrFmList!.resData.levelDepth,
+                                          submittedBy: edsrFmList!.resData
+                                              .dataList![index].submitBy,
+                                          territoryId: edsrFmList!.resData
+                                              .dataList![index].territoryId,
+                                          calledBackAction: (value) {
+                                            getEdsrFm();
+                                          }),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                        width: 150,
+                                        child: Text(edsrFmList!.resData
+                                            .dataList![index].submitBy)),
+                                    SizedBox(
+                                        width: 100,
+                                        child: Text(edsrFmList!.resData
+                                            .dataList![index].territoryId)),
+                                    SizedBox(
+                                        width: 60,
+                                        child: Center(
+                                            child: Text(edsrFmList!.resData
+                                                .dataList![index].dueCount))),
+                                    SizedBox(
+                                        width: 60,
+                                        child: Center(
+                                            child: Text(edsrFmList!
+                                                .resData
+                                                .dataList![index]
+                                                .countDoctor))),
+                                    SizedBox(
+                                        width: 60,
+                                        child: Center(
+                                            child: Text(edsrFmList!.resData
+                                                .dataList![index].countDcc))),
+                                    SizedBox(
+                                        width: 80,
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Text(edsrFmList!.resData
+                                                .dataList![index].amount))),
+                                    const SizedBox(
+                                      width: 60,
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    // Expanded(
+                                    //     flex: 2,
+                                    //     child: Text(edsrFmList!.resData
+                                    //         .dataList![index].submitBy)),
+                                    // Expanded(
+                                    //     child: Text(edsrFmList!.resData
+                                    //         .dataList![index].territoryId)),
+                                    // Expanded(
+                                    //     child: Center(
+                                    //         child: Text(edsrFmList!.resData
+                                    //             .dataList![index].dueCount))),
+                                    // Expanded(
+                                    //     child: Center(
+                                    //         child: Text(edsrFmList!
+                                    //             .resData
+                                    //             .dataList![index]
+                                    //             .countDoctor))),
+                                    // Expanded(
+                                    //     child: Center(
+                                    //         child: Text(edsrFmList!.resData
+                                    //             .dataList![index].countDcc))),
+                                    // Expanded(
+                                    //     flex: 2,
+                                    //     child: Align(
+                                    //         alignment: Alignment.centerRight,
+                                    //         child: Text(edsrFmList!.resData
+                                    //             .dataList![index].amount))),
+                                    // const Expanded(
+                                    //   child: Align(
+                                    //     alignment: Alignment.centerRight,
+                                    //     child: Icon(
+                                    //       Icons.arrow_forward_ios,
+                                    //       size: 16,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

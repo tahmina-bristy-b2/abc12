@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
@@ -1426,6 +1427,52 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }
                               },
                               title: 'eDSR Approve',
+                              sizeWidth: screenWidth,
+                              inputColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                //============================================================ Appraisal Scetion======================================
+                Container(
+                  color: const Color(0xFFE2EFDA),
+                  height: screenHeight / 6.8,
+                  width: screenWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //==========================================================Notice flag +Notice url will be here====================================
+                          Expanded(
+                            child: CustomBuildButton(
+                              icon: Icons.note_alt,
+                              onClick: () async {
+                                // var noticeBody = await noticeEvent();
+                                // print("list ${noticeBody}");
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const ApprisalScreen()));
+                              },
+                              title: ' Appraisal',
+                              sizeWidth: screenWidth,
+                              inputColor: Colors.white,
+                            ),
+                          ),
+
+                          Expanded(
+                            child: CustomBuildButton(
+                              icon: Icons.sync,
+                              onClick: () {},
+                              title: 'Appraisal Approval',
                               sizeWidth: screenWidth,
                               inputColor: Colors.white,
                             ),

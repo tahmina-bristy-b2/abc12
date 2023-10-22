@@ -301,7 +301,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                       onPressed: () {
                         showDialog(
                             context: context,
-                            //barrierDismissible: false,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 scrollable: true,

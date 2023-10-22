@@ -48,6 +48,7 @@ dependencies:
   shimmer: ^3.0.0
   dropdown_button2: ^1.9.4
   
+  
   # thumbnailer: ^2.2.0
   # font_awesome_flutter: ^10.4.0
 

@@ -283,13 +283,13 @@ class _EdsrFmListState extends State<EdsrFmList> {
                                     SizedBox(
                                         width: 80,
                                         child: Align(
-                                            alignment: Alignment.centerRight,
+                                            alignment: Alignment.center,
                                             child: Text(edsrFmList!.resData
                                                 .dataList![index].amount))),
                                     const SizedBox(
                                       width: 60,
                                       child: Align(
-                                        alignment: Alignment.centerRight,
+                                        alignment: Alignment.center,
                                         child: Icon(
                                           Icons.arrow_forward_ios,
                                           size: 16,

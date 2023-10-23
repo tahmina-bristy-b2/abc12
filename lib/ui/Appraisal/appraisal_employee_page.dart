@@ -2,7 +2,9 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
+import 'package:MREPORTING/services/appraisal/services.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   AppraisalEmployee? appraisalEmployee;
-
+  List<FfList> userFflist = [];
   bool isLoading = true;
   bool _searchExpand = false;
   bool _color = false;
@@ -55,19 +57,21 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
         title: Text(title),
         centerTitle: true,
         actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  _searchExpand = !_searchExpand;
-                  _color = true;
-                  if (height == 0.0) {
-                    height = 40.0;
-                  } else {
-                    height = 0.0;
-                  }
-                });
-              },
-              icon: const Icon(Icons.search_outlined))
+          appraisalEmployee != null
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _searchExpand = !_searchExpand;
+                      _color = true;
+                      if (height == 0.0) {
+                        height = 40.0;
+                      } else {
+                        height = 0.0;
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.search_outlined))
+              : Container()
         ],
       ),
       body: SafeArea(
@@ -91,11 +95,18 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                     textInputAction: TextInputAction.done,
                     controller: _searchController,
                     decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.only(bottom: 0, left: 10, top: 5),
-                        hintText: 'Eployee name',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search)),
+                      contentPadding:
+                          EdgeInsets.only(bottom: 0, left: 10, top: 5),
+                      hintText: 'Eployee name',
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        userFflist = AppraisalServices().searchEmployee(
+                            value, appraisalEmployee!.resData.ffList);
+                      });
+                    },
                   )
                 : Container(),
           ),

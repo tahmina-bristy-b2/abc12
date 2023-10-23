@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ApprovalAppraisal extends StatefulWidget {
   const ApprovalAppraisal(
@@ -27,7 +28,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   DmPathDataModel? dmpathData;
   AppraisalEmployee? appraisalEmployee;
 
-  bool isLoading = false;
+  bool isLoading = true;
   bool _searchExpand = false;
   bool _color = false;
   double height = 0.0;
@@ -51,7 +52,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eployee'),
+        title: const Text('Employee'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -98,57 +99,134 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                   )
                 : Container(),
           ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (itemBuilder, index) {
-                  return Card(
-                    child: ListTile(
-                        leading: Container(
-                          decoration: const ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: Color.fromARGB(255, 138, 201, 149),
-                          ),
-                          height: 50,
-                          width: 50,
-                          child: const Center(child: Text('NA')),
+          isLoading
+              ? Expanded(child: dataLoadingView())
+              : appraisalEmployee == null ||
+                      appraisalEmployee!.resData.ffList.isEmpty
+                  ? Center(
+                      child: Stack(children: [
+                        Image.asset(
+                          'assets/images/no_data_found.png',
+                          fit: BoxFit.cover,
                         ),
-                        title: const Text('Md Rahim Mia'),
-                        subtitle: const Text('10/05/2023'),
-                        trailing: IconButton(
-                            onPressed: () {
-                              if (widget.pageState == 'Approval') {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            AppraisalApprovalDetails()));
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => ApprisalScreen()));
-                              }
-                            },
-                            icon: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: Color.fromARGB(255, 138, 201, 149),
-                            ))
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   child: const Text(
-                        //     'Details',
-                        //     style: TextStyle(
-                        //       color: Color.fromARGB(255, 138, 201, 149),
-                        //     ),
-                        //   ),
-                        // ),
-                        ),
-                  );
-                }),
-          ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 2.5,
+                          bottom: MediaQuery.of(context).size.height * .005,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffF0F0F0),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Go back',
+                                style: TextStyle(color: Colors.black54),
+                              )),
+                        )
+                      ]),
+                    )
+                  : appraisalEmployeeView(context),
         ],
       )),
+    );
+  }
+
+  Expanded appraisalEmployeeView(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: appraisalEmployee!.resData.ffList.length,
+          itemBuilder: (itemBuilder, index) {
+            return Card(
+              child: ListTile(
+                  leading: Container(
+                    decoration: const ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: Color.fromARGB(255, 138, 201, 149),
+                    ),
+                    height: 50,
+                    width: 50,
+                    child: Center(
+                        child: Text(appraisalEmployee!
+                            .resData.ffList[index].empName
+                            .substring(0, 2))),
+                  ),
+                  title: Text(appraisalEmployee!.resData.ffList[index].empName),
+                  subtitle: Text(
+                      'Employee id: ${appraisalEmployee!.resData.ffList[index].employeeId}'),
+                  trailing: IconButton(
+                      onPressed: () {
+                        if (widget.pageState == 'Approval') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      const AppraisalApprovalDetails()));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const ApprisalScreen()));
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: Color.fromARGB(255, 138, 201, 149),
+                      ))
+                  // TextButton(
+                  //   onPressed: () {},
+                  //   child: const Text(
+                  //     'Details',
+                  //     style: TextStyle(
+                  //       color: Color.fromARGB(255, 138, 201, 149),
+                  //     ),
+                  //   ),
+                  // ),
+                  ),
+            );
+          }),
+    );
+  }
+
+  Padding dataLoadingView() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+          itemCount: 15,
+          itemBuilder: (itemBuilder, index) {
+            return Card(
+              child: ListTile(
+                leading: Container(
+                  decoration: ShapeDecoration(
+                    shape: const CircleBorder(),
+                    color: Colors.grey[300],
+                  ),
+                  height: 50,
+                  width: 50,
+                ),
+                title: Container(
+                  margin: const EdgeInsets.only(right: 50),
+                  height: 10,
+                  constraints: const BoxConstraints(maxHeight: double.infinity),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: Colors.grey[300],
+                  ),
+                ),
+                subtitle: Container(
+                  margin: const EdgeInsets.only(right: 150),
+                  height: 10,
+                  constraints: const BoxConstraints(
+                    maxHeight: double.infinity,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ),
+            );
+          }),
     );
   }
 

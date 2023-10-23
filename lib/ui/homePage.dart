@@ -1454,14 +1454,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: CustomBuildButton(
                               icon: Icons.note_alt,
                               onClick: () async {
-                                // var noticeBody = await noticeEvent();
-                                // print("list ${noticeBody}");
-
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            const ApprisalScreen()));
+                                        builder: (_) => const ApprovalAppraisal(
+                                            pageState: 'Appraisal')));
                               },
                               title: ' Appraisal',
                               sizeWidth: screenWidth,

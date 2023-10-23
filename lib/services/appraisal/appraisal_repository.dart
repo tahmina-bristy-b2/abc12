@@ -9,11 +9,11 @@ import 'package:http/http.dart' as http;
 class AppraisalRepository {
   // ---------------------- Get Employee list of Data-------------
   Future<AppraisalEmployee?> getEployeeListOfData(
-      String cid, String userId, String userPass) async {
+      String syncUrl, String cid, String userId, String userPass) async {
     AppraisalEmployee? appraisalEmployee;
     try {
-      http.Response response =
-          await AppraisalDataprovider().getEmployee(cid, userId, userPass);
+      http.Response response = await AppraisalDataprovider()
+          .getEmployee(syncUrl, cid, userId, userPass);
       var resData = json.decode(response.body);
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {

@@ -206,7 +206,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                 ),
                 title: Container(
                   margin: const EdgeInsets.only(right: 50),
-                  height: 10,
+                  height: 15,
                   constraints: const BoxConstraints(maxHeight: double.infinity),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
@@ -215,7 +215,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                 ),
                 subtitle: Container(
                   margin: const EdgeInsets.only(right: 150),
-                  height: 10,
+                  height: 12,
                   constraints: const BoxConstraints(
                     maxHeight: double.infinity,
                   ),

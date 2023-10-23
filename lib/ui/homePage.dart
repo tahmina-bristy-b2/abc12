@@ -5,7 +5,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
-import 'package:MREPORTING/ui/Appraisal/approval_appraisal.dart';
+import 'package:MREPORTING/ui/Appraisal/appraisal_employee_page.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
@@ -1476,8 +1476,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            const ApprovalAppraisal()));
+                                        builder: (_) => const ApprovalAppraisal(
+                                            pageState: 'Approval')));
                               },
                               title: 'Appraisal Approval',
                               sizeWidth: screenWidth,

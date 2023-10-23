@@ -12,4 +12,19 @@ class AppraisalDataprovider {
         });
     return response;
   }
+
+  //========================== get appraisal Details========================
+  Future getEmployeeAppraisal(String url, String cid, String userId,
+      String userPass, String levelDepth, String employeeId) async {
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(
+          AppraisalApis.employeeAppraisaldetails(
+              url, cid, userId, userPass, levelDepth, employeeId),
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
 }

@@ -1,24 +1,28 @@
 import 'dart:convert';
 
+import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AppraisalRepository {
-  Future getEployeeListOfData(
+  // ---------------------- Get Employee list of Data-------------
+  Future<AppraisalEmployee?> getEployeeListOfData(
       String cid, String userId, String userPass) async {
+    AppraisalEmployee? appraisalEmployee;
     try {
       http.Response response =
           await AppraisalDataprovider().getEmployee(cid, userId, userPass);
       var resData = json.decode(response.body);
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
-          return resData;
+          appraisalEmployee = appraisalEmployeeFromJson(response.body);
+          return appraisalEmployee;
         } else {
           AllServices().toastMessage(
               resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
-          return resData;
+          return appraisalEmployee;
         }
       } else {
         AllServices().toastMessage(
@@ -30,5 +34,6 @@ class AppraisalRepository {
     } catch (e) {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
+    return appraisalEmployee;
   }
 }

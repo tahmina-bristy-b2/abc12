@@ -1,7 +1,10 @@
+import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
+import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:flutter/material.dart';
 
 class ApprovalAppraisal extends StatefulWidget {
-  const ApprovalAppraisal({super.key});
+  const ApprovalAppraisal({super.key, required this.pageState});
+  final String pageState;
 
   @override
   State<ApprovalAppraisal> createState() => _ApprovalAppraisalState();
@@ -95,7 +98,20 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                         title: const Text('Md Rahim Mia'),
                         subtitle: const Text('10/05/2023'),
                         trailing: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (widget.pageState == 'Approval') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            AppraisalApprovalDetails()));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ApprisalScreen()));
+                              }
+                            },
                             icon: const Icon(
                               Icons.arrow_forward_ios_outlined,
                               color: Color.fromARGB(255, 138, 201, 149),

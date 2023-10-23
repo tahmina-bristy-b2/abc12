@@ -1476,8 +1476,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            const ApprovalAppraisal()));
+                                        builder: (_) => const ApprovalAppraisal(
+                                            pageState: 'Approvaal')));
                               },
                               title: 'Appraisal Approval',
                               sizeWidth: screenWidth,

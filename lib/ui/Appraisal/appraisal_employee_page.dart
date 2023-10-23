@@ -1,10 +1,21 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:flutter/material.dart';
 
 class ApprovalAppraisal extends StatefulWidget {
-  const ApprovalAppraisal({super.key, required this.pageState});
+  const ApprovalAppraisal(
+      {super.key,
+      required this.pageState,
+      required this.cid,
+      required this.userPass});
   final String pageState;
+  final String cid;
+  final String userPass;
 
   @override
   State<ApprovalAppraisal> createState() => _ApprovalAppraisalState();
@@ -12,7 +23,11 @@ class ApprovalAppraisal extends StatefulWidget {
 
 class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   final TextEditingController _searchController = TextEditingController();
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+  AppraisalEmployee? appraisalEmployee;
 
+  bool isLoading = false;
   bool _searchExpand = false;
   bool _color = false;
   double height = 0.0;
@@ -20,6 +35,9 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   @override
   initState() {
     super.initState();
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+    getAppraisalEmployee();
   }
 
   @override
@@ -132,5 +150,22 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
         ],
       )),
     );
+  }
+
+  getAppraisalEmployee() async {
+    appraisalEmployee = await AppraisalRepository().getEployeeListOfData(
+        dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
+
+    if (appraisalEmployee != null) {
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

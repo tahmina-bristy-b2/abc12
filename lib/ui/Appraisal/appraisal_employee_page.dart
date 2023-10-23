@@ -32,7 +32,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   bool _searchExpand = false;
   bool _color = false;
   double height = 0.0;
-
+  String title = "Employee";
   @override
   initState() {
     super.initState();
@@ -52,7 +52,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Employee'),
+        title: Text(title),
         centerTitle: true,
         actions: [
           IconButton(
@@ -236,6 +236,13 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
 
     if (appraisalEmployee != null) {
       if (!mounted) return;
+      title = appraisalEmployee!.resData.supLevelDepthNo == '1'
+          ? 'FM'
+          : appraisalEmployee!.resData.supLevelDepthNo == '0'
+              ? 'RSM'
+              : appraisalEmployee!.resData.supLevelDepthNo == '2'
+                  ? 'MSO'
+                  : 'Employee';
       setState(() {
         isLoading = false;
       });

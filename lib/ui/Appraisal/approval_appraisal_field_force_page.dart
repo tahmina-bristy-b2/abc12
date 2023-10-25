@@ -1,18 +1,14 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
+import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/services/appraisal/services.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
-import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
-import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
-class ApprovalAppraisal extends StatefulWidget {
-  const ApprovalAppraisal(
+class ApprovalAppraisalFieldForce extends StatefulWidget {
+  const ApprovalAppraisalFieldForce(
       {super.key,
       required this.pageState,
       required this.cid,
@@ -22,15 +18,17 @@ class ApprovalAppraisal extends StatefulWidget {
   final String userPass;
 
   @override
-  State<ApprovalAppraisal> createState() => _ApprovalAppraisalState();
+  State<ApprovalAppraisalFieldForce> createState() =>
+      _ApprovalAppraisalFieldForceState();
 }
 
-class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
+class _ApprovalAppraisalFieldForceState
+    extends State<ApprovalAppraisalFieldForce> {
   final TextEditingController _searchController = TextEditingController();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
-  AppraisalEmployee? appraisalEmployee;
-  List<FfList> userFflist = [];
+  AppraisalFfDataModel? appraisalFfData;
+  List<DataList> userFflist = [];
   bool isLoading = true;
   bool _searchExpand = false;
   bool _color = false;
@@ -41,7 +39,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    getAppraisalEmployee();
+    getAppraisalFFdata(); //FF means field Force
   }
 
   @override
@@ -58,15 +56,18 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
         title: Text(title),
         centerTitle: true,
         actions: [
-          appraisalEmployee != null
+          appraisalFfData != null
               ? IconButton(
                   onPressed: () {
                     setState(() {
                       _searchExpand = !_searchExpand;
                       _color = true;
+
                       if (height == 0.0) {
                         height = 40.0;
                       } else {
+                        _searchController.clear();
+                        userFflist = appraisalFfData!.resData.dataList;
                         height = 0.0;
                       }
                     });
@@ -98,14 +99,14 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                     decoration: const InputDecoration(
                       contentPadding:
                           EdgeInsets.only(bottom: 0, left: 10, top: 5),
-                      hintText: 'Eployee name',
+                      hintText: 'FF name/Territory id',
                       border: InputBorder.none,
                       prefixIcon: Icon(Icons.search),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        userFflist = AppraisalServices().searchEmployee(
-                            value, appraisalEmployee!.resData.ffList);
+                        userFflist = AppraisalServices()
+                            .searchFf(value, appraisalFfData!.resData.dataList);
                       });
                     },
                   )
@@ -113,8 +114,8 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
           ),
           isLoading
               ? Expanded(child: dataLoadingView())
-              : appraisalEmployee == null ||
-                      appraisalEmployee!.resData.ffList.isEmpty
+              : appraisalFfData == null ||
+                      appraisalFfData!.resData.dataList.isEmpty
                   ? Center(
                       child: Stack(children: [
                         Image.asset(
@@ -138,16 +139,16 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                         )
                       ]),
                     )
-                  : appraisalEmployeeView(context),
+                  : appraisalFFView(context),
         ],
       )),
     );
   }
 
-  Expanded appraisalEmployeeView(BuildContext context) {
+  Expanded appraisalFFView(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-          itemCount: appraisalEmployee!.resData.ffList.length,
+          itemCount: userFflist.length,
           itemBuilder: (itemBuilder, index) {
             return Card(
               child: ListTile(
@@ -159,34 +160,37 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                     height: 50,
                     width: 50,
                     child: Center(
-                        child: Text(appraisalEmployee!
-                            .resData.ffList[index].empName
-                            .substring(0, 2))),
+                        child:
+                            Text(userFflist[index].submitBy.substring(0, 2))),
                   ),
-                  title: Text(appraisalEmployee!.resData.ffList[index].empName),
-                  subtitle: Text(
-                      'Employee id: ${appraisalEmployee!.resData.ffList[index].employeeId}'),
+                  title: Text(userFflist[index].submitBy),
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Territory ID: ${userFflist[index].territoryId}'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Text('Due: ${userFflist[index].dueCount}'),
+                      ),
+                    ],
+                  ),
                   trailing: IconButton(
                       onPressed: () {
                         if (widget.pageState == 'Approval') {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>
-                                      const AppraisalApprovalDetails()));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ApprisalScreen(
-                                        cid: widget.cid,
-                                        levelDepth: appraisalEmployee!
-                                            .resData.supLevelDepthNo,
-                                        employeeId: appraisalEmployee!
-                                            .resData.ffList[index].employeeId,
-                                        userId: userInfo!.userId,
-                                        userPass: widget.userPass,
-                                      )));
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => AppraisalApprovalDetails(
+                                  callBackFuntion: (value) {
+                                _searchController.clear();
+                                userFflist = appraisalFfData!.resData.dataList;
+                                height = 0.0;
+                                _searchExpand = false;
+                                _color = false;
+                                setState(() {});
+                              }),
+                            ),
+                          );
                         }
                       },
                       icon: const Icon(
@@ -250,19 +254,20 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
     );
   }
 
-  getAppraisalEmployee() async {
-    appraisalEmployee = await AppraisalRepository().getEployeeListOfData(
+  getAppraisalFFdata() async {
+    appraisalFfData = await AppraisalRepository().getAppraisalFFData(
         dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
 
-    if (appraisalEmployee != null) {
+    if (appraisalFfData != null) {
       if (!mounted) return;
-      title = appraisalEmployee!.resData.supLevelDepthNo == '1'
+      title = appraisalFfData!.resData.levelDepthNo == '1'
           ? 'FM'
-          : appraisalEmployee!.resData.supLevelDepthNo == '0'
+          : appraisalFfData!.resData.levelDepthNo == '0'
               ? 'RSM'
-              : appraisalEmployee!.resData.supLevelDepthNo == '2'
+              : appraisalFfData!.resData.levelDepthNo == '2'
                   ? 'MSO'
                   : 'Employee';
+      userFflist = appraisalFfData!.resData.dataList;
       setState(() {
         isLoading = false;
       });

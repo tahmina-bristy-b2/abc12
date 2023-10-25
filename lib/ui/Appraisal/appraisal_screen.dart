@@ -537,272 +537,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     );
   }
 
-  Padding loadingWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                  child: Icon(Icons.person, size: 35, color: Colors.grey[300])),
-              const SizedBox(
-                width: 8,
-              ),
-              Expanded(
-                  flex: 8,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 150),
-                    height: 15,
-                    constraints: const BoxConstraints(
-                      maxHeight: double.infinity,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3),
-                      color: Colors.grey[300],
-                    ),
-                  )),
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 40,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 4,
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 30),
-                              height: 12,
-                              constraints: const BoxConstraints(
-                                maxHeight: double.infinity,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: Colors.grey[300],
-                              ),
-                            )),
-                        Expanded(
-                            child: Text(
-                          ":",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[300]),
-                        )),
-                        Expanded(
-                          flex: 7,
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            height: 12,
-                            constraints: const BoxConstraints(
-                              maxHeight: double.infinity,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: Colors.grey[300],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }),
-          ),
-          // const SizedBox(
-          //   height: 20,
-          // ),
-          // SizedBox(
-          //   height: 360,
-          //   child: DataTable2(
-          //       border: TableBorder.all(),
-          //       columnSpacing: 12,
-          //       horizontalMargin: 8,
-          //       dataRowHeight: 35,
-          //       minWidth: 600,
-          //       headingRowColor: MaterialStateColor.resolveWith(
-          //         (states) {
-          //           return Color.fromARGB(255, 249, 249, 249);
-          //         },
-          //       ),
-          //       headingRowHeight: 40,
-          //       columns: [
-          //         DataColumn2(
-          //           fixedWidth: 50,
-          //           label: Center(
-          //             child: Container(
-          //               margin: const EdgeInsets.only(right: 1),
-          //               constraints: const BoxConstraints(
-          //                 maxHeight: double.infinity,
-          //               ),
-          //               decoration: BoxDecoration(
-          //                 borderRadius: BorderRadius.circular(3),
-          //                 color: Colors.grey[300],
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //         DataColumn2(
-          //             fixedWidth: 210,
-          //             label: Center(
-          //                 child: Text(
-          //               "KPI Name",
-          //               style: TextStyle(fontWeight: FontWeight.bold),
-          //             ))),
-          //         DataColumn2(
-          //             fixedWidth: 110,
-          //             label: Center(
-          //                 child: Text(
-          //               "2020(jan-Dec)",
-          //               style: TextStyle(fontWeight: FontWeight.bold),
-          //             ))),
-          //         DataColumn2(
-          //             fixedWidth: 110,
-          //             label: Center(
-          //                 child: Text(
-          //               "2021(jan-Nov)",
-          //               style: TextStyle(fontWeight: FontWeight.bold),
-          //             ))),
-          //       ],
-          //       rows: const [
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("1"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Target (Value in lac)"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("2"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Sold (Value in Lac)"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("3"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Achievement (%)"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("4"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Avg. Sales/Month "))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("5"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Avg. Rx Share (4P) "))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("6"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Avg. Rx Share (EMR) "))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("7"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Avg. Rx Growth "))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("8"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("No. of Month Achieved"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //         DataRow2(
-          //           cells: [
-          //             DataCell(Center(child: Text("9"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerLeft,
-          //                 child: Text("Chemist Coverage"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("60.65"))),
-          //             DataCell(Align(
-          //                 alignment: Alignment.centerRight,
-          //                 child: Text("67.06")))
-          //           ],
-          //         ),
-          //       ]),
-          // )
-        ],
-      ),
-    );
-  }
-
   //******************************************************************************************************* */
   //************************************************* Widgets ****************************************************** */
   //******************************************************************************************************* */
@@ -1526,6 +1260,89 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                   )),
+      ),
+    );
+  }
+
+  //===================================Loading Widget=====================================
+  Padding loadingWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: Icon(Icons.person, size: 35, color: Colors.grey[300])),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                  flex: 8,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 150),
+                    height: 15,
+                    constraints: const BoxConstraints(
+                      maxHeight: double.infinity,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: Colors.grey[300],
+                    ),
+                  )),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: 20,
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 4,
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 30),
+                              height: 12,
+                              constraints: const BoxConstraints(
+                                maxHeight: double.infinity,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: Colors.grey[300],
+                              ),
+                            )),
+                        Expanded(
+                            child: Text(
+                          ":",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[300]),
+                        )),
+                        Expanded(
+                          flex: 7,
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            height: 12,
+                            constraints: const BoxConstraints(
+                              maxHeight: double.infinity,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+          ),
+        ],
       ),
     );
   }

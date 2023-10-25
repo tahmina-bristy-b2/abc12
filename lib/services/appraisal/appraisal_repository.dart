@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -38,6 +37,7 @@ class AppraisalRepository {
     return appraisalEmployee;
   }
 
+//================================ Employee Details Information =============================================
   Future<AppraisalDetailsModel?> getEmployeeDetails(
       String url,
       String cid,
@@ -54,11 +54,10 @@ class AppraisalRepository {
       if (response.statusCode == 200) {
         appraisalDetailsModel = appraisalDetailsModelFromJson(response.body);
         if (appraisalDetailsModel.resData.status == "Success") {
-          return appraisalDetailsModel;
         } else {
-          var resternData = jsonDecode(response.body);
-          AllServices().toastMessage("${resternData["res_data"]["ret_str"]}",
+          AllServices().toastMessage("${appraisalDetailsModel.resData.retStr}",
               Colors.red, Colors.white, 16);
+          return appraisalDetailsModel;
         }
       } else {
         AllServices().toastMessage(
@@ -71,5 +70,56 @@ class AppraisalRepository {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalDetailsModel;
+  }
+
+  //=======================Appraisal Submit===================================
+  Future<Map<String, dynamic>> appraisalSubmit(
+      String url,
+      String cid,
+      String userId,
+      String userPass,
+      String levelDepth,
+      String employeeId,
+      String honestyIntegrity,
+      String discipline,
+      String skill,
+      String qualitySales,
+      String incrementAmount,
+      String upgradeGrade,
+      String designationChange,
+      String feedback) async {
+    Map<String, dynamic> wholeData = {};
+    try {
+      http.Response response = await AppraisalDataprovider().appRaisalSubmit(
+          url,
+          cid,
+          userId,
+          userPass,
+          levelDepth,
+          employeeId,
+          honestyIntegrity,
+          discipline,
+          skill,
+          qualitySales,
+          incrementAmount,
+          upgradeGrade,
+          designationChange,
+          feedback);
+
+      if (response.statusCode == 200) {
+        wholeData = jsonDecode(response.body);
+        return wholeData;
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+        return wholeData;
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return wholeData;
   }
 }

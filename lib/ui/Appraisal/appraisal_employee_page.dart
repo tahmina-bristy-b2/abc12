@@ -5,6 +5,7 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -166,7 +167,15 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const ApprisalScreen()));
+                                  builder: (_) => ApprisalScreen(
+                                        cid: widget.cid,
+                                        levelDepth: appraisalEmployee!
+                                            .resData.supLevelDepthNo,
+                                        employeeId: appraisalEmployee!
+                                            .resData.ffList[index].employeeId,
+                                        userId: userInfo!.userId,
+                                        userPass: widget.userPass,
+                                      )));
                         }
                       },
                       icon: const Icon(

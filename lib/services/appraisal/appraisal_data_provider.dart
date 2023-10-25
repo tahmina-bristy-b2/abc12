@@ -16,11 +16,56 @@ class AppraisalDataprovider {
   //========================== get appraisal Details========================
   Future getEmployeeAppraisal(String url, String cid, String userId,
       String userPass, String levelDepth, String employeeId) async {
+    print(
+        "Appraisal Details=${AppraisalApis.employeeAppraisaldetails(url, cid, userId, userPass, levelDepth, employeeId)}");
     final http.Response response;
     response = await http.get(
         Uri.parse(
           AppraisalApis.employeeAppraisaldetails(
               url, cid, userId, userPass, levelDepth, employeeId),
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
+
+  //==========================  appraisal Submit========================
+  Future appRaisalSubmit(
+      String url,
+      String cid,
+      String userId,
+      String userPass,
+      String levelDepth,
+      String employeeId,
+      String honestyIntegrity,
+      String discipline,
+      String skill,
+      String qualitySales,
+      String incrementAmount,
+      String upgradeGrade,
+      String designationChange,
+      String feedback) async {
+    print(
+        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, honestyIntegrity, discipline, skill, qualitySales, incrementAmount, upgradeGrade, designationChange, feedback)}");
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(
+          AppraisalApis.employeeAppraisalSubmit(
+              url,
+              cid,
+              userId,
+              userPass,
+              levelDepth,
+              employeeId,
+              honestyIntegrity,
+              discipline,
+              skill,
+              qualitySales,
+              incrementAmount,
+              upgradeGrade,
+              designationChange,
+              feedback),
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'

@@ -27,4 +27,17 @@ class AppraisalDataprovider {
         });
     return response;
   }
+
+  //======================== Get appraisal Field Force data ===============
+
+  Future getAppraisalFF(
+      String syncUrl, String cid, String userId, String userPass) async {
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(AppraisalApis.ffApi(syncUrl, cid, userId, userPass)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
 }

@@ -2,7 +2,8 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
-  const AppraisalApprovalDetails({super.key});
+  const AppraisalApprovalDetails({super.key, this.callBackFuntion});
+  final Function? callBackFuntion;
 
   @override
   State<AppraisalApprovalDetails> createState() =>
@@ -20,364 +21,371 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   bool isDesignationChange = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Appraisal Details"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Row(
-                children: const [
-                  Expanded(
-                      child: Icon(Icons.person,
-                          size: 35, color: Color.fromARGB(255, 153, 197, 161))),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                      flex: 8,
-                      child: Text(
-                        "Mr. Ratan Kumar Roy",
+    return WillPopScope(
+      onWillPop: () async {
+        widget.callBackFuntion!('value');
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Appraisal Details"),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Row(
+                  children: const [
+                    Expanded(
+                        child: Icon(Icons.person,
+                            size: 35,
+                            color: Color.fromARGB(255, 153, 197, 161))),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                        flex: 8,
+                        child: Text(
+                          "Mr. Ratan Kumar Roy",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        )),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Emplpyee Id",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("11863293864896"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Designation",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("MSO"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Total Full Point",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("400"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Achieved Point",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("40%"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Present Grade",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("O-02"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "TR-Code",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("DT22"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Business Segment",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("Pharma"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Date of Joining",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("7th June 2023"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Last Promotion",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("7th June 2023"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Length of Service",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("4 year"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 4,
+                        child: Text(
+                          "Base Territory",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(
+                        flex: 7,
+                        child: Text(
+                            "SETABGONJ SUKUBDEVPUR,SULTANPUR,RAMPURHAT,MADODPUR,PRITIVA"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                        flex: 9,
+                        child: Text(
+                          "Length of Present TR Service",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(flex: 7, child: Text("4 year"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                firstTableWidget(),
+                const SizedBox(
+                  height: 8,
+                ),
+                secondTableWidget(),
+                const SizedBox(
+                  height: 8,
+                ),
+                reasonActionWidget(),
+                const SizedBox(
+                  height: 8,
+                ),
+                increametGradeUpgrationWidget(),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    const Expanded(
+                        flex: 3,
+                        child: Text(
+                          "Feedback(60 Character)",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    const Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(
+                        flex: 7,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            controller: feeddbackController,
+                            decoration: const InputDecoration(
+                              hintText: 'Feedback/value of work',
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.red,
+                      ),
+                      // color: Colors.blue),
+                      child: const Center(
+                          child: Text(
+                        "Reject",
                         style: TextStyle(
-                            fontSize: 18,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                            fontSize: 18),
                       )),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Emplpyee Id",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("11863293864896"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Designation",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("MSO"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Total Full Point",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("400"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Achieved Point",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("40%"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Present Grade",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("O-02"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "TR-Code",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("DT22"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Business Segment",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("Pharma"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Date of Joining",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("7th June 2023"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Last Promotion",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("7th June 2023"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Length of Service",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("4 year"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 4,
-                      child: Text(
-                        "Base Territory",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(
-                      flex: 7,
-                      child: Text(
-                          "SETABGONJ SUKUBDEVPUR,SULTANPUR,RAMPURHAT,MADODPUR,PRITIVA"))
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: const [
-                  Expanded(
-                      flex: 9,
-                      child: Text(
-                        "Length of Present TR Service",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(flex: 7, child: Text("4 year"))
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              firstTableWidget(),
-              const SizedBox(
-                height: 8,
-              ),
-              secondTableWidget(),
-              const SizedBox(
-                height: 8,
-              ),
-              reasonActionWidget(),
-              const SizedBox(
-                height: 8,
-              ),
-              increametGradeUpgrationWidget(),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: [
-                  const Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Feedback(60 Character)",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  const Expanded(
-                      child: Text(
-                    ":",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  Expanded(
-                      flex: 7,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          controller: feeddbackController,
-                          decoration: const InputDecoration(
-                            hintText: 'Feedback/value of work',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.red,
                     ),
-                    // color: Colors.blue),
-                    child: const Center(
-                        child: Text(
-                      "Reject",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    )),
-                  ),
-                  Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: const Color(0xff38C172),
+                    Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color(0xff38C172),
+                      ),
+                      // color: Colors.blue),
+                      child: const Center(
+                          child: Text(
+                        "Approve",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      )),
                     ),
-                    // color: Colors.blue),
-                    child: const Center(
-                        child: Text(
-                      "Approve",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    )),
-                  ),
-                ],
-              )
-              // Container(height: 100,color: Colors.,)
-            ],
+                  ],
+                )
+                // Container(height: 100,color: Colors.,)
+              ],
+            ),
           ),
         ),
       ),

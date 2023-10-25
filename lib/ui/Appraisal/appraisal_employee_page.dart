@@ -9,7 +9,7 @@ import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ApprovalAppraisal extends StatefulWidget {
   const ApprovalAppraisal(
@@ -36,17 +36,53 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   bool _color = false;
   double height = 0.0;
   String title = "Employee";
+
   @override
   initState() {
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    getAppraisalEmployee();
+    internetCheckForEmployeeDetails();
+  }
+
+  //====================================== Internet check for Employee List Api ============================================
+  internetCheckForEmployeeDetails() async {
+    bool hasInternet = await InternetConnectionChecker().hasConnection;
+    if (hasInternet == true) {
+      getAppraisalEmployee();
+    } else {
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+    }
+  }
+
+  //========================================= Employee List Api Call====================================================
+  getAppraisalEmployee() async {
+    appraisalEmployee = await AppraisalRepository().getEployeeListOfData(
+        dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
+
+    if (appraisalEmployee != null) {
+      if (!mounted) return;
+      title = appraisalEmployee!.resData.supLevelDepthNo == '1'
+          ? 'FM List'
+          : appraisalEmployee!.resData.supLevelDepthNo == '0'
+              ? 'RSM List'
+              : appraisalEmployee!.resData.supLevelDepthNo == '2'
+                  ? 'MSO List'
+                  : 'Employee List';
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _searchController.dispose();
   }
@@ -80,7 +116,6 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
         children: [
           AnimatedContainer(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            // color: Colors.amber,
             duration: const Duration(milliseconds: 500),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
@@ -98,9 +133,10 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                     decoration: const InputDecoration(
                       contentPadding:
                           EdgeInsets.only(bottom: 0, left: 10, top: 5),
-                      hintText: 'Eployee name',
+                      hintText: 'Search Employeee here.....',
                       border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: Icon(Icons.search,
+                          color: Color.fromARGB(255, 138, 201, 149)),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -192,17 +228,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       icon: const Icon(
                         Icons.arrow_forward_ios_outlined,
                         color: Color.fromARGB(255, 138, 201, 149),
-                      ))
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: const Text(
-                  //     'Details',
-                  //     style: TextStyle(
-                  //       color: Color.fromARGB(255, 138, 201, 149),
-                  //     ),
-                  //   ),
-                  // ),
-                  ),
+                      ))),
             );
           }),
     );
@@ -248,29 +274,5 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
             );
           }),
     );
-  }
-
-  getAppraisalEmployee() async {
-    appraisalEmployee = await AppraisalRepository().getEployeeListOfData(
-        dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
-
-    if (appraisalEmployee != null) {
-      if (!mounted) return;
-      title = appraisalEmployee!.resData.supLevelDepthNo == '1'
-          ? 'FM'
-          : appraisalEmployee!.resData.supLevelDepthNo == '0'
-              ? 'RSM'
-              : appraisalEmployee!.resData.supLevelDepthNo == '2'
-                  ? 'MSO'
-                  : 'Employee';
-      setState(() {
-        isLoading = false;
-      });
-    } else {
-      if (!mounted) return;
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 }

@@ -165,13 +165,13 @@ class _ApprovalAppraisalFieldForceState
                   ),
                   title: Text(userFflist[index].submitBy),
                   subtitle: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Territory ID: ${userFflist[index].territoryId}'),
-                      const SizedBox(
-                        width: 30,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Text('Due: ${userFflist[index].dueCount}'),
                       ),
-                      Text('Due: ${userFflist[index].dueCount}'),
                     ],
                   ),
                   trailing: IconButton(

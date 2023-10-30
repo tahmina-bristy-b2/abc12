@@ -210,26 +210,18 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       Text('Employee id: ${employeeList[index].employeeId}'),
                   trailing: IconButton(
                       onPressed: () {
-                        if (widget.pageState == 'Approval') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>
-                                      const AppraisalApprovalDetails()));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ApprisalScreen(
-                                        cid: widget.cid,
-                                        levelDepth: appraisalEmployee!
-                                            .resData.supLevelDepthNo,
-                                        userId: userInfo!.userId,
-                                        userPass: widget.userPass,
-                                        employeeId:
-                                            employeeList[index].employeeId,
-                                      )));
-                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ApprisalScreen(
+                                      cid: widget.cid,
+                                      levelDepth: appraisalEmployee!
+                                          .resData.supLevelDepthNo,
+                                      userId: userInfo!.userId,
+                                      userPass: widget.userPass,
+                                      employeeId:
+                                          employeeList[index].employeeId,
+                                    )));
                       },
                       icon: const Icon(
                         Icons.arrow_forward_ios_outlined,

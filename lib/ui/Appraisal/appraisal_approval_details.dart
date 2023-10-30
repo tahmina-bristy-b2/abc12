@@ -1,8 +1,19 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
+import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
-  const AppraisalApprovalDetails({super.key, this.callBackFuntion});
+  const AppraisalApprovalDetails(
+      {super.key,
+      required this.cid,
+      required this.userPass,
+      this.callBackFuntion});
+  final String cid;
+  final String userPass;
   final Function? callBackFuntion;
 
   @override
@@ -17,12 +28,21 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   TextEditingController qualityofSellsController = TextEditingController();
   TextEditingController incrementController = TextEditingController();
   TextEditingController feeddbackController = TextEditingController();
+
+  UserLoginModel? userInfo;
+  DmPathDataModel? dmpathData;
+
+  AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
+  bool _isLoading = false;
   bool isUpgrade = false;
   bool isDesignationChange = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    userInfo = Boxes.getLoginData().get('userInfo');
+    dmpathData = Boxes.getDmpath().get('dmPathData');
+    getAppraisalApprovalFFDetailsdata(); // FF means Field force
   }
 
   @override
@@ -45,7 +65,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Appraisal Details"),
+          title: const Text("FF Appraisal Details"),
           centerTitle: true,
         ),
         body: ListView.builder(
@@ -867,6 +887,23 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
         ]),
       ),
     );
+  }
+
+  getAppraisalApprovalFFDetailsdata() async {
+    appraisalApprovalFfDetailsData = await AppraisalRepository()
+        .getAppraisalApprovalFFDetails(
+            dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
+
+    if (appraisalApprovalFfDetailsData != null) {
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 }
 

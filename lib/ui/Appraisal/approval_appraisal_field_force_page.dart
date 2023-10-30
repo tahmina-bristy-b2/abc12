@@ -181,14 +181,17 @@ class _ApprovalAppraisalFieldForceState
                             context,
                             MaterialPageRoute(
                               builder: (_) => AppraisalApprovalDetails(
+                                  cid: widget.cid,
+                                  userPass: widget.userPass,
                                   callBackFuntion: (value) {
-                                _searchController.clear();
-                                userFflist = appraisalFfData!.resData.dataList;
-                                height = 0.0;
-                                _searchExpand = false;
-                                _color = false;
-                                setState(() {});
-                              }),
+                                    _searchController.clear();
+                                    userFflist =
+                                        appraisalFfData!.resData.dataList;
+                                    height = 0.0;
+                                    _searchExpand = false;
+                                    _color = false;
+                                    setState(() {});
+                                  }),
                             ),
                           );
                         }

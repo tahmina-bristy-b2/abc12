@@ -166,8 +166,12 @@ class AppraisalRepository {
       var resData = json.decode(response.body);
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
+          // appraisalApprovalFfDetailsData =
+          // appraisalApprovalFfDetailsDataModelFromJson(response.body);
           appraisalApprovalFfDetailsData =
-              appraisalApprovalFfDetailsDataModelFromJson(response.body);
+              appraisalApprovalFfDetailsDataModelFromJson(
+                  json.encode(fFDetailsJson));
+
           return appraisalApprovalFfDetailsData;
         } else {
           AllServices().toastMessage(
@@ -185,7 +189,7 @@ class AppraisalRepository {
       appraisalApprovalFfDetailsData =
           appraisalApprovalFfDetailsDataModelFromJson(
               json.encode(fFDetailsJson));
-      // AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalApprovalFfDetailsData;
   }

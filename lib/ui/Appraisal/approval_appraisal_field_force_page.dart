@@ -195,6 +195,7 @@ class _ApprovalAppraisalFieldForceState
                                     height = 0.0;
                                     _searchExpand = false;
                                     _color = false;
+                                    getAppraisalFFdata();
                                     setState(() {});
                                   }),
                             ),

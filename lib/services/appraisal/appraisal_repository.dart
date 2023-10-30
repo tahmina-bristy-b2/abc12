@@ -201,4 +201,36 @@ class AppraisalRepository {
     }
     return appraisalApprovalFfDetailsData;
   }
+
+  //======================== Appraisal Approval ==================
+  Future<Map<String, dynamic>> appraisalFFApprovalSubmit(String syncUrl,
+      String cid, String userId, String userPass, String restParams) async {
+    Map<String, dynamic> resData = {};
+    try {
+      http.Response response = await AppraisalDataprovider()
+          .appraisalFFApprovalSubmit(
+              syncUrl, cid, userId, userPass, restParams);
+      resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["status"] == "Success") {
+          AllServices()
+              .toastMessage(resData["ret_str"], Colors.green, Colors.white, 14);
+          return resData;
+        } else {
+          AllServices()
+              .toastMessage(resData["ret_str"], Colors.red, Colors.white, 14);
+          return resData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return resData;
+  }
 }

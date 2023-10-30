@@ -2,9 +2,12 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
   const AppraisalApprovalDetails(
@@ -24,6 +27,7 @@ class AppraisalApprovalDetails extends StatefulWidget {
 }
 
 class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
+  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   TextEditingController honestintegrityController = TextEditingController();
   TextEditingController disciplineController = TextEditingController();
   TextEditingController skillController = TextEditingController();
@@ -35,7 +39,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   DmPathDataModel? dmpathData;
 
   AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
-  bool _isLoading = false;
+  bool _isLoading = true;
+  bool _isPressed = false;
   bool isUpgrade = false;
   bool isDesignationChange = false;
   @override
@@ -55,6 +60,27 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
       double result = double.parse(fullPoint) * (double.parse(vaseValue) / 100);
       return result.toStringAsFixed(2);
     }
+  }
+
+  void removeFFAopraisal(int index) {
+    listKey.currentState!.removeItem(
+      index,
+      (context, animation) {
+        return appraisalListItemView(animation,
+            appraisalApprovalFfDetailsData!.resData!.retStr!, index, context);
+      },
+      duration: const Duration(seconds: 1),
+    );
+
+    Future.delayed(const Duration(seconds: 1), () {
+      appraisalApprovalFfDetailsData!.resData!.retStr!.removeAt(index);
+    });
+
+    // if (index == dsrDetails!.resData.dataList.length - 1) {
+    //   return;
+    // } else {
+    //   dsrDetails!.resData.dataList.removeAt(index);
+    // }
   }
 
   @override
@@ -111,188 +137,221 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     ]),
                   )
                 : fieldForceAppraisalview(
-                    context, appraisalApprovalFfDetailsData!.resData!.retStr),
+                    context, appraisalApprovalFfDetailsData!.resData!.retStr!),
       ),
     );
   }
 
-  ListView fieldForceAppraisalview(
-      BuildContext context, List<RetStr>? appraisalDetails) {
-    return ListView.builder(
-        itemCount: appraisalDetails!.length,
-        itemBuilder: (itemBuilder, index) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
+  AnimatedList fieldForceAppraisalview(
+      BuildContext context, List<RetStr> appraisalDetails) {
+    return AnimatedList(
+        key: listKey,
+        initialItemCount: appraisalDetails.length,
+        itemBuilder: (itemBuilder, index, animation) {
+          return appraisalListItemView(
+              animation, appraisalDetails, index, context);
+        });
+  }
+
+  SizeTransition appraisalListItemView(Animation<double> animation,
+      List<RetStr> appraisalDetails, int index, BuildContext context) {
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    const Expanded(
-                        child: Icon(Icons.person,
-                            size: 35,
-                            color: Color.fromARGB(255, 153, 197, 161))),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                        flex: 8,
-                        child: Text(
-                          appraisalDetails[index].empName ?? '',
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )),
-                  ],
-                ),
-
-                FfInformationWidget(
-                    staticKey: 'Employee Id',
-                    value: appraisalDetails[index].employeeId ?? ''),
-                FfInformationWidget(
-                    staticKey: 'Designation',
-                    value: appraisalDetails[index].designation ?? ''),
-                const FfInformationWidget(
-                    staticKey: "Total Full Point", value: '400'),
-                const FfInformationWidget(
-                    staticKey: "Achieved Point", value: '180'),
-                FfInformationWidget(
-                    staticKey: "Present Grade",
-                    value: appraisalDetails[index].presentGrade ?? ''),
-                FfInformationWidget(
-                    staticKey: "TR-Code",
-                    value: appraisalDetails[index].trCode ?? ''),
-                FfInformationWidget(
-                    staticKey: "Business Segment",
-                    value: appraisalDetails[index].businessSegment ?? ''),
-                FfInformationWidget(
-                    staticKey: "Date of Joining",
-                    value: appraisalDetails[index].dateOfJoining ?? ''),
-                FfInformationWidget(
-                    staticKey: "Last Promotion",
-                    value: appraisalDetails[index].lastPromotion ?? ''),
-                FfInformationWidget(
-                    staticKey: "Length of Service",
-                    value: appraisalDetails[index].lengthOfService ?? ''),
-                FfInformationWidget(
-                    staticKey: "Base Territory",
-                    value: appraisalDetails[index].baseTerritory ?? ''),
-                FfInformationWidget(
-                    staticKey: "Length of Present TR Service",
-                    value:
-                        appraisalDetails[index].lengthOfPresentTrService ?? ''),
-
+                const Expanded(
+                    child: Icon(Icons.person,
+                        size: 35, color: Color.fromARGB(255, 153, 197, 161))),
                 const SizedBox(
-                  height: 20,
+                  width: 8,
                 ),
-                appraisalAchievement(appraisalDetails[index]),
-                const SizedBox(
-                  height: 8,
-                ),
-                appraisalMaster(appraisalDetails[index]),
-                const SizedBox(
-                  height: 8,
-                ),
-                reasonActionWidget(appraisalDetails[index]),
-                const SizedBox(
-                  height: 8,
-                ),
-                increametGradeUpgrationWidget(appraisalDetails[index]),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    const Expanded(
-                        flex: 3,
-                        child: Text(
-                          "Feedback(60 Character)",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    const Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                Expanded(
+                    flex: 8,
+                    child: Text(
+                      appraisalDetails[index].empName ?? '',
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     )),
-                    Expanded(
-                        flex: 7,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: TextField(
-                            readOnly: true,
-                            textAlign: TextAlign.center,
-                            controller: TextEditingController(
-                                text: appraisalDetails[index].feedback ?? ''),
-                            decoration: const InputDecoration(
-                              hintText: 'Feedback/value of work',
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.red,
-                      ),
-                      // color: Colors.blue),
-                      child: const Center(
-                          child: Text(
-                        "Reject",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      )),
-                    ),
-                    Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color(0xff38C172),
-                      ),
-                      // color: Colors.blue),
-                      child: const Center(
-                          child: Text(
-                        "Approve",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      )),
-                    ),
-                  ],
-                ),
-                // Container(height: 100,color: Colors.,)
-
-                const Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
-                  child: Divider(
-                    thickness: 2,
-                    color: Colors.grey,
-                  ),
-                )
               ],
             ),
-          );
-        });
+
+            FfInformationWidget(
+                staticKey: 'Employee Id',
+                value: appraisalDetails[index].employeeId ?? ''),
+            FfInformationWidget(
+                staticKey: 'Designation',
+                value: appraisalDetails[index].designation ?? ''),
+            const FfInformationWidget(
+                staticKey: "Total Full Point", value: '400'),
+            const FfInformationWidget(
+                staticKey: "Achieved Point", value: '180'),
+            FfInformationWidget(
+                staticKey: "Present Grade",
+                value: appraisalDetails[index].presentGrade ?? ''),
+            FfInformationWidget(
+                staticKey: "TR-Code",
+                value: appraisalDetails[index].trCode ?? ''),
+            FfInformationWidget(
+                staticKey: "Business Segment",
+                value: appraisalDetails[index].businessSegment ?? ''),
+            FfInformationWidget(
+                staticKey: "Date of Joining",
+                value: appraisalDetails[index].dateOfJoining ?? ''),
+            FfInformationWidget(
+                staticKey: "Last Promotion",
+                value: appraisalDetails[index].lastPromotion ?? ''),
+            FfInformationWidget(
+                staticKey: "Length of Service",
+                value: appraisalDetails[index].lengthOfService ?? ''),
+            FfInformationWidget(
+                staticKey: "Base Territory",
+                value: appraisalDetails[index].baseTerritory ?? ''),
+            FfInformationWidget(
+                staticKey: "Length of Present TR Service",
+                value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
+            FfInformationWidget(
+                staticKey: "Appraisal Status",
+                value: appraisalDetails[index].lastAction ?? ''),
+
+            const SizedBox(
+              height: 20,
+            ),
+            appraisalAchievement(appraisalDetails[index]),
+            const SizedBox(
+              height: 8,
+            ),
+            appraisalMaster(appraisalDetails[index]),
+            const SizedBox(
+              height: 8,
+            ),
+            reasonActionWidget(appraisalDetails[index]),
+            const SizedBox(
+              height: 8,
+            ),
+            increametGradeUpgrationWidget(appraisalDetails[index]),
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: [
+                const Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Feedback(60 Character)",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                const Expanded(
+                    child: Text(
+                  ":",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+                Expanded(
+                    flex: 7,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: TextField(
+                        readOnly: true,
+                        textAlign: TextAlign.center,
+                        controller: TextEditingController(
+                            text: appraisalDetails[index].feedback ?? ''),
+                        decoration: const InputDecoration(
+                          hintText: 'Feedback/value of work',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            !_isPressed
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _isPressed = true;
+                          });
+                          String approvalRestParams =
+                              'row_id=${appraisalDetails[index].rowId}&status=Rejected';
+                          appraisalApproval(approvalRestParams, index);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.red,
+                          ),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Reject",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _isPressed = true;
+                          });
+                          String approvalRestParams =
+                              'row_id=${appraisalDetails[index].rowId}&status=Approved';
+                          appraisalApproval(approvalRestParams, index);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: const Color(0xff38C172),
+                          ),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Approve",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(),
+            // Container(height: 100,color: Colors.,)
+
+            const Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
+              child: Divider(
+                thickness: 2,
+                color: Colors.grey,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   SizedBox appraisalAchievement(RetStr achievementData) {
@@ -1056,7 +1115,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     );
   }
 
-  getAppraisalApprovalFFDetailsdata(String restParams) async {
+  void getAppraisalApprovalFFDetailsdata(String restParams) async {
     appraisalApprovalFfDetailsData = await AppraisalRepository()
         .getAppraisalApprovalFFDetails(dmpathData!.syncUrl, widget.cid,
             userInfo!.userId, widget.userPass, restParams);
@@ -1069,6 +1128,39 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
+      });
+    }
+  }
+
+  void appraisalApproval(String approvalRestParams, int index) async {
+    bool result = await InternetConnectionChecker().hasConnection;
+
+    if (result) {
+      Map<String, dynamic> approvedResponse =
+          await AppraisalRepository().appraisalFFApprovalSubmit(
+        dmpathData!.syncUrl,
+        widget.cid,
+        userInfo!.userId,
+        widget.userPass,
+        approvalRestParams,
+      );
+
+      if (approvedResponse.isNotEmpty &&
+          approvedResponse["status"] == "Success") {
+        removeFFAopraisal(index);
+        setState(() {
+          _isPressed = false;
+        });
+      } else {
+        setState(() {
+          _isPressed = false;
+        });
+      }
+    } else {
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.yellow, Colors.black, 16);
+      setState(() {
+        _isPressed = false;
       });
     }
   }

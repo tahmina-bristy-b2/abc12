@@ -20,6 +20,23 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    honestintegrityController.dispose();
+    disciplineController.dispose();
+    skillController.dispose();
+    qualityofSellsController.dispose();
+    incrementController.dispose();
+    feeddbackController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -31,368 +48,176 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           title: const Text("Appraisal Details"),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Row(
-                  children: const [
-                    Expanded(
-                        child: Icon(Icons.person,
-                            size: 35,
-                            color: Color.fromARGB(255, 153, 197, 161))),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                        flex: 8,
-                        child: Text(
-                          "Mr. Ratan Kumar Roy",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Emplpyee Id",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("11863293864896"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Designation",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("MSO"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Total Full Point",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("400"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Achieved Point",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("40%"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Present Grade",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("O-02"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "TR-Code",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("DT22"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Business Segment",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("Pharma"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Date of Joining",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("7th June 2023"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Last Promotion",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("7th June 2023"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Length of Service",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("4 year"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Base Territory",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(
-                        flex: 7,
-                        child: Text(
-                            "SETABGONJ SUKUBDEVPUR,SULTANPUR,RAMPURHAT,MADODPUR,PRITIVA"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        flex: 9,
-                        child: Text(
-                          "Length of Present TR Service",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(flex: 7, child: Text("4 year"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                firstTableWidget(),
-                const SizedBox(
-                  height: 8,
-                ),
-                secondTableWidget(),
-                const SizedBox(
-                  height: 8,
-                ),
-                reasonActionWidget(),
-                const SizedBox(
-                  height: 8,
-                ),
-                increametGradeUpgrationWidget(),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
+        body: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (itemBuilder, index) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
                   children: [
-                    const Expanded(
-                        flex: 3,
-                        child: Text(
-                          "Feedback(60 Character)",
+                    Row(
+                      children: const [
+                        Expanded(
+                            child: Icon(Icons.person,
+                                size: 35,
+                                color: Color.fromARGB(255, 153, 197, 161))),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                            flex: 8,
+                            child: Text(
+                              "Mr. Ratan Kumar Roy",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            )),
+                      ],
+                    ),
+
+                    const FfInformationWidget(
+                        staticKey: 'Employee Id', value: '214564545'),
+                    const FfInformationWidget(
+                        staticKey: 'Designation', value: 'MSO'),
+                    const FfInformationWidget(
+                        staticKey: "Total Full Point", value: '400'),
+                    const FfInformationWidget(
+                        staticKey: "Achieved Point", value: '40%'),
+                    const FfInformationWidget(
+                        staticKey: "Present Grade", value: 'O-02'),
+                    const FfInformationWidget(
+                        staticKey: "TR-Code", value: 'DT22'),
+                    const FfInformationWidget(
+                        staticKey: "Business Segment", value: 'Pharma'),
+                    const FfInformationWidget(
+                        staticKey: "Date of Joining", value: '7th June 2023'),
+                    const FfInformationWidget(
+                        staticKey: "Last Promotion", value: '7th June 2023'),
+                    const FfInformationWidget(
+                        staticKey: "Length of Service", value: '4 year'),
+                    const FfInformationWidget(
+                        staticKey: "Base Territory",
+                        value:
+                            'SETABGONJ SUKUBDEVPUR,SULTANPUR,RAMPURHAT,MADODPUR,PRITIVA'),
+                    const FfInformationWidget(
+                        staticKey: "Length of Present TR Service",
+                        value: '4 year'),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    appraisalAchievement(),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    appraisalMaster(),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    reasonActionWidget(),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    increametGradeUpgrationWidget(),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Feedback(60 Character)",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                        const Expanded(
+                            child: Text(
+                          ":",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
-                    const Expanded(
-                        child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                    Expanded(
-                        flex: 7,
-                        child: Container(
+                        Expanded(
+                            flex: 7,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: feeddbackController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Feedback/value of work',
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
+                            color: Colors.red,
                           ),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            controller: feeddbackController,
-                            decoration: const InputDecoration(
-                              hintText: 'Feedback/value of work',
-                              border: InputBorder.none,
-                            ),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Reject",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                        Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: const Color(0xff38C172),
                           ),
-                        )),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Approve",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                      ],
+                    ),
+                    // Container(height: 100,color: Colors.,)
+
+                    const Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
+                      child: Divider(
+                        thickness: 2,
+                        color: Colors.grey,
+                      ),
+                    )
                   ],
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.red,
-                      ),
-                      // color: Colors.blue),
-                      child: const Center(
-                          child: Text(
-                        "Reject",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      )),
-                    ),
-                    Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color(0xff38C172),
-                      ),
-                      // color: Colors.blue),
-                      child: const Center(
-                          child: Text(
-                        "Approve",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      )),
-                    ),
-                  ],
-                )
-                // Container(height: 100,color: Colors.,)
-              ],
-            ),
-          ),
-        ),
+              );
+            }),
       ),
     );
   }
 
-  SizedBox firstTableWidget() {
+  SizedBox appraisalAchievement() {
     return SizedBox(
       height: 360,
       child: DataTable2(
@@ -550,9 +375,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     );
   }
 
-  SizedBox secondTableWidget() {
+  SizedBox appraisalMaster() {
     return SizedBox(
-      height: 400,
+      height: 11 * 40,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -928,7 +753,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   //=============================Increament upgration===========================================
   Container increametGradeUpgrationWidget() {
     return Container(
-      color: Color.fromARGB(255, 170, 196, 220),
+      color: const Color.fromARGB(255, 170, 196, 220),
       //color: Color.fromARGB(255, 180, 206, 184),
       height: 160,
       child: Padding(
@@ -952,18 +777,20 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      height: 28,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 250, 250, 250),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: const TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    )),
+                        height: 28,
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 250, 250, 250),
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: const Text('Increment Amount')
+                        // const TextField(
+                        //   textAlign: TextAlign.center,
+                        //   decoration: InputDecoration(
+                        //     border: InputBorder.none,
+                        //   ),
+                        // ),
+                        )),
               )
             ],
           ),
@@ -1038,6 +865,36 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             ],
           ),
         ]),
+      ),
+    );
+  }
+}
+
+class FfInformationWidget extends StatelessWidget {
+  const FfInformationWidget(
+      {super.key, required this.staticKey, required this.value});
+  final String staticKey;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+              flex: 4,
+              child: Text(
+                staticKey,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )),
+          const Expanded(
+              child: Text(
+            ":",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
+          Expanded(flex: 7, child: Text(value))
+        ],
       ),
     );
   }

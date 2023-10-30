@@ -78,6 +78,9 @@ class RetStr {
   final String? targetValue2;
   final String? soldValue1;
   final String? soldValue2;
+  final String? lastAction;
+  final String? step;
+  final String? rowId;
   final String? achievement1;
   final String? achievement2;
   final String? avgSales1;
@@ -110,6 +113,14 @@ class RetStr {
   final String? discipFullPoints;
   final String? skillFullPoints;
   final String? qualitySalesFullPoints;
+  final String? honestyAndIntegrity;
+  final String? discipline;
+  final String? skill;
+  final String? qualityOfSales;
+  final String? incrementAmount;
+  final String? upgradeGrade;
+  final String? designationChange;
+  final String? feedback;
 
   RetStr({
     this.cid,
@@ -128,6 +139,9 @@ class RetStr {
     this.targetValue2,
     this.soldValue1,
     this.soldValue2,
+    this.lastAction,
+    this.step,
+    this.rowId,
     this.achievement1,
     this.achievement2,
     this.avgSales1,
@@ -160,6 +174,14 @@ class RetStr {
     this.discipFullPoints,
     this.skillFullPoints,
     this.qualitySalesFullPoints,
+    this.honestyAndIntegrity,
+    this.discipline,
+    this.skill,
+    this.qualityOfSales,
+    this.incrementAmount,
+    this.upgradeGrade,
+    this.designationChange,
+    this.feedback,
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
@@ -179,6 +201,9 @@ class RetStr {
         targetValue2: json["target_value_2"],
         soldValue1: json["sold_value_1"],
         soldValue2: json["sold_value_2"],
+        lastAction: json["last_action"],
+        step: json["step"],
+        rowId: json["row_id"],
         achievement1: json["achievement_1"],
         achievement2: json["achievement_2"],
         avgSales1: json["avg_sales_1"],
@@ -211,6 +236,14 @@ class RetStr {
         discipFullPoints: json["discip_full_points"],
         skillFullPoints: json["skill_full_points"],
         qualitySalesFullPoints: json["quality_sales_full_points"],
+        honestyAndIntegrity: json["honesty_and_integrity"],
+        discipline: json["discipline"],
+        skill: json["skill"],
+        qualityOfSales: json["quality_of_sales"],
+        incrementAmount: json["increment_amount"],
+        upgradeGrade: json["upgrade_grade"],
+        designationChange: json["designation_change"],
+        feedback: json["feedback"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -230,6 +263,9 @@ class RetStr {
         "target_value_2": targetValue2,
         "sold_value_1": soldValue1,
         "sold_value_2": soldValue2,
+        "last_action": lastAction,
+        "step": step,
+        "row_id": rowId,
         "achievement_1": achievement1,
         "achievement_2": achievement2,
         "avg_sales_1": avgSales1,
@@ -262,6 +298,14 @@ class RetStr {
         "discip_full_points": discipFullPoints,
         "skill_full_points": skillFullPoints,
         "quality_sales_full_points": qualitySalesFullPoints,
+        "honesty_and_integrity": honestyAndIntegrity,
+        "discipline": discipline,
+        "skill": skill,
+        "quality_of_sales": qualityOfSales,
+        "increment_amount": incrementAmount,
+        "upgrade_grade": upgradeGrade,
+        "designation_change": designationChange,
+        "feedback": feedback,
       };
 }
 
@@ -304,7 +348,7 @@ var fFDetailsJson = {
         "av_rx_4p_base_point": "3.55",
         "av_rx_emr_base_point": "8.92",
         "ach_chemist_cov_base_point": "77.14",
-        "exam_performance_base_point": "",
+        "exam_performance_base_point": "0",
         "no_ach_month_base_point": "0.0",
         "no_letter_issued": "",
         "cause": "",

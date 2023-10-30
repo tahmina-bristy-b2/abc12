@@ -82,11 +82,12 @@ class AppraisalDataprovider {
     return response;
   } //======================== Get appraisal Field Force data ===============
 
-  Future appraisalFFDetails(
-      String syncUrl, String cid, String userId, String userPass) async {
+  Future appraisalFFDetails(String syncUrl, String cid, String userId,
+      String userPass, String restParams) async {
     final http.Response response;
     response = await http.get(
-        Uri.parse(AppraisalApis.ffDetailsApi(syncUrl, cid, userId, userPass)),
+        Uri.parse(AppraisalApis.ffDetailsApi(
+            syncUrl, cid, userId, userPass, restParams)),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });

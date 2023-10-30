@@ -136,6 +136,7 @@ class AppraisalRepository {
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
           appraisalFfData = appraisalFfDataModelFromJson(response.body);
+          // appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
           return appraisalFfData;
         } else {
           AllServices().toastMessage(
@@ -150,30 +151,37 @@ class AppraisalRepository {
             14);
       }
     } catch (e) {
-      appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
-      // AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+      // appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalFfData;
   }
 
   //======================== Get Appraisal Approval Field Force Details Data For Approval ==================
   Future<AppraisalApprovalFfDetailsDataModel?> getAppraisalApprovalFFDetails(
-      String syncUrl, String cid, String userId, String userPass) async {
+      String syncUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String restParams) async {
     AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
     try {
       http.Response response = await AppraisalDataprovider()
-          .appraisalFFDetails(syncUrl, cid, userId, userPass);
+          .appraisalFFDetails(syncUrl, cid, userId, userPass, restParams);
       var resData = json.decode(response.body);
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
-          // appraisalApprovalFfDetailsData =
-          // appraisalApprovalFfDetailsDataModelFromJson(response.body);
           appraisalApprovalFfDetailsData =
-              appraisalApprovalFfDetailsDataModelFromJson(
-                  json.encode(fFDetailsJson));
+              appraisalApprovalFfDetailsDataModelFromJson(response.body);
+          // appraisalApprovalFfDetailsData =
+          //     appraisalApprovalFfDetailsDataModelFromJson(
+          //         json.encode(fFDetailsJson));
 
           return appraisalApprovalFfDetailsData;
         } else {
+          // appraisalApprovalFfDetailsData =
+          //     appraisalApprovalFfDetailsDataModelFromJson(
+          //         json.encode(fFDetailsJson));
           AllServices().toastMessage(
               resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
           return appraisalApprovalFfDetailsData;
@@ -186,9 +194,9 @@ class AppraisalRepository {
             14);
       }
     } catch (e) {
-      appraisalApprovalFfDetailsData =
-          appraisalApprovalFfDetailsDataModelFromJson(
-              json.encode(fFDetailsJson));
+      // appraisalApprovalFfDetailsData =
+      //     appraisalApprovalFfDetailsDataModelFromJson(
+      //         json.encode(fFDetailsJson));
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalApprovalFfDetailsData;

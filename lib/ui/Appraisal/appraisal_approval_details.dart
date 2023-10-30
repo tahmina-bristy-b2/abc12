@@ -11,10 +11,12 @@ class AppraisalApprovalDetails extends StatefulWidget {
       {super.key,
       required this.cid,
       required this.userPass,
-      this.callBackFuntion});
+      this.callBackFuntion,
+      required this.restParams});
   final String cid;
   final String userPass;
   final Function? callBackFuntion;
+  final String restParams;
 
   @override
   State<AppraisalApprovalDetails> createState() =>
@@ -42,7 +44,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    getAppraisalApprovalFFDetailsdata(); // FF means Field force
+    getAppraisalApprovalFFDetailsdata(
+        widget.restParams); // FF means Field force
+  }
+
+  String toCaculateMasterAchievedPoint(String vaseValue, String fullPoint) {
+    if (vaseValue == '' || fullPoint == '') {
+      return '0';
+    } else {
+      double result = double.parse(fullPoint) * (double.parse(vaseValue) / 100);
+      return result.toStringAsFixed(2);
+    }
   }
 
   @override
@@ -177,15 +189,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const SizedBox(
                   height: 8,
                 ),
-                appraisalMaster(),
+                appraisalMaster(appraisalDetails[index]),
                 const SizedBox(
                   height: 8,
                 ),
-                reasonActionWidget(),
+                reasonActionWidget(appraisalDetails[index]),
                 const SizedBox(
                   height: 8,
                 ),
-                increametGradeUpgrationWidget(),
+                increametGradeUpgrationWidget(appraisalDetails[index]),
                 const SizedBox(
                   height: 8,
                 ),
@@ -214,8 +226,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             ),
                           ),
                           child: TextField(
+                            readOnly: true,
                             textAlign: TextAlign.center,
-                            controller: feeddbackController,
+                            controller: TextEditingController(
+                                text: appraisalDetails[index].feedback ?? ''),
                             decoration: const InputDecoration(
                               hintText: 'Feedback/value of work',
                               border: InputBorder.none,
@@ -455,7 +469,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     );
   }
 
-  SizedBox appraisalMaster() {
+  SizedBox appraisalMaster(RetStr appraisalMaster) {
     return SizedBox(
       height: 11 * 40,
       child: DataTable2(
@@ -508,88 +522,125 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 ))),
           ],
           rows: [
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("1"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("1"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sales Achievement  "))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        appraisalMaster.salesAchievementFullPoints ?? ''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(toCaculateMasterAchievedPoint(
+                        appraisalMaster.salesAchievementBasePoint ?? '',
+                        appraisalMaster.salesAchievementFullPoints ?? '')))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        '${appraisalMaster.salesAchievementBasePoint ?? ''}%'))),
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("2"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("2"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Av. Rx Share (4P)"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.avRx4PFullPoints ?? ''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(toCaculateMasterAchievedPoint(
+                        appraisalMaster.avRx4PBasePoint ?? '',
+                        appraisalMaster.avRx4PFullPoints ?? '')))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text('${appraisalMaster.avRx4PBasePoint ?? ''}%'))),
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("3"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("3"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Av. Rx Share (EMR) "))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.avRxEmrFullPoints ?? ''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(toCaculateMasterAchievedPoint(
+                        appraisalMaster.avRxEmrBasePoint ?? '',
+                        appraisalMaster.avRxEmrFullPoints ?? '')))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text('${appraisalMaster.avRxEmrBasePoint ?? ''}%'))),
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("4"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("4"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child:
+                        Text(appraisalMaster.achChemistCovFullPoints ?? ''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(toCaculateMasterAchievedPoint(
+                        appraisalMaster.achChemistCovBasePoint ?? '',
+                        appraisalMaster.achChemistCovFullPoints ?? '')))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        '${appraisalMaster.achChemistCovBasePoint ?? ''}%')))
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("5"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("5"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Exam Performance"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child:
+                        Text(appraisalMaster.examPerformanceFullPoints ?? ''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(toCaculateMasterAchievedPoint(
+                        appraisalMaster.examPerformanceBasePoint ?? '',
+                        appraisalMaster.examPerformanceFullPoints ?? '')))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        '${appraisalMaster.examPerformanceBasePoint ?? '0'}%')))
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("6"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("6"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Achieved Months "))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.noAchMonthFullPoints ?? ''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(toCaculateMasterAchievedPoint(
+                        appraisalMaster.noAchMonthBasePoint ?? '',
+                        appraisalMaster.noAchMonthFullPoints ?? '')))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child:
+                        Text('${appraisalMaster.noAchMonthBasePoint ?? '0'}%')))
               ],
             ),
             DataRow2(
@@ -598,19 +649,22 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Honesty & Integrity"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.honestyFullPoints ?? ''))),
                 DataCell(
                   Align(
                       alignment: Alignment.centerRight,
                       child: Container(
                         height: 28,
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 157, 191, 219),
+                          color: Color.fromARGB(255, 222, 211, 235),
                           shape: BoxShape.rectangle,
                         ),
                         child: TextField(
-                          controller: honestintegrityController,
+                          readOnly: true,
+                          controller: TextEditingController(
+                              text: appraisalMaster.honestyAndIntegrity ?? ''),
                           textAlign: TextAlign.center,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -618,8 +672,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         ),
                       )),
                 ),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text("")))
               ],
             ),
             DataRow2(
@@ -628,19 +682,22 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Discipline"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.discipFullPoints ?? ''))),
                 DataCell(
                   Align(
                       alignment: Alignment.centerRight,
                       child: Container(
                         height: 28,
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 157, 191, 219),
+                          color: Color.fromARGB(255, 222, 211, 235),
                           shape: BoxShape.rectangle,
                         ),
                         child: TextField(
-                          controller: disciplineController,
+                          readOnly: true,
+                          controller: TextEditingController(
+                              text: appraisalMaster.discipline ?? ''),
                           textAlign: TextAlign.center,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -657,28 +714,31 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Center(child: Text("9"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft, child: Text("Skill"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.skillFullPoints ?? ''))),
                 DataCell(
                   Align(
                       alignment: Alignment.centerRight,
                       child: Container(
                         height: 28,
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 157, 191, 219),
+                          color: Color.fromARGB(255, 222, 211, 235),
                           shape: BoxShape.rectangle,
                         ),
                         child: TextField(
-                          controller: skillController,
+                          readOnly: true,
                           textAlign: TextAlign.center,
+                          controller: TextEditingController(
+                              text: appraisalMaster.skill ?? ''),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
                         ),
                       )),
                 ),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text("")))
               ],
             ),
             DataRow2(
@@ -687,28 +747,31 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Quality of Sales "))),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalMaster.qualitySalesFullPoints ?? ''))),
                 DataCell(
                   Align(
                       alignment: Alignment.centerRight,
                       child: Container(
                         height: 28,
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 157, 191, 219),
+                          color: Color.fromARGB(255, 222, 211, 235),
                           shape: BoxShape.rectangle,
                         ),
                         child: TextField(
+                          readOnly: true,
                           textAlign: TextAlign.center,
-                          controller: qualityofSellsController,
+                          controller: TextEditingController(
+                              text: appraisalMaster.qualityOfSales ?? ''),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
                         ),
                       )),
                 ),
-                const DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text("")))
               ],
             ),
             const DataRow2(
@@ -745,7 +808,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   }
 
 //========================================reason action widget======================================
-  Container reasonActionWidget() {
+  Container reasonActionWidget(RetStr appraisalOthers) {
     return Container(
       color: const Color(0xffF8CBAD),
       height: 110,
@@ -753,76 +816,77 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "No. of Letter Issued",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text(""))
+              Expanded(
+                  flex: 7, child: Text(appraisalOthers.noLetterIssued ?? ''))
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "Cause/Reason",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text(""))
+              Expanded(flex: 7, child: Text(appraisalOthers.cause ?? ''))
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "Action Taken",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text(""))
+              Expanded(flex: 7, child: Text(appraisalOthers.action ?? ''))
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "No. of Incidence",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text("0"))
+              Expanded(flex: 7, child: Text(appraisalOthers.noIncidence ?? ''))
             ],
           ),
         ]),
@@ -831,7 +895,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   }
 
   //=============================Increament upgration===========================================
-  Container increametGradeUpgrationWidget() {
+  Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
     return Container(
       color: const Color.fromARGB(255, 170, 196, 220),
       //color: Color.fromARGB(255, 180, 206, 184),
@@ -854,23 +918,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               )),
               Expanded(
                 flex: 7,
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                        height: 28,
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 250, 250, 250),
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: const Text('Increment Amount')
-                        // const TextField(
-                        //   textAlign: TextAlign.center,
-                        //   decoration: InputDecoration(
-                        //     border: InputBorder.none,
-                        //   ),
-                        // ),
-                        )),
+                child: Container(
+                    height: 28,
+                    padding: const EdgeInsets.only(left: 60, top: 5),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 250, 250, 250),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Text(appraisalOthers2.incrementAmount ?? "")),
               )
             ],
           ),
@@ -897,11 +952,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   child: Theme(
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
-                      value: isUpgrade,
+                      value:
+                          appraisalOthers2.upgradeGrade == '1' ? true : false,
                       onChanged: (bool? value) {
-                        setState(() {
-                          isUpgrade = value!;
-                        });
+                        // setState(() {
+                        //   isUpgrade = value!;
+                        // });
                       },
                     ),
                   ),
@@ -932,11 +988,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   child: Theme(
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
-                      value: isDesignationChange,
+                      value: appraisalOthers2.designationChange == '1'
+                          ? true
+                          : false,
                       onChanged: (bool? value) {
-                        setState(() {
-                          isDesignationChange = value!;
-                        });
+                        // setState(() {
+                        //   isDesignationChange = value!;
+                        // });
                       },
                     ),
                   ),
@@ -949,10 +1007,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     );
   }
 
-  getAppraisalApprovalFFDetailsdata() async {
+  getAppraisalApprovalFFDetailsdata(String restParams) async {
     appraisalApprovalFfDetailsData = await AppraisalRepository()
-        .getAppraisalApprovalFFDetails(
-            dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
+        .getAppraisalApprovalFFDetails(dmpathData!.syncUrl, widget.cid,
+            userInfo!.userId, widget.userPass, restParams);
 
     if (appraisalApprovalFfDetailsData != null) {
       setState(() {

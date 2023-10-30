@@ -639,8 +639,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         appraisalMaster.noAchMonthFullPoints ?? '')))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child:
-                        Text('${appraisalMaster.noAchMonthBasePoint ?? '0'}%')))
+                    child: Text(appraisalMaster.noAchMonthBasePoint ?? '0')))
               ],
             ),
             DataRow2(
@@ -774,10 +773,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     Align(alignment: Alignment.centerRight, child: Text("")))
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text(""))),
-                DataCell(Align(
+                const DataCell(Center(child: Text(""))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Total ",
@@ -785,25 +784,75 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     ))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      "60.65",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ))),
+                    child: totalAchfullPoints(appraisalMaster))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      "67.06",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ))),
+                    child: totalAchPoints(appraisalMaster))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      "67.06",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )))
+                    child: totalAchBaseValue(appraisalMaster))),
               ],
             ),
           ]),
+    );
+  }
+
+  Text totalAchfullPoints(RetStr appraisalMaster) {
+    return Text(
+      (double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') +
+              double.parse(appraisalMaster.avRx4PFullPoints ?? '0') +
+              double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') +
+              double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') +
+              double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') +
+              double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') +
+              double.parse(appraisalMaster.honestyFullPoints ?? '0') +
+              double.parse(appraisalMaster.discipFullPoints ?? '0') +
+              double.parse(appraisalMaster.skillFullPoints ?? '0') +
+              double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))
+          .toStringAsFixed(2),
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  Text totalAchPoints(RetStr appraisalMaster) {
+    return Text(
+      (double.parse(toCaculateMasterAchievedPoint(
+                  appraisalMaster.salesAchievementBasePoint ?? '',
+                  appraisalMaster.salesAchievementFullPoints ?? '')) +
+              double.parse(toCaculateMasterAchievedPoint(
+                  appraisalMaster.avRx4PBasePoint ?? '',
+                  appraisalMaster.avRx4PFullPoints ?? '')) +
+              double.parse(toCaculateMasterAchievedPoint(
+                  appraisalMaster.avRxEmrBasePoint ?? '',
+                  appraisalMaster.avRxEmrFullPoints ?? '')) +
+              double.parse(toCaculateMasterAchievedPoint(
+                  appraisalMaster.achChemistCovBasePoint ?? '',
+                  appraisalMaster.achChemistCovFullPoints ?? '')) +
+              double.parse(toCaculateMasterAchievedPoint(
+                  appraisalMaster.examPerformanceBasePoint ?? '',
+                  appraisalMaster.examPerformanceFullPoints ?? '')) +
+              double.parse(toCaculateMasterAchievedPoint(
+                  appraisalMaster.noAchMonthBasePoint ?? '',
+                  appraisalMaster.noAchMonthFullPoints ?? '')) +
+              double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
+              double.parse(appraisalMaster.discipline ?? '0') +
+              double.parse(appraisalMaster.skill ?? '0') +
+              double.parse(appraisalMaster.qualityOfSales ?? '0'))
+          .toStringAsFixed(2),
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  Text totalAchBaseValue(RetStr appraisalMaster) {
+    return Text(
+      '${(double.parse((appraisalMaster.salesAchievementBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.achChemistCovBasePoint ?? '0')) + double.parse((appraisalMaster.examPerformanceBasePoint == '' ? '0' : appraisalMaster.examPerformanceBasePoint ?? '0')) + double.parse((appraisalMaster.noAchMonthBasePoint ?? '0'))
+          // +
+          // double.parse((appraisalMaster.honestyFullPoints ?? '0')) +
+          // double.parse((appraisalMaster.discipFullPoints ?? '0')) +
+          // double.parse((appraisalMaster.skillFullPoints ?? '0')) +
+          // double.parse((appraisalMaster.qualitySalesFullPoints ?? '0'))
+          ).toStringAsFixed(2)}%',
+      style: const TextStyle(fontWeight: FontWeight.bold),
     );
   }
 

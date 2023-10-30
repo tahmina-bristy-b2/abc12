@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
@@ -150,6 +151,39 @@ class AppraisalRepository {
       }
     } catch (e) {
       appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
+      // AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return appraisalFfData;
+  }
+
+  //======================== Get Appraisal Approval Field Force Details Data For Approval ==================
+  Future<AppraisalApprovalFfDetailsDataModel?> getAppraisalApprovalFFDetails(
+      String syncUrl, String cid, String userId, String userPass) async {
+    AppraisalApprovalFfDetailsDataModel? appraisalFfData;
+    try {
+      http.Response response = await AppraisalDataprovider()
+          .appraisalFFDetails(syncUrl, cid, userId, userPass);
+      var resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          appraisalFfData =
+              appraisalApprovalFfDetailsDataModelFromJson(response.body);
+          return appraisalFfData;
+        } else {
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return appraisalFfData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      appraisalFfData = appraisalApprovalFfDetailsDataModelFromJson(
+          json.encode(fFDetailsJson));
       // AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalFfData;

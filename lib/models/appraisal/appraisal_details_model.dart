@@ -43,44 +43,48 @@ class RestModel {
   final String designation;
   final String presentGrade;
   final String businessSegment;
-  final DateTime dateOfJoining;
+  final String dateOfJoining;
   final String lastPromotion;
   final String lengthOfService;
   final String trCode;
   final String baseTerritory;
   final String lengthOfPresentTrService;
-  final String field11;
-  final String salesAchievement;
-  final String doctorCoverage;
-  final String seenRx;
-  final String fourP;
-  final String emr;
-  final String result1;
-  final String result2;
-  final String result3;
-  final String result4;
-  final String field22;
-  final String esoralMups;
-  final String losectil;
-  final String ostocalG;
-  final String biltin;
-  final String nabument;
-  final String facid;
-  final String lulizol;
-  final String etorix;
-  final String flucloxin;
-  final String norium;
-  final String reelife;
-  final String roxim;
-  final String kefuclav;
-  final String solbion;
-  final String pg;
-  final String productKnowledgeAndDetailsSkills;
-  final String field44;
-  final String numberOfAchievementMsos;
-  final String creditManagement;
-  final String field55;
-  final String productivityGrowth;
+  final String targetValue1;
+  final String targetValue2;
+  final String soldValue1;
+  final String soldValue2;
+  final String achievement1;
+  final String achievement2;
+  final String avgSales1;
+  final String avgSales2;
+  final String avgSales4p1;
+  final String avgSales4p2;
+  final String avgSalesEmr1;
+  final String avgSalesEmr2;
+  final String noMonthAchiev1;
+  final String noMonthAchiev2;
+  final String chemistCov1;
+  final String chemistCov2;
+  final String salesAchievementBasePoint;
+  final String avRx4pBasePoint;
+  final String avRxEmrBasePoint;
+  final String achChemistCovBasePoint;
+  final String examPerformanceBasePoint;
+  final String noAchMonthBasePoint;
+  final String noLetterIssued;
+  final String cause;
+  final String action;
+  final String noIncidence;
+  final String salesAchievementFullPoints;
+  final String avRx4pFullPoints;
+  final String avRxEmrFullPoints;
+  final String achChemistCovFullPoints;
+  final String examPerformanceFullPoints;
+  final String noAchMonthFullPoints;
+  final String honestyFullPoints;
+  final String discipFullPoints;
+  final String skillFullPoints;
+  final String qualitySalesFullPoints;
 
   RestModel({
     required this.cid,
@@ -95,134 +99,94 @@ class RestModel {
     required this.trCode,
     required this.baseTerritory,
     required this.lengthOfPresentTrService,
-    required this.field11,
-    required this.salesAchievement,
-    required this.doctorCoverage,
-    required this.seenRx,
-    required this.fourP,
-    required this.emr,
-    required this.result1,
-    required this.result2,
-    required this.result3,
-    required this.result4,
-    required this.field22,
-    required this.esoralMups,
-    required this.losectil,
-    required this.ostocalG,
-    required this.biltin,
-    required this.nabument,
-    required this.facid,
-    required this.lulizol,
-    required this.etorix,
-    required this.flucloxin,
-    required this.norium,
-    required this.reelife,
-    required this.roxim,
-    required this.kefuclav,
-    required this.solbion,
-    required this.pg,
-    required this.productKnowledgeAndDetailsSkills,
-    required this.field44,
-    required this.numberOfAchievementMsos,
-    required this.creditManagement,
-    required this.field55,
-    required this.productivityGrowth,
+    required this.targetValue1,
+    required this.targetValue2,
+    required this.soldValue1,
+    required this.soldValue2,
+    required this.achievement1,
+    required this.achievement2,
+    required this.avgSales1,
+    required this.avgSales2,
+    required this.avgSales4p1,
+    required this.avgSales4p2,
+    required this.avgSalesEmr1,
+    required this.avgSalesEmr2,
+    required this.noMonthAchiev1,
+    required this.noMonthAchiev2,
+    required this.chemistCov1,
+    required this.chemistCov2,
+    required this.salesAchievementBasePoint,
+    required this.avRx4pBasePoint,
+    required this.avRxEmrBasePoint,
+    required this.achChemistCovBasePoint,
+    required this.examPerformanceBasePoint,
+    required this.noAchMonthBasePoint,
+    required this.noLetterIssued,
+    required this.cause,
+    required this.action,
+    required this.noIncidence,
+    required this.salesAchievementFullPoints,
+    required this.avRx4pFullPoints,
+    required this.avRxEmrFullPoints,
+    required this.achChemistCovFullPoints,
+    required this.examPerformanceFullPoints,
+    required this.noAchMonthFullPoints,
+    required this.honestyFullPoints,
+    required this.discipFullPoints,
+    required this.skillFullPoints,
+    required this.qualitySalesFullPoints,
   });
 
-  factory RestModel.fromJson(Map<String, dynamic> json) => RestModel(
-        cid: json["cid"],
-        employeeId: json["employee_id"],
-        empName: json["emp_name"],
-        designation: json["designation"],
-        presentGrade: json["present_grade"],
-        businessSegment: json["business_segment"],
-        dateOfJoining: DateTime.parse(json["date_of_joining"]),
-        lastPromotion: json["last_promotion"],
-        lengthOfService: json["length_of_service"],
-        trCode: json["tr_code"],
-        baseTerritory: json["base_territory"],
-        lengthOfPresentTrService: json["length_of_present_tr_service"],
-        field11: json["field_11"],
-        salesAchievement: json["sales_achievement"],
-        doctorCoverage: json["doctor_coverage"],
-        seenRx: json["seen_rx"],
-        fourP: json["four_p"],
-        emr: json["emr"],
-        result1: json["result_1"],
-        result2: json["result_2"],
-        result3: json["result_3"],
-        result4: json["result_4"],
-        field22: json["field_22"],
-        esoralMups: json["esoral_mups"],
-        losectil: json["losectil"],
-        ostocalG: json["ostocal_g"],
-        biltin: json["biltin"],
-        nabument: json["nabument"],
-        facid: json["facid"],
-        lulizol: json["lulizol"],
-        etorix: json["etorix"],
-        flucloxin: json["flucloxin"],
-        norium: json["norium"],
-        reelife: json["reelife"],
-        roxim: json["roxim"],
-        kefuclav: json["kefuclav"],
-        solbion: json["solbion"],
-        pg: json["pg"],
-        productKnowledgeAndDetailsSkills:
-            json["product_knowledge_and_details_skills"],
-        field44: json["field_44"],
-        numberOfAchievementMsos: json["number_of_achievement_msos"],
-        creditManagement: json["credit_management"],
-        field55: json["field_55"],
-        productivityGrowth: json["productivity_growth"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "cid": cid,
-        "employee_id": employeeId,
-        "emp_name": empName,
-        "designation": designation,
-        "present_grade": presentGrade,
-        "business_segment": businessSegment,
-        "date_of_joining":
-            "${dateOfJoining.year.toString().padLeft(4, '0')}-${dateOfJoining.month.toString().padLeft(2, '0')}-${dateOfJoining.day.toString().padLeft(2, '0')}",
-        "last_promotion": lastPromotion,
-        "length_of_service": lengthOfService,
-        "tr_code": trCode,
-        "base_territory": baseTerritory,
-        "length_of_present_tr_service": lengthOfPresentTrService,
-        "field_11": field11,
-        "sales_achievement": salesAchievement,
-        "doctor_coverage": doctorCoverage,
-        "seen_rx": seenRx,
-        "four_p": fourP,
-        "emr": emr,
-        "result_1": result1,
-        "result_2": result2,
-        "result_3": result3,
-        "result_4": result4,
-        "field_22": field22,
-        "esoral_mups": esoralMups,
-        "losectil": losectil,
-        "ostocal_g": ostocalG,
-        "biltin": biltin,
-        "nabument": nabument,
-        "facid": facid,
-        "lulizol": lulizol,
-        "etorix": etorix,
-        "flucloxin": flucloxin,
-        "norium": norium,
-        "reelife": reelife,
-        "roxim": roxim,
-        "kefuclav": kefuclav,
-        "solbion": solbion,
-        "pg": pg,
-        "product_knowledge_and_details_skills":
-            productKnowledgeAndDetailsSkills,
-        "field_44": field44,
-        "number_of_achievement_msos": numberOfAchievementMsos,
-        "credit_management": creditManagement,
-        "field_55": field55,
-        "productivity_growth": productivityGrowth,
-      };
+  factory RestModel.fromJson(Map<String, dynamic> json) {
+    return RestModel(
+      cid: json['cid'],
+      employeeId: json['employee_id'],
+      empName: json['emp_name'],
+      designation: json['designation'],
+      presentGrade: json['present_grade'],
+      businessSegment: json['business_segment'],
+      dateOfJoining: json['date_of_joining'],
+      lastPromotion: json['last_promotion'],
+      lengthOfService: json['length_of_service'],
+      trCode: json['tr_code'],
+      baseTerritory: json['base_territory'],
+      lengthOfPresentTrService: json['length_of_present_tr_service'],
+      targetValue1: json['target_value_1'],
+      targetValue2: json['target_value_2'],
+      soldValue1: json['sold_value_1'],
+      soldValue2: json['sold_value_2'],
+      achievement1: json['achievement_1'],
+      achievement2: json['achievement_2'],
+      avgSales1: json['avg_sales_1'],
+      avgSales2: json['avg_sales_2'],
+      avgSales4p1: json['avg_sales_4p_1'],
+      avgSales4p2: json['avg_sales_4p_2'],
+      avgSalesEmr1: json['avg_sales_emr_1'],
+      avgSalesEmr2: json['avg_sales_emr_2'],
+      noMonthAchiev1: json['no_month_achiev_1'],
+      noMonthAchiev2: json['no_month_achiev_2'],
+      chemistCov1: json['chemist_cov_1'],
+      chemistCov2: json['chemist_cov_2'],
+      salesAchievementBasePoint: json['sales_achievement_base_point'],
+      avRx4pBasePoint: json['av_rx_4p_base_point'],
+      avRxEmrBasePoint: json['av_rx_emr_base_point'],
+      achChemistCovBasePoint: json['ach_chemist_cov_base_point'],
+      examPerformanceBasePoint: json['exam_performance_base_point'],
+      noAchMonthBasePoint: json['no_ach_month_base_point'],
+      noLetterIssued: json['no_letter_issued'],
+      cause: json['cause'],
+      action: json['action'],
+      noIncidence: json['no_incidence'],
+      salesAchievementFullPoints: json['sales_achievement_full_points'],
+      avRx4pFullPoints: json['av_rx_4p_full_points'],
+      avRxEmrFullPoints: json['av_rx_emr_full_points'],
+      achChemistCovFullPoints: json['ach_chemist_cov_full_points'],
+      examPerformanceFullPoints: json['exam_performance_full_points'],
+      noAchMonthFullPoints: json['no_ach_month_full_points'],
+      honestyFullPoints: json['honesty_full_points'],
+      discipFullPoints: json['discip_full_points'],
+      skillFullPoints: json['skill_full_points'],
+      qualitySalesFullPoints: json['quality_sales_full_points'],
+    );
+  }
 }

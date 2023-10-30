@@ -30,13 +30,12 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   AppraisalEmployee? appraisalEmployee;
-  List<FfList> userFflist = [];
+  List<FfList> employeeList = [];
   bool isLoading = true;
   bool _searchExpand = false;
   bool _color = false;
   double height = 0.0;
   String title = "Employee";
-
   @override
   initState() {
     super.initState();
@@ -70,6 +69,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
               : appraisalEmployee!.resData.supLevelDepthNo == '2'
                   ? 'MSO List'
                   : 'Employee List';
+      employeeList = appraisalEmployee!.resData.ffList;
       setState(() {
         isLoading = false;
       });
@@ -106,6 +106,12 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                         height = 0.0;
                       }
                     });
+
+                    if (_searchExpand == false) {
+                      _searchController.clear();
+                      employeeList = appraisalEmployee!.resData.ffList;
+                      setState(() {});
+                    }
                   },
                   icon: const Icon(Icons.search_outlined))
               : Container()
@@ -140,8 +146,9 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        userFflist = AppraisalServices().searchEmployee(
+                        employeeList = AppraisalServices().searchEmployee(
                             value, appraisalEmployee!.resData.ffList);
+                        print("searc Data==$employeeList");
                       });
                     },
                   )
@@ -183,7 +190,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   Expanded appraisalEmployeeView(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-          itemCount: appraisalEmployee!.resData.ffList.length,
+          itemCount: employeeList.length,
           itemBuilder: (itemBuilder, index) {
             return Card(
               child: ListTile(
@@ -195,13 +202,12 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                     height: 50,
                     width: 50,
                     child: Center(
-                        child: Text(appraisalEmployee!
-                            .resData.ffList[index].empName
-                            .substring(0, 2))),
+                        child:
+                            Text(employeeList[index].empName.substring(0, 2))),
                   ),
-                  title: Text(appraisalEmployee!.resData.ffList[index].empName),
-                  subtitle: Text(
-                      'Employee id: ${appraisalEmployee!.resData.ffList[index].employeeId}'),
+                  title: Text(employeeList[index].empName),
+                  subtitle:
+                      Text('Employee id: ${employeeList[index].employeeId}'),
                   trailing: IconButton(
                       onPressed: () {
                         if (widget.pageState == 'Approval') {
@@ -218,10 +224,10 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                                         cid: widget.cid,
                                         levelDepth: appraisalEmployee!
                                             .resData.supLevelDepthNo,
-                                        employeeId: appraisalEmployee!
-                                            .resData.ffList[index].employeeId,
                                         userId: userInfo!.userId,
                                         userPass: widget.userPass,
+                                        employeeId:
+                                            employeeList[index].employeeId,
                                       )));
                         }
                       },

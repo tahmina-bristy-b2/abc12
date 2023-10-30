@@ -1,49 +1,51 @@
 import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
+import 'package:MREPORTING/utils/constant.dart';
 
 class AppraisalServices {
-  List<FfList> searchEmployee(String enteredekeye, List<FfList> ffList) {
+  List<FfList> searchEmployee(String enterTheKey, List<FfList> ffList) {
     List<FfList> searchData = ffList;
     List<FfList> results = [];
-    if (enteredekeye.isEmpty || enteredekeye == '') {
+    if (enterTheKey.isEmpty || enterTheKey == '') {
       results = searchData;
     } else {
       var starts = searchData
           .where((element) =>
               element.empName
                   .toLowerCase()
-                  .startsWith(enteredekeye.toLowerCase()) ||
+                  .startsWith(enterTheKey.toLowerCase()) ||
               element.employeeId
                   .toLowerCase()
-                  .startsWith(enteredekeye.toLowerCase()) ||
+                  .startsWith(enterTheKey.toLowerCase()) ||
               element.areaId
                   .toLowerCase()
-                  .startsWith(enteredekeye.toLowerCase()))
+                  .startsWith(enterTheKey.toLowerCase()))
           .toList();
       var contains = searchData
           .where((element) =>
               (element.empName
                       .toLowerCase()
-                      .contains(enteredekeye.toLowerCase()) ||
+                      .contains(enterTheKey.toLowerCase()) ||
                   element.employeeId
                       .toLowerCase()
-                      .contains(enteredekeye.toLowerCase()) ||
+                      .contains(enterTheKey.toLowerCase()) ||
                   element.areaId
                       .toLowerCase()
-                      .contains(enteredekeye.toLowerCase())) &&
+                      .contains(enterTheKey.toLowerCase())) &&
               !(element.empName
                       .toLowerCase()
-                      .startsWith(enteredekeye.toLowerCase()) ||
+                      .startsWith(enterTheKey.toLowerCase()) ||
                   element.employeeId
                       .toLowerCase()
-                      .startsWith(enteredekeye.toLowerCase()) ||
+                      .startsWith(enterTheKey.toLowerCase()) ||
                   element.areaId
                       .toLowerCase()
-                      .startsWith(enteredekeye.toLowerCase())))
+                      .startsWith(enterTheKey.toLowerCase())))
           .toList();
 
       results = [...starts, ...contains];
     }
+    //print("result============================$result");
     return results;
   }
 

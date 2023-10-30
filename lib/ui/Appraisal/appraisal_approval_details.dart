@@ -241,7 +241,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 210,
+                fixedWidth: 190,
                 label: Center(
                     child: Text(
                   "KPI Name",
@@ -399,7 +399,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 210,
+                fixedWidth: 190,
                 label: Center(
                     child: Text(
                   "KPI Name",
@@ -413,14 +413,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 120,
                 label: Center(
                     child: Text(
                   "Achieved Points",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 130,
+                fixedWidth: 120,
                 label: Center(
                     child: Text(
                   "Base value(2021)",

@@ -1,4 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -59,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
+  List<RegionList>? regionListData;
 
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -80,6 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     AllServices().getLatLong();
+    if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
+      regionListData =
+          Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SharedPreferences.getInstance().then((prefs) {
@@ -1391,11 +1397,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: CustomBuildButton(
                                     icon: Icons.add,
                                     onClick: () async {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const EDcrScreen()));
+                                      if (regionListData != null) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const EDcrScreen()));
+                                      } else {
+                                        AllServices().toastMessage(
+                                            "eDSR data not found, Sync first...",
+                                            Colors.red,
+                                            Colors.white,
+                                            16);
+                                        setState(() {});
+                                      }
                                     },
                                     title: 'Add eDSR',
                                     sizeWidth: screenWidth,

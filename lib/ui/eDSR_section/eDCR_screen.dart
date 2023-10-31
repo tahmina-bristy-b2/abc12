@@ -81,78 +81,87 @@ class _EDcrScreenState extends State<EDcrScreen> {
               padding: const EdgeInsets.all(6.0),
               child: Row(
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: (value) {
-                        result = box!.toMap().values.toList();
-                        result = AllServices().doctorSearch(value, result,
-                            'doc_name', 'area_name', 'area_id', 'address');
-                        setState(() {});
-                      },
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: 'Search Doctor',
-                        suffixIcon: searchController.text.isEmpty &&
-                                searchController.text == ''
-                            ? const Icon(Icons.search)
-                            : IconButton(
-                                onPressed: () {
-                                  searchController.clear();
-                                  result = box!.toMap().values.toList();
+                  result.isNotEmpty
+                      ? Expanded(
+                          flex: 4,
+                          child: TextField(
+                            controller: searchController,
+                            onChanged: (value) {
+                              result = box!.toMap().values.toList();
+                              result = AllServices().doctorSearch(
+                                  value,
+                                  result,
+                                  'doc_name',
+                                  'area_name',
+                                  'area_id',
+                                  'address');
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: 'Search Doctor',
+                              suffixIcon: searchController.text.isEmpty &&
+                                      searchController.text == ''
+                                  ? const Icon(Icons.search)
+                                  : IconButton(
+                                      onPressed: () {
+                                        searchController.clear();
+                                        result = box!.toMap().values.toList();
 
-                                  setState(() {
-                                    result = AllServices().doctorSearch(
-                                        '',
-                                        result,
-                                        'doc_name',
-                                        'area_name',
-                                        'area_id',
-                                        'address');
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.clear,
-                                  color: Colors.black,
-                                ),
-                              ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                                        setState(() {
+                                          result = AllServices().doctorSearch(
+                                              '',
+                                              result,
+                                              'doc_name',
+                                              'area_name',
+                                              'area_id',
+                                              'address');
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.clear,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                  result.isNotEmpty
+                      ? const SizedBox(
+                          width: 10,
+                        )
+                      : const SizedBox(),
                   //******************************************************eDsr doctor Selection******************************************* */
                   Expanded(
                       child: InkWell(
                     onTap: () async {
-                      if (regionListData != null) {
-                        await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return EDsrDoctorSelection(
-                                  callbackData: mapData,
-                                  callbackFuc: (value) {
-                                    region = value["Region"];
-                                    area = value["Area"];
-                                    territory = value["Territory"];
-                                    dSRType = value["dsr_Type"];
-                                    setState(() {});
-                                  });
-                            });
-                        setState(() {
-                          box = Hive.box("doctorList");
-                          result = box!.toMap().values.toList();
-                        });
-                      } else {
-                        AllServices().toastMessage(
-                            "eDSR Settings Information Did not Found, Sync Again",
-                            Colors.red,
-                            Colors.white,
-                            16);
-                        setState(() {});
-                      }
+                      // if (regionListData != null) {
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return EDsrDoctorSelection(
+                                callbackData: mapData,
+                                callbackFuc: (value) {
+                                  region = value["Region"];
+                                  area = value["Area"];
+                                  territory = value["Territory"];
+                                  dSRType = value["dsr_Type"];
+                                  setState(() {});
+                                });
+                          });
+                      setState(() {
+                        box = Hive.box("doctorList");
+                        result = box!.toMap().values.toList();
+                      });
+                      // } else {
+                      //   AllServices().toastMessage(
+                      //       "eDSR Settings Information Did not Found, Sync Again",
+                      //       Colors.red,
+                      //       Colors.white,
+                      //       16);
+                      //   setState(() {});
+                      // }
                       // if (regionListData != null) {
                       //   await showDialog(
                       //       context: context,
@@ -199,7 +208,23 @@ class _EDcrScreenState extends State<EDcrScreen> {
                         decoration: BoxDecoration(
                             border: Border.all(),
                             borderRadius: BorderRadius.circular(8)),
-                        child: const Icon(Icons.add_box_sharp, size: 40)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            result.isEmpty
+                                ? const Text(
+                                    "Add Doctor/Client ",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color.fromARGB(255, 54, 110, 63),
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : const SizedBox(),
+                            const Icon(Icons.add_box_sharp,
+                                color: Color.fromARGB(255, 138, 201, 149),
+                                size: 40),
+                          ],
+                        )),
                   ))
                 ],
               ),

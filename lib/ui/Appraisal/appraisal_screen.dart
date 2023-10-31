@@ -7,6 +7,8 @@ import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:toast/toast.dart';
+import 'dart:math';
 
 class ApprisalScreen extends StatefulWidget {
   String cid;
@@ -31,15 +33,25 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   DmPathDataModel? dmpathData;
   AppraisalDetailsModel? appraisalDetailsModel;
   bool hasAppraisaldata = false;
-  TextEditingController honestintegrityController = TextEditingController();
+  TextEditingController honestintegrityController =
+      TextEditingController(text: "");
   TextEditingController disciplineController = TextEditingController();
   TextEditingController skillController = TextEditingController();
-  TextEditingController qualityofSellsController = TextEditingController();
+  TextEditingController qualityofSellsController =
+      TextEditingController(text: "");
   TextEditingController incrementController = TextEditingController();
   TextEditingController feeddbackController = TextEditingController();
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
+  double totalAchievedPoint = 0.0;
+  double totalController = 0.0;
+
+  double salesAchieved = 0.0;
+  double avgRx4pShared = 0.0;
+  double avgRxEMrShared = 0.0;
+  double chemistCov = 0.0;
+  double examPerformance = 0.0;
 
   @override
   void initState() {
@@ -70,9 +82,21 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         widget.employeeId);
 
     if (appraisalDetailsModel != null) {
-      setState(() {
-        hasAppraisaldata = true;
-      });
+      if (appraisalDetailsModel!.resData.retStr.isNotEmpty) {
+        totalEachAchievedPointsDis();
+        setState(() {
+          hasAppraisaldata = true;
+        });
+      } else {
+        AllServices().toastMessage(
+            "Employee appraisal information data not found",
+            Colors.red,
+            Colors.white,
+            16);
+        setState(() {
+          hasAppraisaldata = false;
+        });
+      }
     } else {
       setState(() {
         hasAppraisaldata = false;
@@ -80,43 +104,87 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     }
   }
 
-  //==========================================Each Achieved Points =============================================
-  String eachAchievedPoints(fullpoints, String basePoints) {
-    String achievedPoints =
-        ((double.parse(fullpoints)) * (double.parse(basePoints) / 100))
-            .toStringAsFixed(1);
-    return achievedPoints;
+  // //==========================================Each Achieved Points =============================================
+  double salesMethod() {
+    return ((double.parse(appraisalDetailsModel!
+            .resData.retStr.first.salesAchievementFullPoints)) *
+        (double.parse(appraisalDetailsModel!
+                .resData.retStr.first.salesAchievementBasePoint) /
+            100));
+  }
+
+  double avgRx4pMethod() {
+    return ((double.parse(
+            appraisalDetailsModel!.resData.retStr.first.avRx4pFullPoints)) *
+        (double.parse(
+                appraisalDetailsModel!.resData.retStr.first.avRx4pBasePoint) /
+            100));
+  }
+
+  double avgRxEMrSharedMethod() {
+    return ((double.parse(
+            appraisalDetailsModel!.resData.retStr.first.avRxEmrFullPoints)) *
+        (double.parse(
+                appraisalDetailsModel!.resData.retStr.first.avRxEmrBasePoint) /
+            100));
+  }
+
+  double chemistCovMethod() {
+    return ((double.parse(appraisalDetailsModel!
+            .resData.retStr.first.achChemistCovFullPoints)) *
+        (double.parse(appraisalDetailsModel!
+                .resData.retStr.first.achChemistCovBasePoint) /
+            100));
+  }
+
+  double examPerformanceMethod() {
+    return ((double.parse(appraisalDetailsModel!
+            .resData.retStr.first.examPerformanceFullPoints)) *
+        (double.parse(appraisalDetailsModel!
+                        .resData.retStr.first.examPerformanceBasePoint ==
+                    ""
+                ? "0.0"
+                : appraisalDetailsModel!
+                    .resData.retStr.first.examPerformanceBasePoint) /
+            100));
+  }
+
+  //================== each points data=========================
+  double totalEachAchievedPointsDis() {
+    return salesMethod() +
+        avgRx4pMethod() +
+        avgRxEMrSharedMethod() +
+        chemistCovMethod() +
+        examPerformanceMethod() +
+        totaAchievedCountfinal();
+  }
+
+  //============================base value counte method=================================
+  double totalBasevalue() {
+    double percent =
+        ((totaAchievedCountfinal() / totalEachAchievedPointsDis()) * 100);
+    setState(() {});
+    return percent;
+  }
+
+  //======================================total achieved count=====================
+  double totaAchievedCountfinal() {
+    totalController = double.parse(honestintegrityController.text == ''
+            ? "0.0"
+            : honestintegrityController.text) +
+        double.parse(disciplineController.text == ''
+            ? "0.0"
+            : disciplineController.text) +
+        double.parse(
+            skillController.text == '' ? "0.0" : skillController.text) +
+        double.parse(qualityofSellsController.text == ''
+            ? "0.0"
+            : qualityofSellsController.text);
+    return totalController;
   }
 
   //==========================================total points calcuation=========================
   String totalcalculation() {
-    return (double.parse(appraisalDetailsModel!
-                .resData.retStr.first.salesAchievementFullPoints) +
-            double.parse(
-                appraisalDetailsModel!.resData.retStr.first.avRx4pFullPoints) +
-            double.parse(
-                appraisalDetailsModel!.resData.retStr.first.avRxEmrFullPoints) +
-            double.parse(appraisalDetailsModel!
-                .resData.retStr.first.achChemistCovFullPoints) +
-            double.parse(appraisalDetailsModel!
-                .resData.retStr.first.examPerformanceFullPoints) +
-            double.parse(appraisalDetailsModel!
-                .resData.retStr.first.noAchMonthFullPoints) +
-            double.parse(
-                appraisalDetailsModel!.resData.retStr.first.honestyFullPoints) +
-            double.parse(
-                appraisalDetailsModel!.resData.retStr.first.discipFullPoints) +
-            double.parse(
-                appraisalDetailsModel!.resData.retStr.first.skillFullPoints) +
-            double.parse(appraisalDetailsModel!
-                .resData.retStr.first.qualitySalesFullPoints))
-        .toString();
-  }
-  //============================================== total acieved points =====================================
-  //String
-
-  //==========================================total achieved points calcuation===============================
-  String totalAchievedCalculation() {
     return (double.parse(appraisalDetailsModel!
                 .resData.retStr.first.salesAchievementFullPoints) +
             double.parse(
@@ -278,9 +346,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     ),
                     RowWidget(
                         title: "Achieved Point",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].presentGrade
-                            .toString()),
+                        description:
+                            totalEachAchievedPointsDis().toStringAsFixed(1)),
                     const SizedBox(
                       height: 8,
                     ),
@@ -461,113 +528,164 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
-          rows: const [
+          rows: [
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("1"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("1"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Target (Value in lac)"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.targetValue1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.targetValue2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("2"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("2"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.soldValue1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.soldValue2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("3"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("3"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Achievement (%)"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.achievement1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.achievement2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("4"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("4"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Sales/Month "))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSales1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSales2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("5"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("5"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSales4p1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSales4p2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("6"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("6"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSalesEmr1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSalesEmr2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("7"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("7"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text(""))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgRxGrowth
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("8"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("8"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.noMonthAchiev1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.noMonthAchiev2
+                        .toString())))
               ],
             ),
             DataRow2(
               cells: [
-                DataCell(Center(child: Text("9"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("9"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.chemistCov1
+                        .toString()))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.chemistCov2
+                        .toString())))
               ],
             ),
           ]),
@@ -577,7 +695,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   //======================================= Appraisal Master Widget==============================================
   SizedBox appraisalMasterWidget() {
     return SizedBox(
-      height: 400,
+      height: 425,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -638,13 +756,12 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
                         .resData.retStr.first.salesAchievementFullPoints))),
-                DataCell(Align(
+                DataCell(
+                  Align(
                     alignment: Alignment.centerRight,
-                    child: Text(eachAchievedPoints(
-                        appraisalDetailsModel!
-                            .resData.retStr.first.salesAchievementFullPoints,
-                        appraisalDetailsModel!
-                            .resData.retStr.first.salesAchievementBasePoint)))),
+                    child: Text(salesMethod().toStringAsFixed(1)),
+                  ),
+                ),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -663,11 +780,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         .resData.retStr.first.avRx4pFullPoints))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(eachAchievedPoints(
-                        appraisalDetailsModel!
-                            .resData.retStr.first.avRx4pFullPoints,
-                        appraisalDetailsModel!
-                            .resData.retStr.first.avRx4pBasePoint)))),
+                    child: Text(avgRx4pMethod().toStringAsFixed(1)))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -686,11 +799,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         .resData.retStr.first.avRxEmrFullPoints))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(eachAchievedPoints(
-                        appraisalDetailsModel!
-                            .resData.retStr.first.avRxEmrFullPoints,
-                        appraisalDetailsModel!
-                            .resData.retStr.first.avRxEmrBasePoint)))),
+                    child: Text(avgRxEMrSharedMethod().toStringAsFixed(1)))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -709,11 +818,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         .resData.retStr.first.achChemistCovFullPoints))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(eachAchievedPoints(
-                        appraisalDetailsModel!
-                            .resData.retStr.first.achChemistCovFullPoints,
-                        appraisalDetailsModel!
-                            .resData.retStr.first.achChemistCovBasePoint)))),
+                    child: Text(chemistCovMethod().toStringAsFixed(1)))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -732,15 +837,11 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         .resData.retStr.first.examPerformanceFullPoints))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(eachAchievedPoints(
-                        appraisalDetailsModel!
-                            .resData.retStr.first.examPerformanceFullPoints,
-                        appraisalDetailsModel!
-                            .resData.retStr.first.achChemistCovBasePoint)))),
+                    child: Text(examPerformanceMethod().toString()))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                        "${appraisalDetailsModel!.resData.retStr.first.achChemistCovBasePoint}%")))
+                        "${appraisalDetailsModel!.resData.retStr.first.examPerformanceBasePoint == "" ? "0.0" : appraisalDetailsModel!.resData.retStr.first.examPerformanceBasePoint}%")))
               ],
             ),
             DataRow2(
@@ -784,11 +885,17 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         ),
                         child: TextField(
                           controller: honestintegrityController,
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
+                          keyboardType: const TextInputType.numberWithOptions(
+                            //signed: true,
+                            decimal: true,
+                          ),
+                          textAlign: TextAlign.right,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (String? value) {
+                            setState(() {});
+                          },
                         ),
                       )),
                 ),
@@ -818,10 +925,13 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         child: TextField(
                           controller: disciplineController,
                           keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.right,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                       )),
                 ),
@@ -850,7 +960,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         child: TextField(
                           controller: skillController,
                           keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.right,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
@@ -881,9 +994,12 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           shape: BoxShape.rectangle,
                         ),
                         child: TextField(
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.right,
                           controller: qualityofSellsController,
                           keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
@@ -909,16 +1025,16 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       totalcalculation(),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ))),
-                const DataCell(Align(
+                DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "67.06",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      totalEachAchievedPointsDis().toStringAsFixed(1),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ))),
-                const DataCell(Align(
+                DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "67.06",
+                      totalBasevalue().toStringAsFixed(1),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )))
               ],
@@ -936,76 +1052,90 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "No. of Letter Issued",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text(""))
+              Expanded(
+                  flex: 7,
+                  child: Text(appraisalDetailsModel!
+                      .resData.retStr.first.noLetterIssued
+                      .toString()))
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "Cause/Reason",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text(""))
+              Expanded(
+                  flex: 7,
+                  child: Text(appraisalDetailsModel!.resData.retStr.first.cause
+                      .toString()))
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "Action Taken",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text(""))
+              Expanded(
+                  flex: 7,
+                  child: Text(appraisalDetailsModel!.resData.retStr.first.action
+                      .toString()))
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                   flex: 9,
                   child: Text(
                     "No. of Incidence",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-              Expanded(
+              const Expanded(
                   child: Text(
                 ":",
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
-              Expanded(flex: 7, child: Text("0"))
+              Expanded(
+                  flex: 7,
+                  child: Text(appraisalDetailsModel!
+                      .resData.retStr.first.noIncidence
+                      .toString()))
             ],
           ),
         ]),

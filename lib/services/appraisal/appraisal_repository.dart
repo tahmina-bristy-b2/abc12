@@ -52,13 +52,14 @@ class AppraisalRepository {
       http.Response response = await AppraisalDataprovider()
           .getEmployeeAppraisal(
               url, cid, userId, userPass, levelDepth, employeeId);
+      Map<String, dynamic> body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        appraisalDetailsModel = appraisalDetailsModelFromJson(response.body);
-        if (appraisalDetailsModel.resData.status == "Success") {
+        if (body["res_data"]["status"] == "Success") {
+          appraisalDetailsModel = appraisalDetailsModelFromJson(response.body);
         } else {
-          AllServices().toastMessage("${appraisalDetailsModel.resData.retStr}",
-              Colors.red, Colors.white, 16);
+          AllServices().toastMessage(
+              "${body["res_data"]["ret_str"]}", Colors.red, Colors.white, 16);
           return appraisalDetailsModel;
         }
       } else {

@@ -235,30 +235,6 @@ class _EDcrScreenState extends State<EDcrScreen> {
                                       dsrType: dSRType,
                                       index: index,
                                     )));
-                        // widget.getList.first.docName =
-                        //     result[index]['doc_name'];
-                        // widget.getList.first.docId = result[index]['doc_id'];
-                        // widget.getList.first.areaName =
-                        //     result[index]['area_name'];
-                        // widget.getList.first.areaId = result[index]['area_id'];
-                        // widget.getList.first.address = result[index]['address'];
-                        // widget.getListFunction(widget.getList);
-                        // //finalDoctorList.clear();
-
-                        // // finalDoctorListfirst.docName =
-                        // //     result[index]['doc_name'];
-                        // // finalDoctorList.first.docId = result[index]['doc_id'];
-                        // // finalDoctorList.first.areaName =
-                        // //     result[index]['area_name'];
-                        // // finalDoctorList.first.address =
-                        // //     result[index]['address'];
-
-                        // // docName = result[index]['doc_name'];
-                        // // docArea = "";
-                        // // docAreaId = "";
-                        // // docAreaAddreess = "";
-
-                        // Navigator.pop(context);
                       },
                       child: Container(
                         decoration: BoxDecoration(

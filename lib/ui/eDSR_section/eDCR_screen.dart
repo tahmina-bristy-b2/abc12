@@ -68,7 +68,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-          title: const Text("eDSR Doctor List"),
+          title: const Text("eDSR Doctor/Client List"),
           titleTextStyle: const TextStyle(
               color: Color.fromARGB(255, 27, 56, 34),
               fontWeight: FontWeight.w500,
@@ -99,7 +99,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
                             },
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
-                              labelText: 'Search Doctor',
+                              labelText: 'Search Doctor/Client.....',
                               suffixIcon: searchController.text.isEmpty &&
                                       searchController.text == ''
                                   ? const Icon(Icons.search)
@@ -136,7 +136,6 @@ class _EDcrScreenState extends State<EDcrScreen> {
                   Expanded(
                       child: InkWell(
                     onTap: () async {
-                      // if (regionListData != null) {
                       await showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -154,54 +153,6 @@ class _EDcrScreenState extends State<EDcrScreen> {
                         box = Hive.box("doctorList");
                         result = box!.toMap().values.toList();
                       });
-                      // } else {
-                      //   AllServices().toastMessage(
-                      //       "eDSR Settings Information Did not Found, Sync Again",
-                      //       Colors.red,
-                      //       Colors.white,
-                      //       16);
-                      //   setState(() {});
-                      // }
-                      // if (regionListData != null) {
-                      //   await showDialog(
-                      //       context: context,
-                      //       builder: (BuildContext context) {
-                      //         return OrphanDoctor(
-                      //             doctorList: widget.getList,
-                      //             tempListFunc: (value) {
-                      //               widget.getList = value;
-                      //               widget.getListFunction(widget
-                      //                   .getList); //added this is callback function
-
-                      //               setState(() {});
-                      //             });
-                      //       });
-                      //   setState(() {
-                      //     box = Hive.box("doctorList");
-                      //     result = box!.toMap().values.toList();
-                      //   });
-                      // } else {
-                      //   RxAllServices().toastMessage(
-                      //       "Doctor regionList did not found, sync again",
-                      //       Colors.red,
-                      //       Colors.white,
-                      //       16);
-                      //   setState(() {});
-                      // }
-
-                      // // await showDialog(
-                      // //     context: context,
-                      // //     builder: (BuildContext context) {
-                      // //       return OrphanDoctor(
-                      // //           doctorList: widget.getList,
-                      // //           tempListFunc: (value) {
-                      // //             widget.getList = value;
-                      // //             widget.getListFunction(widget
-                      // //                 .getList); //added this is callback function
-
-                      // //             setState(() {});
-                      // //           });
-                      // //     });
                     },
                     child: Container(
                         height: 58,

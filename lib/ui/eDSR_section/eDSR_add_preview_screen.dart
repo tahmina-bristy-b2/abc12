@@ -309,7 +309,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Expanded(flex: 3, child: Text('Brand Details')),
-                    Text(':'),
+                    Text(''),
                     Expanded(
                       flex: 8,
                       child: Text(' '),

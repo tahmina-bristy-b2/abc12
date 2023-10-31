@@ -134,7 +134,7 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Doctor List Area",
+                    "Doctor/Client List Area",
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -150,7 +150,7 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Doctor Type *"),
+                  child: Text("Type *"),
                 ),
                 const SizedBox(
                   height: 10,
@@ -172,7 +172,7 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
                                   child: DropdownButtonFormField(
                                     isExpanded: true,
                                     value: initialDoctorType,
-                                    hint: const Text("Select Doctor Type"),
+                                    hint: const Text("Select Type"),
                                     iconSize: 30,
                                     items: dcrTypeList!.map((item) {
                                       return DropdownMenuItem<String>(
@@ -423,7 +423,7 @@ class _EDsrDoctorSelectionState extends State<EDsrDoctorSelection> {
                                 interNetErrorMsg, Colors.red, Colors.white, 16);
                           }
                         },
-                        child: const Text("Get Doctor List"))
+                        child: const Text("Get Doctor/Client List"))
                     : const Center(
                         child: CircularProgressIndicator(),
                       )

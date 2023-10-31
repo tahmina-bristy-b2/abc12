@@ -78,7 +78,7 @@ class _ApprovalAppraisalFieldForceState
       ),
       body: SafeArea(
           child: isLoading
-              ? Expanded(child: dataLoadingView())
+              ? dataLoadingView()
               : appraisalFfData == null ||
                       appraisalFfData!.resData.dataList.isEmpty
                   ? Center(

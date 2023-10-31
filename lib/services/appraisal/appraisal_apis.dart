@@ -27,5 +27,12 @@ class AppraisalApis {
       "${url}api_appraisal_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=$userPass&sup_level_depth_no=$levelDepth&employee_id=$employeeId&honesty_and_integrity=$honestyIntegrity&discipline=$discipline&skill=$skill&quality_of_sales=$qualitySales&increment_amount=$incrementAmount&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedback";
 
   static ffApi(String syncUrl, String cid, String userId, String usrPass) =>
-      '${syncUrl}api_appraisal_skf/get_area_rep?cid=$cid&user_id=$userId&user_pass=$usrPass';
+      '${syncUrl}api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$usrPass';
+
+  static ffDetailsApi(String syncUrl, String cid, String userId, String usrPass,
+          String restParams) =>
+      '${syncUrl}api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+  static ffapprovalSubmitApi(String syncUrl, String cid, String userId,
+          String usrPass, String restParams) =>
+      '${syncUrl}api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
 }

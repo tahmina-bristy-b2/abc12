@@ -77,42 +77,7 @@ class _ApprovalAppraisalFieldForceState
         ],
       ),
       body: SafeArea(
-          child: Column(
-        children: [
-          AnimatedContainer(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            // color: Colors.amber,
-            duration: const Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                    color: _color
-                        ? const Color.fromARGB(255, 138, 201, 149)
-                        : Colors.black)),
-            height: height,
-            child: _searchExpand
-                ? TextFormField(
-                    autofocus: false,
-                    keyboardType: TextInputType.name,
-                    textInputAction: TextInputAction.done,
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(bottom: 0, left: 10, top: 5),
-                      hintText: 'FF name/Territory id',
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        userFflist = AppraisalServices()
-                            .searchFf(value, appraisalFfData!.resData.dataList);
-                      });
-                    },
-                  )
-                : Container(),
-          ),
-          isLoading
+          child: isLoading
               ? Expanded(child: dataLoadingView())
               : appraisalFfData == null ||
                       appraisalFfData!.resData.dataList.isEmpty
@@ -139,9 +104,46 @@ class _ApprovalAppraisalFieldForceState
                         )
                       ]),
                     )
-                  : appraisalFFView(context),
-        ],
-      )),
+                  : Column(
+                      children: [
+                        AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          // color: Colors.amber,
+                          duration: const Duration(milliseconds: 500),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                  color: _color
+                                      ? const Color.fromARGB(255, 138, 201, 149)
+                                      : Colors.black)),
+                          height: height,
+                          child: _searchExpand
+                              ? TextFormField(
+                                  autofocus: false,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 5),
+                                    hintText: 'FF name/Territory id',
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userFflist = AppraisalServices().searchFf(
+                                          value,
+                                          appraisalFfData!.resData.dataList);
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        appraisalFFView(context),
+                      ],
+                    )),
     );
   }
 
@@ -177,18 +179,25 @@ class _ApprovalAppraisalFieldForceState
                   trailing: IconButton(
                       onPressed: () {
                         if (widget.pageState == 'Approval') {
+                          String restParams =
+                              'submit_by=${userFflist[index].submitBy}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => AppraisalApprovalDetails(
+                                  cid: widget.cid,
+                                  userPass: widget.userPass,
+                                  restParams: restParams,
                                   callBackFuntion: (value) {
-                                _searchController.clear();
-                                userFflist = appraisalFfData!.resData.dataList;
-                                height = 0.0;
-                                _searchExpand = false;
-                                _color = false;
-                                setState(() {});
-                              }),
+                                    _searchController.clear();
+                                    userFflist =
+                                        appraisalFfData!.resData.dataList;
+                                    height = 0.0;
+                                    _searchExpand = false;
+                                    _color = false;
+                                    getAppraisalFFdata();
+                                    setState(() {});
+                                  }),
                             ),
                           );
                         }

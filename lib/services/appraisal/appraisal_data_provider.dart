@@ -82,4 +82,32 @@ class AppraisalDataprovider {
         });
     return response;
   }
+
+  //======================== Get appraisal Field Force data ===============
+
+  Future appraisalFFDetails(String syncUrl, String cid, String userId,
+      String userPass, String restParams) async {
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(AppraisalApis.ffDetailsApi(
+            syncUrl, cid, userId, userPass, restParams)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
+
+  //======================== Get appraisal Field Force data ===============
+
+  Future appraisalFFApprovalSubmit(String syncUrl, String cid, String userId,
+      String userPass, String restParams) async {
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(AppraisalApis.ffapprovalSubmitApi(
+            syncUrl, cid, userId, userPass, restParams)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
 }

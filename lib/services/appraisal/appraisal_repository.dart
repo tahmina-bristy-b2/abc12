@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
@@ -136,6 +137,7 @@ class AppraisalRepository {
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
           appraisalFfData = appraisalFfDataModelFromJson(response.body);
+          // appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
           return appraisalFfData;
         } else {
           AllServices().toastMessage(
@@ -150,9 +152,86 @@ class AppraisalRepository {
             14);
       }
     } catch (e) {
-      appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
-      // AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+      // appraisalFfData = appraisalFfDataModelFromJson(json.encode(fFdata));
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalFfData;
+  }
+
+  //======================== Get Appraisal Approval Field Force Details Data For Approval ==================
+  Future<AppraisalApprovalFfDetailsDataModel?> getAppraisalApprovalFFDetails(
+      String syncUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String restParams) async {
+    AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
+    try {
+      http.Response response = await AppraisalDataprovider()
+          .appraisalFFDetails(syncUrl, cid, userId, userPass, restParams);
+      var resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          appraisalApprovalFfDetailsData =
+              appraisalApprovalFfDetailsDataModelFromJson(response.body);
+          // appraisalApprovalFfDetailsData =
+          //     appraisalApprovalFfDetailsDataModelFromJson(
+          //         json.encode(fFDetailsJson));
+
+          return appraisalApprovalFfDetailsData;
+        } else {
+          // appraisalApprovalFfDetailsData =
+          //     appraisalApprovalFfDetailsDataModelFromJson(
+          //         json.encode(fFDetailsJson));
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return appraisalApprovalFfDetailsData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      // appraisalApprovalFfDetailsData =
+      //     appraisalApprovalFfDetailsDataModelFromJson(
+      //         json.encode(fFDetailsJson));
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return appraisalApprovalFfDetailsData;
+  }
+
+  //======================== Appraisal Approval ==================
+  Future<Map<String, dynamic>> appraisalFFApprovalSubmit(String syncUrl,
+      String cid, String userId, String userPass, String restParams) async {
+    Map<String, dynamic> resData = {};
+    try {
+      http.Response response = await AppraisalDataprovider()
+          .appraisalFFApprovalSubmit(
+              syncUrl, cid, userId, userPass, restParams);
+      resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["status"] == "Success") {
+          AllServices()
+              .toastMessage(resData["ret_str"], Colors.green, Colors.white, 14);
+          return resData;
+        } else {
+          AllServices()
+              .toastMessage(resData["ret_str"], Colors.red, Colors.white, 14);
+          return resData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return resData;
   }
 }

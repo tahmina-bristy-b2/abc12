@@ -790,6 +790,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               height: 45,
                                                               child:
                                                                   TextFormField(
+                                                                inputFormatters: [
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(
+                                                                    RegExp(
+                                                                        "[A-Za-z0-9]"),
+                                                                  ),
+                                                                ],
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .number,
@@ -835,6 +842,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               height: 45,
                                                               child:
                                                                   TextFormField(
+                                                                inputFormatters: [
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(
+                                                                    RegExp(
+                                                                        "[A-Za-z0-9]"),
+                                                                  ),
+                                                                ],
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .number,
@@ -880,6 +894,13 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               height: 45,
                                                               child:
                                                                   TextFormField(
+                                                                inputFormatters: [
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(
+                                                                    RegExp(
+                                                                        "[A-Za-z0-9]"),
+                                                                  ),
+                                                                ],
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .number,

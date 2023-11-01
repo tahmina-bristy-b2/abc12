@@ -18,7 +18,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
   int totalRxperDay = 0;
   int totalEmrX = 0;
   int total4pRX = 0;
-  int totalAmount = 0;
+  double totalAmount = 0;
 
   @override
   void initState() {
@@ -28,26 +28,33 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
       totalAmount,
       2,
     );
-    totalRxperDay = dynamicTotalCalculation(
+    totalRxperDay = dynamicCalculation(
       totalRxperDay,
       1,
     );
-    totalEmrX = dynamicTotalCalculation(
+    totalEmrX = dynamicCalculation(
       totalEmrX,
       3,
     );
-    total4pRX = dynamicTotalCalculation(
+    total4pRX = dynamicCalculation(
       total4pRX,
       4,
     );
   }
 
   //=======================
-
-  int dynamicTotalCalculation(int purposeTotal, int index) {
+  int dynamicCalculation(int purposeTotal, int index) {
     purposeTotal = 0;
     widget.previewData["Brand"].forEach((element) {
-      purposeTotal = purposeTotal + int.parse(element[index]);
+      purposeTotal = purposeTotal + double.parse(element[index]).toInt();
+    });
+    return purposeTotal;
+  }
+
+  double dynamicTotalCalculation(double purposeTotal, int index) {
+    purposeTotal = 0;
+    widget.previewData["Brand"].forEach((element) {
+      purposeTotal = purposeTotal + double.parse(element[index]);
     });
     return purposeTotal;
   }
@@ -485,7 +492,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            "$totalRxperDay",
+                                            totalRxperDay.toString(),
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -496,7 +503,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            "$totalEmrX",
+                                            totalEmrX.toString(),
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -507,7 +514,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                       Expanded(
                                         child: Center(
                                           child: Text(
-                                            "$total4pRX",
+                                            total4pRX.toString(),
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -519,7 +526,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            "$totalAmount",
+                                            totalAmount.toStringAsFixed(2),
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),

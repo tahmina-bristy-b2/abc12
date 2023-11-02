@@ -1034,8 +1034,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      totalBasevalue().toStringAsFixed(1),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "${totalBasevalue().toStringAsFixed(1)} %",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     )))
               ],
             ),

@@ -1281,30 +1281,21 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         ? feeddbackController.text != ""
                             ? await internetCheckForSubmit()
                             : AllServices().toastMessage(
-                                "Enter the value of feedback for this employee first",
+                                "Please provide feedback first ",
                                 Colors.red,
                                 Colors.white,
                                 16)
                         : AllServices().toastMessage(
-                            "Enter the value of quality of sales for this employee first",
+                            "Quality of sales value not found",
                             Colors.red,
                             Colors.white,
                             16)
                     : AllServices().toastMessage(
-                        "Enter the value of skill for this employee first ",
-                        Colors.red,
-                        Colors.white,
-                        16)
+                        "Skill value not found ", Colors.red, Colors.white, 16)
                 : AllServices().toastMessage(
-                    "Enter the value of Descipline for this employee first",
-                    Colors.red,
-                    Colors.white,
-                    16)
-            : AllServices().toastMessage(
-                "Enter the value of Honesty & Integrity for this employee first",
-                Colors.red,
-                Colors.white,
-                16);
+                    "Descipline value not found ", Colors.red, Colors.white, 16)
+            : AllServices().toastMessage("Honesty & Integrity value not found",
+                Colors.red, Colors.white, 16);
       },
       child: Container(
         height: 50,

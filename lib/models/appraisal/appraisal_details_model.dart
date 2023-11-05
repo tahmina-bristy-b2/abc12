@@ -194,8 +194,8 @@ class RestModel {
       discipFullPoints: json['discip_full_points'] ?? '',
       skillFullPoints: json['skill_full_points'] ?? '',
       qualitySalesFullPoints: json['quality_sales_full_points'] ?? '',
-      previousAchievement: json['previous_achievement'] ?? '',
-      currentAchievement: json['current_achievement'] ?? '',
+      previousAchievement: json['previous_achievement'] ?? '    ',
+      currentAchievement: json['current_achievement'] ?? '    ',
     );
   }
 }

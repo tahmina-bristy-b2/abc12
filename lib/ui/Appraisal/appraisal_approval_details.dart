@@ -8,6 +8,7 @@ import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
   const AppraisalApprovalDetails(
@@ -395,7 +396,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "${DateTime.now().year}(jan-Dec)",
+                  "${DateTime.now().year}(jan-${DateFormat('MMMM').format(DateTime.now()).substring(0, 3)})",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],

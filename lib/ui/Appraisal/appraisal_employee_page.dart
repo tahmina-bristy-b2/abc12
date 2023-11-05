@@ -194,52 +194,40 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
           itemBuilder: (itemBuilder, index) {
             return Card(
               child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ApprisalScreen(
-                                  cid: widget.cid,
-                                  levelDepth: appraisalEmployee!
-                                      .resData.supLevelDepthNo,
-                                  userId: userInfo!.userId,
-                                  userPass: widget.userPass,
-                                  employeeId: employeeList[index].employeeId,
-                                )));
-                  },
-                  leading: Container(
-                    decoration: const ShapeDecoration(
-                      shape: CircleBorder(),
-                      color: Color.fromARGB(255, 138, 201, 149),
-                    ),
-                    height: 50,
-                    width: 50,
-                    child: Center(
-                        child:
-                            Text(employeeList[index].empName.substring(0, 2))),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ApprisalScreen(
+                                cid: widget.cid,
+                                levelDepth:
+                                    appraisalEmployee!.resData.supLevelDepthNo,
+                                userId: userInfo!.userId,
+                                userPass: widget.userPass,
+                                employeeId: employeeList[index].employeeId,
+                              )));
+                },
+                leading: Container(
+                  decoration: const ShapeDecoration(
+                    shape: CircleBorder(),
+                    color: Color.fromARGB(255, 138, 201, 149),
                   ),
-                  title: Text(employeeList[index].empName),
-                  subtitle:
-                      Text('Employee id: ${employeeList[index].employeeId}'),
-                  trailing: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => ApprisalScreen(
-                                      cid: widget.cid,
-                                      levelDepth: appraisalEmployee!
-                                          .resData.supLevelDepthNo,
-                                      userId: userInfo!.userId,
-                                      userPass: widget.userPass,
-                                      employeeId:
-                                          employeeList[index].employeeId,
-                                    )));
-                      },
-                      icon: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Color.fromARGB(255, 138, 201, 149),
-                      ))),
+                  height: 50,
+                  width: 50,
+                  child: Center(
+                      child: Text(employeeList[index].empName.substring(0, 2))),
+                ),
+                title: Text(employeeList[index].empName),
+                subtitle:
+                    Text('Employee id: ${employeeList[index].employeeId}'),
+                trailing: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Color.fromARGB(255, 138, 201, 149),
+                  ),
+                ),
+              ),
             );
           }),
     );

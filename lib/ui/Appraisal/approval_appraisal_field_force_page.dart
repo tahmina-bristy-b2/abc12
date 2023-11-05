@@ -154,92 +154,68 @@ class _ApprovalAppraisalFieldForceState
           itemBuilder: (itemBuilder, index) {
             return Card(
               child: ListTile(
-                  onTap: () {
-                    if (widget.pageState == 'Approval') {
-                      String restParams =
-                          'submit_by=${userFflist[index].submitBy}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => AppraisalApprovalDetails(
-                              cid: widget.cid,
-                              userPass: widget.userPass,
-                              restParams: restParams,
-                              callBackFuntion: (value) {
-                                _searchController.clear();
-                                userFflist = appraisalFfData!.resData.dataList;
-                                height = 0.0;
-                                _searchExpand = false;
-                                _color = false;
-                                getAppraisalFFdata();
-                                setState(() {});
-                              }),
-                        ),
-                      );
-                    }
-                  },
-                  leading: Container(
-                    decoration: const ShapeDecoration(
-                      shape: CircleBorder(),
-                      color: Color.fromARGB(255, 138, 201, 149),
-                    ),
-                    height: 50,
-                    width: 50,
-                    child: Center(
-                        child:
-                            Text(userFflist[index].submitBy.substring(0, 2))),
-                  ),
-                  title: Text(userFflist[index].submitBy),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Territory ID: ${userFflist[index].territoryId}'),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Text('Due: ${userFflist[index].dueCount}'),
+                onTap: () {
+                  if (widget.pageState == 'Approval') {
+                    String restParams =
+                        'submit_by=${userFflist[index].submitBy}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AppraisalApprovalDetails(
+                            cid: widget.cid,
+                            userPass: widget.userPass,
+                            restParams: restParams,
+                            callBackFuntion: (value) {
+                              _searchController.clear();
+                              userFflist = appraisalFfData!.resData.dataList;
+                              height = 0.0;
+                              _searchExpand = false;
+                              _color = false;
+                              getAppraisalFFdata();
+                              setState(() {});
+                            }),
                       ),
-                    ],
+                    );
+                  }
+                },
+                leading: Container(
+                  decoration: const ShapeDecoration(
+                    shape: CircleBorder(),
+                    color: Color.fromARGB(255, 138, 201, 149),
                   ),
-                  trailing: IconButton(
-                      onPressed: () {
-                        if (widget.pageState == 'Approval') {
-                          String restParams =
-                              'submit_by=${userFflist[index].submitBy}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => AppraisalApprovalDetails(
-                                  cid: widget.cid,
-                                  userPass: widget.userPass,
-                                  restParams: restParams,
-                                  callBackFuntion: (value) {
-                                    _searchController.clear();
-                                    userFflist =
-                                        appraisalFfData!.resData.dataList;
-                                    height = 0.0;
-                                    _searchExpand = false;
-                                    _color = false;
-                                    getAppraisalFFdata();
-                                    setState(() {});
-                                  }),
-                            ),
-                          );
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Color.fromARGB(255, 138, 201, 149),
-                      ))
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: const Text(
-                  //     'Details',
-                  //     style: TextStyle(
-                  //       color: Color.fromARGB(255, 138, 201, 149),
-                  //     ),
-                  //   ),
-                  // ),
+                  height: 50,
+                  width: 50,
+                  child: Center(
+                      child: Text(userFflist[index].submitBy.substring(0, 2))),
+                ),
+                title: Text(userFflist[index].submitBy),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Territory ID: ${userFflist[index].territoryId}'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Text('Due: ${userFflist[index].dueCount}'),
+                    ),
+                  ],
+                ),
+                trailing: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Color.fromARGB(255, 138, 201, 149),
                   ),
+                ),
+                // TextButton(
+                //   onPressed: () {},
+                //   child: const Text(
+                //     'Details',
+                //     style: TextStyle(
+                //       color: Color.fromARGB(255, 138, 201, 149),
+                //     ),
+                //   ),
+                // ),
+              ),
             );
           }),
     );

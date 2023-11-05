@@ -388,14 +388,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  (DateTime.now().year - 1).toString(),
+                  "${DateTime.now().year - 1}(jan-Dec)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  (DateTime.now().year).toString(),
+                  "${DateTime.now().year}(jan-Dec)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],

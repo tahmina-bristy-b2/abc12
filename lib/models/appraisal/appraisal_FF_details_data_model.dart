@@ -121,6 +121,9 @@ class RetStr {
   final String? upgradeGrade;
   final String? designationChange;
   final String? feedback;
+  final String? previousAchievement;
+  final String? currentAchievement;
+  final String? avgRxGrowth;
 
   RetStr({
     this.cid,
@@ -182,6 +185,9 @@ class RetStr {
     this.upgradeGrade,
     this.designationChange,
     this.feedback,
+    this.previousAchievement,
+    this.currentAchievement,
+    this.avgRxGrowth,
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
@@ -244,6 +250,9 @@ class RetStr {
         upgradeGrade: json["upgrade_grade"],
         designationChange: json["designation_change"],
         feedback: json["feedback"],
+        previousAchievement: json["previous_achievement"],
+        currentAchievement: json["current_achievement"],
+        avgRxGrowth: json["avg_rx_growth"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -306,6 +315,9 @@ class RetStr {
         "upgrade_grade": upgradeGrade,
         "designation_change": designationChange,
         "feedback": feedback,
+        "previous_achievement": previousAchievement,
+        "current_achievement": currentAchievement,
+        "avg_rx_growth": avgRxGrowth,
       };
 }
 

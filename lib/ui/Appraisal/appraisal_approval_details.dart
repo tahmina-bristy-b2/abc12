@@ -188,10 +188,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
-            const FfInformationWidget(
-                staticKey: "Total Full Point", value: '400'),
-            const FfInformationWidget(
-                staticKey: "Achieved Point", value: '180'),
+            FfInformationWidget(
+                staticKey: "Total Full Point",
+                value: totalAchfullPoints(appraisalDetails[index])),
+            FfInformationWidget(
+                staticKey: "Achieved Point",
+                value: totalAchPoints(appraisalDetails[index])),
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
@@ -389,14 +391,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "${DateTime.now().year - 1}(jan-Dec)",
+                  achievementData.previousAchievement ?? 'Previous Year',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "${DateTime.now().year}(jan-${DateFormat('MMMM').format(DateTime.now()).substring(0, 3)})",
+                  achievementData.currentAchievement ?? 'Current Year',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -485,16 +487,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Text(achievementData.avgSalesEmr2 ?? '')))
               ],
             ),
-            const DataRow2(
+            DataRow2(
               cells: [
-                DataCell(Center(child: Text("7"))),
-                DataCell(Align(
+                const DataCell(Center(child: Text("7"))),
+                const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("60.65"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight, child: Text("67.06")))
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.avgRxGrowth ?? '')))
               ],
             ),
             DataRow2(
@@ -544,29 +547,29 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             },
           ),
           headingRowHeight: 40,
-          columns: const [
-            DataColumn2(
+          columns: [
+            const DataColumn2(
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
                   "SL No",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 190,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 80,
                 label: Center(
                     child: Text(
                   "Full Points",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 120,
                 label: Center(
                     child: Text(
@@ -577,8 +580,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 fixedWidth: 120,
                 label: Center(
                     child: Text(
-                  "Base value(2021)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "Base value(${appraisalMaster.currentAchievement.toString().substring(0, 4)})",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
           rows: [
@@ -844,10 +847,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     ))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: totalAchfullPoints(appraisalMaster))),
+                    child: Text(
+                      totalAchfullPoints(appraisalMaster),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: totalAchPoints(appraisalMaster))),
+                    child: Text(
+                      totalAchPoints(appraisalMaster),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: totalAchBaseValue(appraisalMaster))),
@@ -857,50 +866,44 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     );
   }
 
-  Text totalAchfullPoints(RetStr appraisalMaster) {
-    return Text(
-      (double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') +
-              double.parse(appraisalMaster.avRx4PFullPoints ?? '0') +
-              double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') +
-              double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') +
-              double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') +
-              double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') +
-              double.parse(appraisalMaster.honestyFullPoints ?? '0') +
-              double.parse(appraisalMaster.discipFullPoints ?? '0') +
-              double.parse(appraisalMaster.skillFullPoints ?? '0') +
-              double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))
-          .toStringAsFixed(2),
-      style: const TextStyle(fontWeight: FontWeight.bold),
-    );
+  String totalAchfullPoints(RetStr appraisalMaster) {
+    return (double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') +
+            double.parse(appraisalMaster.avRx4PFullPoints ?? '0') +
+            double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') +
+            double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') +
+            double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') +
+            double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') +
+            double.parse(appraisalMaster.honestyFullPoints ?? '0') +
+            double.parse(appraisalMaster.discipFullPoints ?? '0') +
+            double.parse(appraisalMaster.skillFullPoints ?? '0') +
+            double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))
+        .toStringAsFixed(2);
   }
 
-  Text totalAchPoints(RetStr appraisalMaster) {
-    return Text(
-      (double.parse(toCaculateMasterAchievedPoint(
-                  appraisalMaster.salesAchievementBasePoint ?? '',
-                  appraisalMaster.salesAchievementFullPoints ?? '')) +
-              double.parse(toCaculateMasterAchievedPoint(
-                  appraisalMaster.avRx4PBasePoint ?? '',
-                  appraisalMaster.avRx4PFullPoints ?? '')) +
-              double.parse(toCaculateMasterAchievedPoint(
-                  appraisalMaster.avRxEmrBasePoint ?? '',
-                  appraisalMaster.avRxEmrFullPoints ?? '')) +
-              double.parse(toCaculateMasterAchievedPoint(
-                  appraisalMaster.achChemistCovBasePoint ?? '',
-                  appraisalMaster.achChemistCovFullPoints ?? '')) +
-              double.parse(toCaculateMasterAchievedPoint(
-                  appraisalMaster.examPerformanceBasePoint ?? '',
-                  appraisalMaster.examPerformanceFullPoints ?? '')) +
-              double.parse(toCaculateMasterAchievedPoint(
-                  appraisalMaster.noAchMonthBasePoint ?? '',
-                  appraisalMaster.noAchMonthFullPoints ?? '')) +
-              double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
-              double.parse(appraisalMaster.discipline ?? '0') +
-              double.parse(appraisalMaster.skill ?? '0') +
-              double.parse(appraisalMaster.qualityOfSales ?? '0'))
-          .toStringAsFixed(2),
-      style: const TextStyle(fontWeight: FontWeight.bold),
-    );
+  String totalAchPoints(RetStr appraisalMaster) {
+    return (double.parse(toCaculateMasterAchievedPoint(
+                appraisalMaster.salesAchievementBasePoint ?? '',
+                appraisalMaster.salesAchievementFullPoints ?? '')) +
+            double.parse(toCaculateMasterAchievedPoint(
+                appraisalMaster.avRx4PBasePoint ?? '',
+                appraisalMaster.avRx4PFullPoints ?? '')) +
+            double.parse(toCaculateMasterAchievedPoint(
+                appraisalMaster.avRxEmrBasePoint ?? '',
+                appraisalMaster.avRxEmrFullPoints ?? '')) +
+            double.parse(toCaculateMasterAchievedPoint(
+                appraisalMaster.achChemistCovBasePoint ?? '',
+                appraisalMaster.achChemistCovFullPoints ?? '')) +
+            double.parse(toCaculateMasterAchievedPoint(
+                appraisalMaster.examPerformanceBasePoint ?? '',
+                appraisalMaster.examPerformanceFullPoints ?? '')) +
+            double.parse(toCaculateMasterAchievedPoint(
+                appraisalMaster.noAchMonthBasePoint ?? '',
+                appraisalMaster.noAchMonthFullPoints ?? '')) +
+            double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
+            double.parse(appraisalMaster.discipline ?? '0') +
+            double.parse(appraisalMaster.skill ?? '0') +
+            double.parse(appraisalMaster.qualityOfSales ?? '0'))
+        .toStringAsFixed(2);
   }
 
   Text totalAchBaseValue(RetStr appraisalMaster) {

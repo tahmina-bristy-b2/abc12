@@ -86,6 +86,8 @@ class RestModel {
   final String discipFullPoints;
   final String skillFullPoints;
   final String qualitySalesFullPoints;
+  final String previousAchievement;
+  final String currentAchievement;
 
   RestModel({
     required this.cid,
@@ -137,6 +139,8 @@ class RestModel {
     required this.discipFullPoints,
     required this.skillFullPoints,
     required this.qualitySalesFullPoints,
+    required this.previousAchievement,
+    required this.currentAchievement,
   });
 
   factory RestModel.fromJson(Map<String, dynamic> json) {
@@ -190,6 +194,8 @@ class RestModel {
       discipFullPoints: json['discip_full_points'] ?? '',
       skillFullPoints: json['skill_full_points'] ?? '',
       qualitySalesFullPoints: json['quality_sales_full_points'] ?? '',
+      previousAchievement: json['previous_achievement'] ?? '',
+      currentAchievement: json['current_achievement'] ?? '',
     );
   }
 }

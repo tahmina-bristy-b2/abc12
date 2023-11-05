@@ -167,7 +167,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   //============================base value counte method=================================
   double totalBasevalue() {
     double percent =
-        ((totaAchievedCountfinal() / totalEachAchievedPointsDis()) * 100);
+        ((totalEachAchievedPointsDis() / double.parse(totalcalculation())) *
+            100);
+
     setState(() {});
     return percent;
   }
@@ -522,14 +524,19 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "${DateTime.now().year - 1}(Jan-Dec)",
+                  appraisalDetailsModel!
+                      .resData.retStr.first.previousAchievement
+                      .toString(),
+                  //"${DateTime.now().year - 1}(Jan-Dec)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "${DateTime.now().year}(Jan-${DateFormat('MMMM').format(DateTime.now()).substring(0, 3)})",
+                  appraisalDetailsModel!.resData.retStr.first.currentAchievement
+                      .toString(),
+                  // "${DateTime.now().year}(Jan-${DateFormat('MMMM').format(DateTime.now()).substring(0, 3)})",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -713,29 +720,29 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             },
           ),
           headingRowHeight: 40,
-          columns: const [
-            DataColumn2(
+          columns: [
+            const DataColumn2(
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
                   "SL No",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 190,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 80,
                 label: Center(
                     child: Text(
                   "Full Points",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
@@ -746,8 +753,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 130,
                 label: Center(
                     child: Text(
-                  "Base value(2021)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "Base value(${appraisalDetailsModel!.resData.retStr.first.currentAchievement.substring(0, 4)})",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
           rows: [
@@ -1279,30 +1286,21 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         ? feeddbackController.text != ""
                             ? await internetCheckForSubmit()
                             : AllServices().toastMessage(
-                                "Enter the value of feedback for this employee first",
+                                "Please provide feedback first ",
                                 Colors.red,
                                 Colors.white,
                                 16)
                         : AllServices().toastMessage(
-                            "Enter the value of quality of sales for this employee first",
+                            "Quality of sales value not found",
                             Colors.red,
                             Colors.white,
                             16)
                     : AllServices().toastMessage(
-                        "Enter the value of skill for this employee first ",
-                        Colors.red,
-                        Colors.white,
-                        16)
+                        "Skill value not found ", Colors.red, Colors.white, 16)
                 : AllServices().toastMessage(
-                    "Enter the value of Descipline for this employee first",
-                    Colors.red,
-                    Colors.white,
-                    16)
-            : AllServices().toastMessage(
-                "Enter the value of Honesty & Integrity for this employee first",
-                Colors.red,
-                Colors.white,
-                16);
+                    "Descipline value not found ", Colors.red, Colors.white, 16)
+            : AllServices().toastMessage("Honesty & Integrity value not found",
+                Colors.red, Colors.white, 16);
       },
       child: Container(
         height: 50,

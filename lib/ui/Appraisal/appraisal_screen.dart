@@ -167,7 +167,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   //============================base value counte method=================================
   double totalBasevalue() {
     double percent =
-        ((totaAchievedCountfinal() / totalEachAchievedPointsDis()) * 100);
+        ((totalEachAchievedPointsDis() / double.parse(totalcalculation())) *
+            100);
+
     setState(() {});
     return percent;
   }

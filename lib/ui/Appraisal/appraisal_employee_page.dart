@@ -148,7 +148,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       setState(() {
                         employeeList = AppraisalServices().searchEmployee(
                             value, appraisalEmployee!.resData.ffList);
-                        print("searc Data==$employeeList");
+                        // print("searc Data==$employeeList");
                       });
                     },
                   )
@@ -194,6 +194,19 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
           itemBuilder: (itemBuilder, index) {
             return Card(
               child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ApprisalScreen(
+                                  cid: widget.cid,
+                                  levelDepth: appraisalEmployee!
+                                      .resData.supLevelDepthNo,
+                                  userId: userInfo!.userId,
+                                  userPass: widget.userPass,
+                                  employeeId: employeeList[index].employeeId,
+                                )));
+                  },
                   leading: Container(
                     decoration: const ShapeDecoration(
                       shape: CircleBorder(),

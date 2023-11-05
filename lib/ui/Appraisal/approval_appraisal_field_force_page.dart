@@ -154,6 +154,30 @@ class _ApprovalAppraisalFieldForceState
           itemBuilder: (itemBuilder, index) {
             return Card(
               child: ListTile(
+                  onTap: () {
+                    if (widget.pageState == 'Approval') {
+                      String restParams =
+                          'submit_by=${userFflist[index].submitBy}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AppraisalApprovalDetails(
+                              cid: widget.cid,
+                              userPass: widget.userPass,
+                              restParams: restParams,
+                              callBackFuntion: (value) {
+                                _searchController.clear();
+                                userFflist = appraisalFfData!.resData.dataList;
+                                height = 0.0;
+                                _searchExpand = false;
+                                _color = false;
+                                getAppraisalFFdata();
+                                setState(() {});
+                              }),
+                        ),
+                      );
+                    }
+                  },
                   leading: Container(
                     decoration: const ShapeDecoration(
                       shape: CircleBorder(),

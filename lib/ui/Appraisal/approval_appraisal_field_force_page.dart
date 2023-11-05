@@ -2,10 +2,13 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/services/appraisal/services.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ApprovalAppraisalFieldForce extends StatefulWidget {
   const ApprovalAppraisalFieldForce(
@@ -255,24 +258,33 @@ class _ApprovalAppraisalFieldForceState
   }
 
   getAppraisalFFdata() async {
-    appraisalFfData = await AppraisalRepository().getAppraisalFFData(
-        dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result) {
+      appraisalFfData = await AppraisalRepository().getAppraisalFFData(
+          dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
 
-    if (appraisalFfData != null) {
-      if (!mounted) return;
-      title = appraisalFfData!.resData.levelDepthNo == '1'
-          ? 'FM'
-          : appraisalFfData!.resData.levelDepthNo == '0'
-              ? 'RSM'
-              : appraisalFfData!.resData.levelDepthNo == '2'
-                  ? 'MSO'
-                  : 'Employee';
-      userFflist = appraisalFfData!.resData.dataList;
-      setState(() {
-        isLoading = false;
-      });
+      if (appraisalFfData != null) {
+        if (!mounted) return;
+        title = appraisalFfData!.resData.levelDepthNo == '1'
+            ? 'FM'
+            : appraisalFfData!.resData.levelDepthNo == '0'
+                ? 'RSM'
+                : appraisalFfData!.resData.levelDepthNo == '2'
+                    ? 'MSO'
+                    : 'Employee';
+        userFflist = appraisalFfData!.resData.dataList;
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        if (!mounted) return;
+        setState(() {
+          isLoading = false;
+        });
+      }
     } else {
-      if (!mounted) return;
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.yellow, Colors.black, 16);
       setState(() {
         isLoading = false;
       });

@@ -7,6 +7,7 @@ import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 import 'dart:math';
 
@@ -96,11 +97,15 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         setState(() {
           hasAppraisaldata = false;
         });
+        if (!mounted) return;
+        Navigator.pop(context);
       }
     } else {
       setState(() {
         hasAppraisaldata = false;
       });
+      if (!mounted) return;
+      Navigator.pop(context);
     }
   }
 
@@ -498,15 +503,15 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             },
           ),
           headingRowHeight: 40,
-          columns: const [
-            DataColumn2(
+          columns: [
+            const DataColumn2(
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
                   "SL No",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 190,
                 label: Center(
                     child: Text(
@@ -517,15 +522,15 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "2020(jan-Dec)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "${DateTime.now().year - 1}(Jan-Dec)",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "2021(jan-Nov)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "${DateTime.now().year}(Jan-${DateFormat('MMMM').format(DateTime.now()).substring(0, 3)})",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
           rows: [

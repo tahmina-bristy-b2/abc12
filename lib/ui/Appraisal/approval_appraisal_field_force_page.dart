@@ -206,15 +206,6 @@ class _ApprovalAppraisalFieldForceState
                     color: Color.fromARGB(255, 138, 201, 149),
                   ),
                 ),
-                // TextButton(
-                //   onPressed: () {},
-                //   child: const Text(
-                //     'Details',
-                //     style: TextStyle(
-                //       color: Color.fromARGB(255, 138, 201, 149),
-                //     ),
-                //   ),
-                // ),
               ),
             );
           }),

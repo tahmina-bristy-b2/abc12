@@ -369,15 +369,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             },
           ),
           headingRowHeight: 40,
-          columns: const [
-            DataColumn2(
+          columns: [
+            const DataColumn2(
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
                   "SL No",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 190,
                 label: Center(
                     child: Text(
@@ -388,15 +388,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "2020(jan-Dec)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  (DateTime.now().year - 1).toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "2021(jan-Nov)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  (DateTime.now().year).toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
           rows: [

@@ -189,19 +189,21 @@ class _ApprovalAppraisalFieldForceState
                   height: 50,
                   width: 50,
                   child: Center(
-                      child: Text(userFflist[index].submitBy.substring(0, 2))),
+                      child:
+                          Text(userFflist[index].territoryId.substring(0, 2))),
                 ),
-                title: Text(userFflist[index].submitBy),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Territory ID: ${userFflist[index].territoryId}'),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text('Due: ${userFflist[index].dueCount}'),
-                    ),
-                  ],
-                ),
+                title: Text(userFflist[index].territoryId),
+                subtitle: Text('Submitted by: ${userFflist[index].submitBy}'),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text('Submitted by: ${userFflist[index].territoryId}'),
+                //     Padding(
+                //       padding: const EdgeInsets.only(left: 10, right: 10),
+                //       child: Text('Due: ${userFflist[index].dueCount}'),
+                //     ),
+                //   ],
+                // ),
                 trailing: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(

@@ -188,12 +188,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
-            FfInformationWidget(
-                staticKey: "Total Full Point",
-                value: totalAchfullPoints(appraisalDetails[index])),
-            FfInformationWidget(
-                staticKey: "Achieved Point",
-                value: totalAchPoints(appraisalDetails[index])),
+            const FfInformationWidget(
+              staticKey: "Total Weitage%",
+              value: '',
+              // value: totalAchfullPoints(appraisalDetails[index]),
+            ),
+            const FfInformationWidget(
+              staticKey: "Achieved Point",
+              value: '',
+              // value: totalAchPoints(appraisalDetails[index]),
+            ),
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
@@ -534,384 +538,457 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   SizedBox appraisalMaster(RetStr appraisalMaster) {
     return SizedBox(
-      height: 11 * 40,
+      height: (appraisalMaster.kpiTable!.length + 3) * 36,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
           horizontalMargin: 8,
           dataRowHeight: 35,
-          minWidth: 800,
+          minWidth: 870,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
             },
           ),
           headingRowHeight: 40,
-          columns: [
-            const DataColumn2(
+          columns: const [
+            DataColumn2(
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
                   "SL No",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            const DataColumn2(
-                fixedWidth: 190,
+            DataColumn2(
+                fixedWidth: 200,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            const DataColumn2(
-                fixedWidth: 80,
+            DataColumn2(
+                fixedWidth: 90,
                 label: Center(
                     child: Text(
-                  "Full Points",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            const DataColumn2(
-                fixedWidth: 120,
-                label: Center(
-                    child: Text(
-                  "Achieved Points",
+                  "Weitage (%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 120,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
-                  "Base value(${appraisalMaster.currentAchievement.toString().substring(0, 4)})",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  "Score (FM)",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ))),
+            DataColumn2(
+                fixedWidth: 150,
+                label: Center(
+                    child: Text(
+                  "Overal Result (FM)",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ))),
+            DataColumn2(
+                fixedWidth: 100,
+                label: Center(
+                    child: Text(
+                  "Score (RSM)",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ))),
+            DataColumn2(
+                fixedWidth: 150,
+                label: Center(
+                    child: Text(
+                  "Overal Result (RSM)",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
           rows: [
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("1"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Sales Achievement  "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        appraisalMaster.salesAchievementFullPoints ?? ''))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(toCaculateMasterAchievedPoint(
-                        appraisalMaster.salesAchievementBasePoint ?? '',
-                        appraisalMaster.salesAchievementFullPoints ?? '')))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        '${appraisalMaster.salesAchievementBasePoint ?? ''}%'))),
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("2"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Av. Rx Share (4P)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.avRx4PFullPoints ?? ''))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(toCaculateMasterAchievedPoint(
-                        appraisalMaster.avRx4PBasePoint ?? '',
-                        appraisalMaster.avRx4PFullPoints ?? '')))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text('${appraisalMaster.avRx4PBasePoint ?? ''}%'))),
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("3"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Av. Rx Share (EMR) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.avRxEmrFullPoints ?? ''))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(toCaculateMasterAchievedPoint(
-                        appraisalMaster.avRxEmrBasePoint ?? '',
-                        appraisalMaster.avRxEmrFullPoints ?? '')))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text('${appraisalMaster.avRxEmrBasePoint ?? ''}%'))),
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("4"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Chemist Coverage"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child:
-                        Text(appraisalMaster.achChemistCovFullPoints ?? ''))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(toCaculateMasterAchievedPoint(
-                        appraisalMaster.achChemistCovBasePoint ?? '',
-                        appraisalMaster.achChemistCovFullPoints ?? '')))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        '${appraisalMaster.achChemistCovBasePoint ?? ''}%')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("5"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Exam Performance"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child:
-                        Text(appraisalMaster.examPerformanceFullPoints ?? ''))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(toCaculateMasterAchievedPoint(
-                        appraisalMaster.examPerformanceBasePoint ?? '',
-                        appraisalMaster.examPerformanceFullPoints ?? '')))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        '${appraisalMaster.examPerformanceBasePoint ?? '0'}%')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("6"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("No. of Achieved Months "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.noAchMonthFullPoints ?? ''))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(toCaculateMasterAchievedPoint(
-                        appraisalMaster.noAchMonthBasePoint ?? '',
-                        appraisalMaster.noAchMonthFullPoints ?? '')))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.noAchMonthBasePoint ?? '0')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("7"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Honesty & Integrity"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.honestyFullPoints ?? ''))),
-                DataCell(
-                  Align(
+            ...appraisalMaster.kpiTable!.map((element) {
+              return DataRow2(
+                cells: [
+                  DataCell(Center(child: Text(element.sl ?? '0'))),
+                  DataCell(Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(element.name ?? ''))),
+                  DataCell(Align(
                       alignment: Alignment.centerRight,
-                      child: Container(
-                        height: 28,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 222, 211, 235),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: TextField(
-                          readOnly: true,
-                          controller: TextEditingController(
-                              text: appraisalMaster.honestyAndIntegrity ?? ''),
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )),
-                ),
+                      child: Text('${element.weitage}%'))),
+                  DataCell(Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(element.selfScror ?? ''))),
+                  const DataCell(
+                      Align(alignment: Alignment.centerRight, child: Text(''))),
+                  DataCell(Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(element.supervisorScore ?? ''))),
+                  const DataCell(
+                      Align(alignment: Alignment.centerRight, child: Text(''))),
+                ],
+              );
+            }).toList(),
+            DataRow2(
+              cells: [
+                const DataCell(Center(child: Text(''))),
+                const DataCell(Align(
+                    alignment: Alignment.centerLeft, child: Text('Total'))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text('${totalWeitages(appraisalMaster)}%'))),
                 const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text("")))
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
               ],
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("8"))),
+                const DataCell(Center(child: Text(''))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Discipline"))),
+                    child: Text('Rounded Total'))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.discipFullPoints ?? ''))),
-                DataCell(
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        height: 28,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 222, 211, 235),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: TextField(
-                          readOnly: true,
-                          controller: TextEditingController(
-                              text: appraisalMaster.discipline ?? ''),
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )),
-                ),
+                    child: Text('${totalWeitages(appraisalMaster)}%'))),
                 const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text("")))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("9"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft, child: Text("Skill"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.skillFullPoints ?? ''))),
-                DataCell(
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        height: 28,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 222, 211, 235),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: TextField(
-                          readOnly: true,
-                          textAlign: TextAlign.center,
-                          controller: TextEditingController(
-                              text: appraisalMaster.skill ?? ''),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )),
-                ),
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
                 const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text("")))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("10"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Quality of Sales "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalMaster.qualitySalesFullPoints ?? ''))),
-                DataCell(
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        height: 28,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 222, 211, 235),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: TextField(
-                          readOnly: true,
-                          textAlign: TextAlign.center,
-                          controller: TextEditingController(
-                              text: appraisalMaster.qualityOfSales ?? ''),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )),
-                ),
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
                 const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text("")))
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
+                const DataCell(
+                    Align(alignment: Alignment.centerRight, child: Text(''))),
               ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text(""))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Total ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      totalAchfullPoints(appraisalMaster),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      totalAchPoints(appraisalMaster),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: totalAchBaseValue(appraisalMaster))),
-              ],
-            ),
-          ]),
+            )
+          ]
+
+          // [
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("1"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Sales Achievement  "))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(
+          //               appraisalMaster.salesAchievementFullPoints ?? ''))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(toCaculateMasterAchievedPoint(
+          //               appraisalMaster.salesAchievementBasePoint ?? '',
+          //               appraisalMaster.salesAchievementFullPoints ?? '')))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(
+          //               '${appraisalMaster.salesAchievementBasePoint ?? ''}%'))),
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("2"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Av. Rx Share (4P)"))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.avRx4PFullPoints ?? ''))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(toCaculateMasterAchievedPoint(
+          //               appraisalMaster.avRx4PBasePoint ?? '',
+          //               appraisalMaster.avRx4PFullPoints ?? '')))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text('${appraisalMaster.avRx4PBasePoint ?? ''}%'))),
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("3"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Av. Rx Share (EMR) "))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.avRxEmrFullPoints ?? ''))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(toCaculateMasterAchievedPoint(
+          //               appraisalMaster.avRxEmrBasePoint ?? '',
+          //               appraisalMaster.avRxEmrFullPoints ?? '')))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text('${appraisalMaster.avRxEmrBasePoint ?? ''}%'))),
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("4"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Chemist Coverage"))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child:
+          //               Text(appraisalMaster.achChemistCovFullPoints ?? ''))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(toCaculateMasterAchievedPoint(
+          //               appraisalMaster.achChemistCovBasePoint ?? '',
+          //               appraisalMaster.achChemistCovFullPoints ?? '')))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(
+          //               '${appraisalMaster.achChemistCovBasePoint ?? ''}%')))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("5"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Exam Performance"))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child:
+          //               Text(appraisalMaster.examPerformanceFullPoints ?? ''))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(toCaculateMasterAchievedPoint(
+          //               appraisalMaster.examPerformanceBasePoint ?? '',
+          //               appraisalMaster.examPerformanceFullPoints ?? '')))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(
+          //               '${appraisalMaster.examPerformanceBasePoint ?? '0'}%')))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("6"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("No. of Achieved Months "))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.noAchMonthFullPoints ?? ''))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(toCaculateMasterAchievedPoint(
+          //               appraisalMaster.noAchMonthBasePoint ?? '',
+          //               appraisalMaster.noAchMonthFullPoints ?? '')))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.noAchMonthBasePoint ?? '0')))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("7"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Honesty & Integrity"))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.honestyFullPoints ?? ''))),
+          //       DataCell(
+          //         Align(
+          //             alignment: Alignment.centerRight,
+          //             child: Container(
+          //               height: 28,
+          //               decoration: const BoxDecoration(
+          //                 color: Color.fromARGB(255, 222, 211, 235),
+          //                 shape: BoxShape.rectangle,
+          //               ),
+          //               child: TextField(
+          //                 readOnly: true,
+          //                 controller: TextEditingController(
+          //                     text: appraisalMaster.honestyAndIntegrity ?? ''),
+          //                 textAlign: TextAlign.center,
+          //                 decoration: const InputDecoration(
+          //                   border: InputBorder.none,
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       const DataCell(
+          //           Align(alignment: Alignment.centerRight, child: Text("")))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("8"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Discipline"))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.discipFullPoints ?? ''))),
+          //       DataCell(
+          //         Align(
+          //             alignment: Alignment.centerRight,
+          //             child: Container(
+          //               height: 28,
+          //               decoration: const BoxDecoration(
+          //                 color: Color.fromARGB(255, 222, 211, 235),
+          //                 shape: BoxShape.rectangle,
+          //               ),
+          //               child: TextField(
+          //                 readOnly: true,
+          //                 controller: TextEditingController(
+          //                     text: appraisalMaster.discipline ?? ''),
+          //                 textAlign: TextAlign.center,
+          //                 decoration: const InputDecoration(
+          //                   border: InputBorder.none,
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       const DataCell(
+          //           Align(alignment: Alignment.centerRight, child: Text("")))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("9"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft, child: Text("Skill"))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.skillFullPoints ?? ''))),
+          //       DataCell(
+          //         Align(
+          //             alignment: Alignment.centerRight,
+          //             child: Container(
+          //               height: 28,
+          //               decoration: const BoxDecoration(
+          //                 color: Color.fromARGB(255, 222, 211, 235),
+          //                 shape: BoxShape.rectangle,
+          //               ),
+          //               child: TextField(
+          //                 readOnly: true,
+          //                 textAlign: TextAlign.center,
+          //                 controller: TextEditingController(
+          //                     text: appraisalMaster.skill ?? ''),
+          //                 decoration: const InputDecoration(
+          //                   border: InputBorder.none,
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       const DataCell(
+          //           Align(alignment: Alignment.centerRight, child: Text("")))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text("10"))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("Quality of Sales "))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(appraisalMaster.qualitySalesFullPoints ?? ''))),
+          //       DataCell(
+          //         Align(
+          //             alignment: Alignment.centerRight,
+          //             child: Container(
+          //               height: 28,
+          //               decoration: const BoxDecoration(
+          //                 color: Color.fromARGB(255, 222, 211, 235),
+          //                 shape: BoxShape.rectangle,
+          //               ),
+          //               child: TextField(
+          //                 readOnly: true,
+          //                 textAlign: TextAlign.center,
+          //                 controller: TextEditingController(
+          //                     text: appraisalMaster.qualityOfSales ?? ''),
+          //                 decoration: const InputDecoration(
+          //                   border: InputBorder.none,
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       const DataCell(
+          //           Align(alignment: Alignment.centerRight, child: Text("")))
+          //     ],
+          //   ),
+          //   DataRow2(
+          //     cells: [
+          //       const DataCell(Center(child: Text(""))),
+          //       const DataCell(Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text(
+          //             "Total ",
+          //             style: TextStyle(fontWeight: FontWeight.bold),
+          //           ))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(
+          //             totalAchfullPoints(appraisalMaster),
+          //             style: const TextStyle(fontWeight: FontWeight.bold),
+          //           ))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Text(
+          //             totalAchPoints(appraisalMaster),
+          //             style: const TextStyle(fontWeight: FontWeight.bold),
+          //           ))),
+          //       DataCell(Align(
+          //           alignment: Alignment.centerRight,
+          //           child: totalAchBaseValue(appraisalMaster))),
+          //     ],
+          //   ),
+          // ]
+          ),
     );
   }
 
-  String totalAchfullPoints(RetStr appraisalMaster) {
-    return (double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') +
-            double.parse(appraisalMaster.avRx4PFullPoints ?? '0') +
-            double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') +
-            double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') +
-            double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') +
-            double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') +
-            double.parse(appraisalMaster.honestyFullPoints ?? '0') +
-            double.parse(appraisalMaster.discipFullPoints ?? '0') +
-            double.parse(appraisalMaster.skillFullPoints ?? '0') +
-            double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))
-        .toStringAsFixed(2);
+  String totalWeitages(RetStr appraisalMaster) {
+    double weitagesTotal = 0.0;
+    appraisalMaster.kpiTable!.forEach((element) {
+      weitagesTotal += double.parse(element.weitage ?? '0.0');
+    });
+
+    return weitagesTotal.toStringAsFixed(0);
   }
 
-  String totalAchPoints(RetStr appraisalMaster) {
-    return (double.parse(toCaculateMasterAchievedPoint(
-                appraisalMaster.salesAchievementBasePoint ?? '',
-                appraisalMaster.salesAchievementFullPoints ?? '')) +
-            double.parse(toCaculateMasterAchievedPoint(
-                appraisalMaster.avRx4PBasePoint ?? '',
-                appraisalMaster.avRx4PFullPoints ?? '')) +
-            double.parse(toCaculateMasterAchievedPoint(
-                appraisalMaster.avRxEmrBasePoint ?? '',
-                appraisalMaster.avRxEmrFullPoints ?? '')) +
-            double.parse(toCaculateMasterAchievedPoint(
-                appraisalMaster.achChemistCovBasePoint ?? '',
-                appraisalMaster.achChemistCovFullPoints ?? '')) +
-            double.parse(toCaculateMasterAchievedPoint(
-                appraisalMaster.examPerformanceBasePoint ?? '',
-                appraisalMaster.examPerformanceFullPoints ?? '')) +
-            double.parse(toCaculateMasterAchievedPoint(
-                appraisalMaster.noAchMonthBasePoint ?? '',
-                appraisalMaster.noAchMonthFullPoints ?? '')) +
-            double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
-            double.parse(appraisalMaster.discipline ?? '0') +
-            double.parse(appraisalMaster.skill ?? '0') +
-            double.parse(appraisalMaster.qualityOfSales ?? '0'))
-        .toStringAsFixed(2);
-  }
+  // String totalAchPoints(RetStr appraisalMaster) {
+  //   return (double.parse(toCaculateMasterAchievedPoint(
+  //               appraisalMaster.salesAchievementBasePoint ?? '',
+  //               appraisalMaster.salesAchievementFullPoints ?? '')) +
+  //           double.parse(toCaculateMasterAchievedPoint(
+  //               appraisalMaster.avRx4PBasePoint ?? '',
+  //               appraisalMaster.avRx4PFullPoints ?? '')) +
+  //           double.parse(toCaculateMasterAchievedPoint(
+  //               appraisalMaster.avRxEmrBasePoint ?? '',
+  //               appraisalMaster.avRxEmrFullPoints ?? '')) +
+  //           double.parse(toCaculateMasterAchievedPoint(
+  //               appraisalMaster.achChemistCovBasePoint ?? '',
+  //               appraisalMaster.achChemistCovFullPoints ?? '')) +
+  //           double.parse(toCaculateMasterAchievedPoint(
+  //               appraisalMaster.examPerformanceBasePoint ?? '',
+  //               appraisalMaster.examPerformanceFullPoints ?? '')) +
+  //           double.parse(toCaculateMasterAchievedPoint(
+  //               appraisalMaster.noAchMonthBasePoint ?? '',
+  //               appraisalMaster.noAchMonthFullPoints ?? '')) +
+  //           double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
+  //           double.parse(appraisalMaster.discipline ?? '0') +
+  //           double.parse(appraisalMaster.skill ?? '0') +
+  //           double.parse(appraisalMaster.qualityOfSales ?? '0'))
+  //       .toStringAsFixed(2);
+  // }
 
-  Text totalAchBaseValue(RetStr appraisalMaster) {
-    return Text(
-      '${((double.parse(toCaculateMasterAchievedPoint(appraisalMaster.salesAchievementBasePoint ?? '', appraisalMaster.salesAchievementFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRx4PBasePoint ?? '', appraisalMaster.avRx4PFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRxEmrBasePoint ?? '', appraisalMaster.avRxEmrFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.achChemistCovBasePoint ?? '', appraisalMaster.achChemistCovFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.examPerformanceBasePoint ?? '', appraisalMaster.examPerformanceFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.noAchMonthBasePoint ?? '', appraisalMaster.noAchMonthFullPoints ?? '')) + double.parse(appraisalMaster.honestyAndIntegrity ?? '0') + double.parse(appraisalMaster.discipline ?? '0') + double.parse(appraisalMaster.skill ?? '0') + double.parse(appraisalMaster.qualityOfSales ?? '0')) / ((double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') + double.parse(appraisalMaster.avRx4PFullPoints ?? '0') + double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') + double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') + double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') + double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') + double.parse(appraisalMaster.honestyFullPoints ?? '0') + double.parse(appraisalMaster.discipFullPoints ?? '0') + double.parse(appraisalMaster.skillFullPoints ?? '0') + double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))) * 100).toStringAsFixed(2)}%',
-      style: const TextStyle(fontWeight: FontWeight.bold),
-    );
-  }
+  // Text totalAchBaseValue(RetStr appraisalMaster) {
+  //   return Text(
+  //     '${((double.parse(toCaculateMasterAchievedPoint(appraisalMaster.salesAchievementBasePoint ?? '', appraisalMaster.salesAchievementFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRx4PBasePoint ?? '', appraisalMaster.avRx4PFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRxEmrBasePoint ?? '', appraisalMaster.avRxEmrFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.achChemistCovBasePoint ?? '', appraisalMaster.achChemistCovFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.examPerformanceBasePoint ?? '', appraisalMaster.examPerformanceFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.noAchMonthBasePoint ?? '', appraisalMaster.noAchMonthFullPoints ?? '')) + double.parse(appraisalMaster.honestyAndIntegrity ?? '0') + double.parse(appraisalMaster.discipline ?? '0') + double.parse(appraisalMaster.skill ?? '0') + double.parse(appraisalMaster.qualityOfSales ?? '0')) / ((double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') + double.parse(appraisalMaster.avRx4PFullPoints ?? '0') + double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') + double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') + double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') + double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') + double.parse(appraisalMaster.honestyFullPoints ?? '0') + double.parse(appraisalMaster.discipFullPoints ?? '0') + double.parse(appraisalMaster.skillFullPoints ?? '0') + double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))) * 100).toStringAsFixed(2)}%',
+  //     style: const TextStyle(fontWeight: FontWeight.bold),
+  //   );
+  // }
 // Text totalAchBaseValue(RetStr appraisalMaster) {
 //     return Text(
 //       '${(double.parse((appraisalMaster.salesAchievementBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.achChemistCovBasePoint ?? '0')) + double.parse((appraisalMaster.examPerformanceBasePoint == '' ? '0' : appraisalMaster.examPerformanceBasePoint ?? '0')) + double.parse((appraisalMaster.noAchMonthBasePoint ?? '0'))
@@ -926,91 +1003,91 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 //   }
 
 //========================================reason action widget======================================
-  Container reasonActionWidget(RetStr appraisalOthers) {
-    return Container(
-      color: const Color(0xffF8CBAD),
-      height: 110,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
-          Row(
-            children: [
-              const Expanded(
-                  flex: 9,
-                  child: Text(
-                    "No. of Letter Issued",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(
-                  flex: 7, child: Text(appraisalOthers.noLetterIssued ?? ''))
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              const Expanded(
-                  flex: 9,
-                  child: Text(
-                    "Cause/Reason",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(flex: 7, child: Text(appraisalOthers.cause ?? ''))
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              const Expanded(
-                  flex: 9,
-                  child: Text(
-                    "Action Taken",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(flex: 7, child: Text(appraisalOthers.action ?? ''))
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              const Expanded(
-                  flex: 9,
-                  child: Text(
-                    "No. of Incidence",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(flex: 7, child: Text(appraisalOthers.noIncidence ?? ''))
-            ],
-          ),
-        ]),
-      ),
-    );
-  }
+  // Container reasonActionWidget(RetStr appraisalOthers) {
+  //   return Container(
+  //     color: const Color(0xffF8CBAD),
+  //     height: 110,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: Column(children: [
+  //         Row(
+  //           children: [
+  //             const Expanded(
+  //                 flex: 9,
+  //                 child: Text(
+  //                   "No. of Letter Issued",
+  //                   style: TextStyle(fontWeight: FontWeight.bold),
+  //                 )),
+  //             const Expanded(
+  //                 child: Text(
+  //               ":",
+  //               style: TextStyle(fontWeight: FontWeight.bold),
+  //             )),
+  //             Expanded(
+  //                 flex: 7, child: Text(appraisalOthers.noLetterIssued ?? ''))
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 8,
+  //         ),
+  //         Row(
+  //           children: [
+  //             const Expanded(
+  //                 flex: 9,
+  //                 child: Text(
+  //                   "Cause/Reason",
+  //                   style: TextStyle(fontWeight: FontWeight.bold),
+  //                 )),
+  //             const Expanded(
+  //                 child: Text(
+  //               ":",
+  //               style: TextStyle(fontWeight: FontWeight.bold),
+  //             )),
+  //             Expanded(flex: 7, child: Text(appraisalOthers.cause ?? ''))
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 8,
+  //         ),
+  //         Row(
+  //           children: [
+  //             const Expanded(
+  //                 flex: 9,
+  //                 child: Text(
+  //                   "Action Taken",
+  //                   style: TextStyle(fontWeight: FontWeight.bold),
+  //                 )),
+  //             const Expanded(
+  //                 child: Text(
+  //               ":",
+  //               style: TextStyle(fontWeight: FontWeight.bold),
+  //             )),
+  //             Expanded(flex: 7, child: Text(appraisalOthers.action ?? ''))
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 8,
+  //         ),
+  //         Row(
+  //           children: [
+  //             const Expanded(
+  //                 flex: 9,
+  //                 child: Text(
+  //                   "No. of Incidence",
+  //                   style: TextStyle(fontWeight: FontWeight.bold),
+  //                 )),
+  //             const Expanded(
+  //                 child: Text(
+  //               ":",
+  //               style: TextStyle(fontWeight: FontWeight.bold),
+  //             )),
+  //             Expanded(flex: 7, child: Text(appraisalOthers.noIncidence ?? ''))
+  //           ],
+  //         ),
+  //       ]),
+  //     ),
+  //   );
+  // }
 
   //=============================Increament upgration===========================================
   Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {

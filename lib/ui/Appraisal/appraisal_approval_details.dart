@@ -8,7 +8,6 @@ import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:intl/intl.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
   const AppraisalApprovalDetails(
@@ -44,6 +43,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   bool _isPressed = false;
   bool isUpgrade = false;
   bool isDesignationChange = false;
+  Map<String, dynamic> supScoreMapData = {};
   @override
   void initState() {
     // TODO: implement initState
@@ -65,9 +65,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String totalWeitages(RetStr appraisalMaster) {
     double weitagesTotal = 0.0;
-    appraisalMaster.kpiTable!.forEach((element) {
+    for (var element in appraisalMaster.kpiTable!) {
       weitagesTotal += double.parse(element.weitage ?? '0.0');
-    });
+    }
 
     return weitagesTotal.toStringAsFixed(0);
   }
@@ -80,10 +80,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   double totalOveralResult(RetStr appraisalMaster) {
     double result = 0.0;
-    appraisalMaster.kpiTable!.forEach((element) {
-      result += double.parse(element.selfScror ?? '0') *
+    for (var element in appraisalMaster.kpiTable!) {
+      result += double.parse(supScoreMapData[element.sl] ?? '0') *
           (double.parse(element.weitage ?? '0') / 100);
-    });
+    }
 
     return result;
   }
@@ -651,15 +651,31 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         child: Text(
                             overalResult(element.weitage, element.selfScror))),
                   )),
-                  DataCell(Align(
-                      alignment: Alignment.center,
-                      child: Text(element.supervisorScore ?? ''))),
+                  element.editable == 'NO'
+                      ? DataCell(Align(
+                          alignment: Alignment.center,
+                          child: Text(element.supervisorScore ?? '')))
+                      : DataCell(ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButton(
+                              hint: const Text('Select'),
+                              value: supScoreMapData[element.sl!],
+                              items: ['0', '1', '2', '3']
+                                  .map((String item) =>
+                                      DropdownMenuItem<String>(
+                                          value: item, child: Text(item)))
+                                  .toList(),
+                              onChanged: (value) {
+                                supScoreMapData[element.sl!] = value;
+                                setState(() {});
+                              }),
+                        )),
                   DataCell(Container(
                     color: Colors.grey.shade300,
                     child: Align(
                         alignment: Alignment.center,
-                        child: Text(
-                            overalResult(element.weitage, element.selfScror))),
+                        child: Text(overalResult(
+                            element.weitage, supScoreMapData[element.sl!]))),
                   )),
                 ],
               );
@@ -1262,6 +1278,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             userInfo!.userId, widget.userPass, restParams);
 
     if (appraisalApprovalFfDetailsData != null) {
+      for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
+        for (var ele in element.kpiTable!) {
+          if (element.employeeId != null && ele.sl != null) {
+            supScoreMapData[ele.sl!] = ele.supervisorScore;
+          }
+        }
+      }
+      // print(supScoreMapData);
       setState(() {
         _isLoading = false;
       });

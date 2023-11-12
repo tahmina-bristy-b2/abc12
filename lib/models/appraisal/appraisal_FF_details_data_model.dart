@@ -613,6 +613,12 @@ class KpiTable {
         editable: json["editable"],
       );
 
+  // factory KpiTable.buildEpmty() => KpiTable(
+  //   sl: '0',
+  //   selfScror: '',
+  //   supervisorScore: ''
+  // );
+
   Map<String, dynamic> toJson() => {
         "sl": sl,
         "name": name,
@@ -714,7 +720,7 @@ var fFDetailsJson = {
             "weitage": "5",
             "self_scror": "3",
             "supervisor_score": "3",
-            "editable": "NO"
+            "editable": "YES"
           },
           {
             "sl": "7",
@@ -723,7 +729,7 @@ var fFDetailsJson = {
             "weitage": "5",
             "self_scror": "3",
             "supervisor_score": "3",
-            "editable": "NO"
+            "editable": "YES"
           },
           {
             "sl": "8",
@@ -732,7 +738,7 @@ var fFDetailsJson = {
             "weitage": "5",
             "self_scror": "3",
             "supervisor_score": "3",
-            "editable": "NO"
+            "editable": "YES"
           },
           {
             "sl": "9",
@@ -741,7 +747,7 @@ var fFDetailsJson = {
             "weitage": "5",
             "self_scror": "3",
             "supervisor_score": "3",
-            "editable": "NO"
+            "editable": "YES"
           }
         ]
       }

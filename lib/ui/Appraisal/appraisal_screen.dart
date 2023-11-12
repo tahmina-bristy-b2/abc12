@@ -50,14 +50,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
-  double totalAchievedPoint = 0.0;
-  double totalController = 0.0;
-
-  double salesAchieved = 0.0;
-  double avgRx4pShared = 0.0;
-  double avgRxEMrShared = 0.0;
-  double chemistCov = 0.0;
-  double examPerformance = 0.0;
+  double totalOverallResult = 0.0;
 
   @override
   void initState() {
@@ -138,6 +131,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   // //==================================================new================================================
   String overallCount(String weightageKey, String scrore) {
+    totalOverallResult = totalOverallResult +
+        ((double.parse(weightageKey) / 100) * double.parse(scrore));
     return ((double.parse(weightageKey) / 100) * double.parse(scrore))
         .toStringAsFixed(2);
   }

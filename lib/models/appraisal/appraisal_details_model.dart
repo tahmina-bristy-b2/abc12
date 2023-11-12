@@ -2,6 +2,7 @@
 //
 //     final appraisalDetailsModel = appraisalDetailsModelFromJson(jsonString);
 
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
@@ -54,6 +55,7 @@ class ResData {
 }
 
 class RetStr {
+  String kpiKey;
   String doctorCoverage;
   String salesAchievement;
   String previousAchievement;
@@ -70,21 +72,13 @@ class RetStr {
   String trCode;
   String baseTerritory;
   String lengthOfPresentTrService;
-  String targetValue1;
   String targetValue2;
-  String soldValue1;
   String soldValue2;
-  String achievement1;
   String achievement2;
-  String avgSales1;
   String avgSales2;
-  String avgSales4P1;
   String avgSales4P2;
-  String avgSalesEmr1;
   String avgSalesEmr2;
-  String noMonthAchiev1;
   String noMonthAchiev2;
-  String chemistCov1;
   String chemistCov2;
   String avRx4PBasePoint;
   String avRxEmrBasePoint;
@@ -95,20 +89,11 @@ class RetStr {
   String cause;
   String action;
   String noIncidence;
-  String salesAchievementFullPoints;
-  String avRx4PFullPoints;
-  String avRxEmrFullPoints;
-  String achChemistCovFullPoints;
-  String examPerformanceFullPoints;
-  String noAchMonthFullPoints;
-  String honestyFullPoints;
-  String discipFullPoints;
-  String skillFullPoints;
-  String qualitySalesFullPoints;
   String avgRxGrowth;
   List<KpiTable> kpiTable;
 
   RetStr({
+    required this.kpiKey,
     required this.doctorCoverage,
     required this.salesAchievement,
     required this.previousAchievement,
@@ -125,21 +110,13 @@ class RetStr {
     required this.trCode,
     required this.baseTerritory,
     required this.lengthOfPresentTrService,
-    required this.targetValue1,
     required this.targetValue2,
-    required this.soldValue1,
     required this.soldValue2,
-    required this.achievement1,
     required this.achievement2,
-    required this.avgSales1,
     required this.avgSales2,
-    required this.avgSales4P1,
     required this.avgSales4P2,
-    required this.avgSalesEmr1,
     required this.avgSalesEmr2,
-    required this.noMonthAchiev1,
     required this.noMonthAchiev2,
-    required this.chemistCov1,
     required this.chemistCov2,
     required this.avRx4PBasePoint,
     required this.avRxEmrBasePoint,
@@ -150,78 +127,52 @@ class RetStr {
     required this.cause,
     required this.action,
     required this.noIncidence,
-    required this.salesAchievementFullPoints,
-    required this.avRx4PFullPoints,
-    required this.avRxEmrFullPoints,
-    required this.achChemistCovFullPoints,
-    required this.examPerformanceFullPoints,
-    required this.noAchMonthFullPoints,
-    required this.honestyFullPoints,
-    required this.discipFullPoints,
-    required this.skillFullPoints,
-    required this.qualitySalesFullPoints,
     required this.avgRxGrowth,
     required this.kpiTable,
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
-        doctorCoverage: json["doctor_coverage"],
-        salesAchievement: json["sales_achievement"],
-        previousAchievement: json["previous_achievement"],
-        currentAchievement: json["current_achievement"],
-        cid: json["cid"],
-        employeeId: json["employee_id"],
-        empName: json["emp_name"],
-        designation: json["designation"],
-        presentGrade: json["present_grade"],
-        businessSegment: json["business_segment"],
-        dateOfJoining: json["date_of_joining"],
-        lastPromotion: json["last_promotion"],
-        lengthOfService: json["length_of_service"],
-        trCode: json["tr_code"],
-        baseTerritory: json["base_territory"],
-        lengthOfPresentTrService: json["length_of_present_tr_service"],
-        targetValue1: json["target_value_1"],
-        targetValue2: json["target_value_2"],
-        soldValue1: json["sold_value_1"],
-        soldValue2: json["sold_value_2"],
-        achievement1: json["achievement_1"],
-        achievement2: json["achievement_2"],
-        avgSales1: json["avg_sales_1"],
-        avgSales2: json["avg_sales_2"],
-        avgSales4P1: json["avg_sales_4p_1"],
-        avgSales4P2: json["avg_sales_4p_2"],
-        avgSalesEmr1: json["avg_sales_emr_1"],
-        avgSalesEmr2: json["avg_sales_emr_2"],
-        noMonthAchiev1: json["no_month_achiev_1"],
-        noMonthAchiev2: json["no_month_achiev_2"],
-        chemistCov1: json["chemist_cov_1"],
-        chemistCov2: json["chemist_cov_2"],
-        avRx4PBasePoint: json["av_rx_4p_base_point"],
-        avRxEmrBasePoint: json["av_rx_emr_base_point"],
-        achChemistCovBasePoint: json["ach_chemist_cov_base_point"],
-        examPerformanceBasePoint: json["exam_performance_base_point"],
-        noAchMonthBasePoint: json["no_ach_month_base_point"],
-        noLetterIssued: json["no_letter_issued"],
-        cause: json["cause"],
-        action: json["action"],
-        noIncidence: json["no_incidence"],
-        salesAchievementFullPoints: json["sales_achievement_full_points"],
-        avRx4PFullPoints: json["av_rx_4p_full_points"],
-        avRxEmrFullPoints: json["av_rx_emr_full_points"],
-        achChemistCovFullPoints: json["ach_chemist_cov_full_points"],
-        examPerformanceFullPoints: json["exam_performance_full_points"],
-        noAchMonthFullPoints: json["no_ach_month_full_points"],
-        honestyFullPoints: json["honesty_full_points"],
-        discipFullPoints: json["discip_full_points"],
-        skillFullPoints: json["skill_full_points"],
-        qualitySalesFullPoints: json["quality_sales_full_points"],
-        avgRxGrowth: json["avg_rx_growth"],
+        kpiKey: json["kpi_key"] ?? "",
+        doctorCoverage: json["doctor_coverage"] ?? "0.0",
+        salesAchievement: json["sales_achievement"] ?? "0.0",
+        previousAchievement: json["previous_achievement"] ?? "0.0",
+        currentAchievement: json["current_achievement"] ?? "0.0",
+        cid: json["cid"] ?? "",
+        employeeId: json["employee_id"] ?? "",
+        empName: json["emp_name"] ?? "",
+        designation: json["designation"] ?? "",
+        presentGrade: json["present_grade"] ?? "",
+        businessSegment: json["business_segment"] ?? "",
+        dateOfJoining: json["date_of_joining"] ?? "",
+        lastPromotion: json["last_promotion"] ?? "",
+        lengthOfService: json["length_of_service"] ?? "",
+        trCode: json["tr_code"] ?? "",
+        baseTerritory: json["base_territory"] ?? "",
+        lengthOfPresentTrService: json["length_of_present_tr_service"] ?? "",
+        targetValue2: json["target_value_2"] ?? "0.0",
+        soldValue2: json["sold_value_2"] ?? "0.0",
+        achievement2: json["achievement_2"] ?? "0.0",
+        avgSales2: json["avg_sales_2"] ?? "0.0",
+        avgSales4P2: json["avg_sales_4p_2"] ?? "0.0",
+        avgSalesEmr2: json["avg_sales_emr_2"] ?? "0.0",
+        noMonthAchiev2: json["no_month_achiev_2"] ?? "0.0",
+        chemistCov2: json["chemist_cov_2"] ?? "0.0",
+        avRx4PBasePoint: json["av_rx_4p_base_point"] ?? "0.0",
+        avRxEmrBasePoint: json["av_rx_emr_base_point"] ?? "0.0",
+        achChemistCovBasePoint: json["ach_chemist_cov_base_point"] ?? "0.0",
+        examPerformanceBasePoint: json["exam_performance_base_point"] ?? "0.0",
+        noAchMonthBasePoint: json["no_ach_month_base_point"] ?? "0",
+        noLetterIssued: json["no_letter_issued"] ?? "",
+        cause: json["cause"] ?? "",
+        action: json["action"] ?? "",
+        noIncidence: json["no_incidence"] ?? "",
+        avgRxGrowth: json["avg_rx_growth"] ?? "0.0",
         kpiTable: List<KpiTable>.from(
             json["kpi_table"].map((x) => KpiTable.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
+        "kpi_key": kpiKey,
         "doctor_coverage": doctorCoverage,
         "sales_achievement": salesAchievement,
         "previous_achievement": previousAchievement,
@@ -238,21 +189,13 @@ class RetStr {
         "tr_code": trCode,
         "base_territory": baseTerritory,
         "length_of_present_tr_service": lengthOfPresentTrService,
-        "target_value_1": targetValue1,
         "target_value_2": targetValue2,
-        "sold_value_1": soldValue1,
         "sold_value_2": soldValue2,
-        "achievement_1": achievement1,
         "achievement_2": achievement2,
-        "avg_sales_1": avgSales1,
         "avg_sales_2": avgSales2,
-        "avg_sales_4p_1": avgSales4P1,
         "avg_sales_4p_2": avgSales4P2,
-        "avg_sales_emr_1": avgSalesEmr1,
         "avg_sales_emr_2": avgSalesEmr2,
-        "no_month_achiev_1": noMonthAchiev1,
         "no_month_achiev_2": noMonthAchiev2,
-        "chemist_cov_1": chemistCov1,
         "chemist_cov_2": chemistCov2,
         "av_rx_4p_base_point": avRx4PBasePoint,
         "av_rx_emr_base_point": avRxEmrBasePoint,
@@ -263,16 +206,6 @@ class RetStr {
         "cause": cause,
         "action": action,
         "no_incidence": noIncidence,
-        "sales_achievement_full_points": salesAchievementFullPoints,
-        "av_rx_4p_full_points": avRx4PFullPoints,
-        "av_rx_emr_full_points": avRxEmrFullPoints,
-        "ach_chemist_cov_full_points": achChemistCovFullPoints,
-        "exam_performance_full_points": examPerformanceFullPoints,
-        "no_ach_month_full_points": noAchMonthFullPoints,
-        "honesty_full_points": honestyFullPoints,
-        "discip_full_points": discipFullPoints,
-        "skill_full_points": skillFullPoints,
-        "quality_sales_full_points": qualitySalesFullPoints,
         "avg_rx_growth": avgRxGrowth,
         "kpi_table": List<dynamic>.from(kpiTable.map((x) => x.toJson())),
       };
@@ -280,14 +213,15 @@ class RetStr {
 
 class KpiTable {
   String sl;
+  String kpiId;
   String name;
   String definition;
   String weitage;
-  String kpiEdit; // Changed from an enum to a string
-  String selfScore; // Changed from an enum to a string
-
+  String kpiEdit;
+  String selfScore;
   KpiTable({
     required this.sl,
+    required this.kpiId,
     required this.name,
     required this.definition,
     required this.weitage,
@@ -296,16 +230,18 @@ class KpiTable {
   });
 
   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
-        sl: json["sl"],
-        name: json["name"],
-        definition: json["definition"],
-        weitage: json["weitage"],
+        sl: json["sl"] ?? "",
+        kpiId: json["kpi_id"] ?? "",
+        name: json["name"] ?? "",
+        definition: json["definition"] ?? "",
+        weitage: json["weitage"] ?? "0.0",
         kpiEdit: json["kpi_edit"],
-        selfScore: json["self_score"],
+        selfScore: json["self_score"] ?? "0.0",
       );
 
   Map<String, dynamic> toJson() => {
         "sl": sl,
+        "kpi_id": kpiId,
         "name": name,
         "definition": definition,
         "weitage": weitage,
@@ -845,6 +781,7 @@ var selfAssesmentJson = {
     "sup_level_depth_no": "2",
     "ret_str": [
       {
+        "kpi_key": "mso_app_kpi",
         "doctor_coverage": "92.42",
         "sales_achievement": "0.0",
         "previous_achievement": "2021 (Jan-Dec)",
@@ -862,21 +799,13 @@ var selfAssesmentJson = {
         "base_territory":
             "DNMI, GYE INDOOR, GYE OUT DOOR, PED INDOOR, SURGERY FEMALE OUT DOOR, MORDERN, MEDINOVA",
         "length_of_present_tr_service": "2Y  3M ",
-        "target_value_1": "0.0",
         "target_value_2": "0.0",
-        "sold_value_1": "0.0",
         "sold_value_2": "0.0",
-        "achievement_1": "0.0",
         "achievement_2": "0.0",
-        "avg_sales_1": "0.0",
         "avg_sales_2": "0.0",
-        "avg_sales_4p_1": "11.72",
         "avg_sales_4p_2": "0.0",
-        "avg_sales_emr_1": "13.0",
         "avg_sales_emr_2": "0.0",
-        "no_month_achiev_1": "0.0",
         "no_month_achiev_2": "0.0",
-        "chemist_cov_1": "0.0",
         "chemist_cov_2": "0.0",
         "av_rx_4p_base_point": "7.45",
         "av_rx_emr_base_point": "9.12",
@@ -887,17 +816,7 @@ var selfAssesmentJson = {
         "cause": "",
         "action": "",
         "no_incidence": "",
-        "sales_achievement_full_points": "280",
-        "av_rx_4p_full_points": "40",
-        "av_rx_emr_full_points": "40",
-        "ach_chemist_cov_full_points": "10",
-        "exam_performance_full_points": "5",
-        "no_ach_month_full_points": "5",
-        "honesty_full_points": "5",
-        "discip_full_points": "5",
-        "skill_full_points": "5",
-        "quality_sales_full_points": "5",
-        "avg_rx_growth": "1.66",
+        "avg_rx_growth": "0.0",
         "kpi_table": [
           {
             "sl": "1",
@@ -930,7 +849,7 @@ var selfAssesmentJson = {
                 "Double Power Brands\nLeading Power Brands\nChasing Power Brands\nNew Power Brands\n\n1st April 2023 Onwards ",
             "weitage": "5.0",
             "kpi_edit": "NO",
-            "self_score": "0"
+            "self_score": "0.0"
           },
           {
             "sl": "5",
@@ -938,7 +857,7 @@ var selfAssesmentJson = {
             "definition": "Jan-Dec 2023",
             "weitage": "5.0",
             "kpi_edit": "NO",
-            "self_score": "0"
+            "self_score": "0.0"
           },
           {
             "sl": "6",
@@ -946,7 +865,7 @@ var selfAssesmentJson = {
             "definition": "",
             "weitage": "5.0",
             "kpi_edit": "NO",
-            "self_score": "0"
+            "self_score": "52.9"
           },
           {
             "sl": "7",

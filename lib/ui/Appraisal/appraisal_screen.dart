@@ -47,10 +47,16 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   List<RowData> rowsList = [];
   List<String>? selfDropdownValue = <String>['1', '2', '3'];
   Map<String, dynamic> dropdwonValueForSelfScore = {};
+  List kpiValuesList = [];
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
-  double totalOverallResult = 0.0;
+  //double totalOverallResult = 0.0;
+
+  double totaOverallCount = 0.0;
+  double finalOveralResultCount = 0.0;
+  double totalYesCount = 0.0;
+  Map overalYesValuesMap = {};
 
   @override
   void initState() {
@@ -111,6 +117,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   }
 
   kpitable(AppraisalDetailsModel? appraisalDetailsModel) {
+    totaOverallCount = 0.0;
     List<KpiTable> kpiTableData =
         appraisalDetailsModel!.resData.retStr.first.kpiTable;
     for (var kpi in kpiTableData) {
@@ -123,18 +130,23 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           kpiEdit: kpi.kpiEdit,
         ),
       );
+      totaOverallCount = totaOverallCount +
+          overallCount(
+              kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
+      // finalOveralResultCount = totaOverallCount;
+
       dropdwonValueForSelfScore.forEach((key, value) {
-        key = kpi.name;
+        key = kpi.sl;
       });
     }
   }
 
   // //==================================================new================================================
-  String overallCount(String weightageKey, String scrore) {
-    totalOverallResult = totalOverallResult +
+  double overallCount(String weightageKey, String scrore) {
+    double overallCount =
         ((double.parse(weightageKey) / 100) * double.parse(scrore));
-    return ((double.parse(weightageKey) / 100) * double.parse(scrore))
-        .toStringAsFixed(2);
+
+    return overallCount;
   }
 
   // //==========================================Each Achieved Points =============================================
@@ -270,16 +282,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             widget.userPass,
             widget.levelDepth,
             widget.employeeId,
-            honestintegrityController.text,
-            disciplineController.text,
-            skillController.text,
-            qualityofSellsController.text,
+            kpiValuesList,
             incrementController.text.toString() == ""
                 ? "0"
                 : incrementController.text.toString(),
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
-            feeddbackController.text);
+            feeddbackController.text,
+            appraisalDetailsModel!.resData.retStr.first.kpiKey);
     if (submitInfo != {}) {
       if (submitInfo["status"] == "Success") {
         setState(() {
@@ -450,18 +460,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       height: 8,
                     ),
                     appraisalMasterWidget(),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        height: 40,
-                        width: 100,
-                        color: Color.fromARGB(255, 159, 193, 165),
-                        child: Text(""),
-                      ),
-                    ),
                     const SizedBox(
                       height: 8,
                     ),
@@ -686,13 +684,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   SizedBox appraisalMasterWidget() {
     return SizedBox(
       height:
-          (appraisalDetailsModel!.resData.retStr.first.kpiTable.length * 40 +
-              70),
+          (appraisalDetailsModel!.resData.retStr.first.kpiTable.length * 45 +
+              70 +
+              45),
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
           horizontalMargin: 8,
-          dataRowHeight: 40,
+          dataRowHeight: 45,
           minWidth: 800,
           fixedLeftColumns: 1,
           headingRowColor: MaterialStateColor.resolveWith(
@@ -867,28 +866,41 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   GestureDetector submitButtonWidget(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        honestintegrityController.text != ""
-            ? disciplineController.text != ""
-                ? skillController.text != ""
-                    ? qualityofSellsController.text != ""
-                        ? feeddbackController.text != ""
-                            ? await internetCheckForSubmit()
-                            : AllServices().toastMessage(
-                                "Please provide feedback first ",
-                                Colors.red,
-                                Colors.white,
-                                16)
-                        : AllServices().toastMessage(
-                            "Quality of sales value not found",
-                            Colors.red,
-                            Colors.white,
-                            16)
-                    : AllServices().toastMessage(
-                        "Skill value not found ", Colors.red, Colors.white, 16)
-                : AllServices().toastMessage(
-                    "Descipline value not found ", Colors.red, Colors.white, 16)
-            : AllServices().toastMessage("Honesty & Integrity value not found",
-                Colors.red, Colors.white, 16);
+        kpiValuesList = [];
+
+        List<KpiTable> kpiTableData =
+            appraisalDetailsModel!.resData.retStr.first.kpiTable;
+        int counter = 0;
+
+        for (var kpi in kpiTableData) {
+          if (kpi.kpiEdit == "YES") {
+            counter++;
+            if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
+              Map<String, dynamic> eachKpiValues = {
+                "kpi_name": kpi.name,
+                "kpi_id": kpi.kpiId,
+                "weightage": kpi.weitage,
+                "self_score": dropdwonValueForSelfScore[kpi.sl],
+                "defination": kpi.definition,
+                "overall_result":
+                    overallCount(kpi.weitage, dropdwonValueForSelfScore[kpi.sl])
+                        .toStringAsFixed(2),
+              };
+              kpiValuesList.add(eachKpiValues);
+            } else {
+              AllServices().toastMessage("Please select score of ${kpi.name}",
+                  Colors.red, Colors.white, 16);
+              break;
+            }
+          }
+        }
+
+        if (kpiValuesList.length == counter) {
+          feeddbackController.text != ""
+              ? await internetCheckForSubmit()
+              : AllServices().toastMessage("Please provide feedback first ",
+                  Colors.red, Colors.white, 16);
+        }
       },
       child: Container(
         height: 50,
@@ -997,58 +1009,147 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   }
 
   List<DataRow> kpiDataRow(List<KpiTable> kpiData) {
-    return kpiData
-        .map((e) => DataRow(cells: [
-              DataCell(Center(child: Text(e.sl))),
-              DataCell(
-                  Align(alignment: Alignment.centerLeft, child: Text(e.name))),
-              DataCell(Align(
-                  alignment: Alignment.centerRight,
-                  child: Text("${e.weitage}%"))),
-              e.kpiEdit == "NO"
-                  ? DataCell(
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(e.selfScore),
+    return [
+      ...kpiData
+          .map(
+            (e) => DataRow(
+              cells: [
+                DataCell(Center(child: Text(e.sl))),
+                DataCell(Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      child: Text(
+                        overalYesValuesMap.containsKey(e.sl)
+                            ? '${e.name}*'
+                            : e.name,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w400),
                       ),
-                    )
-                  : DataCell(Container(
-                      width: 300.0,
-                      child: DropdownButtonHideUnderline(
-                        child: ButtonTheme(
-                          alignedDropdown: true,
-                          child: DropdownButton(
-                            value: dropdwonValueForSelfScore[e.sl],
-                            hint: const Text("Select"),
-                            items: selfDropdownValue!
-                                .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(item),
-                                    ))
-                                .toList(),
-                            onChanged: (value) {
-                              overallCount(e.weitage, value.toString());
-                              setState(() {
-                                dropdwonValueForSelfScore[e.sl] = value!;
-                              });
-                            },
+                      onPressed: () {
+                        definationShowDialog(context, e.definition);
+                      },
+                    ))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text("${e.weitage}%"))),
+                e.kpiEdit == "NO"
+                    ? DataCell(
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(e.selfScore),
+                        ),
+                      )
+                    : DataCell(Container(
+                        width: 300.0,
+                        child: DropdownButtonHideUnderline(
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              value: dropdwonValueForSelfScore[e.sl],
+                              hint: const Text("Select"),
+                              items: selfDropdownValue!
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(item),
+                                          ))
+                                  .toList(),
+                              onChanged: (value) {
+                                // finalOverallCount(
+                                //     overallCount(e.weitage, value.toString()));
+
+                                setState(() {
+                                  dropdwonValueForSelfScore[e.sl] = value!;
+                                  overalYesValuesMap[e.sl] = {
+                                    'weightage': e.weitage,
+                                    'value': value
+                                  };
+                                });
+
+                                // work for total yes count
+                                totalYesCount = 0;
+
+                                overalYesValuesMap.values
+                                    .toList()
+                                    .forEach((element) {
+                                  totalYesCount += overallCount(
+                                      element['weightage'],
+                                      element['value'].toString());
+                                });
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    )),
-              DataCell(Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(overallCount(
-                      e.weitage,
-                      e.kpiEdit == "NO"
-                          ? e.selfScore
-                          : overallCount(
-                              e.weitage,
-                              dropdwonValueForSelfScore[e.sl] == null
-                                  ? e.selfScore
-                                  : dropdwonValueForSelfScore[e.sl])))))
-            ]))
-        .toList();
+                      )),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(overallCount(
+                            e.weitage,
+                            e.kpiEdit == "NO"
+                                ? e.selfScore
+                                : dropdwonValueForSelfScore[e.sl] == null
+                                    ? "0.0"
+                                    : dropdwonValueForSelfScore[e.sl])
+                        .toStringAsFixed(2))))
+              ],
+            ),
+          )
+          .toList(),
+      DataRow(
+        color: MaterialStateColor.resolveWith(
+            (states) => Color.fromARGB(255, 226, 226, 226)),
+        cells: [
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "Total",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ))),
+          DataCell(Center(
+              child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              (totaOverallCount + totalYesCount).toStringAsFixed(2),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ))),
+        ],
+      ),
+    ];
+  }
+
+  Future<void> definationShowDialog(
+      BuildContext context, String TextLine) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'KPI Defination',
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          content: Text(
+            TextLine,
+            style: const TextStyle(fontSize: 13),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:MREPORTING/services/appraisal/appraisal_apis.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,36 +40,33 @@ class AppraisalDataprovider {
       String userPass,
       String levelDepth,
       String employeeId,
-      String honestyIntegrity,
-      String discipline,
-      String skill,
-      String qualitySales,
+      List kpiValus,
       String incrementAmount,
       String upgradeGrade,
       String designationChange,
-      String feedback) async {
+      String feedback,
+      String kpiKey) async {
     print(
-        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, honestyIntegrity, discipline, skill, qualitySales, incrementAmount, upgradeGrade, designationChange, feedback)}");
+        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, kpiValus, incrementAmount, upgradeGrade, designationChange, feedback, kpiKey)}");
     final http.Response response;
-    response = await http.get(
-      Uri.parse(
-        AppraisalApis.employeeAppraisalSubmit(
-            url,
-            cid,
-            userId,
-            userPass,
-            levelDepth,
-            employeeId,
-            honestyIntegrity,
-            discipline,
-            skill,
-            qualitySales,
-            incrementAmount,
-            upgradeGrade,
-            designationChange,
-            feedback),
-      ),
-    );
+    response = await http.post(
+        Uri.parse(
+          AppraisalApis.employeeAppraisalSubmit(
+              url,
+              cid,
+              userId,
+              userPass,
+              levelDepth,
+              employeeId,
+              kpiValus,
+              incrementAmount,
+              upgradeGrade,
+              designationChange,
+              feedback,
+              kpiKey),
+        ),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"kpi_values": kpiValus}));
     return response;
   }
   //======================== Get appraisal Field Force data ===============

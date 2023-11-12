@@ -83,14 +83,12 @@ class AppraisalRepository {
       String userPass,
       String levelDepth,
       String employeeId,
-      String honestyIntegrity,
-      String discipline,
-      String skill,
-      String qualitySales,
+      List kpiValus,
       String incrementAmount,
       String upgradeGrade,
       String designationChange,
-      String feedback) async {
+      String feedback,
+      String kpiKey) async {
     Map<String, dynamic> wholeData = {};
     try {
       http.Response response = await AppraisalDataprovider().appRaisalSubmit(
@@ -100,14 +98,12 @@ class AppraisalRepository {
           userPass,
           levelDepth,
           employeeId,
-          honestyIntegrity,
-          discipline,
-          skill,
-          qualitySales,
+          kpiValus,
           incrementAmount,
           upgradeGrade,
           designationChange,
-          feedback);
+          feedback,
+          kpiKey);
 
       if (response.statusCode == 200) {
         wholeData = jsonDecode(response.body);

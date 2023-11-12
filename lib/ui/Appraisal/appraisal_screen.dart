@@ -1019,9 +1019,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       child: Text(
-                        overalYesValuesMap.containsKey(e.sl)
-                            ? '${e.name}*'
-                            : e.name,
+                        e.kpiEdit != "NO" ? '${e.name}*' : e.name,
                         style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w400),
                       ),

@@ -78,14 +78,49 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     return result.toStringAsFixed(2);
   }
 
-  double totalOveralResult(RetStr appraisalMaster) {
+  double totalOveralResult(RetStr appraisalMaster, String sup) {
     double result = 0.0;
-    for (var element in appraisalMaster.kpiTable!) {
-      result += double.parse(supScoreMapData[element.sl] ?? '0') *
-          (double.parse(element.weitage ?? '0') / 100);
+    if (sup == appraisalMaster.step) {
+      for (var element in appraisalMaster.kpiTable!) {
+        result += double.parse(supScoreMapData[element.sl] ?? '0') *
+            (double.parse(element.weitage ?? '0') / 100);
+      }
+    } else {
+      for (var element in appraisalMaster.kpiTable!) {
+        result += double.parse(element.selfScror ?? '0') *
+            (double.parse(element.weitage ?? '0') / 100);
+      }
     }
 
     return result;
+  }
+
+  Future _showDialouge(String title, String description) async {
+    return showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                title: Text(
+                  '$title :',
+                ),
+                content: Text(description),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
   }
 
   void removeFFAopraisal(int index) {
@@ -633,12 +668,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               return DataRow2(
                 cells: [
                   DataCell(Center(child: Text(element.sl ?? '0'))),
-                  DataCell(Align(
+                  DataCell(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Text(element.name ?? ''),
-                      ))),
+                      ),
+                    ),
+                    onTap: () => _showDialouge(element.name ?? 'Title',
+                        element.definition ?? 'Defination'),
+                  ),
                   DataCell(Align(
                       alignment: Alignment.center,
                       child: Text('${element.weitage}%'))),
@@ -692,7 +732,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: EdgeInsets.all(4.0),
-                      child: Text('Total (Sum of weitages)'),
+                      child: Text('Total (Sum of weitages and overal)'),
                     ))),
                 DataCell(Align(
                     alignment: Alignment.center,
@@ -701,13 +741,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.center,
-                    child: Text(totalOveralResult(appraisalMaster)
+                    child: Text(totalOveralResult(appraisalMaster, 'FM')
                         .toStringAsFixed(2)))),
                 const DataCell(
                     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.center,
-                    child: Text(totalOveralResult(appraisalMaster)
+                    child: Text(totalOveralResult(
+                            appraisalMaster, appraisalMaster.step ?? '')
                         .toStringAsFixed(2)))),
               ],
             ),
@@ -723,7 +764,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: EdgeInsets.all(4.0),
-                      child: Text('Rounded Total (sum of Ovaral result)'),
+                      child: Text('Rounded Total (sum of Ovaral)'),
                     ))),
                 const DataCell(Align(
                     alignment: Alignment.center,
@@ -732,13 +773,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.center,
-                    child: Text(totalOveralResult(appraisalMaster)
+                    child: Text(totalOveralResult(appraisalMaster, 'FM')
                         .toStringAsFixed(0)))),
                 const DataCell(
                     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.center,
-                    child: Text(totalOveralResult(appraisalMaster)
+                    child: Text(totalOveralResult(
+                            appraisalMaster, appraisalMaster.step ?? '')
                         .toStringAsFixed(0)))),
               ],
             )

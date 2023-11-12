@@ -671,7 +671,8 @@ var fFDetailsJson = {
           {
             "sl": "1",
             "name": "Sales Achievement",
-            "definition": "",
+            "definition":
+                "saghiahgiksdjhgksdjhgijksdghksdjghisdhisdjghsekjghsekjgh",
             "weitage": "15",
             "self_scror": "3",
             "supervisor_score": "3",
@@ -715,7 +716,7 @@ var fFDetailsJson = {
           },
           {
             "sl": "6",
-            "name": "Sales Achievement",
+            "name": "Sales Achievement asfajlafjalgjalsfj",
             "definition": "",
             "weitage": "5",
             "self_scror": "3",

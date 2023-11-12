@@ -233,10 +233,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             const SizedBox(
               height: 8,
             ),
-            reasonActionWidget(appraisalDetails[index]),
-            const SizedBox(
-              height: 8,
-            ),
+            // reasonActionWidget(appraisalDetails[index]),
+            // const SizedBox(
+            //   height: 8,
+            // ),
             increametGradeUpgrationWidget(appraisalDetails[index]),
             const SizedBox(
               height: 8,
@@ -365,7 +365,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           columnSpacing: 12,
           horizontalMargin: 8,
           dataRowHeight: 35,
-          minWidth: 600,
+          minWidth: 380,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
@@ -381,21 +381,21 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 190,
+                fixedWidth: 200,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
+            // DataColumn2(
+            //     fixedWidth: 110,
+            //     label: Center(
+            //         child: Text(
+            //       achievementData.previousAchievement ?? 'Previous Year',
+            //       style: const TextStyle(fontWeight: FontWeight.bold),
+            //     ))),
             DataColumn2(
-                fixedWidth: 110,
-                label: Center(
-                    child: Text(
-                  achievementData.previousAchievement ?? 'Previous Year',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 120,
                 label: Center(
                     child: Text(
                   achievementData.currentAchievement ?? 'Current Year',
@@ -409,9 +409,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Target (Value in lac)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.targetValue1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.targetValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.targetValue2 ?? '')))
@@ -423,9 +423,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.soldValue1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.soldValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.soldValue2 ?? '')))
@@ -437,9 +437,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Achievement (%)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.achievement1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.achievement1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.achievement2 ?? '')))
@@ -451,9 +451,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Sales/Month "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.avgSales1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales2 ?? '')))
@@ -465,9 +465,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales4P2 ?? '')))
@@ -479,9 +479,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.avgSalesEmr1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSalesEmr2 ?? '')))
@@ -493,8 +493,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
-                const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text(''))),
+                // const DataCell(
+                //     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgRxGrowth ?? '')))
@@ -506,9 +506,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.noMonthAchiev1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.noMonthAchiev1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.noMonthAchiev2 ?? '')))
@@ -520,9 +520,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.chemistCov1 ?? ''))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.chemistCov1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.chemistCov2 ?? '')))

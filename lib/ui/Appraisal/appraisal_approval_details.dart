@@ -63,6 +63,31 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     }
   }
 
+  String totalWeitages(RetStr appraisalMaster) {
+    double weitagesTotal = 0.0;
+    appraisalMaster.kpiTable!.forEach((element) {
+      weitagesTotal += double.parse(element.weitage ?? '0.0');
+    });
+
+    return weitagesTotal.toStringAsFixed(0);
+  }
+
+  String overalResult(var weitage, var selfScore) {
+    double result = 0.0;
+    result = double.parse(selfScore) * (double.parse(weitage) / 100);
+    return result.toStringAsFixed(2);
+  }
+
+  double totalOveralResult(RetStr appraisalMaster) {
+    double result = 0.0;
+    appraisalMaster.kpiTable!.forEach((element) {
+      result += double.parse(element.selfScror ?? '0') *
+          (double.parse(element.weitage ?? '0') / 100);
+    });
+
+    return result;
+  }
+
   void removeFFAopraisal(int index) {
     listKey.currentState!.removeItem(
       index,
@@ -538,13 +563,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   SizedBox appraisalMaster(RetStr appraisalMaster) {
     return SizedBox(
-      height: (appraisalMaster.kpiTable!.length + 3) * 36,
+      height: (appraisalMaster.kpiTable!.length + 3) * 40,
       child: DataTable2(
           border: TableBorder.all(),
-          columnSpacing: 12,
-          horizontalMargin: 8,
-          dataRowHeight: 35,
+          columnSpacing: 0,
+          horizontalMargin: 0,
+          dataRowHeight: 38,
           minWidth: 870,
+          fixedLeftColumns: 1,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
@@ -553,14 +579,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           headingRowHeight: 40,
           columns: const [
             DataColumn2(
-                fixedWidth: 50,
+                fixedWidth: 40,
                 label: Center(
                     child: Text(
-                  "SL No",
+                  "SL. N",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 200,
+                fixedWidth: 180,
                 label: Center(
                     child: Text(
                   "KPI Name",
@@ -581,10 +607,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 150,
+                fixedWidth: 80,
                 label: Center(
                     child: Text(
-                  "Overal Result (FM)",
+                  "Ov. R.(FM)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
@@ -595,10 +621,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 150,
+                fixedWidth: 80,
                 label: Center(
                     child: Text(
-                  "Overal Result (RSM)",
+                  "Ov. R.(RSM)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -609,58 +635,95 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   DataCell(Center(child: Text(element.sl ?? '0'))),
                   DataCell(Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(element.name ?? ''))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(element.name ?? ''),
+                      ))),
                   DataCell(Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.center,
                       child: Text('${element.weitage}%'))),
                   DataCell(Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.center,
                       child: Text(element.selfScror ?? ''))),
-                  const DataCell(
-                      Align(alignment: Alignment.centerRight, child: Text(''))),
+                  DataCell(Container(
+                    color: Colors.grey.shade300,
+                    child: Center(
+                        child: Text(
+                            overalResult(element.weitage, element.selfScror))),
+                  )),
                   DataCell(Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.center,
                       child: Text(element.supervisorScore ?? ''))),
-                  const DataCell(
-                      Align(alignment: Alignment.centerRight, child: Text(''))),
+                  DataCell(Container(
+                    color: Colors.grey.shade300,
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                            overalResult(element.weitage, element.selfScror))),
+                  )),
                 ],
               );
             }).toList(),
             DataRow2(
-              cells: [
-                const DataCell(Center(child: Text(''))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft, child: Text('Total'))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text('${totalWeitages(appraisalMaster)}%'))),
-                const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text(''))),
-                const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text(''))),
-                const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text(''))),
-                const DataCell(
-                    Align(alignment: Alignment.centerRight, child: Text(''))),
-              ],
-            ),
-            DataRow2(
+              color: MaterialStateColor.resolveWith(
+                (states) {
+                  return Colors.grey.shade300;
+                },
+              ),
               cells: [
                 const DataCell(Center(child: Text(''))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Rounded Total'))),
+                    child: Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text('Total (Sum of weitages)'),
+                    ))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.center,
                     child: Text('${totalWeitages(appraisalMaster)}%'))),
                 const DataCell(
                     Align(alignment: Alignment.centerRight, child: Text(''))),
+                DataCell(Align(
+                    alignment: Alignment.center,
+                    child: Text(totalOveralResult(appraisalMaster)
+                        .toStringAsFixed(2)))),
                 const DataCell(
                     Align(alignment: Alignment.centerRight, child: Text(''))),
+                DataCell(Align(
+                    alignment: Alignment.center,
+                    child: Text(totalOveralResult(appraisalMaster)
+                        .toStringAsFixed(2)))),
+              ],
+            ),
+            DataRow2(
+              color: MaterialStateColor.resolveWith(
+                (states) {
+                  return Colors.grey.shade300;
+                },
+              ),
+              cells: [
+                const DataCell(Center(child: Text(''))),
+                const DataCell(Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text('Rounded Total (sum of Ovaral result)'),
+                    ))),
+                const DataCell(Align(
+                    alignment: Alignment.center,
+                    child: Text(''))), //${totalWeitages(appraisalMaster)}%
                 const DataCell(
                     Align(alignment: Alignment.centerRight, child: Text(''))),
+                DataCell(Align(
+                    alignment: Alignment.center,
+                    child: Text(totalOveralResult(appraisalMaster)
+                        .toStringAsFixed(0)))),
                 const DataCell(
                     Align(alignment: Alignment.centerRight, child: Text(''))),
+                DataCell(Align(
+                    alignment: Alignment.center,
+                    child: Text(totalOveralResult(appraisalMaster)
+                        .toStringAsFixed(0)))),
               ],
             )
           ]
@@ -946,15 +1009,6 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           // ]
           ),
     );
-  }
-
-  String totalWeitages(RetStr appraisalMaster) {
-    double weitagesTotal = 0.0;
-    appraisalMaster.kpiTable!.forEach((element) {
-      weitagesTotal += double.parse(element.weitage ?? '0.0');
-    });
-
-    return weitagesTotal.toStringAsFixed(0);
   }
 
   // String totalAchPoints(RetStr appraisalMaster) {

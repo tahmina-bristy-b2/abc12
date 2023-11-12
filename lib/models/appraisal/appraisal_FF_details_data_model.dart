@@ -666,52 +666,7 @@ var fFDetailsJson = {
             "sl": "1",
             "name": "Sales Achievement",
             "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "1",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "1",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "1",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "1",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "1",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
+            "weitage": "15",
             "self_scror": "3",
             "supervisor_score": "3",
             "editable": "NO"
@@ -721,6 +676,69 @@ var fFDetailsJson = {
             "name": "Sales Achievement",
             "definition": "",
             "weitage": "15",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "3",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "15",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "4",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "30",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "5",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "5",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "6",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "5",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "7",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "5",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "8",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "5",
+            "self_scror": "3",
+            "supervisor_score": "3",
+            "editable": "NO"
+          },
+          {
+            "sl": "9",
+            "name": "Sales Achievement",
+            "definition": "",
+            "weitage": "5",
             "self_scror": "3",
             "supervisor_score": "3",
             "editable": "NO"

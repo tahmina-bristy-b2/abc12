@@ -78,15 +78,15 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   //============================================ Employee Details Api Call==========================================
   getEmployeeDetails() async {
-    // appraisalDetailsModel = await AppraisalRepository().getEmployeeDetails(
-    //     dmpathData!.syncUrl,
-    //     widget.cid,
-    //     widget.userId,
-    //     widget.userPass,
-    //     widget.levelDepth,
-    //     widget.employeeId);
-    appraisalDetailsModel =
-        appraisalDetailsModelFromJson(json.encode(selfAssesmentJson));
+    appraisalDetailsModel = await AppraisalRepository().getEmployeeDetails(
+        dmpathData!.syncUrl,
+        widget.cid,
+        widget.userId,
+        widget.userPass,
+        widget.levelDepth,
+        widget.employeeId);
+    // appraisalDetailsModel =
+    //     appraisalDetailsModelFromJson(json.encode(selfAssesmentJson));
 
     if (appraisalDetailsModel != null) {
       if (appraisalDetailsModel!.resData.retStr.isNotEmpty) {
@@ -135,10 +135,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
       // finalOveralResultCount = totaOverallCount;
 
-      dropdwonValueForSelfScore.forEach((key, value) {
-        key = kpi.sl;
-      });
+      dropdwonValueForSelfScore[kpi.sl] =
+          kpi.selfScore == '0' ? null : kpi.selfScore; //Edited by apparisal_M
+
+      // dropdwonValueForSelfScore.forEach((key, value) {
+      //   key = kpi.sl;
+      // });
     }
+    print(dropdwonValueForSelfScore);
   }
 
   // //==================================================new================================================
@@ -873,20 +877,22 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         int counter = 0;
 
         for (var kpi in kpiTableData) {
+          // Getting full kpi value edited by appraisal_M
+          counter++;
+          Map<String, dynamic> eachKpiValues = {
+            "kpi_name": kpi.name,
+            "kpi_id": kpi.kpiId,
+            "weightage": kpi.weitage,
+            "self_score": dropdwonValueForSelfScore[kpi.sl],
+            "defination": kpi.definition,
+            "overall_result": overallCount(
+                    kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+                .toStringAsFixed(2),
+          };
+          kpiValuesList.add(eachKpiValues);
+
           if (kpi.kpiEdit == "YES") {
-            counter++;
             if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
-              Map<String, dynamic> eachKpiValues = {
-                "kpi_name": kpi.name,
-                "kpi_id": kpi.kpiId,
-                "weightage": kpi.weitage,
-                "self_score": dropdwonValueForSelfScore[kpi.sl],
-                "defination": kpi.definition,
-                "overall_result":
-                    overallCount(kpi.weitage, dropdwonValueForSelfScore[kpi.sl])
-                        .toStringAsFixed(2),
-              };
-              kpiValuesList.add(eachKpiValues);
             } else {
               AllServices().toastMessage("Please select score of ${kpi.name}",
                   Colors.red, Colors.white, 16);
@@ -895,7 +901,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           }
         }
 
-        if (kpiValuesList.length == counter) {
+        if (kpiValuesList.length == counter &&
+            dropdwonValueForSelfScore.values
+                .every((element) => element != null)) {
+          //checked for null value by appraisal_M
           feeddbackController.text != ""
               ? await internetCheckForSubmit()
               : AllServices().toastMessage("Please provide feedback first ",

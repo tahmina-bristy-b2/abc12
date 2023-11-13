@@ -236,7 +236,8 @@ class KpiTable {
         definition: json["definition"] ?? "",
         weitage: json["weitage"] ?? "0.0",
         kpiEdit: json["kpi_edit"],
-        selfScore: json["self_score"] ?? "0.0",
+        selfScore:
+            json["self_score"].toString(), //due to int value its raise an error
       );
 
   Map<String, dynamic> toJson() => {

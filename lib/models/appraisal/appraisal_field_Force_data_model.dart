@@ -56,23 +56,25 @@ class DataList {
   final String submitBy;
   final String territoryId;
   final String dueCount;
+  final String employeeId;
 
-  DataList({
-    required this.submitBy,
-    required this.territoryId,
-    required this.dueCount,
-  });
+  DataList(
+      {required this.submitBy,
+      required this.territoryId,
+      required this.dueCount,
+      required this.employeeId});
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
-        submitBy: json["submit_by"],
-        territoryId: json["territory_id"],
-        dueCount: json["due_count"],
-      );
+      submitBy: json["submit_by"],
+      territoryId: json["territory_id"],
+      dueCount: json["due_count"],
+      employeeId: json["employee_id"]);
 
   Map<String, dynamic> toJson() => {
         "submit_by": submitBy,
         "territory_id": territoryId,
         "due_count": dueCount,
+        "employee_id": employeeId
       };
 }
 

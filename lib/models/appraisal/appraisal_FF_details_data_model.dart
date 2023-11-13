@@ -384,6 +384,10 @@
 //
 //     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
 
+// To parse this JSON data, do
+//
+//     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
+
 import 'dart:convert';
 
 AppraisalApprovalFfDetailsDataModel appraisalApprovalFfDetailsDataModelFromJson(
@@ -444,8 +448,19 @@ class ResData {
 }
 
 class RetStr {
+  final String? chemistCoverage;
+  final String? brandPerformance;
+  final String? rxShare;
+  final String? upgradeGrade;
+  final String? designationChange;
+  final String? incrementAmount;
+  final String? feedback;
+  final String? kpiKey;
+  final String? doctorCoverage;
+  final String? salesAchievement;
+  final String? previousAchievement;
+  final String? currentAchievement;
   final String? cid;
-  final String? releaseStatus;
   final String? employeeId;
   final String? empName;
   final String? designation;
@@ -465,20 +480,32 @@ class RetStr {
   final String? avgSalesEmr2;
   final String? noMonthAchiev2;
   final String? chemistCov2;
-  final String? lastAction;
-  final String? step;
-  final String? rowId;
+  final String? avRx4PBasePoint;
+  final String? avRxEmrBasePoint;
+  final String? achChemistCovBasePoint;
+  final String? examPerformanceBasePoint;
+  final String? noAchMonthBasePoint;
+  final String? noLetterIssued;
+  final String? cause;
+  final String? action;
+  final String? noIncidence;
   final String? avgRxGrowth;
-  final String? incrementAmount;
-  final String? upgradeGrade;
-  final String? designationChange;
-  final String? feedback;
-  final String? currentAchievement;
   final List<KpiTable>? kpiTable;
 
   RetStr({
+    this.chemistCoverage,
+    this.brandPerformance,
+    this.rxShare,
+    this.upgradeGrade,
+    this.designationChange,
+    this.incrementAmount,
+    this.feedback,
+    this.kpiKey,
+    this.doctorCoverage,
+    this.salesAchievement,
+    this.previousAchievement,
+    this.currentAchievement,
     this.cid,
-    this.releaseStatus,
     this.employeeId,
     this.empName,
     this.designation,
@@ -498,21 +525,33 @@ class RetStr {
     this.avgSalesEmr2,
     this.noMonthAchiev2,
     this.chemistCov2,
-    this.lastAction,
-    this.step,
-    this.rowId,
+    this.avRx4PBasePoint,
+    this.avRxEmrBasePoint,
+    this.achChemistCovBasePoint,
+    this.examPerformanceBasePoint,
+    this.noAchMonthBasePoint,
+    this.noLetterIssued,
+    this.cause,
+    this.action,
+    this.noIncidence,
     this.avgRxGrowth,
-    this.incrementAmount,
-    this.upgradeGrade,
-    this.designationChange,
-    this.feedback,
-    this.currentAchievement,
     this.kpiTable,
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
+        chemistCoverage: json["chemist_Coverage"],
+        brandPerformance: json["brand_Performance"],
+        rxShare: json["rx_share"],
+        upgradeGrade: json["upgrade_grade"],
+        designationChange: json["designation_change"],
+        incrementAmount: json["increment_amount"],
+        feedback: json["feedback"],
+        kpiKey: json["kpi_key"],
+        doctorCoverage: json["doctor_coverage"],
+        salesAchievement: json["sales_achievement"],
+        previousAchievement: json["previous_achievement"],
+        currentAchievement: json["current_achievement"],
         cid: json["cid"],
-        releaseStatus: json["release_status"],
         employeeId: json["employee_id"],
         empName: json["emp_name"],
         designation: json["designation"],
@@ -532,15 +571,16 @@ class RetStr {
         avgSalesEmr2: json["avg_sales_emr_2"],
         noMonthAchiev2: json["no_month_achiev_2"],
         chemistCov2: json["chemist_cov_2"],
-        lastAction: json["last_action"],
-        step: json["step"],
-        rowId: json["row_id"],
+        avRx4PBasePoint: json["av_rx_4p_base_point"],
+        avRxEmrBasePoint: json["av_rx_emr_base_point"],
+        achChemistCovBasePoint: json["ach_chemist_cov_base_point"],
+        examPerformanceBasePoint: json["exam_performance_base_point"],
+        noAchMonthBasePoint: json["no_ach_month_base_point"],
+        noLetterIssued: json["no_letter_issued"],
+        cause: json["cause"],
+        action: json["action"],
+        noIncidence: json["no_incidence"],
         avgRxGrowth: json["avg_rx_growth"],
-        incrementAmount: json["increment_amount"],
-        upgradeGrade: json["upgrade_grade"],
-        designationChange: json["designation_change"],
-        feedback: json["feedback"],
-        currentAchievement: json["current_achievement"],
         kpiTable: json["kpi_table"] == null
             ? []
             : List<KpiTable>.from(
@@ -548,8 +588,19 @@ class RetStr {
       );
 
   Map<String, dynamic> toJson() => {
+        "chemist_Coverage": chemistCoverage,
+        "brand_Performance": brandPerformance,
+        "rx_share": rxShare,
+        "upgrade_grade": upgradeGrade,
+        "designation_change": designationChange,
+        "increment_amount": incrementAmount,
+        "feedback": feedback,
+        "kpi_key": kpiKey,
+        "doctor_coverage": doctorCoverage,
+        "sales_achievement": salesAchievement,
+        "previous_achievement": previousAchievement,
+        "current_achievement": currentAchievement,
         "cid": cid,
-        "release_status": releaseStatus,
         "employee_id": employeeId,
         "emp_name": empName,
         "designation": designation,
@@ -569,15 +620,16 @@ class RetStr {
         "avg_sales_emr_2": avgSalesEmr2,
         "no_month_achiev_2": noMonthAchiev2,
         "chemist_cov_2": chemistCov2,
-        "last_action": lastAction,
-        "step": step,
-        "row_id": rowId,
+        "av_rx_4p_base_point": avRx4PBasePoint,
+        "av_rx_emr_base_point": avRxEmrBasePoint,
+        "ach_chemist_cov_base_point": achChemistCovBasePoint,
+        "exam_performance_base_point": examPerformanceBasePoint,
+        "no_ach_month_base_point": noAchMonthBasePoint,
+        "no_letter_issued": noLetterIssued,
+        "cause": cause,
+        "action": action,
+        "no_incidence": noIncidence,
         "avg_rx_growth": avgRxGrowth,
-        "increment_amount": incrementAmount,
-        "upgrade_grade": upgradeGrade,
-        "designation_change": designationChange,
-        "feedback": feedback,
-        "current_achievement": currentAchievement,
         "kpi_table": kpiTable == null
             ? []
             : List<dynamic>.from(kpiTable!.map((x) => x.toJson())),
@@ -586,47 +638,49 @@ class RetStr {
 
 class KpiTable {
   final String? sl;
+  final String? kpiId;
   final String? name;
   final String? definition;
-  final String? weitage;
-  final String? selfScror;
-  final String? supervisorScore;
-  final String? editable;
+  final String? weightage;
+  final String? kpiEdit;
+  final String? selfScore;
+  final String? supScore;
+  final String? overallScore;
 
   KpiTable({
     this.sl,
+    this.kpiId,
     this.name,
     this.definition,
-    this.weitage,
-    this.selfScror,
-    this.supervisorScore,
-    this.editable,
+    this.weightage,
+    this.kpiEdit,
+    this.selfScore,
+    this.supScore,
+    this.overallScore,
   });
 
   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
         sl: json["sl"],
+        kpiId: json["kpi_id"],
         name: json["name"],
         definition: json["definition"],
-        weitage: json["weitage"],
-        selfScror: json["self_scror"],
-        supervisorScore: json["supervisor_score"],
-        editable: json["editable"],
+        weightage: json["weightage"],
+        kpiEdit: json["kpi_edit"],
+        selfScore: json["self_score"],
+        supScore: json["sup_score"],
+        overallScore: json["overall_score"],
       );
-
-  // factory KpiTable.buildEpmty() => KpiTable(
-  //   sl: '0',
-  //   selfScror: '',
-  //   supervisorScore: ''
-  // );
 
   Map<String, dynamic> toJson() => {
         "sl": sl,
+        "kpi_id": kpiId,
         "name": name,
         "definition": definition,
-        "weitage": weitage,
-        "self_scror": selfScror,
-        "supervisor_score": supervisorScore,
-        "editable": editable,
+        "weightage": weightage,
+        "kpi_edit": kpiEdit,
+        "self_score": selfScore,
+        "sup_score": supScore,
+        "overall_score": overallScore,
       };
 }
 
@@ -636,119 +690,71 @@ var fFDetailsJson = {
     "sup_level_depth_no": "2",
     "ret_str": [
       {
+        "chemist_Coverage": "76.12",
+        "brand_Performance": "0.0",
+        "rx_share": "34.62",
+        "upgrade_grade": "0",
+        "designation_change": "1",
+        "increment_amount": "2000",
+        "feedback": "Hafizur Rahman",
+        "kpi_key": "mso_app_kpi",
+        "doctor_coverage": "87.31",
+        "sales_achievement": "96.64",
+        "previous_achievement": "2021 (Jan-Dec)",
+        "current_achievement": "2023 (Jan-Dec)",
         "cid": "SKF",
-        "release_status": "Yes",
-        "employee_id": "19709",
-        "emp_name": "MR. MD. NURUZZAMAN",
+        "employee_id": "16147",
+        "emp_name": "MR. MD. HAFIZUR RAHAMAN",
         "designation": "Medical Services Officer",
         "present_grade": "O-01",
         "business_segment": "Formulation",
-        "date_of_joining": "15-Dec-20",
+        "date_of_joining": "16-Jun-19",
         "last_promotion": "N/A",
-        "length_of_service": "2Y 9M",
-        "tr_code": "DS23A",
+        "length_of_service": "4Y 3M",
+        "tr_code": "DS12A",
         "base_territory":
-            "DNMI (SKIN, SURGERY, DENTAL, CARDIOLIGY OUTDOOR,INDOOR,SURGERY MALE OUTDOOR ), ASGAR ALI HOSPITAL,ENGLISH ROAD, POPULAR DIAGNOSTIC CENTER, GANDARIA, NARINDA",
-        "length_of_present_tr_service": "2Y  9M ",
+            "SSMCH (GASTRO OUTDOORINDOOR,ENDRO,HEPATO), WEST POSTOGOLA, JURAIN, SOUTH EAST DIGITAL HOSPITAL, SHOBHAN NURSING HOME",
+        "length_of_present_tr_service": "4Y  3M ",
         "target_value_2": "0.0",
         "sold_value_2": "0.0",
-        "achievement_2": "68.45",
-        "avg_sales_2": "4.86",
+        "achievement_2": "81.52",
+        "avg_sales_2": "4.1",
         "avg_sales_4p_2": "0.0",
         "avg_sales_emr_2": "0.0",
         "no_month_achiev_2": "0.0",
         "chemist_cov_2": "0.0",
-        "last_action": "",
-        "step": "",
-        "row_id": "22",
-        "avg_rx_growth": "1.66",
-        "increment_amount": "5200",
-        "upgrade_grade": "1",
-        "designation_change": "1",
-        "feedback": "good",
-        "current_achievement": "2022 (Jan-Dec)",
+        "av_rx_4p_base_point": "5.57",
+        "av_rx_emr_base_point": "10.12",
+        "ach_chemist_cov_base_point": "76.12",
+        "exam_performance_base_point": "",
+        "no_ach_month_base_point": "0.0",
+        "no_letter_issued": "",
+        "cause": "",
+        "action": "",
+        "no_incidence": "",
+        "avg_rx_growth": "0.0",
         "kpi_table": [
           {
             "sl": "1",
+            "kpi_id": "sales_achievement",
             "name": "Sales Achievement",
-            "definition":
-                "saghiahgiksdjhgksdjhgijksdghksdjghisdhisdjghsekjghsekjgh",
-            "weitage": "15",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
+            "definition": "Jan-Dec 2023",
+            "weightage": "40.0",
+            "kpi_edit": "NO",
+            "self_score": "3.0",
+            "sup_score": "3.0",
+            "overall_score": "1.2"
           },
           {
             "sl": "2",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "15",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "3",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "15",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "4",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "5",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
-          },
-          {
-            "sl": "6",
-            "name": "Sales Achievement asfajlafjalgjalsfj",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
-          },
-          {
-            "sl": "7",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
-          },
-          {
-            "sl": "8",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
-          },
-          {
-            "sl": "9",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
+            "kpi_id": "doctor_coverage",
+            "name": "Doctor Coverage",
+            "definition": "1st April 2023 Onwards",
+            "weightage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "3.0",
+            "sup_score": "3.0",
+            "overall_score": "1.2"
           }
         ]
       }

@@ -66,7 +66,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   String totalWeitages(RetStr appraisalMaster) {
     double weitagesTotal = 0.0;
     for (var element in appraisalMaster.kpiTable!) {
-      weitagesTotal += double.parse(element.weitage ?? '0.0');
+      weitagesTotal += double.parse(element.weightage ?? '0.0');
     }
 
     return weitagesTotal.toStringAsFixed(0);
@@ -80,15 +80,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   double totalOveralResult(RetStr appraisalMaster, String sup) {
     double result = 0.0;
-    if (sup == appraisalMaster.step) {
+    if (sup == 'RSM') {
       for (var element in appraisalMaster.kpiTable!) {
         result += double.parse(supScoreMapData[element.sl] ?? '0') *
-            (double.parse(element.weitage ?? '0') / 100);
+            (double.parse(element.weightage ?? '0') / 100);
       }
     } else {
       for (var element in appraisalMaster.kpiTable!) {
-        result += double.parse(element.selfScror ?? '0') *
-            (double.parse(element.weitage ?? '0') / 100);
+        result += double.parse(element.selfScore ?? '0') *
+            (double.parse(element.weightage ?? '0') / 100);
       }
     }
 
@@ -282,9 +282,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             FfInformationWidget(
                 staticKey: "Length of Present TR Service",
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
-            FfInformationWidget(
-                staticKey: "Appraisal Status",
-                value: appraisalDetails[index].lastAction ?? ''),
+            // FfInformationWidget(
+            //     staticKey: "Appraisal Status",
+            //     value: appraisalDetails[index].lastAction ?? ''),
 
             const SizedBox(
               height: 20,
@@ -354,9 +354,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           setState(() {
                             _isPressed = true;
                           });
-                          String approvalRestParams =
-                              'row_id=${appraisalDetails[index].rowId}&status=Rejected';
-                          appraisalApproval(approvalRestParams, index);
+                          // String approvalRestParams =
+                          //     'row_id=${appraisalDetails[index].rowId}&status=Rejected';
+                          // appraisalApproval(approvalRestParams, index);
                         },
                         child: Container(
                           height: 40,
@@ -381,9 +381,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           setState(() {
                             _isPressed = true;
                           });
-                          String approvalRestParams =
-                              'row_id=${appraisalDetails[index].rowId}&status=Approved';
-                          appraisalApproval(approvalRestParams, index);
+                          // String approvalRestParams =
+                          //     'row_id=${appraisalDetails[index].rowId}&status=Approved';
+                          // appraisalApproval(approvalRestParams, index);
                         },
                         child: Container(
                           height: 40,
@@ -598,12 +598,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   SizedBox appraisalMaster(RetStr appraisalMaster) {
     return SizedBox(
-        height: (appraisalMaster.kpiTable!.length + 3) * 40,
+        height: (appraisalMaster.kpiTable!.length + 3) * 43,
         child: DataTable2(
             // border: TableBorder.all(),
             columnSpacing: 0,
             horizontalMargin: 0,
-            dataRowHeight: (appraisalMaster.kpiTable!.length + 3) * 40,
+            dataRowHeight: (appraisalMaster.kpiTable!.length + 3) * 39,
             minWidth: 870,
             // fixedLeftColumns: 1,
             // headingRowColor: MaterialStateColor.resolveWith(
@@ -665,7 +665,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                         DataColumn2(
-                            fixedWidth: 180,
+                            fixedWidth: 170,
                             label: Container(
                               // color: const Color.fromARGB(255, 159, 193, 165),
                               child: const Center(
@@ -701,39 +701,51 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               ),
                               DataCell(Align(
                                   alignment: Alignment.center,
-                                  child: Text('${element.weitage}%'))),
-                              element.editable == 'NO'
-                                  ? DataCell(Align(
-                                      alignment: Alignment.center,
-                                      child:
-                                          Text(element.supervisorScore ?? '')))
-                                  : DataCell(ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton(
-                                          hint: const Text('Select'),
-                                          value: supScoreMapData[element.sl!],
-                                          items: ['0', '1', '2', '3']
-                                              .map((String item) =>
-                                                  DropdownMenuItem<String>(
-                                                      value: item,
-                                                      child: Text(item)))
-                                              .toList(),
-                                          onChanged: (value) {
-                                            supScoreMapData[element.sl!] =
-                                                value;
-                                            setState(() {});
-                                          }),
-                                    )),
-                              DataCell(Container(
-                                color: Colors.grey.shade300,
-                                child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(overalResult(element.weitage,
-                                        supScoreMapData[element.sl!]))),
-                              )),
+                                  child: Text('${element.weightage}%'))),
                             ],
                           );
                         }).toList(),
+                        DataRow2(
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return Colors.grey.shade300;
+                            },
+                          ),
+                          cells: [
+                            const DataCell(Center(child: Text(''))),
+                            const DataCell(Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text(
+                                      'Total (Sum of weitages and overal)'),
+                                ))),
+                            DataCell(Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    '${totalWeitages(appraisalMaster)}%'))),
+                          ],
+                        ),
+                        DataRow2(
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return Colors.grey.shade300;
+                            },
+                          ),
+                          cells: const [
+                            DataCell(Center(child: Text(''))),
+                            DataCell(Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text('Rounded Total (sum of Ovaral)'),
+                                ))),
+                            DataCell(Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    ''))), //${totalWeitages(appraisalMaster)}%
+                          ],
+                        )
                       ]),
                 ),
                 DataCell(
@@ -745,7 +757,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       minWidth: 180,
                       headingRowHeight: 40,
                       columns: [
-                        DataColumn2(
+                        const DataColumn2(
                             fixedWidth: 100,
                             label: Center(
                                 child: Text(
@@ -763,7 +775,58 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               )),
                             )),
                       ],
-                      rows: []),
+                      rows: [
+                        ...appraisalMaster.kpiTable!.map((element) {
+                          return DataRow2(
+                            cells: [
+                              DataCell(Align(
+                                  alignment: Alignment.center,
+                                  child: Text(element.selfScore ?? ''))),
+                              DataCell(Container(
+                                color: Colors.grey.shade300,
+                                child: Center(
+                                    child: Text(overalResult(
+                                        element.weightage, element.selfScore))),
+                              )),
+                            ],
+                          );
+                        }).toList(),
+                        DataRow2(
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return Colors.grey.shade300;
+                            },
+                          ),
+                          cells: [
+                            const DataCell(Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(''))),
+                            DataCell(Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    totalOveralResult(appraisalMaster, 'FM')
+                                        .toStringAsFixed(2)))),
+                          ],
+                        ),
+                        DataRow2(
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return Colors.grey.shade300;
+                            },
+                          ),
+                          cells: [
+                            //${totalWeitages(appraisalMaster)}%
+                            const DataCell(Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(''))),
+                            DataCell(Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    totalOveralResult(appraisalMaster, 'FM')
+                                        .toStringAsFixed(0)))),
+                          ],
+                        )
+                      ]),
                 ),
                 DataCell(
                   DataTable2(
@@ -811,7 +874,76 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               )),
                             )),
                       ],
-                      rows: []),
+                      rows: [
+                        ...appraisalMaster.kpiTable!.map((element) {
+                          return DataRow2(
+                            cells: [
+                              element.kpiEdit == 'NO'
+                                  ? DataCell(Align(
+                                      alignment: Alignment.center,
+                                      child: Text(element.supScore ?? '')))
+                                  : DataCell(ButtonTheme(
+                                      alignedDropdown: true,
+                                      child: DropdownButton(
+                                          hint: const Text('Select'),
+                                          value: supScoreMapData[element.sl!],
+                                          items: ['0', '1', '2', '3']
+                                              .map((String item) =>
+                                                  DropdownMenuItem<String>(
+                                                      value: item,
+                                                      child: Text(item)))
+                                              .toList(),
+                                          onChanged: (value) {
+                                            supScoreMapData[element.sl!] =
+                                                value;
+                                            setState(() {});
+                                          }),
+                                    )),
+                              DataCell(Container(
+                                color: Colors.grey.shade300,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(overalResult(element.weightage,
+                                        supScoreMapData[element.sl!]))),
+                              )),
+                            ],
+                          );
+                        }).toList(),
+                        DataRow2(
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return Colors.grey.shade300;
+                            },
+                          ),
+                          cells: [
+                            const DataCell(Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(''))),
+                            DataCell(Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    totalOveralResult(appraisalMaster, 'RSM')
+                                        .toStringAsFixed(2)))),
+                          ],
+                        ),
+                        DataRow2(
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return Colors.grey.shade300;
+                            },
+                          ),
+                          cells: [
+                            const DataCell(Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(''))),
+                            DataCell(Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    totalOveralResult(appraisalMaster, 'RSM')
+                                        .toStringAsFixed(0)))),
+                          ],
+                        )
+                      ]),
                 ),
               ]),
             ])
@@ -1541,7 +1673,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
       for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
         for (var ele in element.kpiTable!) {
           if (element.employeeId != null && ele.sl != null) {
-            supScoreMapData[ele.sl!] = ele.supervisorScore;
+            supScoreMapData[ele.sl!] = ele.supScore;
           }
         }
       }

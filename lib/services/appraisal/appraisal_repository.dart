@@ -204,13 +204,18 @@ class AppraisalRepository {
   }
 
   //======================== Appraisal Approval ==================
-  Future<Map<String, dynamic>> appraisalFFApprovalSubmit(String syncUrl,
-      String cid, String userId, String userPass, String restParams) async {
+  Future<Map<String, dynamic>> appraisalFFApprovalSubmit(
+      String syncUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String restParams,
+      List<Map<String, dynamic>> supRevData) async {
     Map<String, dynamic> resData = {};
     try {
       http.Response response = await AppraisalDataprovider()
           .appraisalFFApprovalSubmit(
-              syncUrl, cid, userId, userPass, restParams);
+              syncUrl, cid, userId, userPass, restParams, supRevData);
       resData = json.decode(response.body);
       if (response.statusCode == 200) {
         if (resData["status"] == "Success") {

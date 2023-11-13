@@ -33,7 +33,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   TextEditingController skillController = TextEditingController();
   TextEditingController qualityofSellsController = TextEditingController();
   TextEditingController incrementController = TextEditingController();
-  TextEditingController feeddbackController = TextEditingController();
+  TextEditingController feedbackController = TextEditingController();
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -44,6 +44,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   Map<String, dynamic> supScoreMapData = {};
+  List<Map<String, dynamic>> supDataForSubmit = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -74,7 +75,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, var selfScore) {
     double result = 0.0;
-    result = double.parse(selfScore) * (double.parse(weitage) / 100);
+    result = double.parse(selfScore ?? '0.0') * (double.parse(weitage) / 100);
     return result.toStringAsFixed(2);
   }
 
@@ -152,7 +153,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     skillController.dispose();
     qualityofSellsController.dispose();
     incrementController.dispose();
-    feeddbackController.dispose();
+    feedbackController.dispose();
   }
 
   @override
@@ -248,16 +249,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
-            const FfInformationWidget(
-              staticKey: "Total Weitage%",
-              value: '',
-              // value: totalAchfullPoints(appraisalDetails[index]),
-            ),
-            const FfInformationWidget(
-              staticKey: "Achieved Point",
-              value: '',
-              // value: totalAchPoints(appraisalDetails[index]),
-            ),
+            // const FfInformationWidget(
+            //   staticKey: "Total Weitage%",
+            //   value: '',
+            //   // value: totalAchfullPoints(appraisalDetails[index]),
+            // ),
+            // const FfInformationWidget(
+            //   staticKey: "Achieved Point",
+            //   value: '',
+            //   // value: totalAchPoints(appraisalDetails[index]),
+            // ),
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
@@ -282,9 +283,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             FfInformationWidget(
                 staticKey: "Length of Present TR Service",
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
-            // FfInformationWidget(
-            //     staticKey: "Appraisal Status",
-            //     value: appraisalDetails[index].lastAction ?? ''),
+            FfInformationWidget(
+                staticKey: "Appraisal Status",
+                value: appraisalDetails[index].lastAction ?? ''),
 
             const SizedBox(
               height: 20,
@@ -330,10 +331,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         ),
                       ),
                       child: TextField(
-                        readOnly: true,
                         textAlign: TextAlign.center,
-                        controller: TextEditingController(
-                            text: appraisalDetails[index].feedback ?? ''),
+                        controller: feedbackController,
                         decoration: const InputDecoration(
                           hintText: 'Feedback/value of work',
                           border: InputBorder.none,
@@ -354,9 +353,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           setState(() {
                             _isPressed = true;
                           });
-                          // String approvalRestParams =
-                          //     'row_id=${appraisalDetails[index].rowId}&status=Rejected';
-                          // appraisalApproval(approvalRestParams, index);
+                          String upgradeGrade = isUpgrade ? '1' : '0';
+                          String designationChange =
+                              isDesignationChange ? '1' : '0';
+                          String approvalRestParams =
+                              'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
+                          appraisalApproval(
+                              approvalRestParams, index, supDataForSubmit);
                         },
                         child: Container(
                           height: 40,
@@ -381,9 +384,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           setState(() {
                             _isPressed = true;
                           });
-                          // String approvalRestParams =
-                          //     'row_id=${appraisalDetails[index].rowId}&status=Approved';
-                          // appraisalApproval(approvalRestParams, index);
+                          String upgradeGrade = isUpgrade ? '1' : '0';
+                          String designationChange =
+                              isDesignationChange ? '1' : '0';
+                          String approvalRestParams =
+                              'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Approved';
+                          appraisalApproval(
+                              approvalRestParams, index, supDataForSubmit);
                         },
                         child: Container(
                           height: 40,
@@ -656,8 +663,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       dataRowHeight: 38,
                       minWidth: 300,
                       headingRowHeight: 40,
-                      columns: [
-                        const DataColumn2(
+                      columns: const [
+                        DataColumn2(
                             fixedWidth: 40,
                             label: Center(
                                 child: Text(
@@ -666,15 +673,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             ))),
                         DataColumn2(
                             fixedWidth: 170,
-                            label: Container(
-                              // color: const Color.fromARGB(255, 159, 193, 165),
-                              child: const Center(
-                                  child: Text(
-                                "Kpi Name",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )),
-                            )),
-                        const DataColumn2(
+                            label: Center(
+                                child: Text(
+                              "Kpi Name",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))),
+                        DataColumn2(
                             fixedWidth: 70,
                             label: Center(
                                 child: Text(
@@ -887,7 +891,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                       child: DropdownButton(
                                           hint: const Text('Select'),
                                           value: supScoreMapData[element.sl!],
-                                          items: ['0', '1', '2', '3']
+                                          items: ['1', '2', '3']
                                               .map((String item) =>
                                                   DropdownMenuItem<String>(
                                                       value: item,
@@ -896,6 +900,62 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                           onChanged: (value) {
                                             supScoreMapData[element.sl!] =
                                                 value;
+
+                                            supDataForSubmit.removeWhere(
+                                                (ele) =>
+                                                    ele["row_id"] ==
+                                                    element.rowId);
+
+                                            supDataForSubmit.add({
+                                              "row_id": element.rowId,
+                                              "sup_score": value,
+                                              "sup_overall_score": overalResult(
+                                                  element.weightage,
+                                                  supScoreMapData[element.sl!])
+                                            });
+                                            // if (supDataForSubmit.isEmpty) {
+                                            //   supDataForSubmit.add({
+                                            //     "row_id": element.rowId,
+                                            //     "sup_score": value,
+                                            //     "sup_overall_score":
+                                            //         overalResult(
+                                            //             element.weightage,
+                                            //             supScoreMapData[
+                                            //                 element.sl!])
+                                            //   });
+                                            // } else {
+                                            //   List<Map<String, dynamic>> temp =
+                                            //       [];
+                                            //   temp.addAll(supDataForSubmit);
+
+                                            //   supDataForSubmit.forEach((ele) {
+                                            //     if (ele["row_id"] ==
+                                            //         element.rowId) {
+                                            //       ele["sup_score"] = value;
+                                            //       ele["sup_overall_score"] =
+                                            //           overalResult(
+                                            //               element.weightage,
+                                            //               supScoreMapData[
+                                            //                   element.sl!]);
+                                            //     } else {
+                                            //       temp.add({
+                                            //         "row_id": element.rowId,
+                                            //         "sup_score": value,
+                                            //         "sup_overall_score":
+                                            //             overalResult(
+                                            //                 element.weightage,
+                                            //                 supScoreMapData[
+                                            //                     element.sl!])
+                                            //       });
+                                            //     }
+                                            //   });
+                                            // supDataForSubmit.addAll(temp);
+                                            // temp.forEach((el) {
+                                            //   supDataForSubmit.add(el);
+                                            // });
+                                            // }
+                                            //
+
                                             setState(() {});
                                           }),
                                     )),
@@ -1576,13 +1636,22 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               Expanded(
                 flex: 7,
                 child: Container(
-                    height: 28,
-                    padding: const EdgeInsets.only(left: 60, top: 5),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 250, 250, 250),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text(appraisalOthers2.incrementAmount ?? "")),
+                  height: 28,
+                  padding: const EdgeInsets.only(left: 60, top: 5),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 250, 250, 250),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: TextField(
+                    controller: incrementController,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                  ),
+                  // child: Text(appraisalOthers2.incrementAmount ?? ""),
+                ),
               )
             ],
           ),
@@ -1609,12 +1678,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   child: Theme(
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
-                      value:
-                          appraisalOthers2.upgradeGrade == '1' ? true : false,
+                      value: isUpgrade,
                       onChanged: (bool? value) {
-                        // setState(() {
-                        //   isUpgrade = value!;
-                        // });
+                        setState(() {
+                          isUpgrade = value!;
+                        });
                       },
                     ),
                   ),
@@ -1645,13 +1713,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   child: Theme(
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
-                      value: appraisalOthers2.designationChange == '1'
-                          ? true
-                          : false,
+                      value: isDesignationChange,
                       onChanged: (bool? value) {
-                        // setState(() {
-                        //   isDesignationChange = value!;
-                        // });
+                        setState(() {
+                          isDesignationChange = value!;
+                        });
                       },
                     ),
                   ),
@@ -1671,8 +1737,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
     if (appraisalApprovalFfDetailsData != null) {
       for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
+        incrementController.text = element.incrementAmount ?? '0.0';
+        feedbackController.text = element.feedback ?? '';
+        isUpgrade = element.upgradeGrade == '0' ? false : true;
+        isDesignationChange = element.designation == '0' ? false : true;
         for (var ele in element.kpiTable!) {
-          if (element.employeeId != null && ele.sl != null) {
+          if (element.employeeId != null &&
+              ele.sl != null &&
+              ele.kpiEdit == 'YES') {
             supScoreMapData[ele.sl!] = ele.supScore;
           }
         }
@@ -1689,18 +1761,19 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     }
   }
 
-  void appraisalApproval(String approvalRestParams, int index) async {
+  void appraisalApproval(String approvalRestParams, int index,
+      List<Map<String, dynamic>> supRevData) async {
     bool result = await InternetConnectionChecker().hasConnection;
 
     if (result) {
-      Map<String, dynamic> approvedResponse =
-          await AppraisalRepository().appraisalFFApprovalSubmit(
-        dmpathData!.syncUrl,
-        widget.cid,
-        userInfo!.userId,
-        widget.userPass,
-        approvalRestParams,
-      );
+      Map<String, dynamic> approvedResponse = await AppraisalRepository()
+          .appraisalFFApprovalSubmit(
+              dmpathData!.syncUrl,
+              widget.cid,
+              userInfo!.userId,
+              widget.userPass,
+              approvalRestParams,
+              supRevData);
 
       if (approvedResponse.isNotEmpty &&
           approvedResponse["status"] == "Success") {

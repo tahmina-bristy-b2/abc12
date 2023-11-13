@@ -388,6 +388,10 @@
 //
 //     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
 
+// To parse this JSON data, do
+//
+//     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
+
 import 'dart:convert';
 
 AppraisalApprovalFfDetailsDataModel appraisalApprovalFfDetailsDataModelFromJson(
@@ -448,6 +452,9 @@ class ResData {
 }
 
 class RetStr {
+  final String? headRowId;
+  final String? lastAction;
+  final String? lastActionBy;
   final String? chemistCoverage;
   final String? brandPerformance;
   final String? rxShare;
@@ -493,6 +500,9 @@ class RetStr {
   final List<KpiTable>? kpiTable;
 
   RetStr({
+    this.headRowId,
+    this.lastAction,
+    this.lastActionBy,
     this.chemistCoverage,
     this.brandPerformance,
     this.rxShare,
@@ -539,6 +549,9 @@ class RetStr {
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
+        headRowId: json["head_row_id"],
+        lastAction: json["last_action"],
+        lastActionBy: json["last_action_by"],
         chemistCoverage: json["chemist_Coverage"],
         brandPerformance: json["brand_Performance"],
         rxShare: json["rx_share"],
@@ -588,6 +601,9 @@ class RetStr {
       );
 
   Map<String, dynamic> toJson() => {
+        "head_row_id": headRowId,
+        "last_action": lastAction,
+        "last_action_by": lastActionBy,
         "chemist_Coverage": chemistCoverage,
         "brand_Performance": brandPerformance,
         "rx_share": rxShare,
@@ -637,6 +653,7 @@ class RetStr {
 }
 
 class KpiTable {
+  final String? rowId;
   final String? sl;
   final String? kpiId;
   final String? name;
@@ -644,10 +661,12 @@ class KpiTable {
   final String? weightage;
   final String? kpiEdit;
   final String? selfScore;
+  final String? selfOverallScore;
   final String? supScore;
-  final String? overallScore;
+  final String? supOverallScore;
 
   KpiTable({
+    this.rowId,
     this.sl,
     this.kpiId,
     this.name,
@@ -655,11 +674,13 @@ class KpiTable {
     this.weightage,
     this.kpiEdit,
     this.selfScore,
+    this.selfOverallScore,
     this.supScore,
-    this.overallScore,
+    this.supOverallScore,
   });
 
   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
+        rowId: json["row_id"],
         sl: json["sl"],
         kpiId: json["kpi_id"],
         name: json["name"],
@@ -667,11 +688,13 @@ class KpiTable {
         weightage: json["weightage"],
         kpiEdit: json["kpi_edit"],
         selfScore: json["self_score"],
+        selfOverallScore: json["self_overall_score"],
         supScore: json["sup_score"],
-        overallScore: json["overall_score"],
+        supOverallScore: json["sup_overall_score"],
       );
 
   Map<String, dynamic> toJson() => {
+        "row_id": rowId,
         "sl": sl,
         "kpi_id": kpiId,
         "name": name,
@@ -679,17 +702,21 @@ class KpiTable {
         "weightage": weightage,
         "kpi_edit": kpiEdit,
         "self_score": selfScore,
+        "self_overall_score": selfOverallScore,
         "sup_score": supScore,
-        "overall_score": overallScore,
+        "sup_overall_score": supOverallScore,
       };
 }
 
 var fFDetailsJson = {
   "res_data": {
     "status": "Success",
-    "sup_level_depth_no": "2",
+    "sup_level_depth_no": "1",
     "ret_str": [
       {
+        "head_row_id": "6",
+        "last_action": "SUBMITTED_MSO",
+        "last_action_by": "5092",
         "chemist_Coverage": "76.12",
         "brand_Performance": "0.0",
         "rx_share": "34.62",
@@ -735,6 +762,7 @@ var fFDetailsJson = {
         "avg_rx_growth": "0.0",
         "kpi_table": [
           {
+            "row_id": "5",
             "sl": "1",
             "kpi_id": "sales_achievement",
             "name": "Sales Achievement",
@@ -742,19 +770,130 @@ var fFDetailsJson = {
             "weightage": "40.0",
             "kpi_edit": "NO",
             "self_score": "3.0",
+            "self_overall_score": "1.2",
             "sup_score": "3.0",
-            "overall_score": "1.2"
+            "sup_overall_score": "1.2"
           },
           {
+            "row_id": "6",
             "sl": "2",
             "kpi_id": "doctor_coverage",
             "name": "Doctor Coverage",
             "definition": "1st April 2023 Onwards",
             "weightage": "10.0",
             "kpi_edit": "NO",
+            "self_score": "2.0",
+            "self_overall_score": "0.2",
+            "sup_score": "2.0",
+            "sup_overall_score": "0.2"
+          },
+          {
+            "row_id": "7",
+            "sl": "3",
+            "kpi_id": "rx_share",
+            "name": "Rx Share (Seen Rx, 4P, EMR)",
+            "definition": "Average of three parameters",
+            "weightage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "1.0",
+            "self_overall_score": "0.1",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.1"
+          },
+          {
+            "row_id": "8",
+            "sl": "4",
+            "kpi_id": "brand_Performance",
+            "name": "Brand Performance (Sales)",
+            "definition":
+                "Double Power Brands\nLeading Power Brands\nChasing Power Brands\nNew Power Brands\n\n1st April 2023 Onwards ",
+            "weightage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "9",
+            "sl": "5",
+            "kpi_id": "chemist_Coverage",
+            "name": "Chemist Coverage",
+            "definition": "Jan-Dec 2023",
+            "weightage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "10",
+            "sl": "6",
+            "kpi_id": "product_knowledge_and_details_skills",
+            "name": "Product Knowledge and Detailing Skills",
+            "definition": "",
+            "weightage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "11",
+            "sl": "7",
+            "kpi_id": "PSD_GSD_Relationship",
+            "name": "PSD, GSD Relationship",
+            "definition":
+                "Need Drop Down Box for\n- Very Good (10%)\n- Good (7%)\n- Need Improvement (4%)\n\nDefinition:\n- Weekly coverage (2 Calls)\n- Rx from PSD GSD \n- Number of Doctor",
+            "weightage": "10.0",
+            "kpi_edit": "YES",
+            "self_score": "2.0",
+            "self_overall_score": "0.2",
+            "sup_score": "2.0",
+            "sup_overall_score": "0.2"
+          },
+          {
+            "row_id": "12",
+            "sl": "8",
+            "kpi_id": "market_Involvement",
+            "name": "Market Involvement and Degree of Drive ",
+            "definition":
+                "Definition:\n- Market Coverage including Doctor & Chemist\n- Regular Initiatives by MSO to full fill his monthly targets",
+            "weightage": "5.0",
+            "kpi_edit": "YES",
             "self_score": "3.0",
+            "self_overall_score": "0.15",
             "sup_score": "3.0",
-            "overall_score": "1.2"
+            "sup_overall_score": "0.15"
+          },
+          {
+            "row_id": "13",
+            "sl": "9",
+            "kpi_id": "pair_Co_ordination_and_Discipline",
+            "name": "Pair Co-ordination and Discipline",
+            "definition":
+                "Definition:\n- Coordination among teams (A, B, C)\n- Time management\n- Absenteeism\n- Honesty & Integrity\ni. m-Reporting\nii. Resource Utilization (DSR, Gift, Sample, Literature)\niii. Working Authenticity",
+            "weightage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "14",
+            "sl": "10",
+            "kpi_id": "special_Activities",
+            "name": "Special Activities for Doctors and Chemists",
+            "definition": "",
+            "weightage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "3.0",
+            "self_overall_score": "0.15",
+            "sup_score": "3.0",
+            "sup_overall_score": "0.15"
           }
         ]
       }

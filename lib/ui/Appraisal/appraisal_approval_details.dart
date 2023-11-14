@@ -311,7 +311,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const Expanded(
                     flex: 3,
                     child: Text(
-                      "FM Feedback(60 Character)",
+                      "FM Feedback",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                 const Expanded(
@@ -352,7 +352,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const Expanded(
                     flex: 3,
                     child: Text(
-                      "RSM Feedback(60 Character)",
+                      "RSM Feedback\n(60 Character)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                 const Expanded(
@@ -375,7 +375,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         textAlign: TextAlign.center,
                         controller: feedbackController,
                         decoration: const InputDecoration(
-                          hintText: 'Feedback/value of work',
+                          hintText: 'Feedback(60 Character)',
                           border: InputBorder.none,
                         ),
                       ),
@@ -425,7 +425,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         width: MediaQuery.of(context).size.width * 0.3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(255, 48, 153, 206),
+                          color: const Color.fromARGB(255, 48, 153, 206),
                         ),
                         // color: Colors.blue),
                         child: const Center(
@@ -472,6 +472,40 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   )
                 : Container(),
             // Container(height: 100,color: Colors.,)
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              // onTap: () {
+              //   setState(() {
+              //     _isPressed = true;
+              //   });
+              //   String upgradeGrade = isUpgrade ? '1' : '0';
+              //   String designationChange =
+              //       isDesignationChange ? '1' : '0';
+              //   String approvalRestParams =
+              //       'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
+              //   appraisalApproval(
+              //       approvalRestParams, index, supDataForSubmit);
+              // },
+              child: Container(
+                height: 40,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color.fromARGB(255, 4, 174, 247),
+                ),
+                // color: Colors.blue),
+                child: const Center(
+                    child: Text(
+                  "Released",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                )),
+              ),
+            ),
 
             const Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
@@ -788,7 +822,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Padding(
                                   padding: EdgeInsets.all(4.0),
                                   child: Text(
-                                    'Total (Sum of weitages and overal)',
+                                    'Total (Sum of Weightage and overal)',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -797,7 +831,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   '${totalWeitages(appraisalMaster)}%',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ))),
                           ],
                         ),
@@ -904,7 +939,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Text(
                                   totalOveralResult(appraisalMaster, 'FM')
                                       .toStringAsFixed(2),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ))),
                           ],
                         ),
@@ -924,7 +960,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Text(
                                   totalOveralResult(appraisalMaster, 'FM')
                                       .toStringAsFixed(0),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ))),
                           ],
                         )
@@ -1040,7 +1077,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Text(
                                   totalOveralResult(appraisalMaster, 'RSM')
                                       .toStringAsFixed(2),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ))),
                           ],
                         ),
@@ -1059,7 +1097,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               child: Text(
                                 totalOveralResult(appraisalMaster, 'RSM')
                                     .toStringAsFixed(0),
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             )),
                           ],

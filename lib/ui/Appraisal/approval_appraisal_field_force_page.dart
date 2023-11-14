@@ -160,7 +160,7 @@ class _ApprovalAppraisalFieldForceState
                 onTap: () {
                   if (widget.pageState == 'Approval') {
                     String restParams =
-                        'submit_by=${userFflist[index].submitBy}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
+                        'submit_by=${userFflist[index].submitBy}&employee_id=${userFflist[index].employeeId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -190,9 +190,9 @@ class _ApprovalAppraisalFieldForceState
                   width: 50,
                   child: Center(
                       child:
-                          Text(userFflist[index].territoryId.substring(0, 2))),
+                          Text(userFflist[index].employeeId.substring(0, 2))),
                 ),
-                title: Text(userFflist[index].territoryId),
+                title: Text(userFflist[index].employeeId),
                 subtitle: Text('Submitted by: ${userFflist[index].submitBy}'),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -98,15 +98,24 @@ class AppraisalDataprovider {
 
   //======================== Get appraisal Field Force data ===============
 
-  Future appraisalFFApprovalSubmit(String syncUrl, String cid, String userId,
-      String userPass, String restParams) async {
+  Future appraisalFFApprovalSubmit(
+      String syncUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String restParams,
+      List<Map<String, dynamic>> supRevData) async {
+    print(AppraisalApis.ffapprovalSubmitApi(
+        syncUrl, cid, userId, userPass, restParams));
+    print(jsonEncode(<String, dynamic>{"kpi_values": supRevData}));
     final http.Response response;
-    response = await http.get(
+    response = await http.post(
         Uri.parse(AppraisalApis.ffapprovalSubmitApi(
             syncUrl, cid, userId, userPass, restParams)),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
-        });
+        },
+        body: jsonEncode(<String, dynamic>{"kpi_values": supRevData}));
     return response;
   }
 

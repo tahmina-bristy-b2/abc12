@@ -511,7 +511,32 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    submitButtonWidget(context)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: const Color.fromARGB(255, 48, 153, 206),
+                          ),
+                          child: Center(
+                              child: isSubmit == true
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : const Text(
+                                      "Save as Draft",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    )),
+                        ),
+                        submitButtonWidget(context),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -544,7 +569,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
-                  "SL No",
+                  "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
@@ -724,7 +749,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 110,
                 label: Center(
                     child: Text(
-                  "% WEIGHTAGE\n       of KEY",
+                  "Weightage %",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
@@ -914,7 +939,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       },
       child: Container(
         height: 50,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width * 0.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: const Color(0xff38C172),

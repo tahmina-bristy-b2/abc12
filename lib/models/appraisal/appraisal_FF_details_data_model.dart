@@ -384,6 +384,14 @@
 //
 //     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
 
+// To parse this JSON data, do
+//
+//     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
+
+// To parse this JSON data, do
+//
+//     final appraisalApprovalFfDetailsDataModel = appraisalApprovalFfDetailsDataModelFromJson(jsonString);
+
 import 'dart:convert';
 
 AppraisalApprovalFfDetailsDataModel appraisalApprovalFfDetailsDataModelFromJson(
@@ -444,8 +452,22 @@ class ResData {
 }
 
 class RetStr {
+  final String? headRowId;
+  final String? lastAction;
+  final String? lastActionBy;
+  final String? chemistCoverage;
+  final String? brandPerformance;
+  final String? rxShare;
+  final String? upgradeGrade;
+  final String? designationChange;
+  final String? incrementAmount;
+  final String? feedback;
+  final String? kpiKey;
+  final String? doctorCoverage;
+  final String? salesAchievement;
+  final String? previousAchievement;
+  final String? currentAchievement;
   final String? cid;
-  final String? releaseStatus;
   final String? employeeId;
   final String? empName;
   final String? designation;
@@ -465,20 +487,35 @@ class RetStr {
   final String? avgSalesEmr2;
   final String? noMonthAchiev2;
   final String? chemistCov2;
-  final String? lastAction;
-  final String? step;
-  final String? rowId;
+  final String? avRx4PBasePoint;
+  final String? avRxEmrBasePoint;
+  final String? achChemistCovBasePoint;
+  final String? examPerformanceBasePoint;
+  final String? noAchMonthBasePoint;
+  final String? noLetterIssued;
+  final String? cause;
+  final String? action;
+  final String? noIncidence;
   final String? avgRxGrowth;
-  final String? incrementAmount;
-  final String? upgradeGrade;
-  final String? designationChange;
-  final String? feedback;
-  final String? currentAchievement;
   final List<KpiTable>? kpiTable;
 
   RetStr({
+    this.headRowId,
+    this.lastAction,
+    this.lastActionBy,
+    this.chemistCoverage,
+    this.brandPerformance,
+    this.rxShare,
+    this.upgradeGrade,
+    this.designationChange,
+    this.incrementAmount,
+    this.feedback,
+    this.kpiKey,
+    this.doctorCoverage,
+    this.salesAchievement,
+    this.previousAchievement,
+    this.currentAchievement,
     this.cid,
-    this.releaseStatus,
     this.employeeId,
     this.empName,
     this.designation,
@@ -498,21 +535,36 @@ class RetStr {
     this.avgSalesEmr2,
     this.noMonthAchiev2,
     this.chemistCov2,
-    this.lastAction,
-    this.step,
-    this.rowId,
+    this.avRx4PBasePoint,
+    this.avRxEmrBasePoint,
+    this.achChemistCovBasePoint,
+    this.examPerformanceBasePoint,
+    this.noAchMonthBasePoint,
+    this.noLetterIssued,
+    this.cause,
+    this.action,
+    this.noIncidence,
     this.avgRxGrowth,
-    this.incrementAmount,
-    this.upgradeGrade,
-    this.designationChange,
-    this.feedback,
-    this.currentAchievement,
     this.kpiTable,
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
+        headRowId: json["head_row_id"],
+        lastAction: json["last_action"],
+        lastActionBy: json["last_action_by"],
+        chemistCoverage: json["chemist_Coverage"],
+        brandPerformance: json["brand_Performance"],
+        rxShare: json["rx_share"],
+        upgradeGrade: json["upgrade_grade"],
+        designationChange: json["designation_change"],
+        incrementAmount: json["increment_amount"],
+        feedback: json["feedback"],
+        kpiKey: json["kpi_key"],
+        doctorCoverage: json["doctor_coverage"],
+        salesAchievement: json["sales_achievement"],
+        previousAchievement: json["previous_achievement"],
+        currentAchievement: json["current_achievement"],
         cid: json["cid"],
-        releaseStatus: json["release_status"],
         employeeId: json["employee_id"],
         empName: json["emp_name"],
         designation: json["designation"],
@@ -532,15 +584,16 @@ class RetStr {
         avgSalesEmr2: json["avg_sales_emr_2"],
         noMonthAchiev2: json["no_month_achiev_2"],
         chemistCov2: json["chemist_cov_2"],
-        lastAction: json["last_action"],
-        step: json["step"],
-        rowId: json["row_id"],
+        avRx4PBasePoint: json["av_rx_4p_base_point"],
+        avRxEmrBasePoint: json["av_rx_emr_base_point"],
+        achChemistCovBasePoint: json["ach_chemist_cov_base_point"],
+        examPerformanceBasePoint: json["exam_performance_base_point"],
+        noAchMonthBasePoint: json["no_ach_month_base_point"],
+        noLetterIssued: json["no_letter_issued"],
+        cause: json["cause"],
+        action: json["action"],
+        noIncidence: json["no_incidence"],
         avgRxGrowth: json["avg_rx_growth"],
-        incrementAmount: json["increment_amount"],
-        upgradeGrade: json["upgrade_grade"],
-        designationChange: json["designation_change"],
-        feedback: json["feedback"],
-        currentAchievement: json["current_achievement"],
         kpiTable: json["kpi_table"] == null
             ? []
             : List<KpiTable>.from(
@@ -548,8 +601,22 @@ class RetStr {
       );
 
   Map<String, dynamic> toJson() => {
+        "head_row_id": headRowId,
+        "last_action": lastAction,
+        "last_action_by": lastActionBy,
+        "chemist_Coverage": chemistCoverage,
+        "brand_Performance": brandPerformance,
+        "rx_share": rxShare,
+        "upgrade_grade": upgradeGrade,
+        "designation_change": designationChange,
+        "increment_amount": incrementAmount,
+        "feedback": feedback,
+        "kpi_key": kpiKey,
+        "doctor_coverage": doctorCoverage,
+        "sales_achievement": salesAchievement,
+        "previous_achievement": previousAchievement,
+        "current_achievement": currentAchievement,
         "cid": cid,
-        "release_status": releaseStatus,
         "employee_id": employeeId,
         "emp_name": empName,
         "designation": designation,
@@ -569,15 +636,16 @@ class RetStr {
         "avg_sales_emr_2": avgSalesEmr2,
         "no_month_achiev_2": noMonthAchiev2,
         "chemist_cov_2": chemistCov2,
-        "last_action": lastAction,
-        "step": step,
-        "row_id": rowId,
+        "av_rx_4p_base_point": avRx4PBasePoint,
+        "av_rx_emr_base_point": avRxEmrBasePoint,
+        "ach_chemist_cov_base_point": achChemistCovBasePoint,
+        "exam_performance_base_point": examPerformanceBasePoint,
+        "no_ach_month_base_point": noAchMonthBasePoint,
+        "no_letter_issued": noLetterIssued,
+        "cause": cause,
+        "action": action,
+        "no_incidence": noIncidence,
         "avg_rx_growth": avgRxGrowth,
-        "increment_amount": incrementAmount,
-        "upgrade_grade": upgradeGrade,
-        "designation_change": designationChange,
-        "feedback": feedback,
-        "current_achievement": currentAchievement,
         "kpi_table": kpiTable == null
             ? []
             : List<dynamic>.from(kpiTable!.map((x) => x.toJson())),
@@ -631,6 +699,7 @@ class RetStr {
 // }
 
 class KpiTable {
+<<<<<<< HEAD
   String? rowId;
   String? sl;
   String? kpiId;
@@ -655,6 +724,32 @@ class KpiTable {
     required this.selfOverallScore,
     required this.supScore,
     required this.supOverallScore,
+=======
+  final String? rowId;
+  final String? sl;
+  final String? kpiId;
+  final String? name;
+  final String? definition;
+  final String? weightage;
+  final String? kpiEdit;
+  final String? selfScore;
+  final String? selfOverallScore;
+  final String? supScore;
+  final String? supOverallScore;
+
+  KpiTable({
+    this.rowId,
+    this.sl,
+    this.kpiId,
+    this.name,
+    this.definition,
+    this.weightage,
+    this.kpiEdit,
+    this.selfScore,
+    this.selfOverallScore,
+    this.supScore,
+    this.supOverallScore,
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
   });
 
   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
@@ -663,9 +758,15 @@ class KpiTable {
         kpiId: json["kpi_id"],
         name: json["name"],
         definition: json["definition"],
+<<<<<<< HEAD
         weitage: json["weightage"],
         kpiEdit: json["kpi_edit"],
         selfScror: json["self_score"],
+=======
+        weightage: json["weightage"],
+        kpiEdit: json["kpi_edit"],
+        selfScore: json["self_score"],
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
         selfOverallScore: json["self_overall_score"],
         supScore: json["sup_score"],
         supOverallScore: json["sup_overall_score"],
@@ -677,9 +778,15 @@ class KpiTable {
         "kpi_id": kpiId,
         "name": name,
         "definition": definition,
+<<<<<<< HEAD
         "weightage": weitage,
         "kpi_edit": kpiEdit,
         "self_score": selfScror,
+=======
+        "weightage": weightage,
+        "kpi_edit": kpiEdit,
+        "self_score": selfScore,
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
         "self_overall_score": selfOverallScore,
         "sup_score": supScore,
         "sup_overall_score": supOverallScore,
@@ -705,18 +812,32 @@ class RowDataForSelf {
 var fFDetailsJson = {
   "res_data": {
     "status": "Success",
+<<<<<<< HEAD
     "ret_str": [
       {
         "head_row_id": "6",
         "last_action": "Approved",
         "last_action_by": "2761",
+=======
+    "sup_level_depth_no": "1",
+    "ret_str": [
+      {
+        "head_row_id": "6",
+        "last_action": "SUBMITTED_MSO",
+        "last_action_by": "5092",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
         "chemist_Coverage": "76.12",
         "brand_Performance": "0.0",
         "rx_share": "34.62",
         "upgrade_grade": "0",
         "designation_change": "1",
+<<<<<<< HEAD
         "increment_amount": "20000",
         "feedback": "test for approval",
+=======
+        "increment_amount": "2000",
+        "feedback": "Hafizur Rahman",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
         "kpi_key": "mso_app_kpi",
         "doctor_coverage": "87.31",
         "sales_achievement": "96.64",
@@ -755,13 +876,18 @@ var fFDetailsJson = {
         "avg_rx_growth": "0.0",
         "kpi_table": [
           {
+<<<<<<< HEAD
             "row_id": "44",
+=======
+            "row_id": "5",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "1",
             "kpi_id": "sales_achievement",
             "name": "Sales Achievement",
             "definition": "Jan-Dec 2023",
             "weightage": "40.0",
             "kpi_edit": "NO",
+<<<<<<< HEAD
             "self_score": "3",
             "self_overall_score": "1.2",
             "sup_score": "3",
@@ -769,12 +895,22 @@ var fFDetailsJson = {
           },
           {
             "row_id": "45",
+=======
+            "self_score": "3.0",
+            "self_overall_score": "1.2",
+            "sup_score": "3.0",
+            "sup_overall_score": "1.2"
+          },
+          {
+            "row_id": "6",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "2",
             "kpi_id": "doctor_coverage",
             "name": "Doctor Coverage",
             "definition": "1st April 2023 Onwards",
             "weightage": "10.0",
             "kpi_edit": "NO",
+<<<<<<< HEAD
             "self_score": "2",
             "self_overall_score": "0.2",
             "sup_score": "2",
@@ -782,12 +918,22 @@ var fFDetailsJson = {
           },
           {
             "row_id": "46",
+=======
+            "self_score": "2.0",
+            "self_overall_score": "0.2",
+            "sup_score": "2.0",
+            "sup_overall_score": "0.2"
+          },
+          {
+            "row_id": "7",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "3",
             "kpi_id": "rx_share",
             "name": "Rx Share (Seen Rx, 4P, EMR)",
             "definition": "Average of three parameters",
             "weightage": "10.0",
             "kpi_edit": "NO",
+<<<<<<< HEAD
             "self_score": "1",
             "self_overall_score": "0.1",
             "sup_score": "1",
@@ -795,6 +941,15 @@ var fFDetailsJson = {
           },
           {
             "row_id": "47",
+=======
+            "self_score": "1.0",
+            "self_overall_score": "0.1",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.1"
+          },
+          {
+            "row_id": "8",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "4",
             "kpi_id": "brand_Performance",
             "name": "Brand Performance (Sales)",
@@ -802,6 +957,7 @@ var fFDetailsJson = {
                 "Double Power Brands\nLeading Power Brands\nChasing Power Brands\nNew Power Brands\n\n1st April 2023 Onwards ",
             "weightage": "5.0",
             "kpi_edit": "NO",
+<<<<<<< HEAD
             "self_score": "1",
             "self_overall_score": "0.05",
             "sup_score": "1",
@@ -809,12 +965,22 @@ var fFDetailsJson = {
           },
           {
             "row_id": "48",
+=======
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "9",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "5",
             "kpi_id": "chemist_Coverage",
             "name": "Chemist Coverage",
             "definition": "Jan-Dec 2023",
             "weightage": "5.0",
             "kpi_edit": "NO",
+<<<<<<< HEAD
             "self_score": "1",
             "self_overall_score": "0.05",
             "sup_score": "1",
@@ -822,12 +988,22 @@ var fFDetailsJson = {
           },
           {
             "row_id": "49",
+=======
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "10",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "6",
             "kpi_id": "product_knowledge_and_details_skills",
             "name": "Product Knowledge and Detailing Skills",
             "definition": "",
             "weightage": "5.0",
             "kpi_edit": "NO",
+<<<<<<< HEAD
             "self_score": "1",
             "self_overall_score": "0.05",
             "sup_score": "1",
@@ -835,6 +1011,15 @@ var fFDetailsJson = {
           },
           {
             "row_id": "50",
+=======
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "11",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "7",
             "kpi_id": "PSD_GSD_Relationship",
             "name": "PSD, GSD Relationship",
@@ -842,6 +1027,7 @@ var fFDetailsJson = {
                 "Need Drop Down Box for\n- Very Good (10%)\n- Good (7%)\n- Need Improvement (4%)\n\nDefinition:\n- Weekly coverage (2 Calls)\n- Rx from PSD GSD \n- Number of Doctor",
             "weightage": "10.0",
             "kpi_edit": "YES",
+<<<<<<< HEAD
             "self_score": "3",
             "self_overall_score": "0.3",
             "sup_score": "2",
@@ -849,6 +1035,15 @@ var fFDetailsJson = {
           },
           {
             "row_id": "51",
+=======
+            "self_score": "2.0",
+            "self_overall_score": "0.2",
+            "sup_score": "2.0",
+            "sup_overall_score": "0.2"
+          },
+          {
+            "row_id": "12",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "8",
             "kpi_id": "market_Involvement",
             "name": "Market Involvement and Degree of Drive ",
@@ -856,6 +1051,7 @@ var fFDetailsJson = {
                 "Definition:\n- Market Coverage including Doctor & Chemist\n- Regular Initiatives by MSO to full fill his monthly targets",
             "weightage": "5.0",
             "kpi_edit": "YES",
+<<<<<<< HEAD
             "self_score": "2",
             "self_overall_score": "0.1",
             "sup_score": "2",
@@ -863,6 +1059,15 @@ var fFDetailsJson = {
           },
           {
             "row_id": "52",
+=======
+            "self_score": "3.0",
+            "self_overall_score": "0.15",
+            "sup_score": "3.0",
+            "sup_overall_score": "0.15"
+          },
+          {
+            "row_id": "13",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "9",
             "kpi_id": "pair_Co_ordination_and_Discipline",
             "name": "Pair Co-ordination and Discipline",
@@ -870,6 +1075,7 @@ var fFDetailsJson = {
                 "Definition:\n- Coordination among teams (A, B, C)\n- Time management\n- Absenteeism\n- Honesty & Integrity\ni. m-Reporting\nii. Resource Utilization (DSR, Gift, Sample, Literature)\niii. Working Authenticity",
             "weightage": "5.0",
             "kpi_edit": "YES",
+<<<<<<< HEAD
             "self_score": "2",
             "self_overall_score": "0.1",
             "sup_score": "3",
@@ -877,16 +1083,32 @@ var fFDetailsJson = {
           },
           {
             "row_id": "53",
+=======
+            "self_score": "1.0",
+            "self_overall_score": "0.05",
+            "sup_score": "1.0",
+            "sup_overall_score": "0.05"
+          },
+          {
+            "row_id": "14",
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
             "sl": "10",
             "kpi_id": "special_Activities",
             "name": "Special Activities for Doctors and Chemists",
             "definition": "",
             "weightage": "5.0",
             "kpi_edit": "YES",
+<<<<<<< HEAD
             "self_score": "2",
             "self_overall_score": "0.1",
             "sup_score": "2",
             "sup_overall_score": "0.1"
+=======
+            "self_score": "3.0",
+            "self_overall_score": "0.15",
+            "sup_score": "3.0",
+            "sup_overall_score": "0.15"
+>>>>>>> 231902382e3d2d5b9e26719121bc6e871478faab
           }
         ]
       }

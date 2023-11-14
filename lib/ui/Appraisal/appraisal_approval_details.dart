@@ -74,7 +74,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, var selfScore) {
     double result = 0.0;
-    result = double.parse(selfScore) * (double.parse(weitage) / 100);
+    result = double.parse(selfScore ?? "0.0") *
+        (double.parse(weitage ?? "0.0") / 100);
     return result.toStringAsFixed(2);
   }
 

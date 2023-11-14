@@ -199,6 +199,48 @@ class AppraisalRepository {
     return appraisalApprovalFfDetailsData;
   }
 
+  //============================= get appraisal self assesment================================
+
+  Future<AppraisalApprovalFfDetailsDataModel?> getSelfAssesment(
+      String syncUrl, String cid, String userId, String userPass) async {
+    AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
+    try {
+      http.Response response = await AppraisalDataprovider()
+          .getSelfAppraisal(syncUrl, cid, userId, userPass);
+      var resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          appraisalApprovalFfDetailsData =
+              appraisalApprovalFfDetailsDataModelFromJson(response.body);
+          // appraisalApprovalFfDetailsData =
+          //     appraisalApprovalFfDetailsDataModelFromJson(
+          //         json.encode(fFDetailsJson));
+
+          return appraisalApprovalFfDetailsData;
+        } else {
+          appraisalApprovalFfDetailsData =
+              appraisalApprovalFfDetailsDataModelFromJson(
+                  json.encode(fFDetailsJson));
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return appraisalApprovalFfDetailsData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      appraisalApprovalFfDetailsData =
+          appraisalApprovalFfDetailsDataModelFromJson(
+              json.encode(fFDetailsJson));
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return appraisalApprovalFfDetailsData;
+  }
+
   //======================== Appraisal Approval ==================
   Future<Map<String, dynamic>> appraisalFFApprovalSubmit(String syncUrl,
       String cid, String userId, String userPass, String restParams) async {

@@ -584,171 +584,309 @@ class RetStr {
       };
 }
 
+// class KpiTable {
+//   final String? sl;
+//   final String? name;
+//   final String? definition;
+//   final String? weitage;
+//   final String? selfScror;
+//   final String? supervisorScore;
+//   final String? editable;
+
+//   KpiTable({
+//     this.sl,
+//     this.name,
+//     this.definition,
+//     this.weitage,
+//     this.selfScror,
+//     this.supervisorScore,
+//     this.editable,
+//   });
+
+//   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
+//         sl: json["sl"],
+//         name: json["name"],
+//         definition: json["definition"],
+//         weitage: json["weitage"],
+//         selfScror: json["self_scror"],
+//         supervisorScore: json["supervisor_score"],
+//         editable: json["editable"],
+//       );
+
+//   // factory KpiTable.buildEpmty() => KpiTable(
+//   //   sl: '0',
+//   //   selfScror: '',
+//   //   supervisorScore: ''
+//   // );
+
+//   Map<String, dynamic> toJson() => {
+//         "sl": sl,
+//         "name": name,
+//         "definition": definition,
+//         "weitage": weitage,
+//         "self_scror": selfScror,
+//         "supervisor_score": supervisorScore,
+//         "editable": editable,
+//       };
+// }
+
 class KpiTable {
-  final String? sl;
-  final String? name;
-  final String? definition;
-  final String? weitage;
-  final String? selfScror;
-  final String? supervisorScore;
-  final String? editable;
+  String? rowId;
+  String? sl;
+  String? kpiId;
+  String? name;
+  String? definition;
+  String? weitage;
+  String? kpiEdit;
+  String? selfScror;
+  String? selfOverallScore;
+  String? supScore;
+  String? supOverallScore;
 
   KpiTable({
-    this.sl,
-    this.name,
-    this.definition,
-    this.weitage,
-    this.selfScror,
-    this.supervisorScore,
-    this.editable,
+    required this.rowId,
+    required this.sl,
+    required this.kpiId,
+    required this.name,
+    required this.definition,
+    required this.weitage,
+    required this.kpiEdit,
+    required this.selfScror,
+    required this.selfOverallScore,
+    required this.supScore,
+    required this.supOverallScore,
   });
 
   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
+        rowId: json["row_id"],
         sl: json["sl"],
+        kpiId: json["kpi_id"],
         name: json["name"],
         definition: json["definition"],
-        weitage: json["weitage"],
-        selfScror: json["self_scror"],
-        supervisorScore: json["supervisor_score"],
-        editable: json["editable"],
+        weitage: json["weightage"],
+        kpiEdit: json["kpi_edit"],
+        selfScror: json["self_score"],
+        selfOverallScore: json["self_overall_score"],
+        supScore: json["sup_score"],
+        supOverallScore: json["sup_overall_score"],
       );
 
-  // factory KpiTable.buildEpmty() => KpiTable(
-  //   sl: '0',
-  //   selfScror: '',
-  //   supervisorScore: ''
-  // );
-
   Map<String, dynamic> toJson() => {
+        "row_id": rowId,
         "sl": sl,
+        "kpi_id": kpiId,
         "name": name,
         "definition": definition,
-        "weitage": weitage,
-        "self_scror": selfScror,
-        "supervisor_score": supervisorScore,
-        "editable": editable,
+        "weightage": weitage,
+        "kpi_edit": kpiEdit,
+        "self_score": selfScror,
+        "self_overall_score": selfOverallScore,
+        "sup_score": supScore,
+        "sup_overall_score": supOverallScore,
       };
+}
+
+class RowDataForSelf {
+  final String sl;
+  final String name;
+  final String definition;
+  final String weitage;
+  final String kpiEdit;
+
+  RowDataForSelf({
+    required this.sl,
+    required this.name,
+    required this.definition,
+    required this.weitage,
+    required this.kpiEdit,
+  });
 }
 
 var fFDetailsJson = {
   "res_data": {
     "status": "Success",
-    "sup_level_depth_no": "2",
     "ret_str": [
       {
+        "head_row_id": "6",
+        "last_action": "Approved",
+        "last_action_by": "2761",
+        "chemist_Coverage": "76.12",
+        "brand_Performance": "0.0",
+        "rx_share": "34.62",
+        "upgrade_grade": "0",
+        "designation_change": "1",
+        "increment_amount": "20000",
+        "feedback": "test for approval",
+        "kpi_key": "mso_app_kpi",
+        "doctor_coverage": "87.31",
+        "sales_achievement": "96.64",
+        "previous_achievement": "2021 (Jan-Dec)",
+        "current_achievement": "2023 (Jan-Dec)",
         "cid": "SKF",
-        "release_status": "Yes",
-        "employee_id": "19709",
-        "emp_name": "MR. MD. NURUZZAMAN",
+        "employee_id": "16147",
+        "emp_name": "MR. MD. HAFIZUR RAHAMAN",
         "designation": "Medical Services Officer",
         "present_grade": "O-01",
         "business_segment": "Formulation",
-        "date_of_joining": "15-Dec-20",
+        "date_of_joining": "16-Jun-19",
         "last_promotion": "N/A",
-        "length_of_service": "2Y 9M",
-        "tr_code": "DS23A",
+        "length_of_service": "4Y 3M",
+        "tr_code": "DS12A",
         "base_territory":
-            "DNMI (SKIN, SURGERY, DENTAL, CARDIOLIGY OUTDOOR,INDOOR,SURGERY MALE OUTDOOR ), ASGAR ALI HOSPITAL,ENGLISH ROAD, POPULAR DIAGNOSTIC CENTER, GANDARIA, NARINDA",
-        "length_of_present_tr_service": "2Y  9M ",
+            "SSMCH (GASTRO OUTDOORINDOOR,ENDRO,HEPATO), WEST POSTOGOLA, JURAIN, SOUTH EAST DIGITAL HOSPITAL, SHOBHAN NURSING HOME",
+        "length_of_present_tr_service": "4Y  3M ",
         "target_value_2": "0.0",
         "sold_value_2": "0.0",
-        "achievement_2": "68.45",
-        "avg_sales_2": "4.86",
+        "achievement_2": "81.52",
+        "avg_sales_2": "4.1",
         "avg_sales_4p_2": "0.0",
         "avg_sales_emr_2": "0.0",
         "no_month_achiev_2": "0.0",
         "chemist_cov_2": "0.0",
-        "last_action": "",
-        "step": "",
-        "row_id": "22",
-        "avg_rx_growth": "1.66",
-        "increment_amount": "5200",
-        "upgrade_grade": "1",
-        "designation_change": "1",
-        "feedback": "good",
-        "current_achievement": "2022 (Jan-Dec)",
+        "av_rx_4p_base_point": "5.57",
+        "av_rx_emr_base_point": "10.12",
+        "ach_chemist_cov_base_point": "76.12",
+        "exam_performance_base_point": "",
+        "no_ach_month_base_point": "0.0",
+        "no_letter_issued": "",
+        "cause": "",
+        "action": "",
+        "no_incidence": "",
+        "avg_rx_growth": "0.0",
         "kpi_table": [
           {
+            "row_id": "44",
             "sl": "1",
+            "kpi_id": "sales_achievement",
             "name": "Sales Achievement",
-            "definition":
-                "saghiahgiksdjhgksdjhgijksdghksdjghisdhisdjghsekjghsekjgh",
-            "weitage": "15",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
+            "definition": "Jan-Dec 2023",
+            "weightage": "40.0",
+            "kpi_edit": "NO",
+            "self_score": "3",
+            "self_overall_score": "1.2",
+            "sup_score": "3",
+            "sup_overall_score": "1.2"
           },
           {
+            "row_id": "45",
             "sl": "2",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "15",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
+            "kpi_id": "doctor_coverage",
+            "name": "Doctor Coverage",
+            "definition": "1st April 2023 Onwards",
+            "weightage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "2",
+            "self_overall_score": "0.2",
+            "sup_score": "2",
+            "sup_overall_score": "0.2"
           },
           {
+            "row_id": "46",
             "sl": "3",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "15",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
+            "kpi_id": "rx_share",
+            "name": "Rx Share (Seen Rx, 4P, EMR)",
+            "definition": "Average of three parameters",
+            "weightage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "1",
+            "self_overall_score": "0.1",
+            "sup_score": "1",
+            "sup_overall_score": "0.1"
           },
           {
+            "row_id": "47",
             "sl": "4",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "30",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
+            "kpi_id": "brand_Performance",
+            "name": "Brand Performance (Sales)",
+            "definition":
+                "Double Power Brands\nLeading Power Brands\nChasing Power Brands\nNew Power Brands\n\n1st April 2023 Onwards ",
+            "weightage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "1",
+            "self_overall_score": "0.05",
+            "sup_score": "1",
+            "sup_overall_score": "0.05"
           },
           {
+            "row_id": "48",
             "sl": "5",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "NO"
+            "kpi_id": "chemist_Coverage",
+            "name": "Chemist Coverage",
+            "definition": "Jan-Dec 2023",
+            "weightage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "1",
+            "self_overall_score": "0.05",
+            "sup_score": "1",
+            "sup_overall_score": "0.05"
           },
           {
+            "row_id": "49",
             "sl": "6",
-            "name": "Sales Achievement asfajlafjalgjalsfj",
+            "kpi_id": "product_knowledge_and_details_skills",
+            "name": "Product Knowledge and Detailing Skills",
             "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
+            "weightage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "1",
+            "self_overall_score": "0.05",
+            "sup_score": "1",
+            "sup_overall_score": "0.05"
           },
           {
+            "row_id": "50",
             "sl": "7",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
+            "kpi_id": "PSD_GSD_Relationship",
+            "name": "PSD, GSD Relationship",
+            "definition":
+                "Need Drop Down Box for\n- Very Good (10%)\n- Good (7%)\n- Need Improvement (4%)\n\nDefinition:\n- Weekly coverage (2 Calls)\n- Rx from PSD GSD \n- Number of Doctor",
+            "weightage": "10.0",
+            "kpi_edit": "YES",
+            "self_score": "3",
+            "self_overall_score": "0.3",
+            "sup_score": "2",
+            "sup_overall_score": "0.2"
           },
           {
+            "row_id": "51",
             "sl": "8",
-            "name": "Sales Achievement",
-            "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
+            "kpi_id": "market_Involvement",
+            "name": "Market Involvement and Degree of Drive ",
+            "definition":
+                "Definition:\n- Market Coverage including Doctor & Chemist\n- Regular Initiatives by MSO to full fill his monthly targets",
+            "weightage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "2",
+            "self_overall_score": "0.1",
+            "sup_score": "2",
+            "sup_overall_score": "0.1"
           },
           {
+            "row_id": "52",
             "sl": "9",
-            "name": "Sales Achievement",
+            "kpi_id": "pair_Co_ordination_and_Discipline",
+            "name": "Pair Co-ordination and Discipline",
+            "definition":
+                "Definition:\n- Coordination among teams (A, B, C)\n- Time management\n- Absenteeism\n- Honesty & Integrity\ni. m-Reporting\nii. Resource Utilization (DSR, Gift, Sample, Literature)\niii. Working Authenticity",
+            "weightage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "2",
+            "self_overall_score": "0.1",
+            "sup_score": "3",
+            "sup_overall_score": "0.15"
+          },
+          {
+            "row_id": "53",
+            "sl": "10",
+            "kpi_id": "special_Activities",
+            "name": "Special Activities for Doctors and Chemists",
             "definition": "",
-            "weitage": "5",
-            "self_scror": "3",
-            "supervisor_score": "3",
-            "editable": "YES"
+            "weightage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "2",
+            "self_overall_score": "0.1",
+            "sup_score": "2",
+            "sup_overall_score": "0.1"
           }
         ]
       }

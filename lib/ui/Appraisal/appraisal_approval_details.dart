@@ -529,7 +529,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           columnSpacing: 12,
           horizontalMargin: 8,
           dataRowHeight: 35,
-          minWidth: 380,
+          minWidth: 390,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);

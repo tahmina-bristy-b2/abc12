@@ -913,48 +913,6 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                                   element.weightage,
                                                   supScoreMapData[element.sl!])
                                             });
-                                            // if (supDataForSubmit.isEmpty) {
-                                            //   supDataForSubmit.add({
-                                            //     "row_id": element.rowId,
-                                            //     "sup_score": value,
-                                            //     "sup_overall_score":
-                                            //         overalResult(
-                                            //             element.weightage,
-                                            //             supScoreMapData[
-                                            //                 element.sl!])
-                                            //   });
-                                            // } else {
-                                            //   List<Map<String, dynamic>> temp =
-                                            //       [];
-                                            //   temp.addAll(supDataForSubmit);
-
-                                            //   supDataForSubmit.forEach((ele) {
-                                            //     if (ele["row_id"] ==
-                                            //         element.rowId) {
-                                            //       ele["sup_score"] = value;
-                                            //       ele["sup_overall_score"] =
-                                            //           overalResult(
-                                            //               element.weightage,
-                                            //               supScoreMapData[
-                                            //                   element.sl!]);
-                                            //     } else {
-                                            //       temp.add({
-                                            //         "row_id": element.rowId,
-                                            //         "sup_score": value,
-                                            //         "sup_overall_score":
-                                            //             overalResult(
-                                            //                 element.weightage,
-                                            //                 supScoreMapData[
-                                            //                     element.sl!])
-                                            //       });
-                                            //     }
-                                            //   });
-                                            // supDataForSubmit.addAll(temp);
-                                            // temp.forEach((el) {
-                                            //   supDataForSubmit.add(el);
-                                            // });
-                                            // }
-                                            //
 
                                             setState(() {});
                                           }),

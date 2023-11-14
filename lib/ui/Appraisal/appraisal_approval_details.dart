@@ -75,7 +75,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, var selfScore) {
     double result = 0.0;
-    result = double.parse(selfScore ?? '0.0') * (double.parse(weitage) / 100);
+    result = double.parse(selfScore) * (double.parse(weitage) / 100);
     return result.toStringAsFixed(2);
   }
 
@@ -83,8 +83,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     double result = 0.0;
     if (sup == 'RSM') {
       for (var element in appraisalMaster.kpiTable!) {
-        result += double.parse(supScoreMapData[element.sl] ?? '0') *
-            (double.parse(element.weightage ?? '0') / 100);
+        result +=
+            double.parse(supScoreMapData[element.sl] ?? element.supScore) *
+                (double.parse(element.weightage ?? '0') / 100);
       }
     } else {
       for (var element in appraisalMaster.kpiTable!) {
@@ -311,7 +312,48 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const Expanded(
                     flex: 3,
                     child: Text(
-                      "Feedback(60 Character)",
+                      "FM Feedback",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                const Expanded(
+                    child: Text(
+                  ":",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+                Expanded(
+                    flex: 7,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: TextField(
+                        readOnly: true,
+                        textAlign: TextAlign.center,
+                        controller: TextEditingController(
+                            text: appraisalDetails[index].feedback),
+                        // controller: feedbackController,
+                        decoration: const InputDecoration(
+                          hintText: 'Feedback/value of work',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                const Expanded(
+                    flex: 3,
+                    child: Text(
+                      "RSM Feedback\n(60 Character)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                 const Expanded(
@@ -334,7 +376,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         textAlign: TextAlign.center,
                         controller: feedbackController,
                         decoration: const InputDecoration(
-                          hintText: 'Feedback/value of work',
+                          hintText: 'Feedback(60 Character)',
                           border: InputBorder.none,
                         ),
                       ),
@@ -363,7 +405,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         },
                         child: Container(
                           height: 40,
-                          width: MediaQuery.of(context).size.width * 0.4,
+                          width: MediaQuery.of(context).size.width * 0.3,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.red,
@@ -378,6 +420,23 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 fontSize: 18),
                           )),
                         ),
+                      ),
+                      Container(
+                        height: 40,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: const Color.fromARGB(255, 48, 153, 206),
+                        ),
+                        // color: Colors.blue),
+                        child: const Center(
+                            child: Text(
+                          "Save as Draft",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        )),
                       ),
                       InkWell(
                         onTap: () {
@@ -394,7 +453,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         },
                         child: Container(
                           height: 40,
-                          width: MediaQuery.of(context).size.width * 0.4,
+                          width: MediaQuery.of(context).size.width * 0.3,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: const Color(0xff38C172),
@@ -414,6 +473,40 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   )
                 : Container(),
             // Container(height: 100,color: Colors.,)
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              // onTap: () {
+              //   setState(() {
+              //     _isPressed = true;
+              //   });
+              //   String upgradeGrade = isUpgrade ? '1' : '0';
+              //   String designationChange =
+              //       isDesignationChange ? '1' : '0';
+              //   String approvalRestParams =
+              //       'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
+              //   appraisalApproval(
+              //       approvalRestParams, index, supDataForSubmit);
+              // },
+              child: Container(
+                height: 40,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color.fromARGB(255, 4, 174, 247),
+                ),
+                // color: Colors.blue),
+                child: const Center(
+                    child: Text(
+                  "Released",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                )),
+              ),
+            ),
 
             const Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
@@ -448,7 +541,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
-                  "SL No",
+                  "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
@@ -620,20 +713,28 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             // ),
             headingRowHeight: 40,
             columns: [
-              const DataColumn2(
-                  fixedWidth: 300,
-                  label: Center(
-                      child: Text(
-                    "",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ))),
               DataColumn2(
-                  fixedWidth: 180,
+                  fixedWidth: 280,
                   label: Container(
                     color: const Color.fromARGB(255, 159, 193, 165),
                     child: const Center(
                         child: Text(
-                      "FM Review",
+                      "Score Scale",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                  )),
+              const DataColumn2(
+                  fixedWidth: 12,
+                  label: Text(
+                    "",
+                  )),
+              DataColumn2(
+                  fixedWidth: 152,
+                  label: Container(
+                    color: const Color.fromARGB(255, 159, 193, 165),
+                    child: const Center(
+                        child: Text(
+                      "FM Appraisal",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                   )),
@@ -648,7 +749,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     color: const Color.fromARGB(255, 159, 193, 165),
                     child: const Center(
                         child: Text(
-                      "RSM Review",
+                      "RSM Appraisal",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                   )),
@@ -668,21 +769,21 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             fixedWidth: 40,
                             label: Center(
                                 child: Text(
-                              "SL N.",
+                              "SL",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                         DataColumn2(
                             fixedWidth: 170,
                             label: Center(
                                 child: Text(
-                              "Kpi Name",
+                              "KPI Name",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                         DataColumn2(
                             fixedWidth: 70,
                             label: Center(
                                 child: Text(
-                              "Weitage %",
+                              "Weightage \n\t\t\t\t\t\t(%)",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                       ],
@@ -712,7 +813,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         DataRow2(
                           color: MaterialStateColor.resolveWith(
                             (states) {
-                              return Colors.grey.shade300;
+                              return const Color.fromARGB(255, 159, 193, 165);
                             },
                           ),
                           cells: [
@@ -722,18 +823,24 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Padding(
                                   padding: EdgeInsets.all(4.0),
                                   child: Text(
-                                      'Total (Sum of weitages and overal)'),
+                                    'Total (Sum of Weightage and overall)',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ))),
                             DataCell(Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                    '${totalWeitages(appraisalMaster)}%'))),
+                                  '${totalWeitages(appraisalMaster)}%',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ))),
                           ],
                         ),
                         DataRow2(
                           color: MaterialStateColor.resolveWith(
                             (states) {
-                              return Colors.grey.shade300;
+                              return const Color.fromARGB(255, 159, 193, 165);
                             },
                           ),
                           cells: const [
@@ -742,7 +849,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
                                   padding: EdgeInsets.all(4.0),
-                                  child: Text('Rounded Total (sum of Ovaral)'),
+                                  child: Text(
+                                    'Rounded Total (sum of Overall)',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ))),
                             DataCell(Align(
                                 alignment: Alignment.center,
@@ -754,15 +865,34 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 ),
                 DataCell(
                   DataTable2(
+                      // border: TableBorder.all(),
+                      columnSpacing: 0,
+                      horizontalMargin: 0,
+                      dataRowHeight: 38,
+                      minWidth: 10,
+                      headingRowHeight: 43,
+                      columns: const [
+                        DataColumn2(
+                            fixedWidth: 10,
+                            label: Center(
+                                child: Text(
+                              "",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))),
+                      ],
+                      rows: []),
+                ),
+                DataCell(
+                  DataTable2(
                       border: TableBorder.all(),
                       columnSpacing: 0,
                       horizontalMargin: 0,
                       dataRowHeight: 38,
-                      minWidth: 180,
+                      minWidth: 150,
                       headingRowHeight: 40,
                       columns: [
                         const DataColumn2(
-                            fixedWidth: 100,
+                            fixedWidth: 70,
                             label: Center(
                                 child: Text(
                               "Score",
@@ -774,7 +904,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               color: Colors.grey[300],
                               child: const Center(
                                   child: Text(
-                                "Ov. Review",
+                                "Ov. Result",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               )),
                             )),
@@ -798,7 +928,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         DataRow2(
                           color: MaterialStateColor.resolveWith(
                             (states) {
-                              return Colors.grey.shade300;
+                              return const Color.fromARGB(255, 159, 193, 165);
                             },
                           ),
                           cells: [
@@ -808,14 +938,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             DataCell(Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                    totalOveralResult(appraisalMaster, 'FM')
-                                        .toStringAsFixed(2)))),
+                                  totalOveralResult(appraisalMaster, 'FM')
+                                      .toStringAsFixed(2),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ))),
                           ],
                         ),
                         DataRow2(
                           color: MaterialStateColor.resolveWith(
                             (states) {
-                              return Colors.grey.shade300;
+                              return const Color.fromARGB(255, 159, 193, 165);
                             },
                           ),
                           cells: [
@@ -826,8 +959,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             DataCell(Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                    totalOveralResult(appraisalMaster, 'FM')
-                                        .toStringAsFixed(0)))),
+                                  totalOveralResult(appraisalMaster, 'FM')
+                                      .toStringAsFixed(0),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ))),
                           ],
                         )
                       ]),
@@ -873,7 +1009,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               color: Colors.grey[300],
                               child: const Center(
                                   child: Text(
-                                "Ov. Review",
+                                "Ov. Result",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               )),
                             )),
@@ -921,8 +1057,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 color: Colors.grey.shade300,
                                 child: Align(
                                     alignment: Alignment.center,
-                                    child: Text(overalResult(element.weightage,
-                                        supScoreMapData[element.sl!]))),
+                                    child: Text(overalResult(
+                                        element.weightage,
+                                        supScoreMapData[element.sl!] ??
+                                            element.supScore))),
                               )),
                             ],
                           );
@@ -930,7 +1068,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         DataRow2(
                           color: MaterialStateColor.resolveWith(
                             (states) {
-                              return Colors.grey.shade300;
+                              return const Color.fromARGB(255, 159, 193, 165);
                             },
                           ),
                           cells: [
@@ -940,14 +1078,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             DataCell(Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                    totalOveralResult(appraisalMaster, 'RSM')
-                                        .toStringAsFixed(2)))),
+                                  totalOveralResult(appraisalMaster, 'RSM')
+                                      .toStringAsFixed(2),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ))),
                           ],
                         ),
                         DataRow2(
                           color: MaterialStateColor.resolveWith(
                             (states) {
-                              return Colors.grey.shade300;
+                              return const Color.fromARGB(255, 159, 193, 165);
                             },
                           ),
                           cells: [
@@ -955,10 +1096,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 alignment: Alignment.centerRight,
                                 child: Text(''))),
                             DataCell(Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                    totalOveralResult(appraisalMaster, 'RSM')
-                                        .toStringAsFixed(0)))),
+                              alignment: Alignment.center,
+                              child: Text(
+                                totalOveralResult(appraisalMaster, 'RSM')
+                                    .toStringAsFixed(0),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
                           ],
                         )
                       ]),

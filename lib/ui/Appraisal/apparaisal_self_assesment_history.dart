@@ -40,6 +40,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   bool isUpgrade = false;
   bool isDesignationChange = false;
   double totaOverallCount = 0.0;
+  double totalWeightage = 0.0;
   List<RowDataForSelf> rowsList = [];
 
   @override
@@ -63,35 +64,19 @@ class _AppraisalSelfAssesmentHistoryScreenState
   String totalWeitages(RetStr appraisalMaster) {
     double weitagesTotal = 0.0;
     for (var element in appraisalMaster.kpiTable!) {
-      weitagesTotal += double.parse(element.weitage ?? '0.0');
+      weitagesTotal += double.parse(element.weightage ?? '0.0');
     }
 
     return weitagesTotal.toStringAsFixed(0);
   }
 
-  // String overalResult(var weitage, var selfScore) {
-  //   double result = 0.0;
-  //   result = double.parse(selfScore == null ? "" : selfScore) *
-  //       (double.parse(weitage) / 100);
-  //   return result.toStringAsFixed(2);
-  // }
+  String overalResult(var weitage, var selfScore) {
+    double result = 0.0;
+    result = double.parse(selfScore == null ? "" : selfScore) *
+        (double.parse(weitage) / 100);
+    return result.toStringAsFixed(2);
+  }
 
-  // double totalOveralResult(RetStr appraisalMaster, String sup) {
-  //   double result = 0.0;
-  //   if (sup == appraisalMaster.step) {
-  //     for (var element in appraisalMaster.kpiTable!) {
-  //       result += double.parse(supScoreMapData[element.sl] ?? '0') *
-  //           (double.parse(element.weitage ?? '0') / 100);
-  //     }
-  //   } else {
-  //     for (var element in appraisalMaster.kpiTable!) {
-  //       result += double.parse(element.selfScror ?? '0') *
-  //           (double.parse(element.weitage ?? '0') / 100);
-  //     }
-  //   }
-
-  //   return result;
-  // }
   void getAppraisalApprovalFFDetailsdata() async {
     // appraisalApprovalFfDetailsData =
     //     appraisalApprovalFfDetailsDataModelFromJson(json.encode(fFDetailsJson));
@@ -109,39 +94,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-      });
-    }
-  }
-
-  void appraisalApproval(String approvalRestParams, int index) async {
-    bool result = await InternetConnectionChecker().hasConnection;
-
-    if (result) {
-      Map<String, dynamic> approvedResponse =
-          await AppraisalRepository().appraisalFFApprovalSubmit(
-        dmpathData!.syncUrl,
-        widget.cid,
-        userInfo!.userId,
-        widget.userPass,
-        approvalRestParams,
-      );
-
-      if (approvedResponse.isNotEmpty &&
-          approvedResponse["status"] == "Success") {
-        // removeFFAopraisal(index);
-        setState(() {
-          _isPressed = false;
-        });
-      } else {
-        setState(() {
-          _isPressed = false;
-        });
-      }
-    } else {
-      AllServices()
-          .toastMessage(interNetErrorMsg, Colors.yellow, Colors.black, 16);
-      setState(() {
-        _isPressed = false;
       });
     }
   }
@@ -329,7 +281,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
             FfInformationWidget(
                 staticKey: "Appraisal Status",
-                value: "appraisalDetails[index].lastAction ?? ''"),
+                value: appraisalDetails[index].lastAction!),
 
             const SizedBox(
               height: 20,
@@ -942,40 +894,51 @@ class _AppraisalSelfAssesmentHistoryScreenState
             },
           ),
           headingRowHeight: 70,
-          columns: const [
-            DataColumn2(
-                fixedWidth: 50,
+          columns: [
+            const DataColumn2(
+                fixedWidth: 40,
                 label: Center(
                     child: Text(
                   "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 220,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
-                fixedWidth: 110,
+            const DataColumn2(
+                fixedWidth: 90,
                 label: Center(
                     child: Text(
-                  "% WEIGHTAGE",
+                  "% Weightage",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 80,
                 label: Center(
-                    child: Text(
-                  "   SCORE \n(min-max)\n    1 2 3",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Column(
+                  children: const [
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      "  Score ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      " Minimum - 1\nMaximum - 3",
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  ],
                 ))),
             DataColumn2(
-                fixedWidth: 130,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
-                  "OVERALL RESULT",
+                  "Overall Result",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -1004,16 +967,17 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     ))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text("${e.weitage}%"))),
+                    child: Text("${e.weightage}%"))),
                 DataCell(
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(e.selfScror!.toString()),
+                    child: Text(e.supScore!.toString()),
                   ),
                 ),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(totaOverallCount.toStringAsFixed(2))))
+                    child: Text(overallCount(e.weightage!, e.supScore!)
+                        .toStringAsFixed(2))))
               ],
             ),
           )
@@ -1022,8 +986,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
         color: MaterialStateColor.resolveWith(
             (states) => Color.fromARGB(255, 226, 226, 226)),
         cells: [
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
@@ -1034,7 +996,19 @@ class _AppraisalSelfAssesmentHistoryScreenState
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              1.toStringAsFixed(2),
+              totalWeightage.toStringAsFixed(2),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ))),
+          const DataCell(Center(
+              child: Text(
+            "",
+          ))),
+          DataCell(Center(
+              child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              totaOverallCount.toStringAsFixed(2),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),
@@ -1081,8 +1055,8 @@ class _AppraisalSelfAssesmentHistoryScreenState
     for (var kpi in kpiTableData!) {
       if (kpi.name != null &&
           kpi.definition != null &&
-          kpi.weitage != null &&
-          kpi.editable != null) {
+          kpi.weightage != null &&
+          kpi.kpiEdit != null) {
         // rowsList.add(
         //   RowDataForSelf(
         //     sl: kpi.sl!,
@@ -1092,9 +1066,8 @@ class _AppraisalSelfAssesmentHistoryScreenState
         //     kpiEdit: kpi.editable!,
         //   ),
         // );
-        totaOverallCount =
-            totaOverallCount + overallCount(kpi.weitage!, kpi.selfScror!);
       }
+      totalWeightage = totalWeightage + double.parse(kpi.weightage!);
     }
   }
 
@@ -1102,6 +1075,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   double overallCount(String weightageKey, String scrore) {
     double overallCount =
         ((double.parse(weightageKey) / 100) * double.parse(scrore));
+    totaOverallCount = totaOverallCount + overallCount;
 
     return overallCount;
   }

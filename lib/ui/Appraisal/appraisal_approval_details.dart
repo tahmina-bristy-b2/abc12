@@ -67,7 +67,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   String totalWeitages(RetStr appraisalMaster) {
     double weitagesTotal = 0.0;
     for (var element in appraisalMaster.kpiTable!) {
-      weitagesTotal += double.parse(element.weitage ?? '0.0');
+      weitagesTotal += double.parse(element.weightage ?? '0.0');
     }
 
     return weitagesTotal.toStringAsFixed(0);
@@ -75,12 +75,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, var selfScore) {
     double result = 0.0;
-
-    result = double.parse(selfScore ?? "0.0") *
-        (double.parse(weitage ?? "0.0") / 100);
-
     result = double.parse(selfScore ?? '0.0') * (double.parse(weitage) / 100);
-
     return result.toStringAsFixed(2);
   }
 
@@ -89,12 +84,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     if (sup == 'RSM') {
       for (var element in appraisalMaster.kpiTable!) {
         result += double.parse(supScoreMapData[element.sl] ?? '0') *
-            (double.parse(element.weitage ?? '0') / 100);
+            (double.parse(element.weightage ?? '0') / 100);
       }
     } else {
       for (var element in appraisalMaster.kpiTable!) {
-        result += double.parse(element.selfScror ?? '0') *
-            (double.parse(element.selfScror ?? '0') / 100);
+        result += double.parse(element.selfScore ?? '0') *
+            (double.parse(element.weightage ?? '0') / 100);
       }
     }
 

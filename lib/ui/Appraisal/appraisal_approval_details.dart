@@ -402,7 +402,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           // color: Colors.blue),
                           child: const Center(
                               child: Text(
-                            "Approve",
+                            "Submit",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

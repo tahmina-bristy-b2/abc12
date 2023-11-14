@@ -75,7 +75,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, var selfScore) {
     double result = 0.0;
-    result = double.parse(selfScore ?? '0.0') * (double.parse(weitage) / 100);
+    result = double.parse(selfScore) * (double.parse(weitage) / 100);
     return result.toStringAsFixed(2);
   }
 
@@ -83,8 +83,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     double result = 0.0;
     if (sup == 'RSM') {
       for (var element in appraisalMaster.kpiTable!) {
-        result += double.parse(supScoreMapData[element.sl] ?? '0') *
-            (double.parse(element.weightage ?? '0') / 100);
+        result +=
+            double.parse(supScoreMapData[element.sl] ?? element.supScore) *
+                (double.parse(element.weightage ?? '0') / 100);
       }
     } else {
       for (var element in appraisalMaster.kpiTable!) {
@@ -822,7 +823,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Padding(
                                   padding: EdgeInsets.all(4.0),
                                   child: Text(
-                                    'Total (Sum of Weightage and overal)',
+                                    'Total (Sum of Weightage and overall)',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -849,7 +850,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 child: Padding(
                                   padding: EdgeInsets.all(4.0),
                                   child: Text(
-                                    'Rounded Total (sum of Ovaral)',
+                                    'Rounded Total (sum of Overall)',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -1056,8 +1057,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 color: Colors.grey.shade300,
                                 child: Align(
                                     alignment: Alignment.center,
-                                    child: Text(overalResult(element.weightage,
-                                        supScoreMapData[element.sl!]))),
+                                    child: Text(overalResult(
+                                        element.weightage,
+                                        supScoreMapData[element.sl!] ??
+                                            element.supScore))),
                               )),
                             ],
                           );

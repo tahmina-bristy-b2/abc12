@@ -520,18 +520,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             borderRadius: BorderRadius.circular(5),
                             color: const Color.fromARGB(255, 48, 153, 206),
                           ),
-                          child: Center(
-                              child: isSubmit == true
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
-                                  : const Text(
-                                      "Save as Draft",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    )),
+                          child: const Center(
+                              child: Text(
+                            "Save as Draft",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
                         ),
                         submitButtonWidget(context),
                       ],
@@ -1129,7 +1125,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           .toList(),
       DataRow(
         color: MaterialStateColor.resolveWith(
-            (states) => Color.fromARGB(255, 226, 226, 226)),
+            (states) => const Color.fromARGB(255, 226, 226, 226)),
         cells: [
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(child: Text(""))),

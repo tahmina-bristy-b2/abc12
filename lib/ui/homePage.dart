@@ -5,6 +5,7 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING/ui/Appraisal/apparaisal_self_assesment_history.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_employee_page.dart';
 import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart';
@@ -307,6 +308,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (_) => StockPage(
                             cid: cid,
                             userPassword: userPassword,
+                          ))),
+            ),
+            const SizedBox(height: 10),
+            ListTile(
+              leading:
+                  const Icon(Icons.dataset_sharp, color: Colors.blueAccent),
+              title: const Text(
+                'Self Appraisal',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 15, 53, 85),
+                ),
+              ),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AppraisalSelfAssesmentHistoryScreen(
+                            cid: cid,
+                            userId: userId,
+                            userPass: userPassword,
                           ))),
             ),
             const SizedBox(height: 10),

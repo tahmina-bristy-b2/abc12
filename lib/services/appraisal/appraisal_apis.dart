@@ -40,5 +40,12 @@ class AppraisalApis {
   static ffapprovalSubmitApi(String syncUrl, String cid, String userId,
           String usrPass, String restParams) =>
       '${syncUrl}api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+  static appraisalSelfAssesment(
+    String syncUrl,
+    String cid,
+    String userId,
+    String usrPass,
+  ) =>
+      "https://mreporting-mobileapi.azurewebsites.net/skf_api/api_appraisal_submit/self_appraisal_details?cid=SKF&rep_id=1584&rep_pass=1903";
   // 'http://10.168.27.183:8000/skf_api/api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
 }

@@ -266,6 +266,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
+      //print("kpi")
       submitEmployeeAppraisal();
     } else {
       setState(() {
@@ -1083,9 +1084,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                                           ))
                                   .toList(),
                               onChanged: (value) {
-                                // finalOverallCount(
-                                //     overallCount(e.weitage, value.toString()));
-
                                 setState(() {
                                   dropdwonValueForSelfScore[e.sl] = value!;
                                   overalYesValuesMap[e.sl] = {

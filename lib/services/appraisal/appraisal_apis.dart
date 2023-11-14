@@ -29,10 +29,10 @@ class AppraisalApis {
 
   static ffDetailsApi(String syncUrl, String cid, String userId, String usrPass,
           String restParams) =>
-      'http://10.168.27.183:8000/skf_api/api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
-  // '${syncUrl}api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+      '${syncUrl}api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+  // 'http://10.168.27.183:8000/skf_api/api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
   static ffapprovalSubmitApi(String syncUrl, String cid, String userId,
           String usrPass, String restParams) =>
-      'http://10.168.27.183:8000/skf_api/api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
-  // '${syncUrl}api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+      '${syncUrl}api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+  // 'http://10.168.27.183:8000/skf_api/api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
 }

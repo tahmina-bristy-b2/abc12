@@ -1768,7 +1768,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     if (result) {
       Map<String, dynamic> approvedResponse = await AppraisalRepository()
           .appraisalFFApprovalSubmit(
-              dmpathData!.syncUrl,
+              dmpathData!.submitUrl,
               widget.cid,
               userInfo!.userId,
               widget.userPass,

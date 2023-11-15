@@ -49,25 +49,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    getAppraisalApprovalFFDetailsdata(); // FF means Field force
-  }
-
-  String toCaculateMasterAchievedPoint(String vaseValue, String fullPoint) {
-    if (vaseValue == '' || fullPoint == '') {
-      return '0';
-    } else {
-      double result = double.parse(fullPoint) * (double.parse(vaseValue) / 100);
-      return result.toStringAsFixed(2);
-    }
-  }
-
-  String totalWeitages(RetStr appraisalMaster) {
-    double weitagesTotal = 0.0;
-    for (var element in appraisalMaster.kpiTable!) {
-      weitagesTotal += double.parse(element.weightage ?? '0.0');
-    }
-
-    return weitagesTotal.toStringAsFixed(0);
+    getAppraisalApprovalFFDetailsdata();
   }
 
   String overalResult(var weitage, var selfScore) {
@@ -86,7 +68,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
 
     if (appraisalApprovalFfDetailsData != null) {
       kpitable(appraisalApprovalFfDetailsData!);
-      //print(supScoreMapData);
+
       setState(() {
         _isLoading = false;
       });
@@ -291,22 +273,9 @@ class _AppraisalSelfAssesmentHistoryScreenState
               height: 8,
             ),
             appraisalMasterWidget(appraisalDetails[index]),
-            // const SizedBox(
-            //   height: 8,
-            // ),
-
             const SizedBox(
               height: 8,
             ),
-
-            // // appraisalMaster(appraisalDetails[index]),
-            // // const SizedBox(
-            // //   height: 8,
-            // // ),
-            // reasonActionWidget(appraisalDetails[index]),
-            // const SizedBox(
-            //   height: 8,
-            // ),
             increametGradeUpgrationWidget(appraisalDetails[index]),
             const SizedBox(
               height: 8,
@@ -602,138 +571,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
     );
   }
 
-  // String totalAchPoints(RetStr appraisalMaster) {
-  //   return (double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.salesAchievementBasePoint ?? '',
-  //               appraisalMaster.salesAchievementFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.avRx4PBasePoint ?? '',
-  //               appraisalMaster.avRx4PFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.avRxEmrBasePoint ?? '',
-  //               appraisalMaster.avRxEmrFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.achChemistCovBasePoint ?? '',
-  //               appraisalMaster.achChemistCovFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.examPerformanceBasePoint ?? '',
-  //               appraisalMaster.examPerformanceFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.noAchMonthBasePoint ?? '',
-  //               appraisalMaster.noAchMonthFullPoints ?? '')) +
-  //           double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
-  //           double.parse(appraisalMaster.discipline ?? '0') +
-  //           double.parse(appraisalMaster.skill ?? '0') +
-  //           double.parse(appraisalMaster.qualityOfSales ?? '0'))
-  //       .toStringAsFixed(2);
-  // }
-
-  // Text totalAchBaseValue(RetStr appraisalMaster) {
-  //   return Text(
-  //     '${((double.parse(toCaculateMasterAchievedPoint(appraisalMaster.salesAchievementBasePoint ?? '', appraisalMaster.salesAchievementFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRx4PBasePoint ?? '', appraisalMaster.avRx4PFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRxEmrBasePoint ?? '', appraisalMaster.avRxEmrFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.achChemistCovBasePoint ?? '', appraisalMaster.achChemistCovFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.examPerformanceBasePoint ?? '', appraisalMaster.examPerformanceFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.noAchMonthBasePoint ?? '', appraisalMaster.noAchMonthFullPoints ?? '')) + double.parse(appraisalMaster.honestyAndIntegrity ?? '0') + double.parse(appraisalMaster.discipline ?? '0') + double.parse(appraisalMaster.skill ?? '0') + double.parse(appraisalMaster.qualityOfSales ?? '0')) / ((double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') + double.parse(appraisalMaster.avRx4PFullPoints ?? '0') + double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') + double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') + double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') + double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') + double.parse(appraisalMaster.honestyFullPoints ?? '0') + double.parse(appraisalMaster.discipFullPoints ?? '0') + double.parse(appraisalMaster.skillFullPoints ?? '0') + double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))) * 100).toStringAsFixed(2)}%',
-  //     style: const TextStyle(fontWeight: FontWeight.bold),
-  //   );
-  // }
-// Text totalAchBaseValue(RetStr appraisalMaster) {
-//     return Text(
-//       '${(double.parse((appraisalMaster.salesAchievementBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.achChemistCovBasePoint ?? '0')) + double.parse((appraisalMaster.examPerformanceBasePoint == '' ? '0' : appraisalMaster.examPerformanceBasePoint ?? '0')) + double.parse((appraisalMaster.noAchMonthBasePoint ?? '0'))
-//           // +
-//           // double.parse((appraisalMaster.honestyFullPoints ?? '0')) +
-//           // double.parse((appraisalMaster.discipFullPoints ?? '0')) +
-//           // double.parse((appraisalMaster.skillFullPoints ?? '0')) +
-//           // double.parse((appraisalMaster.qualitySalesFullPoints ?? '0'))
-//           ).toStringAsFixed(2)}%',
-//       style: const TextStyle(fontWeight: FontWeight.bold),
-//     );
-//   }
-
-//========================================reason action widget======================================
-  // Container reasonActionWidget(RetStr appraisalOthers) {
-  //   return Container(
-  //     color: const Color(0xffF8CBAD),
-  //     height: 110,
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Column(children: [
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "No. of Letter Issued",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(
-  //                 flex: 7, child: Text(appraisalOthers.noLetterIssued ?? ''))
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 8,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "Cause/Reason",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(flex: 7, child: Text(appraisalOthers.cause ?? ''))
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 8,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "Action Taken",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(flex: 7, child: Text(appraisalOthers.action ?? ''))
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 8,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "No. of Incidence",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(flex: 7, child: Text(appraisalOthers.noIncidence ?? ''))
-  //           ],
-  //         ),
-  //       ]),
-  //     ),
-  //   );
-  // }
-
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
@@ -834,6 +671,17 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Center(child: Text("6"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
+                    child: Text("Avg. Rx Share (Seen Rx) "))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.avgSalesEmr2 ?? '')))
+              ],
+            ),
+            DataRow2(
+              cells: [
+                const DataCell(Center(child: Text("6"))),
+                const DataCell(Align(
+                    alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
@@ -880,7 +728,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   //======================================= Appraisal Master Widget==============================================
   SizedBox appraisalMasterWidget(RetStr appraisalMaster) {
     return SizedBox(
-      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45),
+      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 50),
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -910,7 +758,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 90,
+                fixedWidth: 95,
                 label: Center(
                     child: Text(
                   "% Weightage",
@@ -934,7 +782,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     ),
                   ],
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 100,
                 label: Center(
                     child: Text(
@@ -984,19 +832,19 @@ class _AppraisalSelfAssesmentHistoryScreenState
           .toList(),
       DataRow(
         color: MaterialStateColor.resolveWith(
-            (states) => Color.fromARGB(255, 226, 226, 226)),
+            (states) => const Color.fromARGB(255, 165, 193, 170)),
         cells: [
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            "Total (Sum of Weightage & Overall Result)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              totalWeightage.toStringAsFixed(2),
+              "${totalWeightage.toStringAsFixed(2)}%",
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),
@@ -1009,7 +857,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
             alignment: Alignment.centerRight,
             child: Text(
               totaOverallCount.toStringAsFixed(2),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ))),
         ],

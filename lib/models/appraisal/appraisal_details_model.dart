@@ -76,6 +76,7 @@ class RetStr {
   String soldValue2;
   String achievement2;
   String avgSales2;
+  String avgSalesSeenRx;
   String avgSales4P2;
   String avgSalesEmr2;
   String noMonthAchiev2;
@@ -113,6 +114,7 @@ class RetStr {
     required this.targetValue2,
     required this.soldValue2,
     required this.achievement2,
+    required this.avgSalesSeenRx,
     required this.avgSales2,
     required this.avgSales4P2,
     required this.avgSalesEmr2,
@@ -153,6 +155,7 @@ class RetStr {
         soldValue2: json["sold_value_2"] ?? "0.0",
         achievement2: json["achievement_2"] ?? "0.0",
         avgSales2: json["avg_sales_2"] ?? "0.0",
+        avgSalesSeenRx: json["avg_sales_seen_rx"] ?? "0.0",
         avgSales4P2: json["avg_sales_4p_2"] ?? "0.0",
         avgSalesEmr2: json["avg_sales_emr_2"] ?? "0.0",
         noMonthAchiev2: json["no_month_achiev_2"] ?? "0.0",
@@ -193,6 +196,7 @@ class RetStr {
         "sold_value_2": soldValue2,
         "achievement_2": achievement2,
         "avg_sales_2": avgSales2,
+        "avg_sales_seen_rx": avgSalesSeenRx,
         "avg_sales_4p_2": avgSales4P2,
         "avg_sales_emr_2": avgSalesEmr2,
         "no_month_achiev_2": noMonthAchiev2,

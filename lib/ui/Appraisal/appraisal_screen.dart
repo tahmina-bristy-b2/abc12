@@ -51,6 +51,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
+  double totalWeightage = 0.0;
   //double totalOverallResult = 0.0;
 
   double totaOverallCount = 0.0;
@@ -136,7 +137,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       // finalOveralResultCount = totaOverallCount;
 
       dropdwonValueForSelfScore[kpi.sl] =
-          kpi.selfScore == '0' ? null : kpi.selfScore; //Edited by apparisal_M
+          kpi.selfScore == '0' ? null : kpi.selfScore;
+      totalWeightage =
+          totalWeightage + double.parse(kpi.weitage); //Edited by apparisal_M
 
       // dropdwonValueForSelfScore.forEach((key, value) {
       //   key = kpi.sl;
@@ -547,7 +550,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget() {
     return SizedBox(
-      height: 360,
+      height: 400,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -642,17 +645,30 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 const DataCell(Center(child: Text("5"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Share (4P) "))),
+                    child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.avRx4PBasePoint
+                        .resData.retStr.first.avgSalesSeenRx
                         .toString())))
               ],
             ),
             DataRow2(
               cells: [
                 const DataCell(Center(child: Text("6"))),
+                const DataCell(Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Avg. Rx Share (4P) "))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.avgSales4P2
+                        .toString())))
+              ],
+            ),
+            DataRow2(
+              cells: [
+                const DataCell(Center(child: Text("7"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
@@ -665,7 +681,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("7"))),
+                const DataCell(Center(child: Text("8"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
@@ -678,7 +694,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("8"))),
+                const DataCell(Center(child: Text("9"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
@@ -691,7 +707,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("9"))),
+                const DataCell(Center(child: Text("10"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
@@ -712,54 +728,65 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       height:
           (appraisalDetailsModel!.resData.retStr.first.kpiTable.length * 45 +
               70 +
-              45),
+              45 +
+              50),
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
           horizontalMargin: 8,
           dataRowHeight: 45,
           minWidth: 800,
-          fixedLeftColumns: 1,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
             },
           ),
           headingRowHeight: 70,
-          columns: const [
-            DataColumn2(
-                fixedWidth: 50,
+          columns: [
+            const DataColumn2(
+                fixedWidth: 40,
                 label: Center(
                     child: Text(
                   "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
+            const DataColumn2(
                 fixedWidth: 220,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            DataColumn2(
-                fixedWidth: 110,
+            const DataColumn2(
+                fixedWidth: 95,
                 label: Center(
                     child: Text(
-                  "Weightage %",
+                  "% Weightage",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 100,
                 label: Center(
-                    child: Text(
-                  "   SCORE \n(min-max)\n    1 2 3",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Column(
+                  children: const [
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      "  Score ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      " Minimum - 1\nMaximum - 3",
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  ],
                 ))),
-            DataColumn2(
-                fixedWidth: 130,
+            const DataColumn2(
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
-                  "OVERALL RESULT",
+                  "Overall Result",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -899,7 +926,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         int counter = 0;
 
         for (var kpi in kpiTableData) {
-          // Getting full kpi value edited by appraisal_M
           counter++;
           Map<String, dynamic> eachKpiValues = {
             "kpi_name": kpi.name,
@@ -926,7 +952,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         if (kpiValuesList.length == counter &&
             dropdwonValueForSelfScore.values
                 .every((element) => element != null)) {
-          //checked for null value by appraisal_M
           feeddbackController.text != ""
               ? await internetCheckForSubmit()
               : AllServices().toastMessage("Please provide feedback first ",
@@ -1044,6 +1069,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       ...kpiData
           .map(
             (e) => DataRow(
+              color: MaterialStateColor.resolveWith(
+                (states) {
+                  return e.kpiEdit == "NO"
+                      ? Colors.transparent
+                      : Color.fromARGB(255, 235, 228, 244);
+                  // : Color.fromARGB(255, 199, 219, 235);
+                },
+              ),
               cells: [
                 DataCell(Center(child: Text(e.sl))),
                 DataCell(Align(
@@ -1068,7 +1101,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           child: Text(e.selfScore),
                         ),
                       )
-                    : DataCell(Container(
+                    : DataCell(SizedBox(
                         width: 300.0,
                         child: DropdownButtonHideUnderline(
                           child: ButtonTheme(
@@ -1123,21 +1156,60 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           .toList(),
       DataRow(
         color: MaterialStateColor.resolveWith(
-            (states) => const Color.fromARGB(255, 226, 226, 226)),
+            (states) => const Color.fromARGB(255, 165, 193, 170)),
+        // const Color.fromARGB(255, 226, 226, 226)),
+
         cells: [
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            "Total (Sum of Weightage & Overall Result)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          ))),
+          DataCell(Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "${totalWeightage.toStringAsFixed(2)}%",
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ))),
+          const DataCell(Center(
+              child: Text(
+            "",
           ))),
           DataCell(Center(
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
               (totaOverallCount + totalYesCount).toStringAsFixed(2),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+          ))),
+        ],
+      ),
+      DataRow(
+        color: MaterialStateColor.resolveWith(
+            (states) => const Color.fromARGB(255, 165, 193, 170)),
+        // const Color.fromARGB(255, 226, 226, 226)),
+
+        cells: [
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "Total (Rounded)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          ))),
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ))),
+          DataCell(Center(
+              child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              (totaOverallCount + totalYesCount).round().toString(),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),

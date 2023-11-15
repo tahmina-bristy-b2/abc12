@@ -51,6 +51,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
+  bool submitConfirmation = false;
   double totalWeightage = 0.0;
   //double totalOverallResult = 0.0;
 
@@ -134,7 +135,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       totaOverallCount = totaOverallCount +
           overallCount(
               kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
-      // finalOveralResultCount = totaOverallCount;
+      totalWeightage = totalWeightage + double.parse(kpi.weitage);
 
       dropdwonValueForSelfScore[kpi.sl] =
           kpi.kpiEdit == 'YES' ? null : kpi.selfScore; //Edited by apparisal_M
@@ -280,47 +281,50 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
 //====================================== Submit Api Call ============================================
   submitEmployeeAppraisal() async {
-    Map<String, dynamic> submitInfo = await AppraisalRepository()
-        .appraisalSubmit(
-            dmpathData!.submitUrl,
-            widget.cid,
-            widget.userId,
-            widget.userPass,
-            widget.levelDepth,
-            widget.employeeId,
-            kpiValuesList,
-            incrementController.text.toString() == ""
-                ? "0"
-                : incrementController.text.toString(),
-            isUpgrade ? "1" : "0",
-            isDesignationChange ? "1" : "0",
-            feeddbackController.text,
-            appraisalDetailsModel!.resData.retStr.first.kpiKey);
-    if (submitInfo != {}) {
-      if (submitInfo["status"] == "Success") {
-        setState(() {
-          isSubmit = false;
-        });
-        if (!mounted) return;
-        Navigator.pop(context);
+    alartDialogForSubmit(context);
+    if (submitConfirmation == true) {
+      Map<String, dynamic> submitInfo = await AppraisalRepository()
+          .appraisalSubmit(
+              dmpathData!.submitUrl,
+              widget.cid,
+              widget.userId,
+              widget.userPass,
+              widget.levelDepth,
+              widget.employeeId,
+              kpiValuesList,
+              incrementController.text.toString() == ""
+                  ? "0"
+                  : incrementController.text.toString(),
+              isUpgrade ? "1" : "0",
+              isDesignationChange ? "1" : "0",
+              feeddbackController.text,
+              appraisalDetailsModel!.resData.retStr.first.kpiKey);
+      if (submitInfo != {}) {
+        if (submitInfo["status"] == "Success") {
+          setState(() {
+            isSubmit = false;
+          });
+          if (!mounted) return;
+          Navigator.pop(context);
 
-        AllServices().toastMessage(
-            "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
-      } else if (submitInfo["status"] == "Failed") {
-        setState(() {
-          isSubmit = false;
-        });
-        AllServices().toastMessage(
-            "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
+          AllServices().toastMessage(
+              "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
+        } else if (submitInfo["status"] == "Failed") {
+          setState(() {
+            isSubmit = false;
+          });
+          AllServices().toastMessage(
+              "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
+        } else {
+          setState(() {
+            isSubmit = false;
+          });
+        }
       } else {
         setState(() {
           isSubmit = false;
         });
       }
-    } else {
-      setState(() {
-        isSubmit = false;
-      });
     }
   }
 
@@ -759,7 +763,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 95,
                 label: Center(
                     child: Text(
-                  "% Weightage",
+                  "Weightage(%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
@@ -775,7 +779,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " Minimum - 1\nMaximum - 3",
+                      " Min - 1\nMax - 3",
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
@@ -1239,6 +1243,56 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               ),
               child: const Text('OK'),
               onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> alartDialogForSubmit(
+    BuildContext context,
+  ) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          // title: const Text(
+          //   'KPI Defination',
+          // ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: const Text(
+            "Are you sure to submit appraisal for this employee ?",
+            style: TextStyle(fontSize: 14),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  primary: Colors.red),
+              child: const Text('No'),
+              onPressed: () {
+                submitConfirmation = false;
+                setState(() {
+                  setState(() {
+                    isSubmit = false;
+                  });
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  primary: Colors.green),
+              child: const Text('Yes'),
+              onPressed: () {
+                submitConfirmation = true;
+                setState(() {});
                 Navigator.of(context).pop();
               },
             ),

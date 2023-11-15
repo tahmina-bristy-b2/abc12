@@ -818,6 +818,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       rows: [
                         ...appraisalMaster.kpiTable!.map((element) {
                           return DataRow2(
+                            color: MaterialStateColor.resolveWith(
+                              (states) {
+                                return element.kpiEdit == "NO"
+                                    ? Colors.transparent
+                                    : Color.fromARGB(255, 235, 228, 244);
+                                // : Color.fromARGB(255, 199, 219, 235);
+                              },
+                            ),
                             cells: [
                               DataCell(Center(child: Text(element.sl ?? '0'))),
                               DataCell(

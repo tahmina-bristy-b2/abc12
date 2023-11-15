@@ -1,6 +1,6 @@
 class AppraisalApis {
-  // static String ipPort = 'http://10.168.27.183:8000';
-  // static String app = 'skf_api';
+  static String ipPort = 'http://10.168.27.183:8000';
+  static String app = 'skf_api';
 
   static employeeApi(
           String syncUrl, String cid, String userId, String usrPass) =>

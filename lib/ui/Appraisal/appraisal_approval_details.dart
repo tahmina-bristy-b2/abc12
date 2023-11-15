@@ -305,6 +305,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
                   increametGradeUpgration(appraisalDetails[index]),
                   const SizedBox(
                     height: 8,
@@ -537,7 +540,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   SizedBox appraisalAchievement(RetStr achievementData) {
     return SizedBox(
-      height: 360,
+      height: 400,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -648,7 +651,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P2 ?? '')))
+                    child: Text(achievementData.seenRx ?? '')))
               ],
             ),
             DataRow2(

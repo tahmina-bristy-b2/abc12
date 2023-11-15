@@ -136,7 +136,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       // finalOveralResultCount = totaOverallCount;
 
       dropdwonValueForSelfScore[kpi.sl] =
-          kpi.selfScore == '0' ? null : kpi.selfScore; //Edited by apparisal_M
+          kpi.kpiEdit == 'YES' ? null : kpi.selfScore; //Edited by apparisal_M
 
       // dropdwonValueForSelfScore.forEach((key, value) {
       //   key = kpi.sl;
@@ -905,7 +905,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             "kpi_name": kpi.name,
             "kpi_id": kpi.kpiId,
             "weightage": kpi.weitage,
-            "self_score": dropdwonValueForSelfScore[kpi.sl],
+            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
             "defination": kpi.definition,
             "overall_result": overallCount(
                     kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')

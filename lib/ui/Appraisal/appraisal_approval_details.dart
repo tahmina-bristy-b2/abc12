@@ -296,93 +296,107 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               height: 8,
             ),
             appraisalMaster(appraisalDetails[index]),
-            const SizedBox(
-              height: 8,
-            ),
+
             // reasonActionWidget(appraisalDetails[index]),
             // const SizedBox(
             //   height: 8,
             // ),
-            increametGradeUpgrationWidget(appraisalDetails[index]),
-            const SizedBox(
-              height: 8,
+            Container(
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: Column(
+                children: [
+                  increametGradeUpgration(appraisalDetails[index]),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                          flex: 3,
+                          child: Text(
+                            "FM Feedback",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
+                          flex: 7,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: TextField(
+                              readOnly: true,
+                              textAlign: TextAlign.center,
+                              controller: TextEditingController(
+                                  text: appraisalDetails[index].feedback),
+                              // controller: feedbackController,
+                              decoration: const InputDecoration(
+                                hintText: 'Feedback/value of work',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                const Expanded(
-                    flex: 3,
-                    child: Text(
-                      "FM Feedback",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                    flex: 7,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: TextField(
-                        readOnly: true,
-                        textAlign: TextAlign.center,
-                        controller: TextEditingController(
-                            text: appraisalDetails[index].feedback),
-                        // controller: feedbackController,
-                        decoration: const InputDecoration(
-                          hintText: 'Feedback/value of work',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    )),
-              ],
+            Container(
+              padding: EdgeInsets.only(top: 15.0),
+              child: Column(
+                children: [
+                  increametGradeUpgrationForSup(appraisalDetails[index]),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                          flex: 3,
+                          child: Text(
+                            "RSM Feedback\n(60 Character)",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
+                          flex: 7,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              controller: feedbackController,
+                              decoration: const InputDecoration(
+                                hintText: 'Feedback(60 Character)',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                const Expanded(
-                    flex: 3,
-                    child: Text(
-                      "RSM Feedback\n(60 Character)",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                    flex: 7,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: feedbackController,
-                        decoration: const InputDecoration(
-                          hintText: 'Feedback(60 Character)',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    )),
-              ],
-            ),
+
             const SizedBox(
               height: 15,
             ),
@@ -628,7 +642,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Center(child: Text("5"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Share (4P) "))),
+                    child: Text("Avg. Rx Share (Seen RX) "))),
                 // DataCell(Align(
                 //     alignment: Alignment.centerRight,
                 //     child: Text(achievementData.avgSales4P1 ?? ''))),
@@ -642,6 +656,20 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Center(child: Text("6"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
+                    child: Text("Avg. Rx Share (4P) "))),
+                // DataCell(Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Text(achievementData.avgSales4P1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.avgSales4P2 ?? '')))
+              ],
+            ),
+            DataRow2(
+              cells: [
+                const DataCell(Center(child: Text("7"))),
+                const DataCell(Align(
+                    alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
                 // DataCell(Align(
                 //     alignment: Alignment.centerRight,
@@ -653,7 +681,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("7"))),
+                const DataCell(Center(child: Text("8"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
@@ -666,7 +694,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("8"))),
+                const DataCell(Center(child: Text("9"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
@@ -680,7 +708,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("9"))),
+                const DataCell(Center(child: Text("10"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
@@ -1714,8 +1742,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   //   );
   // }
 
-  //=============================Increament upgration===========================================
-  Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
+  //=============================Increament upgration=========================
+  Container increametGradeUpgration(RetStr appraisalOthers2) {
     return Container(
       color: const Color.fromARGB(255, 170, 196, 220),
       //color: Color.fromARGB(255, 180, 206, 184),
@@ -1738,23 +1766,147 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               )),
               Expanded(
                 flex: 7,
-                child: Container(
-                  height: 28,
-                  padding: const EdgeInsets.only(left: 60, top: 5),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 250, 250, 250),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: TextField(
-                    controller: incrementController,
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      height: 28,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 250, 250, 250),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: TextField(
+                        readOnly: true,
+                        controller: TextEditingController(
+                            text: appraisalOthers2.incrementAmount),
+                        // controller: incrementController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    )),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Upgrade Grade",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Transform.scale(
+                  scale: 1.45,
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: Colors.white),
+                    child: Checkbox(
+                      value:
+                          appraisalOthers2.upgradeGrade == "0" ? false : true,
+                      onChanged: (bool? value) {
+                        // setState(() {
+                        //   isUpgrade = value!;
+                        // });
+                      },
                     ),
                   ),
-                  // child: Text(appraisalOthers2.incrementAmount ?? ""),
                 ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Designation Change",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Transform.scale(
+                  scale: 1.45,
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: Colors.white),
+                    child: Checkbox(
+                      value: appraisalOthers2.designation == "0" ? false : true,
+                      // value: isDesignationChange,
+                      onChanged: (bool? value) {
+                        // setState(() {
+                        //   isDesignationChange = value!;
+                        // });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
+      ),
+    );
+  }
+
+//=============================Increament upgration=========================
+  Container increametGradeUpgrationForSup(RetStr appraisalOthers2) {
+    return Container(
+      color: const Color.fromARGB(255, 170, 196, 220),
+      //color: Color.fromARGB(255, 180, 206, 184),
+      height: 160,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(children: [
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Increment Amount",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      height: 28,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 250, 250, 250),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: TextField(
+                        controller: incrementController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    )),
               )
             ],
           ),

@@ -28,7 +28,7 @@ class AppraisalApis {
 
   static ffApi(String syncUrl, String cid, String userId, String usrPass) =>
       // '${syncUrl}api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$usrPass';
-      '$ipPort/$app/api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$usrPass';
+      '$ipPort/$app/api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=1234';
 
   static ffDetailsApi(String syncUrl, String cid, String userId, String usrPass,
           String restParams) =>
@@ -36,8 +36,8 @@ class AppraisalApis {
       'http://10.168.27.183:8000/skf_api/api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
   static ffapprovalSubmitApi(String syncUrl, String cid, String userId,
           String usrPass, String restParams) =>
-      '${syncUrl}api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
-  // 'http://10.168.27.183:8000/skf_api/api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
+      // '${syncUrl}api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=$usrPass&$restParams';
+      'http://10.168.27.183:8000/skf_api/api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
 
   static appraisalSelfAssesment(
     String syncUrl,
@@ -45,5 +45,5 @@ class AppraisalApis {
     String userId,
     String userPass,
   ) =>
-      "${syncUrl}/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=$userPass";
+      "$syncUrl/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=$userPass";
 }

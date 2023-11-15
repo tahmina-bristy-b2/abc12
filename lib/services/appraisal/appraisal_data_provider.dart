@@ -118,4 +118,22 @@ class AppraisalDataprovider {
         body: jsonEncode(<String, dynamic>{"kpi_values": supRevData}));
     return response;
   }
+
+  //======================== Get self appraisal ===============
+
+  Future getSelfAppraisal(
+    String syncUrl,
+    String cid,
+    String userId,
+    String usrPass,
+  ) async {
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(AppraisalApis.appraisalSelfAssesment(
+            syncUrl, cid, userId, usrPass)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
 }

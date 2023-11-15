@@ -1,6 +1,5 @@
 import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
-import 'package:MREPORTING/utils/constant.dart';
 
 class AppraisalServices {
   List<FfList> searchEmployee(String enterTheKey, List<FfList> ffList) {
@@ -57,7 +56,7 @@ class AppraisalServices {
     } else {
       var starts = searchData
           .where((element) =>
-              element.submitBy
+              element.employeeName
                   .toLowerCase()
                   .startsWith(enteredekeye.toLowerCase()) ||
               element.territoryId
@@ -66,13 +65,13 @@ class AppraisalServices {
           .toList();
       var contains = searchData
           .where((element) =>
-              (element.submitBy
+              (element.employeeName
                       .toLowerCase()
                       .contains(enteredekeye.toLowerCase()) ||
                   element.territoryId
                       .toLowerCase()
                       .contains(enteredekeye.toLowerCase())) &&
-              !(element.submitBy
+              !(element.employeeName
                       .toLowerCase()
                       .startsWith(enteredekeye.toLowerCase()) ||
                   element.territoryId

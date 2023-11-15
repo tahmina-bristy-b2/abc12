@@ -53,28 +53,38 @@ class ResData {
 }
 
 class DataList {
-  final String submitBy;
+  final String submitId;
+  final String submitName;
+  final String employeeId;
+  final String employeeName;
   final String territoryId;
   final String dueCount;
-  final String employeeId;
 
-  DataList(
-      {required this.submitBy,
-      required this.territoryId,
-      required this.dueCount,
-      required this.employeeId});
+  DataList({
+    required this.submitId,
+    required this.submitName,
+    required this.employeeId,
+    required this.employeeName,
+    required this.territoryId,
+    required this.dueCount,
+  });
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
-      submitBy: json["submit_by"],
-      territoryId: json["territory_id"],
-      dueCount: json["due_count"],
-      employeeId: json["employee_id"]);
+        submitId: json["submit_id"] ?? '',
+        submitName: json["submit_name"] ?? '',
+        employeeId: json["employee_id"] ?? '',
+        employeeName: json["employee_name"] ?? '',
+        territoryId: json["territory_id"] ?? '',
+        dueCount: json["due_count"] ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
-        "submit_by": submitBy,
+        "submit_id": submitId,
+        "submit_name": submitName,
+        "employee_id": employeeId,
+        "employee_name": employeeName,
         "territory_id": territoryId,
         "due_count": dueCount,
-        "employee_id": employeeId
       };
 }
 
@@ -83,13 +93,22 @@ var fFdata = {
     "status": "Success",
     "level_depth_no": "1",
     "data_list": [
-      {"submit_by": "ITFM", "territory_id": "DEMO", "due_count": "1"},
-      {"submit_by": "ITFM2", "territory_id": "DEMO", "due_count": "3"},
-      {"submit_by": "EFM", "territory_id": "DEMO", "due_count": "3"},
-      {"submit_by": "ITFM2", "territory_id": "DEMO", "due_count": "3"},
-      {"submit_by": "Rahim", "territory_id": "DNS", "due_count": "3"},
-      {"submit_by": "ITFM2", "territory_id": "DEMO", "due_count": "3"},
-      {"submit_by": "ITFM2", "territory_id": "Mirpur", "due_count": "3"}
+      {
+        "submit_id": "5092",
+        "submit_name": "MR. SADHON KUMAR SAHA",
+        "employee_id": "14448",
+        "employee_name": "MR. MD. SHOHEL BIN TAFAZZAL",
+        "territory_id": "DS11A",
+        "due_count": "1"
+      },
+      {
+        "submit_id": "5092",
+        "submit_name": "MR. SADHON KUMAR SAHA",
+        "employee_id": "16147",
+        "employee_name": "MR. MD. HAFIZUR RAHAMAN",
+        "territory_id": "DS12A",
+        "due_count": "1"
+      }
     ]
   }
 };

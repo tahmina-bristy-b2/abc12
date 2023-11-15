@@ -494,12 +494,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 4, 174, 247),
+                  color: const Color.fromARGB(255, 4, 174, 247),
                 ),
                 // color: Colors.blue),
                 child: const Center(
                     child: Text(
-                  "Released",
+                  "Release",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -538,7 +538,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           headingRowHeight: 40,
           columns: [
             const DataColumn2(
-                fixedWidth: 50,
+                fixedWidth: 30,
                 label: Center(
                     child: Text(
                   "SL",
@@ -744,7 +744,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     "",
                   )),
               DataColumn2(
-                  fixedWidth: 180,
+                  fixedWidth: 162,
                   label: Container(
                     color: const Color.fromARGB(255, 159, 193, 165),
                     child: const Center(
@@ -993,18 +993,18 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       columnSpacing: 0,
                       horizontalMargin: 0,
                       dataRowHeight: 38,
-                      minWidth: 170,
+                      minWidth: 160,
                       headingRowHeight: 43,
                       columns: [
                         const DataColumn2(
-                            fixedWidth: 100,
+                            fixedWidth: 88,
                             label: Center(
                                 child: Text(
                               "Score",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                         DataColumn2(
-                            fixedWidth: 79,
+                            fixedWidth: 70,
                             label: Container(
                               color: Colors.grey[300],
                               child: const Center(

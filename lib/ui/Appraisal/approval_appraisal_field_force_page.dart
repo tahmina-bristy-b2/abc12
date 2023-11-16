@@ -159,9 +159,9 @@ class _ApprovalAppraisalFieldForceState
               child: ListTile(
                 onTap: () {
                   if (widget.pageState == 'Approval') {
-                    // String restParams="submit_by=${userFflist[index].submitId}&territory_id=${userFflist[index].territoryId}&employee_id=${}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}";
                     String restParams =
-                        'submit_by=${userFflist[index].submitId}&territory_id=${userFflist[index].territoryId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}';
+                        "submit_by=${userFflist[index].submitId}&employee_id=${userFflist[index].employeeId}&level_depth_no=${appraisalFfData!.resData.levelDepthNo}";
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(

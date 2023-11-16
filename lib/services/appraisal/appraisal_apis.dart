@@ -9,7 +9,7 @@ class AppraisalApis {
 
   static employeeAppraisaldetails(String url, String cid, String userId,
           String userPass, String levelDepth, String employeeId) =>
-      // "${url}api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=$userPass&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
+      //"${url}api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=$userPass&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
       "$ipPort/$app/api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
 
   static employeeAppraisalSubmit(

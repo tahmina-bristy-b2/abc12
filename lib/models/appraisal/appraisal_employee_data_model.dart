@@ -71,7 +71,7 @@ class FfList {
         employeeId: json["employee_id"],
         empName: json["emp_name"],
         areaId: json["area_id"],
-        appActionStatus: json["app_acction_status"],
+        appActionStatus: json["app_acction_status"] ?? '',
       );
 
   // Map<String, dynamic> toJson() => {

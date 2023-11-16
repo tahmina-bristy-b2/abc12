@@ -47,9 +47,10 @@ class AppraisalDataprovider {
       String upgradeGrade,
       String designationChange,
       String feedback,
-      String kpiKey) async {
+      String kpiKey,
+      String actionButtonName) async {
     print(
-        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, kpiValus, incrementAmount, upgradeGrade, designationChange, feedback, kpiKey)}");
+        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, kpiValus, incrementAmount, upgradeGrade, designationChange, feedback, kpiKey, actionButtonName)}");
     final http.Response response;
     response = await http.post(
         Uri.parse(
@@ -65,7 +66,8 @@ class AppraisalDataprovider {
               upgradeGrade,
               designationChange,
               feedback,
-              kpiKey),
+              kpiKey,
+              actionButtonName),
         ),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"kpi_values": kpiValus}));
@@ -133,6 +135,20 @@ class AppraisalDataprovider {
     response = await http.get(
         Uri.parse(AppraisalApis.appraisalSelfAssesment(
             syncUrl, cid, userId, usrPass)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    return response;
+  }
+
+  //======================== Get appraisal Draft data ===============
+
+  Future draftAppraisalDraftDetailsForMSO(String url, String cid, String userId,
+      String userPass, String levelDepth, String employeeId) async {
+    final http.Response response;
+    response = await http.get(
+        Uri.parse(AppraisalApis.employeeAppraisalForDraft(
+            url, cid, userId, userPass, levelDepth, employeeId)),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });

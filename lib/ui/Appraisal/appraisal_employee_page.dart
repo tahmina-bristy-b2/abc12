@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/services/appraisal/services.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
+import 'package:MREPORTING/ui/Appraisal/appraisal_draft_mso_screen.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -195,17 +196,33 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
             return Card(
               child: ListTile(
                 onTap: () {
-                  Navigator.push(
+                  if ((employeeList[index].appActionStatus != "") &&
+                      (employeeList[index].appActionStatus != "SUBMITTED")) {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => ApprisalScreen(
+                          builder: (_) => AppraisalDraftMsoScreen(
                                 cid: widget.cid,
                                 levelDepth:
                                     appraisalEmployee!.resData.supLevelDepthNo,
-                                userId: userInfo!.userId,
+                                userId: userId,
                                 userPass: widget.userPass,
                                 employeeId: employeeList[index].employeeId,
-                              )));
+                              )),
+                    );
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ApprisalScreen(
+                                  cid: widget.cid,
+                                  levelDepth: appraisalEmployee!
+                                      .resData.supLevelDepthNo,
+                                  userId: userInfo!.userId,
+                                  userPass: widget.userPass,
+                                  employeeId: employeeList[index].employeeId,
+                                )));
+                  }
                 },
                 leading: Container(
                   decoration: const ShapeDecoration(
@@ -218,8 +235,22 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       child: Text(employeeList[index].empName.substring(0, 2))),
                 ),
                 title: Text(employeeList[index].empName),
-                subtitle:
+                subtitle: Row(
+                  children: [
                     Text('Employee id: ${employeeList[index].employeeId}'),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    Text(
+                      employeeList[index].appActionStatus,
+                      style: TextStyle(
+                          color:
+                              employeeList[index].appActionStatus == "SUBMITTED"
+                                  ? Color.fromARGB(255, 63, 147, 65)
+                                  : Colors.amber),
+                    )
+                  ],
+                ),
                 trailing: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(

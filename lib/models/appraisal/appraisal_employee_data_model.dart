@@ -56,12 +56,14 @@ class FfList {
   final String employeeId;
   final String empName;
   final String areaId;
+  final String appActionStatus;
 
   FfList({
     required this.cid,
     required this.employeeId,
     required this.empName,
     required this.areaId,
+    required this.appActionStatus,
   });
 
   factory FfList.fromJson(Map<String, dynamic> json) => FfList(
@@ -69,6 +71,7 @@ class FfList {
         employeeId: json["employee_id"],
         empName: json["emp_name"],
         areaId: json["area_id"],
+        appActionStatus: json["app_acction_status"] ?? '',
       );
 
   // Map<String, dynamic> toJson() => {

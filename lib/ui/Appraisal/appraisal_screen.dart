@@ -51,6 +51,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
+  bool isDraft = false;
+  bool submitConfirmation = false;
   double totalWeightage = 0.0;
   //double totalOverallResult = 0.0;
 
@@ -134,7 +136,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       totaOverallCount = totaOverallCount +
           overallCount(
               kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
-      // finalOveralResultCount = totaOverallCount;
+      totalWeightage = totalWeightage + double.parse(kpi.weitage);
 
       dropdwonValueForSelfScore[kpi.sl] =
           kpi.kpiEdit == 'YES' ? null : kpi.selfScore; //Edited by apparisal_M
@@ -267,11 +269,27 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      //print("kpi")
-      submitEmployeeAppraisal();
+      alartDialogForSubmit(context);
     } else {
       setState(() {
         isSubmit = false;
+      });
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+    }
+  }
+
+  //====================================== Internet check for Appraisal Draft============================================
+  internetCheckForDraft() async {
+    setState(() {
+      isDraft = true;
+    });
+    bool hasInternet = await InternetConnectionChecker().hasConnection;
+    if (hasInternet == true) {
+      draftEmployeeAppraisal();
+    } else {
+      setState(() {
+        isDraft = false;
       });
       AllServices()
           .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
@@ -295,13 +313,15 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
             feeddbackController.text,
-            appraisalDetailsModel!.resData.retStr.first.kpiKey);
+            appraisalDetailsModel!.resData.retStr.first.kpiKey,
+            "SUBMITTED");
     if (submitInfo != {}) {
       if (submitInfo["status"] == "Success") {
         setState(() {
           isSubmit = false;
         });
         if (!mounted) return;
+        Navigator.pop(context);
         Navigator.pop(context);
 
         AllServices().toastMessage(
@@ -320,6 +340,54 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     } else {
       setState(() {
         isSubmit = false;
+      });
+    }
+  }
+
+  //====================================== Submit Api Call ============================================
+  draftEmployeeAppraisal() async {
+    Map<String, dynamic> submitInfo = await AppraisalRepository()
+        .appraisalSubmit(
+            dmpathData!.submitUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId,
+            kpiValuesList,
+            incrementController.text.toString() == ""
+                ? "0"
+                : incrementController.text.toString(),
+            isUpgrade ? "1" : "0",
+            isDesignationChange ? "1" : "0",
+            feeddbackController.text,
+            appraisalDetailsModel!.resData.retStr.first.kpiKey,
+            "DRAFT_MSO");
+    if (submitInfo != {}) {
+      if (submitInfo["status"] == "Success") {
+        setState(() {
+          isDraft = false;
+        });
+        if (!mounted) return;
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
+      } else if (submitInfo["status"] == "Failed") {
+        setState(() {
+          isDraft = false;
+        });
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
+      } else {
+        setState(() {
+          isDraft = false;
+        });
+      }
+    } else {
+      setState(() {
+        isDraft = false;
       });
     }
   }
@@ -515,22 +583,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: const Color.fromARGB(255, 48, 153, 206),
-                          ),
-                          child: const Center(
-                              child: Text(
-                            "Save as Draft",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
-                        ),
+                        SaveAsDraftWidget(context),
                         submitButtonWidget(context),
                       ],
                     )
@@ -759,7 +812,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 95,
                 label: Center(
                     child: Text(
-                  "% Weightage",
+                  "Weightage(%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
@@ -775,7 +828,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " Minimum - 1\nMaximum - 3",
+                      " Min - 1\nMax - 3",
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
@@ -979,6 +1032,73 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     );
   }
 
+  //=================================== Save as Draft Button widget ===========================================
+  GestureDetector SaveAsDraftWidget(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        kpiValuesList = [];
+        List<KpiTable> kpiTableData =
+            appraisalDetailsModel!.resData.retStr.first.kpiTable;
+
+        for (var kpi in kpiTableData) {
+          Map<String, dynamic> eachKpiValues = {
+            "kpi_name": kpi.name,
+            "kpi_id": kpi.kpiId,
+            "weightage": kpi.weitage,
+            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+            "defination": kpi.definition,
+            "overall_result": overallCount(
+                    kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+                .toStringAsFixed(2),
+          };
+          kpiValuesList.add(eachKpiValues);
+        }
+
+        await internetCheckForDraft();
+      },
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: const Color.fromARGB(255, 48, 153, 206),
+        ),
+        child: Center(
+            child: isDraft == true
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : const Text(
+                    "Save as Draft",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  )),
+      ),
+      // child: Container(
+      //   height: 50,
+      //   width: MediaQuery.of(context).size.width * 0.4,
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(5),
+      //     color: const Color(0xff38C172),
+      //   ),
+      //   child: Center(
+      //       child: isSubmit == true
+      //           ? const CircularProgressIndicator(
+      //               color: Colors.white,
+      //             )
+      //           : const Text(
+      //               "Submit",
+      //               style: TextStyle(
+      //                   color: Colors.white,
+      //                   fontWeight: FontWeight.bold,
+      //                   fontSize: 18),
+      //             )),
+      // ),
+    );
+  }
+
   //===================================Loading Widget=====================================
   Padding loadingWidget() {
     return Padding(
@@ -1167,7 +1287,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           DataCell(Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "${totalWeightage.toStringAsFixed(2)}%",
+                "${totalWeightage.toStringAsFixed(1)}%",
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ))),
@@ -1240,6 +1360,63 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> alartDialogForSubmit(BuildContext context) async {
+    setState(() {
+      isSubmit = false;
+    });
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 70,
+                child: Image.asset('assets/images/alert.png'),
+              ),
+              const Text(
+                "Are you sure to submit appraisal for this employee ?",
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  primary: Colors.red),
+              child: const Text('No'),
+              onPressed: () {
+                setState(() {
+                  isSubmit = false;
+                });
+
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  primary: Colors.green),
+              child: const Text('Yes'),
+              onPressed: () {
+                setState(() {
+                  isSubmit = true;
+                });
+                submitEmployeeAppraisal();
               },
             ),
           ],

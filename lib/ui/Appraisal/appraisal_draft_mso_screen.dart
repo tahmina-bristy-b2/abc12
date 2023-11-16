@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
-
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -12,24 +9,27 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-class AppraisalSelfAssesmentHistoryScreen extends StatefulWidget {
+class AppraisalDraftMsoScreen extends StatefulWidget {
   final String cid;
   final String userId;
   final String userPass;
-  // final String restParams;
-  const AppraisalSelfAssesmentHistoryScreen(
-      {super.key,
-      required this.cid,
-      required this.userId,
-      required this.userPass});
+  final String levelDepth;
+  final String employeeId;
+  const AppraisalDraftMsoScreen({
+    super.key,
+    required this.cid,
+    required this.userId,
+    required this.userPass,
+    required this.levelDepth,
+    required this.employeeId,
+  });
 
   @override
-  State<AppraisalSelfAssesmentHistoryScreen> createState() =>
-      _AppraisalSelfAssesmentHistoryScreenState();
+  State<AppraisalDraftMsoScreen> createState() =>
+      _AppraisalDraftMsoScreenState();
 }
 
-class _AppraisalSelfAssesmentHistoryScreenState
-    extends State<AppraisalSelfAssesmentHistoryScreen> {
+class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -41,11 +41,30 @@ class _AppraisalSelfAssesmentHistoryScreenState
   bool isDesignationChange = false;
   double totaOverallCount = 0.0;
   double totalWeightage = 0.0;
+
   List<RowDataForSelf> rowsList = [];
+  TextEditingController honestintegrityController =
+      TextEditingController(text: "");
+  TextEditingController disciplineController = TextEditingController();
+  TextEditingController skillController = TextEditingController();
+  TextEditingController qualityofSellsController =
+      TextEditingController(text: "");
+  TextEditingController incrementController = TextEditingController();
+  TextEditingController feeddbackController = TextEditingController();
+
+  List<String>? selfDropdownValue = <String>['1', '2', '3'];
+  Map<String, dynamic> dropdwonValueForSelfScore = {};
+  List kpiValuesList = [];
+
+  bool isSubmit = false;
+  bool isDraft = false;
+  bool submitConfirmation = false;
+  double finalOveralResultCount = 0.0;
+  double totalYesCount = 0.0;
+  Map overalYesValuesMap = {};
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
@@ -61,8 +80,13 @@ class _AppraisalSelfAssesmentHistoryScreenState
 
   void getAppraisalApprovalFFDetailsdata() async {
     appraisalApprovalFfDetailsData = await AppraisalRepository()
-        .getSelfAssesment(
-            dmpathData!.syncUrl, widget.cid, widget.userId, widget.userPass);
+        .getDraftAppraisalFOrMSOData(
+            dmpathData!.syncUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId);
 
     if (appraisalApprovalFfDetailsData != null) {
       kpitable(appraisalApprovalFfDetailsData!);
@@ -106,43 +130,22 @@ class _AppraisalSelfAssesmentHistoryScreenState
         });
   }
 
-  // void removeFFAopraisal(int index) {
-  //   listKey.currentState!.removeItem(
-  //     index,
-  //     (context, animation) {
-  //       return appraisalListItemView(animation,
-  //           appraisalApprovalFfDetailsData!.resData!.retStr!, index, context);
-  //     },
-  //     duration: const Duration(seconds: 1),
-  //   );
-
-  //   Future.delayed(const Duration(seconds: 1), () {
-  //     appraisalApprovalFfDetailsData!.resData!.retStr!.removeAt(index);
-  //   });
-
-  //   // if (index == dsrDetails!.resData.dataList.length - 1) {
-  //   //   return;
-  //   // } else {
-  //   //   dsrDetails!.resData.dataList.removeAt(index);
-  //   // }
-  // }
-
   @override
   void dispose() {
     super.dispose();
-    // honestintegrityController.dispose();
-    // disciplineController.dispose();
-    // skillController.dispose();
-    // qualityofSellsController.dispose();
-    // incrementController.dispose();
-    // feeddbackController.dispose();
+    honestintegrityController.dispose();
+    disciplineController.dispose();
+    skillController.dispose();
+    qualityofSellsController.dispose();
+    incrementController.dispose();
+    feeddbackController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Self Asessment"),
+        title: const Text("Employee Draft"),
         centerTitle: true,
       ),
       body: _isLoading
@@ -318,6 +321,13 @@ class _AppraisalSelfAssesmentHistoryScreenState
             const SizedBox(
               height: 15,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SaveAsDraftWidget(context, appraisalDetails[index]),
+                submitButtonWidget(context, appraisalDetails[index])
+              ],
+            ),
             // !_isPressed
             //     ? Row(
             //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -392,6 +402,367 @@ class _AppraisalSelfAssesmentHistoryScreenState
         ),
       ),
     );
+  }
+
+  //=================================== Submit Button with Validation widget ===========================================
+  GestureDetector submitButtonWidget(BuildContext context, RetStr selfDEtails) {
+    return GestureDetector(
+      onTap: () async {
+        kpiValuesList = [];
+
+        List<KpiTable>? kpiTableData = selfDEtails.kpiTable;
+        int counter = 0;
+
+        for (var kpi in kpiTableData!) {
+          counter++;
+          Map<String, dynamic> eachKpiValues = {
+            "kpi_name": kpi.name,
+            "kpi_id": kpi.kpiId,
+            "weightage": kpi.weightage,
+            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+            "defination": kpi.definition,
+            "overall_result": overallCount(
+                    kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+                .toStringAsFixed(2),
+          };
+          kpiValuesList.add(eachKpiValues);
+
+          if (kpi.kpiEdit == "YES") {
+            if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
+            } else {
+              AllServices().toastMessage("Please select score of ${kpi.name}",
+                  Colors.red, Colors.white, 16);
+              break;
+            }
+          }
+        }
+
+        if (kpiValuesList.length == counter &&
+            dropdwonValueForSelfScore.values
+                .every((element) => element != null)) {
+          feeddbackController.text != ""
+              ? await internetCheckForSubmit(selfDEtails)
+              : AllServices().toastMessage("Please provide feedback first ",
+                  Colors.red, Colors.white, 16);
+        }
+        // kpiValuesList = [];
+
+        // List<KpiTable>? kpiTableData =
+        //     selfDEtails.resData!.retStr!.first.kpiTable;
+        // int counter = 0;
+
+        // for (var kpi in kpiTableData!) {
+        //   counter++;
+        //   Map<String, dynamic> eachKpiValues = {
+        //     "kpi_name": kpi.name,
+        //     "kpi_id": kpi.kpiId,
+        //     "weightage": kpi.weightage,
+        //     "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+        //     "defination": kpi.definition,
+        //     "overall_result": overallCount(
+        //             kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+        //         .toStringAsFixed(2),
+        //   };
+        //   kpiValuesList.add(eachKpiValues);
+
+        //   if (kpi.kpiEdit == "YES") {
+        //     if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
+        //     } else {
+        //       AllServices().toastMessage("Please select score of ${kpi.name}",
+        //           Colors.red, Colors.white, 16);
+        //       break;
+        //     }
+        //   }
+        // }
+
+        // if (kpiValuesList.length == counter &&
+        //     dropdwonValueForSelfScore.values
+        //         .every((element) => element != null)) {
+        //   feeddbackController.text != ""
+        //       ? await internetCheckForSubmit()
+        //       : AllServices().toastMessage("Please provide feedback first ",
+        //           Colors.red, Colors.white, 16);
+        // }
+      },
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: const Color(0xff38C172),
+        ),
+        child: Center(
+            child: isSubmit == true
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : const Text(
+                    "Submit",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  )),
+      ),
+    );
+  }
+
+  //=================================== Save as Draft Button widget ===========================================
+  GestureDetector SaveAsDraftWidget(BuildContext context, RetStr selfDEtails) {
+    return GestureDetector(
+      onTap: () async {
+        kpiValuesList = [];
+
+        List<KpiTable>? kpiTableData = selfDEtails.kpiTable;
+        int counter = 0;
+
+        for (var kpi in kpiTableData!) {
+          if (kpi.kpiEdit == "YES") {
+            counter++;
+            Map<String, dynamic> eachKpiValues = {
+              "kpi_name": kpi.name,
+              "kpi_id": kpi.kpiId,
+              "weightage": kpi.weightage,
+              "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+              "defination": kpi.definition,
+              "overall_result": overallCount(
+                      kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+                  .toStringAsFixed(2),
+            };
+            kpiValuesList.add(eachKpiValues);
+          }
+        }
+
+        await internetCheckForDraft(selfDEtails);
+      },
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: const Color.fromARGB(255, 48, 153, 206),
+        ),
+        child: Center(
+            child: isDraft == true
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : const Text(
+                    "Save as Draft",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  )),
+      ),
+      // child: Container(
+      //   height: 50,
+      //   width: MediaQuery.of(context).size.width * 0.4,
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(5),
+      //     color: const Color(0xff38C172),
+      //   ),
+      //   child: Center(
+      //       child: isSubmit == true
+      //           ? const CircularProgressIndicator(
+      //               color: Colors.white,
+      //             )
+      //           : const Text(
+      //               "Submit",
+      //               style: TextStyle(
+      //                   color: Colors.white,
+      //                   fontWeight: FontWeight.bold,
+      //                   fontSize: 18),
+      //             )),
+      // ),
+    );
+  }
+
+  Future<void> alartDialogForSubmit(BuildContext context, RetStr retStr) async {
+    setState(() {
+      isSubmit = false;
+    });
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 70,
+                child: Image.asset('assets/images/alert.png'),
+              ),
+              const Text(
+                "Are you sure to submit appraisal for this employee ?",
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  primary: Colors.red),
+              child: const Text('No'),
+              onPressed: () {
+                setState(() {
+                  isSubmit = false;
+                });
+
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                  primary: Colors.green),
+              child: const Text('Yes'),
+              onPressed: () {
+                setState(() {
+                  isSubmit = true;
+                });
+                submitEmployeeAppraisal(retStr);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //====================================== Submit Api Call ============================================
+  submitEmployeeAppraisal(RetStr retStr) async {
+    Map<String, dynamic> submitInfo = await AppraisalRepository()
+        .appraisalSubmit(
+            dmpathData!.submitUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId,
+            kpiValuesList,
+            incrementController.text.toString() == ""
+                ? "0"
+                : incrementController.text.toString(),
+            isUpgrade ? "1" : "0",
+            isDesignationChange ? "1" : "0",
+            feeddbackController.text,
+            retStr.kpiKey!,
+            "SUBMITTED");
+    if (submitInfo != {}) {
+      if (submitInfo["status"] == "Success") {
+        setState(() {
+          isSubmit = false;
+        });
+        if (!mounted) return;
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
+      } else if (submitInfo["status"] == "Failed") {
+        setState(() {
+          isSubmit = false;
+        });
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
+      } else {
+        setState(() {
+          isSubmit = false;
+        });
+      }
+    } else {
+      setState(() {
+        isSubmit = false;
+      });
+    }
+  }
+
+  //====================================== Submit Api Call ============================================
+  draftEmployeeAppraisal(RetStr retStr) async {
+    Map<String, dynamic> submitInfo = await AppraisalRepository()
+        .appraisalSubmit(
+            dmpathData!.submitUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId,
+            kpiValuesList,
+            incrementController.text.toString() == ""
+                ? "0"
+                : incrementController.text.toString(),
+            isUpgrade ? "1" : "0",
+            isDesignationChange ? "1" : "0",
+            feeddbackController.text,
+            retStr.kpiKey!,
+            "DRAFT_MSO");
+    if (submitInfo != {}) {
+      if (submitInfo["status"] == "Success") {
+        setState(() {
+          isDraft = false;
+        });
+        if (!mounted) return;
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
+      } else if (submitInfo["status"] == "Failed") {
+        setState(() {
+          isDraft = false;
+        });
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
+      } else {
+        setState(() {
+          isDraft = false;
+        });
+      }
+    } else {
+      setState(() {
+        isDraft = false;
+      });
+    }
+  }
+
+  //====================================== Internet check for Appraisal Submit============================================
+  internetCheckForSubmit(RetStr retStr) async {
+    setState(() {
+      isSubmit = true;
+    });
+    bool hasInternet = await InternetConnectionChecker().hasConnection;
+    if (hasInternet == true) {
+      alartDialogForSubmit(context, retStr);
+    } else {
+      setState(() {
+        isSubmit = false;
+      });
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+    }
+  }
+
+  //====================================== Internet check for Appraisal Draft============================================
+  internetCheckForDraft(RetStr retStr) async {
+    setState(() {
+      isDraft = true;
+    });
+    bool hasInternet = await InternetConnectionChecker().hasConnection;
+    if (hasInternet == true) {
+      draftEmployeeAppraisal(retStr);
+    } else {
+      setState(() {
+        isDraft = false;
+      });
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+    }
   }
 
   SizedBox appraisalAchievement(RetStr achievementData) {
@@ -572,7 +943,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
-      height: 360,
+      height: 400,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -759,11 +1130,11 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 fixedWidth: 95,
                 label: Center(
                     child: Text(
-                  "% Weightage",
+                  "Weightage(%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 80,
+                fixedWidth: 100,
                 label: Center(
                     child: Column(
                   children: const [
@@ -775,7 +1146,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " Minimum - 1\nMaximum - 3",
+                      " Min - 1\nMax - 3",
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
@@ -814,12 +1185,52 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text("${e.weightage}%"))),
-                DataCell(
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(e.supScore!.toString()),
-                  ),
-                ),
+                e.kpiEdit == "NO"
+                    ? DataCell(
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(e.selfScore!),
+                        ),
+                      )
+                    : DataCell(SizedBox(
+                        width: 300.0,
+                        child: DropdownButtonHideUnderline(
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              value: dropdwonValueForSelfScore[e.sl],
+                              hint: const Text("Select"),
+                              items: selfDropdownValue!
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(item),
+                                          ))
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  dropdwonValueForSelfScore[e.sl!] = value!;
+                                  overalYesValuesMap[e.sl] = {
+                                    'weightage': e.weightage,
+                                    'value': value
+                                  };
+                                });
+
+                                // work for total yes count
+                                totalYesCount = 0;
+
+                                overalYesValuesMap.values
+                                    .toList()
+                                    .forEach((element) {
+                                  totalYesCount += overallCount(
+                                      element['weightage'],
+                                      element['value'].toString());
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      )),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(overallCount(e.weightage!, e.supScore!)
@@ -854,8 +1265,36 @@ class _AppraisalSelfAssesmentHistoryScreenState
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              totaOverallCount.toStringAsFixed(2),
+              (totaOverallCount + totalYesCount).round().toString(),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+          ))),
+        ],
+      ),
+      DataRow(
+        color: MaterialStateColor.resolveWith(
+            (states) => const Color.fromARGB(255, 165, 193, 170)),
+        // const Color.fromARGB(255, 226, 226, 226)),
+
+        cells: [
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "Total (Rounded)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          ))),
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ))),
+          DataCell(Center(
+              child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              (totaOverallCount + totalYesCount).round().toString(),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),
         ],
@@ -896,24 +1335,32 @@ class _AppraisalSelfAssesmentHistoryScreenState
   }
 
   kpitable(AppraisalApprovalFfDetailsDataModel selfDEtails) {
-    // totaOverallCount = 0.0;
+    totaOverallCount = 0.0;
+    int counter = 0;
     List<KpiTable>? kpiTableData = selfDEtails.resData!.retStr!.first.kpiTable;
     for (var kpi in kpiTableData!) {
-      if (kpi.name != null &&
-          kpi.definition != null &&
-          kpi.weightage != null &&
-          kpi.kpiEdit != null) {
-        // rowsList.add(
-        //   RowDataForSelf(
-        //     sl: kpi.sl!,
-        //     name: kpi.name!,
-        //     definition: kpi.definition!,
-        //     weitage: kpi.weitage!,
-        //     kpiEdit: kpi.editable!,
-        //   ),
-        // );
-      }
+      // if (kpi.name != null &&
+      //     kpi.definition != null &&
+      //     kpi.weightage != null &&
+      //     kpi.kpiEdit != null) {
+      //   // rowsList.add(
+      //   //   RowDataForSelf(
+      //   //     sl: kpi.sl!,
+      //   //     name: kpi.name!,
+      //   //     definition: kpi.definition!,
+      //   //     weitage: kpi.weitage!,
+      //   //     kpiEdit: kpi.editable!,
+      //   //   ),
+      //   // );
+      // }
+
       totalWeightage = totalWeightage + double.parse(kpi.weightage!);
+      dropdwonValueForSelfScore[kpi.sl!] =
+          kpi.selfScore == "0" ? null : kpi.selfScore;
+      totaOverallCount = totaOverallCount +
+          overallCount(
+              kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
+      feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
     }
   }
 

@@ -268,8 +268,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      //print("kpi")
-      submitEmployeeAppraisal();
+      alartDialogForSubmit(context);
     } else {
       setState(() {
         isSubmit = false;
@@ -281,50 +280,48 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
 //====================================== Submit Api Call ============================================
   submitEmployeeAppraisal() async {
-    alartDialogForSubmit(context);
-    if (submitConfirmation == true) {
-      Map<String, dynamic> submitInfo = await AppraisalRepository()
-          .appraisalSubmit(
-              dmpathData!.submitUrl,
-              widget.cid,
-              widget.userId,
-              widget.userPass,
-              widget.levelDepth,
-              widget.employeeId,
-              kpiValuesList,
-              incrementController.text.toString() == ""
-                  ? "0"
-                  : incrementController.text.toString(),
-              isUpgrade ? "1" : "0",
-              isDesignationChange ? "1" : "0",
-              feeddbackController.text,
-              appraisalDetailsModel!.resData.retStr.first.kpiKey);
-      if (submitInfo != {}) {
-        if (submitInfo["status"] == "Success") {
-          setState(() {
-            isSubmit = false;
-          });
-          if (!mounted) return;
-          Navigator.pop(context);
+    Map<String, dynamic> submitInfo = await AppraisalRepository()
+        .appraisalSubmit(
+            dmpathData!.submitUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId,
+            kpiValuesList,
+            incrementController.text.toString() == ""
+                ? "0"
+                : incrementController.text.toString(),
+            isUpgrade ? "1" : "0",
+            isDesignationChange ? "1" : "0",
+            feeddbackController.text,
+            appraisalDetailsModel!.resData.retStr.first.kpiKey);
+    if (submitInfo != {}) {
+      if (submitInfo["status"] == "Success") {
+        setState(() {
+          isSubmit = false;
+        });
+        if (!mounted) return;
+        Navigator.pop(context);
+        Navigator.pop(context);
 
-          AllServices().toastMessage(
-              "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
-        } else if (submitInfo["status"] == "Failed") {
-          setState(() {
-            isSubmit = false;
-          });
-          AllServices().toastMessage(
-              "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
-        } else {
-          setState(() {
-            isSubmit = false;
-          });
-        }
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
+      } else if (submitInfo["status"] == "Failed") {
+        setState(() {
+          isSubmit = false;
+        });
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
       } else {
         setState(() {
           isSubmit = false;
         });
       }
+    } else {
+      setState(() {
+        isSubmit = false;
+      });
     }
   }
 
@@ -1171,7 +1168,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           DataCell(Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "${totalWeightage.toStringAsFixed(2)}%",
+                "${totalWeightage.toStringAsFixed(1)}%",
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ))),
@@ -1252,22 +1249,30 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     );
   }
 
-  Future<void> alartDialogForSubmit(
-    BuildContext context,
-  ) async {
+  Future<void> alartDialogForSubmit(BuildContext context) async {
+    setState(() {
+      isSubmit = false;
+    });
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // title: const Text(
-          //   'KPI Defination',
-          // ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          content: const Text(
-            "Are you sure to submit appraisal for this employee ?",
-            style: TextStyle(fontSize: 14),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 70,
+                child: Image.asset('assets/images/alert.png'),
+              ),
+              const Text(
+                "Are you sure to submit appraisal for this employee ?",
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -1276,12 +1281,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   primary: Colors.red),
               child: const Text('No'),
               onPressed: () {
-                submitConfirmation = false;
                 setState(() {
-                  setState(() {
-                    isSubmit = false;
-                  });
+                  isSubmit = false;
                 });
+
                 Navigator.of(context).pop();
               },
             ),
@@ -1291,9 +1294,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   primary: Colors.green),
               child: const Text('Yes'),
               onPressed: () {
-                submitConfirmation = true;
-                setState(() {});
-                Navigator.of(context).pop();
+                setState(() {
+                  isSubmit = true;
+                });
+                submitEmployeeAppraisal();
               },
             ),
           ],

@@ -7,6 +7,8 @@ class AppraisalDataprovider {
   Future getEmployee(
       String syncUrl, String cid, String userId, String userPass) async {
     final http.Response response;
+    print(
+        "Appraisal employee List=${AppraisalApis.employeeApi(syncUrl, cid, userId, userPass)}");
     response = await http.get(
         Uri.parse(AppraisalApis.employeeApi(syncUrl, cid, userId, userPass)),
         headers: <String, String>{

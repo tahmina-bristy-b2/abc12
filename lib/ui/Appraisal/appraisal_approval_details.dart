@@ -37,6 +37,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
+  String _step = '';
+  String _step_sup = '';
 
   AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
   bool _isLoading = true;
@@ -301,114 +303,23 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             // const SizedBox(
             //   height: 8,
             // ),
-            Container(
-              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  increametGradeUpgration(appraisalDetails[index]),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                          flex: 3,
-                          child: Text(
-                            "FM Feedback",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                      const Expanded(
-                          child: Text(
-                        ":",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                      Expanded(
-                          flex: 7,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: TextField(
-                              readOnly: true,
-                              textAlign: TextAlign.center,
-                              controller: TextEditingController(
-                                  text: appraisalDetails[index].feedback),
-                              // controller: feedbackController,
-                              decoration: const InputDecoration(
-                                hintText: 'Feedback/value of work',
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          )),
-                    ],
-                  ),
-                ],
-              ),
+            increametGradeUpgration(appraisalDetails[index]),
+            const SizedBox(
+              height: 8,
             ),
-            Container(
-              padding: EdgeInsets.only(top: 15.0),
-              child: Column(
-                children: [
-                  increametGradeUpgrationForSup(appraisalDetails[index]),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                          flex: 3,
-                          child: Text(
-                            "RSM Feedback\n(60 Character)",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                      const Expanded(
-                          child: Text(
-                        ":",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                      Expanded(
-                          flex: 7,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: feedbackController,
-                              decoration: const InputDecoration(
-                                hintText: 'Feedback(60 Character)',
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          )),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+
+            increametGradeUpgrationForSup(appraisalDetails[index]),
 
             const SizedBox(
               height: 15,
             ),
-            !_isPressed
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: _isPressed
+                      ? () {}
+                      : () {
                           setState(() {
                             _isPressed = true;
                           });
@@ -420,43 +331,63 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           appraisalApproval(
                               approvalRestParams, index, supDataForSubmit);
                         },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.red,
-                          ),
-                          // color: Colors.blue),
-                          child: const Center(
-                              child: Text(
-                            "Reject",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
-                        ),
-                      ),
-                      Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: const Color.fromARGB(255, 48, 153, 206),
-                        ),
-                        // color: Colors.blue),
-                        child: const Center(
-                            child: Text(
-                          "Save as Draft",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        )),
-                      ),
-                      InkWell(
-                        onTap: () {
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: _isPressed ? Colors.grey[300] : Colors.red,
+                    ),
+                    // color: Colors.blue),
+                    child: const Center(
+                        child: Text(
+                      "Reject",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    )),
+                  ),
+                ),
+                InkWell(
+                  onTap: _isPressed
+                      ? () {}
+                      : () {
+                          setState(() {
+                            _isPressed = true;
+                          });
+                          String upgradeGrade = isUpgrade ? '1' : '0';
+                          String designationChange =
+                              isDesignationChange ? '1' : '0';
+                          String approvalRestParams =
+                              'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=DRAFT_SUP';
+                          appraisalApproval(
+                              approvalRestParams, index, supDataForSubmit);
+                        },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: _isPressed
+                          ? Colors.grey[300]
+                          : const Color.fromARGB(255, 48, 153, 206),
+                    ),
+                    // color: Colors.blue),
+                    child: const Center(
+                        child: Text(
+                      "Save as Draft",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    )),
+                  ),
+                ),
+                InkWell(
+                  onTap: _isPressed
+                      ? () {}
+                      : () {
                           setState(() {
                             _isPressed = true;
                           });
@@ -468,50 +399,55 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           appraisalApproval(
                               approvalRestParams, index, supDataForSubmit);
                         },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: const Color(0xff38C172),
-                          ),
-                          // color: Colors.blue),
-                          child: const Center(
-                              child: Text(
-                            "Approve",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
-                        ),
-                      ),
-                    ],
-                  )
-                : Container(),
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: _isPressed
+                          ? Colors.grey[300]
+                          : const Color(0xff38C172),
+                    ),
+                    // color: Colors.blue),
+                    child: const Center(
+                        child: Text(
+                      "Submit",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    )),
+                  ),
+                ),
+              ],
+            ),
             // Container(height: 100,color: Colors.,)
             const SizedBox(
               height: 15,
             ),
             InkWell(
-              // onTap: () {
-              //   setState(() {
-              //     _isPressed = true;
-              //   });
-              //   String upgradeGrade = isUpgrade ? '1' : '0';
-              //   String designationChange =
-              //       isDesignationChange ? '1' : '0';
-              //   String approvalRestParams =
-              //       'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
-              //   appraisalApproval(
-              //       approvalRestParams, index, supDataForSubmit);
-              // },
+              onTap: _isPressed
+                  ? () {}
+                  : () {
+                      setState(() {
+                        _isPressed = true;
+                      });
+                      String upgradeGrade = isUpgrade ? '1' : '0';
+                      String designationChange =
+                          isDesignationChange ? '1' : '0';
+                      String approvalRestParams =
+                          'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
+                      appraisalApproval(
+                          approvalRestParams, index, supDataForSubmit);
+                    },
               child: Container(
                 height: 40,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: const Color.fromARGB(255, 4, 174, 247),
+                  color: _isPressed
+                      ? Colors.grey[300]
+                      : const Color.fromARGB(255, 4, 174, 247),
                 ),
                 // color: Colors.blue),
                 child: const Center(
@@ -763,10 +699,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   fixedWidth: 152,
                   label: Container(
                     color: const Color.fromARGB(255, 159, 193, 165),
-                    child: const Center(
+                    child: Center(
                         child: Text(
-                      "FM Appraisal",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "$_step Appraisal",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     )),
                   )),
               const DataColumn2(
@@ -778,10 +714,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   fixedWidth: 162,
                   label: Container(
                     color: const Color.fromARGB(255, 159, 193, 165),
-                    child: const Center(
+                    child: Center(
                         child: Text(
-                      "RSM Appraisal",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "$_step_sup Appraisal",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     )),
                   )),
             ],
@@ -821,6 +757,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       rows: [
                         ...appraisalMaster.kpiTable!.map((element) {
                           return DataRow2(
+                            color: MaterialStateColor.resolveWith(
+                              (states) {
+                                return element.kpiEdit == "NO"
+                                    ? Colors.transparent
+                                    : const Color.fromARGB(255, 235, 228, 244);
+                                // : Color.fromARGB(255, 199, 219, 235);
+                              },
+                            ),
                             cells: [
                               DataCell(Center(child: Text(element.sl ?? '0'))),
                               DataCell(
@@ -911,7 +855,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                       ],
-                      rows: []),
+                      rows: const []),
                 ),
                 DataCell(
                   DataTable2(
@@ -943,12 +887,21 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       rows: [
                         ...appraisalMaster.kpiTable!.map((element) {
                           return DataRow2(
+                            color: MaterialStateColor.resolveWith(
+                              (states) {
+                                return element.kpiEdit == "NO"
+                                    ? Colors.transparent
+                                    : const Color.fromARGB(255, 235, 228, 244);
+                                // : Color.fromARGB(255, 199, 219, 235);
+                              },
+                            ),
                             cells: [
                               DataCell(Align(
                                   alignment: Alignment.center,
                                   child: Text(element.selfScore ?? ''))),
                               DataCell(Container(
                                 color: Colors.grey.shade300,
+                                // color: Colors.grey.shade300,
                                 child: Center(
                                     child: Text(overalResult(
                                         element.weightage, element.selfScore))),
@@ -1048,6 +1001,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       rows: [
                         ...appraisalMaster.kpiTable!.map((element) {
                           return DataRow2(
+                            color: MaterialStateColor.resolveWith(
+                              (states) {
+                                return element.kpiEdit == "NO"
+                                    ? Colors.transparent
+                                    : const Color.fromARGB(255, 235, 228, 244);
+                                // : Color.fromARGB(255, 199, 219, 235);
+                              },
+                            ),
                             cells: [
                               element.kpiEdit == 'NO'
                                   ? DataCell(Align(
@@ -1140,620 +1101,25 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       ]),
                 ),
               ]),
-            ])
-
-        // DataTable2(
-        //     border: TableBorder.all(),
-        //     columnSpacing: 0,
-        //     horizontalMargin: 0,
-        //     dataRowHeight: 38,
-        //     minWidth: 870,
-        //     fixedLeftColumns: 1,
-        //     headingRowColor: MaterialStateColor.resolveWith(
-        //       (states) {
-        //         return const Color.fromARGB(255, 159, 193, 165);
-        //       },
-        //     ),
-        //     headingRowHeight: 40,
-        //     columns: const [
-        //       DataColumn2(
-        //           fixedWidth: 40,
-        //           label: Center(
-        //               child: Text(
-        //             "SL. N",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //       DataColumn2(
-        //           fixedWidth: 180,
-        //           label: Center(
-        //               child: Text(
-        //             "KPI Name",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //       DataColumn2(
-        //           fixedWidth: 90,
-        //           label: Center(
-        //               child: Text(
-        //             "Weitage (%)",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //       DataColumn2(
-        //           fixedWidth: 100,
-        //           label: Center(
-        //               child: Text(
-        //             "Score (FM)",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //       DataColumn2(
-        //           fixedWidth: 80,
-        //           label: Center(
-        //               child: Text(
-        //             "Ov. R.(FM)",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //       DataColumn2(
-        //           fixedWidth: 100,
-        //           label: Center(
-        //               child: Text(
-        //             "Score (RSM)",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //       DataColumn2(
-        //           fixedWidth: 80,
-        //           label: Center(
-        //               child: Text(
-        //             "Ov. R.(RSM)",
-        //             style: TextStyle(fontWeight: FontWeight.bold),
-        //           ))),
-        //     ],
-        //     rows: [
-        //       ...appraisalMaster.kpiTable!.map((element) {
-        //         return DataRow2(
-        //           cells: [
-        //             DataCell(Center(child: Text(element.sl ?? '0'))),
-        //             DataCell(
-        //               Align(
-        //                 alignment: Alignment.centerLeft,
-        //                 child: Padding(
-        //                   padding: const EdgeInsets.all(4.0),
-        //                   child: Text(element.name ?? ''),
-        //                 ),
-        //               ),
-        //               onTap: () => _showDialouge(element.name ?? 'Title',
-        //                   element.definition ?? 'Defination'),
-        //             ),
-        //             DataCell(Align(
-        //                 alignment: Alignment.center,
-        //                 child: Text('${element.weitage}%'))),
-        //             DataCell(Align(
-        //                 alignment: Alignment.center,
-        //                 child: Text(element.selfScror ?? ''))),
-        //             DataCell(Container(
-        //               color: Colors.grey.shade300,
-        //               child: Center(
-        //                   child: Text(
-        //                       overalResult(element.weitage, element.selfScror))),
-        //             )),
-        //             element.editable == 'NO'
-        //                 ? DataCell(Align(
-        //                     alignment: Alignment.center,
-        //                     child: Text(element.supervisorScore ?? '')))
-        //                 : DataCell(ButtonTheme(
-        //                     alignedDropdown: true,
-        //                     child: DropdownButton(
-        //                         hint: const Text('Select'),
-        //                         value: supScoreMapData[element.sl!],
-        //                         items: ['0', '1', '2', '3']
-        //                             .map((String item) =>
-        //                                 DropdownMenuItem<String>(
-        //                                     value: item, child: Text(item)))
-        //                             .toList(),
-        //                         onChanged: (value) {
-        //                           supScoreMapData[element.sl!] = value;
-        //                           setState(() {});
-        //                         }),
-        //                   )),
-        //             DataCell(Container(
-        //               color: Colors.grey.shade300,
-        //               child: Align(
-        //                   alignment: Alignment.center,
-        //                   child: Text(overalResult(
-        //                       element.weitage, supScoreMapData[element.sl!]))),
-        //             )),
-        //           ],
-        //         );
-        //       }).toList(),
-        //       DataRow2(
-        //         color: MaterialStateColor.resolveWith(
-        //           (states) {
-        //             return Colors.grey.shade300;
-        //           },
-        //         ),
-        //         cells: [
-        //           const DataCell(Center(child: Text(''))),
-        //           const DataCell(Align(
-        //               alignment: Alignment.centerLeft,
-        //               child: Padding(
-        //                 padding: EdgeInsets.all(4.0),
-        //                 child: Text('Total (Sum of weitages and overal)'),
-        //               ))),
-        //           DataCell(Align(
-        //               alignment: Alignment.center,
-        //               child: Text('${totalWeitages(appraisalMaster)}%'))),
-        //           const DataCell(
-        //               Align(alignment: Alignment.centerRight, child: Text(''))),
-        //           DataCell(Align(
-        //               alignment: Alignment.center,
-        //               child: Text(totalOveralResult(appraisalMaster, 'FM')
-        //                   .toStringAsFixed(2)))),
-        //           const DataCell(
-        //               Align(alignment: Alignment.centerRight, child: Text(''))),
-        //           DataCell(Align(
-        //               alignment: Alignment.center,
-        //               child: Text(totalOveralResult(
-        //                       appraisalMaster, appraisalMaster.step ?? '')
-        //                   .toStringAsFixed(2)))),
-        //         ],
-        //       ),
-        //       DataRow2(
-        //         color: MaterialStateColor.resolveWith(
-        //           (states) {
-        //             return Colors.grey.shade300;
-        //           },
-        //         ),
-        //         cells: [
-        //           const DataCell(Center(child: Text(''))),
-        //           const DataCell(Align(
-        //               alignment: Alignment.centerLeft,
-        //               child: Padding(
-        //                 padding: EdgeInsets.all(4.0),
-        //                 child: Text('Rounded Total (sum of Ovaral)'),
-        //               ))),
-        //           const DataCell(Align(
-        //               alignment: Alignment.center,
-        //               child: Text(''))), //${totalWeitages(appraisalMaster)}%
-        //           const DataCell(
-        //               Align(alignment: Alignment.centerRight, child: Text(''))),
-        //           DataCell(Align(
-        //               alignment: Alignment.center,
-        //               child: Text(totalOveralResult(appraisalMaster, 'FM')
-        //                   .toStringAsFixed(0)))),
-        //           const DataCell(
-        //               Align(alignment: Alignment.centerRight, child: Text(''))),
-        //           DataCell(Align(
-        //               alignment: Alignment.center,
-        //               child: Text(totalOveralResult(
-        //                       appraisalMaster, appraisalMaster.step ?? '')
-        //                   .toStringAsFixed(0)))),
-        //         ],
-        //       )
-        //     ]
-
-        //     // [
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("1"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Sales Achievement  "))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(
-        //     //               appraisalMaster.salesAchievementFullPoints ?? ''))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(toCaculateMasterAchievedPoint(
-        //     //               appraisalMaster.salesAchievementBasePoint ?? '',
-        //     //               appraisalMaster.salesAchievementFullPoints ?? '')))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(
-        //     //               '${appraisalMaster.salesAchievementBasePoint ?? ''}%'))),
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("2"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Av. Rx Share (4P)"))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.avRx4PFullPoints ?? ''))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(toCaculateMasterAchievedPoint(
-        //     //               appraisalMaster.avRx4PBasePoint ?? '',
-        //     //               appraisalMaster.avRx4PFullPoints ?? '')))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text('${appraisalMaster.avRx4PBasePoint ?? ''}%'))),
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("3"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Av. Rx Share (EMR) "))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.avRxEmrFullPoints ?? ''))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(toCaculateMasterAchievedPoint(
-        //     //               appraisalMaster.avRxEmrBasePoint ?? '',
-        //     //               appraisalMaster.avRxEmrFullPoints ?? '')))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text('${appraisalMaster.avRxEmrBasePoint ?? ''}%'))),
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("4"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Chemist Coverage"))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child:
-        //     //               Text(appraisalMaster.achChemistCovFullPoints ?? ''))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(toCaculateMasterAchievedPoint(
-        //     //               appraisalMaster.achChemistCovBasePoint ?? '',
-        //     //               appraisalMaster.achChemistCovFullPoints ?? '')))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(
-        //     //               '${appraisalMaster.achChemistCovBasePoint ?? ''}%')))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("5"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Exam Performance"))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child:
-        //     //               Text(appraisalMaster.examPerformanceFullPoints ?? ''))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(toCaculateMasterAchievedPoint(
-        //     //               appraisalMaster.examPerformanceBasePoint ?? '',
-        //     //               appraisalMaster.examPerformanceFullPoints ?? '')))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(
-        //     //               '${appraisalMaster.examPerformanceBasePoint ?? '0'}%')))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("6"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("No. of Achieved Months "))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.noAchMonthFullPoints ?? ''))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(toCaculateMasterAchievedPoint(
-        //     //               appraisalMaster.noAchMonthBasePoint ?? '',
-        //     //               appraisalMaster.noAchMonthFullPoints ?? '')))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.noAchMonthBasePoint ?? '0')))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("7"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Honesty & Integrity"))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.honestyFullPoints ?? ''))),
-        //     //       DataCell(
-        //     //         Align(
-        //     //             alignment: Alignment.centerRight,
-        //     //             child: Container(
-        //     //               height: 28,
-        //     //               decoration: const BoxDecoration(
-        //     //                 color: Color.fromARGB(255, 222, 211, 235),
-        //     //                 shape: BoxShape.rectangle,
-        //     //               ),
-        //     //               child: TextField(
-        //     //                 readOnly: true,
-        //     //                 controller: TextEditingController(
-        //     //                     text: appraisalMaster.honestyAndIntegrity ?? ''),
-        //     //                 textAlign: TextAlign.center,
-        //     //                 decoration: const InputDecoration(
-        //     //                   border: InputBorder.none,
-        //     //                 ),
-        //     //               ),
-        //     //             )),
-        //     //       ),
-        //     //       const DataCell(
-        //     //           Align(alignment: Alignment.centerRight, child: Text("")))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("8"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Discipline"))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.discipFullPoints ?? ''))),
-        //     //       DataCell(
-        //     //         Align(
-        //     //             alignment: Alignment.centerRight,
-        //     //             child: Container(
-        //     //               height: 28,
-        //     //               decoration: const BoxDecoration(
-        //     //                 color: Color.fromARGB(255, 222, 211, 235),
-        //     //                 shape: BoxShape.rectangle,
-        //     //               ),
-        //     //               child: TextField(
-        //     //                 readOnly: true,
-        //     //                 controller: TextEditingController(
-        //     //                     text: appraisalMaster.discipline ?? ''),
-        //     //                 textAlign: TextAlign.center,
-        //     //                 decoration: const InputDecoration(
-        //     //                   border: InputBorder.none,
-        //     //                 ),
-        //     //               ),
-        //     //             )),
-        //     //       ),
-        //     //       const DataCell(
-        //     //           Align(alignment: Alignment.centerRight, child: Text("")))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("9"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft, child: Text("Skill"))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.skillFullPoints ?? ''))),
-        //     //       DataCell(
-        //     //         Align(
-        //     //             alignment: Alignment.centerRight,
-        //     //             child: Container(
-        //     //               height: 28,
-        //     //               decoration: const BoxDecoration(
-        //     //                 color: Color.fromARGB(255, 222, 211, 235),
-        //     //                 shape: BoxShape.rectangle,
-        //     //               ),
-        //     //               child: TextField(
-        //     //                 readOnly: true,
-        //     //                 textAlign: TextAlign.center,
-        //     //                 controller: TextEditingController(
-        //     //                     text: appraisalMaster.skill ?? ''),
-        //     //                 decoration: const InputDecoration(
-        //     //                   border: InputBorder.none,
-        //     //                 ),
-        //     //               ),
-        //     //             )),
-        //     //       ),
-        //     //       const DataCell(
-        //     //           Align(alignment: Alignment.centerRight, child: Text("")))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text("10"))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text("Quality of Sales "))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(appraisalMaster.qualitySalesFullPoints ?? ''))),
-        //     //       DataCell(
-        //     //         Align(
-        //     //             alignment: Alignment.centerRight,
-        //     //             child: Container(
-        //     //               height: 28,
-        //     //               decoration: const BoxDecoration(
-        //     //                 color: Color.fromARGB(255, 222, 211, 235),
-        //     //                 shape: BoxShape.rectangle,
-        //     //               ),
-        //     //               child: TextField(
-        //     //                 readOnly: true,
-        //     //                 textAlign: TextAlign.center,
-        //     //                 controller: TextEditingController(
-        //     //                     text: appraisalMaster.qualityOfSales ?? ''),
-        //     //                 decoration: const InputDecoration(
-        //     //                   border: InputBorder.none,
-        //     //                 ),
-        //     //               ),
-        //     //             )),
-        //     //       ),
-        //     //       const DataCell(
-        //     //           Align(alignment: Alignment.centerRight, child: Text("")))
-        //     //     ],
-        //     //   ),
-        //     //   DataRow2(
-        //     //     cells: [
-        //     //       const DataCell(Center(child: Text(""))),
-        //     //       const DataCell(Align(
-        //     //           alignment: Alignment.centerLeft,
-        //     //           child: Text(
-        //     //             "Total ",
-        //     //             style: TextStyle(fontWeight: FontWeight.bold),
-        //     //           ))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(
-        //     //             totalAchfullPoints(appraisalMaster),
-        //     //             style: const TextStyle(fontWeight: FontWeight.bold),
-        //     //           ))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: Text(
-        //     //             totalAchPoints(appraisalMaster),
-        //     //             style: const TextStyle(fontWeight: FontWeight.bold),
-        //     //           ))),
-        //     //       DataCell(Align(
-        //     //           alignment: Alignment.centerRight,
-        //     //           child: totalAchBaseValue(appraisalMaster))),
-        //     //     ],
-        //     //   ),
-        //     // ]
-        //     ),
-
-        );
+            ]));
   }
-
-  // String totalAchPoints(RetStr appraisalMaster) {
-  //   return (double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.salesAchievementBasePoint ?? '',
-  //               appraisalMaster.salesAchievementFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.avRx4PBasePoint ?? '',
-  //               appraisalMaster.avRx4PFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.avRxEmrBasePoint ?? '',
-  //               appraisalMaster.avRxEmrFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.achChemistCovBasePoint ?? '',
-  //               appraisalMaster.achChemistCovFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.examPerformanceBasePoint ?? '',
-  //               appraisalMaster.examPerformanceFullPoints ?? '')) +
-  //           double.parse(toCaculateMasterAchievedPoint(
-  //               appraisalMaster.noAchMonthBasePoint ?? '',
-  //               appraisalMaster.noAchMonthFullPoints ?? '')) +
-  //           double.parse(appraisalMaster.honestyAndIntegrity ?? '0') +
-  //           double.parse(appraisalMaster.discipline ?? '0') +
-  //           double.parse(appraisalMaster.skill ?? '0') +
-  //           double.parse(appraisalMaster.qualityOfSales ?? '0'))
-  //       .toStringAsFixed(2);
-  // }
-
-  // Text totalAchBaseValue(RetStr appraisalMaster) {
-  //   return Text(
-  //     '${((double.parse(toCaculateMasterAchievedPoint(appraisalMaster.salesAchievementBasePoint ?? '', appraisalMaster.salesAchievementFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRx4PBasePoint ?? '', appraisalMaster.avRx4PFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.avRxEmrBasePoint ?? '', appraisalMaster.avRxEmrFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.achChemistCovBasePoint ?? '', appraisalMaster.achChemistCovFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.examPerformanceBasePoint ?? '', appraisalMaster.examPerformanceFullPoints ?? '')) + double.parse(toCaculateMasterAchievedPoint(appraisalMaster.noAchMonthBasePoint ?? '', appraisalMaster.noAchMonthFullPoints ?? '')) + double.parse(appraisalMaster.honestyAndIntegrity ?? '0') + double.parse(appraisalMaster.discipline ?? '0') + double.parse(appraisalMaster.skill ?? '0') + double.parse(appraisalMaster.qualityOfSales ?? '0')) / ((double.parse(appraisalMaster.salesAchievementFullPoints ?? '0') + double.parse(appraisalMaster.avRx4PFullPoints ?? '0') + double.parse(appraisalMaster.avRxEmrFullPoints ?? '0') + double.parse(appraisalMaster.achChemistCovFullPoints ?? '0') + double.parse(appraisalMaster.examPerformanceFullPoints ?? '0') + double.parse(appraisalMaster.noAchMonthFullPoints ?? '0') + double.parse(appraisalMaster.honestyFullPoints ?? '0') + double.parse(appraisalMaster.discipFullPoints ?? '0') + double.parse(appraisalMaster.skillFullPoints ?? '0') + double.parse(appraisalMaster.qualitySalesFullPoints ?? '0'))) * 100).toStringAsFixed(2)}%',
-  //     style: const TextStyle(fontWeight: FontWeight.bold),
-  //   );
-  // }
-// Text totalAchBaseValue(RetStr appraisalMaster) {
-//     return Text(
-//       '${(double.parse((appraisalMaster.salesAchievementBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.avRxEmrBasePoint ?? '0')) + double.parse((appraisalMaster.achChemistCovBasePoint ?? '0')) + double.parse((appraisalMaster.examPerformanceBasePoint == '' ? '0' : appraisalMaster.examPerformanceBasePoint ?? '0')) + double.parse((appraisalMaster.noAchMonthBasePoint ?? '0'))
-//           // +
-//           // double.parse((appraisalMaster.honestyFullPoints ?? '0')) +
-//           // double.parse((appraisalMaster.discipFullPoints ?? '0')) +
-//           // double.parse((appraisalMaster.skillFullPoints ?? '0')) +
-//           // double.parse((appraisalMaster.qualitySalesFullPoints ?? '0'))
-//           ).toStringAsFixed(2)}%',
-//       style: const TextStyle(fontWeight: FontWeight.bold),
-//     );
-//   }
-
-//========================================reason action widget======================================
-  // Container reasonActionWidget(RetStr appraisalOthers) {
-  //   return Container(
-  //     color: const Color(0xffF8CBAD),
-  //     height: 110,
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Column(children: [
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "No. of Letter Issued",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(
-  //                 flex: 7, child: Text(appraisalOthers.noLetterIssued ?? ''))
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 8,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "Cause/Reason",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(flex: 7, child: Text(appraisalOthers.cause ?? ''))
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 8,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "Action Taken",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(flex: 7, child: Text(appraisalOthers.action ?? ''))
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 8,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Expanded(
-  //                 flex: 9,
-  //                 child: Text(
-  //                   "No. of Incidence",
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 )),
-  //             const Expanded(
-  //                 child: Text(
-  //               ":",
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             )),
-  //             Expanded(flex: 7, child: Text(appraisalOthers.noIncidence ?? ''))
-  //           ],
-  //         ),
-  //       ]),
-  //     ),
-  //   );
-  // }
 
   //=============================Increament upgration=========================
   Container increametGradeUpgration(RetStr appraisalOthers2) {
     return Container(
-      color: const Color.fromARGB(255, 170, 196, 220),
+      color: const Color.fromARGB(255, 222, 211, 235),
       //color: Color.fromARGB(255, 180, 206, 184),
-      height: 160,
+      // height: 160,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
+          Text(
+            '$_step SCORE',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
           Row(
             children: [
               const Expanded(
@@ -1817,6 +1183,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Checkbox(
                       value:
                           appraisalOthers2.upgradeGrade == "0" ? false : true,
+                      activeColor: const Color(0xff38C172),
                       onChanged: (bool? value) {
                         // setState(() {
                         //   isUpgrade = value!;
@@ -1852,6 +1219,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
                       value: appraisalOthers2.designation == "0" ? false : true,
+                      activeColor: const Color(0xff38C172),
                       // value: isDesignationChange,
                       onChanged: (bool? value) {
                         // setState(() {
@@ -1864,6 +1232,40 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               ),
             ],
           ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Feedback",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  flex: 7,
+                  child: TextField(
+                    readOnly: true,
+                    textAlign: TextAlign.center,
+                    controller:
+                        TextEditingController(text: appraisalOthers2.feedback),
+                    // controller: feedbackController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Feedback(60 Character)',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  )),
+            ],
+          ),
         ]),
       ),
     );
@@ -1873,11 +1275,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   Container increametGradeUpgrationForSup(RetStr appraisalOthers2) {
     return Container(
       color: const Color.fromARGB(255, 170, 196, 220),
+
       //color: Color.fromARGB(255, 180, 206, 184),
-      height: 160,
+      // height: 160,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
+          Text(
+            '$_step_sup SCORE',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 15),
           Row(
             children: [
               const Expanded(
@@ -1937,6 +1345,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
                       value: isUpgrade,
+                      activeColor: const Color(0xff38C172),
                       onChanged: (bool? value) {
                         setState(() {
                           isUpgrade = value!;
@@ -1972,6 +1381,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     data: ThemeData(unselectedWidgetColor: Colors.white),
                     child: Checkbox(
                       value: isDesignationChange,
+                      activeColor: const Color(0xff38C172),
                       onChanged: (bool? value) {
                         setState(() {
                           isDesignationChange = value!;
@@ -1981,6 +1391,34 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   ),
                 ),
               ),
+            ],
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 3,
+                  child: Text(
+                    "Feedback\n(60 Character)",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  flex: 7,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    controller: feedbackController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Feedback(60 Character)',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  )),
             ],
           ),
         ]),
@@ -1994,6 +1432,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             userInfo!.userId, widget.userPass, restParams);
 
     if (appraisalApprovalFfDetailsData != null) {
+      _step = appraisalApprovalFfDetailsData!.resData!.supLevelDepthNo == '1'
+          ? "FM"
+          : 'RSM';
+      _step_sup =
+          appraisalApprovalFfDetailsData!.resData!.supLevelDepthNo == '1'
+              ? "RSM"
+              : 'ZH';
       for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
         incrementController.text = element.incrementAmountSup ?? '';
         feedbackController.text = element.feedbackSup ?? '';

@@ -204,11 +204,17 @@ class _ApprovalAppraisalFieldForceState
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 5),
                       child: Text(
-                        userFflist[index].appActionStatus,
+                        userFflist[index].appActionStatus == 'DRAFT_SUP'
+                            ? userFflist[index].appActionStatus.substring(0, 5)
+                            : userFflist[index].appActionStatus,
                         style: TextStyle(
-                            color: userFflist[index].appActionStatus == 'DRAFT'
-                                ? Colors.yellow
-                                : Colors.teal),
+                            fontWeight: FontWeight.bold,
+                            color: userFflist[index].appActionStatus ==
+                                    'DRAFT_SUP'
+                                ? const Color.fromARGB(255, 138, 201, 149)
+                                : userFflist[index].appActionStatus == 'DRAFT'
+                                    ? Colors.red
+                                    : Colors.teal),
                       ),
                     ),
                   ],

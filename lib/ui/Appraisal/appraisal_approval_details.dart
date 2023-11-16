@@ -478,7 +478,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           // color: Colors.blue),
                           child: const Center(
                               child: Text(
-                            "Submit",
+                            "Approve",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -1995,10 +1995,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
     if (appraisalApprovalFfDetailsData != null) {
       for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
-        incrementController.text = element.incrementAmount ?? '0.0';
-        feedbackController.text = element.feedback ?? '';
-        isUpgrade = element.upgradeGrade == '0' ? false : true;
-        isDesignationChange = element.designation == '0' ? false : true;
+        incrementController.text = element.incrementAmountSup ?? '';
+        feedbackController.text = element.feedbackSup ?? '';
+        isUpgrade = element.upgradeGradeSup == '0' ? false : true;
+        isDesignationChange =
+            element.designationChangeSup == '0' ? false : true;
         for (var ele in element.kpiTable!) {
           if (element.employeeId != null &&
               ele.sl != null &&

@@ -59,15 +59,16 @@ class DataList {
   final String employeeName;
   final String territoryId;
   final String dueCount;
+  final String appActionStatus;
 
-  DataList({
-    required this.submitId,
-    required this.submitName,
-    required this.employeeId,
-    required this.employeeName,
-    required this.territoryId,
-    required this.dueCount,
-  });
+  DataList(
+      {required this.submitId,
+      required this.submitName,
+      required this.employeeId,
+      required this.employeeName,
+      required this.territoryId,
+      required this.dueCount,
+      required this.appActionStatus});
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
         submitId: json["submit_id"] ?? '',
@@ -76,6 +77,7 @@ class DataList {
         employeeName: json["employee_name"] ?? '',
         territoryId: json["territory_id"] ?? '',
         dueCount: json["due_count"] ?? '',
+        appActionStatus: json["app_acction_status"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,6 +87,7 @@ class DataList {
         "employee_name": employeeName,
         "territory_id": territoryId,
         "due_count": dueCount,
+        "app_acction_status": appActionStatus,
       };
 }
 

@@ -104,6 +104,10 @@ class RetStr {
   final String? noIncidence;
   final String? avgRxGrowth;
   final String? seenRx;
+  final String? incrementAmountSup;
+  final String? designationChangeSup;
+  final String? upgradeGradeSup;
+  final String? feedbackSup;
   final List<KpiTable>? kpiTable;
 
   RetStr(
@@ -152,6 +156,10 @@ class RetStr {
       this.action,
       this.noIncidence,
       this.avgRxGrowth,
+      this.incrementAmountSup,
+      this.designationChangeSup,
+      this.upgradeGradeSup,
+      this.feedbackSup,
       this.kpiTable,
       this.seenRx});
 
@@ -202,6 +210,10 @@ class RetStr {
         noIncidence: json["no_incidence"],
         avgRxGrowth: json["avg_rx_growth"],
         seenRx: json["seen_rx"],
+        incrementAmountSup: json["increment_amount_sup"],
+        designationChangeSup: json["designation_change_sup"],
+        upgradeGradeSup: json["upgrade_grade_sup"],
+        feedbackSup: json["feedback_sup"],
         kpiTable: json["kpi_table"] == null
             ? []
             : List<KpiTable>.from(
@@ -255,6 +267,10 @@ class RetStr {
         "no_incidence": noIncidence,
         "avg_rx_growth": avgRxGrowth,
         "seen_rx": seenRx,
+        "increment_amount_sup": incrementAmountSup,
+        "designation_change_sup": designationChangeSup,
+        "upgrade_grade_sup": upgradeGradeSup,
+        "feedback_sup": feedbackSup,
         "kpi_table": kpiTable == null
             ? []
             : List<dynamic>.from(kpiTable!.map((x) => x.toJson())),

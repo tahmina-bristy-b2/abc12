@@ -194,18 +194,25 @@ class _ApprovalAppraisalFieldForceState
                 ),
                 title: Text(
                     '${userFflist[index].employeeName} || ${userFflist[index].employeeId}'),
-                subtitle: Text(
-                    'Submitted by: ${userFflist[index].submitName} || ${userFflist[index].submitId}'),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text('Submitted by: ${userFflist[index].territoryId}'),
-                //     Padding(
-                //       padding: const EdgeInsets.only(left: 10, right: 10),
-                //       child: Text('Due: ${userFflist[index].dueCount}'),
-                //     ),
-                //   ],
-                // ),
+                subtitle:
+                    // Text(
+                    //     'Submitted by: ${userFflist[index].submitName} || ${userFflist[index].submitId}'),
+                    Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Submitted by:  ${userFflist[index].submitId}'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 5),
+                      child: Text(
+                        userFflist[index].appActionStatus,
+                        style: TextStyle(
+                            color: userFflist[index].appActionStatus == 'DRAFT'
+                                ? Colors.yellow
+                                : Colors.teal),
+                      ),
+                    ),
+                  ],
+                ),
                 trailing: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(

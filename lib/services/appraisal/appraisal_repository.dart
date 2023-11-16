@@ -88,7 +88,8 @@ class AppraisalRepository {
       String upgradeGrade,
       String designationChange,
       String feedback,
-      String kpiKey) async {
+      String kpiKey,
+      String actionButtonName) async {
     Map<String, dynamic> wholeData = {};
     try {
       http.Response response = await AppraisalDataprovider().appRaisalSubmit(
@@ -103,7 +104,8 @@ class AppraisalRepository {
           upgradeGrade,
           designationChange,
           feedback,
-          kpiKey);
+          kpiKey,
+          actionButtonName);
 
       if (response.statusCode == 200) {
         wholeData = jsonDecode(response.body);
@@ -212,15 +214,8 @@ class AppraisalRepository {
         if (resData["res_data"]["status"] == "Success") {
           appraisalApprovalFfDetailsData =
               appraisalApprovalFfDetailsDataModelFromJson(response.body);
-          // appraisalApprovalFfDetailsData =
-          //     appraisalApprovalFfDetailsDataModelFromJson(
-          //         json.encode(fFDetailsJson));
-
           return appraisalApprovalFfDetailsData;
         } else {
-          // appraisalApprovalFfDetailsData =
-          //     appraisalApprovalFfDetailsDataModelFromJson(
-          //         json.encode(fFDetailsJson));
           AllServices().toastMessage(
               resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
           return appraisalApprovalFfDetailsData;
@@ -233,9 +228,6 @@ class AppraisalRepository {
             14);
       }
     } catch (e) {
-      // appraisalApprovalFfDetailsData =
-      //     appraisalApprovalFfDetailsDataModelFromJson(
-      //         json.encode(fFDetailsJson));
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return appraisalApprovalFfDetailsData;
@@ -276,5 +268,43 @@ class AppraisalRepository {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
     }
     return resData;
+  }
+
+  //======================== Get Appraisal Approval Field Force Details Data For Approval ==================
+  Future<AppraisalApprovalFfDetailsDataModel?> getDraftAppraisalFOrMSOData(
+      String url,
+      String cid,
+      String userId,
+      String userPass,
+      String levelDepth,
+      String employeeId) async {
+    AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
+    try {
+      http.Response response = await AppraisalDataprovider()
+          .draftAppraisalDraftDetailsForMSO(
+              url, cid, userId, userPass, levelDepth, employeeId);
+      var resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          appraisalApprovalFfDetailsData =
+              appraisalApprovalFfDetailsDataModelFromJson(response.body);
+
+          return appraisalApprovalFfDetailsData;
+        } else {
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return appraisalApprovalFfDetailsData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return appraisalApprovalFfDetailsData;
   }
 }

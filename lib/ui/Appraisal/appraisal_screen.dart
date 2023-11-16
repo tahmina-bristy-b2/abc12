@@ -51,6 +51,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   bool isUpgrade = false;
   bool isDesignationChange = false;
   bool isSubmit = false;
+  bool isDraft = false;
   bool submitConfirmation = false;
   double totalWeightage = 0.0;
   //double totalOverallResult = 0.0;
@@ -278,6 +279,23 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     }
   }
 
+  //====================================== Internet check for Appraisal Draft============================================
+  internetCheckForDraft() async {
+    setState(() {
+      isDraft = true;
+    });
+    bool hasInternet = await InternetConnectionChecker().hasConnection;
+    if (hasInternet == true) {
+      draftEmployeeAppraisal();
+    } else {
+      setState(() {
+        isDraft = false;
+      });
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+    }
+  }
+
 //====================================== Submit Api Call ============================================
   submitEmployeeAppraisal() async {
     Map<String, dynamic> submitInfo = await AppraisalRepository()
@@ -295,7 +313,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
             feeddbackController.text,
-            appraisalDetailsModel!.resData.retStr.first.kpiKey);
+            appraisalDetailsModel!.resData.retStr.first.kpiKey,
+            "SUBMITTED");
     if (submitInfo != {}) {
       if (submitInfo["status"] == "Success") {
         setState(() {
@@ -321,6 +340,54 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     } else {
       setState(() {
         isSubmit = false;
+      });
+    }
+  }
+
+  //====================================== Submit Api Call ============================================
+  draftEmployeeAppraisal() async {
+    Map<String, dynamic> submitInfo = await AppraisalRepository()
+        .appraisalSubmit(
+            dmpathData!.submitUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId,
+            kpiValuesList,
+            incrementController.text.toString() == ""
+                ? "0"
+                : incrementController.text.toString(),
+            isUpgrade ? "1" : "0",
+            isDesignationChange ? "1" : "0",
+            feeddbackController.text,
+            appraisalDetailsModel!.resData.retStr.first.kpiKey,
+            "DRAFT_MSO");
+    if (submitInfo != {}) {
+      if (submitInfo["status"] == "Success") {
+        setState(() {
+          isDraft = false;
+        });
+        if (!mounted) return;
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.green, Colors.white, 16);
+      } else if (submitInfo["status"] == "Failed") {
+        setState(() {
+          isDraft = false;
+        });
+        AllServices().toastMessage(
+            "${submitInfo["ret_str"]}", Colors.red, Colors.white, 16);
+      } else {
+        setState(() {
+          isDraft = false;
+        });
+      }
+    } else {
+      setState(() {
+        isDraft = false;
       });
     }
   }
@@ -516,22 +583,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: const Color.fromARGB(255, 48, 153, 206),
-                          ),
-                          child: const Center(
-                              child: Text(
-                            "Save as Draft",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
-                        ),
+                        SaveAsDraftWidget(context),
                         submitButtonWidget(context),
                       ],
                     )
@@ -977,6 +1029,73 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         fontSize: 18),
                   )),
       ),
+    );
+  }
+
+  //=================================== Save as Draft Button widget ===========================================
+  GestureDetector SaveAsDraftWidget(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        kpiValuesList = [];
+        List<KpiTable> kpiTableData =
+            appraisalDetailsModel!.resData.retStr.first.kpiTable;
+
+        for (var kpi in kpiTableData) {
+          Map<String, dynamic> eachKpiValues = {
+            "kpi_name": kpi.name,
+            "kpi_id": kpi.kpiId,
+            "weightage": kpi.weitage,
+            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+            "defination": kpi.definition,
+            "overall_result": overallCount(
+                    kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+                .toStringAsFixed(2),
+          };
+          kpiValuesList.add(eachKpiValues);
+        }
+
+        await internetCheckForDraft();
+      },
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: const Color.fromARGB(255, 48, 153, 206),
+        ),
+        child: Center(
+            child: isDraft == true
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : const Text(
+                    "Save as Draft",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  )),
+      ),
+      // child: Container(
+      //   height: 50,
+      //   width: MediaQuery.of(context).size.width * 0.4,
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(5),
+      //     color: const Color(0xff38C172),
+      //   ),
+      //   child: Center(
+      //       child: isSubmit == true
+      //           ? const CircularProgressIndicator(
+      //               color: Colors.white,
+      //             )
+      //           : const Text(
+      //               "Submit",
+      //               style: TextStyle(
+      //                   color: Colors.white,
+      //                   fontWeight: FontWeight.bold,
+      //                   fontSize: 18),
+      //             )),
+      // ),
     );
   }
 

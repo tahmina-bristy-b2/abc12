@@ -24,10 +24,11 @@ class AppraisalApis {
           String upgradeGrade,
           String designationChange,
           String feedback,
-          String kpiKey) =>
+          String kpiKey,
+          String actionButtonName) =>
       //"${url}api_appraisal_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=$userPass&sup_level_depth_no=$levelDepth&employee_id=$employeeId&increment_amount=$incrementAmount&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedback&kpi_key=$kpiKey";
       // "$ipPort/$app/api_appraisal_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId&increment_amount=$incrementAmount&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedback&kpi_key=$kpiKey";
-      "$ipPort/$app/api_appraisal_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId&increment_amount=$incrementAmount&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedback&kpi_key=$kpiKey&app_acction_button=SUBMITTED";
+      "$ipPort/$app/api_appraisal_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId&increment_amount=$incrementAmount&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedback&kpi_key=$kpiKey&app_acction_button=$actionButtonName";
   static ffApi(String syncUrl, String cid, String userId, String usrPass) =>
       '${syncUrl}api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$usrPass';
   // '$ipPort/$app/api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=1234';
@@ -49,4 +50,9 @@ class AppraisalApis {
     String userPass,
   ) =>
       "${syncUrl}/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=$userPass";
+
+  static employeeAppraisalForDraft(String url, String cid, String userId,
+          String userPass, String levelDepth, String employeeId) =>
+      // "${url}api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=$userPass&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
+      "$ipPort/$app/api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
 }

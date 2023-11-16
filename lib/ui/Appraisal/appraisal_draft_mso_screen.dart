@@ -1,35 +1,32 @@
-import 'dart:convert';
-
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
-
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
-import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-class AppraisalSelfAssesmentHistoryScreen extends StatefulWidget {
+class AppraisalDraftMsoScreen extends StatefulWidget {
   final String cid;
   final String userId;
   final String userPass;
-  // final String restParams;
-  const AppraisalSelfAssesmentHistoryScreen(
-      {super.key,
-      required this.cid,
-      required this.userId,
-      required this.userPass});
+  final String levelDepth;
+  final String employeeId;
+  const AppraisalDraftMsoScreen({
+    super.key,
+    required this.cid,
+    required this.userId,
+    required this.userPass,
+    required this.levelDepth,
+    required this.employeeId,
+  });
 
   @override
-  State<AppraisalSelfAssesmentHistoryScreen> createState() =>
-      _AppraisalSelfAssesmentHistoryScreenState();
+  State<AppraisalDraftMsoScreen> createState() =>
+      _AppraisalDraftMsoScreenState();
 }
 
-class _AppraisalSelfAssesmentHistoryScreenState
-    extends State<AppraisalSelfAssesmentHistoryScreen> {
+class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -41,11 +38,30 @@ class _AppraisalSelfAssesmentHistoryScreenState
   bool isDesignationChange = false;
   double totaOverallCount = 0.0;
   double totalWeightage = 0.0;
+
   List<RowDataForSelf> rowsList = [];
+  TextEditingController honestintegrityController =
+      TextEditingController(text: "");
+  TextEditingController disciplineController = TextEditingController();
+  TextEditingController skillController = TextEditingController();
+  TextEditingController qualityofSellsController =
+      TextEditingController(text: "");
+  TextEditingController incrementController = TextEditingController();
+  TextEditingController feeddbackController = TextEditingController();
+
+  List<String>? selfDropdownValue = <String>['1', '2', '3'];
+  Map<String, dynamic> dropdwonValueForSelfScore = {};
+  List kpiValuesList = [];
+
+  bool isSubmit = false;
+  bool isDraft = false;
+  bool submitConfirmation = false;
+  double finalOveralResultCount = 0.0;
+  double totalYesCount = 0.0;
+  Map overalYesValuesMap = {};
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
@@ -61,8 +77,13 @@ class _AppraisalSelfAssesmentHistoryScreenState
 
   void getAppraisalApprovalFFDetailsdata() async {
     appraisalApprovalFfDetailsData = await AppraisalRepository()
-        .getSelfAssesment(
-            dmpathData!.syncUrl, widget.cid, widget.userId, widget.userPass);
+        .getDraftAppraisalFOrMSOData(
+            dmpathData!.syncUrl,
+            widget.cid,
+            widget.userId,
+            widget.userPass,
+            widget.levelDepth,
+            widget.employeeId);
 
     if (appraisalApprovalFfDetailsData != null) {
       kpitable(appraisalApprovalFfDetailsData!);
@@ -106,43 +127,22 @@ class _AppraisalSelfAssesmentHistoryScreenState
         });
   }
 
-  // void removeFFAopraisal(int index) {
-  //   listKey.currentState!.removeItem(
-  //     index,
-  //     (context, animation) {
-  //       return appraisalListItemView(animation,
-  //           appraisalApprovalFfDetailsData!.resData!.retStr!, index, context);
-  //     },
-  //     duration: const Duration(seconds: 1),
-  //   );
-
-  //   Future.delayed(const Duration(seconds: 1), () {
-  //     appraisalApprovalFfDetailsData!.resData!.retStr!.removeAt(index);
-  //   });
-
-  //   // if (index == dsrDetails!.resData.dataList.length - 1) {
-  //   //   return;
-  //   // } else {
-  //   //   dsrDetails!.resData.dataList.removeAt(index);
-  //   // }
-  // }
-
   @override
   void dispose() {
     super.dispose();
-    // honestintegrityController.dispose();
-    // disciplineController.dispose();
-    // skillController.dispose();
-    // qualityofSellsController.dispose();
-    // incrementController.dispose();
-    // feeddbackController.dispose();
+    honestintegrityController.dispose();
+    disciplineController.dispose();
+    skillController.dispose();
+    qualityofSellsController.dispose();
+    incrementController.dispose();
+    feeddbackController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Self Asessment"),
+        title: const Text("Employee Draft"),
         centerTitle: true,
       ),
       body: _isLoading
@@ -572,7 +572,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
-      height: 360,
+      height: 400,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -759,11 +759,11 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 fixedWidth: 95,
                 label: Center(
                     child: Text(
-                  "% Weightage",
+                  "Weightage(%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 80,
+                fixedWidth: 100,
                 label: Center(
                     child: Column(
                   children: const [
@@ -775,7 +775,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " Minimum - 1\nMaximum - 3",
+                      " Min - 1\nMax - 3",
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
@@ -814,12 +814,52 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text("${e.weightage}%"))),
-                DataCell(
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(e.supScore!.toString()),
-                  ),
-                ),
+                e.kpiEdit == "NO"
+                    ? DataCell(
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(e.selfScore!),
+                        ),
+                      )
+                    : DataCell(SizedBox(
+                        width: 300.0,
+                        child: DropdownButtonHideUnderline(
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              value: dropdwonValueForSelfScore[e.sl],
+                              hint: const Text("Select"),
+                              items: selfDropdownValue!
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(item),
+                                          ))
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  dropdwonValueForSelfScore[e.sl!] = value!;
+                                  overalYesValuesMap[e.sl] = {
+                                    'weightage': e.weightage,
+                                    'value': value
+                                  };
+                                });
+
+                                // work for total yes count
+                                totalYesCount = 0;
+
+                                overalYesValuesMap.values
+                                    .toList()
+                                    .forEach((element) {
+                                  totalYesCount += overallCount(
+                                      element['weightage'],
+                                      element['value'].toString());
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      )),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(overallCount(e.weightage!, e.supScore!)
@@ -899,21 +939,27 @@ class _AppraisalSelfAssesmentHistoryScreenState
     // totaOverallCount = 0.0;
     List<KpiTable>? kpiTableData = selfDEtails.resData!.retStr!.first.kpiTable;
     for (var kpi in kpiTableData!) {
-      if (kpi.name != null &&
-          kpi.definition != null &&
-          kpi.weightage != null &&
-          kpi.kpiEdit != null) {
-        // rowsList.add(
-        //   RowDataForSelf(
-        //     sl: kpi.sl!,
-        //     name: kpi.name!,
-        //     definition: kpi.definition!,
-        //     weitage: kpi.weitage!,
-        //     kpiEdit: kpi.editable!,
-        //   ),
-        // );
-      }
+      // if (kpi.name != null &&
+      //     kpi.definition != null &&
+      //     kpi.weightage != null &&
+      //     kpi.kpiEdit != null) {
+      //   // rowsList.add(
+      //   //   RowDataForSelf(
+      //   //     sl: kpi.sl!,
+      //   //     name: kpi.name!,
+      //   //     definition: kpi.definition!,
+      //   //     weitage: kpi.weitage!,
+      //   //     kpiEdit: kpi.editable!,
+      //   //   ),
+      //   // );
+      // }
+
+      totaOverallCount = totaOverallCount +
+          overallCount(
+              kpi.weightage!, kpi.kpiEdit! == "NO" ? kpi.selfScore! : "0.0");
       totalWeightage = totalWeightage + double.parse(kpi.weightage!);
+      dropdwonValueForSelfScore[kpi.sl!] =
+          kpi.selfScore == "0" ? null : kpi.selfScore;
     }
   }
 

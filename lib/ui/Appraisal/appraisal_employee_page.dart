@@ -236,13 +236,16 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                 ),
                 title: Text(employeeList[index].empName),
                 subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Employee id: ${employeeList[index].employeeId}'),
                     const SizedBox(
                       width: 13,
                     ),
                     Text(
-                      employeeList[index].appActionStatus,
+                      employeeList[index].appActionStatus == 'DRAFT_MSO'
+                          ? employeeList[index].appActionStatus.substring(0, 5)
+                          : employeeList[index].appActionStatus,
                       style: TextStyle(
                           color:
                               employeeList[index].appActionStatus == "SUBMITTED"

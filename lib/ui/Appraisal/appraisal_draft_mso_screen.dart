@@ -54,6 +54,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
   List<String>? selfDropdownValue = <String>['1', '2', '3'];
   Map<String, dynamic> dropdwonValueForSelfScore = {};
+  List<Map<String, dynamic>> supDataForSubmit = [];
   List kpiValuesList = [];
 
   bool isSubmit = false;
@@ -324,8 +325,10 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SaveAsDraftWidget(context, appraisalDetails[index]),
-                submitButtonWidget(context, appraisalDetails[index])
+                SaveAsDraftWidget(
+                    context, appraisalDetails[index], supDataForSubmit),
+                submitButtonWidget(
+                    context, appraisalDetails[index], supDataForSubmit)
               ],
             ),
             // !_isPressed
@@ -405,7 +408,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //=================================== Submit Button with Validation widget ===========================================
-  GestureDetector submitButtonWidget(BuildContext context, RetStr selfDEtails) {
+  GestureDetector submitButtonWidget(BuildContext context, RetStr selfDEtails,
+      List<Map<String, dynamic>> selpKpiData) {
     return GestureDetector(
       onTap: () async {
         kpiValuesList = [];
@@ -415,17 +419,17 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
         for (var kpi in kpiTableData!) {
           counter++;
-          Map<String, dynamic> eachKpiValues = {
-            "kpi_name": kpi.name,
-            "kpi_id": kpi.kpiId,
-            "weightage": kpi.weightage,
-            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
-            "defination": kpi.definition,
-            "overall_result": overallCount(
-                    kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-                .toStringAsFixed(2),
-          };
-          kpiValuesList.add(eachKpiValues);
+          // Map<String, dynamic> eachKpiValues = {
+          //   "kpi_name": kpi.name,
+          //   "kpi_id": kpi.kpiId,
+          //   "weightage": kpi.weightage,
+          //   "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+          //   "defination": kpi.definition,
+          //   "overall_result": overallCount(
+          //           kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+          //       .toStringAsFixed(2),
+          // };
+          // kpiValuesList.add(eachKpiValues);
 
           if (kpi.kpiEdit == "YES") {
             if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
@@ -437,14 +441,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           }
         }
 
-        if (kpiValuesList.length == counter &&
-            dropdwonValueForSelfScore.values
-                .every((element) => element != null)) {
+        if (dropdwonValueForSelfScore.values
+            .every((element) => element != null)) {
           feeddbackController.text != ""
-              ? await internetCheckForSubmit(selfDEtails)
+              ? await internetCheckForSubmit(selfDEtails, selpKpiData)
               : AllServices().toastMessage("Please provide feedback first ",
                   Colors.red, Colors.white, 16);
         }
+
         // kpiValuesList = [];
 
         // List<KpiTable>? kpiTableData =
@@ -508,32 +512,33 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //=================================== Save as Draft Button widget ===========================================
-  GestureDetector SaveAsDraftWidget(BuildContext context, RetStr selfDEtails) {
+  GestureDetector SaveAsDraftWidget(BuildContext context, RetStr selfDEtails,
+      List<Map<String, dynamic>> supRevData) {
     return GestureDetector(
       onTap: () async {
-        kpiValuesList = [];
+        // kpiValuesList = [];
 
-        List<KpiTable>? kpiTableData = selfDEtails.kpiTable;
-        int counter = 0;
+        // List<KpiTable>? kpiTableData = selfDEtails.kpiTable;
+        // int counter = 0;
 
-        for (var kpi in kpiTableData!) {
-          if (kpi.kpiEdit == "YES") {
-            counter++;
-            Map<String, dynamic> eachKpiValues = {
-              "kpi_name": kpi.name,
-              "kpi_id": kpi.kpiId,
-              "weightage": kpi.weightage,
-              "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
-              "defination": kpi.definition,
-              "overall_result": overallCount(
-                      kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-                  .toStringAsFixed(2),
-            };
-            kpiValuesList.add(eachKpiValues);
-          }
-        }
+        // for (var kpi in kpiTableData!) {
+        //   if (kpi.kpiEdit == "YES") {
+        //     counter++;
+        //     Map<String, dynamic> eachKpiValues = {
+        //       "kpi_name": kpi.name,
+        //       "kpi_id": kpi.kpiId,
+        //       "weightage": kpi.weightage,
+        //       "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+        //       "defination": kpi.definition,
+        //       "overall_result": overallCount(
+        //               kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+        //           .toStringAsFixed(2),
+        //     };
+        //     kpiValuesList.add(eachKpiValues);
+        //   }
+        // }
 
-        await internetCheckForDraft(selfDEtails);
+        await internetCheckForDraft(selfDEtails, supRevData);
       },
       child: Container(
         height: 50,
@@ -578,7 +583,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     );
   }
 
-  Future<void> alartDialogForSubmit(BuildContext context, RetStr retStr) async {
+  Future<void> alartDialogForSubmit(BuildContext context, RetStr retStr,
+      List<Map<String, dynamic>> selpKpiData) async {
     setState(() {
       isSubmit = false;
     });
@@ -607,7 +613,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             TextButton(
               style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
-                  primary: Colors.red),
+                  foregroundColor: Colors.red),
               child: const Text('No'),
               onPressed: () {
                 setState(() {
@@ -620,13 +626,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             TextButton(
               style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
-                  primary: Colors.green),
+                  foregroundColor: Colors.green),
               child: const Text('Yes'),
               onPressed: () {
+                Navigator.pop(context);
                 setState(() {
                   isSubmit = true;
                 });
-                submitEmployeeAppraisal(retStr);
+                submitEmployeeAppraisal(retStr, selpKpiData);
               },
             ),
           ],
@@ -636,7 +643,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //====================================== Submit Api Call ============================================
-  submitEmployeeAppraisal(RetStr retStr) async {
+  submitEmployeeAppraisal(
+      RetStr retStr, List<Map<String, dynamic>> selpKpiData) async {
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(
             dmpathData!.submitUrl,
@@ -645,7 +653,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             widget.userPass,
             widget.levelDepth,
             widget.employeeId,
-            kpiValuesList,
+            selpKpiData,
+            retStr.headRowId ?? '',
             incrementController.text.toString() == ""
                 ? "0"
                 : incrementController.text.toString(),
@@ -660,7 +669,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           isSubmit = false;
         });
         if (!mounted) return;
-        Navigator.pop(context);
+
         Navigator.pop(context);
 
         AllServices().toastMessage(
@@ -684,7 +693,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //====================================== Submit Api Call ============================================
-  draftEmployeeAppraisal(RetStr retStr) async {
+  draftEmployeeAppraisal(
+      RetStr retStr, List<Map<String, dynamic>> selpKpiData) async {
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(
             dmpathData!.submitUrl,
@@ -693,7 +703,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             widget.userPass,
             widget.levelDepth,
             widget.employeeId,
-            kpiValuesList,
+            selpKpiData,
+            retStr.headRowId ?? '',
             incrementController.text.toString() == ""
                 ? "0"
                 : incrementController.text.toString(),
@@ -732,13 +743,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //====================================== Internet check for Appraisal Submit============================================
-  internetCheckForSubmit(RetStr retStr) async {
+  internetCheckForSubmit(
+      RetStr retStr, List<Map<String, dynamic>> selpKpiData) async {
     setState(() {
       isSubmit = true;
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      alartDialogForSubmit(context, retStr);
+      alartDialogForSubmit(context, retStr, selpKpiData);
     } else {
       setState(() {
         isSubmit = false;
@@ -749,13 +761,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //====================================== Internet check for Appraisal Draft============================================
-  internetCheckForDraft(RetStr retStr) async {
+  internetCheckForDraft(
+      RetStr retStr, List<Map<String, dynamic>> selpKpiData) async {
     setState(() {
       isDraft = true;
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      draftEmployeeAppraisal(retStr);
+      draftEmployeeAppraisal(retStr, selpKpiData);
     } else {
       setState(() {
         isDraft = false;
@@ -1214,6 +1227,16 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                                     'weightage': e.weightage,
                                     'value': value
                                   };
+                                  supDataForSubmit.removeWhere(
+                                      (ele) => ele["row_id"] == e.rowId);
+
+                                  supDataForSubmit.add({
+                                    "row_id": e.rowId,
+                                    "self_score": value,
+                                    "self_overall_score": overalResult(
+                                        e.weightage,
+                                        dropdwonValueForSelfScore[e.sl!])
+                                  });
                                 });
 
                                 // work for total yes count

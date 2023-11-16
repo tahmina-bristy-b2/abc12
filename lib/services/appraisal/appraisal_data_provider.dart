@@ -43,6 +43,7 @@ class AppraisalDataprovider {
       String levelDepth,
       String employeeId,
       List kpiValus,
+      String headRowId,
       String incrementAmount,
       String upgradeGrade,
       String designationChange,
@@ -50,7 +51,8 @@ class AppraisalDataprovider {
       String kpiKey,
       String actionButtonName) async {
     print(
-        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, kpiValus, incrementAmount, upgradeGrade, designationChange, feedback, kpiKey, actionButtonName)}");
+        "Appraisal Submit=${AppraisalApis.employeeAppraisalSubmit(url, cid, userId, userPass, levelDepth, employeeId, kpiValus, headRowId, incrementAmount, upgradeGrade, designationChange, feedback, kpiKey, actionButtonName)}");
+    print(jsonEncode({"kpi_values": kpiValus}));
     final http.Response response;
     response = await http.post(
         Uri.parse(
@@ -62,6 +64,7 @@ class AppraisalDataprovider {
               levelDepth,
               employeeId,
               kpiValus,
+              headRowId,
               incrementAmount,
               upgradeGrade,
               designationChange,

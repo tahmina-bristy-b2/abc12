@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
@@ -9,9 +7,6 @@ import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
-import 'dart:math';
 
 class ApprisalScreen extends StatefulWidget {
   String cid;
@@ -269,6 +264,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
+      if (!mounted) return;
       alartDialogForSubmit(context);
     } else {
       setState(() {
@@ -307,6 +303,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             widget.levelDepth,
             widget.employeeId,
             kpiValuesList,
+            '',
             incrementController.text.toString() == ""
                 ? "0"
                 : incrementController.text.toString(),
@@ -321,7 +318,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           isSubmit = false;
         });
         if (!mounted) return;
-        Navigator.pop(context);
+        // Navigator.pop(context);
         Navigator.pop(context);
 
         AllServices().toastMessage(
@@ -355,6 +352,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             widget.levelDepth,
             widget.employeeId,
             kpiValuesList,
+            '',
             incrementController.text.toString() == ""
                 ? "0"
                 : incrementController.text.toString(),
@@ -1397,7 +1395,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             TextButton(
               style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
-                  primary: Colors.red),
+                  foregroundColor: Colors.red),
               child: const Text('No'),
               onPressed: () {
                 setState(() {
@@ -1410,9 +1408,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             TextButton(
               style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
-                  primary: Colors.green),
+                  foregroundColor: Colors.green),
               child: const Text('Yes'),
               onPressed: () {
+                Navigator.pop(context);
                 setState(() {
                   isSubmit = true;
                 });

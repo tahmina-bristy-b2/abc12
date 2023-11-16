@@ -218,8 +218,22 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       child: Text(employeeList[index].empName.substring(0, 2))),
                 ),
                 title: Text(employeeList[index].empName),
-                subtitle:
+                subtitle: Row(
+                  children: [
                     Text('Employee id: ${employeeList[index].employeeId}'),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    Text(
+                      employeeList[index].appActionStatus,
+                      style: TextStyle(
+                          color:
+                              employeeList[index].appActionStatus == "SUBMITTED"
+                                  ? Color.fromARGB(255, 63, 147, 65)
+                                  : Colors.amber),
+                    )
+                  ],
+                ),
                 trailing: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(

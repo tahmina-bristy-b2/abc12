@@ -1265,7 +1265,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              (totaOverallCount + totalYesCount).round().toString(),
+              (totaOverallCount + totalYesCount).toString(),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ))),

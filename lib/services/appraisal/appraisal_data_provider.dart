@@ -132,6 +132,8 @@ class AppraisalDataprovider {
     String usrPass,
   ) async {
     final http.Response response;
+    print(
+        "appraisal self==========${AppraisalApis.appraisalSelfAssesment(syncUrl, cid, userId, usrPass)}");
     response = await http.get(
         Uri.parse(AppraisalApis.appraisalSelfAssesment(
             syncUrl, cid, userId, usrPass)),

@@ -225,16 +225,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
             FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
-            const FfInformationWidget(
-              staticKey: "Total Weitage%",
-              value: '',
-              // value: totalAchfullPoints(appraisalDetails[index]),
-            ),
-            const FfInformationWidget(
-              staticKey: "Achieved Point",
-              value: '',
-              // value: totalAchPoints(appraisalDetails[index]),
-            ),
+
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
@@ -572,7 +563,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
-      height: 360,
+      height: 400,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -590,7 +581,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
-                  "SL No",
+                  "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
@@ -672,7 +663,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
+                    child: Text(achievementData.seenRx ?? '')))
               ],
             ),
             DataRow2(
@@ -759,7 +750,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 fixedWidth: 95,
                 label: Center(
                     child: Text(
-                  "% Weightage",
+                  "Weightage(%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
@@ -775,7 +766,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      " Minimum - 1\nMaximum - 3",
+                      " Min - 1\nMax - 3",
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
@@ -856,6 +847,34 @@ class _AppraisalSelfAssesmentHistoryScreenState
             child: Text(
               totaOverallCount.toStringAsFixed(2),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+          ))),
+        ],
+      ),
+      DataRow(
+        color: MaterialStateColor.resolveWith(
+            (states) => const Color.fromARGB(255, 165, 193, 170)),
+        // const Color.fromARGB(255, 226, 226, 226)),
+
+        cells: [
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "Total (Rounded)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          ))),
+          const DataCell(Center(child: Text(""))),
+          const DataCell(Center(
+              child: Text(
+            "",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ))),
+          DataCell(Center(
+              child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              totaOverallCount.round().toString(),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),
         ],

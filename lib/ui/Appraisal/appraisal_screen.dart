@@ -134,7 +134,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       totalWeightage = totalWeightage + double.parse(kpi.weitage);
 
       dropdwonValueForSelfScore[kpi.sl] =
-          kpi.kpiEdit == 'YES' ? null : kpi.selfScore; //Edited by apparisal_M
+          kpi.kpiEdit == 'YES' ? null : kpi.selfScore;
 
       // dropdwonValueForSelfScore.forEach((key, value) {
       //   key = kpi.sl;
@@ -698,7 +698,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.avgSalesSeenRx
+                        .resData.retStr.first.seenRx
                         .toString())))
               ],
             ),

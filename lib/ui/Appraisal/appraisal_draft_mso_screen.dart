@@ -976,7 +976,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 95,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
                   "Weightage(%)",
@@ -996,7 +996,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     ),
                     Text(
                       " Min - 1\nMax - 3",
-                      style: TextStyle(fontSize: 10),
+                      style: TextStyle(fontSize: 11),
                     ),
                   ],
                 ))),

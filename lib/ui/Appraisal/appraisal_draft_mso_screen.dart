@@ -105,8 +105,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
       incrementController.text = appraisalApprovalFfDetailsData!
           .resData!.retStr!.first.incrementAmount!;
       feeddbackController.text =
-          appraisalApprovalFfDetailsData!.resData!.retStr!.first.feedback! ??
-              "";
+          appraisalApprovalFfDetailsData!.resData!.retStr!.first.feedback!;
 
       setState(() {
         _isLoading = false;

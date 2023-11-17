@@ -151,112 +151,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     return overallCount;
   }
 
-  // //==========================================Each Achieved Points =============================================
-  // double salesMethod() {
-  //   return ((double.parse(appraisalDetailsModel!
-  //           .resData.retStr.first.salesAchievementFullPoints)) *
-  //       (double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.salesAchievementBasePoint) /
-  //           100));
-  // }
-
-  // double avgRx4pMethod() {
-  //   return ((double.parse(
-  //           appraisalDetailsModel!.resData.retStr.first.avRx4pFullPoints)) *
-  //       (double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.avRx4pBasePoint) /
-  //           100));
-  // }
-
-  // double avgRxEMrSharedMethod() {
-  //   return ((double.parse(
-  //           appraisalDetailsModel!.resData.retStr.first.avRxEmrFullPoints)) *
-  //       (double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.avRxEmrBasePoint) /
-  //           100));
-  // }
-
-  // double chemistCovMethod() {
-  //   return ((double.parse(appraisalDetailsModel!
-  //           .resData.retStr.first.achChemistCovFullPoints)) *
-  //       (double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.achChemistCovBasePoint) /
-  //           100));
-  // }
-
-  // double examPerformanceMethod() {
-  //   return ((double.parse(appraisalDetailsModel!
-  //           .resData.retStr.first.examPerformanceFullPoints)) *
-  //       (double.parse(appraisalDetailsModel!
-  //                       .resData.retStr.first.examPerformanceBasePoint ==
-  //                   ""
-  //               ? "0.0"
-  //               : appraisalDetailsModel!
-  //                   .resData.retStr.first.examPerformanceBasePoint) /
-  //           100));
-  // }
-
-  // //================== each points data=========================
-  // double totalEachAchievedPointsDis() {
-  //   return salesMethod() +
-  //       avgRx4pMethod() +
-  //       avgRxEMrSharedMethod() +
-  //       chemistCovMethod() +
-  //       examPerformanceMethod() +
-  //       totaAchievedCountfinal();
-  // }
-
-  // //============================base value counte method=================================
-  // double totalBasevalue() {
-  //   double percent =
-  //       ((totalEachAchievedPointsDis() / double.parse(totalcalculation())) *
-  //           100);
-
-  //   setState(() {});
-  //   return percent;
-  // }
-
-  // //======================================total achieved count=====================
-  // double totaAchievedCountfinal() {
-  //   totalController = double.parse(honestintegrityController.text == ''
-  //           ? "0.0"
-  //           : honestintegrityController.text) +
-  //       double.parse(disciplineController.text == ''
-  //           ? "0.0"
-  //           : disciplineController.text) +
-  //       double.parse(
-  //           skillController.text == '' ? "0.0" : skillController.text) +
-  //       double.parse(qualityofSellsController.text == ''
-  //           ? "0.0"
-  //           : qualityofSellsController.text);
-  //   return totalController;
-  // }
-
-  //==========================================total points calcuation=========================
-  // String totalcalculation() {
-  //   return (double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.salesAchievementFullPoints) +
-  //           double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.avRx4pFullPoints) +
-  //           double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.avRxEmrFullPoints) +
-  //           double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.achChemistCovFullPoints) +
-  //           double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.examPerformanceFullPoints) +
-  //           double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.noAchMonthFullPoints) +
-  //           double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.honestyFullPoints) +
-  //           double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.discipFullPoints) +
-  //           double.parse(
-  //               appraisalDetailsModel!.resData.retStr.first.skillFullPoints) +
-  //           double.parse(appraisalDetailsModel!
-  //               .resData.retStr.first.qualitySalesFullPoints))
-  //       .toString();
-  // }
-
 //====================================== Internet check for Appraisal Submit============================================
   internetCheckForSubmit() async {
     setState(() {
@@ -1075,26 +969,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         fontSize: 18),
                   )),
       ),
-      // child: Container(
-      //   height: 50,
-      //   width: MediaQuery.of(context).size.width * 0.4,
-      //   decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.circular(5),
-      //     color: const Color(0xff38C172),
-      //   ),
-      //   child: Center(
-      //       child: isSubmit == true
-      //           ? const CircularProgressIndicator(
-      //               color: Colors.white,
-      //             )
-      //           : const Text(
-      //               "Submit",
-      //               style: TextStyle(
-      //                   color: Colors.white,
-      //                   fontWeight: FontWeight.bold,
-      //                   fontSize: 18),
-      //             )),
-      // ),
     );
   }
 

@@ -241,24 +241,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 staticKey: 'Employee Id',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
+                staticKey: 'Employee Name',
+                value: appraisalDetails[index].empName ?? ''),
+            FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
-            const FfInformationWidget(
-              staticKey: "Total Weitage%",
-              value: '',
-              // value: totalAchfullPoints(appraisalDetails[index]),
-            ),
-            const FfInformationWidget(
-              staticKey: "Achieved Point",
-              value: '',
-              // value: totalAchPoints(appraisalDetails[index]),
-            ),
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
-            FfInformationWidget(
-                staticKey: "TR-Code",
-                value: appraisalDetails[index].trCode ?? ''),
             FfInformationWidget(
                 staticKey: "Business Segment",
                 value: appraisalDetails[index].businessSegment ?? ''),
@@ -272,11 +262,16 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 staticKey: "Length of Service",
                 value: appraisalDetails[index].lengthOfService ?? ''),
             FfInformationWidget(
+                staticKey: "TR-Code",
+                value: appraisalDetails[index].trCode ?? ''),
+
+            FfInformationWidget(
                 staticKey: "Base Territory",
                 value: appraisalDetails[index].baseTerritory ?? ''),
             FfInformationWidget(
                 staticKey: "Length of Present TR Service",
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
+
             FfInformationWidget(
                 staticKey: "Appraisal Status",
                 value: appraisalDetails[index].lastAction!),
@@ -813,7 +808,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
-                  "SL No",
+                  "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
@@ -823,13 +818,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            // DataColumn2(
-            //     fixedWidth: 110,
-            //     label: Center(
-            //         child: Text(
-            //       achievementData.previousAchievement ?? 'Previous Year',
-            //       style: const TextStyle(fontWeight: FontWeight.bold),
-            //     ))),
             DataColumn2(
                 fixedWidth: 120,
                 label: Center(
@@ -845,9 +833,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Target (Value in lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.targetValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.targetValue2 ?? '')))
@@ -859,9 +844,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.soldValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.soldValue2 ?? '')))
@@ -873,9 +855,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Achievement (%)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.achievement1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.achievement2 ?? '')))
@@ -887,9 +866,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Sales/Month "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales2 ?? '')))
@@ -901,9 +877,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales4P2 ?? '')))
@@ -915,9 +888,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSalesEmr1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSalesEmr2 ?? '')))
@@ -929,8 +899,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
-                // const DataCell(
-                //     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgRxGrowth ?? '')))
@@ -942,9 +910,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.noMonthAchiev1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.noMonthAchiev2 ?? '')))
@@ -956,9 +921,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.chemistCov1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.chemistCov2 ?? '')))
@@ -1195,13 +1157,21 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
       ...kpiData!
           .map(
             (e) => DataRow(
+              color: MaterialStateColor.resolveWith(
+                (states) {
+                  return e.kpiEdit == "NO"
+                      ? Colors.transparent
+                      : Color.fromARGB(255, 235, 228, 244);
+                  // : Color.fromARGB(255, 199, 219, 235);
+                },
+              ),
               cells: [
                 DataCell(Center(child: Text(e.sl!))),
                 DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       child: Text(
-                        e.name!,
+                        e.kpiEdit != "NO" ? '${e.name}*' : e.name!,
                         style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w400),
                       ),
@@ -1421,7 +1391,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     RetStr appraisalOthers2,
   ) {
     return Container(
-      color: const Color.fromARGB(255, 170, 196, 220),
+      color: const Color.fromARGB(255, 222, 211, 235),
       //color: Color.fromARGB(255, 180, 206, 184),
       height: 170,
       child: Padding(

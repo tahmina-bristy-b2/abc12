@@ -415,13 +415,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            // DataColumn2(
-            //     fixedWidth: 110,
-            //     label: Center(
-            //         child: Text(
-            //       achievementData.previousAchievement ?? 'Previous Year',
-            //       style: const TextStyle(fontWeight: FontWeight.bold),
-            //     ))),
             DataColumn2(
                 fixedWidth: 120,
                 label: Center(
@@ -437,9 +430,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Target (Value in lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.targetValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.targetValue2 ?? '')))
@@ -451,9 +441,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.soldValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.soldValue2 ?? '')))
@@ -465,9 +452,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Achievement (%)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.achievement1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.achievement2 ?? '')))
@@ -479,9 +463,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Sales/Month "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales2 ?? '')))
@@ -492,10 +473,18 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Center(child: Text("5"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
+                    child: Text("Avg. Rx Share (Seen Rx) "))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.seenRx ?? '')))
+              ],
+            ),
+            DataRow2(
+              cells: [
+                const DataCell(Center(child: Text("5"))),
+                const DataCell(Align(
+                    alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales4P2 ?? '')))
@@ -507,9 +496,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSalesEmr1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSalesEmr2 ?? '')))
@@ -521,8 +507,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
-                // const DataCell(
-                //     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgRxGrowth ?? '')))
@@ -534,9 +518,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.noMonthAchiev1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.noMonthAchiev2 ?? '')))
@@ -548,9 +529,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.chemistCov1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.chemistCov2 ?? '')))
@@ -918,20 +896,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
     // totaOverallCount = 0.0;
     List<KpiTable>? kpiTableData = selfDEtails.resData!.retStr!.first.kpiTable;
     for (var kpi in kpiTableData!) {
-      if (kpi.name != null &&
-          kpi.definition != null &&
-          kpi.weightage != null &&
-          kpi.kpiEdit != null) {
-        // rowsList.add(
-        //   RowDataForSelf(
-        //     sl: kpi.sl!,
-        //     name: kpi.name!,
-        //     definition: kpi.definition!,
-        //     weitage: kpi.weitage!,
-        //     kpiEdit: kpi.editable!,
-        //   ),
-        // );
-      }
       totalWeightage = totalWeightage + double.parse(kpi.weightage!);
     }
   }
@@ -1007,7 +971,7 @@ Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
                       color: const Color.fromARGB(255, 250, 250, 250),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(5)),
-                  child: Text(appraisalOthers2.incrementAmount ?? "")),
+                  child: Text(appraisalOthers2.incrementAmountSup ?? "")),
             )
           ],
         ),
@@ -1034,7 +998,8 @@ Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
                 child: Theme(
                   data: ThemeData(unselectedWidgetColor: Colors.white),
                   child: Checkbox(
-                    value: appraisalOthers2.upgradeGrade == '1' ? true : false,
+                    value:
+                        appraisalOthers2.upgradeGradeSup == '1' ? true : false,
                     onChanged: (bool? value) {
                       // setState(() {
                       //   isUpgrade = value!;
@@ -1069,7 +1034,7 @@ Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
                 child: Theme(
                   data: ThemeData(unselectedWidgetColor: Colors.white),
                   child: Checkbox(
-                    value: appraisalOthers2.designationChange == '1'
+                    value: appraisalOthers2.designationChangeSup == '1'
                         ? true
                         : false,
                     onChanged: (bool? value) {

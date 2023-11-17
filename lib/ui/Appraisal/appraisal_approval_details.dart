@@ -10,16 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
-  const AppraisalApprovalDetails(
-      {super.key,
-      required this.cid,
-      required this.userPass,
-      this.callBackFuntion,
-      required this.restParams});
+  const AppraisalApprovalDetails({
+    super.key,
+    required this.cid,
+    required this.userPass,
+    this.callBackFuntion,
+    required this.restParams,
+    required this.appraisalStatus,
+  });
   final String cid;
   final String userPass;
   final Function? callBackFuntion;
   final String restParams;
+  final String appraisalStatus;
 
   @override
   State<AppraisalApprovalDetails> createState() =>
@@ -38,7 +41,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   String _step = '';
-  String _step_sup = '';
+  String _stepSup = '';
 
   AppraisalApprovalFfDetailsDataModel? appraisalApprovalFfDetailsData;
   bool _isLoading = true;
@@ -114,6 +117,62 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   '$title :',
                 ),
                 content: Text(description),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
+  }
+
+  Future _showConfirmationDialogue(
+      int index,
+      String action,
+      String approvalRestParams,
+      List<Map<String, dynamic>> supDataForSubmit) async {
+    return showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                title: Text(
+                  'Confirm ${action.toUpperCase()}!',
+                  style: const TextStyle(),
+                ),
+                content: Text(
+                    'Are you sure you want to "${action.toUpperCase()}" this Appraisal?'),
+                actions: [
+                  TextButton(
+                    child: const Text(
+                      'NO',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('YES'),
+                    onPressed: () {
+                      setState(() {
+                        _isPressed = true;
+                      });
+                      Navigator.of(context).pop();
+                      appraisalApproval(
+                          approvalRestParams, index, supDataForSubmit);
+                    },
+                  ),
+                ],
               ),
             ),
           );
@@ -250,6 +309,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 staticKey: 'Employee Id',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
+                staticKey: 'Employee Name',
+                value: appraisalDetails[index].empName ?? ''),
+            FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
             // const FfInformationWidget(
@@ -265,9 +327,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
-            FfInformationWidget(
-                staticKey: "TR-Code",
-                value: appraisalDetails[index].trCode ?? ''),
+
             FfInformationWidget(
                 staticKey: "Business Segment",
                 value: appraisalDetails[index].businessSegment ?? ''),
@@ -281,14 +341,20 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 staticKey: "Length of Service",
                 value: appraisalDetails[index].lengthOfService ?? ''),
             FfInformationWidget(
+                staticKey: "TR-Code",
+                value: appraisalDetails[index].trCode ?? ''),
+            FfInformationWidget(
                 staticKey: "Base Territory",
                 value: appraisalDetails[index].baseTerritory ?? ''),
+
             FfInformationWidget(
                 staticKey: "Length of Present TR Service",
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
             FfInformationWidget(
                 staticKey: "Appraisal Status",
-                value: appraisalDetails[index].lastAction ?? ''),
+                value: (appraisalDetails[index].lastAction ?? '')
+                    .split('_')
+                    .first),
 
             const SizedBox(
               height: 20,
@@ -313,153 +379,162 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             const SizedBox(
               height: 15,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  onTap: _isPressed
-                      ? () {}
-                      : () {
-                          setState(() {
-                            _isPressed = true;
-                          });
-                          String upgradeGrade = isUpgrade ? '1' : '0';
-                          String designationChange =
-                              isDesignationChange ? '1' : '0';
-                          String approvalRestParams =
-                              'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
-                          appraisalApproval(
-                              approvalRestParams, index, supDataForSubmit);
-                        },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: _isPressed ? Colors.grey[300] : Colors.red,
-                    ),
-                    // color: Colors.blue),
-                    child: const Center(
-                        child: Text(
-                      "Reject",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    )),
+            widget.appraisalStatus.toUpperCase() == 'RELEASED_HR' ||
+                    widget.appraisalStatus.toUpperCase() == 'RELEASED_SUP'
+                ? Container()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: _isPressed
+                            ? () {}
+                            : () {
+                                String upgradeGrade = isUpgrade ? '1' : '0';
+                                String designationChange =
+                                    isDesignationChange ? '1' : '0';
+                                String approvalRestParams =
+                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
+                                _showConfirmationDialogue(
+                                  index,
+                                  'Reject', //Button action
+                                  approvalRestParams,
+                                  supDataForSubmit,
+                                );
+                              },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: _isPressed ? Colors.grey[300] : Colors.red,
+                          ),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Reject",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: _isPressed
+                            ? () {}
+                            : () {
+                                String upgradeGrade = isUpgrade ? '1' : '0';
+                                String designationChange =
+                                    isDesignationChange ? '1' : '0';
+                                String approvalRestParams =
+                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=DRAFT_SUP';
+                                _showConfirmationDialogue(
+                                  index,
+                                  'Save as Draft', //Button action
+                                  approvalRestParams,
+                                  supDataForSubmit,
+                                );
+                              },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: _isPressed
+                                ? Colors.grey[300]
+                                : const Color.fromARGB(255, 48, 153, 206),
+                          ),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Save as Draft",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: _isPressed
+                            ? () {}
+                            : () {
+                                String upgradeGrade = isUpgrade ? '1' : '0';
+                                String designationChange =
+                                    isDesignationChange ? '1' : '0';
+                                String approvalRestParams =
+                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Approved';
+                                _showConfirmationDialogue(
+                                  index,
+                                  'Submit', //Button action
+                                  approvalRestParams,
+                                  supDataForSubmit,
+                                );
+                              },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: _isPressed
+                                ? Colors.grey[300]
+                                : const Color(0xff38C172),
+                          ),
+                          // color: Colors.blue),
+                          child: const Center(
+                              child: Text(
+                            "Submit",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                InkWell(
-                  onTap: _isPressed
-                      ? () {}
-                      : () {
-                          setState(() {
-                            _isPressed = true;
-                          });
-                          String upgradeGrade = isUpgrade ? '1' : '0';
-                          String designationChange =
-                              isDesignationChange ? '1' : '0';
-                          String approvalRestParams =
-                              'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=DRAFT_SUP';
-                          appraisalApproval(
-                              approvalRestParams, index, supDataForSubmit);
-                        },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: _isPressed
-                          ? Colors.grey[300]
-                          : const Color.fromARGB(255, 48, 153, 206),
+            SizedBox(
+                height: widget.appraisalStatus.toUpperCase() == 'RELEASED_HR'
+                    ? 0
+                    : 15),
+            widget.appraisalStatus.toUpperCase() == 'RELEASED_HR'
+                ? InkWell(
+                    onTap: _isPressed
+                        ? () {}
+                        : () {
+                            String upgradeGrade = isUpgrade ? '1' : '0';
+                            String designationChange =
+                                isDesignationChange ? '1' : '0';
+                            String approvalRestParams =
+                                'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=RELEASED_SUP';
+                            _showConfirmationDialogue(
+                              index,
+                              'Release', //Button action
+                              approvalRestParams,
+                              supDataForSubmit,
+                            );
+                          },
+                    child: Container(
+                      height: 50,
+
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        color:
+                            _isPressed ? Colors.grey[300] : Colors.green[300],
+                      ),
+                      // color: Colors.blue),
+                      child: const Center(
+                          child: Text(
+                        "Release",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      )),
                     ),
-                    // color: Colors.blue),
-                    child: const Center(
-                        child: Text(
-                      "Save as Draft",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    )),
-                  ),
-                ),
-                InkWell(
-                  onTap: _isPressed
-                      ? () {}
-                      : () {
-                          setState(() {
-                            _isPressed = true;
-                          });
-                          String upgradeGrade = isUpgrade ? '1' : '0';
-                          String designationChange =
-                              isDesignationChange ? '1' : '0';
-                          String approvalRestParams =
-                              'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Approved';
-                          appraisalApproval(
-                              approvalRestParams, index, supDataForSubmit);
-                        },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: _isPressed
-                          ? Colors.grey[300]
-                          : const Color(0xff38C172),
-                    ),
-                    // color: Colors.blue),
-                    child: const Center(
-                        child: Text(
-                      "Submit",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-            // Container(height: 100,color: Colors.,)
-            const SizedBox(
-              height: 15,
-            ),
-            InkWell(
-              onTap: _isPressed
-                  ? () {}
-                  : () {
-                      setState(() {
-                        _isPressed = true;
-                      });
-                      String upgradeGrade = isUpgrade ? '1' : '0';
-                      String designationChange =
-                          isDesignationChange ? '1' : '0';
-                      String approvalRestParams =
-                          'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
-                      appraisalApproval(
-                          approvalRestParams, index, supDataForSubmit);
-                    },
-              child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: _isPressed
-                      ? Colors.grey[300]
-                      : const Color.fromARGB(255, 4, 174, 247),
-                ),
-                // color: Colors.blue),
-                child: const Center(
-                    child: Text(
-                  "Release",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                )),
-              ),
-            ),
+                  )
+                : Container(),
 
             const Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
@@ -716,7 +791,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     color: const Color.fromARGB(255, 159, 193, 165),
                     child: Center(
                         child: Text(
-                      "$_step_sup Appraisal",
+                      "$_stepSup Appraisal",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     )),
                   )),
@@ -1107,9 +1182,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   //=============================Increament upgration=========================
   Container increametGradeUpgration(RetStr appraisalOthers2) {
     return Container(
-      color: const Color.fromARGB(255, 222, 211, 235),
-      //color: Color.fromARGB(255, 180, 206, 184),
-      // height: 160,
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 222, 211, 235),
+          borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
@@ -1274,15 +1349,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 //=============================Increament upgration=========================
   Container increametGradeUpgrationForSup(RetStr appraisalOthers2) {
     return Container(
-      color: const Color.fromARGB(255, 170, 196, 220),
-
-      //color: Color.fromARGB(255, 180, 206, 184),
-      // height: 160,
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 170, 196, 220),
+          borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           Text(
-            '$_step_sup SCORE',
+            '$_stepSup SCORE',
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 15),
@@ -1310,6 +1384,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(5)),
                       child: TextField(
+                        readOnly: widget.appraisalStatus
+                                .toUpperCase()
+                                .split('_')
+                                .first ==
+                            'RELEASED',
                         controller: incrementController,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
@@ -1347,9 +1426,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       value: isUpgrade,
                       activeColor: const Color(0xff38C172),
                       onChanged: (bool? value) {
-                        setState(() {
-                          isUpgrade = value!;
-                        });
+                        if (widget.appraisalStatus
+                                .toUpperCase()
+                                .split('_')
+                                .first ==
+                            'RELEASED') {
+                        } else {
+                          setState(() {
+                            isUpgrade = value!;
+                          });
+                        }
                       },
                     ),
                   ),
@@ -1383,9 +1469,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       value: isDesignationChange,
                       activeColor: const Color(0xff38C172),
                       onChanged: (bool? value) {
-                        setState(() {
-                          isDesignationChange = value!;
-                        });
+                        if (widget.appraisalStatus
+                                .toUpperCase()
+                                .split('_')
+                                .first ==
+                            'RELEASED') {
+                        } else {
+                          setState(() {
+                            isDesignationChange = value!;
+                          });
+                        }
                       },
                     ),
                   ),
@@ -1409,6 +1502,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               Expanded(
                   flex: 7,
                   child: TextField(
+                    readOnly:
+                        widget.appraisalStatus.toUpperCase().split('_').first ==
+                            'RELEASED',
                     textAlign: TextAlign.center,
                     controller: feedbackController,
                     decoration: InputDecoration(
@@ -1427,37 +1523,47 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   }
 
   void getAppraisalApprovalFFDetailsdata(String restParams) async {
-    appraisalApprovalFfDetailsData = await AppraisalRepository()
-        .getAppraisalApprovalFFDetails(dmpathData!.syncUrl, widget.cid,
-            userInfo!.userId, widget.userPass, restParams);
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result) {
+      appraisalApprovalFfDetailsData = await AppraisalRepository()
+          .getAppraisalApprovalFFDetails(dmpathData!.syncUrl, widget.cid,
+              userInfo!.userId, widget.userPass, restParams);
 
-    if (appraisalApprovalFfDetailsData != null) {
-      _step = appraisalApprovalFfDetailsData!.resData!.supLevelDepthNo == '1'
-          ? "FM"
-          : 'RSM';
-      _step_sup =
-          appraisalApprovalFfDetailsData!.resData!.supLevelDepthNo == '1'
-              ? "RSM"
-              : 'ZH';
-      for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
-        incrementController.text = element.incrementAmountSup ?? '';
-        feedbackController.text = element.feedbackSup ?? '';
-        isUpgrade = element.upgradeGradeSup == '0' ? false : true;
-        isDesignationChange =
-            element.designationChangeSup == '0' ? false : true;
-        for (var ele in element.kpiTable!) {
-          if (element.employeeId != null &&
-              ele.sl != null &&
-              ele.kpiEdit == 'YES') {
-            supScoreMapData[ele.sl!] = ele.supScore;
+      if (appraisalApprovalFfDetailsData != null) {
+        _step = appraisalApprovalFfDetailsData!.resData!.supLevelDepthNo == '1'
+            ? "FM"
+            : 'RSM';
+        _stepSup =
+            appraisalApprovalFfDetailsData!.resData!.supLevelDepthNo == '1'
+                ? "RSM"
+                : 'ZH';
+        for (var element in appraisalApprovalFfDetailsData!.resData!.retStr!) {
+          incrementController.text = element.incrementAmountSup ?? '';
+          feedbackController.text = element.feedbackSup ?? '';
+          isUpgrade = element.upgradeGradeSup == '0' ? false : true;
+          isDesignationChange =
+              element.designationChangeSup == '0' ? false : true;
+          for (var ele in element.kpiTable!) {
+            if (element.employeeId != null &&
+                ele.sl != null &&
+                ele.kpiEdit == 'YES') {
+              supScoreMapData[ele.sl!] = ele.supScore;
+            }
           }
         }
+        // print(supScoreMapData);
+        setState(() {
+          _isLoading = false;
+        });
+      } else {
+        if (!mounted) return;
+        setState(() {
+          _isLoading = false;
+        });
       }
-      // print(supScoreMapData);
-      setState(() {
-        _isLoading = false;
-      });
     } else {
+      AllServices()
+          .toastMessage(interNetErrorMsg, Colors.yellow, Colors.black, 16);
       if (!mounted) return;
       setState(() {
         _isLoading = false;
@@ -1523,7 +1629,15 @@ class FfInformationWidget extends StatelessWidget {
             ":",
             style: TextStyle(fontWeight: FontWeight.bold),
           )),
-          Expanded(flex: 7, child: Text(value))
+          Expanded(
+              flex: 7,
+              child: Text(
+                value,
+                style: TextStyle(
+                    color: staticKey == "Appraisal Status"
+                        ? Colors.teal
+                        : Colors.black),
+              ))
         ],
       ),
     );

@@ -112,7 +112,6 @@ class _ApprovalAppraisalFieldForceState
                         AnimatedContainer(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
-                          // color: Colors.amber,
                           duration: const Duration(milliseconds: 500),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(18),
@@ -169,6 +168,7 @@ class _ApprovalAppraisalFieldForceState
                             cid: widget.cid,
                             userPass: widget.userPass,
                             restParams: restParams,
+                            appraisalStatus: userFflist[index].appActionStatus,
                             callBackFuntion: (value) {
                               _searchController.clear();
                               userFflist = appraisalFfData!.resData.dataList;
@@ -187,11 +187,11 @@ class _ApprovalAppraisalFieldForceState
                     shape: CircleBorder(),
                     color: Color.fromARGB(255, 138, 201, 149),
                   ),
-                  height: 50,
-                  width: 50,
+                  height: 55,
+                  width: 55,
                   child: Center(
                       child:
-                          Text(userFflist[index].employeeId.substring(0, 2))),
+                          Text(userFflist[index].employeeName.substring(0, 2))),
                 ),
                 title: Text(
                     '${userFflist[index].employeeName} || ${userFflist[index].employeeId}'),
@@ -205,9 +205,11 @@ class _ApprovalAppraisalFieldForceState
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 5),
                       child: Text(
-                        userFflist[index].appActionStatus == 'DRAFT_SUP'
-                            ? userFflist[index].appActionStatus.substring(0, 5)
-                            : userFflist[index].appActionStatus,
+                        userFflist[index].appActionStatus.split('_').first,
+
+                        // userFflist[index].appActionStatus == 'DRAFT_SUP'
+                        // ? userFflist[index].appActionStatus.split('_').first
+                        // : userFflist[index].appActionStatus,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: userFflist[index].appActionStatus ==
@@ -284,9 +286,9 @@ class _ApprovalAppraisalFieldForceState
       if (appraisalFfData != null) {
         if (!mounted) return;
         title = appraisalFfData!.resData.levelDepthNo == '1'
-            ? 'FM'
+            ? 'MSO'
             : appraisalFfData!.resData.levelDepthNo == '0'
-                ? 'RSM'
+                ? 'FM'
                 : appraisalFfData!.resData.levelDepthNo == '2'
                     ? 'MSO'
                     : 'Employee';

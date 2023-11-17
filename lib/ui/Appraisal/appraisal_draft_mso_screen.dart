@@ -60,8 +60,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   bool isSubmit = false;
   bool isDraft = false;
   bool submitConfirmation = false;
-  double finalOveralResultCount = 0.0;
   double totalYesCount = 0.0;
+
   Map overalYesValuesMap = {};
 
   @override
@@ -91,6 +91,20 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
     if (appraisalApprovalFfDetailsData != null) {
       kpitable(appraisalApprovalFfDetailsData!);
+      isDesignationChange = appraisalApprovalFfDetailsData!
+                  .resData!.retStr!.first.designationChange ==
+              "0"
+          ? false
+          : true;
+      isUpgrade =
+          appraisalApprovalFfDetailsData!.resData!.retStr!.first.upgradeGrade ==
+                  "0"
+              ? false
+              : true;
+      incrementController.text = appraisalApprovalFfDetailsData!
+          .resData!.retStr!.first.incrementAmount!;
+      feeddbackController.text =
+          appraisalApprovalFfDetailsData!.resData!.retStr!.first.feedback!;
 
       setState(() {
         _isLoading = false;
@@ -227,24 +241,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 staticKey: 'Employee Id',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
+                staticKey: 'Employee Name',
+                value: appraisalDetails[index].empName ?? ''),
+            FfInformationWidget(
                 staticKey: 'Designation',
                 value: appraisalDetails[index].designation ?? ''),
-            const FfInformationWidget(
-              staticKey: "Total Weitage%",
-              value: '',
-              // value: totalAchfullPoints(appraisalDetails[index]),
-            ),
-            const FfInformationWidget(
-              staticKey: "Achieved Point",
-              value: '',
-              // value: totalAchPoints(appraisalDetails[index]),
-            ),
             FfInformationWidget(
                 staticKey: "Present Grade",
                 value: appraisalDetails[index].presentGrade ?? ''),
-            FfInformationWidget(
-                staticKey: "TR-Code",
-                value: appraisalDetails[index].trCode ?? ''),
             FfInformationWidget(
                 staticKey: "Business Segment",
                 value: appraisalDetails[index].businessSegment ?? ''),
@@ -258,11 +262,16 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 staticKey: "Length of Service",
                 value: appraisalDetails[index].lengthOfService ?? ''),
             FfInformationWidget(
+                staticKey: "TR-Code",
+                value: appraisalDetails[index].trCode ?? ''),
+
+            FfInformationWidget(
                 staticKey: "Base Territory",
                 value: appraisalDetails[index].baseTerritory ?? ''),
             FfInformationWidget(
                 staticKey: "Length of Present TR Service",
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
+
             FfInformationWidget(
                 staticKey: "Appraisal Status",
                 value: appraisalDetails[index].lastAction!),
@@ -278,7 +287,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             const SizedBox(
               height: 8,
             ),
-            increametGradeUpgrationWidget(appraisalDetails[index]),
+            increametGradeUpgrationWidget(
+              appraisalDetails[index],
+            ),
             const SizedBox(
               height: 8,
             ),
@@ -307,10 +318,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                         ),
                       ),
                       child: TextField(
-                        readOnly: true,
                         textAlign: TextAlign.center,
-                        controller: TextEditingController(
-                            text: appraisalDetails[index].feedback ?? ''),
+                        controller: feeddbackController,
+                        keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
                           hintText: 'Feedback/value of work',
                           border: InputBorder.none,
@@ -798,7 +808,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 fixedWidth: 50,
                 label: Center(
                     child: Text(
-                  "SL No",
+                  "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
@@ -808,13 +818,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            // DataColumn2(
-            //     fixedWidth: 110,
-            //     label: Center(
-            //         child: Text(
-            //       achievementData.previousAchievement ?? 'Previous Year',
-            //       style: const TextStyle(fontWeight: FontWeight.bold),
-            //     ))),
             DataColumn2(
                 fixedWidth: 120,
                 label: Center(
@@ -830,9 +833,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Target (Value in lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.targetValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.targetValue2 ?? '')))
@@ -844,9 +844,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.soldValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.soldValue2 ?? '')))
@@ -858,9 +855,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Achievement (%)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.achievement1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.achievement2 ?? '')))
@@ -872,9 +866,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Sales/Month "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales2 ?? '')))
@@ -886,9 +877,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSales4P2 ?? '')))
@@ -900,9 +888,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSalesEmr1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgSalesEmr2 ?? '')))
@@ -914,8 +899,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Growth "))),
-                // const DataCell(
-                //     Align(alignment: Alignment.centerRight, child: Text(''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.avgRxGrowth ?? '')))
@@ -927,9 +910,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("No. of Month Achieved"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.noMonthAchiev1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.noMonthAchiev2 ?? '')))
@@ -941,9 +921,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.chemistCov1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.chemistCov2 ?? '')))
@@ -1117,7 +1094,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           horizontalMargin: 8,
           dataRowHeight: 45,
           minWidth: 800,
-          fixedLeftColumns: 1,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
@@ -1181,13 +1157,21 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
       ...kpiData!
           .map(
             (e) => DataRow(
+              color: MaterialStateColor.resolveWith(
+                (states) {
+                  return e.kpiEdit == "NO"
+                      ? Colors.transparent
+                      : Color.fromARGB(255, 235, 228, 244);
+                  // : Color.fromARGB(255, 199, 219, 235);
+                },
+              ),
               cells: [
                 DataCell(Center(child: Text(e.sl!))),
                 DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       child: Text(
-                        e.name!,
+                        e.kpiEdit != "NO" ? '${e.name}*' : e.name!,
                         style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w400),
                       ),
@@ -1227,6 +1211,16 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                                     'weightage': e.weightage,
                                     'value': value
                                   };
+                                  totalYesCount = 0;
+
+                                  overalYesValuesMap.values
+                                      .toList()
+                                      .forEach((element) {
+                                    totalYesCount += overallCount(
+                                        element['weightage'],
+                                        element['value'].toString());
+                                  });
+
                                   supDataForSubmit.removeWhere(
                                       (ele) => ele["row_id"] == e.rowId);
 
@@ -1238,17 +1232,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                                         dropdwonValueForSelfScore[e.sl!])
                                   });
                                 });
-
-                                // work for total yes count
-                                totalYesCount = 0;
-
-                                overalYesValuesMap.values
-                                    .toList()
-                                    .forEach((element) {
-                                  totalYesCount += overallCount(
-                                      element['weightage'],
-                                      element['value'].toString());
-                                });
                               },
                             ),
                           ),
@@ -1256,7 +1239,13 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                       )),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(overallCount(e.weightage!, e.supScore!)
+                    child: Text(overallCount(
+                            e.weightage!,
+                            e.kpiEdit == "NO"
+                                ? e.selfScore
+                                : dropdwonValueForSelfScore[e.sl] == null
+                                    ? "0.0"
+                                    : dropdwonValueForSelfScore[e.sl])
                         .toStringAsFixed(2))))
               ],
             ),
@@ -1288,7 +1277,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              (totaOverallCount + totalYesCount).toString(),
+              (totaOverallCount + totalYesCount).toStringAsFixed(2),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ))),
@@ -1357,43 +1346,174 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     );
   }
 
-  kpitable(AppraisalApprovalFfDetailsDataModel selfDEtails) {
+  double kpitable(AppraisalApprovalFfDetailsDataModel selfDEtails) {
     totaOverallCount = 0.0;
     int counter = 0;
     List<KpiTable>? kpiTableData = selfDEtails.resData!.retStr!.first.kpiTable;
     for (var kpi in kpiTableData!) {
-      // if (kpi.name != null &&
-      //     kpi.definition != null &&
-      //     kpi.weightage != null &&
-      //     kpi.kpiEdit != null) {
-      //   // rowsList.add(
-      //   //   RowDataForSelf(
-      //   //     sl: kpi.sl!,
-      //   //     name: kpi.name!,
-      //   //     definition: kpi.definition!,
-      //   //     weitage: kpi.weitage!,
-      //   //     kpiEdit: kpi.editable!,
-      //   //   ),
-      //   // );
-      // }
-
       totalWeightage = totalWeightage + double.parse(kpi.weightage!);
       dropdwonValueForSelfScore[kpi.sl!] =
           kpi.selfScore == "0" ? null : kpi.selfScore;
-      totaOverallCount = totaOverallCount +
-          overallCount(
-              kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
-      feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
+
+      if (kpi.kpiEdit == 'YES' && kpi.selfScore != "0") {
+        overalYesValuesMap[kpi.sl] = {
+          'weightage': kpi.weightage,
+          'value': kpi.selfScore
+        };
+        totalYesCount = 0;
+
+        overalYesValuesMap.values.toList().forEach((element) {
+          totalYesCount +=
+              overallCount(element['weightage'], element['value'].toString());
+        });
+      }
+      if (kpi.kpiEdit == "NO") {
+        totaOverallCount = totaOverallCount +
+            overallCount(
+                kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
+      }
+
+      // feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
     }
+    return totaOverallCount;
   }
 
   // //==================================================new================================================
   double overallCount(String weightageKey, String scrore) {
     double overallCount =
         ((double.parse(weightageKey) / 100) * double.parse(scrore));
-    totaOverallCount = totaOverallCount + overallCount;
 
     return overallCount;
+  }
+
+  //=============================Increament upgration===========================================
+  Container increametGradeUpgrationWidget(
+    RetStr appraisalOthers2,
+  ) {
+    return Container(
+      color: const Color.fromARGB(255, 222, 211, 235),
+      //color: Color.fromARGB(255, 180, 206, 184),
+      height: 170,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(children: [
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Increment Amount",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 250, 250, 250),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: TextField(
+                      controller: incrementController,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+                // child: Container(
+                //   height: 28,
+                //   padding: const EdgeInsets.only(left: 60, top: 5),
+                //   decoration: BoxDecoration(
+                //       color: const Color.fromARGB(255, 250, 250, 250),
+                //       shape: BoxShape.rectangle,
+                //       borderRadius: BorderRadius.circular(5)),
+                //   child: Text(appraisalOthers2.incrementAmount ?? ""),
+                // ),
+              )
+            ],
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Upgrade Grade",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Transform.scale(
+                  scale: 1.45,
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: Colors.white),
+                    child: Checkbox(
+                      activeColor: const Color(0xff38C172),
+                      value: isUpgrade,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isUpgrade = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Designation Change",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Transform.scale(
+                  scale: 1.45,
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: Colors.white),
+                    child: Checkbox(
+                      value: isDesignationChange,
+                      activeColor: const Color(0xff38C172),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isDesignationChange = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
+      ),
+    );
   }
 }
 
@@ -1425,118 +1545,6 @@ class RowWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-//=============================Increament upgration===========================================
-Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
-  return Container(
-    color: const Color.fromARGB(255, 170, 196, 220),
-    //color: Color.fromARGB(255, 180, 206, 184),
-    height: 160,
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(children: [
-        Row(
-          children: [
-            const Expanded(
-                flex: 9,
-                child: Text(
-                  "Increment Amount",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            const Expanded(
-                child: Text(
-              ":",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            Expanded(
-              flex: 7,
-              child: Container(
-                  height: 28,
-                  padding: const EdgeInsets.only(left: 60, top: 5),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 250, 250, 250),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Text(appraisalOthers2.incrementAmount ?? "")),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            const Expanded(
-                flex: 9,
-                child: Text(
-                  "Upgrade Grade",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            const Expanded(
-                child: Text(
-              ":",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            Expanded(
-              flex: 7,
-              child: Transform.scale(
-                scale: 1.45,
-                child: Theme(
-                  data: ThemeData(unselectedWidgetColor: Colors.white),
-                  child: Checkbox(
-                    value: appraisalOthers2.upgradeGrade == '1' ? true : false,
-                    onChanged: (bool? value) {
-                      // setState(() {
-                      //   isUpgrade = value!;
-                      // });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            const Expanded(
-                flex: 9,
-                child: Text(
-                  "Designation Change",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            const Expanded(
-                child: Text(
-              ":",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            Expanded(
-              flex: 7,
-              child: Transform.scale(
-                scale: 1.45,
-                child: Theme(
-                  data: ThemeData(unselectedWidgetColor: Colors.white),
-                  child: Checkbox(
-                    value: appraisalOthers2.designationChange == '1'
-                        ? true
-                        : false,
-                    onChanged: (bool? value) {
-                      // setState(() {
-                      //   isDesignationChange = value!;
-                      // });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ]),
-    ),
-  );
 }
 
 class FfInformationWidget extends StatelessWidget {

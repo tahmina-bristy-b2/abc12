@@ -249,8 +249,8 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       style: TextStyle(
                           color:
                               employeeList[index].appActionStatus == "SUBMITTED"
-                                  ? Color.fromARGB(255, 63, 147, 65)
-                                  : Colors.amber),
+                                  ? Color.fromARGB(255, 44, 97, 45)
+                                  : Color.fromARGB(255, 147, 113, 11)),
                     )
                   ],
                 ),

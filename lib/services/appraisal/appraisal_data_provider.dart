@@ -151,6 +151,8 @@ class AppraisalDataprovider {
   Future draftAppraisalDraftDetailsForMSO(String url, String cid, String userId,
       String userPass, String levelDepth, String employeeId) async {
     final http.Response response;
+    print(
+        "Draft appraisal Details==========${AppraisalApis.employeeAppraisalForDraft(url, cid, userId, userPass, levelDepth, employeeId)}");
     response = await http.get(
         Uri.parse(AppraisalApis.employeeAppraisalForDraft(
             url, cid, userId, userPass, levelDepth, employeeId)),

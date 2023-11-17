@@ -60,7 +60,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   bool isSubmit = false;
   bool isDraft = false;
   bool submitConfirmation = false;
-  double finalOveralResultCount = 0.0;
   double totalYesCount = 0.0;
 
   Map overalYesValuesMap = {};
@@ -1133,7 +1132,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           horizontalMargin: 8,
           dataRowHeight: 45,
           minWidth: 800,
-          fixedLeftColumns: 1,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
@@ -1243,6 +1241,16 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                                     'weightage': e.weightage,
                                     'value': value
                                   };
+                                  totalYesCount = 0;
+
+                                  overalYesValuesMap.values
+                                      .toList()
+                                      .forEach((element) {
+                                    totalYesCount += overallCount(
+                                        element['weightage'],
+                                        element['value'].toString());
+                                  });
+
                                   supDataForSubmit.removeWhere(
                                       (ele) => ele["row_id"] == e.rowId);
 
@@ -1254,17 +1262,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                                         dropdwonValueForSelfScore[e.sl!])
                                   });
                                 });
-
-                                // work for total yes count
-                                totalYesCount = 0;
-
-                                overalYesValuesMap.values
-                                    .toList()
-                                    .forEach((element) {
-                                  totalYesCount += overallCount(
-                                      element['weightage'],
-                                      element['value'].toString());
-                                });
                               },
                             ),
                           ),
@@ -1272,7 +1269,13 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                       )),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(overallCount(e.weightage!, e.supScore!)
+                    child: Text(overallCount(
+                            e.weightage!,
+                            e.kpiEdit == "NO"
+                                ? e.selfScore
+                                : dropdwonValueForSelfScore[e.sl] == null
+                                    ? "0.0"
+                                    : dropdwonValueForSelfScore[e.sl])
                         .toStringAsFixed(2))))
               ],
             ),
@@ -1304,7 +1307,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              (totaOverallCount + totalYesCount).toString(),
+              (totaOverallCount + totalYesCount).toStringAsFixed(2),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ))),
@@ -1373,41 +1376,42 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     );
   }
 
-  kpitable(AppraisalApprovalFfDetailsDataModel selfDEtails) {
+  double kpitable(AppraisalApprovalFfDetailsDataModel selfDEtails) {
     totaOverallCount = 0.0;
     int counter = 0;
     List<KpiTable>? kpiTableData = selfDEtails.resData!.retStr!.first.kpiTable;
     for (var kpi in kpiTableData!) {
-      // if (kpi.name != null &&
-      //     kpi.definition != null &&
-      //     kpi.weightage != null &&
-      //     kpi.kpiEdit != null) {
-      //   // rowsList.add(
-      //   //   RowDataForSelf(
-      //   //     sl: kpi.sl!,
-      //   //     name: kpi.name!,
-      //   //     definition: kpi.definition!,
-      //   //     weitage: kpi.weitage!,
-      //   //     kpiEdit: kpi.editable!,
-      //   //   ),
-      //   // );
-      // }
-
       totalWeightage = totalWeightage + double.parse(kpi.weightage!);
       dropdwonValueForSelfScore[kpi.sl!] =
           kpi.selfScore == "0" ? null : kpi.selfScore;
-      totaOverallCount = totaOverallCount +
-          overallCount(
-              kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
-      feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
+
+      if (kpi.kpiEdit == 'YES' && kpi.selfScore != "0") {
+        overalYesValuesMap[kpi.sl] = {
+          'weightage': kpi.weightage,
+          'value': kpi.selfScore
+        };
+        totalYesCount = 0;
+
+        overalYesValuesMap.values.toList().forEach((element) {
+          totalYesCount +=
+              overallCount(element['weightage'], element['value'].toString());
+        });
+      }
+      if (kpi.kpiEdit == "NO") {
+        totaOverallCount = totaOverallCount +
+            overallCount(
+                kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
+      }
+
+      // feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
     }
+    return totaOverallCount;
   }
 
   // //==================================================new================================================
   double overallCount(String weightageKey, String scrore) {
     double overallCount =
         ((double.parse(weightageKey) / 100) * double.parse(scrore));
-    totaOverallCount = totaOverallCount + overallCount;
 
     return overallCount;
   }

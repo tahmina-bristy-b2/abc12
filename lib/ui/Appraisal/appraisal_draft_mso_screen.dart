@@ -62,6 +62,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   bool submitConfirmation = false;
   double finalOveralResultCount = 0.0;
   double totalYesCount = 0.0;
+
   Map overalYesValuesMap = {};
 
   @override
@@ -91,6 +92,21 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
     if (appraisalApprovalFfDetailsData != null) {
       kpitable(appraisalApprovalFfDetailsData!);
+      isDesignationChange = appraisalApprovalFfDetailsData!
+                  .resData!.retStr!.first.designationChange ==
+              "0"
+          ? false
+          : true;
+      isUpgrade =
+          appraisalApprovalFfDetailsData!.resData!.retStr!.first.upgradeGrade ==
+                  "0"
+              ? false
+              : true;
+      incrementController.text = appraisalApprovalFfDetailsData!
+          .resData!.retStr!.first.incrementAmount!;
+      feeddbackController.text =
+          appraisalApprovalFfDetailsData!.resData!.retStr!.first.feedback! ??
+              "";
 
       setState(() {
         _isLoading = false;
@@ -278,7 +294,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             const SizedBox(
               height: 8,
             ),
-            increametGradeUpgrationWidget(appraisalDetails[index]),
+            increametGradeUpgrationWidget(
+              appraisalDetails[index],
+            ),
             const SizedBox(
               height: 8,
             ),
@@ -307,10 +325,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                         ),
                       ),
                       child: TextField(
-                        readOnly: true,
                         textAlign: TextAlign.center,
-                        controller: TextEditingController(
-                            text: appraisalDetails[index].feedback ?? ''),
+                        controller: feeddbackController,
+                        keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
                           hintText: 'Feedback/value of work',
                           border: InputBorder.none,
@@ -1395,6 +1412,136 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
     return overallCount;
   }
+
+  //=============================Increament upgration===========================================
+  Container increametGradeUpgrationWidget(
+    RetStr appraisalOthers2,
+  ) {
+    return Container(
+      color: const Color.fromARGB(255, 170, 196, 220),
+      //color: Color.fromARGB(255, 180, 206, 184),
+      height: 170,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(children: [
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Increment Amount",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 250, 250, 250),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: TextField(
+                      controller: incrementController,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+                // child: Container(
+                //   height: 28,
+                //   padding: const EdgeInsets.only(left: 60, top: 5),
+                //   decoration: BoxDecoration(
+                //       color: const Color.fromARGB(255, 250, 250, 250),
+                //       shape: BoxShape.rectangle,
+                //       borderRadius: BorderRadius.circular(5)),
+                //   child: Text(appraisalOthers2.incrementAmount ?? ""),
+                // ),
+              )
+            ],
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Upgrade Grade",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Transform.scale(
+                  scale: 1.45,
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: Colors.white),
+                    child: Checkbox(
+                      activeColor: const Color(0xff38C172),
+                      value: isUpgrade,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isUpgrade = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              const Expanded(
+                  flex: 9,
+                  child: Text(
+                    "Designation Change",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+              const Expanded(
+                  child: Text(
+                ":",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                flex: 7,
+                child: Transform.scale(
+                  scale: 1.45,
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: Colors.white),
+                    child: Checkbox(
+                      value: isDesignationChange,
+                      activeColor: const Color(0xff38C172),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isDesignationChange = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
+      ),
+    );
+  }
 }
 
 class RowWidget extends StatelessWidget {
@@ -1425,118 +1572,6 @@ class RowWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-//=============================Increament upgration===========================================
-Container increametGradeUpgrationWidget(RetStr appraisalOthers2) {
-  return Container(
-    color: const Color.fromARGB(255, 170, 196, 220),
-    //color: Color.fromARGB(255, 180, 206, 184),
-    height: 160,
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(children: [
-        Row(
-          children: [
-            const Expanded(
-                flex: 9,
-                child: Text(
-                  "Increment Amount",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            const Expanded(
-                child: Text(
-              ":",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            Expanded(
-              flex: 7,
-              child: Container(
-                  height: 28,
-                  padding: const EdgeInsets.only(left: 60, top: 5),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 250, 250, 250),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Text(appraisalOthers2.incrementAmount ?? "")),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            const Expanded(
-                flex: 9,
-                child: Text(
-                  "Upgrade Grade",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            const Expanded(
-                child: Text(
-              ":",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            Expanded(
-              flex: 7,
-              child: Transform.scale(
-                scale: 1.45,
-                child: Theme(
-                  data: ThemeData(unselectedWidgetColor: Colors.white),
-                  child: Checkbox(
-                    value: appraisalOthers2.upgradeGrade == '1' ? true : false,
-                    onChanged: (bool? value) {
-                      // setState(() {
-                      //   isUpgrade = value!;
-                      // });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            const Expanded(
-                flex: 9,
-                child: Text(
-                  "Designation Change",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            const Expanded(
-                child: Text(
-              ":",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            Expanded(
-              flex: 7,
-              child: Transform.scale(
-                scale: 1.45,
-                child: Theme(
-                  data: ThemeData(unselectedWidgetColor: Colors.white),
-                  child: Checkbox(
-                    value: appraisalOthers2.designationChange == '1'
-                        ? true
-                        : false,
-                    onChanged: (bool? value) {
-                      // setState(() {
-                      //   isDesignationChange = value!;
-                      // });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ]),
-    ),
-  );
 }
 
 class FfInformationWidget extends StatelessWidget {

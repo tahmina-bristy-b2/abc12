@@ -868,22 +868,23 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               Expanded(
                 flex: 7,
                 child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 250, 250, 250),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextField(
-                        controller: incrementController,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 250, 250, 250),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: TextField(
+                      controller: incrementController,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               )
             ],
           ),

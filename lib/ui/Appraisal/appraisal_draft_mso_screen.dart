@@ -274,7 +274,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
             FfInformationWidget(
                 staticKey: "Appraisal Status",
-                value: appraisalDetails[index].lastAction!),
+                value: appraisalDetails[index].lastAction! == 'DRAFT_MSO'
+                    ? appraisalDetails[index].lastAction!.substring(0, 5)
+                    : appraisalDetails[index].lastAction!),
 
             const SizedBox(
               height: 20,
@@ -788,148 +790,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     }
   }
 
-  SizedBox appraisalAchievement(RetStr achievementData) {
-    return SizedBox(
-      height: 360,
-      child: DataTable2(
-          border: TableBorder.all(),
-          columnSpacing: 12,
-          horizontalMargin: 8,
-          dataRowHeight: 35,
-          minWidth: 380,
-          headingRowColor: MaterialStateColor.resolveWith(
-            (states) {
-              return const Color.fromARGB(255, 159, 193, 165);
-            },
-          ),
-          headingRowHeight: 40,
-          columns: [
-            const DataColumn2(
-                fixedWidth: 50,
-                label: Center(
-                    child: Text(
-                  "SL",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            const DataColumn2(
-                fixedWidth: 200,
-                label: Center(
-                    child: Text(
-                  "KPI Name",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            DataColumn2(
-                fixedWidth: 120,
-                label: Center(
-                    child: Text(
-                  achievementData.currentAchievement ?? 'Current Year',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ))),
-          ],
-          rows: [
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("1"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Target (Value in lac)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.targetValue2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("2"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Sold (Value in Lac)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.soldValue2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("3"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Achievement (%)"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.achievement2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("4"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Sales/Month "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("5"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Share (4P) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("6"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Share (EMR) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("7"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Growth "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgRxGrowth ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("8"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("No. of Month Achieved"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.noMonthAchiev2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("9"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Chemist Coverage"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.chemistCov2 ?? '')))
-              ],
-            ),
-          ]),
-    );
-  }
-
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
@@ -1116,7 +976,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 95,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
                   "Weightage(%)",
@@ -1136,7 +996,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     ),
                     Text(
                       " Min - 1\nMax - 3",
-                      style: TextStyle(fontSize: 10),
+                      style: TextStyle(fontSize: 11),
                     ),
                   ],
                 ))),

@@ -825,7 +825,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             fixedWidth: 70,
                             label: Center(
                                 child: Text(
-                              "Weightage \n\t\t\t\t\t\t(%)",
+                              "Weightage\n\t\t\t\t\t\t(%)",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                       ],
@@ -920,7 +920,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       horizontalMargin: 0,
                       dataRowHeight: 38,
                       minWidth: 10,
-                      headingRowHeight: 43,
+                      headingRowHeight: 40,
                       columns: const [
                         DataColumn2(
                             fixedWidth: 10,
@@ -945,7 +945,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             fixedWidth: 70,
                             label: Center(
                                 child: Text(
-                              "Score",
+                              "Score\n(1 - 3)",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                         DataColumn2(
@@ -1034,7 +1034,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       horizontalMargin: 0,
                       dataRowHeight: 38,
                       minWidth: 10,
-                      headingRowHeight: 43,
+                      headingRowHeight: 40,
                       columns: const [
                         DataColumn2(
                             fixedWidth: 10,
@@ -1053,13 +1053,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       horizontalMargin: 0,
                       dataRowHeight: 38,
                       minWidth: 160,
-                      headingRowHeight: 43,
+                      headingRowHeight: 40,
                       columns: [
                         const DataColumn2(
                             fixedWidth: 88,
                             label: Center(
                                 child: Text(
-                              "Score",
+                              "Score\n(1 - 3)",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                         DataColumn2(

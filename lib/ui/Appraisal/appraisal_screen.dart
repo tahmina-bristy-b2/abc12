@@ -14,6 +14,7 @@ class ApprisalScreen extends StatefulWidget {
   String userPass;
   String levelDepth;
   String employeeId;
+  final Function callBackFuntion;
   ApprisalScreen({
     super.key,
     required this.cid,
@@ -21,6 +22,7 @@ class ApprisalScreen extends StatefulWidget {
     required this.userPass,
     required this.levelDepth,
     required this.employeeId,
+    required this.callBackFuntion,
   });
 
   @override
@@ -103,6 +105,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           hasAppraisaldata = false;
         });
         if (!mounted) return;
+        widget.callBackFuntion('value');
         Navigator.pop(context);
       }
     } else {
@@ -110,6 +113,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         hasAppraisaldata = false;
       });
       if (!mounted) return;
+      widget.callBackFuntion('value');
       Navigator.pop(context);
     }
   }
@@ -212,7 +216,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           isSubmit = false;
         });
         if (!mounted) return;
-        // Navigator.pop(context);
+        widget.callBackFuntion('value');
         Navigator.pop(context);
 
         AllServices().toastMessage(
@@ -261,7 +265,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           isDraft = false;
         });
         if (!mounted) return;
-        Navigator.pop(context);
+        widget.callBackFuntion('value');
         Navigator.pop(context);
 
         AllServices().toastMessage(
@@ -297,192 +301,198 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Employee Appraisal"),
-        centerTitle: true,
-      ),
-      body: hasAppraisaldata == false
-          ? loadingWidget()
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const Expanded(
-                            child: Icon(Icons.person,
-                                size: 35,
-                                color: Color.fromARGB(255, 153, 197, 161))),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Expanded(
-                            flex: 8,
-                            child: Text(
-                              appraisalDetailsModel!.resData.retStr[0].empName
-                                  .toString(),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Emplpyee ID",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].employeeId
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Emplpyee Name",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].empName
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Designation",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].designation
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Present Grade",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].presentGrade
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Business Segment",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].businessSegment
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Date of Joining",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].dateOfJoining
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Last Promotion",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].lastPromotion
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Length of Service",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].lengthOfService
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "TR-Code",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].trCode
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Base Territory",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].baseTerritory
-                            .toString()),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    RowWidget(
-                        title: "Length of Present TR Service",
-                        description: appraisalDetailsModel!
-                            .resData.retStr[0].lengthOfPresentTrService
-                            .toString()),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    appraisalAchievemetWidget(),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    appraisalMasterWidget(),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    increametGradeUpgrationWidget(),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        const Expanded(
-                            flex: 3,
-                            child: Text(
-                              "Feedback(60 Character)",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )),
-                        const Expanded(
-                            child: Text(
-                          ":",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        Expanded(
-                            flex: 7,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1.0,
+    return WillPopScope(
+      onWillPop: () async {
+        widget.callBackFuntion('value');
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Employee Appraisal"),
+          centerTitle: true,
+        ),
+        body: hasAppraisaldata == false
+            ? loadingWidget()
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Expanded(
+                              child: Icon(Icons.person,
+                                  size: 35,
+                                  color: Color.fromARGB(255, 153, 197, 161))),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                              flex: 8,
+                              child: Text(
+                                appraisalDetailsModel!.resData.retStr[0].empName
+                                    .toString(),
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Emplpyee ID",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].employeeId
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Emplpyee Name",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].empName
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Designation",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].designation
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Present Grade",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].presentGrade
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Business Segment",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].businessSegment
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Date of Joining",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].dateOfJoining
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Last Promotion",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].lastPromotion
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Length of Service",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].lengthOfService
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "TR-Code",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].trCode
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Base Territory",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].baseTerritory
+                              .toString()),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      RowWidget(
+                          title: "Length of Present TR Service",
+                          description: appraisalDetailsModel!
+                              .resData.retStr[0].lengthOfPresentTrService
+                              .toString()),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      appraisalAchievemetWidget(),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      appraisalMasterWidget(),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      increametGradeUpgrationWidget(),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          const Expanded(
+                              flex: 3,
+                              child: Text(
+                                "Feedback(60 Character)",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )),
+                          const Expanded(
+                              child: Text(
+                            ":",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                          Expanded(
+                              flex: 7,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
                                 ),
-                              ),
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                controller: feeddbackController,
-                                keyboardType: TextInputType.text,
-                                decoration: const InputDecoration(
-                                  hintText: 'Feedback/value of work',
-                                  border: InputBorder.none,
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  controller: feeddbackController,
+                                  keyboardType: TextInputType.text,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Feedback/value of work',
+                                    border: InputBorder.none,
+                                  ),
                                 ),
-                              ),
-                            )),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SaveAsDraftWidget(context),
-                        submitButtonWidget(context),
-                      ],
-                    )
-                  ],
+                              )),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SaveAsDraftWidget(context),
+                          submitButtonWidget(context),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
+      ),
     );
   }
 

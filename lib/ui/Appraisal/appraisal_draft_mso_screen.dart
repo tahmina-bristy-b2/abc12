@@ -15,6 +15,7 @@ class AppraisalDraftMsoScreen extends StatefulWidget {
   final String userPass;
   final String levelDepth;
   final String employeeId;
+  final Function callBackFuntion;
   const AppraisalDraftMsoScreen({
     super.key,
     required this.cid,
@@ -22,6 +23,7 @@ class AppraisalDraftMsoScreen extends StatefulWidget {
     required this.userPass,
     required this.levelDepth,
     required this.employeeId,
+    required this.callBackFuntion,
   });
 
   @override
@@ -158,43 +160,50 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Employee Draft"),
-        centerTitle: true,
+    return WillPopScope(
+      onWillPop: () async {
+        widget.callBackFuntion('value');
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Employee Draft"),
+          centerTitle: true,
+        ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            // Expanded(child: dataLoadingView())
+            : appraisalApprovalFfDetailsData == null ||
+                    appraisalApprovalFfDetailsData!.resData!.retStr!.isEmpty
+                ? Center(
+                    child: Stack(children: [
+                      Image.asset(
+                        'assets/images/no_data_found.png',
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width / 2.5,
+                        bottom: MediaQuery.of(context).size.height * .005,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffF0F0F0),
+                            ),
+                            onPressed: () {
+                              widget.callBackFuntion('value');
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Go back',
+                              style: TextStyle(color: Colors.black54),
+                            )),
+                      )
+                    ]),
+                  )
+                : fieldForceAppraisalview(
+                    context, appraisalApprovalFfDetailsData!.resData!.retStr!),
       ),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          // Expanded(child: dataLoadingView())
-          : appraisalApprovalFfDetailsData == null ||
-                  appraisalApprovalFfDetailsData!.resData!.retStr!.isEmpty
-              ? Center(
-                  child: Stack(children: [
-                    Image.asset(
-                      'assets/images/no_data_found.png',
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      left: MediaQuery.of(context).size.width / 2.5,
-                      bottom: MediaQuery.of(context).size.height * .005,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xffF0F0F0),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Go back',
-                            style: TextStyle(color: Colors.black54),
-                          )),
-                    )
-                  ]),
-                )
-              : fieldForceAppraisalview(
-                  context, appraisalApprovalFfDetailsData!.resData!.retStr!),
     );
   }
 
@@ -681,7 +690,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           isSubmit = false;
         });
         if (!mounted) return;
-
+        widget.callBackFuntion('value');
         Navigator.pop(context);
 
         AllServices().toastMessage(
@@ -731,7 +740,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           isDraft = false;
         });
         if (!mounted) return;
-        Navigator.pop(context);
+        widget.callBackFuntion('value');
         Navigator.pop(context);
 
         AllServices().toastMessage(

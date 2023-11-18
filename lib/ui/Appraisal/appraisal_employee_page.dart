@@ -5,7 +5,6 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/services/appraisal/services.dart';
-import 'package:MREPORTING/ui/Appraisal/appraisal_approval_details.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_draft_mso_screen.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -202,26 +201,45 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       context,
                       MaterialPageRoute(
                           builder: (_) => AppraisalDraftMsoScreen(
-                                cid: widget.cid,
-                                levelDepth:
-                                    appraisalEmployee!.resData.supLevelDepthNo,
-                                userId: userId,
-                                userPass: widget.userPass,
-                                employeeId: employeeList[index].employeeId,
-                              )),
+                              cid: widget.cid,
+                              levelDepth:
+                                  appraisalEmployee!.resData.supLevelDepthNo,
+                              userId: userId,
+                              userPass: widget.userPass,
+                              employeeId: employeeList[index].employeeId,
+                              callBackFuntion: (value) {
+                                _searchController.clear();
+                                employeeList =
+                                    appraisalEmployee!.resData.ffList;
+                                height = 0.0;
+                                _searchExpand = false;
+                                _color = false;
+                                internetCheckForEmployeeDetails();
+                                setState(() {});
+                              })),
                     );
                   } else {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ApprisalScreen(
-                                  cid: widget.cid,
-                                  levelDepth: appraisalEmployee!
-                                      .resData.supLevelDepthNo,
-                                  userId: userInfo!.userId,
-                                  userPass: widget.userPass,
-                                  employeeId: employeeList[index].employeeId,
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ApprisalScreen(
+                            cid: widget.cid,
+                            levelDepth:
+                                appraisalEmployee!.resData.supLevelDepthNo,
+                            userId: userInfo!.userId,
+                            userPass: widget.userPass,
+                            employeeId: employeeList[index].employeeId,
+                            callBackFuntion: (value) {
+                              _searchController.clear();
+                              employeeList = appraisalEmployee!.resData.ffList;
+                              height = 0.0;
+                              _searchExpand = false;
+                              _color = false;
+                              internetCheckForEmployeeDetails();
+                              setState(() {});
+                            }),
+                      ),
+                    );
                   }
                 },
                 leading: Container(

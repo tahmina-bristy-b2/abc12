@@ -494,7 +494,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     ],
                   ),
             SizedBox(
-                height: widget.appraisalStatus.toUpperCase() == 'RELEASED_HR'
+                height: widget.appraisalStatus.toUpperCase() == 'RELEASED_HR' ||
+                        widget.appraisalStatus.toUpperCase() == 'RELEASED_SUP'
                     ? 0
                     : 15),
             widget.appraisalStatus.toUpperCase() == 'RELEASED_HR'
@@ -536,13 +537,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   )
                 : Container(),
 
-            const Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
-              child: Divider(
-                thickness: 2,
-                color: Colors.grey,
-              ),
-            )
+            appraisalDetails.length > 1
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 5.0),
+                    child: Divider(
+                      thickness: 2,
+                      color: Colors.grey,
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

@@ -203,31 +203,40 @@ class _ApprovalAppraisalFieldForceState
                   children: [
                     Text('Submitted by:  ${userFflist[index].submitId}'),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 5),
+                      padding: const EdgeInsets.only(left: 0, right: 0),
                       child: Text(
-                        userFflist[index].appActionStatus.split('_').first,
+                        userFflist[index].appActionStatus.split('_').first ==
+                                'RELEASED'
+                            ? userFflist[index]
+                                .appActionStatus
+                                .replaceAll('_', ' ')
+                            : userFflist[index]
+                                .appActionStatus
+                                .split('_')
+                                .first,
 
                         // userFflist[index].appActionStatus == 'DRAFT_SUP'
                         // ? userFflist[index].appActionStatus.split('_').first
                         // : userFflist[index].appActionStatus,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: userFflist[index].appActionStatus ==
-                                    'DRAFT_SUP'
-                                ? const Color.fromARGB(255, 138, 201, 149)
-                                : userFflist[index].appActionStatus == 'DRAFT'
-                                    ? Colors.red
-                                    : Colors.teal),
+                            color:
+                                userFflist[index].appActionStatus == 'DRAFT_SUP'
+                                    ? Colors.orange
+                                    : userFflist[index]
+                                                .appActionStatus
+                                                .split('_')
+                                                .first ==
+                                            'RELEASED'
+                                        ? const Color.fromARGB(255, 44, 211, 50)
+                                        : Colors.teal),
                       ),
                     ),
                   ],
                 ),
-                trailing: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    color: Color.fromARGB(255, 138, 201, 149),
-                  ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Color.fromARGB(255, 138, 201, 149),
                 ),
               ),
             );

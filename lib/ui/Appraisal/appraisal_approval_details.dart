@@ -150,7 +150,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: const TextStyle(),
                 ),
                 content: Text(
-                    'Are you sure you want to "${action.toUpperCase()}" this Appraisal?'),
+                    'Do you want to "${action.toUpperCase()}" this Appraisal?'),
                 actions: [
                   TextButton(
                     child: const Text(

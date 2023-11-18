@@ -173,7 +173,7 @@ class RetStr {
         upgradeGrade: json["upgrade_grade"],
         designationChange: json["designation_change"],
         incrementAmount:
-            double.parse(json["increment_amount"]).toStringAsFixed(2),
+            double.parse(json["increment_amount"] ?? '0.0').toStringAsFixed(2),
         feedback: json["feedback"],
         kpiKey: json["kpi_key"],
         doctorCoverage: json["doctor_coverage"],
@@ -192,15 +192,22 @@ class RetStr {
         trCode: json["tr_code"],
         baseTerritory: json["base_territory"],
         lengthOfPresentTrService: json["length_of_present_tr_service"],
-        targetValue2: double.parse(json["target_value_2"]).toStringAsFixed(2),
-        soldValue2: double.parse(json["sold_value_2"]).toStringAsFixed(2),
-        achievement2: double.parse(json["achievement_2"]).toStringAsFixed(2),
-        avgSales2: double.parse(json["avg_sales_2"]).toStringAsFixed(2),
-        avgSales4P2: double.parse(json["avg_sales_4p_2"]).toStringAsFixed(2),
-        avgSalesEmr2: double.parse(json["avg_sales_emr_2"]).toStringAsFixed(2),
+        targetValue2:
+            double.parse(json["target_value_2"] ?? 0.0).toStringAsFixed(2),
+        soldValue2:
+            double.parse(json["sold_value_2"] ?? 0.0).toStringAsFixed(2),
+        achievement2:
+            double.parse(json["achievement_2"] ?? '0.0').toStringAsFixed(2),
+        avgSales2:
+            double.parse(json["avg_sales_2"] ?? '0.0').toStringAsFixed(2),
+        avgSales4P2:
+            double.parse(json["avg_sales_4p_2"] ?? '0.0').toStringAsFixed(2),
+        avgSalesEmr2:
+            double.parse(json["avg_sales_emr_2"] ?? '0.0').toStringAsFixed(2),
         noMonthAchiev2:
-            double.parse(json["no_month_achiev_2"]).toStringAsFixed(2),
-        chemistCov2: double.parse(json["chemist_cov_2"]).toStringAsFixed(2),
+            double.parse(json["no_month_achiev_2"] ?? '0.0').toStringAsFixed(2),
+        chemistCov2:
+            double.parse(json["chemist_cov_2"] ?? '0.0').toStringAsFixed(2),
         avRx4PBasePoint: json["av_rx_4p_base_point"],
         avRxEmrBasePoint: json["av_rx_emr_base_point"],
         achChemistCovBasePoint: json["ach_chemist_cov_base_point"],
@@ -210,10 +217,11 @@ class RetStr {
         cause: json["cause"],
         action: json["action"],
         noIncidence: json["no_incidence"],
-        avgRxGrowth: double.parse(json["avg_rx_growth"]).toStringAsFixed(2),
-        seenRx: double.parse(json["seen_rx"]).toStringAsFixed(2),
-        incrementAmountSup:
-            double.parse(json["increment_amount_sup"]).toStringAsFixed(2),
+        avgRxGrowth:
+            double.parse(json["avg_rx_growth"] ?? '0.0').toStringAsFixed(2),
+        seenRx: double.parse(json["seen_rx"] ?? '0.0').toStringAsFixed(2),
+        incrementAmountSup: double.parse(json["increment_amount_sup"] ?? '0.00')
+            .toStringAsFixed(2),
         designationChangeSup: json["designation_change_sup"],
         upgradeGradeSup: json["upgrade_grade_sup"],
         feedbackSup: json["feedback_sup"],

@@ -1023,7 +1023,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              "${totalWeightage.toStringAsFixed(2)}%",
+              "${totalWeightage.toStringAsFixed(0)}%",
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),

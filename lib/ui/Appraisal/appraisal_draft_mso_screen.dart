@@ -1268,6 +1268,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           const SizedBox(height: 10),
           TextField(
             controller: feeddbackController,
+            textInputAction: TextInputAction.done,
             maxLines: 2,
             maxLength: 60,
             decoration: InputDecoration(

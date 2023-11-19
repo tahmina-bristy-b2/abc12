@@ -245,7 +245,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     )),
               ],
             ),
-
             FfInformationWidget(
                 staticKey: 'Employee Id',
                 value: appraisalDetails[index].employeeId ?? ''),
@@ -273,20 +272,17 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             FfInformationWidget(
                 staticKey: "TR-Code",
                 value: appraisalDetails[index].trCode ?? ''),
-
             FfInformationWidget(
                 staticKey: "Base Territory",
                 value: appraisalDetails[index].baseTerritory ?? ''),
             FfInformationWidget(
                 staticKey: "Length of Present TR Service",
                 value: appraisalDetails[index].lengthOfPresentTrService ?? ''),
-
             FfInformationWidget(
                 staticKey: "Appraisal Status",
                 value: appraisalDetails[index].lastAction! == 'DRAFT_MSO'
                     ? appraisalDetails[index].lastAction!.substring(0, 5)
                     : appraisalDetails[index].lastAction!),
-
             const SizedBox(
               height: 20,
             ),
@@ -304,42 +300,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             const SizedBox(
               height: 8,
             ),
-            Row(
-              children: [
-                const Expanded(
-                    flex: 3,
-                    child: Text(
-                      "Feedback(60 Character)",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                    flex: 7,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: feeddbackController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: 'Feedback/value of work',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    )),
-              ],
-            ),
             const SizedBox(
               height: 15,
             ),
@@ -352,76 +312,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     context, appraisalDetails[index], supDataForSubmit)
               ],
             ),
-            // !_isPressed
-            //     ? Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //         children: [
-            //           InkWell(
-            //             onTap: () {
-            //               setState(() {
-            //                 _isPressed = true;
-            //               });
-            //               String approvalRestParams =
-            //                   'row_id=${appraisalDetails[index].rowId}&status=Rejected';
-            //               appraisalApproval(approvalRestParams, index);
-            //             },
-            //             child: Container(
-            //               height: 40,
-            //               width: MediaQuery.of(context).size.width * 0.4,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(5),
-            //                 color: Colors.red,
-            //               ),
-            //               // color: Colors.blue),
-            //               child: const Center(
-            //                   child: Text(
-            //                 "Reject",
-            //                 style: TextStyle(
-            //                     color: Colors.white,
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 18),
-            //               )),
-            //             ),
-            //           ),
-            //           InkWell(
-            //             onTap: () {
-            //               setState(() {
-            //                 _isPressed = true;
-            //               });
-            //               String approvalRestParams =
-            //                   'row_id=${appraisalDetails[index].rowId}&status=Approved';
-            //               appraisalApproval(approvalRestParams, index);
-            //             },
-            //             child: Container(
-            //               height: 40,
-            //               width: MediaQuery.of(context).size.width * 0.4,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(5),
-            //                 color: const Color(0xff38C172),
-            //               ),
-            //               // color: Colors.blue),
-            //               child: const Center(
-            //                   child: Text(
-            //                 "Approve",
-            //                 style: TextStyle(
-            //                     color: Colors.white,
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 18),
-            //               )),
-            //             ),
-            //           ),
-            //         ],
-            //       )
-            //     : Container(),
-            // Container(height: 100,color: Colors.,)
-
-            const Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
-              child: Divider(
-                thickness: 2,
-                color: Colors.grey,
-              ),
-            )
           ],
         ),
       ),
@@ -440,17 +330,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
         for (var kpi in kpiTableData!) {
           counter++;
-          // Map<String, dynamic> eachKpiValues = {
-          //   "kpi_name": kpi.name,
-          //   "kpi_id": kpi.kpiId,
-          //   "weightage": kpi.weightage,
-          //   "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
-          //   "defination": kpi.definition,
-          //   "overall_result": overallCount(
-          //           kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-          //       .toStringAsFixed(2),
-          // };
-          // kpiValuesList.add(eachKpiValues);
 
           if (kpi.kpiEdit == "YES") {
             if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
@@ -464,50 +343,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
         if (dropdwonValueForSelfScore.values
             .every((element) => element != null)) {
-          feeddbackController.text != ""
-              ? await internetCheckForSubmit(selfDEtails, selpKpiData)
-              : AllServices().toastMessage("Please provide feedback first ",
-                  Colors.red, Colors.white, 16);
+          await internetCheckForSubmit(selfDEtails, selpKpiData);
         }
-
-        // kpiValuesList = [];
-
-        // List<KpiTable>? kpiTableData =
-        //     selfDEtails.resData!.retStr!.first.kpiTable;
-        // int counter = 0;
-
-        // for (var kpi in kpiTableData!) {
-        //   counter++;
-        //   Map<String, dynamic> eachKpiValues = {
-        //     "kpi_name": kpi.name,
-        //     "kpi_id": kpi.kpiId,
-        //     "weightage": kpi.weightage,
-        //     "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
-        //     "defination": kpi.definition,
-        //     "overall_result": overallCount(
-        //             kpi.weightage!, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-        //         .toStringAsFixed(2),
-        //   };
-        //   kpiValuesList.add(eachKpiValues);
-
-        //   if (kpi.kpiEdit == "YES") {
-        //     if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
-        //     } else {
-        //       AllServices().toastMessage("Please select score of ${kpi.name}",
-        //           Colors.red, Colors.white, 16);
-        //       break;
-        //     }
-        //   }
-        // }
-
-        // if (kpiValuesList.length == counter &&
-        //     dropdwonValueForSelfScore.values
-        //         .every((element) => element != null)) {
-        //   feeddbackController.text != ""
-        //       ? await internetCheckForSubmit()
-        //       : AllServices().toastMessage("Please provide feedback first ",
-        //           Colors.red, Colors.white, 16);
-        // }
       },
       child: Container(
         height: 50,
@@ -604,11 +441,79 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     );
   }
 
-  Future<void> alartDialogForSubmit(BuildContext context, RetStr retStr,
-      List<Map<String, dynamic>> selpKpiData) async {
-    setState(() {
-      isSubmit = false;
-    });
+  // Future<void> alartDialogForSubmitOrDraft(
+  //   BuildContext context,
+  //   RetStr retStr,
+  //   List<Map<String, dynamic>> selpKpiData,
+  // ) async {
+  //   setState(() {
+  //     isSubmit = false;
+  //   });
+
+  //   return showDialog<void>(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(20.0),
+  //         ),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             SizedBox(
+  //               height: 70,
+  //               child: Image.asset('assets/images/alert.png'),
+  //             ),
+  //             const Text(
+  //               "Are you sure to submit appraisal for this employee ?",
+  //               style: TextStyle(fontSize: 14),
+  //             ),
+  //           ],
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             style: TextButton.styleFrom(
+  //                 textStyle: Theme.of(context).textTheme.labelLarge,
+  //                 foregroundColor: Colors.red),
+  //             child: const Text('No'),
+  //             onPressed: () {
+  //               setState(() {
+  //                 isSubmit = false;
+  //               });
+
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             style: TextButton.styleFrom(
+  //                 textStyle: Theme.of(context).textTheme.labelLarge,
+  //                 foregroundColor: Colors.green),
+  //             child: const Text('Yes'),
+  //             onPressed: () {
+  //               Navigator.pop(context);
+  //               setState(() {
+  //                 isSubmit = true;
+  //               });
+  //               submitEmployeeAppraisal(retStr, selpKpiData);
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
+  Future<void> alartDialogForSubmitOrDraft(BuildContext context, RetStr retStr,
+      List<Map<String, dynamic>> selpKpiData, String actionName) async {
+    if (actionName == "submit") {
+      setState(() {
+        isSubmit = false;
+      });
+    } else {
+      setState(() {
+        isDraft = false;
+      });
+    }
 
     return showDialog<void>(
       context: context,
@@ -624,9 +529,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 height: 70,
                 child: Image.asset('assets/images/alert.png'),
               ),
-              const Text(
-                "Are you sure to submit appraisal for this employee ?",
-                style: TextStyle(fontSize: 14),
+              Text(
+                "Are you sure to $actionName appraisal for this employee ?",
+                style: const TextStyle(fontSize: 14),
               ),
             ],
           ),
@@ -637,9 +542,15 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   foregroundColor: Colors.red),
               child: const Text('No'),
               onPressed: () {
-                setState(() {
-                  isSubmit = false;
-                });
+                if (actionName == "submit") {
+                  setState(() {
+                    isSubmit = false;
+                  });
+                } else {
+                  setState(() {
+                    isDraft = false;
+                  });
+                }
 
                 Navigator.of(context).pop();
               },
@@ -651,10 +562,18 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               child: const Text('Yes'),
               onPressed: () {
                 Navigator.pop(context);
-                setState(() {
-                  isSubmit = true;
-                });
-                submitEmployeeAppraisal(retStr, selpKpiData);
+
+                if (actionName == "submit") {
+                  setState(() {
+                    isSubmit = true;
+                  });
+                  submitEmployeeAppraisal(retStr, selpKpiData);
+                } else {
+                  setState(() {
+                    isDraft = true;
+                  });
+                  draftEmployeeAppraisal(retStr, selpKpiData);
+                }
               },
             ),
           ],
@@ -771,7 +690,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      alartDialogForSubmit(context, retStr, selpKpiData);
+      if (!mounted) return;
+      alartDialogForSubmitOrDraft(context, retStr, selpKpiData, "submit");
     } else {
       setState(() {
         isSubmit = false;
@@ -789,7 +709,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      draftEmployeeAppraisal(retStr, selpKpiData);
+      // draftEmployeeAppraisal(retStr, selpKpiData);
+      if (!mounted) return;
+      alartDialogForSubmitOrDraft(context, retStr, selpKpiData, "draft");
     } else {
       setState(() {
         isDraft = false;
@@ -802,7 +724,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
-      height: 400,
+      height: 290,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -877,10 +799,10 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Center(child: Text("4"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Avg. Sales/Month "))),
+                    child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales2 ?? '')))
+                    child: Text(achievementData.avgSalesEmr2 ?? '')))
               ],
             ),
             DataRow2(
@@ -899,17 +821,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 const DataCell(Center(child: Text("6"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Share (Seen Rx) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("6"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
@@ -919,28 +830,6 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             DataRow2(
               cells: [
                 const DataCell(Center(child: Text("7"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Growth "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgRxGrowth ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("8"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("No. of Month Achieved"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.noMonthAchiev2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("9"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
@@ -1127,7 +1016,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total (Sum of Weightage & Overall Result)",
+            "Total (Sum of Weightage)",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
@@ -1140,7 +1029,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           ))),
           const DataCell(Center(
               child: Text(
-            "",
+            "Total(Score)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(
@@ -1159,16 +1049,12 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
 
         cells: [
           const DataCell(Center(child: Text(""))),
-          const DataCell(Center(
-              child: Text(
-            "Total (Rounded)",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
+          const DataCell(Center(child: Text(""))),
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            "Rounded",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(
@@ -1262,14 +1148,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     return Container(
       color: const Color.fromARGB(255, 222, 211, 235),
       //color: Color.fromARGB(255, 180, 206, 184),
-      height: 170,
+      height: 295,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           Row(
             children: [
               const Expanded(
-                  flex: 9,
+                  flex: 6,
                   child: Text(
                     "Increment Amount",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -1299,22 +1185,13 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     ),
                   ),
                 ),
-                // child: Container(
-                //   height: 28,
-                //   padding: const EdgeInsets.only(left: 60, top: 5),
-                //   decoration: BoxDecoration(
-                //       color: const Color.fromARGB(255, 250, 250, 250),
-                //       shape: BoxShape.rectangle,
-                //       borderRadius: BorderRadius.circular(5)),
-                //   child: Text(appraisalOthers2.incrementAmount ?? ""),
-                // ),
               )
             ],
           ),
           Row(
             children: [
               const Expanded(
-                  flex: 9,
+                  flex: 6,
                   child: Text(
                     "Upgrade Grade",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -1350,7 +1227,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           Row(
             children: [
               const Expanded(
-                  flex: 9,
+                  flex: 6,
                   child: Text(
                     "Designation Change",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -1380,6 +1257,28 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               ),
             ],
           ),
+          Row(
+            children: const [
+              Text(
+                "Feedback",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            controller: feeddbackController,
+            maxLines: 2,
+            maxLength: 60,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Max 60 characters',
+              hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+          )
         ]),
       ),
     );

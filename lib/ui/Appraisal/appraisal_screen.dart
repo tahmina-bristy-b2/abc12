@@ -163,7 +163,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
       if (!mounted) return;
-      alartDialogForSubmit(context);
+      alartDialogForSubmitOrDraft(context, "submit");
     } else {
       setState(() {
         isSubmit = false;
@@ -180,7 +180,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      draftEmployeeAppraisal();
+      if (!mounted) return;
+      alartDialogForSubmitOrDraft(context, "draft");
+      //draftEmployeeAppraisal();
     } else {
       setState(() {
         isDraft = false;
@@ -203,7 +205,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             kpiValuesList,
             '',
             incrementController.text.toString() == ""
-                ? "0"
+                ? "0.0"
                 : incrementController.text.toString(),
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
@@ -442,42 +444,42 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       const SizedBox(
                         height: 8,
                       ),
-                      Row(
-                        children: [
-                          const Expanded(
-                              flex: 3,
-                              child: Text(
-                                "Feedback(60 Character)",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )),
-                          const Expanded(
-                              child: Text(
-                            ":",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                          Expanded(
-                              flex: 7,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                  controller: feeddbackController,
-                                  keyboardType: TextInputType.text,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Feedback/value of work',
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     const Expanded(
+                      //         flex: 3,
+                      //         child: Text(
+                      //           "Feedback(60 Character)",
+                      //           style: TextStyle(fontWeight: FontWeight.bold),
+                      //         )),
+                      //     const Expanded(
+                      //         child: Text(
+                      //       ":",
+                      //       style: TextStyle(fontWeight: FontWeight.bold),
+                      //     )),
+                      //     Expanded(
+                      //         flex: 7,
+                      //         child: Container(
+                      //           decoration: BoxDecoration(
+                      //             shape: BoxShape.rectangle,
+                      //             borderRadius: BorderRadius.circular(5),
+                      //             border: Border.all(
+                      //               color: Colors.grey,
+                      //               width: 1.0,
+                      //             ),
+                      //           ),
+                      //           child: TextField(
+                      //             textAlign: TextAlign.center,
+                      //             controller: feeddbackController,
+                      //             keyboardType: TextInputType.text,
+                      //             decoration: const InputDecoration(
+                      //               hintText: 'Feedback/value of work',
+                      //               border: InputBorder.none,
+                      //             ),
+                      //           ),
+                      //         )),
+                      //   ],
+                      // ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -503,7 +505,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget() {
     return SizedBox(
-      height: 400,
+      height: 290,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -585,19 +587,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 const DataCell(Center(child: Text("4"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Avg. Sales/Month "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.avgSales2
-                        .toString())))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("5"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
@@ -608,7 +597,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("6"))),
+                const DataCell(Center(child: Text("5"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
@@ -621,7 +610,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("7"))),
+                const DataCell(Center(child: Text("6"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
@@ -634,33 +623,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             ),
             DataRow2(
               cells: [
-                const DataCell(Center(child: Text("8"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Growth "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.avgRxGrowth
-                        .toString())))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("9"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("No. of Month Achieved"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.noMonthAchiev2
-                        .toString())))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("10"))),
+                const DataCell(Center(child: Text("7"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
@@ -711,7 +674,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 95,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
                   "Weightage(%)",
@@ -749,17 +712,18 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   }
 
   //=============================Increament upgration Widget===========================================
+
   Container increametGradeUpgrationWidget() {
     return Container(
       color: const Color.fromARGB(255, 222, 211, 235),
-      height: 170,
+      height: 295,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           Row(
             children: [
               const Expanded(
-                  flex: 9,
+                  flex: 6,
                   child: Text(
                     "Increment Amount",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -774,7 +738,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    height: 35,
+                    height: 40,
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 250, 250, 250),
                         shape: BoxShape.rectangle,
@@ -798,7 +762,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           Row(
             children: [
               const Expanded(
-                  flex: 9,
+                  flex: 6,
                   child: Text(
                     "Upgrade Grade",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -834,7 +798,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           Row(
             children: [
               const Expanded(
-                  flex: 9,
+                  flex: 6,
                   child: Text(
                     "Designation Change",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -864,6 +828,28 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               ),
             ],
           ),
+          Row(
+            children: const [
+              Text(
+                "Feedback",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            controller: feeddbackController,
+            maxLines: 2,
+            maxLength: 60,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Max 60 characters',
+              hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+          )
         ]),
       ),
     );
@@ -906,10 +892,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         if (kpiValuesList.length == counter &&
             dropdwonValueForSelfScore.values
                 .every((element) => element != null)) {
-          feeddbackController.text != ""
-              ? await internetCheckForSubmit()
-              : AllServices().toastMessage("Please provide feedback first ",
-                  Colors.red, Colors.white, 16);
+          await internetCheckForSubmit();
         }
       },
       child: Container(
@@ -1074,7 +1057,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 (states) {
                   return e.kpiEdit == "NO"
                       ? Colors.transparent
-                      : Color.fromARGB(255, 235, 228, 244);
+                      : const Color.fromARGB(255, 235, 228, 244);
                   // : Color.fromARGB(255, 199, 219, 235);
                 },
               ),
@@ -1141,16 +1124,18 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           ),
                         ),
                       )),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(overallCount(
-                            e.weitage,
-                            e.kpiEdit == "NO"
-                                ? e.selfScore
-                                : dropdwonValueForSelfScore[e.sl] == null
-                                    ? "0.0"
-                                    : dropdwonValueForSelfScore[e.sl])
-                        .toStringAsFixed(2))))
+                DataCell(Container(
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(overallCount(
+                              e.weitage,
+                              e.kpiEdit == "NO"
+                                  ? e.selfScore
+                                  : dropdwonValueForSelfScore[e.sl] == null
+                                      ? "0.0"
+                                      : dropdwonValueForSelfScore[e.sl])
+                          .toStringAsFixed(2))),
+                ))
               ],
             ),
           )
@@ -1158,13 +1143,11 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       DataRow(
         color: MaterialStateColor.resolveWith(
             (states) => const Color.fromARGB(255, 165, 193, 170)),
-        // const Color.fromARGB(255, 226, 226, 226)),
-
         cells: [
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total (Sum of Weightage & Overall Result)",
+            "Total (Sum of Weightage)",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Align(
@@ -1176,7 +1159,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               ))),
           const DataCell(Center(
               child: Text(
-            "",
+            "Total(Score)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(
@@ -1195,16 +1179,12 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
         cells: [
           const DataCell(Center(child: Text(""))),
-          const DataCell(Center(
-              child: Text(
-            "Total (Rounded)",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
+          const DataCell(Center(child: Text(""))),
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            "Rounded",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(
@@ -1251,11 +1231,17 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     );
   }
 
-  Future<void> alartDialogForSubmit(BuildContext context) async {
-    setState(() {
-      isSubmit = false;
-    });
-
+  Future<void> alartDialogForSubmitOrDraft(
+      BuildContext context, String actionName) async {
+    if (actionName == "submit") {
+      setState(() {
+        isSubmit = false;
+      });
+    } else {
+      setState(() {
+        isDraft = false;
+      });
+    }
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -1270,9 +1256,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 height: 70,
                 child: Image.asset('assets/images/alert.png'),
               ),
-              const Text(
-                "Are you sure to submit appraisal for this employee ?",
-                style: TextStyle(fontSize: 14),
+              Text(
+                "Are you sure to $actionName appraisal for this employee ?",
+                style: const TextStyle(fontSize: 14),
               ),
             ],
           ),
@@ -1283,9 +1269,15 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   foregroundColor: Colors.red),
               child: const Text('No'),
               onPressed: () {
-                setState(() {
-                  isSubmit = false;
-                });
+                if (actionName == "submit") {
+                  setState(() {
+                    isSubmit = false;
+                  });
+                } else {
+                  setState(() {
+                    isDraft = false;
+                  });
+                }
 
                 Navigator.of(context).pop();
               },
@@ -1297,10 +1289,18 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               child: const Text('Yes'),
               onPressed: () {
                 Navigator.pop(context);
-                setState(() {
-                  isSubmit = true;
-                });
-                submitEmployeeAppraisal();
+
+                if (actionName == "submit") {
+                  setState(() {
+                    isSubmit = true;
+                  });
+                  submitEmployeeAppraisal();
+                } else {
+                  setState(() {
+                    isDraft = true;
+                  });
+                  draftEmployeeAppraisal();
+                }
               },
             ),
           ],

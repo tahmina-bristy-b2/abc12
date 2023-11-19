@@ -151,16 +151,25 @@ class RetStr {
         trCode: json["tr_code"] ?? "",
         baseTerritory: json["base_territory"] ?? "",
         lengthOfPresentTrService: json["length_of_present_tr_service"] ?? "",
-        targetValue2: json["target_value_2"] ?? "0.0",
-        soldValue2: json["sold_value_2"] ?? "0.0",
-        achievement2: json["achievement_2"] ?? "0.0",
-        avgSales2: json["avg_sales_2"] ?? "0.0",
-        seenRx: json["seen_rx"] ?? "0.0",
-        avgSales4P2: json["avg_sales_4p_2"] ?? "0.0",
-        avgSalesEmr2: json["avg_sales_emr_2"] ?? "0.0",
-        noMonthAchiev2: json["no_month_achiev_2"] ?? "0.0",
-        chemistCov2: json["chemist_cov_2"] ?? "0.0",
-        avRx4PBasePoint: json["av_rx_4p_base_point"] ?? "0.0",
+        targetValue2:
+            double.parse(json["target_value_2"] ?? 0.0).toStringAsFixed(2),
+        soldValue2:
+            double.parse(json["sold_value_2"] ?? "0.0").toStringAsFixed(2),
+        achievement2:
+            double.parse(json["achievement_2"] ?? "0.0").toStringAsFixed(2),
+        avgSales2:
+            double.parse(json["avg_sales_2"] ?? "0.0").toStringAsFixed(2),
+        seenRx: json["seen_rx"] ?? "0",
+        avgSales4P2:
+            double.parse(json["avg_sales_4p_2"] ?? "0.0").toStringAsFixed(2),
+        avgSalesEmr2:
+            double.parse(json["avg_sales_emr_2"] ?? "0.0").toStringAsFixed(2),
+        noMonthAchiev2:
+            double.parse(json["no_month_achiev_2"] ?? "0.0").toStringAsFixed(2),
+        chemistCov2:
+            double.parse(json["chemist_cov_2"] ?? "0.0").toStringAsFixed(2),
+        avRx4PBasePoint: double.parse(json["av_rx_4p_base_point"] ?? "0.0")
+            .toStringAsFixed(2),
         avRxEmrBasePoint: json["av_rx_emr_base_point"] ?? "0.0",
         achChemistCovBasePoint: json["ach_chemist_cov_base_point"] ?? "0.0",
         examPerformanceBasePoint: json["exam_performance_base_point"] ?? "0.0",

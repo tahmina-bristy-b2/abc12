@@ -839,6 +839,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           const SizedBox(height: 10),
           TextField(
             controller: feeddbackController,
+            textInputAction: TextInputAction.done,
             maxLines: 2,
             maxLength: 60,
             decoration: InputDecoration(
@@ -1153,7 +1154,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           DataCell(Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "${totalWeightage.toStringAsFixed(1)}%",
+                "${totalWeightage.toStringAsFixed(0)}%",
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ))),

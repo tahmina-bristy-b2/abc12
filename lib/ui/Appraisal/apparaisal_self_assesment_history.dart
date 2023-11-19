@@ -16,7 +16,6 @@ class AppraisalSelfAssesmentHistoryScreen extends StatefulWidget {
   final String cid;
   final String userId;
   final String userPass;
-  // final String restParams;
   const AppraisalSelfAssesmentHistoryScreen(
       {super.key,
       required this.cid,
@@ -45,7 +44,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
@@ -106,36 +104,9 @@ class _AppraisalSelfAssesmentHistoryScreenState
         });
   }
 
-  // void removeFFAopraisal(int index) {
-  //   listKey.currentState!.removeItem(
-  //     index,
-  //     (context, animation) {
-  //       return appraisalListItemView(animation,
-  //           appraisalApprovalFfDetailsData!.resData!.retStr!, index, context);
-  //     },
-  //     duration: const Duration(seconds: 1),
-  //   );
-
-  //   Future.delayed(const Duration(seconds: 1), () {
-  //     appraisalApprovalFfDetailsData!.resData!.retStr!.removeAt(index);
-  //   });
-
-  //   // if (index == dsrDetails!.resData.dataList.length - 1) {
-  //   //   return;
-  //   // } else {
-  //   //   dsrDetails!.resData.dataList.removeAt(index);
-  //   // }
-  // }
-
   @override
   void dispose() {
     super.dispose();
-    // honestintegrityController.dispose();
-    // disciplineController.dispose();
-    // skillController.dispose();
-    // qualityofSellsController.dispose();
-    // incrementController.dispose();
-    // feeddbackController.dispose();
   }
 
   @override
@@ -265,120 +236,47 @@ class _AppraisalSelfAssesmentHistoryScreenState
             const SizedBox(
               height: 8,
             ),
-            increametGradeUpgrationWidget(appraisalDetails[index]),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                const Expanded(
-                    flex: 3,
-                    child: Text(
-                      "Feedback(60 Character)",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                    flex: 7,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: TextField(
-                        readOnly: true,
-                        textAlign: TextAlign.center,
-                        controller: TextEditingController(
-                            text: appraisalDetails[index].feedback ?? ''),
-                        decoration: const InputDecoration(
-                          hintText: 'Feedback/value of work',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    )),
-              ],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            // !_isPressed
-            //     ? Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //         children: [
-            //           InkWell(
-            //             onTap: () {
-            //               setState(() {
-            //                 _isPressed = true;
-            //               });
-            //               String approvalRestParams =
-            //                   'row_id=${appraisalDetails[index].rowId}&status=Rejected';
-            //               appraisalApproval(approvalRestParams, index);
-            //             },
-            //             child: Container(
-            //               height: 40,
-            //               width: MediaQuery.of(context).size.width * 0.4,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(5),
-            //                 color: Colors.red,
-            //               ),
-            //               // color: Colors.blue),
-            //               child: const Center(
-            //                   child: Text(
-            //                 "Reject",
-            //                 style: TextStyle(
-            //                     color: Colors.white,
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 18),
-            //               )),
+            // increametGradeUpgrationWidget(appraisalDetails[index]),
+            // const SizedBox(
+            //   height: 8,
+            // ),
+            // Row(
+            //   children: [
+            //     const Expanded(
+            //         flex: 3,
+            //         child: Text(
+            //           "Feedback(60 Character)",
+            //           style: TextStyle(fontWeight: FontWeight.bold),
+            //         )),
+            //     const Expanded(
+            //         child: Text(
+            //       ":",
+            //       style: TextStyle(fontWeight: FontWeight.bold),
+            //     )),
+            //     Expanded(
+            //         flex: 7,
+            //         child: Container(
+            //           decoration: BoxDecoration(
+            //             shape: BoxShape.rectangle,
+            //             borderRadius: BorderRadius.circular(5),
+            //             border: Border.all(
+            //               color: Colors.grey,
+            //               width: 1.0,
             //             ),
             //           ),
-            //           InkWell(
-            //             onTap: () {
-            //               setState(() {
-            //                 _isPressed = true;
-            //               });
-            //               String approvalRestParams =
-            //                   'row_id=${appraisalDetails[index].rowId}&status=Approved';
-            //               appraisalApproval(approvalRestParams, index);
-            //             },
-            //             child: Container(
-            //               height: 40,
-            //               width: MediaQuery.of(context).size.width * 0.4,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(5),
-            //                 color: const Color(0xff38C172),
-            //               ),
-            //               // color: Colors.blue),
-            //               child: const Center(
-            //                   child: Text(
-            //                 "Approve",
-            //                 style: TextStyle(
-            //                     color: Colors.white,
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 18),
-            //               )),
+            //           child: TextField(
+            //             readOnly: true,
+            //             textAlign: TextAlign.center,
+            //             controller: TextEditingController(
+            //                 text: appraisalDetails[index].feedbackSup ?? ''),
+            //             decoration: const InputDecoration(
+            //               hintText: 'Feedback/value of work',
+            //               border: InputBorder.none,
             //             ),
             //           ),
-            //         ],
-            //       )
-            //     : Container(),
-            // Container(height: 100,color: Colors.,)
-
-            const Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
-              child: Divider(
-                thickness: 2,
-                color: Colors.grey,
-              ),
-            )
+            //         )),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -541,7 +439,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   //======================================= Appraisal Achievemet Widget==============================================
   SizedBox appraisalAchievemetWidget(RetStr achievementData) {
     return SizedBox(
-      height: 400,
+      height: 290,
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -616,10 +514,10 @@ class _AppraisalSelfAssesmentHistoryScreenState
                 const DataCell(Center(child: Text("4"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Avg. Sales/Month "))),
+                    child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales2 ?? '')))
+                    child: Text(achievementData.seenRx ?? '')))
               ],
             ),
             DataRow2(
@@ -630,18 +528,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Avg. Rx Share (4P) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("6"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Share (Seen Rx) "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.seenRx ?? '')))
+                    child: Text(achievementData.avgSales4P2 ?? ''.toString())))
               ],
             ),
             DataRow2(
@@ -658,28 +545,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
             DataRow2(
               cells: [
                 const DataCell(Center(child: Text("7"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Avg. Rx Growth "))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgRxGrowth ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("8"))),
-                const DataCell(Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("No. of Month Achieved"))),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(achievementData.noMonthAchiev2 ?? '')))
-              ],
-            ),
-            DataRow2(
-              cells: [
-                const DataCell(Center(child: Text("9"))),
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
@@ -702,7 +567,6 @@ class _AppraisalSelfAssesmentHistoryScreenState
           horizontalMargin: 8,
           dataRowHeight: 45,
           minWidth: 800,
-          fixedLeftColumns: 1,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
@@ -725,14 +589,14 @@ class _AppraisalSelfAssesmentHistoryScreenState
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 95,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
                   "Weightage(%)",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 80,
+                fixedWidth: 90,
                 label: Center(
                     child: Column(
                   children: const [
@@ -804,7 +668,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total (Sum of Weightage & Overall Result)",
+            "Total (Sum of Weightage)",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
@@ -817,7 +681,8 @@ class _AppraisalSelfAssesmentHistoryScreenState
           ))),
           const DataCell(Center(
               child: Text(
-            "",
+            "Total(Score)",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(
@@ -836,16 +701,12 @@ class _AppraisalSelfAssesmentHistoryScreenState
 
         cells: [
           const DataCell(Center(child: Text(""))),
-          const DataCell(Center(
-              child: Text(
-            "Total (Rounded)",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
+          const DataCell(Center(child: Text(""))),
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            "Rounded",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(

@@ -158,6 +158,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     'Do you want to "${action.toUpperCase()}" of this Appraisal?'),
                 actions: [
                   TextButton(
+                    child: const Text(
+                      'NO',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
                     child: const Text('YES'),
                     onPressed: () {
                       setState(() {
@@ -166,15 +175,6 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       Navigator.of(context).pop();
                       appraisalApproval(
                           approvalRestParams, index, supDataForSubmit);
-                    },
-                  ),
-                  TextButton(
-                    child: const Text(
-                      'NO',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -1639,7 +1639,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   // textAlign: TextAlign.center,
                   controller: feedbackController,
                   // expands: true,
-                  // maxLines: 2,
+                  maxLines: 2,
                   maxLength: 60,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
@@ -1771,14 +1771,16 @@ class FfInformationWidget extends StatelessWidget {
               value,
               style: TextStyle(
                   color: staticKey == "Appraisal Status" &&
-                          value.split(' ').first == 'DRAFT'
+                          value.toUpperCase().split(' ').first == 'DRAFTED'
                       ? Colors.orange
                       : staticKey == "Appraisal Status" &&
-                              value.split(' ').first == 'RELEASED'
+                              value.toUpperCase().split(' ').first == 'RELEASED'
                           ? const Color.fromARGB(255, 44, 211, 50)
                           : staticKey == "Appraisal Status" &&
-                                  (value.split(' ').first == 'APPROVED' ||
-                                      value.split(' ').first == 'SUBMITTED')
+                                  (value.toUpperCase().split(' ').first ==
+                                          'APPROVED' ||
+                                      value.toUpperCase().split(' ').first ==
+                                          'SUBMITTED')
                               ? Colors.teal
                               : Colors.black),
             ),

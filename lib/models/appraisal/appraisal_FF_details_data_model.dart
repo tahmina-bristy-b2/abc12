@@ -173,7 +173,7 @@ class RetStr {
         upgradeGrade: json["upgrade_grade"],
         designationChange: json["designation_change"],
         incrementAmount:
-            double.parse(json["increment_amount"] ?? '0.0').toStringAsFixed(2),
+            double.parse(json["increment_amount"] ?? '0.0').toStringAsFixed(0),
         feedback: json["feedback"],
         kpiKey: json["kpi_key"],
         doctorCoverage: json["doctor_coverage"],
@@ -221,7 +221,7 @@ class RetStr {
             double.parse(json["avg_rx_growth"] ?? '0.0').toStringAsFixed(2),
         seenRx: double.parse(json["seen_rx"] ?? '0.0').toStringAsFixed(2),
         incrementAmountSup: double.parse(json["increment_amount_sup"] ?? '0.00')
-            .toStringAsFixed(2),
+            .toStringAsFixed(0),
         designationChangeSup: json["designation_change_sup"],
         upgradeGradeSup: json["upgrade_grade_sup"],
         feedbackSup: json["feedback_sup"],

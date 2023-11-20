@@ -1364,12 +1364,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     flex: 7,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: appraisalOthers2.feedback != ''
-                          ? Text(appraisalOthers2.feedback ?? '')
-                          : Text((appraisalOthers2.feedback ?? '')
-                                  .substring(0, 1)
-                                  .toUpperCase() +
-                              (appraisalOthers2.feedback ?? '').substring(1)),
+                      child: Text(appraisalOthers2.feedback ?? ''),
                     )
                     // TextField(
                     //   readOnly: true,
@@ -1524,11 +1519,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: Text((appraisalOthers2.feedbackSup ?? '')
-                                    .substring(0, 1)
-                                    .toUpperCase() +
-                                (appraisalOthers2.feedbackSup ?? '')
-                                    .substring(1)),
+                            child: Text(appraisalOthers2.feedbackSup ?? ''),
                           ),
                         ))
                   ],

@@ -1402,49 +1402,171 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
 //=============================Increament upgration=========================
   Container increametGradeUpgrationForSup(RetStr appraisalOthers2) {
-    return Container(
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 179, 200, 220),
-          borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
-          Text(
-            '$_stepSup SCORE',
-            style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Colors.black87),
-          ),
-          const SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Increment Amount",
-                      // style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                widget.appraisalStatus.toUpperCase().split('_').first ==
-                        'RELEASED'
-                    ? Expanded(
+    return widget.appraisalStatus.toUpperCase().split('_').first == 'RELEASED'
+        ? Container(
+            // decoration: BoxDecoration(
+            //     color: const Color.fromARGB(255, 179, 200, 220),
+            //     borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
+                Text(
+                  '$_stepSup SCORE',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black87),
+                ),
+                const Divider(color: Colors.grey),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 5,
+                          child: Text(
+                            "Increment Amount",
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
                         flex: 7,
                         child: Align(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             appraisalOthers2.incrementAmountSup ?? '0.00',
                             // style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       )
-                    : Expanded(
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 5,
+                          child: Text(
+                            "Upgrade Grade",
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
+                        flex: 7,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(appraisalOthers2.upgradeGradeSup == '0'
+                                ? 'NO'
+                                : 'YES')),
+                      ),
+                    ],
+                  ),
+                ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 5,
+                          child: Text(
+                            "Designation Change",
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
+                        flex: 7,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                                appraisalOthers2.designationChangeSup == '0'
+                                    ? 'NO'
+                                    : 'YES')),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    const Expanded(
+                        flex: 5,
+                        child: Text(
+                          "Feedback",
+                          // style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    const Expanded(
+                        child: Text(
+                      ":",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Expanded(
+                        flex: 7,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text((appraisalOthers2.feedbackSup ?? '')
+                                    .substring(0, 1)
+                                    .toUpperCase() +
+                                (appraisalOthers2.feedbackSup ?? '')
+                                    .substring(1)),
+                          ),
+                        ))
+                  ],
+                ),
+              ]),
+            ),
+          )
+        : Container(
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 179, 200, 220),
+                borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
+                Text(
+                  '$_stepSup SCORE',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black87),
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 5,
+                          child: Text(
+                            "Increment Amount",
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
                         flex: 7,
                         child: Align(
                             alignment: Alignment.centerRight,
@@ -1466,174 +1588,109 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               ),
                             )),
                       )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                right: 8.0,
-                bottom: widget.appraisalStatus.toUpperCase().split('_').first ==
-                        'RELEASED'
-                    ? 8.0
-                    : 0.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Upgrade Grade",
-                      // style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child:
-                        widget.appraisalStatus.toUpperCase().split('_').first ==
-                                'RELEASED'
-                            ? Text(appraisalOthers2.upgradeGradeSup == '0'
-                                ? 'NO'
-                                : 'YES')
-                            : Transform.scale(
-                                scale: 1.45,
-                                child: Theme(
-                                  data: ThemeData(
-                                      unselectedWidgetColor: Colors.white),
-                                  child: Checkbox(
-                                    value: isUpgrade,
-                                    activeColor: const Color(0xff38C172),
-                                    onChanged: (bool? value) {
-                                      if (widget.appraisalStatus
-                                              .toUpperCase()
-                                              .split('_')
-                                              .first ==
-                                          'RELEASED') {
-                                      } else {
-                                        setState(() {
-                                          isUpgrade = value!;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          // const SizedBox(
-          //   height: 8,
-          // ),
-          Padding(
-            padding: EdgeInsets.only(
-                right: 8.0,
-                bottom: widget.appraisalStatus.toUpperCase().split('_').first ==
-                        'RELEASED'
-                    ? 8.0
-                    : 0.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Designation Change",
-                      // style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child:
-                        widget.appraisalStatus.toUpperCase().split('_').first ==
-                                'RELEASED'
-                            ? Text(appraisalOthers2.designationChangeSup == '0'
-                                ? 'NO'
-                                : 'YES')
-                            : Transform.scale(
-                                scale: 1.45,
-                                child: Theme(
-                                  data: ThemeData(
-                                      unselectedWidgetColor: Colors.white),
-                                  child: Checkbox(
-                                    value: isDesignationChange,
-                                    activeColor: const Color(0xff38C172),
-                                    onChanged: (bool? value) {
-                                      if (widget.appraisalStatus
-                                              .toUpperCase()
-                                              .split('_')
-                                              .first ==
-                                          'RELEASED') {
-                                      } else {
-                                        setState(() {
-                                          isDesignationChange = value!;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: 8.0,
+                  ),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 5,
+                          child: Text(
+                            "Upgrade Grade",
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
+                        flex: 7,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Transform.scale(
+                            scale: 1.45,
+                            child: Theme(
+                              data: ThemeData(
+                                  unselectedWidgetColor: Colors.white),
+                              child: Checkbox(
+                                value: isUpgrade,
+                                activeColor: const Color(0xff38C172),
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isUpgrade = value!;
+                                  });
+                                },
                               ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              widget.appraisalStatus.toUpperCase().split('_').first ==
-                      'RELEASED'
-                  ? const Expanded(
-                      flex: 5,
-                      child: Text(
-                        "Feedback",
-                        // style: TextStyle(fontWeight: FontWeight.bold),
-                      ))
-                  : const Text(
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: 8.0,
+                  ),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 5,
+                          child: Text(
+                            "Designation Change",
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const Expanded(
+                          child: Text(
+                        ":",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Expanded(
+                        flex: 7,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Transform.scale(
+                            scale: 1.45,
+                            child: Theme(
+                              data: ThemeData(
+                                  unselectedWidgetColor: Colors.white),
+                              child: Checkbox(
+                                value: isDesignationChange,
+                                activeColor: const Color(0xff38C172),
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isDesignationChange = value!;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: const [
+                    Text(
                       "Feedback",
                       // style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-              widget.appraisalStatus.toUpperCase().split('_').first ==
-                      'RELEASED'
-                  ? const Expanded(
-                      child: Text(
-                      ":",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ))
-                  : Container(),
-              widget.appraisalStatus.toUpperCase().split('_').first ==
-                      'RELEASED'
-                  ? Expanded(
-                      flex: 7,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Text((appraisalOthers2.feedbackSup ?? '')
-                                  .substring(0, 1)
-                                  .toUpperCase() +
-                              (appraisalOthers2.feedbackSup ?? '')
-                                  .substring(1)),
-                        ),
-                      ))
-                  : Container(),
-            ],
-          ),
-          const SizedBox(height: 10),
-          widget.appraisalStatus.toUpperCase().split('_').first != 'RELEASED'
-              ? TextField(
+                  ],
+                ),
+                const SizedBox(height: 10),
+                TextField(
                   // readOnly: widget.appraisalStatus.toUpperCase().split('_').first ==
                   //     'RELEASED',
                   // textAlign: TextAlign.center,
@@ -1652,10 +1709,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         borderRadius: BorderRadius.circular(10)),
                   ),
                 )
-              : Container(),
-        ]),
-      ),
-    );
+              ]),
+            ),
+          );
   }
 
   void getAppraisalApprovalFFDetailsdata(String restParams) async {

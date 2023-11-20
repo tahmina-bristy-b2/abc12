@@ -720,121 +720,160 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
-          Row(
-            children: [
-              const Expanded(
-                  flex: 6,
-                  child: Text(
-                    "Increment Amount",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(
-                flex: 7,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 250, 250, 250),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: TextField(
-                      controller: incrementController,
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Row(
+              children: [
+                const Expanded(
+                    flex: 5,
+                    child: Text(
+                      "Increment Amount",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                const Expanded(
+                    child: Text(
+                  ":",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+                Expanded(
+                  flex: 7,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 250, 250, 250),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: TextField(
+                        controller: incrementController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.right,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(right: 8),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 8.0,
+            ),
+            child: Row(
+              children: [
+                const Expanded(
+                    flex: 5,
+                    child: Text(
+                      "Upgrade Grade",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                const Expanded(
+                    child: Text(
+                  ":",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+                Expanded(
+                  flex: 7,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Transform.scale(
+                      scale: 1.45,
+                      child: Theme(
+                        data: ThemeData(unselectedWidgetColor: Colors.white),
+                        child: Checkbox(
+                          activeColor: const Color(0xff38C172),
+                          value: isUpgrade,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isUpgrade = value!;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
           const SizedBox(
             height: 8,
           ),
-          Row(
-            children: [
-              const Expanded(
-                  flex: 6,
-                  child: Text(
-                    "Upgrade Grade",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(
-                flex: 7,
-                child: Transform.scale(
-                  scale: 1.45,
-                  child: Theme(
-                    data: ThemeData(unselectedWidgetColor: Colors.white),
-                    child: Checkbox(
-                      activeColor: const Color(0xff38C172),
-                      value: isUpgrade,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isUpgrade = value!;
-                        });
-                      },
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 8.0,
+            ),
+            child: Row(
+              children: [
+                const Expanded(
+                    flex: 5,
+                    child: Text(
+                      "Designation Change",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                const Expanded(
+                    child: Text(
+                  ":",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+                Expanded(
+                  flex: 7,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Transform.scale(
+                      scale: 1.45,
+                      child: Theme(
+                        data: ThemeData(unselectedWidgetColor: Colors.white),
+                        child: Checkbox(
+                          value: isDesignationChange,
+                          activeColor: const Color(0xff38C172),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isDesignationChange = value!;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              const Expanded(
-                  flex: 6,
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Row(
+              children: const [
+                Expanded(
+                  flex: 5,
                   child: Text(
-                    "Designation Change",
+                    "Feedback",
                     style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-              const Expanded(
-                  child: Text(
-                ":",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              Expanded(
-                flex: 7,
-                child: Transform.scale(
-                  scale: 1.45,
-                  child: Theme(
-                    data: ThemeData(unselectedWidgetColor: Colors.white),
-                    child: Checkbox(
-                      value: isDesignationChange,
-                      activeColor: const Color(0xff38C172),
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isDesignationChange = value!;
-                        });
-                      },
-                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: const [
-              Text(
-                "Feedback",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
+                Expanded(
+                  child: Text(
+                    ":",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    "",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 10),
           TextField(

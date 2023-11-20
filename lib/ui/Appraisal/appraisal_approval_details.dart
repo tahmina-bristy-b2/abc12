@@ -1677,14 +1677,34 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     ],
                   ),
                 ),
-                Row(
-                  children: const [
-                    Text(
-                      "Feedback",
-                      // style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        flex: 5,
+                        child: Text(
+                          "Feedback",
+                          // style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          ":",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 7,
+                        child: Text(
+                          "",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+
                 const SizedBox(height: 10),
                 TextField(
                   // readOnly: widget.appraisalStatus.toUpperCase().split('_').first ==

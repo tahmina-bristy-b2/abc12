@@ -203,6 +203,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
     Future.delayed(const Duration(seconds: 1), () {
       appraisalApprovalFfDetailsData!.resData!.retStr!.removeAt(index);
+      if (appraisalApprovalFfDetailsData!.resData!.retStr!.isEmpty) {
+        widget.callBackFuntion!('value');
+        Navigator.pop(context);
+      }
     });
 
     // if (index == dsrDetails!.resData.dataList.length - 1) {
@@ -1321,8 +1325,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   flex: 7,
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                          appraisalOthers2.designation == "0" ? 'NO' : 'YES')
+                      child: Text(appraisalOthers2.designationChange == "0"
+                          ? 'NO'
+                          : 'YES')
                       // Transform.scale(
                       //   scale: 1.45,
                       //   child: Theme(

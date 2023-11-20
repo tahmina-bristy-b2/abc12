@@ -1029,7 +1029,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           ))),
           const DataCell(Center(
               child: Text(
-            "Total(Score)",
+            "Total",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(

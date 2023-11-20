@@ -1160,7 +1160,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               ))),
           const DataCell(Center(
               child: Text(
-            "Total(Score)",
+            "Total",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(

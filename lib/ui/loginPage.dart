@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.next,
                                       decoration: const InputDecoration(
-                                        labelText: 'Company Id',
+                                        labelText: 'Company ID',
                                         labelStyle: TextStyle(
                                           color:
                                               Color.fromARGB(255, 98, 126, 112),
@@ -171,14 +171,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: screenHeight / 40,
                                     ),
 
-                                    // User Id field
+                                    // User ID field
                                     TextFormField(
                                       autofocus: false,
                                       controller: _userIdController,
                                       keyboardType: TextInputType.emailAddress,
                                       textInputAction: TextInputAction.next,
                                       decoration: const InputDecoration(
-                                        labelText: 'User Id',
+                                        labelText: 'User ID',
                                         labelStyle: TextStyle(
                                           color:
                                               Color.fromARGB(255, 98, 126, 112),
@@ -191,10 +191,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Please Provide Your User Id';
+                                          return 'Please Provide Your User ID';
                                         }
                                         if (value.contains("@")) {
-                                          return 'Please Provide Your Valid User Id';
+                                          return 'Please Provide Your Valid User ID';
                                         } else {
                                           return null;
                                         }

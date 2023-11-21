@@ -247,8 +247,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   //====================================== Submit Api Call ============================================
   draftEmployeeAppraisal() async {
-    String feedBack = feeddbackController.text.trimLeft();
-    feedBack = feedBack.trimRight();
+    String feedBack = feeddbackController.text.trim();
+
     // print('feedBack: $feedBack');
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(

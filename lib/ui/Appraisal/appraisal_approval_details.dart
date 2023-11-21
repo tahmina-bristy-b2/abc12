@@ -317,7 +317,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
             ),
 
             FfInformationWidget(
-                staticKey: 'Employee Id',
+                staticKey: 'Employee ID',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
                 staticKey: 'Employee Name',
@@ -663,7 +663,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 //     child: Text(achievementData.achievement1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.achievement2 ?? '')))
+                    child: Text('${achievementData.achievement2 ?? ''}%')))
               ],
             ),
             // DataRow2(
@@ -691,7 +691,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.seenRx ?? '')))
+                    child: Text('${achievementData.seenRx ?? ''}%')))
               ],
             ),
             DataRow2(
@@ -705,7 +705,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 //     child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P2 ?? '')))
+                    child: Text('${achievementData.avgSales4P2 ?? ''}%')))
               ],
             ),
             DataRow2(
@@ -719,7 +719,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 //     child: Text(achievementData.avgSalesEmr1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
+                    child: Text('${achievementData.avgSalesEmr2 ?? ''}%')))
               ],
             ),
             // DataRow2(
@@ -760,7 +760,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 //     child: Text(achievementData.chemistCov1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.chemistCov2 ?? '')))
+                    child: Text('${achievementData.chemistCov2 ?? ''}%')))
               ],
             ),
           ]),
@@ -774,7 +774,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           // border: TableBorder.all(),
           columnSpacing: 0,
           horizontalMargin: 0,
-          dataRowHeight: (appraisalMaster.kpiTable!.length + 3) * 39,
+          dataRowHeight: (appraisalMaster.kpiTable!.length + 2) * 38 + 60,
           minWidth: 870,
           // fixedLeftColumns: 1,
           // headingRowColor: MaterialStateColor.resolveWith(
@@ -834,7 +834,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     horizontalMargin: 0,
                     dataRowHeight: 38,
                     minWidth: 300,
-                    headingRowHeight: 40,
+                    headingRowHeight: 60,
                     columns: const [
                       DataColumn2(
                           fixedWidth: 40,
@@ -970,15 +970,39 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     horizontalMargin: 0,
                     dataRowHeight: 38,
                     minWidth: 150,
-                    headingRowHeight: 40,
+                    headingRowHeight: 60,
                     columns: [
-                      const DataColumn2(
-                          fixedWidth: 70,
-                          label: Center(
-                              child: Text(
-                            "Score\n(1 - 3)",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
+                      DataColumn2(
+                        fixedWidth: 72,
+                        label: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Center(
+                                  child: Text(
+                                "Score",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )),
+                              Text(
+                                "3 - Very Good",
+                                style: TextStyle(fontSize: 10),
+                              ),
+                              Text(
+                                "2 - Good",
+                                style: TextStyle(fontSize: 10),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "1 - Needs Imp.",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       DataColumn2(
                           fixedWidth: 79,
                           label: Container(
@@ -1090,15 +1114,38 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     horizontalMargin: 0,
                     dataRowHeight: 38,
                     minWidth: 160,
-                    headingRowHeight: 40,
+                    headingRowHeight: 60,
                     columns: [
-                      const DataColumn2(
+                      DataColumn2(
                           fixedWidth: 88,
-                          label: Center(
-                              child: Text(
-                            "Score\n(1 - 3)",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
+                          label: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Center(
+                                    child: Text(
+                                  "Score",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )),
+                                Text(
+                                  "3 - Very Good",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                                Text(
+                                  "2 - Good",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "1 - Needs Imp.",
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
                       DataColumn2(
                           fixedWidth: 70,
                           label: Container(

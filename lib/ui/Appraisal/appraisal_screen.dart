@@ -195,6 +195,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
 //====================================== Submit Api Call ============================================
   submitEmployeeAppraisal() async {
+    String feedBack = feeddbackController.text.trimLeft();
+    feedBack = feedBack.trimRight();
+    // print('feedBack: $feedBack');
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(
             dmpathData!.submitUrl,
@@ -210,7 +213,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 : incrementController.text.toString(),
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
-            feeddbackController.text,
+            feedBack,
             appraisalDetailsModel!.resData.retStr.first.kpiKey,
             "SUBMITTED");
     if (submitInfo != {}) {
@@ -244,6 +247,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   //====================================== Submit Api Call ============================================
   draftEmployeeAppraisal() async {
+    String feedBack = feeddbackController.text.trimLeft();
+    feedBack = feedBack.trimRight();
+    // print('feedBack: $feedBack');
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(
             dmpathData!.submitUrl,
@@ -259,7 +265,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 : incrementController.text.toString(),
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
-            feeddbackController.text,
+            feedBack,
             appraisalDetailsModel!.resData.retStr.first.kpiKey,
             "DRAFT_MSO");
     if (submitInfo != {}) {
@@ -889,7 +895,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             maxLength: 60,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                RegExp("[A-Za-z0-9,-.?! ]"),
+                RegExp("[A-Za-z0-9,-.'?! ]"),
               ),
             ],
             decoration: InputDecoration(

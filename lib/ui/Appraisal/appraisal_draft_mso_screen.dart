@@ -586,6 +586,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   //====================================== Submit Api Call ============================================
   submitEmployeeAppraisal(
       RetStr retStr, List<Map<String, dynamic>> selpKpiData) async {
+    String feedBack = feeddbackController.text.trimLeft();
+    feedBack = feedBack.trimRight();
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(
             dmpathData!.submitUrl,
@@ -601,7 +603,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 : incrementController.text.toString(),
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
-            feeddbackController.text,
+            feedBack,
             retStr.kpiKey!,
             "SUBMITTED");
     if (submitInfo != {}) {
@@ -636,6 +638,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   //====================================== Submit Api Call ============================================
   draftEmployeeAppraisal(
       RetStr retStr, List<Map<String, dynamic>> selpKpiData) async {
+    String feedBack = feeddbackController.text.trimLeft();
+    feedBack = feedBack.trimRight();
+    // print('feedBack: $feedBack');
     Map<String, dynamic> submitInfo = await AppraisalRepository()
         .appraisalSubmit(
             dmpathData!.submitUrl,
@@ -651,7 +656,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 : incrementController.text.toString(),
             isUpgrade ? "1" : "0",
             isDesignationChange ? "1" : "0",
-            feeddbackController.text,
+            feedBack,
             retStr.kpiKey!,
             "DRAFT_MSO");
     if (submitInfo != {}) {
@@ -1318,7 +1323,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             maxLength: 60,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                RegExp("[A-Za-z0-9,-.?! ]"),
+                RegExp("[A-Za-z0-9,-.'?! ]"),
               ),
             ],
             decoration: InputDecoration(

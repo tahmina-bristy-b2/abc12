@@ -403,8 +403,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 String upgradeGrade = isUpgrade ? '1' : '0';
                                 String designationChange =
                                     isDesignationChange ? '1' : '0';
+                                String feedBack =
+                                    feedbackController.text.trimLeft();
+                                feedBack = feedBack.trimRight();
+                                // print(feedBack);
                                 String approvalRestParams =
-                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=DRAFT_SUP';
+                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=DRAFT_SUP';
                                 _showConfirmationDialogue(
                                   index,
                                   'Save as Draft', //Button action
@@ -439,8 +443,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 String upgradeGrade = isUpgrade ? '1' : '0';
                                 String designationChange =
                                     isDesignationChange ? '1' : '0';
+                                String feedBack =
+                                    feedbackController.text.trimLeft();
+                                feedBack = feedBack.trimRight();
+                                // print(_feedBack);
                                 String approvalRestParams =
-                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Approved';
+                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Approved';
 
                                 _showConfirmationDialogue(
                                   index,
@@ -476,8 +484,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 String upgradeGrade = isUpgrade ? '1' : '0';
                                 String designationChange =
                                     isDesignationChange ? '1' : '0';
+                                String feedBack =
+                                    feedbackController.text.trimLeft();
+                                feedBack = feedBack.trimRight();
+                                // print(_feedBack);
                                 String approvalRestParams =
-                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=Rejected';
+                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Rejected';
                                 _showConfirmationDialogue(
                                   index,
                                   'Reject', //Button action
@@ -1722,7 +1734,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   maxLength: 60,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
-                      RegExp("[A-Za-z0-9,-.?! ]"),
+                      RegExp("[A-Za-z0-9,-.'?! ]"),
                     ),
                   ],
                   textInputAction: TextInputAction.done,

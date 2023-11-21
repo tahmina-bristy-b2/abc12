@@ -186,7 +186,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
             ),
 
             FfInformationWidget(
-                staticKey: 'Employee Id',
+                staticKey: 'Employee ID',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
                 staticKey: 'Designation',

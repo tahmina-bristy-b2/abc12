@@ -247,7 +247,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               ],
             ),
             FfInformationWidget(
-                staticKey: 'Employee Id',
+                staticKey: 'Employee ID',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
                 staticKey: 'Employee Name',

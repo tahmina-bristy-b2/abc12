@@ -55,7 +55,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   TextEditingController incrementController = TextEditingController();
   TextEditingController feeddbackController = TextEditingController();
 
-  List<String>? selfDropdownValue = <String>['1', '2', '3'];
+  List<String>? selfDropdownValue = <String>['3', '2', '1'];
   Map<String, dynamic> dropdwonValueForSelfScore = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
   List kpiValuesList = [];
@@ -247,7 +247,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               ],
             ),
             FfInformationWidget(
-                staticKey: 'Employee Id',
+                staticKey: 'Employee ID',
                 value: appraisalDetails[index].employeeId ?? ''),
             FfInformationWidget(
                 staticKey: 'Employee Name',
@@ -797,7 +797,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Achievement (%)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.achievement2 ?? '')))
+                    child: Text(achievementData.achievement2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -808,7 +808,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
+                    child: Text(achievementData.avgSalesEmr2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -819,7 +819,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Avg. Rx Share (4P) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P2 ?? '')))
+                    child: Text(achievementData.avgSales4P2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -830,7 +830,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
+                    child: Text(achievementData.avgSalesEmr2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -841,7 +841,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Chemist Coverage"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.chemistCov2 ?? '')))
+                    child: Text(achievementData.chemistCov2.toString() + "%")))
               ],
             ),
           ]),
@@ -863,7 +863,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               return const Color.fromARGB(255, 159, 193, 165);
             },
           ),
-          headingRowHeight: 70,
+          headingRowHeight: 80,
           columns: [
             const DataColumn2(
                 fixedWidth: 40,
@@ -887,7 +887,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 100,
+                fixedWidth: 120,
                 label: Center(
                     child: Column(
                   children: const [
@@ -898,9 +898,12 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                       "  Score ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
-                      " Min - 1\nMax - 3",
-                      style: TextStyle(fontSize: 11),
+                      "3-Very good\n2-Good\n1 -Needs Improvement",
+                      style: TextStyle(fontSize: 10),
                     ),
                   ],
                 ))),

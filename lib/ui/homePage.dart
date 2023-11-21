@@ -312,10 +312,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 10),
             ListTile(
-              leading:
-                  const Icon(Icons.dataset_sharp, color: Colors.blueAccent),
+              leading: const Icon(Icons.note_add, color: Colors.blueAccent),
               title: const Text(
-                'Self Appraisal',
+                'Appraisal',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

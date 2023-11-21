@@ -7,6 +7,7 @@ import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AppraisalDraftMsoScreen extends StatefulWidget {
@@ -1181,6 +1182,11 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                         controller: incrementController,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.right,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp("[0-9]"),
+                          ),
+                        ],
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(right: 8),
@@ -1310,6 +1316,11 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             textInputAction: TextInputAction.done,
             maxLines: 2,
             maxLength: 60,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                RegExp("[A-Za-z0-9,-.?! ]"),
+              ),
+            ],
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,

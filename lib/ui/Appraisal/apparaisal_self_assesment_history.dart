@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_FF_details_data_model.dart';
 
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
-import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AppraisalSelfAssesmentHistoryScreen extends StatefulWidget {
   final String cid;
@@ -681,7 +676,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
           ))),
           const DataCell(Center(
               child: Text(
-            "Total(Score)",
+            "Total",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(

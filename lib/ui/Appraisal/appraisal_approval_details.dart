@@ -7,6 +7,7 @@ import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AppraisalApprovalDetails extends StatefulWidget {
@@ -1577,6 +1578,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 controller: incrementController,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.right,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9]"),
+                                  ),
+                                ],
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.only(right: 8),
                                   border: InputBorder.none,
@@ -1714,6 +1720,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   // expands: true,
                   maxLines: 2,
                   maxLength: 60,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[A-Za-z0-9,-.?! ]"),
+                    ),
+                  ],
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     filled: true,

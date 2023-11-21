@@ -404,8 +404,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 String designationChange =
                                     isDesignationChange ? '1' : '0';
                                 String feedBack =
-                                    feedbackController.text.trimLeft();
-                                feedBack = feedBack.trimRight();
+                                    feedbackController.text.trim();
+
                                 // print(feedBack);
                                 String approvalRestParams =
                                     'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=DRAFT_SUP';
@@ -444,8 +444,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 String designationChange =
                                     isDesignationChange ? '1' : '0';
                                 String feedBack =
-                                    feedbackController.text.trimLeft();
-                                feedBack = feedBack.trimRight();
+                                    feedbackController.text.trim();
+
                                 // print(_feedBack);
                                 String approvalRestParams =
                                     'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Approved';
@@ -485,8 +485,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 String designationChange =
                                     isDesignationChange ? '1' : '0';
                                 String feedBack =
-                                    feedbackController.text.trimLeft();
-                                feedBack = feedBack.trimRight();
+                                    feedbackController.text.trim();
+
                                 // print(_feedBack);
                                 String approvalRestParams =
                                     'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Rejected';
@@ -530,8 +530,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             String upgradeGrade = isUpgrade ? '1' : '0';
                             String designationChange =
                                 isDesignationChange ? '1' : '0';
+                            String feedBack = feedbackController.text.trim();
+
                             String approvalRestParams =
-                                'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=${feedbackController.text}&status=RELEASED_SUP';
+                                'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=RELEASED_SUP';
                             _showConfirmationDialogue(
                               index,
                               'Release', //Button action

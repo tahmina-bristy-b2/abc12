@@ -43,7 +43,12 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   TextEditingController incrementController = TextEditingController();
   TextEditingController feeddbackController = TextEditingController();
   List<RowData> rowsList = [];
-  List<String>? selfDropdownValue = <String>['1', '2', '3'];
+  List<String>? selfDropdownValue = <String>['3', '2', '1'];
+  //  List<String>? selfDropdownValue = <String>[
+  //   '1-Needs Improvement',
+  //   '2-Good',
+  //   '3-Very good'
+  // ];
   Map<String, dynamic> dropdwonValueForSelfScore = {};
   List kpiValuesList = [];
   bool isUpgrade = false;
@@ -52,7 +57,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   bool isDraft = false;
   bool submitConfirmation = false;
   double totalWeightage = 0.0;
-  //double totalOverallResult = 0.0;
 
   double totaOverallCount = 0.0;
   double finalOveralResultCount = 0.0;
@@ -585,8 +589,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.achievement2
-                        .toString())))
+                            .resData.retStr.first.achievement2
+                            .toString() +
+                        "%")))
               ],
             ),
             DataRow2(
@@ -598,8 +603,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.seenRx
-                        .toString())))
+                            .resData.retStr.first.seenRx
+                            .toString() +
+                        "%")))
               ],
             ),
             DataRow2(
@@ -611,8 +617,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.avgSales4P2
-                        .toString())))
+                            .resData.retStr.first.avgSales4P2
+                            .toString() +
+                        "%")))
               ],
             ),
             DataRow2(
@@ -624,8 +631,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.avgSalesEmr2
-                        .toString())))
+                            .resData.retStr.first.avgSalesEmr2
+                            .toString() +
+                        "%")))
               ],
             ),
             DataRow2(
@@ -637,8 +645,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
-                        .resData.retStr.first.chemistCov2
-                        .toString())))
+                            .resData.retStr.first.chemistCov2
+                            .toString() +
+                        "%")))
               ],
             ),
           ]),
@@ -664,7 +673,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               return const Color.fromARGB(255, 159, 193, 165);
             },
           ),
-          headingRowHeight: 70,
+          headingRowHeight: 80,
           columns: [
             const DataColumn2(
                 fixedWidth: 40,
@@ -688,7 +697,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 100,
+                fixedWidth: 120,
                 label: Center(
                     child: Column(
                   children: const [
@@ -699,8 +708,11 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       "  Score ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
-                      " Min - 1\nMax - 3",
+                      "3-Very good\n2-Good\n1 -Needs Improvement",
                       style: TextStyle(fontSize: 10),
                     ),
                   ],

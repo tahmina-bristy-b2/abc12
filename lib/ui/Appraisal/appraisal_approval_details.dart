@@ -1096,7 +1096,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           fixedWidth: 88,
                           label: Center(
                               child: Text(
-                            "Score\n(1 - 3)",
+                            "Score",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ))),
                       DataColumn2(

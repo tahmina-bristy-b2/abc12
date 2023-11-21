@@ -479,7 +479,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Target (Value in lac)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.targetValue2 ?? '')))
+                    child: Text(achievementData.targetValue2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -490,7 +490,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Sold (Value in Lac)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.soldValue2 ?? '')))
+                    child: Text(achievementData.soldValue2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -501,7 +501,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Achievement (%)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.achievement2 ?? '')))
+                    child: Text(achievementData.achievement2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -512,7 +512,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.seenRx ?? '')))
+                    child: Text(achievementData.seenRx.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -523,7 +523,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Avg. Rx Share (4P) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P2 ?? ''.toString())))
+                    child: Text(achievementData.avgSales4P2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -534,7 +534,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr2 ?? '')))
+                    child: Text(achievementData.avgSalesEmr2.toString() + "%")))
               ],
             ),
             DataRow2(
@@ -545,7 +545,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                     child: Text("Chemist Coverage"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.chemistCov2 ?? '')))
+                    child: Text(achievementData.chemistCov2.toString() + "%")))
               ],
             ),
           ]),

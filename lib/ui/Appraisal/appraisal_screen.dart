@@ -588,10 +588,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     child: Text("Achievement (%)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                            .resData.retStr.first.achievement2
-                            .toString() +
-                        "%")))
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.achievement2}%")))
               ],
             ),
             DataRow2(
@@ -602,10 +600,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                            .resData.retStr.first.seenRx
-                            .toString() +
-                        "%")))
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.seenRx}%")))
               ],
             ),
             DataRow2(
@@ -616,10 +612,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     child: Text("Avg. Rx Share (4P) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                            .resData.retStr.first.avgSales4P2
-                            .toString() +
-                        "%")))
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.avgSales4P2}%")))
               ],
             ),
             DataRow2(
@@ -630,10 +624,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                            .resData.retStr.first.avgSalesEmr2
-                            .toString() +
-                        "%")))
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.avgSalesEmr2}%")))
               ],
             ),
             DataRow2(
@@ -644,10 +636,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     child: Text("Chemist Coverage"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(appraisalDetailsModel!
-                            .resData.retStr.first.chemistCov2
-                            .toString() +
-                        "%")))
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.chemistCov2}%")))
               ],
             ),
           ]),
@@ -661,7 +651,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           (appraisalDetailsModel!.resData.retStr.first.kpiTable.length * 45 +
               70 +
               45 +
-              50),
+              60),
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,

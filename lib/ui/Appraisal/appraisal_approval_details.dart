@@ -48,9 +48,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   bool _isLoading = true;
   bool _isPressed = false;
   bool isUpgrade = false;
+  bool exceedError = false;
   bool _feedBackError = false;
   bool isDesignationChange = false;
-  Map<String, dynamic> supScoreMapData = {};
+  Map<String, TextEditingController> supScoreMapData = {};
+  // Map<String, dynamic> supScoreMapData = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
   @override
   void initState() {
@@ -80,24 +82,28 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     return weitagesTotal.toStringAsFixed(0);
   }
 
-  String overalResult(var weitage, var selfScore) {
+  String overalResult(var weitage, String selfScore) {
     double result = 0.0;
-    result = double.parse(selfScore) * (double.parse(weitage) / 100);
+    result = double.parse(selfScore == '' ? '0.0' : selfScore) *
+        (double.parse(weitage) / 100);
     return result.toStringAsFixed(2);
   }
 
-  double totalOveralResult(RetStr appraisalMaster, String sup) {
+  double totalScoreResult(RetStr appraisalMaster, String sup) {
     double result = 0.0;
     if (sup == 'RSM') {
       for (var element in appraisalMaster.kpiTable!) {
-        result +=
-            double.parse(supScoreMapData[element.sl] ?? element.supScore) *
-                (double.parse(element.weightage ?? '0') / 100);
+        result += double.parse(supScoreMapData[element.sl]!.text == null
+            ? '0.0'
+            : supScoreMapData[element.sl]!.text);
+        // *
+        //     (double.parse(element.weightage ?? '0') / 100);
       }
     } else {
       for (var element in appraisalMaster.kpiTable!) {
-        result += double.parse(element.selfScore ?? '0') *
-            (double.parse(element.weightage ?? '0') / 100);
+        result += double.parse(element.selfScore ?? '0');
+        // *
+        //     (double.parse(element.weightage ?? '0') / 100);
       }
     }
 
@@ -591,7 +597,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           columnSpacing: 12,
           horizontalMargin: 8,
           dataRowHeight: 35,
-          minWidth: 390,
+          minWidth: 500,
           headingRowColor: MaterialStateColor.resolveWith(
             (states) {
               return const Color.fromARGB(255, 159, 193, 165);
@@ -607,21 +613,21 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 200,
+                fixedWidth: 150,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            // DataColumn2(
-            //     fixedWidth: 110,
-            //     label: Center(
-            //         child: Text(
-            //       achievementData.previousAchievement ?? 'Previous Year',
-            //       style: const TextStyle(fontWeight: FontWeight.bold),
-            //     ))),
             DataColumn2(
                 fixedWidth: 120,
+                label: Center(
+                    child: Text(
+                  achievementData.previousAchievement ?? 'Previous Year',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ))),
+            DataColumn2(
+                fixedWidth: 90,
                 label: Center(
                     child: Text(
                   achievementData.currentAchievement ?? 'Current Year',
@@ -635,9 +641,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Target (Value in lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.targetValue1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.targetValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.targetValue2 ?? '')))
@@ -649,9 +655,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.soldValue1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.soldValue1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(achievementData.soldValue2 ?? '')))
@@ -663,9 +669,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Achievement (%)"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.achievement1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.achievement1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.achievement2 ?? ''}%')))
@@ -691,9 +697,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (Seen RX) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales4P1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.seenRx ?? ''}%')))
@@ -705,9 +711,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (4P) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSales4P1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.avgSales4P1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.avgSales4P2 ?? ''}%')))
@@ -719,9 +725,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (EMR) "))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.avgSalesEmr1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.avgSalesEmr1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.avgSalesEmr2 ?? ''}%')))
@@ -760,9 +766,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
-                // DataCell(Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(achievementData.chemistCov1 ?? ''))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(achievementData.chemistCov1 ?? ''))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.chemistCov2 ?? ''}%')))
@@ -774,12 +780,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   SizedBox appraisalMaster(RetStr appraisalMaster) {
     return SizedBox(
-      height: (appraisalMaster.kpiTable!.length + 3) * 43,
+      height: (appraisalMaster.kpiTable!.length + 2) * 47,
       child: DataTable2(
           // border: TableBorder.all(),
           columnSpacing: 0,
           horizontalMargin: 0,
-          dataRowHeight: (appraisalMaster.kpiTable!.length + 2) * 38 + 60,
+          dataRowHeight: (appraisalMaster.kpiTable!.length + 1) * 42 + 50,
           minWidth: 1000,
           // fixedLeftColumns: 1,
           // headingRowColor: MaterialStateColor.resolveWith(
@@ -837,9 +843,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     border: TableBorder.all(),
                     columnSpacing: 0,
                     horizontalMargin: 0,
-                    dataRowHeight: 38,
+                    dataRowHeight: 42,
                     minWidth: 300,
-                    headingRowHeight: 60,
+                    headingRowHeight: 50,
                     columns: const [
                       DataColumn2(
                           fixedWidth: 40,
@@ -870,7 +876,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             (states) {
                               return element.kpiEdit == "NO"
                                   ? Colors.transparent
-                                  : const Color.fromARGB(255, 235, 228, 244);
+                                  : const Color.fromARGB(255, 250, 185, 100);
+                              // : const Color.fromARGB(255, 235, 228, 244);
                               // : Color.fromARGB(255, 199, 219, 235);
                             },
                           ),
@@ -885,7 +892,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 ),
                               ),
                               onTap: () => _showDialouge(
-                                  element.name ?? 'Title',
+                                  element.definitionHead ?? 'Title',
                                   element.definition ?? 'Defination'),
                             ),
                             DataCell(Align(
@@ -907,7 +914,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               child: Padding(
                                 padding: EdgeInsets.all(4.0),
                                 child: Text(
-                                  'Total (Sum of Weightage)',
+                                  'Total ',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ))),
@@ -924,29 +931,29 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               ))),
                         ],
                       ),
-                      DataRow2(
-                        color: MaterialStateColor.resolveWith(
-                          (states) {
-                            return const Color.fromARGB(255, 159, 193, 165);
-                          },
-                        ),
-                        cells: const [
-                          DataCell(Center(child: Text(''))),
-                          DataCell(Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Text(
-                                  '',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ))),
-                          DataCell(Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                  ''))), //${totalWeitages(appraisalMaster)}%
-                        ],
-                      )
+                      // DataRow2(
+                      //   color: MaterialStateColor.resolveWith(
+                      //     (states) {
+                      //       return const Color.fromARGB(255, 159, 193, 165);
+                      //     },
+                      //   ),
+                      //   cells: const [
+                      //     DataCell(Center(child: Text(''))),
+                      //     DataCell(Align(
+                      //         alignment: Alignment.centerLeft,
+                      //         child: Padding(
+                      //           padding: EdgeInsets.all(4.0),
+                      //           child: Text(
+                      //             '',
+                      //             style: TextStyle(fontWeight: FontWeight.bold),
+                      //           ),
+                      //         ))),
+                      //     DataCell(Align(
+                      //         alignment: Alignment.center,
+                      //         child: Text(
+                      //             ''))), //${totalWeitages(appraisalMaster)}%
+                      //   ],
+                      // )
                     ]),
               ),
               DataCell(
@@ -973,46 +980,25 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     border: TableBorder.all(),
                     columnSpacing: 0,
                     horizontalMargin: 0,
-                    dataRowHeight: 38,
-                    minWidth: 178,
-                    headingRowHeight: 60,
+                    dataRowHeight: 42,
+                    minWidth: 172,
+                    headingRowHeight: 50,
                     columns: [
-                      DataColumn2(
-                        fixedWidth: 105,
-                        label: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Center(
-                                  child: Text(
-                                "Score",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )),
-                              Text(
-                                "1 - Below Expectation",
-                                style: TextStyle(fontSize: 9),
-                              ),
-                              Text(
-                                "2 - Meets Expectation",
-                                style: TextStyle(fontSize: 9),
-                              ),
-                              Text(
-                                "3 - Exceeds Expectation",
-                                style: TextStyle(fontSize: 9),
-                              ),
-                            ],
-                          ),
-                        ),
+                      const DataColumn2(
+                        fixedWidth: 70,
+                        label: Center(
+                            child: Text(
+                          "Score",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
                       ),
                       DataColumn2(
-                          fixedWidth: 70,
+                          fixedWidth: 100,
                           label: Container(
                             color: Colors.grey[300],
                             child: const Center(
                                 child: Text(
-                              "Ov. Result",
+                              "Acheivement%",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )),
                           )),
@@ -1024,7 +1010,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             (states) {
                               return element.kpiEdit == "NO"
                                   ? Colors.transparent
-                                  : const Color.fromARGB(255, 235, 228, 244);
+                                  : const Color.fromARGB(255, 250, 185, 100);
+                              // : const Color.fromARGB(255, 235, 228, 244);
                               // : Color.fromARGB(255, 199, 219, 235);
                             },
                           ),
@@ -1036,8 +1023,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               color: Colors.grey.shade300,
                               // color: Colors.grey.shade300,
                               child: Center(
-                                  child: Text(overalResult(
-                                      element.weightage, element.selfScore))),
+                                  child: Text(element.selfOverallScore ?? '')),
                             )),
                           ],
                         );
@@ -1049,46 +1035,46 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           },
                         ),
                         cells: [
-                          const DataCell(Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Total',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ))),
                           DataCell(Align(
                               alignment: Alignment.center,
                               child: Text(
-                                totalOveralResult(appraisalMaster, 'FM')
-                                    .toStringAsFixed(2),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ))),
-                        ],
-                      ),
-                      DataRow2(
-                        color: MaterialStateColor.resolveWith(
-                          (states) {
-                            return const Color.fromARGB(255, 159, 193, 165);
-                          },
-                        ),
-                        cells: [
-                          //${totalWeitages(appraisalMaster)}%
-                          const DataCell(Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Rounded',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ))),
-                          DataCell(Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                totalOveralResult(appraisalMaster, 'FM')
+                                totalScoreResult(appraisalMaster, 'FM')
                                     .toStringAsFixed(0),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ))),
+                          const DataCell(Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                '',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))),
                         ],
-                      )
+                      ),
+                      // DataRow2(
+                      //   color: MaterialStateColor.resolveWith(
+                      //     (states) {
+                      //       return const Color.fromARGB(255, 159, 193, 165);
+                      //     },
+                      //   ),
+                      //   cells: [
+                      //     //${totalWeitages(appraisalMaster)}%
+                      //     const DataCell(Align(
+                      //         alignment: Alignment.center,
+                      //         child: Text(
+                      //           'Rounded',
+                      //           style: TextStyle(fontWeight: FontWeight.bold),
+                      //         ))),
+                      //     DataCell(Align(
+                      //         alignment: Alignment.center,
+                      //         child: Text(
+                      //           totalOveralResult(appraisalMaster, 'FM')
+                      //               .toStringAsFixed(0),
+                      //           style: const TextStyle(
+                      //               fontWeight: FontWeight.bold),
+                      //         ))),
+                      //   ],
+                      // )
                     ]),
               ),
               DataCell(
@@ -1115,45 +1101,24 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     border: TableBorder.all(),
                     columnSpacing: 0,
                     horizontalMargin: 0,
-                    dataRowHeight: 38,
-                    minWidth: 178,
-                    headingRowHeight: 60,
+                    dataRowHeight: 42,
+                    minWidth: 210,
+                    headingRowHeight: 50,
                     columns: [
+                      const DataColumn2(
+                          fixedWidth: 75,
+                          label: Center(
+                              child: Text(
+                            "Score",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ))),
                       DataColumn2(
-                          fixedWidth: 105,
-                          label: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Center(
-                                    child: Text(
-                                  "Score",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )),
-                                Text(
-                                  "1 - Below Expectation",
-                                  style: TextStyle(fontSize: 9),
-                                ),
-                                Text(
-                                  "2 - Meets Expectation",
-                                  style: TextStyle(fontSize: 9),
-                                ),
-                                Text(
-                                  "3 - Exceeds Expectation",
-                                  style: TextStyle(fontSize: 9),
-                                ),
-                              ],
-                            ),
-                          )),
-                      DataColumn2(
-                          fixedWidth: 70,
+                          fixedWidth: 100,
                           label: Container(
                             color: Colors.grey[300],
                             child: const Center(
                                 child: Text(
-                              "Ov. Result",
+                              "Acheivement%",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )),
                           )),
@@ -1161,14 +1126,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     rows: [
                       ...appraisalMaster.kpiTable!.map((element) {
                         return DataRow2(
-                          color: MaterialStateColor.resolveWith(
-                            (states) {
-                              return element.kpiEdit == "NO"
-                                  ? Colors.transparent
-                                  : const Color.fromARGB(255, 235, 228, 244);
-                              // : Color.fromARGB(255, 199, 219, 235);
-                            },
-                          ),
+                          // color: MaterialStateColor.resolveWith(
+                          //   (states) {
+                          //     return element.kpiEdit == "NO"
+                          //         ? Colors.transparent
+                          //         : const Color.fromARGB(255, 235, 228, 244);
+                          //     // : Color.fromARGB(255, 199, 219, 235);
+                          //   },
+                          // ),
                           cells: [
                             element.kpiEdit == 'NO' ||
                                     widget.appraisalStatus
@@ -1184,20 +1149,40 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 ? DataCell(Align(
                                     alignment: Alignment.center,
                                     child: Text(element.supScore ?? '')))
-                                : DataCell(ButtonTheme(
-                                    alignedDropdown: true,
-                                    child: DropdownButton(
-                                        hint: const Text('Select'),
-                                        value: supScoreMapData[element.sl!],
-                                        items: ['1', '2', '3']
-                                            .map((String item) =>
-                                                DropdownMenuItem<String>(
-                                                    value: item,
-                                                    child: Text(item)))
-                                            .toList(),
-                                        onChanged: (value) {
-                                          supScoreMapData[element.sl!] = value;
-
+                                : DataCell(
+                                    // Container(
+                                    //   height: 45,
+                                    //   decoration: BoxDecoration(
+                                    //       color: const Color.fromARGB(
+                                    //           255, 250, 185, 100),
+                                    //       shape: BoxShape.rectangle,
+                                    //       borderRadius:
+                                    //           BorderRadius.circular(5)),
+                                    //   child:
+                                    TextField(
+                                      controller: supScoreMapData[element.sl!],
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: exceedError
+                                              ? Colors.red
+                                              : Colors.black),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9]"),
+                                        ),
+                                      ],
+                                      decoration: const InputDecoration(
+                                        contentPadding:
+                                            EdgeInsets.only(right: 8),
+                                        // border: InputBorder.none,
+                                      ),
+                                      onChanged: (value) {
+                                        if (value != '' &&
+                                            int.parse(value) <=
+                                                double.parse(
+                                                    element.weightage ??
+                                                        '0.0')) {
                                           supDataForSubmit.removeWhere((ele) =>
                                               ele["row_id"] == element.rowId);
 
@@ -1206,21 +1191,60 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                             "sup_score": value,
                                             "sup_overall_score": overalResult(
                                                 element.weightage,
-                                                supScoreMapData[element.sl!])
+                                                value == '' ? '0.0' : value)
                                           });
+                                        } else {
+                                          exceedError = true;
+                                          // supScoreMapData[element.sl!]!.text =
+                                          //     element.supScore ?? '0.00';
+                                          // setState(() {});
+                                        }
+                                      },
+                                    ),
+                                    // ),
+                                    // ButtonTheme(
+                                    //   alignedDropdown: true,
+                                    //   child: DropdownButton(
+                                    //       hint: const Text('Select'),
+                                    //       value: supScoreMapData[element.sl!],
+                                    //       items: ['1', '2', '3']
+                                    //           .map((String item) =>
+                                    //               DropdownMenuItem<String>(
+                                    //                   value: item,
+                                    //                   child: Text(item)))
+                                    //           .toList(),
+                                    //       onChanged: (value) {
+                                    //         supScoreMapData[element.sl!] =
+                                    //             value;
 
-                                          setState(() {});
-                                        }),
-                                  )),
-                            DataCell(Container(
-                              color: Colors.grey.shade300,
-                              child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(overalResult(
-                                      element.weightage,
-                                      supScoreMapData[element.sl!] ??
-                                          element.supScore))),
-                            )),
+                                    //         supDataForSubmit.removeWhere(
+                                    //             (ele) =>
+                                    //                 ele["row_id"] ==
+                                    //                 element.rowId);
+
+                                    //         supDataForSubmit.add({
+                                    //           "row_id": element.rowId,
+                                    //           "sup_score": value,
+                                    //           "sup_overall_score": overalResult(
+                                    //               element.weightage,
+                                    //               supScoreMapData[element.sl!])
+                                    //         });
+
+                                    //         setState(() {});
+                                    //       }),
+                                    // ),
+                                  ),
+                            DataCell(
+                              Container(
+                                color: Colors.grey.shade300,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: element.kpiEdit == 'YES'
+                                        ? Text(overalResult(element.weightage,
+                                            supScoreMapData[element.sl!]!.text))
+                                        : Text(element.supOverallScore ?? '')),
+                              ),
+                            ),
                           ],
                         );
                       }).toList(),
@@ -1231,46 +1255,48 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           },
                         ),
                         cells: [
-                          const DataCell(Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Total',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ))),
                           DataCell(Align(
                               alignment: Alignment.center,
                               child: Text(
-                                totalOveralResult(appraisalMaster, 'RSM')
+                                totalScoreResult(appraisalMaster, 'RSM')
                                     .toStringAsFixed(2),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ))),
-                        ],
-                      ),
-                      DataRow2(
-                        color: MaterialStateColor.resolveWith(
-                          (states) {
-                            return const Color.fromARGB(255, 159, 193, 165);
-                          },
-                        ),
-                        cells: [
                           const DataCell(Align(
                               alignment: Alignment.center,
                               child: Text(
-                                'Rounded',
+                                '',
+                                // totalScoreResult(appraisalMaster, 'RSM')
+                                //     .toStringAsFixed(2),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ))),
-                          DataCell(Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              totalOveralResult(appraisalMaster, 'RSM')
-                                  .toStringAsFixed(0),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          )),
                         ],
-                      )
+                      ),
+                      // DataRow2(
+                      //   color: MaterialStateColor.resolveWith(
+                      //     (states) {
+                      //       return const Color.fromARGB(255, 159, 193, 165);
+                      //     },
+                      //   ),
+                      //   cells: [
+                      //     const DataCell(Align(
+                      //         alignment: Alignment.center,
+                      //         child: Text(
+                      //           'Rounded',
+                      //           style: TextStyle(fontWeight: FontWeight.bold),
+                      //         ))),
+                      //     DataCell(Align(
+                      //       alignment: Alignment.center,
+                      //       child: Text(
+                      //         totalScoreResult(appraisalMaster, 'RSM')
+                      //             .toStringAsFixed(0),
+                      //         style:
+                      //             const TextStyle(fontWeight: FontWeight.bold),
+                      //       ),
+                      //     )),
+                      //   ],
+                      // )
                     ]),
               ),
             ]),
@@ -1374,50 +1400,51 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           // const SizedBox(
           //   height: 8,
           // ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0, right: 8.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Designation Change",
-                      // style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(appraisalOthers2.designationChange == "0"
-                          ? 'NO'
-                          : 'YES')
-                      // Transform.scale(
-                      //   scale: 1.45,
-                      //   child: Theme(
-                      //     data: ThemeData(unselectedWidgetColor: Colors.white),
-                      //     child: Checkbox(
-                      //       value:
-                      //           appraisalOthers2.designation == "0" ? false : true,
-                      //       activeColor: const Color(0xff38C172),
-                      //       // value: isDesignationChange,
-                      //       onChanged: (bool? value) {
-                      //         // setState(() {
-                      //         //   isDesignationChange = value!;
-                      //         // });
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
-                      ),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 10.0, right: 8.0),
+          //   child: Row(
+          //     children: [
+          //       const Expanded(
+          //           flex: 5,
+          //           child: Text(
+          //             "Designation Change",
+          //             // style: TextStyle(fontWeight: FontWeight.bold),
+          //           )),
+          //       const Expanded(
+          //           child: Text(
+          //         ":",
+          //         style: TextStyle(fontWeight: FontWeight.bold),
+          //       )),
+          //       Expanded(
+          //         flex: 7,
+          //         child: Align(
+          //             alignment: Alignment.centerLeft,
+          //             child: Text(appraisalOthers2.designationChange == "0"
+          //                 ? 'NO'
+          //                 : 'YES')
+          //             // Transform.scale(
+          //             //   scale: 1.45,
+          //             //   child: Theme(
+          //             //     data: ThemeData(unselectedWidgetColor: Colors.white),
+          //             //     child: Checkbox(
+          //             //       value:
+          //             //           appraisalOthers2.designation == "0" ? false : true,
+          //             //       activeColor: const Color(0xff38C172),
+          //             //       // value: isDesignationChange,
+          //             //       onChanged: (bool? value) {
+          //             //         // setState(() {
+          //             //         //   isDesignationChange = value!;
+          //             //         // });
+          //             //       },
+          //             //     ),
+          //             //   ),
+          //             // ),
+          //             ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
             child: Row(
@@ -1633,29 +1660,29 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       Expanded(
                         flex: 7,
                         child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              height: 45,
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 250, 250, 250),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: TextField(
-                                controller: incrementController,
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.right,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp("[0-9]"),
-                                  ),
-                                ],
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.only(right: 8),
-                                  border: InputBorder.none,
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 250, 250, 250),
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: TextField(
+                              controller: incrementController,
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.right,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]"),
                                 ),
+                              ],
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.only(right: 8),
+                                border: InputBorder.none,
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -1708,48 +1735,48 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 // const SizedBox(
                 //   height: 8,
                 // ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 8.0,
-                  ),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                          flex: 5,
-                          child: Text(
-                            "Designation Change",
-                            // style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                      const Expanded(
-                          child: Text(
-                        ":",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                      Expanded(
-                        flex: 7,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Transform.scale(
-                            scale: 1.45,
-                            child: Theme(
-                              data: ThemeData(
-                                  unselectedWidgetColor: Colors.white),
-                              child: Checkbox(
-                                value: isDesignationChange,
-                                activeColor: const Color(0xff38C172),
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isDesignationChange = value!;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //     right: 8.0,
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       const Expanded(
+                //           flex: 5,
+                //           child: Text(
+                //             "Designation Change",
+                //             // style: TextStyle(fontWeight: FontWeight.bold),
+                //           )),
+                //       const Expanded(
+                //           child: Text(
+                //         ":",
+                //         style: TextStyle(fontWeight: FontWeight.bold),
+                //       )),
+                //       Expanded(
+                //         flex: 7,
+                //         child: Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Transform.scale(
+                //             scale: 1.45,
+                //             child: Theme(
+                //               data: ThemeData(
+                //                   unselectedWidgetColor: Colors.white),
+                //               child: Checkbox(
+                //                 value: isDesignationChange,
+                //                 activeColor: const Color(0xff38C172),
+                //                 onChanged: (bool? value) {
+                //                   setState(() {
+                //                     isDesignationChange = value!;
+                //                   });
+                //                 },
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Row(
@@ -1830,10 +1857,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           isDesignationChange =
               element.designationChangeSup == '0' ? false : true;
           for (var ele in element.kpiTable!) {
-            if (element.employeeId != null &&
-                ele.sl != null &&
-                ele.kpiEdit == 'YES') {
-              supScoreMapData[ele.sl!] = ele.supScore;
+            if (element.employeeId != null && ele.sl != null
+                // &&
+                // ele.kpiEdit == 'YES'
+                ) {
+              supScoreMapData[ele.sl!] =
+                  TextEditingController(text: ele.supScore ?? '0.00');
+              // supScoreMapData[ele.sl!] = ele.supScore;
             }
           }
         }

@@ -385,13 +385,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
               height: 8,
             ),
 
-            increametGradeUpgrationForSup(appraisalDetails[index]),
+            widget.appraisalStatus.toUpperCase() == 'REJECTED'
+                ? Container()
+                : increametGradeUpgrationForSup(appraisalDetails[index]),
 
             const SizedBox(
               height: 15,
             ),
             widget.appraisalStatus.toUpperCase() == 'RELEASED_HR' ||
-                    widget.appraisalStatus.toUpperCase() == 'RELEASED_SUP'
+                    widget.appraisalStatus.toUpperCase() == 'RELEASED_SUP' ||
+                    widget.appraisalStatus.toUpperCase() == 'REJECTED'
                 ? Container()
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -519,7 +522,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   ),
             SizedBox(
                 height: widget.appraisalStatus.toUpperCase() == 'RELEASED_HR' ||
-                        widget.appraisalStatus.toUpperCase() == 'RELEASED_SUP'
+                        widget.appraisalStatus.toUpperCase() ==
+                            'RELEASED_SUP' ||
+                        widget.appraisalStatus.toUpperCase() == 'REJECTED'
                     ? 0
                     : 15),
             widget.appraisalStatus.toUpperCase() == 'RELEASED_HR'
@@ -1170,7 +1175,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                             .toUpperCase()
                                             .split('_')
                                             .first ==
-                                        'RELEASED'
+                                        'RELEASED' ||
+                                    widget.appraisalStatus
+                                            .toUpperCase()
+                                            .split('_')
+                                            .first ==
+                                        'REJECTED'
                                 ? DataCell(Align(
                                     alignment: Alignment.center,
                                     child: Text(element.supScore ?? '')))
@@ -1922,7 +1932,11 @@ class FfInformationWidget extends StatelessWidget {
                                       value.toUpperCase().split(' ').first ==
                                           'SUBMITTED')
                               ? Colors.teal
-                              : Colors.black),
+                              : staticKey == "Appraisal Status" &&
+                                      value.toUpperCase().split(' ').first ==
+                                          'REJECTED'
+                                  ? Colors.red
+                                  : Colors.black),
             ),
           )
         ],

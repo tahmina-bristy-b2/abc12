@@ -760,7 +760,10 @@ class _ApprovalAppraisalFieldForceState
                                               .first ==
                                           'RELEASED'
                                       ? const Color.fromARGB(255, 44, 211, 50)
-                                      : Colors.teal),
+                                      : userFflist[index].appActionStatus ==
+                                              'REJECTED'
+                                          ? Colors.red[500]
+                                          : Colors.teal),
                         ),
                       ),
                     ],

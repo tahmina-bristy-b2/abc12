@@ -155,7 +155,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
         // ],
         bottom: TabBar(
             controller: controller,
-            onTap: (value) {
+            onTap: (value) async {
               _searchController.clear();
               _searchExpand = false;
               height = 0;
@@ -458,7 +458,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
                                     'DRAFT_SUP')
                             ? employeeList[index]
                                 .appActionStatus
-                                .replaceAll('_', ' ')
+                                .substring(0, 5)
                             : employeeList[index].appActionStatus ==
                                     'RELEASED_SUP'
                                 ? employeeList[index]

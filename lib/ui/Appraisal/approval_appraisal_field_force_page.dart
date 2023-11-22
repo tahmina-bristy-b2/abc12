@@ -28,10 +28,17 @@ class ApprovalAppraisalFieldForce extends StatefulWidget {
 class _ApprovalAppraisalFieldForceState
     extends State<ApprovalAppraisalFieldForce> {
   final TextEditingController _searchController = TextEditingController();
+  // final TabController _tabController = TabController(length: 6, vsync: this.vsync);
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   AppraisalFfDataModel? appraisalFfData;
-  List<DataList> userFflist = [];
+  List<DataList> userFflistAll = [];
+  List<DataList> userFflistNew = [];
+  List<DataList> userFflistDraft = [];
+  List<DataList> userFflistApproved = [];
+  List<DataList> userFflistReleaseHr = [];
+  List<DataList> userFflistReleasedSup = [];
+  List<DataList> userFflistRejected = [];
   bool isLoading = true;
   bool _searchExpand = false;
   bool _color = false;
@@ -54,35 +61,162 @@ class _ApprovalAppraisalFieldForceState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        centerTitle: true,
-        actions: [
-          appraisalFfData != null
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _searchExpand = !_searchExpand;
-                      _color = true;
+    return DefaultTabController(
+      length: 7,
+      initialIndex: 0,
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+            actions: [
+              appraisalFfData != null
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _searchExpand = !_searchExpand;
+                          _color = true;
 
-                      if (height == 0.0) {
-                        height = 40.0;
-                      } else {
-                        _searchController.clear();
-                        userFflist = appraisalFfData!.resData.dataList;
-                        height = 0.0;
-                      }
-                    });
-                  },
-                  icon: const Icon(Icons.search_outlined))
-              : Container()
-        ],
-      ),
-      body: SafeArea(
-          child: isLoading
-              ? dataLoadingView()
-              : appraisalFfData == null ||
+                          if (height == 0.0) {
+                            height = 40.0;
+                          } else {
+                            _searchController.clear();
+                            userFflistAll = appraisalFfData!.resData.dataList;
+                            height = 0.0;
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.search_outlined))
+                  : Container()
+            ],
+            bottom: TabBar(
+              onTap: (value) {
+                _searchController.clear();
+                _searchExpand = false;
+                height = 0;
+                _color = false;
+                userFflistAll = appraisalFfData!.resData.dataList;
+                userFflistDraft = userFflistAll
+                    .where((element) => element.appActionStatus == "DRAFT_SUP")
+                    .toList();
+                userFflistApproved = userFflistAll
+                    .where((element) => element.appActionStatus == "APPROVED")
+                    .toList();
+                userFflistReleaseHr = userFflistAll
+                    .where(
+                        (element) => element.appActionStatus == "RELEASED_HR")
+                    .toList();
+                userFflistReleasedSup = userFflistAll
+                    .where(
+                        (element) => element.appActionStatus == "RELEASED_SUP")
+                    .toList();
+                userFflistRejected = userFflistAll
+                    .where((element) => element.appActionStatus == "REJECTED")
+                    .toList();
+                userFflistNew = userFflistAll
+                    .where((element) => element.appActionStatus == "")
+                    .toList();
+                setState(() {});
+              },
+              isScrollable: true,
+              tabs: const [
+                Tab(
+                  text: 'ALL',
+                ),
+                Tab(
+                  text: 'NEW',
+                ),
+                Tab(
+                  text: 'DRAFT',
+                ),
+                Tab(
+                  text: 'APPROVED',
+                ),
+                Tab(
+                  text: 'RELEASED HR',
+                ),
+                Tab(
+                  text: 'RELEASED SUP',
+                ),
+                Tab(
+                  text: 'REJECTED',
+                ),
+              ],
+            ), // TabBar
+          ), // AppBar
+          body: TabBarView(
+            children: [
+              isLoading
+                  ? dataLoadingView()
+                  : appraisalFfData == null ||
+                          appraisalFfData!.resData.dataList.isEmpty
+                      ? Center(
+                          child: Stack(children: [
+                            Image.asset(
+                              'assets/images/no_data_found.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              left: MediaQuery.of(context).size.width / 2.5,
+                              bottom: MediaQuery.of(context).size.height * .005,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xffF0F0F0),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    'Go back',
+                                    style: TextStyle(color: Colors.black54),
+                                  )),
+                            )
+                          ]),
+                        )
+                      : Column(
+                          children: [
+                            AnimatedContainer(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              duration: const Duration(milliseconds: 500),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(
+                                      color: _color
+                                          ? const Color.fromARGB(
+                                              255, 138, 201, 149)
+                                          : Colors.black)),
+                              height: height,
+                              child: _searchExpand
+                                  ? TextFormField(
+                                      autofocus: false,
+                                      keyboardType: TextInputType.name,
+                                      textInputAction: TextInputAction.done,
+                                      controller: _searchController,
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            bottom: 0, left: 10, top: 5),
+                                        hintText: 'FF name/Territory id',
+                                        border: InputBorder.none,
+                                        prefixIcon: Icon(Icons.search),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          userFflistAll = AppraisalServices()
+                                              .searchFf(
+                                                  value,
+                                                  appraisalFfData!
+                                                      .resData.dataList);
+                                        });
+                                      },
+                                    )
+                                  : Container(),
+                            ),
+                            appraisalFFView(context, 'ALL', userFflistAll),
+                          ],
+                        ),
+
+              //------------------for New-----------------
+
+              appraisalFfData == null ||
                       appraisalFfData!.resData.dataList.isEmpty
                   ? Center(
                       child: Stack(children: [
@@ -135,21 +269,405 @@ class _ApprovalAppraisalFieldForceState
                                   ),
                                   onChanged: (value) {
                                     setState(() {
-                                      userFflist = AppraisalServices().searchFf(
-                                          value,
-                                          appraisalFfData!.resData.dataList);
+                                      userFflistAll = AppraisalServices()
+                                          .searchFf(
+                                              value,
+                                              appraisalFfData!
+                                                  .resData.dataList);
+
+                                      userFflistNew = userFflistAll
+                                          .where((element) =>
+                                              element.appActionStatus == "")
+                                          .toList();
                                     });
                                   },
                                 )
                               : Container(),
                         ),
-                        appraisalFFView(context),
+                        appraisalFFView(context, 'NEW', userFflistNew),
                       ],
-                    )),
-    );
+                    ),
+
+              //-----------------for Draft------------------------
+              appraisalFfData == null ||
+                      appraisalFfData!.resData.dataList.isEmpty
+                  ? Center(
+                      child: Stack(children: [
+                        Image.asset(
+                          'assets/images/no_data_found.png',
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 2.5,
+                          bottom: MediaQuery.of(context).size.height * .005,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffF0F0F0),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Go back',
+                                style: TextStyle(color: Colors.black54),
+                              )),
+                        )
+                      ]),
+                    )
+                  : Column(
+                      children: [
+                        AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          duration: const Duration(milliseconds: 500),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                  color: _color
+                                      ? const Color.fromARGB(255, 138, 201, 149)
+                                      : Colors.black)),
+                          height: height,
+                          child: _searchExpand
+                              ? TextFormField(
+                                  autofocus: false,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 5),
+                                    hintText: 'FF name/Territory id',
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userFflistAll = AppraisalServices()
+                                          .searchFf(
+                                              value,
+                                              appraisalFfData!
+                                                  .resData.dataList);
+                                      userFflistDraft = userFflistAll
+                                          .where((element) =>
+                                              element.appActionStatus ==
+                                              "DRAFT_SUP")
+                                          .toList();
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        appraisalFFView(context, 'DRAFT', userFflistDraft),
+                      ],
+                    ),
+
+              //--------------------------for Approved ----------------------
+
+              appraisalFfData == null ||
+                      appraisalFfData!.resData.dataList.isEmpty
+                  ? Center(
+                      child: Stack(children: [
+                        Image.asset(
+                          'assets/images/no_data_found.png',
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 2.5,
+                          bottom: MediaQuery.of(context).size.height * .005,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffF0F0F0),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Go back',
+                                style: TextStyle(color: Colors.black54),
+                              )),
+                        )
+                      ]),
+                    )
+                  : Column(
+                      children: [
+                        AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          duration: const Duration(milliseconds: 500),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                  color: _color
+                                      ? const Color.fromARGB(255, 138, 201, 149)
+                                      : Colors.black)),
+                          height: height,
+                          child: _searchExpand
+                              ? TextFormField(
+                                  autofocus: false,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 5),
+                                    hintText: 'FF name/Territory id',
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userFflistAll = AppraisalServices()
+                                          .searchFf(
+                                              value,
+                                              appraisalFfData!
+                                                  .resData.dataList);
+
+                                      userFflistApproved = userFflistAll
+                                          .where((element) =>
+                                              element.appActionStatus ==
+                                              "APPROVED")
+                                          .toList();
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        appraisalFFView(
+                            context, 'APPROVED', userFflistApproved),
+                      ],
+                    ),
+
+              //------------------------- for Released hr ----------------------
+              appraisalFfData == null ||
+                      appraisalFfData!.resData.dataList.isEmpty
+                  ? Center(
+                      child: Stack(children: [
+                        Image.asset(
+                          'assets/images/no_data_found.png',
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 2.5,
+                          bottom: MediaQuery.of(context).size.height * .005,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffF0F0F0),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Go back',
+                                style: TextStyle(color: Colors.black54),
+                              )),
+                        )
+                      ]),
+                    )
+                  : Column(
+                      children: [
+                        AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          duration: const Duration(milliseconds: 500),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                  color: _color
+                                      ? const Color.fromARGB(255, 138, 201, 149)
+                                      : Colors.black)),
+                          height: height,
+                          child: _searchExpand
+                              ? TextFormField(
+                                  autofocus: false,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 5),
+                                    hintText: 'FF name/Territory id',
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userFflistAll = AppraisalServices()
+                                          .searchFf(
+                                              value,
+                                              appraisalFfData!
+                                                  .resData.dataList);
+
+                                      userFflistReleaseHr = userFflistAll
+                                          .where((element) =>
+                                              element.appActionStatus ==
+                                              "RELEASED_HR")
+                                          .toList();
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        appraisalFFView(
+                            context, 'RELEASED_HR', userFflistReleaseHr),
+                      ],
+                    ),
+
+              //--------------------------- for Released SUP ---------------
+              appraisalFfData == null ||
+                      appraisalFfData!.resData.dataList.isEmpty
+                  ? Center(
+                      child: Stack(children: [
+                        Image.asset(
+                          'assets/images/no_data_found.png',
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 2.5,
+                          bottom: MediaQuery.of(context).size.height * .005,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffF0F0F0),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Go back',
+                                style: TextStyle(color: Colors.black54),
+                              )),
+                        )
+                      ]),
+                    )
+                  : Column(
+                      children: [
+                        AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          duration: const Duration(milliseconds: 500),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                  color: _color
+                                      ? const Color.fromARGB(255, 138, 201, 149)
+                                      : Colors.black)),
+                          height: height,
+                          child: _searchExpand
+                              ? TextFormField(
+                                  autofocus: false,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 5),
+                                    hintText: 'FF name/Territory id',
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userFflistAll = AppraisalServices()
+                                          .searchFf(
+                                              value,
+                                              appraisalFfData!
+                                                  .resData.dataList);
+
+                                      userFflistReleasedSup = userFflistAll
+                                          .where((element) =>
+                                              element.appActionStatus ==
+                                              "RELEASED_SUP")
+                                          .toList();
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        appraisalFFView(
+                            context, 'RELEASED_SUP', userFflistReleasedSup),
+                      ],
+                    ),
+
+              //------------------ for Rejected --------------------------
+              appraisalFfData == null ||
+                      appraisalFfData!.resData.dataList.isEmpty
+                  ? Center(
+                      child: Stack(children: [
+                        Image.asset(
+                          'assets/images/no_data_found.png',
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 2.5,
+                          bottom: MediaQuery.of(context).size.height * .005,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffF0F0F0),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Go back',
+                                style: TextStyle(color: Colors.black54),
+                              )),
+                        )
+                      ]),
+                    )
+                  : Column(
+                      children: [
+                        AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          duration: const Duration(milliseconds: 500),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                  color: _color
+                                      ? const Color.fromARGB(255, 138, 201, 149)
+                                      : Colors.black)),
+                          height: height,
+                          child: _searchExpand
+                              ? TextFormField(
+                                  autofocus: false,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.done,
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 5),
+                                    hintText: 'FF name/Territory id',
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      userFflistAll = AppraisalServices()
+                                          .searchFf(
+                                              value,
+                                              appraisalFfData!
+                                                  .resData.dataList);
+
+                                      userFflistRejected = userFflistAll
+                                          .where((element) =>
+                                              element.appActionStatus ==
+                                              "REJECTED")
+                                          .toList();
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        appraisalFFView(
+                            context, 'REJECTED', userFflistRejected),
+                      ],
+                    ),
+            ],
+          )),
+    ); //
   }
 
-  Expanded appraisalFFView(BuildContext context) {
+  Expanded appraisalFFView(
+      BuildContext context, tabTitle, List<DataList> userFflist) {
     return Expanded(
       child: ListView.builder(
           itemCount: userFflist.length,
@@ -301,7 +819,26 @@ class _ApprovalAppraisalFieldForceState
                 : appraisalFfData!.resData.levelDepthNo == '2'
                     ? 'MSO'
                     : 'Employee';
-        userFflist = appraisalFfData!.resData.dataList;
+        userFflistAll = appraisalFfData!.resData.dataList;
+        userFflistDraft = userFflistAll
+            .where((element) => element.appActionStatus == "DRAFT_SUP")
+            .toList();
+        userFflistApproved = userFflistAll
+            .where((element) => element.appActionStatus == "APPROVED")
+            .toList();
+        userFflistReleaseHr = userFflistAll
+            .where((element) => element.appActionStatus == "RELEASED_HR")
+            .toList();
+        userFflistReleasedSup = userFflistAll
+            .where((element) => element.appActionStatus == "RELEASED_SUP")
+            .toList();
+        userFflistRejected = userFflistAll
+            .where((element) => element.appActionStatus == "REJECTED")
+            .toList();
+        userFflistNew = userFflistAll
+            .where((element) => element.appActionStatus == "")
+            .toList();
+
         setState(() {
           isLoading = false;
         });

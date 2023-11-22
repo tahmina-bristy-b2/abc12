@@ -1492,7 +1492,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           //==========================================================Notice flag +Notice url will be here====================================
                           Expanded(
                             child: CustomBuildButton(
-                              icon: Icons.note_alt,
+                              icon: Icons.add,
                               onClick: () async {
                                 Navigator.push(
                                     context,
@@ -1511,7 +1511,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           Expanded(
                             child: CustomBuildButton(
-                              icon: Icons.sync,
+                              icon: Icons.note_alt,
                               onClick: () {
                                 Navigator.push(
                                     context,

@@ -861,9 +861,10 @@ class _ApprovalAppraisalFieldForceState
         });
       } else {
         if (!mounted) return;
-        setState(() {
-          isLoading = false;
-        });
+        Navigator.pop(context);
+        // setState(() {
+        //   isLoading = false;
+        // });
       }
     } else {
       AllServices()

@@ -72,15 +72,24 @@ class RetStr {
   String trCode;
   String baseTerritory;
   String lengthOfPresentTrService;
+  String targetValue1;
   String targetValue2;
+  String soldValue1;
   String soldValue2;
+  String achievement1;
   String achievement2;
+  String avgSales1;
   String avgSales2;
-  String seenRx;
+  String avgSales4P1;
   String avgSales4P2;
+  String avgSalesEmr1;
   String avgSalesEmr2;
+  String noMonthAchiev1;
   String noMonthAchiev2;
+  String chemistCov1;
   String chemistCov2;
+  String seenRx;
+
   String avRx4PBasePoint;
   String avRxEmrBasePoint;
   String achChemistCovBasePoint;
@@ -111,15 +120,23 @@ class RetStr {
     required this.trCode,
     required this.baseTerritory,
     required this.lengthOfPresentTrService,
+    required this.targetValue1,
     required this.targetValue2,
+    required this.soldValue1,
     required this.soldValue2,
+    required this.achievement1,
     required this.achievement2,
-    required this.seenRx,
+    required this.avgSales1,
     required this.avgSales2,
+    required this.avgSales4P1,
     required this.avgSales4P2,
+    required this.avgSalesEmr1,
     required this.avgSalesEmr2,
+    required this.noMonthAchiev1,
     required this.noMonthAchiev2,
+    required this.chemistCov1,
     required this.chemistCov2,
+    required this.seenRx,
     required this.avRx4PBasePoint,
     required this.avRxEmrBasePoint,
     required this.achChemistCovBasePoint,
@@ -151,23 +168,23 @@ class RetStr {
         trCode: json["tr_code"] ?? "",
         baseTerritory: json["base_territory"] ?? "",
         lengthOfPresentTrService: json["length_of_present_tr_service"] ?? "",
-        targetValue2:
-            double.parse(json["target_value_2"] ?? 0.0).toStringAsFixed(2),
-        soldValue2:
-            double.parse(json["sold_value_2"] ?? "0.0").toStringAsFixed(2),
-        achievement2:
-            double.parse(json["achievement_2"] ?? "0.0").toStringAsFixed(2),
-        avgSales2:
-            double.parse(json["avg_sales_2"] ?? "0.0").toStringAsFixed(2),
+        targetValue1: json["target_value_1"] ?? "0.0",
+        targetValue2: json["target_value_2"] ?? "0.0",
+        soldValue1: json["sold_value_1"] ?? "0.0",
+        soldValue2: json["sold_value_2"] ?? "0.0",
+        achievement1: json["achievement_1"] ?? "0.0",
+        achievement2: json["achievement_2"] ?? "0.0",
+        avgSales1: json["avg_sales_1"] ?? "0.0",
+        avgSales2: json["avg_sales_2"] ?? "0.0",
+        avgSales4P1: json["avg_sales_4p_1"] ?? "0.0",
+        avgSales4P2: json["avg_sales_4p_2"] ?? "0.0",
+        avgSalesEmr1: json["avg_sales_emr_1"] ?? "0.0",
+        avgSalesEmr2: json["avg_sales_emr_2"] ?? "0.0",
+        noMonthAchiev1: json["no_month_achiev_1"] ?? "0.0",
+        noMonthAchiev2: json["no_month_achiev_2"] ?? "0.0",
+        chemistCov1: json["chemist_cov_1"] ?? "0.0",
+        chemistCov2: json["chemist_cov_2"] ?? "0.0",
         seenRx: json["seen_rx"] ?? "0",
-        avgSales4P2:
-            double.parse(json["avg_sales_4p_2"] ?? "0.0").toStringAsFixed(2),
-        avgSalesEmr2:
-            double.parse(json["avg_sales_emr_2"] ?? "0.0").toStringAsFixed(2),
-        noMonthAchiev2:
-            double.parse(json["no_month_achiev_2"] ?? "0.0").toStringAsFixed(2),
-        chemistCov2:
-            double.parse(json["chemist_cov_2"] ?? "0.0").toStringAsFixed(2),
         avRx4PBasePoint: double.parse(json["av_rx_4p_base_point"] ?? "0.0")
             .toStringAsFixed(2),
         avRxEmrBasePoint: json["av_rx_emr_base_point"] ?? "0.0",
@@ -205,11 +222,19 @@ class RetStr {
         "sold_value_2": soldValue2,
         "achievement_2": achievement2,
         "avg_sales_2": avgSales2,
-        "seen_rx": seenRx,
+        "target_value_1": targetValue1,
+        "sold_value_1": soldValue1,
+        "achievement_1": achievement1,
+        "avg_sales_1": avgSales1,
+        "avg_sales_4p_1": avgSales4P1,
         "avg_sales_4p_2": avgSales4P2,
+        "avg_sales_emr_1": avgSalesEmr1,
         "avg_sales_emr_2": avgSalesEmr2,
+        "no_month_achiev_1": noMonthAchiev1,
         "no_month_achiev_2": noMonthAchiev2,
+        "chemist_cov_1": chemistCov1,
         "chemist_cov_2": chemistCov2,
+        "seen_rx": seenRx,
         "av_rx_4p_base_point": avRx4PBasePoint,
         "av_rx_emr_base_point": avRxEmrBasePoint,
         "ach_chemist_cov_base_point": achChemistCovBasePoint,
@@ -232,6 +257,8 @@ class KpiTable {
   String weitage;
   String kpiEdit;
   String selfScore;
+  String selAche;
+  String definitionHead;
   KpiTable({
     required this.sl,
     required this.kpiId,
@@ -240,6 +267,8 @@ class KpiTable {
     required this.weitage,
     required this.kpiEdit,
     required this.selfScore,
+    required this.selAche,
+    required this.definitionHead,
   });
 
   factory KpiTable.fromJson(Map<String, dynamic> json) => KpiTable(
@@ -249,8 +278,11 @@ class KpiTable {
         definition: json["definition"] ?? "",
         weitage: json["weitage"] ?? "0.0",
         kpiEdit: json["kpi_edit"],
-        selfScore:
-            json["self_score"].toString(), //due to int value its raise an error
+        selAche: json["self_ache"] ?? "0.0",
+
+        selfScore: json["self_score"].toString(),
+        definitionHead:
+            json["definition_head"] ?? "", //due to int value its raise an error
       );
 
   Map<String, dynamic> toJson() => {
@@ -260,7 +292,9 @@ class KpiTable {
         "definition": definition,
         "weitage": weitage,
         "kpi_edit": kpiEdit,
-        "self_score": selfScore
+        "self_score": selfScore,
+        "self_ache": selAche,
+        "definition_head": definitionHead,
       };
 }
 

@@ -538,14 +538,23 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 190,
+                fixedWidth: 150,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 90,
+                label: Center(
+                    child: Text(
+                  appraisalDetailsModel!
+                      .resData.retStr.first.previousAchievement
+                      .toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ))),
+            DataColumn2(
+                fixedWidth: 90,
                 label: Center(
                     child: Text(
                   appraisalDetailsModel!.resData.retStr.first.currentAchievement
@@ -563,6 +572,11 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.targetValue1
+                        .toString()))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
                         .resData.retStr.first.targetValue2
                         .toString())))
               ],
@@ -573,6 +587,11 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Sold (Value in Lac)"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(appraisalDetailsModel!
+                        .resData.retStr.first.soldValue1
+                        .toString()))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(appraisalDetailsModel!
@@ -589,6 +608,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.achievement1}%"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
                         "${appraisalDetailsModel!.resData.retStr.first.achievement2}%")))
               ],
             ),
@@ -598,6 +621,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Avg. Rx Share (Seen Rx) "))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.seenRx}%"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -613,6 +640,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.avgSales4P1}%"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
                         "${appraisalDetailsModel!.resData.retStr.first.avgSales4P2}%")))
               ],
             ),
@@ -625,6 +656,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.avgSalesEmr1}%"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
                         "${appraisalDetailsModel!.resData.retStr.first.avgSalesEmr2}%")))
               ],
             ),
@@ -634,6 +669,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 const DataCell(Align(
                     alignment: Alignment.centerLeft,
                     child: Text("Chemist Coverage"))),
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        "${appraisalDetailsModel!.resData.retStr.first.chemistCov1}%"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -664,22 +703,22 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             },
           ),
           headingRowHeight: 80,
-          columns: [
-            const DataColumn2(
+          columns: const [
+            DataColumn2(
                 fixedWidth: 40,
                 label: Center(
                     child: Text(
                   "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            const DataColumn2(
+            DataColumn2(
                 fixedWidth: 220,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            const DataColumn2(
+            DataColumn2(
                 fixedWidth: 100,
                 label: Center(
                     child: Text(
@@ -689,29 +728,35 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             DataColumn2(
                 fixedWidth: 120,
                 label: Center(
-                    child: Column(
-                  children: const [
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      "  Score ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
-                      style: TextStyle(fontSize: 10, color: Colors.black),
-                    ),
-                  ],
-                ))),
-            const DataColumn2(
+                    child: Text(
+                  "Score",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ))
+                // label: Center(
+                //     child: Column(
+                //   children: const [
+                //     SizedBox(
+                //       height: 12,
+                //     ),
+                //     Text(
+                //       "",
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //     SizedBox(
+                //       height: 5,
+                //     ),
+                //     Text(
+                //       "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
+                //       style: TextStyle(fontSize: 10, color: Colors.black),
+                //     ),
+                //   ],
+                // )),
+                ),
+            DataColumn2(
                 fixedWidth: 100,
                 label: Center(
                     child: Text(
-                  "Overall Result",
+                  "Achievemet %",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -820,50 +865,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 8.0,
-            ),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Designation Change",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Transform.scale(
-                      scale: 1.45,
-                      child: Theme(
-                        data: ThemeData(unselectedWidgetColor: Colors.white),
-                        child: Checkbox(
-                          value: isDesignationChange,
-                          activeColor: const Color(0xff38C172),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isDesignationChange = value!;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Row(
@@ -934,27 +935,29 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             "weightage": kpi.weitage,
             "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
             "defination": kpi.definition,
-            "overall_result": overallCount(
-                    kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-                .toStringAsFixed(2),
+            // "overall_result": overallCount(
+            //         kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+            //     .toStringAsFixed(2),
+            "overall_result": kpi.selAche ?? "0.0",
           };
           kpiValuesList.add(eachKpiValues);
 
-          if (kpi.kpiEdit == "YES") {
-            if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
-            } else {
-              AllServices().toastMessage("Please select score of ${kpi.name}",
-                  Colors.red, Colors.white, 16);
-              break;
-            }
-          }
+          // if (kpi.kpiEdit == "YES") {
+          //   if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
+          //   } else {
+          //     AllServices().toastMessage("Please select score of ${kpi.name}",
+          //         Colors.red, Colors.white, 16);
+          //     break;
+          //   }
+          // }
         }
+        await internetCheckForSubmit();
 
-        if (kpiValuesList.length == counter &&
-            dropdwonValueForSelfScore.values
-                .every((element) => element != null)) {
-          await internetCheckForSubmit();
-        }
+        // if (kpiValuesList.length == counter &&
+        //     dropdwonValueForSelfScore.values
+        //         .every((element) => element != null)) {
+        //   await internetCheckForSubmit();
+        // }
       },
       child: Container(
         height: 50,
@@ -994,9 +997,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             "weightage": kpi.weitage,
             "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
             "defination": kpi.definition,
-            "overall_result": overallCount(
-                    kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-                .toStringAsFixed(2),
+            "overall_result": "0.0",
+            // "overall_result": overallCount(
+            //         kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
+            //     .toStringAsFixed(2),
           };
           kpiValuesList.add(eachKpiValues);
         }
@@ -1148,54 +1152,61 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       )
                     : DataCell(SizedBox(
                         width: 300.0,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              value: dropdwonValueForSelfScore[e.sl],
-                              hint: const Text("Select"),
-                              items: selfDropdownValue!
-                                  .map(
-                                      (String item) => DropdownMenuItem<String>(
-                                            value: item,
-                                            child: Text(item),
-                                          ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  dropdwonValueForSelfScore[e.sl] = value!;
-                                  overalYesValuesMap[e.sl] = {
-                                    'weightage': e.weitage,
-                                    'value': value
-                                  };
-                                });
+                        child: Text(
+                          e.kpiEdit == "NO" ? e.selAche.toString() : "0.0",
+                        )
+                        // child: DropdownButtonHideUnderline(
+                        //   child: ButtonTheme(
+                        //     alignedDropdown: true,
+                        //     child: DropdownButton(
+                        //       value: dropdwonValueForSelfScore[e.sl],
+                        //       hint: const Text("Select"),
+                        //       items: selfDropdownValue!
+                        //           .map(
+                        //               (String item) => DropdownMenuItem<String>(
+                        //                     value: item,
+                        //                     child: Text(item),
+                        //                   ))
+                        //           .toList(),
+                        //       onChanged: (value) {
+                        //         setState(() {
+                        //           dropdwonValueForSelfScore[e.sl] = value!;
+                        //           overalYesValuesMap[e.sl] = {
+                        //             'weightage': e.weitage,
+                        //             'value': value
+                        //           };
+                        //         });
 
-                                // work for total yes count
-                                totalYesCount = 0;
+                        //         // work for total yes count
+                        //         totalYesCount = 0;
 
-                                overalYesValuesMap.values
-                                    .toList()
-                                    .forEach((element) {
-                                  totalYesCount += overallCount(
-                                      element['weightage'],
-                                      element['value'].toString());
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      )),
+                        //         overalYesValuesMap.values
+                        //             .toList()
+                        //             .forEach((element) {
+                        //           totalYesCount += overallCount(
+                        //               element['weightage'],
+                        //               element['value'].toString());
+                        //         });
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
+                        )),
                 DataCell(Container(
                   child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(overallCount(
-                              e.weitage,
-                              e.kpiEdit == "NO"
-                                  ? e.selfScore
-                                  : dropdwonValueForSelfScore[e.sl] == null
-                                      ? "0.0"
-                                      : dropdwonValueForSelfScore[e.sl])
-                          .toStringAsFixed(2))),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      e.kpiEdit == "NO" ? e.selAche.toString() : "0.0",
+                    ),
+                    // child: Text(overallCount(
+                    //         e.weitage,
+                    //         e.kpiEdit == "NO"
+                    //             ? e.selfScore
+                    //             : dropdwonValueForSelfScore[e.sl] == null
+                    //                 ? "0.0"
+                    //                 : dropdwonValueForSelfScore[e.sl])
+                    //     .toStringAsFixed(2)),
+                  ),
                 ))
               ],
             ),

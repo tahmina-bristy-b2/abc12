@@ -298,6 +298,174 @@ class KpiTable {
       };
 }
 
+var data = {
+  "res_data": {
+    "status": "Success",
+    "sup_level_depth_no": "1",
+    "ret_str": [
+      {
+        "head_row_id": "32",
+        "last_action": "",
+        "last_action_by": "",
+        "chemist_Coverage": "60.73",
+        "brand_Performance": "0.0",
+        "rx_share": "27.51",
+        "upgrade_grade": "0",
+        "designation_change": "0",
+        "increment_amount": "0",
+        "feedback": "",
+        "kpi_key": "fm_app_kpi",
+        "doctor_coverage": "82.48",
+        "sales_achievement": "73.01",
+        "current_achievement": "2023",
+        "previous_achievement": "2022 (Jan-Dec)",
+        "cid": "SKF",
+        "employee_id": "7197",
+        "emp_name": "MR. MD. JUWEL MIA",
+        "designation": "Field Manager",
+        "present_grade": "O-04",
+        "business_segment": "Formulation",
+        "date_of_joining": "26-Mar-12",
+        "last_promotion": "01 May 2022",
+        "length_of_service": "11Y 6M",
+        "tr_code": "DS40",
+        "base_territory": "SHIRAJDIKHAN, ICHAPURA, NIMTOLA, ABDULLAHPUR",
+        "length_of_present_tr_service": "0Y  3M ",
+        "target_value_2": "0.0",
+        "sold_value_2": "0.0",
+        "achievement_2": "73.01",
+        "avg_sales_4p_2": "1.24",
+        "avg_sales_emr_2": "9.84",
+        "chemist_cov_2": "60.73",
+        "target_value_1": "0.0",
+        "sold_value_1": "0.0",
+        "achievement_1": "73.01",
+        "avg_sales_4p_1": "1.24",
+        "avg_sales_emr_1": "9.84",
+        "chemist_cov_1": "60.73",
+        "seen_rx": "15645",
+        "seen_rx_1": "15",
+        "kpi_table": [
+          {
+            "sl": "1",
+            "kpi_id": "sales_achievement",
+            "name": "Sales Achievement",
+            "definition": "Jan-Dec 2023",
+            "weitage": "30.0",
+            "kpi_edit": "NO",
+            "self_score": "21.9",
+            "self_ache": "73.01",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "2",
+            "kpi_id": "doctor_coverage",
+            "name": "Doctor Coverage",
+            "definition": "1st April 2023 Onwards",
+            "weitage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "8.25",
+            "self_ache": "82.48",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "3",
+            "kpi_id": "rx_share",
+            "name": "Rx Share (Seen Rx, 4P, EMR)",
+            "definition": "Average of three parameters",
+            "weitage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "2.75",
+            "self_ache": "27.51",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "4",
+            "kpi_id": "brand_Performance",
+            "name": "Brand Performance (Sales)",
+            "definition":
+                "Double Power Brands\nLeading Power Brands\nChasing Power Brands\nNew Power Brands\n\n1st April 2023 Onwards ",
+            "weitage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "0.0",
+            "self_ache": "0.0",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "5",
+            "kpi_id": "number_of_Achieving_MSO",
+            "name": "Number of Achieving MSO",
+            "definition":
+                "Data of Sales Achievement\n\nJan-Dec 2023 (Data will in %)",
+            "weitage": "10.0",
+            "kpi_edit": "NO",
+            "self_score": "0.0",
+            "self_ache": "0.0",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "6",
+            "kpi_id": "credit_Management",
+            "name": "Credit Management",
+            "definition": "",
+            "weitage": "5.0",
+            "kpi_edit": "NO",
+            "self_score": "0.0",
+            "self_ache": "0.0",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "7",
+            "kpi_id": "leadership_Coaching_Ability_And_Problem_Solving",
+            "name": "Leadership_Coaching Ability And Problem Solving Ability",
+            "definition": "",
+            "weitage": "10.0",
+            "kpi_edit": "YES",
+            "self_score": "1",
+            "self_ache": "0",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "8",
+            "kpi_id": "PSD_GSD_Relationship",
+            "name": "PSD, GSD Relationship",
+            "definition":
+                "Need Drop Down Box for\n- Very Good (10%)\n- Good (7%)\n- Need Improvement (4%)\n\nDefinition:\n- Weekly coverage (2 Calls)\n- Rx from PSD GSD \n- Number of Doctor",
+            "weitage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "1",
+            "self_ache": "0",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "9",
+            "kpi_id": "market_Involvement",
+            "name": "Market Involvement and Degree of Drive ",
+            "definition":
+                "Definition:\n- Market Coverage including Doctor & Chemist\n- Regular Initiatives by MSO to full fill his monthly targets",
+            "weitage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "1",
+            "self_ache": "0",
+            "definition_head": "ok"
+          },
+          {
+            "sl": "10",
+            "kpi_id": "special_Activities",
+            "name": "Special Activities for Doctors and Chemists",
+            "definition": "",
+            "weitage": "5.0",
+            "kpi_edit": "YES",
+            "self_score": "1",
+            "self_ache": "0",
+            "definition_head": "ok"
+          }
+        ]
+      }
+    ]
+  }
+};
+
 // import 'package:meta/meta.dart';
 // import 'dart:convert';
 

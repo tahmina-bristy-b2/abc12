@@ -56,7 +56,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   TextEditingController feeddbackController = TextEditingController();
 
   List<String>? selfDropdownValue = <String>['1', '2', '3'];
-  Map<String, dynamic> dropdwonValueForSelfScore = {};
+  Map<String, TextEditingController> dropdwonValueForSelfScore = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
   List kpiValuesList = [];
 
@@ -75,11 +75,18 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     getAppraisalApprovalFFDetailsdata();
   }
 
-  String overalResult(var weitage, var selfScore) {
-    double result = 0.0;
-    result = double.parse(selfScore == null ? "" : selfScore) *
-        (double.parse(weitage) / 100);
-    return result.toStringAsFixed(2);
+  // String overalResult(var weitage, var selfScore) {
+  //   double result = 0.0;
+  //   result = double.parse(selfScore == null ? "" : selfScore) *
+  //       (double.parse(weitage) / 100);
+  //   return result.toStringAsFixed(2);
+  // }
+
+  double overallCount(String weightageKey, String scrore) {
+    double overallCount = ((double.parse(scrore == "" ? "0" : scrore) * 100) /
+        double.parse(weightageKey));
+
+    return overallCount;
   }
 
   void getAppraisalApprovalFFDetailsdata() async {
@@ -335,17 +342,17 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           counter++;
 
           if (kpi.kpiEdit == "YES") {
-            if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
+            if ((dropdwonValueForSelfScore[kpi.sl]!.text != "")) {
             } else {
-              AllServices().toastMessage("Please select score of ${kpi.name}",
-                  Colors.red, Colors.white, 16);
+              AllServices().toastMessage(
+                  "Please Enter of ${kpi.name}", Colors.red, Colors.white, 16);
               break;
             }
           }
         }
 
         if (dropdwonValueForSelfScore.values
-            .every((element) => element != null)) {
+            .every((element) => element.text != "")) {
           await internetCheckForSubmit(selfDEtails, selpKpiData);
         }
       },
@@ -866,22 +873,22 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             },
           ),
           headingRowHeight: 80,
-          columns: [
-            const DataColumn2(
+          columns: const [
+            DataColumn2(
                 fixedWidth: 40,
                 label: Center(
                     child: Text(
                   "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            const DataColumn2(
+            DataColumn2(
                 fixedWidth: 220,
                 label: Center(
                     child: Text(
                   "KPI Name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
-            const DataColumn2(
+            DataColumn2(
                 fixedWidth: 100,
                 label: Center(
                     child: Text(
@@ -891,29 +898,35 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             DataColumn2(
                 fixedWidth: 120,
                 label: Center(
-                    child: Column(
-                  children: const [
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      "  Score ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
-                      style: TextStyle(fontSize: 10, color: Colors.black),
-                    ),
-                  ],
-                ))),
-            const DataColumn2(
+                    child: Text(
+                  "Score",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ))
+                // label: Center(
+                //     child: Column(
+                //   children: const [
+                //     SizedBox(
+                //       height: 12,
+                //     ),
+                //     Text(
+                //       "",
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //     SizedBox(
+                //       height: 5,
+                //     ),
+                //     Text(
+                //       "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
+                //       style: TextStyle(fontSize: 10, color: Colors.black),
+                //     ),
+                //   ],
+                // )),
+                ),
+            DataColumn2(
                 fixedWidth: 100,
                 label: Center(
                     child: Text(
-                  "Overall Result",
+                  "Achievement %",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -960,62 +973,138 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                       )
                     : DataCell(SizedBox(
                         width: 300.0,
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              value: dropdwonValueForSelfScore[e.sl],
-                              hint: const Text("Select"),
-                              items: selfDropdownValue!
-                                  .map(
-                                      (String item) => DropdownMenuItem<String>(
-                                            value: item,
-                                            child: Text(item),
-                                          ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  dropdwonValueForSelfScore[e.sl!] = value!;
-                                  overalYesValuesMap[e.sl] = {
-                                    'weightage': e.weightage,
-                                    'value': value
-                                  };
-                                  totalYesCount = 0;
+                        child: TextField(
+                          controller: dropdwonValueForSelfScore[e.sl],
+                          onChanged: (value) {
+                            setState(() {
+                              print(
+                                  "data==================${dropdwonValueForSelfScore[e.sl]!.text.toString()}");
 
-                                  overalYesValuesMap.values
-                                      .toList()
-                                      .forEach((element) {
-                                    totalYesCount += overallCount(
-                                        element['weightage'],
-                                        element['value'].toString());
-                                  });
+                              overalYesValuesMap[e.sl] = {
+                                'weightage': e.weightage,
+                                'value': dropdwonValueForSelfScore[e.sl]!
+                                    .text
+                                    .toString()
+                              };
+                            });
 
-                                  supDataForSubmit.removeWhere(
-                                      (ele) => ele["row_id"] == e.rowId);
+                            // work for total yes count
+                            totalYesCount = 0;
 
-                                  supDataForSubmit.add({
-                                    "row_id": e.rowId,
-                                    "self_score": value,
-                                    "self_overall_score": overalResult(
-                                        e.weightage,
-                                        dropdwonValueForSelfScore[e.sl!])
-                                  });
-                                });
-                              },
-                            ),
-                          ),
+                            overalYesValuesMap.values
+                                .toList()
+                                .forEach((element) {
+                              totalYesCount += overallCount(
+                                  element['weightage'],
+                                  element['value'].toString());
+                            });
+                            supDataForSubmit
+                                .removeWhere((ele) => ele["row_id"] == e.rowId);
+
+                            supDataForSubmit.add({
+                              "row_id": e.rowId,
+                              "self_score": value,
+                              "self_overall_score": overallCount(
+                                  e.weightage!,
+                                  e.kpiEdit == "YES"
+                                      ? dropdwonValueForSelfScore[e.sl]!
+                                          .text
+                                          .toString()
+                                      : "0")
+                            });
+                            // setState(() {});
+                          },
+
+                          // child: DropdownButton(
+                          //   value: dropdwonValueForSelfScore[e.sl],
+                          //   hint: const Text("Select"),
+                          //   items: selfDropdownValue!
+                          //       .map(
+                          //           (String item) => DropdownMenuItem<String>(
+                          //                 value: item,
+                          //                 child: Text(item),
+                          //               ))
+                          //       .toList(),
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       dropdwonValueForSelfScore[e.sl] = value!;
+                          //       overalYesValuesMap[e.sl] = {
+                          //         'weightage': e.weitage,
+                          //         'value': value
+                          //       };
+                          //     });
+
+                          //     // work for total yes count
+                          //     totalYesCount = 0;
+
+                          //     overalYesValuesMap.values
+                          //         .toList()
+                          //         .forEach((element) {
+                          //       totalYesCount += overallCount(
+                          //           element['weightage'],
+                          //           element['value'].toString());
+                          //     });
+                          //   },
+                          // ),
                         ),
+                        // child: DropdownButtonHideUnderline(
+                        //   child: ButtonTheme(
+                        //     alignedDropdown: true,
+                        //     child: DropdownButton(
+                        //       value: dropdwonValueForSelfScore[e.sl],
+                        //       hint: const Text("Select"),
+                        //       items: selfDropdownValue!
+                        //           .map(
+                        //               (String item) => DropdownMenuItem<String>(
+                        //                     value: item,
+                        //                     child: Text(item),
+                        //                   ))
+                        //           .toList(),
+                        //       onChanged: (value) {
+                        //         setState(() {
+                        //           dropdwonValueForSelfScore[e.sl!] = value!;
+                        //           overalYesValuesMap[e.sl] = {
+                        //             'weightage': e.weightage,
+                        //             'value': value
+                        //           };
+                        //           totalYesCount = 0;
+
+                        //           overalYesValuesMap.values
+                        //               .toList()
+                        //               .forEach((element) {
+                        //             totalYesCount += overallCount(
+                        //                 element['weightage'],
+                        //                 element['value'].toString());
+                        //           });
+
+                        //           supDataForSubmit.removeWhere(
+                        //               (ele) => ele["row_id"] == e.rowId);
+
+                        //           supDataForSubmit.add({
+                        //             "row_id": e.rowId,
+                        //             "self_score": value,
+                        //             "self_overall_score": overalResult(
+                        //                 e.weightage,
+                        //                 dropdwonValueForSelfScore[e.sl!])
+                        //           });
+                        //         });
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
                       )),
-                DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(overallCount(
-                            e.weightage!,
-                            e.kpiEdit == "NO"
-                                ? e.selfScore
-                                : dropdwonValueForSelfScore[e.sl] == null
-                                    ? "0.0"
-                                    : dropdwonValueForSelfScore[e.sl])
-                        .toStringAsFixed(2))))
+                DataCell(
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(overallCount(
+                              e.weightage!,
+                              e.kpiEdit == "NO"
+                                  ? e.selfScore
+                                  : dropdwonValueForSelfScore[e.sl] == null
+                                      ? "0.0"
+                                      : dropdwonValueForSelfScore[e.sl])
+                          .toStringAsFixed(2))),
+                )
               ],
             ),
           )
@@ -1118,8 +1207,9 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     List<KpiTable>? kpiTableData = selfDEtails.resData!.retStr!.first.kpiTable;
     for (var kpi in kpiTableData!) {
       totalWeightage = totalWeightage + double.parse(kpi.weightage!);
-      dropdwonValueForSelfScore[kpi.sl!] =
-          kpi.selfScore == "0" ? null : kpi.selfScore;
+      // dropdwonValueForSelfScore[kpi.sl!] =
+      //     kpi.selfScore == "0" ? null : kpi.selfScore;
+      dropdwonValueForSelfScore[kpi.sl!] = TextEditingController(text: "");
 
       if (kpi.kpiEdit == 'YES' && kpi.selfScore != "0") {
         overalYesValuesMap[kpi.sl] = {
@@ -1145,9 +1235,16 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   // //==================================================new================================================
+  // double overallCount(String weightageKey, String scrore) {
+  //   double overallCount =
+  //       ((double.parse(weightageKey) / 100) * double.parse(scrore));
+
+  //   return overallCount;
+  // }
+
   double overallCount(String weightageKey, String scrore) {
-    double overallCount =
-        ((double.parse(weightageKey) / 100) * double.parse(scrore));
+    double overallCount = ((double.parse(scrore == "" ? "0" : scrore) * 100) /
+        double.parse(weightageKey));
 
     return overallCount;
   }

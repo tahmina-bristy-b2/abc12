@@ -73,28 +73,6 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
   getAppraisalEmployee() async {
     appraisalEmployee = await AppraisalRepository().getEployeeListOfData(
         dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
-    allEmployeeList = appraisalEmployee!.resData.ffList.toList();
-    submittedEmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "SUBMITTED")
-        .toList();
-    draftEmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "DRAFT_MSO")
-        .toList();
-    newEmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "")
-        .toList();
-    approvedEmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "APPROVED")
-        .toList();
-    releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "RELEASED_SUP")
-        .toList();
-    releadedHREmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "RELEASED_HR")
-        .toList();
-    rejectedEmployeeList = appraisalEmployee!.resData.ffList
-        .where((element) => element.appActionStatus == "REJECTED")
-        .toList();
 
     if (appraisalEmployee != null) {
       if (!mounted) return;
@@ -106,14 +84,36 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
                   ? 'MSO List'
                   : 'Employee List';
       employeeList = appraisalEmployee!.resData.ffList;
+      allEmployeeList = appraisalEmployee!.resData.ffList.toList();
+
+      submittedEmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "SUBMITTED")
+          .toList();
+      draftEmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "DRAFT_MSO")
+          .toList();
+      newEmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "")
+          .toList();
+      approvedEmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "APPROVED")
+          .toList();
+      releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "RELEASED_SUP")
+          .toList();
+      releadedHREmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "RELEASED_HR")
+          .toList();
+      rejectedEmployeeList = appraisalEmployee!.resData.ffList
+          .where((element) => element.appActionStatus == "REJECTED")
+          .toList();
       setState(() {
         isLoading = false;
       });
     } else {
       if (!mounted) return;
-      setState(() {
-        isLoading = false;
-      });
+
+      Navigator.pop(context);
     }
   }
 

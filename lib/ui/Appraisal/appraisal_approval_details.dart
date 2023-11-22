@@ -51,7 +51,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
   bool exceedError = false;
   bool _feedBackError = false;
   bool isDesignationChange = false;
-  Map<String, TextEditingController> supScoreMapData = {};
+  Map<String, TextEditingController?> supScoreMapData = {};
   // Map<String, dynamic> supScoreMapData = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
   @override
@@ -84,7 +84,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, String selfScore) {
     double result = 0.0;
-    result = double.parse(selfScore == '' ? '0.0' : selfScore) *
+    result = double.parse(
+            (selfScore == '' && selfScore.isEmpty) ? '0.0' : selfScore) *
         (double.parse(weitage) / 100);
     return result.toStringAsFixed(2);
   }
@@ -93,7 +94,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     double result = 0.0;
     if (sup == 'RSM') {
       for (var element in appraisalMaster.kpiTable!) {
-        result += double.parse(supScoreMapData[element.sl]!.text == null
+        result += double.parse(supScoreMapData[element.sl]!.text.isEmpty
             ? '0.0'
             : supScoreMapData[element.sl]!.text);
         // *
@@ -671,7 +672,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Text("Achievement (%)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.achievement1 ?? ''))),
+                    child: Text('${achievementData.achievement1 ?? ''}%'))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.achievement2 ?? ''}%')))
@@ -699,7 +700,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Text("Avg. Rx Share (Seen RX) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P1 ?? ''))),
+                    child: Text('${achievementData.seenRx1 ?? ''}%'))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.seenRx ?? ''}%')))
@@ -713,7 +714,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Text("Avg. Rx Share (4P) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSales4P1 ?? ''))),
+                    child: Text('${achievementData.avgSales4P1 ?? ''}%'))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.avgSales4P2 ?? ''}%')))
@@ -727,7 +728,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Text("Avg. Rx Share (EMR) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.avgSalesEmr1 ?? ''))),
+                    child: Text('${achievementData.avgSalesEmr1 ?? ''}%'))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.avgSalesEmr2 ?? ''}%')))
@@ -768,7 +769,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     child: Text("Chemist Coverage"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text(achievementData.chemistCov1 ?? ''))),
+                    child: Text('${achievementData.chemistCov1 ?? ''}%'))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text('${achievementData.chemistCov2 ?? ''}%')))
@@ -780,13 +781,13 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   SizedBox appraisalMaster(RetStr appraisalMaster) {
     return SizedBox(
-      height: (appraisalMaster.kpiTable!.length + 2) * 47,
+      height: (appraisalMaster.kpiTable!.length + 2) * 50,
       child: DataTable2(
           // border: TableBorder.all(),
           columnSpacing: 0,
           horizontalMargin: 0,
-          dataRowHeight: (appraisalMaster.kpiTable!.length + 1) * 42 + 50,
-          minWidth: 1000,
+          dataRowHeight: (appraisalMaster.kpiTable!.length + 1) * 45 + 50,
+          minWidth: 1200,
           // fixedLeftColumns: 1,
           // headingRowColor: MaterialStateColor.resolveWith(
           //   (states) {
@@ -796,7 +797,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           headingRowHeight: 40,
           columns: [
             DataColumn2(
-                fixedWidth: 280,
+                fixedWidth: 400,
                 label: Container(
                   color: const Color.fromARGB(255, 159, 193, 165),
                   child: const Center(
@@ -811,7 +812,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   "",
                 )),
             DataColumn2(
-                fixedWidth: 178,
+                fixedWidth: 172,
                 label: Container(
                   color: const Color.fromARGB(255, 159, 193, 165),
                   child: Center(
@@ -843,19 +844,19 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     border: TableBorder.all(),
                     columnSpacing: 0,
                     horizontalMargin: 0,
-                    dataRowHeight: 42,
-                    minWidth: 300,
+                    dataRowHeight: 45,
+                    minWidth: 415,
                     headingRowHeight: 50,
                     columns: const [
                       DataColumn2(
-                          fixedWidth: 40,
+                          fixedWidth: 30,
                           label: Center(
                               child: Text(
                             "SL",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ))),
                       DataColumn2(
-                          fixedWidth: 170,
+                          fixedWidth: 300,
                           label: Center(
                               child: Text(
                             "KPI Name",
@@ -962,7 +963,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     columnSpacing: 0,
                     horizontalMargin: 0,
                     dataRowHeight: 38,
-                    minWidth: 10,
+                    minWidth: 12,
                     headingRowHeight: 40,
                     columns: const [
                       DataColumn2(
@@ -980,7 +981,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     border: TableBorder.all(),
                     columnSpacing: 0,
                     horizontalMargin: 0,
-                    dataRowHeight: 42,
+                    dataRowHeight: 45,
                     minWidth: 172,
                     headingRowHeight: 50,
                     columns: [
@@ -1083,7 +1084,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     columnSpacing: 0,
                     horizontalMargin: 0,
                     dataRowHeight: 38,
-                    minWidth: 10,
+                    minWidth: 12,
                     headingRowHeight: 40,
                     columns: const [
                       DataColumn2(
@@ -1101,8 +1102,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     border: TableBorder.all(),
                     columnSpacing: 0,
                     horizontalMargin: 0,
-                    dataRowHeight: 42,
-                    minWidth: 210,
+                    dataRowHeight: 45,
+                    minWidth: 175,
                     headingRowHeight: 50,
                     columns: [
                       const DataColumn2(
@@ -1126,14 +1127,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     rows: [
                       ...appraisalMaster.kpiTable!.map((element) {
                         return DataRow2(
-                          // color: MaterialStateColor.resolveWith(
-                          //   (states) {
-                          //     return element.kpiEdit == "NO"
-                          //         ? Colors.transparent
-                          //         : const Color.fromARGB(255, 235, 228, 244);
-                          //     // : Color.fromARGB(255, 199, 219, 235);
-                          //   },
-                          // ),
+                          color: MaterialStateColor.resolveWith(
+                            (states) {
+                              return element.kpiEdit == "NO"
+                                  ? Colors.transparent
+                                  : const Color.fromARGB(255, 250, 185, 100);
+                              // : Color.fromARGB(255, 199, 219, 235);
+                            },
+                          ),
                           cells: [
                             element.kpiEdit == 'NO' ||
                                     widget.appraisalStatus
@@ -1150,58 +1151,69 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                     alignment: Alignment.center,
                                     child: Text(element.supScore ?? '')))
                                 : DataCell(
-                                    // Container(
-                                    //   height: 45,
-                                    //   decoration: BoxDecoration(
-                                    //       color: const Color.fromARGB(
-                                    //           255, 250, 185, 100),
-                                    //       shape: BoxShape.rectangle,
-                                    //       borderRadius:
-                                    //           BorderRadius.circular(5)),
-                                    //   child:
-                                    TextField(
-                                      controller: supScoreMapData[element.sl!],
-                                      keyboardType: TextInputType.number,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: exceedError
-                                              ? Colors.red
-                                              : Colors.black),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                          RegExp("[0-9]"),
-                                        ),
-                                      ],
-                                      decoration: const InputDecoration(
-                                        contentPadding:
-                                            EdgeInsets.only(right: 8),
-                                        // border: InputBorder.none,
-                                      ),
-                                      onChanged: (value) {
-                                        if (value != '' &&
-                                            int.parse(value) <=
-                                                double.parse(
-                                                    element.weightage ??
-                                                        '0.0')) {
-                                          supDataForSubmit.removeWhere((ele) =>
-                                              ele["row_id"] == element.rowId);
+                                    Center(
+                                      child: Container(
+                                        height: 40,
+                                        width: 65,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.rectangle,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: TextField(
+                                          controller:
+                                              supScoreMapData[element.sl!],
+                                          keyboardType: TextInputType.number,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: exceedError
+                                                  ? Colors.red
+                                                  : Colors.black),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]"),
+                                            ),
+                                          ],
+                                          decoration: const InputDecoration(
+                                            hintText: 'Score',
+                                            contentPadding:
+                                                EdgeInsets.only(right: 8),
+                                            border: InputBorder.none,
+                                          ),
+                                          onChanged: (value) {
+                                            if (value != '' &&
+                                                int.parse(value) <=
+                                                    double.parse(
+                                                        element.weightage ??
+                                                            '0.0')) {
+                                              supDataForSubmit.removeWhere(
+                                                  (ele) =>
+                                                      ele["row_id"] ==
+                                                      element.rowId);
 
-                                          supDataForSubmit.add({
-                                            "row_id": element.rowId,
-                                            "sup_score": value,
-                                            "sup_overall_score": overalResult(
-                                                element.weightage,
-                                                value == '' ? '0.0' : value)
-                                          });
-                                        } else {
-                                          exceedError = true;
-                                          // supScoreMapData[element.sl!]!.text =
-                                          //     element.supScore ?? '0.00';
-                                          // setState(() {});
-                                        }
-                                      },
+                                              supDataForSubmit.add({
+                                                "row_id": element.rowId,
+                                                "sup_score": value,
+                                                "sup_overall_score":
+                                                    overalResult(
+                                                        element.weightage,
+                                                        value == ''
+                                                            ? '0.0'
+                                                            : value)
+                                              });
+                                              exceedError = false;
+
+                                              setState(() {});
+                                            } else {
+                                              exceedError = true;
+                                              // supScoreMapData[element.sl!]!.text =
+                                              //     element.supScore ?? '0.00';
+                                              setState(() {});
+                                            }
+                                          },
+                                        ),
+                                      ),
                                     ),
-                                    // ),
                                     // ButtonTheme(
                                     //   alignedDropdown: true,
                                     //   child: DropdownButton(
@@ -1259,7 +1271,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               alignment: Alignment.center,
                               child: Text(
                                 totalScoreResult(appraisalMaster, 'RSM')
-                                    .toStringAsFixed(2),
+                                    .toStringAsFixed(0),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ))),

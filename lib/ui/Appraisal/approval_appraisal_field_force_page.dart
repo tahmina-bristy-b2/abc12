@@ -88,34 +88,39 @@ class _ApprovalAppraisalFieldForceState
                   : Container()
             ],
             bottom: TabBar(
-              onTap: (value) {
-                _searchController.clear();
-                _searchExpand = false;
-                height = 0;
-                _color = false;
-                userFflistAll = appraisalFfData!.resData.dataList;
-                userFflistDraft = userFflistAll
-                    .where((element) => element.appActionStatus == "DRAFT_SUP")
-                    .toList();
-                userFflistApproved = userFflistAll
-                    .where((element) => element.appActionStatus == "APPROVED")
-                    .toList();
-                userFflistReleaseHr = userFflistAll
-                    .where(
-                        (element) => element.appActionStatus == "RELEASED_HR")
-                    .toList();
-                userFflistReleasedSup = userFflistAll
-                    .where(
-                        (element) => element.appActionStatus == "RELEASED_SUP")
-                    .toList();
-                userFflistRejected = userFflistAll
-                    .where((element) => element.appActionStatus == "REJECTED")
-                    .toList();
-                userFflistNew = userFflistAll
-                    .where((element) => element.appActionStatus == "")
-                    .toList();
-                setState(() {});
-              },
+              onTap: userFflistAll.isNotEmpty
+                  ? (value) {
+                      _searchController.clear();
+                      _searchExpand = false;
+                      height = 0;
+                      _color = false;
+                      userFflistAll = appraisalFfData!.resData.dataList;
+                      userFflistDraft = userFflistAll
+                          .where((element) =>
+                              element.appActionStatus == "DRAFT_SUP")
+                          .toList();
+                      userFflistApproved = userFflistAll
+                          .where((element) =>
+                              element.appActionStatus == "APPROVED")
+                          .toList();
+                      userFflistReleaseHr = userFflistAll
+                          .where((element) =>
+                              element.appActionStatus == "RELEASED_HR")
+                          .toList();
+                      userFflistReleasedSup = userFflistAll
+                          .where((element) =>
+                              element.appActionStatus == "RELEASED_SUP")
+                          .toList();
+                      userFflistRejected = userFflistAll
+                          .where((element) =>
+                              element.appActionStatus == "REJECTED")
+                          .toList();
+                      userFflistNew = userFflistAll
+                          .where((element) => element.appActionStatus == "")
+                          .toList();
+                      setState(() {});
+                    }
+                  : (value) {},
               isScrollable: true,
               tabs: const [
                 Tab(
@@ -716,41 +721,50 @@ class _ApprovalAppraisalFieldForceState
                 subtitle:
                     // Text(
                     //     'Submitted by: ${userFflist[index].submitName} || ${userFflist[index].submitId}'),
-                    Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Submitted by:  ${userFflist[index].submitId}'),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 0, right: 0),
-                      child: Text(
-                        userFflist[index].appActionStatus.split('_').first ==
-                                'RELEASED'
-                            ? userFflist[index]
-                                .appActionStatus
-                                .replaceAll('_', ' ')
-                            : userFflist[index]
-                                .appActionStatus
-                                .split('_')
-                                .first,
-
-                        // userFflist[index].appActionStatus == 'DRAFT_SUP'
-                        // ? userFflist[index].appActionStatus.split('_').first
-                        // : userFflist[index].appActionStatus,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                userFflist[index].appActionStatus == 'DRAFT_SUP'
-                                    ? Colors.orange
-                                    : userFflist[index]
-                                                .appActionStatus
-                                                .split('_')
-                                                .first ==
-                                            'RELEASED'
-                                        ? const Color.fromARGB(255, 44, 211, 50)
-                                        : Colors.teal),
+                    Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Submitted by: ${userFflist[index].submitName}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0, right: 0),
+                        child: Text(
+                          userFflist[index].appActionStatus.split('_').first ==
+                                  'RELEASED'
+                              ? userFflist[index]
+                                  .appActionStatus
+                                  .replaceAll('_', ' ')
+                              : userFflist[index]
+                                  .appActionStatus
+                                  .split('_')
+                                  .first,
+
+                          // userFflist[index].appActionStatus == 'DRAFT_SUP'
+                          // ? userFflist[index].appActionStatus.split('_').first
+                          // : userFflist[index].appActionStatus,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: userFflist[index].appActionStatus ==
+                                      'DRAFT_SUP'
+                                  ? Colors.orange
+                                  : userFflist[index]
+                                              .appActionStatus
+                                              .split('_')
+                                              .first ==
+                                          'RELEASED'
+                                      ? const Color.fromARGB(255, 44, 211, 50)
+                                      : Colors.teal),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 trailing: const Icon(
                   Icons.arrow_forward_ios_outlined,

@@ -775,7 +775,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           columnSpacing: 0,
           horizontalMargin: 0,
           dataRowHeight: (appraisalMaster.kpiTable!.length + 2) * 38 + 60,
-          minWidth: 870,
+          minWidth: 1000,
           // fixedLeftColumns: 1,
           // headingRowColor: MaterialStateColor.resolveWith(
           //   (states) {
@@ -800,7 +800,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   "",
                 )),
             DataColumn2(
-                fixedWidth: 152,
+                fixedWidth: 178,
                 label: Container(
                   color: const Color.fromARGB(255, 159, 193, 165),
                   child: Center(
@@ -815,7 +815,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   "",
                 )),
             DataColumn2(
-                fixedWidth: 162,
+                fixedWidth: 178,
                 label: Container(
                   color: const Color.fromARGB(255, 159, 193, 165),
                   child: Center(
@@ -969,11 +969,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     columnSpacing: 0,
                     horizontalMargin: 0,
                     dataRowHeight: 38,
-                    minWidth: 150,
+                    minWidth: 178,
                     headingRowHeight: 60,
                     columns: [
                       DataColumn2(
-                        fixedWidth: 72,
+                        fixedWidth: 105,
                         label: Padding(
                           padding: const EdgeInsets.all(3.0),
                           child: Column(
@@ -986,25 +986,23 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               )),
                               Text(
-                                "3 - Very Good",
-                                style: TextStyle(fontSize: 10),
+                                "1 - Below Expectation",
+                                style: TextStyle(fontSize: 9),
                               ),
                               Text(
-                                "2 - Good",
-                                style: TextStyle(fontSize: 10),
+                                "2 - Meets Expectation",
+                                style: TextStyle(fontSize: 9),
                               ),
-                              Expanded(
-                                child: Text(
-                                  "1 - Needs Imp.",
-                                  style: TextStyle(fontSize: 10),
-                                ),
+                              Text(
+                                "3 - Exceeds Expectation",
+                                style: TextStyle(fontSize: 9),
                               ),
                             ],
                           ),
                         ),
                       ),
                       DataColumn2(
-                          fixedWidth: 79,
+                          fixedWidth: 70,
                           label: Container(
                             color: Colors.grey[300],
                             child: const Center(
@@ -1113,11 +1111,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                     columnSpacing: 0,
                     horizontalMargin: 0,
                     dataRowHeight: 38,
-                    minWidth: 160,
+                    minWidth: 178,
                     headingRowHeight: 60,
                     columns: [
                       DataColumn2(
-                          fixedWidth: 88,
+                          fixedWidth: 105,
                           label: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Column(
@@ -1130,18 +1128,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 )),
                                 Text(
-                                  "3 - Very Good",
-                                  style: TextStyle(fontSize: 10),
+                                  "1 - Below Expectation",
+                                  style: TextStyle(fontSize: 9),
                                 ),
                                 Text(
-                                  "2 - Good",
-                                  style: TextStyle(fontSize: 10),
+                                  "2 - Meets Expectation",
+                                  style: TextStyle(fontSize: 9),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    "1 - Needs Imp.",
-                                    style: TextStyle(fontSize: 10),
-                                  ),
+                                Text(
+                                  "3 - Exceeds Expectation",
+                                  style: TextStyle(fontSize: 9),
                                 ),
                               ],
                             ),

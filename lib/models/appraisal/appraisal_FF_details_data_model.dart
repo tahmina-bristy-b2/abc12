@@ -85,6 +85,14 @@ class RetStr {
   final String? trCode;
   final String? baseTerritory;
   final String? lengthOfPresentTrService;
+  final String? targetValue1;
+  final String? soldValue1;
+  final String? achievement1;
+  final String? avgSales1;
+  final String? avgSales4P1;
+  final String? avgSalesEmr1;
+  final String? noMonthAchiev1;
+  final String? chemistCov1;
   final String? targetValue2;
   final String? soldValue2;
   final String? achievement2;
@@ -104,64 +112,75 @@ class RetStr {
   final String? noIncidence;
   final String? avgRxGrowth;
   final String? seenRx;
+  final String? seenRx1;
   final String? incrementAmountSup;
   final String? designationChangeSup;
   final String? upgradeGradeSup;
   final String? feedbackSup;
   final List<KpiTable>? kpiTable;
 
-  RetStr(
-      {this.headRowId,
-      this.lastAction,
-      this.lastActionBy,
-      this.chemistCoverage,
-      this.brandPerformance,
-      this.rxShare,
-      this.upgradeGrade,
-      this.designationChange,
-      this.incrementAmount,
-      this.feedback,
-      this.kpiKey,
-      this.doctorCoverage,
-      this.salesAchievement,
-      this.previousAchievement,
-      this.currentAchievement,
-      this.cid,
-      this.employeeId,
-      this.empName,
-      this.designation,
-      this.presentGrade,
-      this.businessSegment,
-      this.dateOfJoining,
-      this.lastPromotion,
-      this.lengthOfService,
-      this.trCode,
-      this.baseTerritory,
-      this.lengthOfPresentTrService,
-      this.targetValue2,
-      this.soldValue2,
-      this.achievement2,
-      this.avgSales2,
-      this.avgSales4P2,
-      this.avgSalesEmr2,
-      this.noMonthAchiev2,
-      this.chemistCov2,
-      this.avRx4PBasePoint,
-      this.avRxEmrBasePoint,
-      this.achChemistCovBasePoint,
-      this.examPerformanceBasePoint,
-      this.noAchMonthBasePoint,
-      this.noLetterIssued,
-      this.cause,
-      this.action,
-      this.noIncidence,
-      this.avgRxGrowth,
-      this.incrementAmountSup,
-      this.designationChangeSup,
-      this.upgradeGradeSup,
-      this.feedbackSup,
-      this.kpiTable,
-      this.seenRx});
+  RetStr({
+    this.headRowId,
+    this.lastAction,
+    this.lastActionBy,
+    this.chemistCoverage,
+    this.brandPerformance,
+    this.rxShare,
+    this.upgradeGrade,
+    this.designationChange,
+    this.incrementAmount,
+    this.feedback,
+    this.kpiKey,
+    this.doctorCoverage,
+    this.salesAchievement,
+    this.previousAchievement,
+    this.currentAchievement,
+    this.cid,
+    this.employeeId,
+    this.empName,
+    this.designation,
+    this.presentGrade,
+    this.businessSegment,
+    this.dateOfJoining,
+    this.lastPromotion,
+    this.lengthOfService,
+    this.trCode,
+    this.baseTerritory,
+    this.lengthOfPresentTrService,
+    this.targetValue1,
+    this.soldValue1,
+    this.achievement1,
+    this.avgSales1,
+    this.avgSales4P1,
+    this.avgSalesEmr1,
+    this.noMonthAchiev1,
+    this.chemistCov1,
+    this.targetValue2,
+    this.soldValue2,
+    this.achievement2,
+    this.avgSales2,
+    this.avgSales4P2,
+    this.avgSalesEmr2,
+    this.noMonthAchiev2,
+    this.chemistCov2,
+    this.avRx4PBasePoint,
+    this.avRxEmrBasePoint,
+    this.achChemistCovBasePoint,
+    this.examPerformanceBasePoint,
+    this.noAchMonthBasePoint,
+    this.noLetterIssued,
+    this.cause,
+    this.action,
+    this.noIncidence,
+    this.avgRxGrowth,
+    this.incrementAmountSup,
+    this.designationChangeSup,
+    this.upgradeGradeSup,
+    this.feedbackSup,
+    this.kpiTable,
+    this.seenRx,
+    this.seenRx1,
+  });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
         headRowId: json["head_row_id"],
@@ -192,10 +211,26 @@ class RetStr {
         trCode: json["tr_code"],
         baseTerritory: json["base_territory"],
         lengthOfPresentTrService: json["length_of_present_tr_service"],
+        targetValue1:
+            double.parse(json["target_value_1"] ?? '0.0').toStringAsFixed(2),
+        soldValue1:
+            double.parse(json["sold_value_1"] ?? '0.0').toStringAsFixed(2),
+        achievement1:
+            double.parse(json["achievement_1"] ?? '0.0').toStringAsFixed(2),
+        avgSales1:
+            double.parse(json["avg_sales_1"] ?? '0.0').toStringAsFixed(2),
+        avgSales4P1:
+            double.parse(json["avg_sales_4p_1"] ?? '0.0').toStringAsFixed(2),
+        avgSalesEmr1:
+            double.parse(json["avg_sales_emr_1"] ?? '0.0').toStringAsFixed(2),
+        noMonthAchiev1:
+            double.parse(json["no_month_achiev_1"] ?? '0.0').toStringAsFixed(2),
+        chemistCov1:
+            double.parse(json["chemist_cov_1"] ?? '0.0').toStringAsFixed(2),
         targetValue2:
-            double.parse(json["target_value_2"] ?? 0.0).toStringAsFixed(2),
+            double.parse(json["target_value_2"] ?? '0.0').toStringAsFixed(2),
         soldValue2:
-            double.parse(json["sold_value_2"] ?? 0.0).toStringAsFixed(2),
+            double.parse(json["sold_value_2"] ?? '0.0').toStringAsFixed(2),
         achievement2:
             double.parse(json["achievement_2"] ?? '0.0').toStringAsFixed(2),
         avgSales2:
@@ -220,6 +255,7 @@ class RetStr {
         avgRxGrowth:
             double.parse(json["avg_rx_growth"] ?? '0.0').toStringAsFixed(2),
         seenRx: double.parse(json["seen_rx"] ?? '0.0').toStringAsFixed(2),
+        seenRx1: double.parse(json["seen_rx_1"] ?? '0.0').toStringAsFixed(2),
         incrementAmountSup: double.parse(json["increment_amount_sup"] ?? '0.00')
             .toStringAsFixed(0),
         designationChangeSup: json["designation_change_sup"],
@@ -294,6 +330,7 @@ class KpiTable {
   final String? kpiId;
   final String? name;
   final String? definition;
+  final String? definitionHead;
   final String? weightage;
   final String? kpiEdit;
   final String? selfScore;
@@ -307,6 +344,7 @@ class KpiTable {
     this.kpiId,
     this.name,
     this.definition,
+    this.definitionHead,
     this.weightage,
     this.kpiEdit,
     this.selfScore,
@@ -321,12 +359,15 @@ class KpiTable {
         kpiId: json["kpi_id"],
         name: json["name"],
         definition: json["definition"],
+        definitionHead: json["definition_head"],
         weightage: json["weightage"],
         kpiEdit: json["kpi_edit"],
         selfScore: json["self_score"],
-        selfOverallScore: json["self_overall_score"],
+        selfOverallScore:
+            double.parse(json["self_overall_score"]).toStringAsFixed(2),
         supScore: json["sup_score"],
-        supOverallScore: json["sup_overall_score"],
+        supOverallScore:
+            double.parse(json["sup_overall_score"]).toStringAsFixed(2),
       );
 
   Map<String, dynamic> toJson() => {

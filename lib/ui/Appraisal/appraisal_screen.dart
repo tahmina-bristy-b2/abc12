@@ -724,7 +724,9 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   Container increametGradeUpgrationWidget() {
     return Container(
-      color: const Color.fromARGB(255, 222, 211, 235),
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 222, 211, 235),
+          borderRadius: BorderRadius.circular(5)),
       height: 295,
       child: Padding(
         padding: const EdgeInsets.all(8.0),

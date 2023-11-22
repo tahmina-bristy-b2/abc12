@@ -1157,8 +1157,10 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     RetStr appraisalOthers2,
   ) {
     return Container(
-      color: const Color.fromARGB(255, 222, 211, 235),
       //color: Color.fromARGB(255, 180, 206, 184),
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 222, 211, 235),
+          borderRadius: BorderRadius.circular(5)),
       height: 295,
       child: Padding(
         padding: const EdgeInsets.all(8.0),

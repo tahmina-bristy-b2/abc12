@@ -9,6 +9,7 @@ import 'package:MREPORTING/ui/Appraisal/apparaisal_self_assesment_history.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_employee_page.dart';
 import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart';
+
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
@@ -322,13 +323,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => AppraisalSelfAssesmentHistoryScreen(
-                            cid: cid,
-                            userId: userId,
-                            userPass: userPassword,
-                          ))),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AppraisalSelfAssesmentHistoryScreen(
+                    cid: cid,
+                    userId: userId,
+                    userPass: userPassword,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 10),
             ListTile(

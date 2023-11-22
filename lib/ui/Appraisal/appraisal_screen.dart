@@ -43,7 +43,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   TextEditingController incrementController = TextEditingController();
   TextEditingController feeddbackController = TextEditingController();
   List<RowData> rowsList = [];
-  List<String>? selfDropdownValue = <String>['3', '2', '1'];
+  List<String>? selfDropdownValue = <String>['1', '2', '3'];
   //  List<String>? selfDropdownValue = <String>[
   //   '1-Needs Improvement',
   //   '2-Good',
@@ -702,8 +702,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       height: 5,
                     ),
                     Text(
-                      "3-Very good\n2-Good\n1 -Needs Improvement",
-                      style: TextStyle(fontSize: 10),
+                      "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
+                      style: TextStyle(fontSize: 10, color: Colors.black),
                     ),
                   ],
                 ))),

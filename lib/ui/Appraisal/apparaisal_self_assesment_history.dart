@@ -555,7 +555,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
   //======================================= Appraisal Master Widget==============================================
   SizedBox appraisalMasterWidget(RetStr appraisalMaster) {
     return SizedBox(
-      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 50),
+      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 60),
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -591,7 +591,7 @@ class _AppraisalSelfAssesmentHistoryScreenState
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 90,
+                fixedWidth: 120,
                 label: Center(
                     child: Column(
                   children: const [
@@ -602,9 +602,12 @@ class _AppraisalSelfAssesmentHistoryScreenState
                       "  Score ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
-                      " Min - 1\nMax - 3",
-                      style: TextStyle(fontSize: 10),
+                      "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
+                      style: TextStyle(fontSize: 10, color: Colors.black),
                     ),
                   ],
                 ))),

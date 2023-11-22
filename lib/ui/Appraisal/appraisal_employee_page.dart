@@ -25,12 +25,22 @@ class ApprovalAppraisal extends StatefulWidget {
   State<ApprovalAppraisal> createState() => _ApprovalAppraisalState();
 }
 
-class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
+class _ApprovalAppraisalState extends State<ApprovalAppraisal>
+    with SingleTickerProviderStateMixin {
+  late TabController controller;
   final TextEditingController _searchController = TextEditingController();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   AppraisalEmployee? appraisalEmployee;
   List<FfList> employeeList = [];
+  List<FfList> allEmployeeList = [];
+  List<FfList> newEmployeeList = [];
+  List<FfList> submittedEmployeeList = [];
+  List<FfList> draftEmployeeList = [];
+  List<FfList> approvedEmployeeList = [];
+  List<FfList> releadedHREmployeeList = [];
+  List<FfList> releadedSUPEmployeeList = [];
+  List<FfList> rejectedEmployeeList = [];
   bool isLoading = true;
   bool _searchExpand = false;
   bool _color = false;
@@ -39,6 +49,10 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   @override
   initState() {
     super.initState();
+    controller = TabController(length: 8, vsync: this);
+    controller.addListener(() {
+      setState(() {});
+    });
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     internetCheckForEmployeeDetails();
@@ -59,6 +73,28 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   getAppraisalEmployee() async {
     appraisalEmployee = await AppraisalRepository().getEployeeListOfData(
         dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
+    allEmployeeList = appraisalEmployee!.resData.ffList.toList();
+    submittedEmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "SUBMITTED")
+        .toList();
+    draftEmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "DRAFT_MSO")
+        .toList();
+    newEmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "")
+        .toList();
+    approvedEmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "APPROVED")
+        .toList();
+    releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "RELEASED_SUP")
+        .toList();
+    releadedHREmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "RELEASED_HR")
+        .toList();
+    rejectedEmployeeList = appraisalEmployee!.resData.ffList
+        .where((element) => element.appActionStatus == "REJECTED")
+        .toList();
 
     if (appraisalEmployee != null) {
       if (!mounted) return;
@@ -85,6 +121,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
   void dispose() {
     super.dispose();
     _searchController.dispose();
+    controller.dispose();
   }
 
   @override
@@ -93,101 +130,256 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
       appBar: AppBar(
         title: Text(title),
         centerTitle: true,
-        actions: [
-          appraisalEmployee != null
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _searchExpand = !_searchExpand;
-                      _color = true;
-                      if (height == 0.0) {
-                        height = 40.0;
-                      } else {
-                        height = 0.0;
-                      }
-                    });
+        // actions: [                                    // search work has stopped
+        //   appraisalEmployee != null
+        //       ? IconButton(
+        //           onPressed: () {
+        //             setState(() {
+        //               _searchExpand = !_searchExpand;
+        //               _color = true;
+        //               if (height == 0.0) {
+        //                 height = 40.0;
+        //               } else {
+        //                 height = 0.0;
+        //               }
+        //             });
 
-                    if (_searchExpand == false) {
-                      _searchController.clear();
-                      employeeList = appraisalEmployee!.resData.ffList;
-                      setState(() {});
+        //             if (_searchExpand == false) {
+        //               _searchController.clear();
+        //               employeeList = appraisalEmployee!.resData.ffList;
+        //               setState(() {});
+        //             }
+        //           },
+        //           icon: const Icon(Icons.search_outlined))
+        //       : Container()
+        // ],
+        bottom: TabBar(
+            controller: controller,
+            onTap: (value) {
+              _searchController.clear();
+              _searchExpand = false;
+              height = 0;
+              _color = false;
+
+              allEmployeeList = appraisalEmployee!.resData.ffList.toList();
+              submittedEmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "SUBMITTED")
+                  .toList();
+              draftEmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "DRAFT_MSO")
+                  .toList();
+              newEmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "")
+                  .toList();
+              approvedEmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "APPROVED")
+                  .toList();
+              releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "RELEASED_SUP")
+                  .toList();
+              releadedHREmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "RELEASED_HR")
+                  .toList();
+              rejectedEmployeeList = appraisalEmployee!.resData.ffList
+                  .where((element) => element.appActionStatus == "REJECTED")
+                  .toList();
+              setState(() {});
+            },
+            isScrollable: true,
+            tabs: const [
+              Tab(text: "  ALL  "),
+              Tab(text: "  NEW  "),
+              Tab(text: "  DRAFT "),
+              Tab(text: "SUBMITTED"),
+              Tab(text: "APPROVED"),
+              Tab(text: "REJECTED"),
+              Tab(text: "RELEASED_HR"),
+              Tab(text: "RELEASED_SUP"),
+            ]),
+      ),
+      body: TabBarView(controller: controller, children: [
+        columnWIdget(context, allEmployeeList, "All"),
+        columnWIdget(context, newEmployeeList, "New"),
+        columnWIdget(context, draftEmployeeList, "Draft"),
+        columnWIdget(context, submittedEmployeeList, "Submitted"),
+        columnWIdget(context, approvedEmployeeList, "Approved"),
+        columnWIdget(context, rejectedEmployeeList, "Rejected"),
+        columnWIdget(context, releadedHREmployeeList, "Released_HR"),
+        columnWIdget(context, releadedSUPEmployeeList, "Released_SUP"),
+      ]),
+    );
+
+    //                     _searchController.clear();
+    //                     employeeList = appraisalEmployee!.resData.ffList;
+    //                     setState(() {});
+    //                   }
+    //                 },
+    //                 icon: const Icon(Icons.search_outlined))
+    //             : Container()
+    //       ],
+    //     ),
+    //     body: SafeArea(
+    //         child: Column(
+    //       children: [
+    //         AnimatedContainer(
+    //           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    //           duration: const Duration(milliseconds: 500),
+    //           decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.circular(18),
+    //               border: Border.all(
+    //                   color: _color
+    //                       ? const Color.fromARGB(255, 138, 201, 149)
+    //                       : Colors.black)),
+    //           height: height,
+    //           child: _searchExpand
+    //               ? TextFormField(
+    //                   autofocus: false,
+    //                   keyboardType: TextInputType.name,
+    //                   textInputAction: TextInputAction.done,
+    //                   controller: _searchController,
+    //                   decoration: const InputDecoration(
+    //                     contentPadding:
+    //                         EdgeInsets.only(bottom: 0, left: 10, top: 5),
+    //                     hintText: 'Search Employeee here.....',
+    //                     border: InputBorder.none,
+    //                     prefixIcon: Icon(Icons.search,
+    //                         color: Color.fromARGB(255, 138, 201, 149)),
+    //                   ),
+    //                   onChanged: (value) {
+    //                     setState(() {
+    //                       employeeList = AppraisalServices().searchEmployee(
+    //                           value, appraisalEmployee!.resData.ffList);
+    //                       // print("searc Data==$employeeList");
+    //                     });
+    //                   },
+    //                 )
+    //               : Container(),
+    //         ),
+    //         isLoading
+    //             ? Expanded(child: dataLoadingView())
+    //             : appraisalEmployee == null ||
+    //                     appraisalEmployee!.resData.ffList.isEmpty
+    //                 ? Center(
+    //                     child: Stack(children: [
+    //                       Image.asset(
+    //                         'assets/images/no_data_found.png',
+    //                         fit: BoxFit.cover,
+    //                       ),
+    //                       Positioned(
+    //                         left: MediaQuery.of(context).size.width / 2.5,
+    //                         bottom: MediaQuery.of(context).size.height * .005,
+    //                         child: ElevatedButton(
+    //                             style: ElevatedButton.styleFrom(
+    //                               backgroundColor: const Color(0xffF0F0F0),
+    //                             ),
+    //                             onPressed: () {
+    //                               Navigator.pop(context);
+    //                             },
+    //                             child: const Text(
+    //                               'Go back',
+    //                               style: TextStyle(color: Colors.black54),
+    //                             )),
+    //                       )
+    //                     ]),
+    //                   )
+    //                 : appraisalEmployeeView(context),
+    //       ],
+    //     )),
+    //   );
+  }
+
+  Column columnWIdget(
+      BuildContext context, List<FfList> employeeList1, String tabName) {
+    return Column(
+      children: [
+        AnimatedContainer(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          duration: const Duration(milliseconds: 500),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                  color: _color
+                      ? const Color.fromARGB(255, 138, 201, 149)
+                      : Colors.black)),
+          height: height,
+          child: _searchExpand
+              ? TextFormField(
+                  autofocus: false,
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.done,
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    contentPadding:
+                        EdgeInsets.only(bottom: 0, left: 10, top: 5),
+                    hintText: 'Search Employeee here.....',
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.search,
+                        color: Color.fromARGB(255, 138, 201, 149)),
+                  ),
+                  onChanged: (value) {
+                    if (tabName == "All") {
+                      setState(() {
+                        allEmployeeList = AppraisalServices()
+                            .searchEmployee(value, allEmployeeList);
+                      });
+                    } else if (tabName == "New") {
+                      setState(() {
+                        newEmployeeList = AppraisalServices()
+                            .searchEmployee(value, newEmployeeList);
+                      });
+                    } else if (tabName == "Draft") {
+                      setState(() {
+                        draftEmployeeList = AppraisalServices()
+                            .searchEmployee(value, draftEmployeeList);
+                      });
+                    } else if (tabName == "Submitted") {
+                      setState(() {
+                        submittedEmployeeList = AppraisalServices()
+                            .searchEmployee(value, submittedEmployeeList);
+                      });
+                    } else if (tabName == "Approved") {
+                      setState(() {
+                        employeeList1 = AppraisalServices()
+                            .searchEmployee(value, approvedEmployeeList);
+                      });
                     }
                   },
-                  icon: const Icon(Icons.search_outlined))
-              : Container()
-        ],
-      ),
-      body: SafeArea(
-          child: Column(
-        children: [
-          AnimatedContainer(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            duration: const Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                    color: _color
-                        ? const Color.fromARGB(255, 138, 201, 149)
-                        : Colors.black)),
-            height: height,
-            child: _searchExpand
-                ? TextFormField(
-                    autofocus: false,
-                    keyboardType: TextInputType.name,
-                    textInputAction: TextInputAction.done,
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(bottom: 0, left: 10, top: 5),
-                      hintText: 'Search Employeee here.....',
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search,
-                          color: Color.fromARGB(255, 138, 201, 149)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        employeeList = AppraisalServices().searchEmployee(
-                            value, appraisalEmployee!.resData.ffList);
-                        // print("searc Data==$employeeList");
-                      });
-                    },
+                )
+              : Container(),
+        ),
+        isLoading
+            ? Expanded(child: dataLoadingView())
+            : appraisalEmployee == null || employeeList1.isEmpty
+                ? Center(
+                    child: Stack(children: [
+                      Image.asset(
+                        'assets/images/no_data_found.png',
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width / 2.5,
+                        bottom: MediaQuery.of(context).size.height * .005,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffF0F0F0),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Go back',
+                              style: TextStyle(color: Colors.black54),
+                            )),
+                      )
+                    ]),
                   )
-                : Container(),
-          ),
-          isLoading
-              ? Expanded(child: dataLoadingView())
-              : appraisalEmployee == null ||
-                      appraisalEmployee!.resData.ffList.isEmpty
-                  ? Center(
-                      child: Stack(children: [
-                        Image.asset(
-                          'assets/images/no_data_found.png',
-                          fit: BoxFit.cover,
-                        ),
-                        Positioned(
-                          left: MediaQuery.of(context).size.width / 2.5,
-                          bottom: MediaQuery.of(context).size.height * .005,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffF0F0F0),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                'Go back',
-                                style: TextStyle(color: Colors.black54),
-                              )),
-                        )
-                      ]),
-                    )
-                  : appraisalEmployeeView(context),
-        ],
-      )),
+                : appraisalEmployeeView(context, employeeList1),
+      ],
     );
   }
 
-  Expanded appraisalEmployeeView(BuildContext context) {
+  Expanded appraisalEmployeeView(
+      BuildContext context, List<FfList> employeeList) {
     return Expanded(
       child: ListView.builder(
           itemCount: employeeList.length,
@@ -261,15 +453,35 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal> {
                       width: 13,
                     ),
                     Text(
-                      employeeList[index].appActionStatus == 'DRAFT_MSO'
-                          ? employeeList[index].appActionStatus.substring(0, 5)
-                          : employeeList[index].appActionStatus,
-                      style: TextStyle(
-                          color:
-                              employeeList[index].appActionStatus == "SUBMITTED"
-                                  ? Color.fromARGB(255, 44, 97, 45)
-                                  : Color.fromARGB(255, 147, 113, 11)),
-                    )
+                        (employeeList[index].appActionStatus == 'DRAFT_MSO' ||
+                                employeeList[index].appActionStatus ==
+                                    'DRAFT_SUP')
+                            ? employeeList[index]
+                                .appActionStatus
+                                .replaceAll('_', ' ')
+                            : employeeList[index].appActionStatus ==
+                                    'RELEASED_SUP'
+                                ? employeeList[index]
+                                    .appActionStatus
+                                    .replaceAll('_', ' ')
+                                : employeeList[index].appActionStatus,
+                        style: TextStyle(
+                          color: (employeeList[index].appActionStatus ==
+                                      "SUBMITTED" ||
+                                  employeeList[index].appActionStatus ==
+                                      "RELEASED_SUP")
+                              ? Color.fromARGB(255, 75, 153, 76)
+                              : employeeList[index].appActionStatus ==
+                                      "DRAFT_MSO"
+                                  ? Color.fromARGB(255, 211, 162, 15)
+                                  : employeeList[index].appActionStatus ==
+                                          "REJECTED"
+                                      ? Colors.red
+                                      : employeeList[index].appActionStatus ==
+                                              "APPROVED"
+                                          ? Colors.teal
+                                          : Colors.black,
+                        ))
                   ],
                 ),
                 trailing: const Padding(

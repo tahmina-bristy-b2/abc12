@@ -55,7 +55,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   TextEditingController incrementController = TextEditingController();
   TextEditingController feeddbackController = TextEditingController();
 
-  List<String>? selfDropdownValue = <String>['3', '2', '1'];
+  List<String>? selfDropdownValue = <String>['1', '2', '3'];
   Map<String, dynamic> dropdwonValueForSelfScore = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
   List kpiValuesList = [];
@@ -114,9 +114,11 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
       });
     } else {
       if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
+      widget.callBackFuntion('value');
+      Navigator.pop(context);
+      // setState(() {
+      //   _isLoading = false;
+      // });
     }
   }
 
@@ -851,7 +853,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   //======================================= Appraisal Master Widget==============================================
   SizedBox appraisalMasterWidget(RetStr appraisalMaster) {
     return SizedBox(
-      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 50),
+      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 60),
       child: DataTable2(
           border: TableBorder.all(),
           columnSpacing: 12,
@@ -902,8 +904,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                       height: 5,
                     ),
                     Text(
-                      "3-Very good\n2-Good\n1 -Needs Improvement",
-                      style: TextStyle(fontSize: 10),
+                      "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
+                      style: TextStyle(fontSize: 10, color: Colors.black),
                     ),
                   ],
                 ))),

@@ -1251,30 +1251,30 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           ))),
         ],
       ),
-      DataRow(
-        color: MaterialStateColor.resolveWith(
-            (states) => const Color.fromARGB(255, 165, 193, 170)),
-        // const Color.fromARGB(255, 226, 226, 226)),
+      // DataRow(
+      //   color: MaterialStateColor.resolveWith(
+      //       (states) => const Color.fromARGB(255, 165, 193, 170)),
+      //   // const Color.fromARGB(255, 226, 226, 226)),
 
-        cells: [
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(
-              child: Text(
-            "Rounded",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
-          DataCell(Center(
-              child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              (totaOverallCount + totalYesCount).round().toString(),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ))),
-        ],
-      ),
+      //   cells: [
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(
+      //         child: Text(
+      //       "Rounded",
+      //       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+      //     ))),
+      //     DataCell(Center(
+      //         child: Align(
+      //       alignment: Alignment.centerRight,
+      //       child: Text(
+      //         (totaOverallCount + totalYesCount).round().toString(),
+      //         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      //       ),
+      //     ))),
+      //   ],
+      // ),
     ];
   }
 

@@ -942,7 +942,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             cells: [
                               const DataCell(Center(child: Text(''))),
                               const DataCell(Align(
-                                  alignment: Alignment.centerLeft,
+                                  alignment: Alignment.center,
                                   child: Padding(
                                     padding: EdgeInsets.all(4.0),
                                     child: Text(

@@ -1017,8 +1017,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         dataRowHeight: 45,
                         minWidth: 172,
                         headingRowHeight: 50,
-                        columns: [
-                          const DataColumn2(
+                        columns: const [
+                          DataColumn2(
                             fixedWidth: 70,
                             label: Center(
                                 child: Text(
@@ -1028,14 +1028,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           ),
                           DataColumn2(
                               fixedWidth: 100,
-                              label: Container(
-                                color: Colors.grey[300],
-                                child: const Center(
-                                    child: Text(
-                                  "Acheivement%",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )),
-                              )),
+                              label: Center(
+                                  child: Text(
+                                "Acheivement\n\t\t\t\t\t\t\t\t(%)",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))),
                         ],
                         rows: [
                           ...appraisalMaster.kpiTable!.map((element) {
@@ -1127,7 +1124,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ))),
                         ],
-                        rows: []),
+                        rows: const []),
                   ),
                   DataCell(
                     DataTable2(
@@ -1137,8 +1134,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         dataRowHeight: 45,
                         minWidth: 175,
                         headingRowHeight: 50,
-                        columns: [
-                          const DataColumn2(
+                        columns: const [
+                          DataColumn2(
                               fixedWidth: 75,
                               label: Center(
                                   child: Text(
@@ -1147,14 +1144,11 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               ))),
                           DataColumn2(
                               fixedWidth: 100,
-                              label: Container(
-                                color: Colors.grey[300],
-                                child: const Center(
-                                    child: Text(
-                                  "Acheivement%",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )),
-                              )),
+                              label: Center(
+                                  child: Text(
+                                "Acheivement\n\t\t\t\t\t\t\t\t(%)",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))),
                         ],
                         rows: [
                           ...appraisalMaster.kpiTable!.map((element) {

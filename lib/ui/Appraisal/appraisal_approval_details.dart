@@ -811,12 +811,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
     return Column(
       children: [
         SizedBox(
-          height: (appraisalMaster.kpiTable!.length + 2) * 50,
+          height: (appraisalMaster.kpiTable!.length + 2) * 52,
           child: DataTable2(
               // border: TableBorder.all(),
               columnSpacing: 0,
               horizontalMargin: 0,
-              dataRowHeight: (appraisalMaster.kpiTable!.length + 1) * 45 + 50,
+              dataRowHeight: (appraisalMaster.kpiTable!.length + 1) * 48 + 50,
               minWidth: 1200,
               // fixedLeftColumns: 1,
               // headingRowColor: MaterialStateColor.resolveWith(
@@ -874,7 +874,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         border: TableBorder.all(),
                         columnSpacing: 0,
                         horizontalMargin: 0,
-                        dataRowHeight: 45,
+                        // dataRowHeight: 45,
                         minWidth: 415,
                         headingRowHeight: 50,
                         columns: const [
@@ -994,7 +994,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         // border: TableBorder.all(),
                         columnSpacing: 0,
                         horizontalMargin: 0,
-                        dataRowHeight: 38,
+                        // dataRowHeight: 38,
                         minWidth: 12,
                         headingRowHeight: 40,
                         columns: const [
@@ -1013,7 +1013,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         border: TableBorder.all(),
                         columnSpacing: 0,
                         horizontalMargin: 0,
-                        dataRowHeight: 45,
+                        // dataRowHeight: 45,
                         minWidth: 172,
                         headingRowHeight: 50,
                         columns: const [
@@ -1110,7 +1110,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         // border: TableBorder.all(),
                         columnSpacing: 0,
                         horizontalMargin: 0,
-                        dataRowHeight: 38,
+                        // dataRowHeight: 38,
                         minWidth: 12,
                         headingRowHeight: 40,
                         columns: const [
@@ -1129,7 +1129,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         border: TableBorder.all(),
                         columnSpacing: 0,
                         horizontalMargin: 0,
-                        dataRowHeight: 45,
+                        // dataRowHeight: 45,
                         minWidth: 175,
                         headingRowHeight: 50,
                         columns: const [
@@ -1379,7 +1379,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                 'Score not more than corresponding weightage!',
                 style: TextStyle(color: Colors.red),
               )
-            : const Text('')
+            : const SizedBox()
       ],
     );
   }

@@ -896,7 +896,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               color: MaterialStateColor.resolveWith(
                                 (states) {
                                   return element.kpiEdit == "NO"
-                                      ? Colors.transparent
+                                      ? Colors.white
                                       : const Color.fromARGB(
                                           255, 250, 185, 100);
                                   // : const Color.fromARGB(255, 235, 228, 244);
@@ -1033,7 +1033,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               color: MaterialStateColor.resolveWith(
                                 (states) {
                                   return element.kpiEdit == "NO"
-                                      ? Colors.transparent
+                                      ? Colors.white
                                       : const Color.fromARGB(
                                           255, 250, 185, 100);
                                   // : const Color.fromARGB(255, 235, 228, 244);
@@ -1044,13 +1044,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 DataCell(Align(
                                     alignment: Alignment.center,
                                     child: Text(element.selfScore ?? ''))),
-                                DataCell(Container(
-                                  color: Colors.grey.shade300,
-                                  // color: Colors.grey.shade300,
-                                  child: Center(
-                                      child:
-                                          Text(element.selfOverallScore ?? '')),
-                                )),
+                                DataCell(Center(
+                                    child:
+                                        Text(element.selfOverallScore ?? ''))),
                               ],
                             );
                           }).toList(),
@@ -1156,7 +1152,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               color: MaterialStateColor.resolveWith(
                                 (states) {
                                   return element.kpiEdit == "NO"
-                                      ? Colors.transparent
+                                      ? Colors.white
                                       : const Color.fromARGB(
                                           255, 250, 185, 100);
                                   // : Color.fromARGB(255, 199, 219, 235);
@@ -1283,18 +1279,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                         // ),
                                       ),
                                 DataCell(
-                                  Container(
-                                    color: Colors.grey.shade300,
-                                    child: Align(
-                                        alignment: Alignment.center,
-                                        child: element.kpiEdit == 'YES'
-                                            ? Text(overalResult(
-                                                element.weightage,
-                                                supScoreMapData[element.sl!]!
-                                                    .text))
-                                            : Text(
-                                                element.supOverallScore ?? '')),
-                                  ),
+                                  Align(
+                                      alignment: Alignment.center,
+                                      child: element.kpiEdit == 'YES'
+                                          ? Text(overalResult(
+                                              element.weightage,
+                                              supScoreMapData[element.sl!]!
+                                                  .text))
+                                          : Text(
+                                              element.supOverallScore ?? '')),
                                 ),
                               ],
                             );

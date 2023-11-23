@@ -84,9 +84,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, String selfScore) {
     double result = 0.0;
-    result = double.parse(
-            (selfScore == '' && selfScore.isEmpty) ? '0.0' : selfScore) *
-        (double.parse(weitage) / 100);
+    result = (double.parse(
+                (selfScore == '' && selfScore.isEmpty) ? '0.0' : selfScore) /
+            (double.parse(weitage))) *
+        100;
     return result.toStringAsFixed(2);
   }
 
@@ -1054,8 +1055,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                     alignment: Alignment.center,
                                     child: Text(element.selfScore ?? ''))),
                                 DataCell(Center(
-                                    child:
-                                        Text(element.selfOverallScore ?? ''))),
+                                    child: Text(
+                                        '${element.selfOverallScore ?? ''}%'))),
                               ],
                             );
                           }).toList(),
@@ -1308,12 +1309,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                   Align(
                                       alignment: Alignment.center,
                                       child: element.kpiEdit == 'YES'
-                                          ? Text(overalResult(
-                                              element.weightage,
-                                              supScoreMapData[element.sl!]!
-                                                  .text))
+                                          ? Text(
+                                              '${overalResult(element.weightage, supScoreMapData[element.sl!]!.text)}%')
                                           : Text(
-                                              element.supOverallScore ?? '')),
+                                              '${element.supOverallScore ?? ''}%')),
                                 ),
                               ],
                             );

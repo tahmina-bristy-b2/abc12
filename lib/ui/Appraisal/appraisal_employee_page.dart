@@ -49,7 +49,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
   @override
   initState() {
     super.initState();
-    controller = TabController(length: 8, vsync: this);
+    controller = TabController(length: 6, vsync: this);
     controller.addListener(() {
       setState(() {});
     });
@@ -98,12 +98,12 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
       approvedEmployeeList = appraisalEmployee!.resData.ffList
           .where((element) => element.appActionStatus == "APPROVED")
           .toList();
-      releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
-          .where((element) => element.appActionStatus == "RELEASED_SUP")
-          .toList();
-      releadedHREmployeeList = appraisalEmployee!.resData.ffList
-          .where((element) => element.appActionStatus == "RELEASED_HR")
-          .toList();
+      // releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
+      //     .where((element) => element.appActionStatus == "RELEASED_SUP")
+      //     .toList();
+      // releadedHREmployeeList = appraisalEmployee!.resData.ffList
+      //     .where((element) => element.appActionStatus == "RELEASED_HR")
+      // .toList();
       rejectedEmployeeList = appraisalEmployee!.resData.ffList
           .where((element) => element.appActionStatus == "REJECTED")
           .toList();
@@ -174,12 +174,12 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
               approvedEmployeeList = appraisalEmployee!.resData.ffList
                   .where((element) => element.appActionStatus == "APPROVED")
                   .toList();
-              releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
-                  .where((element) => element.appActionStatus == "RELEASED_SUP")
-                  .toList();
-              releadedHREmployeeList = appraisalEmployee!.resData.ffList
-                  .where((element) => element.appActionStatus == "RELEASED_HR")
-                  .toList();
+              // releadedSUPEmployeeList = appraisalEmployee!.resData.ffList
+              //     .where((element) => element.appActionStatus == "RELEASED_SUP")
+              //     .toList();
+              // releadedHREmployeeList = appraisalEmployee!.resData.ffList
+              //     .where((element) => element.appActionStatus == "RELEASED_HR")
+              // .toList();
               rejectedEmployeeList = appraisalEmployee!.resData.ffList
                   .where((element) => element.appActionStatus == "REJECTED")
                   .toList();
@@ -193,8 +193,8 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
               Tab(text: "SUBMITTED"),
               Tab(text: "APPROVED"),
               Tab(text: "REJECTED"),
-              Tab(text: "RELEASED_HR"),
-              Tab(text: "RELEASED_SUP"),
+              // Tab(text: "RELEASED_HR"),
+              // Tab(text: "RELEASED_SUP"),
             ]),
       ),
       body: TabBarView(controller: controller, children: [
@@ -204,8 +204,8 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
         columnWIdget(context, submittedEmployeeList, "Submitted"),
         columnWIdget(context, approvedEmployeeList, "Approved"),
         columnWIdget(context, rejectedEmployeeList, "Rejected"),
-        columnWIdget(context, releadedHREmployeeList, "Released_HR"),
-        columnWIdget(context, releadedSUPEmployeeList, "Released_SUP"),
+        // columnWIdget(context, releadedHREmployeeList, "Released_HR"),
+        // columnWIdget(context, releadedSUPEmployeeList, "Released_SUP"),
       ]),
     );
 

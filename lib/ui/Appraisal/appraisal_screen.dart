@@ -570,7 +570,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 90,
+                fixedWidth: 120,
                 label: Center(
                     child: Text(
                   appraisalDetailsModel!
@@ -579,7 +579,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 90,
+                fixedWidth: 100,
                 label: Center(
                     child: Text(
                   appraisalDetailsModel!.resData.retStr.first.currentAchievement
@@ -649,7 +649,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                        "${appraisalDetailsModel!.resData.retStr.first.seenRx}%"))),
+                        "${appraisalDetailsModel!.resData.retStr.first.seenRx1}%"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -717,7 +717,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   45 +
               70 +
               45 +
-              60),
+              15),
           child: DataTable2(
               border: TableBorder.all(),
               columnSpacing: 12,
@@ -1303,15 +1303,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(e.kpiEdit == "YES"
-                              ? overallCount(
-                                      e.weitage,
-                                      e.kpiEdit == "YES"
-                                          ? dropdwonValueForSelfScore[e.sl]!
-                                              .text
-                                              .toString()
-                                          : "0")
-                                  .toString()
-                              : e.selAche.toString()
+                              ? "${overallCount(e.weitage, e.kpiEdit == "YES" ? dropdwonValueForSelfScore[e.sl]!.text.toString() : "0").toStringAsFixed(2)}%"
+                              : "${e.selAche.toString()}%"
                           // child: Text(overallCount(
                           //         e.weitage,
                           //         e.kpiEdit == "NO"
@@ -1333,7 +1326,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total (Sum of Weightage)",
+            "Total",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Align(
@@ -1343,45 +1336,49 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ))),
-          DataCell(Center(
+          DataCell(Align(
+              alignment: Alignment.centerRight,
               child: Text(
-            totalScoreResult(appraisalDetailsModel!.resData.retStr).toString(),
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
-          DataCell(Center(
+                totalScoreResult(appraisalDetailsModel!.resData.retStr)
+                    .toStringAsFixed(2),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ))),
+          const DataCell(Center(
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              (totaOverallCount + totalYesCount).toStringAsFixed(2),
+              // (totaOverallCount + totalYesCount).toStringAsFixed(2),
+              "",
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ))),
         ],
       ),
-      DataRow(
-        color: MaterialStateColor.resolveWith(
-            (states) => const Color.fromARGB(255, 165, 193, 170)),
-        // const Color.fromARGB(255, 226, 226, 226)),
+      // DataRow(
+      //   color: MaterialStateColor.resolveWith(
+      //       (states) => const Color.fromARGB(255, 165, 193, 170)),
+      //   // const Color.fromARGB(255, 226, 226, 226)),
 
-        cells: [
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(
-              child: Text(
-            "Rounded",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
-          DataCell(Center(
-              child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              (totaOverallCount + totalYesCount).round().toString(),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ))),
-        ],
-      ),
+      //   cells: [
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(
+      //         child: Text(
+      //       "Rounded",
+      //       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+      //     ))),
+      //     DataCell(Center(
+      //         child: Align(
+      //       alignment: Alignment.centerRight,
+      //       child: Text(
+      //         (totaOverallCount + totalYesCount).round().toString(),
+      //         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      //       ),
+      //     ))),
+      //   ],
+      // ),
     ];
   }
 

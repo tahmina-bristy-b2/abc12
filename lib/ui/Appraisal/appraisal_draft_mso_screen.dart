@@ -918,7 +918,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     return Column(
       children: [
         SizedBox(
-          height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 60),
+          height: (appraisalMaster.kpiTable!.length * 45 + 70 + 35),
           child: DataTable2(
               border: TableBorder.all(),
               columnSpacing: 12,
@@ -930,7 +930,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   return const Color.fromARGB(255, 159, 193, 165);
                 },
               ),
-              headingRowHeight: 80,
+              headingRowHeight: 50,
               columns: const [
                 DataColumn2(
                     fixedWidth: 40,
@@ -1218,15 +1218,8 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(e.kpiEdit == "YES"
-                              ? overallCount(
-                                      e.weightage!,
-                                      e.kpiEdit == "YES"
-                                          ? dropdwonValueForSelfScore[e.sl]!
-                                              .text
-                                              .toString()
-                                          : "0")
-                                  .toString()
-                              : e.selfOverallScore.toString()
+                              ? "${overallCount(e.weightage!, e.kpiEdit == "YES" ? dropdwonValueForSelfScore[e.sl]!.text.toString() : "0").toStringAsFixed(2)}%"
+                              : "${e.selfOverallScore.toString()}%"
                           // child: Text(overallCount(
                           //         e.weitage,
                           //         e.kpiEdit == "NO"
@@ -1259,18 +1252,21 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),
-          DataCell(Center(
+          DataCell(Align(
+              alignment: Alignment.centerRight,
               child: Text(
-            totalScoreResult(
-                    appraisalApprovalFfDetailsData!.resData!.retStr!.first)
-                .toStringAsFixed(2),
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
-          DataCell(Center(
+                totalScoreResult(
+                        appraisalApprovalFfDetailsData!.resData!.retStr!.first)
+                    .toStringAsFixed(2),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ))),
+          const DataCell(Center(
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              (totaOverallCount + totalYesCount).toStringAsFixed(2),
+              "",
+              // (totaOverallCount + totalYesCount).toStringAsFixed(2),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ))),

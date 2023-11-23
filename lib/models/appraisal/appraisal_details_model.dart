@@ -100,6 +100,7 @@ class RetStr {
   String action;
   String noIncidence;
   String avgRxGrowth;
+  String seenRx1;
   List<KpiTable> kpiTable;
 
   RetStr({
@@ -148,6 +149,7 @@ class RetStr {
     required this.noIncidence,
     required this.avgRxGrowth,
     required this.kpiTable,
+    required this.seenRx1,
   });
 
   factory RetStr.fromJson(Map<String, dynamic> json) => RetStr(
@@ -168,23 +170,59 @@ class RetStr {
         trCode: json["tr_code"] ?? "",
         baseTerritory: json["base_territory"] ?? "",
         lengthOfPresentTrService: json["length_of_present_tr_service"] ?? "",
-        targetValue1: json["target_value_1"] ?? "0.0",
-        targetValue2: json["target_value_2"] ?? "0.0",
-        soldValue1: json["sold_value_1"] ?? "0.0",
-        soldValue2: json["sold_value_2"] ?? "0.0",
-        achievement1: json["achievement_1"] ?? "0.0",
-        achievement2: json["achievement_2"] ?? "0.0",
-        avgSales1: json["avg_sales_1"] ?? "0.0",
-        avgSales2: json["avg_sales_2"] ?? "0.0",
-        avgSales4P1: json["avg_sales_4p_1"] ?? "0.0",
-        avgSales4P2: json["avg_sales_4p_2"] ?? "0.0",
-        avgSalesEmr1: json["avg_sales_emr_1"] ?? "0.0",
-        avgSalesEmr2: json["avg_sales_emr_2"] ?? "0.0",
-        noMonthAchiev1: json["no_month_achiev_1"] ?? "0.0",
-        noMonthAchiev2: json["no_month_achiev_2"] ?? "0.0",
-        chemistCov1: json["chemist_cov_1"] ?? "0.0",
-        chemistCov2: json["chemist_cov_2"] ?? "0.0",
-        seenRx: json["seen_rx"] ?? "0",
+        targetValue1:
+            double.parse(json["target_value_1"] ?? '0.0').toStringAsFixed(2),
+        soldValue1:
+            double.parse(json["sold_value_1"] ?? '0.0').toStringAsFixed(2),
+        achievement1:
+            double.parse(json["achievement_1"] ?? '0.0').toStringAsFixed(2),
+        avgSales1:
+            double.parse(json["avg_sales_1"] ?? '0.0').toStringAsFixed(2),
+        avgSales4P1:
+            double.parse(json["avg_sales_4p_1"] ?? '0.0').toStringAsFixed(2),
+        avgSalesEmr1:
+            double.parse(json["avg_sales_emr_1"] ?? '0.0').toStringAsFixed(2),
+        noMonthAchiev1:
+            double.parse(json["no_month_achiev_1"] ?? '0.0').toStringAsFixed(2),
+        chemistCov1:
+            double.parse(json["chemist_cov_1"] ?? '0.0').toStringAsFixed(2),
+        targetValue2:
+            double.parse(json["target_value_2"] ?? '0.0').toStringAsFixed(2),
+        soldValue2:
+            double.parse(json["sold_value_2"] ?? '0.0').toStringAsFixed(2),
+        achievement2:
+            double.parse(json["achievement_2"] ?? '0.0').toStringAsFixed(2),
+        avgSales2:
+            double.parse(json["avg_sales_2"] ?? '0.0').toStringAsFixed(2),
+        avgSales4P2:
+            double.parse(json["avg_sales_4p_2"] ?? '0.0').toStringAsFixed(2),
+        avgSalesEmr2:
+            double.parse(json["avg_sales_emr_2"] ?? '0.0').toStringAsFixed(2),
+        noMonthAchiev2:
+            double.parse(json["no_month_achiev_2"] ?? '0.0').toStringAsFixed(2),
+        chemistCov2:
+            double.parse(json["chemist_cov_2"] ?? '0.0').toStringAsFixed(2),
+        // targetValue1: json["target_value_1"] ?? "0.0",
+        // targetValue2: json["target_value_2"] ?? "0.0",
+        //  soldValue1: double.parse(json["sold_value_1"] ?? "0.0").toStringAsFixed(2),
+        //   soldValue2: double.parse(json["sold_value_2"] ?? "0.0").toStringAsFixed(2),
+
+        // soldValue2: json["sold_value_2"] ?? "0.0",
+        // achievement1: json["achievement_1"] ?? "0.0",
+        // achievement2: json["achievement_2"] ?? "0.0",
+        // avgSales1: json["avg_sales_1"] ?? "0.0",
+        // avgSales2: json["avg_sales_2"] ?? "0.0",
+        // avgSales4P1: json["avg_sales_4p_1"] ?? "0.0",
+        // avgSales4P2: json["avg_sales_4p_2"] ?? "0.0",
+        // avgSalesEmr1: json["avg_sales_emr_1"] ?? "0.0",
+        // avgSalesEmr2: json["avg_sales_emr_2"] ?? "0.0",
+        // noMonthAchiev1: json["no_month_achiev_1"] ?? "0.0",
+        // noMonthAchiev2: json["no_month_achiev_2"] ?? "0.0",
+        // chemistCov1: json["chemist_cov_1"] ?? "0.0",
+        // chemistCov2: json["chemist_cov_2"] ?? "0.0",
+        // seenRx: json["seen_rx"] ?? "0",
+        seenRx: double.parse(json["seen_rx"] ?? '0.0').toStringAsFixed(2),
+        seenRx1: double.parse(json["seen_rx_1"] ?? '0.0').toStringAsFixed(2),
         avRx4PBasePoint: double.parse(json["av_rx_4p_base_point"] ?? "0.0")
             .toStringAsFixed(2),
         avRxEmrBasePoint: json["av_rx_emr_base_point"] ?? "0.0",

@@ -1170,9 +1170,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             (e) => DataRow(
               color: MaterialStateColor.resolveWith(
                 (states) {
-                  return e.kpiEdit == "NO"
-                      ? Colors.transparent
-                      : const Color.fromARGB(255, 250, 185, 100);
+                  return e.kpiEdit == "NO" ? Colors.transparent : Colors.yellow;
                   // : Color.fromARGB(255, 199, 219, 235);
                 },
               ),

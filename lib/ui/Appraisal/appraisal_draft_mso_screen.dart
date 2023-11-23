@@ -58,6 +58,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   List<String>? selfDropdownValue = <String>['1', '2', '3'];
   Map<String, TextEditingController> dropdwonValueForSelfScore = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
+  Map<String, bool> supScoreErrorHandling = {};
   List kpiValuesList = [];
 
   bool isSubmit = false;

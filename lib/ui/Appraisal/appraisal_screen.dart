@@ -46,6 +46,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   TextEditingController feeddbackController = TextEditingController();
   List<RowData> rowsList = [];
   List<String>? selfDropdownValue = <String>['1', '2', '3'];
+  Map<String, bool> supScoreErrorHandling = {};
   //  List<String>? selfDropdownValue = <String>[
   //   '1-Needs Improvement',
   //   '2-Good',
@@ -145,6 +146,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       totalWeightage = totalWeightage + double.parse(kpi.weitage);
 
       dropdwonValueForSelfScore[kpi.sl] = TextEditingController(text: "");
+      supScoreErrorHandling[kpi.sl] = false;
     }
     print(dropdwonValueForSelfScore);
   }
@@ -1189,6 +1191,12 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           keyboardType: TextInputType.number,
                           controller: dropdwonValueForSelfScore[e.sl],
                           textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: supScoreErrorHandling[e.sl] == null
+                                  ? Colors.black
+                                  : supScoreErrorHandling[e.sl]!
+                                      ? Colors.red
+                                      : Colors.black),
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                               RegExp("[0-9]"),

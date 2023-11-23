@@ -774,7 +774,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 222, 211, 235),
           borderRadius: BorderRadius.circular(5)),
-      height: 295,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
@@ -1140,7 +1139,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 (states) {
                   return e.kpiEdit == "NO"
                       ? Colors.transparent
-                      : const Color.fromARGB(255, 235, 228, 244);
+                      : const Color.fromARGB(255, 250, 185, 100);
                   // : Color.fromARGB(255, 199, 219, 235);
                 },
               ),
@@ -1155,7 +1154,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             color: Colors.black, fontWeight: FontWeight.w400),
                       ),
                       onPressed: () {
-                        definationShowDialog(context, e.definition);
+                        definationShowDialog(
+                            context, e.definitionHead, e.definition);
                       },
                     ))),
                 DataCell(Align(
@@ -1168,15 +1168,48 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           child: Text(e.selfScore),
                         ),
                       )
-                    : DataCell(SizedBox(
+                    : DataCell(Container(
                         width: 300.0,
-
-                        // child: Text(
-                        //   e.kpiEdit == "NO" ? e.selAche.toString() : "0.0",
-                        // )
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 250, 250, 250),
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(0)),
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: dropdwonValueForSelfScore[e.sl],
+                          textAlign: TextAlign.right,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp("[0-9]"),
+                            ),
+                          ],
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(right: 8),
+                          ),
                           onChanged: (value) {
+                            if (double.parse(value) > double.parse(e.weitage)) {
+                              AllServices().toastMessage(
+                                  "Input value must be equal or less than ${e.weitage}",
+                                  Colors.red,
+                                  Colors.white,
+                                  12);
+                              // dropdwonValueForSelfScore[e.sl]!.value =
+                              //     dropdwonValueForSelfScore[e.sl]!
+                              //         .value
+                              //         .copyWith(
+                              //           text: value.substring(
+                              //               0,
+                              //               int.parse(e.weitage)
+                              //                       .toString()
+                              //                       .length -
+                              //                   1),
+                              //           selection:
+                              //               TextSelection.collapsed(offset: 10),
+                              //         );
+                            }
+
                             setState(() {
                               print(
                                   "data==================${dropdwonValueForSelfScore[e.sl]!.text.toString()}");
@@ -1322,13 +1355,13 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   }
 
   Future<void> definationShowDialog(
-      BuildContext context, String TextLine) async {
+      BuildContext context, String definationHead, String TextLine) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
-            'KPI Defination',
+          title: Text(
+            definationHead,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),

@@ -359,7 +359,7 @@ class KpiTable {
         kpiId: json["kpi_id"],
         name: json["name"],
         definition: json["definition"],
-        definitionHead: json["definition_head"],
+        definitionHead: json["definition_head"] ?? "",
         weightage: json["weightage"],
         kpiEdit: json["kpi_edit"],
         selfScore: json["self_score"],

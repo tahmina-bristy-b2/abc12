@@ -84,9 +84,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
   String overalResult(var weitage, String selfScore) {
     double result = 0.0;
-    result = double.parse(
-            (selfScore == '' && selfScore.isEmpty) ? '0.0' : selfScore) *
-        (double.parse(weitage) / 100);
+    result = (double.parse(
+                (selfScore == '' && selfScore.isEmpty) ? '0.0' : selfScore) /
+            (double.parse(weitage))) *
+        100;
     return result.toStringAsFixed(2);
   }
 
@@ -462,7 +463,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 if (supScoreErrorHandling.values
                                     .any((element) => element == true)) {
                                   AllServices().toastMessage(
-                                      'Score Not more than weightage!',
+                                      'Score Not more than corresponding weightage!',
                                       Colors.yellow,
                                       Colors.black,
                                       12);
@@ -477,12 +478,21 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                   String approvalRestParams =
                                       'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Approved';
 
-                                  _showConfirmationDialogue(
-                                    index,
-                                    'Submit', //Button action
-                                    approvalRestParams,
-                                    supDataForSubmit,
-                                  );
+                                  if (supScoreMapData.values.every(
+                                      (element) => element!.text.isNotEmpty)) {
+                                    _showConfirmationDialogue(
+                                      index,
+                                      'Submit', //Button action
+                                      approvalRestParams,
+                                      supDataForSubmit,
+                                    );
+                                  } else {
+                                    AllServices().toastMessage(
+                                        'Input score must be provided!',
+                                        Colors.red,
+                                        Colors.black,
+                                        12);
+                                  }
                                 }
                               },
                         child: Container(
@@ -1045,8 +1055,8 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                     alignment: Alignment.center,
                                     child: Text(element.selfScore ?? ''))),
                                 DataCell(Center(
-                                    child:
-                                        Text(element.selfOverallScore ?? ''))),
+                                    child: Text(
+                                        '${element.selfOverallScore ?? ''}%'))),
                               ],
                             );
                           }).toList(),
@@ -1211,11 +1221,12 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                                 border: InputBorder.none,
                                               ),
                                               onChanged: (value) {
-                                                if (value != '' &&
-                                                    int.parse(value) <=
-                                                        double.parse(
-                                                            element.weightage ??
-                                                                '0.0')) {
+                                                if (int.parse(value == ''
+                                                        ? '0'
+                                                        : value) <=
+                                                    double.parse(
+                                                        element.weightage ??
+                                                            '0.0')) {
                                                   supDataForSubmit.removeWhere(
                                                       (ele) =>
                                                           ele["row_id"] ==
@@ -1223,7 +1234,9 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
 
                                                   supDataForSubmit.add({
                                                     "row_id": element.rowId,
-                                                    "sup_score": value,
+                                                    "sup_score": value == ''
+                                                        ? '0'
+                                                        : value,
                                                     "sup_overall_score":
                                                         overalResult(
                                                             element.weightage,
@@ -1235,11 +1248,25 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                                       element.sl!] = false;
 
                                                   setState(() {});
-                                                } else {
+                                                } else if (value != '' &&
+                                                    int.parse(value) >
+                                                        double.parse(
+                                                            element.weightage ??
+                                                                '0.0')) {
+                                                  AllServices().toastMessage(
+                                                      "Input value must be equal or less than ${element.weightage!}",
+                                                      Colors.red,
+                                                      Colors.white,
+                                                      12);
                                                   supScoreErrorHandling[
                                                       element.sl!] = true;
                                                   // supScoreMapData[element.sl!]!.text =
                                                   //     element.supScore ?? '0.00';
+                                                  setState(() {});
+                                                } else {
+                                                  supScoreErrorHandling[
+                                                      element.sl!] = false;
+
                                                   setState(() {});
                                                 }
                                               },
@@ -1282,12 +1309,10 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                   Align(
                                       alignment: Alignment.center,
                                       child: element.kpiEdit == 'YES'
-                                          ? Text(overalResult(
-                                              element.weightage,
-                                              supScoreMapData[element.sl!]!
-                                                  .text))
+                                          ? Text(
+                                              '${overalResult(element.weightage, supScoreMapData[element.sl!]!.text)}%')
                                           : Text(
-                                              element.supOverallScore ?? '')),
+                                              '${element.supOverallScore ?? ''}%')),
                                 ),
                               ],
                             );
@@ -1349,7 +1374,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
         ),
         supScoreErrorHandling.values.any((element) => element == true)
             ? const Text(
-                'Score not more than corresponding weightage',
+                'Score not more than corresponding weightage!',
                 style: TextStyle(color: Colors.red),
               )
             : const Text('')

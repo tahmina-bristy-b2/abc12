@@ -782,14 +782,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           headingRowHeight: 40,
           columns: [
             const DataColumn2(
-                fixedWidth: 50,
+                fixedWidth: 40,
                 label: Center(
                     child: Text(
                   "SL No",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 150,
+                fixedWidth: 170,
                 label: Center(
                     child: Text(
                   "KPI Name",
@@ -918,19 +918,19 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     return Column(
       children: [
         SizedBox(
-          height: (appraisalMaster.kpiTable!.length * 45 + 70 + 35),
+          height: (appraisalMaster.kpiTable!.length * 50 + 55 + 45 + 15),
           child: DataTable2(
               border: TableBorder.all(),
               columnSpacing: 12,
               horizontalMargin: 8,
-              dataRowHeight: 45,
+              dataRowHeight: 50,
               minWidth: 800,
               headingRowColor: MaterialStateColor.resolveWith(
                 (states) {
                   return const Color.fromARGB(255, 159, 193, 165);
                 },
               ),
-              headingRowHeight: 50,
+              headingRowHeight: 60,
               columns: const [
                 DataColumn2(
                     fixedWidth: 40,
@@ -940,21 +940,21 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 220,
+                    fixedWidth: 300,
                     label: Center(
                         child: Text(
                       "KPI Name",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 100,
+                    fixedWidth: 80,
                     label: Center(
                         child: Text(
-                      "Weightage(%)",
+                      "Weightage\n\t\t\t\t\t\t\t(%)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 120,
+                    fixedWidth: 90,
                     label: Center(
                         child: Text(
                       "Score",
@@ -984,7 +984,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     fixedWidth: 100,
                     label: Center(
                         child: Text(
-                      "Achievement %",
+                      "Achievement\n\t\t\t\t\t\t\t\t\t(%)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
               ],
@@ -1007,9 +1007,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
             (e) => DataRow(
               color: MaterialStateColor.resolveWith(
                 (states) {
-                  return e.kpiEdit == "NO"
-                      ? Colors.transparent
-                      : const Color.fromARGB(255, 250, 185, 100);
+                  return e.kpiEdit == "NO" ? Colors.transparent : Colors.yellow;
                   // : Color.fromARGB(255, 199, 219, 235);
                 },
               ),
@@ -1055,11 +1053,15 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                             ),
                           ],
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
+                            border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.only(right: 8),
                           ),
                           onChanged: (value) {
-                            if (value.isEmpty) return;
+                            if (value.isEmpty) {
+                              setState(() {});
+                              return;
+                            }
+
                             if (double.parse(value) >
                                 double.parse(e.weightage!)) {
                               AllServices().toastMessage(
@@ -1214,22 +1216,20 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                 //                       : dropdwonValueForSelfScore[e.sl])
                 //           .toStringAsFixed(2))),
                 // )
-                DataCell(Container(
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(e.kpiEdit == "YES"
-                              ? "${overallCount(e.weightage!, e.kpiEdit == "YES" ? dropdwonValueForSelfScore[e.sl]!.text.toString() : "0").toStringAsFixed(2)}%"
-                              : "${e.selfOverallScore.toString()}%"
-                          // child: Text(overallCount(
-                          //         e.weitage,
-                          //         e.kpiEdit == "NO"
-                          //             ? e.selfScore
-                          //             : dropdwonValueForSelfScore[e.sl] == null
-                          //                 ? "0.0"
-                          //                 : dropdwonValueForSelfScore[e.sl])
-                          //     .toStringAsFixed(2)),
-                          )),
-                ))
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(e.kpiEdit == "YES"
+                            ? "${overallCount(e.weightage!, e.kpiEdit == "YES" ? dropdwonValueForSelfScore[e.sl]!.text.toString() : "0").toStringAsFixed(2)}%"
+                            : "${e.selfOverallScore.toString()}%"
+                        // child: Text(overallCount(
+                        //         e.weitage,
+                        //         e.kpiEdit == "NO"
+                        //             ? e.selfScore
+                        //             : dropdwonValueForSelfScore[e.sl] == null
+                        //                 ? "0.0"
+                        //                 : dropdwonValueForSelfScore[e.sl])
+                        //     .toStringAsFixed(2)),
+                        )))
               ],
             ),
           )
@@ -1241,7 +1241,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           const DataCell(Center(child: Text(""))),
           const DataCell(Center(
               child: Text(
-            "Total (Sum of Weightage)",
+            "Total",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(

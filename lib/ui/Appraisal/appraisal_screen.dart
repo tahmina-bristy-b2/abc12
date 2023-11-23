@@ -556,14 +556,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           headingRowHeight: 40,
           columns: [
             const DataColumn2(
-                fixedWidth: 50,
+                fixedWidth: 40,
                 label: Center(
                     child: Text(
                   "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 150,
+                fixedWidth: 170,
                 label: Center(
                     child: Text(
                   "KPI Name",
@@ -714,15 +714,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       children: [
         SizedBox(
           height: (appraisalDetailsModel!.resData.retStr.first.kpiTable.length *
-                  50 +
-              55 +
-              45 +
-              15),
+                  45 +
+              70 +
+              45),
           child: DataTable2(
               border: TableBorder.all(),
               columnSpacing: 12,
               horizontalMargin: 8,
-              dataRowHeight: 50,
+              dataRowHeight: 45,
               minWidth: 800,
               headingRowColor: MaterialStateColor.resolveWith(
                 (states) {
@@ -739,21 +738,21 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 300,
+                    fixedWidth: 400,
                     label: Center(
                         child: Text(
                       "KPI Name",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 100,
+                    fixedWidth: 80,
                     label: Center(
                         child: Text(
                       "Weightage\n\t\t\t\t\t\t\t(%)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 120,
+                    fixedWidth: 80,
                     label: Center(
                         child: Text(
                       "Score",
@@ -1208,6 +1207,11 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             borderRadius: BorderRadius.circular(0)),
                         child: TextField(
                           keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.only(right: 8),
+                          ),
+
                           controller: dropdwonValueForSelfScore[e.sl],
                           textAlign: TextAlign.right,
                           style: TextStyle(
@@ -1221,15 +1225,13 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                               RegExp("[0-9]"),
                             ),
                           ],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.only(right: 8),
-                          ),
+
                           onChanged: (value) {
                             if (value.isEmpty) {
                               setState(() {});
                               return;
                             }
+
                             if (double.parse(value) > double.parse(e.weitage)) {
                               AllServices().toastMessage(
                                   "Input value must be less than or equal to ${e.weitage}",

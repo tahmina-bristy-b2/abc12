@@ -130,6 +130,21 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     }
   }
 
+  double totalScoreResult(RetStr appraisalMaster) {
+    double result = 0.0;
+    for (var element in appraisalMaster.kpiTable!) {
+      result += element.kpiEdit == "YES"
+          ? double.parse(dropdwonValueForSelfScore[element.sl]!.text.isEmpty
+              ? "0"
+              : dropdwonValueForSelfScore[element.sl]!.text.toString())
+          : double.parse(element.selfScore!);
+      // *
+      //     (double.parse(element.weightage ?? '0') / 100);
+    }
+
+    return result;
+  }
+
   Future _showDialouge(String title, String description) async {
     return showGeneralDialog(
         barrierColor: Colors.black.withOpacity(0.5),
@@ -1022,28 +1037,27 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                             contentPadding: EdgeInsets.only(right: 8),
                           ),
                           onChanged: (value) {
-                            if (value != '') {
-                              if (double.parse(value) >
-                                  double.parse(e.weightage!)) {
-                                AllServices().toastMessage(
-                                    "Input value must be equal or less than ${e.weightage!}",
-                                    Colors.red,
-                                    Colors.white,
-                                    12);
-                                // dropdwonValueForSelfScore[e.sl]!.value =
-                                //     dropdwonValueForSelfScore[e.sl]!
-                                //         .value
-                                //         .copyWith(
-                                //           text: value.substring(
-                                //               0,
-                                //               int.parse(e.weitage)
-                                //                       .toString()
-                                //                       .length -
-                                //                   1),
-                                //           selection:
-                                //               TextSelection.collapsed(offset: 10),
-                                //         );
-                              }
+                            if (value.isEmpty) return;
+                            if (double.parse(value) >
+                                double.parse(e.weightage!)) {
+                              AllServices().toastMessage(
+                                  "Input value must be equal or less than ${e.weightage!}",
+                                  Colors.red,
+                                  Colors.white,
+                                  12);
+                              // dropdwonValueForSelfScore[e.sl]!.value =
+                              //     dropdwonValueForSelfScore[e.sl]!
+                              //         .value
+                              //         .copyWith(
+                              //           text: value.substring(
+                              //               0,
+                              //               int.parse(e.weitage)
+                              //                       .toString()
+                              //                       .length -
+                              //                   1),
+                              //           selection:
+                              //               TextSelection.collapsed(offset: 10),
+                              //         );
                             }
                             setState(() {
                               print(
@@ -1220,9 +1234,11 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),
-          const DataCell(Center(
+          DataCell(Center(
               child: Text(
-            "Total",
+            totalScoreResult(
+                    appraisalApprovalFfDetailsData!.resData!.retStr!.first)
+                .toStringAsFixed(2),
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
@@ -1306,9 +1322,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
         dropdwonValueForSelfScore[kpi.sl!] = kpi.selfScore != ""
             ? TextEditingController(text: "${kpi.selfScore}")
             : TextEditingController(text: "");
-      }
 
-      if (kpi.kpiEdit == 'YES' && kpi.selfScore != "0") {
         overalYesValuesMap[kpi.sl] = {
           'weightage': kpi.weightage,
           'value': kpi.selfScore
@@ -1321,12 +1335,17 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
         });
       }
       if (kpi.kpiEdit == "NO") {
-        totaOverallCount = totaOverallCount +
-            overallCount(
-                kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
+        totaOverallCount =
+            totaOverallCount + double.parse(kpi.selfOverallScore.toString());
       }
 
-      // feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
+      // if (kpi.kpiEdit == "NO") {
+      //   // totaOverallCount = totaOverallCount +
+      //   //     overallCount(
+      //   //         kpi.weightage!, kpi.selfScore! == "0" ? "0.0" : kpi.selfScore!);
+      // }
+
+      feeddbackController.text = selfDEtails.resData!.retStr!.first.feedback!;
     }
     return totaOverallCount;
   }

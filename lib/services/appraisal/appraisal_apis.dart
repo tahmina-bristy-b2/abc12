@@ -50,8 +50,8 @@ class AppraisalApis {
     String userId,
     String userPass,
   ) =>
-      "$syncUrl/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=$userPass";
-  // "$ipPort/$app/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=1234";
+      //  "$syncUrl/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=$userPass";
+      "$ipPort/$app/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=1234";
 
   static employeeAppraisalForDraft(String url, String cid, String userId,
           String userPass, String levelDepth, String employeeId) =>

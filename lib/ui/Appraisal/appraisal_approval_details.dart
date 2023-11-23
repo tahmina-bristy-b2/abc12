@@ -414,7 +414,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 if (supScoreErrorHandling.values
                                     .any((element) => element == true)) {
                                   AllServices().toastMessage(
-                                      'Score Not more than weightage!',
+                                      'Score Not more than corresponding weightage!',
                                       Colors.yellow,
                                       Colors.black,
                                       12);
@@ -635,14 +635,14 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           headingRowHeight: 40,
           columns: [
             const DataColumn2(
-                fixedWidth: 30,
+                fixedWidth: 20,
                 label: Center(
                     child: Text(
                   "SL",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             const DataColumn2(
-                fixedWidth: 150,
+                fixedWidth: 200,
                 label: Center(
                     child: Text(
                   "KPI Name",
@@ -1218,7 +1218,18 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                                 hintText: 'Score',
                                                 contentPadding:
                                                     EdgeInsets.only(right: 8),
-                                                border: InputBorder.none,
+                                                border: OutlineInputBorder(
+                                                    // borderSide: BorderSide(
+                                                    //     color: supScoreErrorHandling[
+                                                    //                 element
+                                                    //                     .sl!] ==
+                                                    //             null
+                                                    //         ? Colors.red
+                                                    //         : supScoreErrorHandling[
+                                                    //                 element.sl!]!
+                                                    //             ? Colors.red
+                                                    //             : Colors.red),
+                                                    ),
                                               ),
                                               onChanged: (value) {
                                                 if (int.parse(value == ''

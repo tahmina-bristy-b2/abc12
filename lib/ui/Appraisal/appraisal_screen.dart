@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
@@ -49,7 +51,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   //   '2-Good',
   //   '3-Very good'
   // ];
-  Map<String, dynamic> dropdwonValueForSelfScore = {};
+  Map<String, TextEditingController> dropdwonValueForSelfScore = {};
   List kpiValuesList = [];
   bool isUpgrade = false;
   bool isDesignationChange = false;
@@ -83,15 +85,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   //============================================ Employee Details Api Call==========================================
   getEmployeeDetails() async {
-    appraisalDetailsModel = await AppraisalRepository().getEmployeeDetails(
-        dmpathData!.syncUrl,
-        widget.cid,
-        widget.userId,
-        widget.userPass,
-        widget.levelDepth,
-        widget.employeeId);
-    // appraisalDetailsModel =
-    //     appraisalDetailsModelFromJson(json.encode(selfAssesmentJson));
+    // appraisalDetailsModel = await AppraisalRepository().getEmployeeDetails(
+    //     dmpathData!.syncUrl,
+    //     widget.cid,
+    //     widget.userId,
+    //     widget.userPass,
+    //     widget.levelDepth,
+    //     widget.employeeId);
+    appraisalDetailsModel = appraisalDetailsModelFromJson(json.encode(data));
 
     if (appraisalDetailsModel != null) {
       if (appraisalDetailsModel!.resData.retStr.isNotEmpty) {
@@ -137,13 +138,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           kpiEdit: kpi.kpiEdit,
         ),
       );
+
       totaOverallCount = totaOverallCount +
-          overallCount(
-              kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
+          (kpi.kpiEdit == "NO" ? double.parse(kpi.selAche.toString()) : 0);
+      // : overallCount(
+      //     kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
       totalWeightage = totalWeightage + double.parse(kpi.weitage);
 
-      dropdwonValueForSelfScore[kpi.sl] =
-          kpi.kpiEdit == 'YES' ? null : kpi.selfScore;
+      dropdwonValueForSelfScore[kpi.sl] = TextEditingController(text: "");
 
       // dropdwonValueForSelfScore.forEach((key, value) {
       //   key = kpi.sl;
@@ -154,8 +156,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   // //==================================================new================================================
   double overallCount(String weightageKey, String scrore) {
-    double overallCount =
-        ((double.parse(weightageKey) / 100) * double.parse(scrore));
+    double overallCount = ((double.parse(scrore == "" ? "0" : scrore) * 100) /
+        double.parse(weightageKey));
 
     return overallCount;
   }
@@ -756,7 +758,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 fixedWidth: 100,
                 label: Center(
                     child: Text(
-                  "Achievemet %",
+                  "Achievement %",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
           ],
@@ -772,7 +774,6 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 222, 211, 235),
           borderRadius: BorderRadius.circular(5)),
-      height: 295,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
@@ -933,31 +934,35 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             "kpi_name": kpi.name,
             "kpi_id": kpi.kpiId,
             "weightage": kpi.weitage,
-            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+            "self_score": kpi.kpiEdit == "YES"
+                ? dropdwonValueForSelfScore[kpi.sl]!.text.toString()
+                : kpi.selfScore,
             "defination": kpi.definition,
-            // "overall_result": overallCount(
-            //         kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
-            //     .toStringAsFixed(2),
-            "overall_result": kpi.selAche ?? "0.0",
+            "overall_result": kpi.kpiEdit == "YES"
+                ? overallCount(kpi.weitage,
+                        dropdwonValueForSelfScore[kpi.sl]!.text.toString())
+                    .toStringAsFixed(2)
+                : kpi.selAche
+            // "overall_result": kpi.selAche ?? "0.0",
           };
           kpiValuesList.add(eachKpiValues);
 
-          // if (kpi.kpiEdit == "YES") {
-          //   if ((dropdwonValueForSelfScore[kpi.sl] != null)) {
-          //   } else {
-          //     AllServices().toastMessage("Please select score of ${kpi.name}",
-          //         Colors.red, Colors.white, 16);
-          //     break;
-          //   }
-          // }
+          if (kpi.kpiEdit == "YES") {
+            if ((dropdwonValueForSelfScore[kpi.sl]!.text != "")) {
+            } else {
+              AllServices().toastMessage(
+                  "Please Enter ${kpi.name}", Colors.red, Colors.white, 16);
+              break;
+            }
+          }
         }
-        await internetCheckForSubmit();
+        // await internetCheckForSubmit();
 
-        // if (kpiValuesList.length == counter &&
-        //     dropdwonValueForSelfScore.values
-        //         .every((element) => element != null)) {
-        //   await internetCheckForSubmit();
-        // }
+        if (kpiValuesList.length == counter &&
+            dropdwonValueForSelfScore.values
+                .every((element) => element != "")) {
+          await internetCheckForSubmit();
+        }
       },
       child: Container(
         height: 50,
@@ -995,9 +1000,21 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
             "kpi_name": kpi.name,
             "kpi_id": kpi.kpiId,
             "weightage": kpi.weitage,
-            "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+            "self_score": kpi.kpiEdit == "YES"
+                ? dropdwonValueForSelfScore[kpi.sl]!.text.toString()
+                : kpi.selfScore,
             "defination": kpi.definition,
-            "overall_result": "0.0",
+            "overall_result": kpi.kpiEdit == "YES"
+                ? overallCount(kpi.weitage,
+                        dropdwonValueForSelfScore[kpi.sl]!.text.toString())
+                    .toStringAsFixed(2)
+                : kpi.selAche
+            // "kpi_name": kpi.name,
+            // "kpi_id": kpi.kpiId,
+            // "weightage": kpi.weitage,
+            // "self_score": dropdwonValueForSelfScore[kpi.sl] ?? "0",
+            // "defination": kpi.definition,
+            // "overall_result": "0.0",
             // "overall_result": overallCount(
             //         kpi.weitage, dropdwonValueForSelfScore[kpi.sl] ?? '0')
             //     .toStringAsFixed(2),
@@ -1122,7 +1139,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 (states) {
                   return e.kpiEdit == "NO"
                       ? Colors.transparent
-                      : const Color.fromARGB(255, 235, 228, 244);
+                      : const Color.fromARGB(255, 250, 185, 100);
                   // : Color.fromARGB(255, 199, 219, 235);
                 },
               ),
@@ -1137,7 +1154,8 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             color: Colors.black, fontWeight: FontWeight.w400),
                       ),
                       onPressed: () {
-                        definationShowDialog(context, e.definition);
+                        definationShowDialog(
+                            context, e.definitionHead, e.definition);
                       },
                     ))),
                 DataCell(Align(
@@ -1150,63 +1168,128 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           child: Text(e.selfScore),
                         ),
                       )
-                    : DataCell(SizedBox(
+                    : DataCell(Container(
                         width: 300.0,
-                        child: Text(
-                          e.kpiEdit == "NO" ? e.selAche.toString() : "0.0",
-                        )
-                        // child: DropdownButtonHideUnderline(
-                        //   child: ButtonTheme(
-                        //     alignedDropdown: true,
-                        //     child: DropdownButton(
-                        //       value: dropdwonValueForSelfScore[e.sl],
-                        //       hint: const Text("Select"),
-                        //       items: selfDropdownValue!
-                        //           .map(
-                        //               (String item) => DropdownMenuItem<String>(
-                        //                     value: item,
-                        //                     child: Text(item),
-                        //                   ))
-                        //           .toList(),
-                        //       onChanged: (value) {
-                        //         setState(() {
-                        //           dropdwonValueForSelfScore[e.sl] = value!;
-                        //           overalYesValuesMap[e.sl] = {
-                        //             'weightage': e.weitage,
-                        //             'value': value
-                        //           };
-                        //         });
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 250, 250, 250),
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(0)),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: dropdwonValueForSelfScore[e.sl],
+                          textAlign: TextAlign.right,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp("[0-9]"),
+                            ),
+                          ],
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(right: 8),
+                          ),
+                          onChanged: (value) {
+                            if (double.parse(value) > double.parse(e.weitage)) {
+                              AllServices().toastMessage(
+                                  "Input value must be equal or less than ${e.weitage}",
+                                  Colors.red,
+                                  Colors.white,
+                                  12);
+                              // dropdwonValueForSelfScore[e.sl]!.value =
+                              //     dropdwonValueForSelfScore[e.sl]!
+                              //         .value
+                              //         .copyWith(
+                              //           text: value.substring(
+                              //               0,
+                              //               int.parse(e.weitage)
+                              //                       .toString()
+                              //                       .length -
+                              //                   1),
+                              //           selection:
+                              //               TextSelection.collapsed(offset: 10),
+                              //         );
+                            }
 
-                        //         // work for total yes count
-                        //         totalYesCount = 0;
+                            setState(() {
+                              print(
+                                  "data==================${dropdwonValueForSelfScore[e.sl]!.text.toString()}");
 
-                        //         overalYesValuesMap.values
-                        //             .toList()
-                        //             .forEach((element) {
-                        //           totalYesCount += overallCount(
-                        //               element['weightage'],
-                        //               element['value'].toString());
-                        //         });
-                        //       },
-                        //     ),
-                        //   ),
-                        // ),
-                        )),
+                              overalYesValuesMap[e.sl] = {
+                                'weightage': e.weitage,
+                                'value': dropdwonValueForSelfScore[e.sl]!
+                                    .text
+                                    .toString()
+                              };
+                            });
+
+                            // work for total yes count
+                            totalYesCount = 0;
+
+                            overalYesValuesMap.values
+                                .toList()
+                                .forEach((element) {
+                              totalYesCount += overallCount(
+                                  element['weightage'],
+                                  element['value'].toString());
+                            });
+                            // setState(() {});
+                          },
+
+                          // child: DropdownButton(
+                          //   value: dropdwonValueForSelfScore[e.sl],
+                          //   hint: const Text("Select"),
+                          //   items: selfDropdownValue!
+                          //       .map(
+                          //           (String item) => DropdownMenuItem<String>(
+                          //                 value: item,
+                          //                 child: Text(item),
+                          //               ))
+                          //       .toList(),
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       dropdwonValueForSelfScore[e.sl] = value!;
+                          //       overalYesValuesMap[e.sl] = {
+                          //         'weightage': e.weitage,
+                          //         'value': value
+                          //       };
+                          //     });
+
+                          //     // work for total yes count
+                          //     totalYesCount = 0;
+
+                          //     overalYesValuesMap.values
+                          //         .toList()
+                          //         .forEach((element) {
+                          //       totalYesCount += overallCount(
+                          //           element['weightage'],
+                          //           element['value'].toString());
+                          //     });
+                          //   },
+                          // ),
+                        ),
+                      )),
                 DataCell(Container(
                   child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      e.kpiEdit == "NO" ? e.selAche.toString() : "0.0",
-                    ),
-                    // child: Text(overallCount(
-                    //         e.weitage,
-                    //         e.kpiEdit == "NO"
-                    //             ? e.selfScore
-                    //             : dropdwonValueForSelfScore[e.sl] == null
-                    //                 ? "0.0"
-                    //                 : dropdwonValueForSelfScore[e.sl])
-                    //     .toStringAsFixed(2)),
-                  ),
+                      alignment: Alignment.centerRight,
+                      child: Text(e.kpiEdit == "YES"
+                              ? overallCount(
+                                      e.weitage,
+                                      e.kpiEdit == "YES"
+                                          ? dropdwonValueForSelfScore[e.sl]!
+                                              .text
+                                              .toString()
+                                          : "0")
+                                  .toString()
+                              : e.selAche.toString()
+                          // child: Text(overallCount(
+                          //         e.weitage,
+                          //         e.kpiEdit == "NO"
+                          //             ? e.selfScore
+                          //             : dropdwonValueForSelfScore[e.sl] == null
+                          //                 ? "0.0"
+                          //                 : dropdwonValueForSelfScore[e.sl])
+                          //     .toStringAsFixed(2)),
+                          )),
                 ))
               ],
             ),
@@ -1272,13 +1355,13 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
   }
 
   Future<void> definationShowDialog(
-      BuildContext context, String TextLine) async {
+      BuildContext context, String definationHead, String TextLine) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
-            'KPI Defination',
+          title: Text(
+            definationHead,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),

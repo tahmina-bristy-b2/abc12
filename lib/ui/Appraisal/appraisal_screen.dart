@@ -714,22 +714,22 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       children: [
         SizedBox(
           height: (appraisalDetailsModel!.resData.retStr.first.kpiTable.length *
-                  45 +
-              70 +
+                  50 +
+              55 +
               45 +
               15),
           child: DataTable2(
               border: TableBorder.all(),
               columnSpacing: 12,
               horizontalMargin: 8,
-              dataRowHeight: 45,
+              dataRowHeight: 50,
               minWidth: 800,
               headingRowColor: MaterialStateColor.resolveWith(
                 (states) {
                   return const Color.fromARGB(255, 159, 193, 165);
                 },
               ),
-              headingRowHeight: 80,
+              headingRowHeight: 60,
               columns: const [
                 DataColumn2(
                     fixedWidth: 40,
@@ -739,7 +739,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
-                    fixedWidth: 220,
+                    fixedWidth: 300,
                     label: Center(
                         child: Text(
                       "KPI Name",
@@ -749,7 +749,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     fixedWidth: 100,
                     label: Center(
                         child: Text(
-                      "Weightage(%)",
+                      "Weightage\n\t\t\t\t\t\t\t(%)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
@@ -783,7 +783,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     fixedWidth: 100,
                     label: Center(
                         child: Text(
-                      "Achievement %",
+                      "Achievement\n\t\t\t\t\t\t\t\t\t(%)",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
               ],
@@ -1222,11 +1222,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             ),
                           ],
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
+                            border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.only(right: 8),
                           ),
                           onChanged: (value) {
-                            if (value.isEmpty) return;
+                            if (value.isEmpty) {
+                              setState(() {});
+                              return;
+                            }
                             if (double.parse(value) > double.parse(e.weitage)) {
                               AllServices().toastMessage(
                                   "Input value must be less than or equal to ${e.weitage}",
@@ -1297,22 +1300,20 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                           // ),
                         ),
                       )),
-                DataCell(Container(
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(e.kpiEdit == "YES"
-                              ? "${overallCount(e.weitage, e.kpiEdit == "YES" ? dropdwonValueForSelfScore[e.sl]!.text.toString() : "0").toStringAsFixed(2)}%"
-                              : "${e.selAche.toString()}%"
-                          // child: Text(overallCount(
-                          //         e.weitage,
-                          //         e.kpiEdit == "NO"
-                          //             ? e.selfScore
-                          //             : dropdwonValueForSelfScore[e.sl] == null
-                          //                 ? "0.0"
-                          //                 : dropdwonValueForSelfScore[e.sl])
-                          //     .toStringAsFixed(2)),
-                          )),
-                ))
+                DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(e.kpiEdit == "YES"
+                            ? "${overallCount(e.weitage, e.kpiEdit == "YES" ? dropdwonValueForSelfScore[e.sl]!.text.toString() : "0").toStringAsFixed(2)}%"
+                            : "${e.selAche.toString()}%"
+                        // child: Text(overallCount(
+                        //         e.weitage,
+                        //         e.kpiEdit == "NO"
+                        //             ? e.selfScore
+                        //             : dropdwonValueForSelfScore[e.sl] == null
+                        //                 ? "0.0"
+                        //                 : dropdwonValueForSelfScore[e.sl])
+                        //     .toStringAsFixed(2)),
+                        )))
               ],
             ),
           )

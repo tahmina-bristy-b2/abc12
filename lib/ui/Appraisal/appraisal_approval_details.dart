@@ -907,8 +907,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 (states) {
                                   return element.kpiEdit == "NO"
                                       ? Colors.white
-                                      : const Color.fromARGB(
-                                          255, 250, 185, 100);
+                                      : Colors.yellow;
                                   // : const Color.fromARGB(255, 235, 228, 244);
                                   // : Color.fromARGB(255, 199, 219, 235);
                                 },
@@ -943,7 +942,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                             cells: [
                               const DataCell(Center(child: Text(''))),
                               const DataCell(Align(
-                                  alignment: Alignment.centerLeft,
+                                  alignment: Alignment.center,
                                   child: Padding(
                                     padding: EdgeInsets.all(4.0),
                                     child: Text(
@@ -1041,8 +1040,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 (states) {
                                   return element.kpiEdit == "NO"
                                       ? Colors.white
-                                      : const Color.fromARGB(
-                                          255, 250, 185, 100);
+                                      : Colors.yellow;
                                   // : const Color.fromARGB(255, 235, 228, 244);
                                   // : Color.fromARGB(255, 199, 219, 235);
                                 },
@@ -1157,8 +1155,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 (states) {
                                   return element.kpiEdit == "NO"
                                       ? Colors.white
-                                      : const Color.fromARGB(
-                                          255, 250, 185, 100);
+                                      : Colors.yellow;
                                   // : Color.fromARGB(255, 199, 219, 235);
                                 },
                               ),

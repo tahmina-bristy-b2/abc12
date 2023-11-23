@@ -62,7 +62,7 @@ class _ApprovalAppraisalFieldForceState
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 7,
+      length: 5,
       initialIndex: 0,
       child: Scaffold(
           appBar: AppBar(
@@ -103,14 +103,14 @@ class _ApprovalAppraisalFieldForceState
                           .where((element) =>
                               element.appActionStatus == "APPROVED")
                           .toList();
-                      userFflistReleaseHr = userFflistAll
-                          .where((element) =>
-                              element.appActionStatus == "RELEASED_HR")
-                          .toList();
-                      userFflistReleasedSup = userFflistAll
-                          .where((element) =>
-                              element.appActionStatus == "RELEASED_SUP")
-                          .toList();
+                      // userFflistReleaseHr = userFflistAll
+                      //     .where((element) =>
+                      //         element.appActionStatus == "RELEASED_HR")
+                      //     .toList();
+                      // userFflistReleasedSup = userFflistAll
+                      //     .where((element) =>
+                      //         element.appActionStatus == "RELEASED_SUP")
+                      //     .toList();
                       userFflistRejected = userFflistAll
                           .where((element) =>
                               element.appActionStatus == "REJECTED")
@@ -135,12 +135,12 @@ class _ApprovalAppraisalFieldForceState
                 Tab(
                   text: 'APPROVED',
                 ),
-                Tab(
-                  text: 'RELEASED HR',
-                ),
-                Tab(
-                  text: 'RELEASED SUP',
-                ),
+                // Tab(
+                //   text: 'RELEASED HR',
+                // ),
+                // Tab(
+                //   text: 'RELEASED SUP',
+                // ),
                 Tab(
                   text: 'REJECTED',
                 ),
@@ -443,154 +443,154 @@ class _ApprovalAppraisalFieldForceState
                     ),
 
               //------------------------- for Released hr ----------------------
-              appraisalFfData == null ||
-                      appraisalFfData!.resData.dataList.isEmpty
-                  ? Center(
-                      child: Stack(children: [
-                        Image.asset(
-                          'assets/images/no_data_found.png',
-                          fit: BoxFit.cover,
-                        ),
-                        Positioned(
-                          left: MediaQuery.of(context).size.width / 2.5,
-                          bottom: MediaQuery.of(context).size.height * .005,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffF0F0F0),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                'Go back',
-                                style: TextStyle(color: Colors.black54),
-                              )),
-                        )
-                      ]),
-                    )
-                  : Column(
-                      children: [
-                        AnimatedContainer(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          duration: const Duration(milliseconds: 500),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18),
-                              border: Border.all(
-                                  color: _color
-                                      ? const Color.fromARGB(255, 138, 201, 149)
-                                      : Colors.black)),
-                          height: height,
-                          child: _searchExpand
-                              ? TextFormField(
-                                  autofocus: false,
-                                  keyboardType: TextInputType.name,
-                                  textInputAction: TextInputAction.done,
-                                  controller: _searchController,
-                                  decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        bottom: 0, left: 10, top: 5),
-                                    hintText: 'FF name/Territory id',
-                                    border: InputBorder.none,
-                                    prefixIcon: Icon(Icons.search),
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      userFflistAll = AppraisalServices()
-                                          .searchFf(
-                                              value,
-                                              appraisalFfData!
-                                                  .resData.dataList);
+              // appraisalFfData == null ||
+              //         appraisalFfData!.resData.dataList.isEmpty
+              //     ? Center(
+              //         child: Stack(children: [
+              //           Image.asset(
+              //             'assets/images/no_data_found.png',
+              //             fit: BoxFit.cover,
+              //           ),
+              //           Positioned(
+              //             left: MediaQuery.of(context).size.width / 2.5,
+              //             bottom: MediaQuery.of(context).size.height * .005,
+              //             child: ElevatedButton(
+              //                 style: ElevatedButton.styleFrom(
+              //                   backgroundColor: const Color(0xffF0F0F0),
+              //                 ),
+              //                 onPressed: () {
+              //                   Navigator.pop(context);
+              //                 },
+              //                 child: const Text(
+              //                   'Go back',
+              //                   style: TextStyle(color: Colors.black54),
+              //                 )),
+              //           )
+              //         ]),
+              //       )
+              //     : Column(
+              //         children: [
+              //           AnimatedContainer(
+              //             margin: const EdgeInsets.symmetric(
+              //                 horizontal: 10, vertical: 10),
+              //             duration: const Duration(milliseconds: 500),
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(18),
+              //                 border: Border.all(
+              //                     color: _color
+              //                         ? const Color.fromARGB(255, 138, 201, 149)
+              //                         : Colors.black)),
+              //             height: height,
+              //             child: _searchExpand
+              //                 ? TextFormField(
+              //                     autofocus: false,
+              //                     keyboardType: TextInputType.name,
+              //                     textInputAction: TextInputAction.done,
+              //                     controller: _searchController,
+              //                     decoration: const InputDecoration(
+              //                       contentPadding: EdgeInsets.only(
+              //                           bottom: 0, left: 10, top: 5),
+              //                       hintText: 'FF name/Territory id',
+              //                       border: InputBorder.none,
+              //                       prefixIcon: Icon(Icons.search),
+              //                     ),
+              //                     onChanged: (value) {
+              //                       setState(() {
+              //                         userFflistAll = AppraisalServices()
+              //                             .searchFf(
+              //                                 value,
+              //                                 appraisalFfData!
+              //                                     .resData.dataList);
 
-                                      userFflistReleaseHr = userFflistAll
-                                          .where((element) =>
-                                              element.appActionStatus ==
-                                              "RELEASED_HR")
-                                          .toList();
-                                    });
-                                  },
-                                )
-                              : Container(),
-                        ),
-                        appraisalFFView(
-                            context, 'RELEASED_HR', userFflistReleaseHr),
-                      ],
-                    ),
+              //                         userFflistReleaseHr = userFflistAll
+              //                             .where((element) =>
+              //                                 element.appActionStatus ==
+              //                                 "RELEASED_HR")
+              //                             .toList();
+              //                       });
+              //                     },
+              //                   )
+              //                 : Container(),
+              //           ),
+              //           appraisalFFView(
+              //               context, 'RELEASED_HR', userFflistReleaseHr),
+              //         ],
+              //       ),
 
               //--------------------------- for Released SUP ---------------
-              appraisalFfData == null ||
-                      appraisalFfData!.resData.dataList.isEmpty
-                  ? Center(
-                      child: Stack(children: [
-                        Image.asset(
-                          'assets/images/no_data_found.png',
-                          fit: BoxFit.cover,
-                        ),
-                        Positioned(
-                          left: MediaQuery.of(context).size.width / 2.5,
-                          bottom: MediaQuery.of(context).size.height * .005,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffF0F0F0),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                'Go back',
-                                style: TextStyle(color: Colors.black54),
-                              )),
-                        )
-                      ]),
-                    )
-                  : Column(
-                      children: [
-                        AnimatedContainer(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          duration: const Duration(milliseconds: 500),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18),
-                              border: Border.all(
-                                  color: _color
-                                      ? const Color.fromARGB(255, 138, 201, 149)
-                                      : Colors.black)),
-                          height: height,
-                          child: _searchExpand
-                              ? TextFormField(
-                                  autofocus: false,
-                                  keyboardType: TextInputType.name,
-                                  textInputAction: TextInputAction.done,
-                                  controller: _searchController,
-                                  decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        bottom: 0, left: 10, top: 5),
-                                    hintText: 'FF name/Territory id',
-                                    border: InputBorder.none,
-                                    prefixIcon: Icon(Icons.search),
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      userFflistAll = AppraisalServices()
-                                          .searchFf(
-                                              value,
-                                              appraisalFfData!
-                                                  .resData.dataList);
+              // appraisalFfData == null ||
+              //         appraisalFfData!.resData.dataList.isEmpty
+              //     ? Center(
+              //         child: Stack(children: [
+              //           Image.asset(
+              //             'assets/images/no_data_found.png',
+              //             fit: BoxFit.cover,
+              //           ),
+              //           Positioned(
+              //             left: MediaQuery.of(context).size.width / 2.5,
+              //             bottom: MediaQuery.of(context).size.height * .005,
+              //             child: ElevatedButton(
+              //                 style: ElevatedButton.styleFrom(
+              //                   backgroundColor: const Color(0xffF0F0F0),
+              //                 ),
+              //                 onPressed: () {
+              //                   Navigator.pop(context);
+              //                 },
+              //                 child: const Text(
+              //                   'Go back',
+              //                   style: TextStyle(color: Colors.black54),
+              //                 )),
+              //           )
+              //         ]),
+              //       )
+              //     : Column(
+              //         children: [
+              //           AnimatedContainer(
+              //             margin: const EdgeInsets.symmetric(
+              //                 horizontal: 10, vertical: 10),
+              //             duration: const Duration(milliseconds: 500),
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(18),
+              //                 border: Border.all(
+              //                     color: _color
+              //                         ? const Color.fromARGB(255, 138, 201, 149)
+              //                         : Colors.black)),
+              //             height: height,
+              //             child: _searchExpand
+              //                 ? TextFormField(
+              //                     autofocus: false,
+              //                     keyboardType: TextInputType.name,
+              //                     textInputAction: TextInputAction.done,
+              //                     controller: _searchController,
+              //                     decoration: const InputDecoration(
+              //                       contentPadding: EdgeInsets.only(
+              //                           bottom: 0, left: 10, top: 5),
+              //                       hintText: 'FF name/Territory id',
+              //                       border: InputBorder.none,
+              //                       prefixIcon: Icon(Icons.search),
+              //                     ),
+              //                     onChanged: (value) {
+              //                       setState(() {
+              //                         userFflistAll = AppraisalServices()
+              //                             .searchFf(
+              //                                 value,
+              //                                 appraisalFfData!
+              //                                     .resData.dataList);
 
-                                      userFflistReleasedSup = userFflistAll
-                                          .where((element) =>
-                                              element.appActionStatus ==
-                                              "RELEASED_SUP")
-                                          .toList();
-                                    });
-                                  },
-                                )
-                              : Container(),
-                        ),
-                        appraisalFFView(
-                            context, 'RELEASED_SUP', userFflistReleasedSup),
-                      ],
-                    ),
+              //                         userFflistReleasedSup = userFflistAll
+              //                             .where((element) =>
+              //                                 element.appActionStatus ==
+              //                                 "RELEASED_SUP")
+              //                             .toList();
+              //                       });
+              //                     },
+              //                   )
+              //                 : Container(),
+              //           ),
+              //           appraisalFFView(
+              //               context, 'RELEASED_SUP', userFflistReleasedSup),
+              //         ],
+              //       ),
 
               //------------------ for Rejected --------------------------
               appraisalFfData == null ||
@@ -843,12 +843,12 @@ class _ApprovalAppraisalFieldForceState
         userFflistApproved = userFflistAll
             .where((element) => element.appActionStatus == "APPROVED")
             .toList();
-        userFflistReleaseHr = userFflistAll
-            .where((element) => element.appActionStatus == "RELEASED_HR")
-            .toList();
-        userFflistReleasedSup = userFflistAll
-            .where((element) => element.appActionStatus == "RELEASED_SUP")
-            .toList();
+        // userFflistReleaseHr = userFflistAll
+        //     .where((element) => element.appActionStatus == "RELEASED_HR")
+        //     .toList();
+        // userFflistReleasedSup = userFflistAll
+        //     .where((element) => element.appActionStatus == "RELEASED_SUP")
+        //     .toList();
         userFflistRejected = userFflistAll
             .where((element) => element.appActionStatus == "REJECTED")
             .toList();

@@ -1022,26 +1022,28 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                             contentPadding: EdgeInsets.only(right: 8),
                           ),
                           onChanged: (value) {
-                            if (double.parse(value) >
-                                double.parse(e.weightage!)) {
-                              AllServices().toastMessage(
-                                  "Input value must be equal or less than ${e.weightage!}",
-                                  Colors.red,
-                                  Colors.white,
-                                  12);
-                              // dropdwonValueForSelfScore[e.sl]!.value =
-                              //     dropdwonValueForSelfScore[e.sl]!
-                              //         .value
-                              //         .copyWith(
-                              //           text: value.substring(
-                              //               0,
-                              //               int.parse(e.weitage)
-                              //                       .toString()
-                              //                       .length -
-                              //                   1),
-                              //           selection:
-                              //               TextSelection.collapsed(offset: 10),
-                              //         );
+                            if (value != '') {
+                              if (double.parse(value) >
+                                  double.parse(e.weightage!)) {
+                                AllServices().toastMessage(
+                                    "Input value must be equal or less than ${e.weightage!}",
+                                    Colors.red,
+                                    Colors.white,
+                                    12);
+                                // dropdwonValueForSelfScore[e.sl]!.value =
+                                //     dropdwonValueForSelfScore[e.sl]!
+                                //         .value
+                                //         .copyWith(
+                                //           text: value.substring(
+                                //               0,
+                                //               int.parse(e.weitage)
+                                //                       .toString()
+                                //                       .length -
+                                //                   1),
+                                //           selection:
+                                //               TextSelection.collapsed(offset: 10),
+                                //         );
+                              }
                             }
                             setState(() {
                               print(
@@ -1233,30 +1235,30 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
           ))),
         ],
       ),
-      DataRow(
-        color: MaterialStateColor.resolveWith(
-            (states) => const Color.fromARGB(255, 165, 193, 170)),
-        // const Color.fromARGB(255, 226, 226, 226)),
+      // DataRow(
+      //   color: MaterialStateColor.resolveWith(
+      //       (states) => const Color.fromARGB(255, 165, 193, 170)),
+      //   // const Color.fromARGB(255, 226, 226, 226)),
 
-        cells: [
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(child: Text(""))),
-          const DataCell(Center(
-              child: Text(
-            "Rounded",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ))),
-          DataCell(Center(
-              child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              (totaOverallCount + totalYesCount).round().toString(),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ))),
-        ],
-      ),
+      //   cells: [
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(child: Text(""))),
+      //     const DataCell(Center(
+      //         child: Text(
+      //       "Rounded",
+      //       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+      //     ))),
+      //     DataCell(Center(
+      //         child: Align(
+      //       alignment: Alignment.centerRight,
+      //       child: Text(
+      //         (totaOverallCount + totalYesCount).round().toString(),
+      //         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      //       ),
+      //     ))),
+      //   ],
+      // ),
     ];
   }
 

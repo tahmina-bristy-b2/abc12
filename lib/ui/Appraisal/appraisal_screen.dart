@@ -1189,25 +1189,28 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             contentPadding: EdgeInsets.only(right: 8),
                           ),
                           onChanged: (value) {
-                            if (double.parse(value) > double.parse(e.weitage)) {
-                              AllServices().toastMessage(
-                                  "Input value must be equal or less than ${e.weitage}",
-                                  Colors.red,
-                                  Colors.white,
-                                  12);
-                              // dropdwonValueForSelfScore[e.sl]!.value =
-                              //     dropdwonValueForSelfScore[e.sl]!
-                              //         .value
-                              //         .copyWith(
-                              //           text: value.substring(
-                              //               0,
-                              //               int.parse(e.weitage)
-                              //                       .toString()
-                              //                       .length -
-                              //                   1),
-                              //           selection:
-                              //               TextSelection.collapsed(offset: 10),
-                              //         );
+                            if (value != '') {
+                              if (double.parse(value) >
+                                  double.parse(e.weitage)) {
+                                AllServices().toastMessage(
+                                    "Input value must be equal or less than ${e.weitage}",
+                                    Colors.red,
+                                    Colors.white,
+                                    12);
+                                // dropdwonValueForSelfScore[e.sl]!.value =
+                                //     dropdwonValueForSelfScore[e.sl]!
+                                //         .value
+                                //         .copyWith(
+                                //           text: value.substring(
+                                //               0,
+                                //               int.parse(e.weitage)
+                                //                       .toString()
+                                //                       .length -
+                                //                   1),
+                                //           selection:
+                                //               TextSelection.collapsed(offset: 10),
+                                //         );
+                              }
                             }
 
                             setState(() {

@@ -85,14 +85,14 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
   //============================================ Employee Details Api Call==========================================
   getEmployeeDetails() async {
-    // appraisalDetailsModel = await AppraisalRepository().getEmployeeDetails(
-    //     dmpathData!.syncUrl,
-    //     widget.cid,
-    //     widget.userId,
-    //     widget.userPass,
-    //     widget.levelDepth,
-    //     widget.employeeId);
-    appraisalDetailsModel = appraisalDetailsModelFromJson(json.encode(data));
+    appraisalDetailsModel = await AppraisalRepository().getEmployeeDetails(
+        dmpathData!.syncUrl,
+        widget.cid,
+        widget.userId,
+        widget.userPass,
+        widget.levelDepth,
+        widget.employeeId);
+    // appraisalDetailsModel = appraisalDetailsModelFromJson(json.encode(data));
 
     if (appraisalDetailsModel != null) {
       if (appraisalDetailsModel!.resData.retStr.isNotEmpty) {
@@ -141,15 +141,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
 
       totaOverallCount = totaOverallCount +
           (kpi.kpiEdit == "NO" ? double.parse(kpi.selAche.toString()) : 0);
-      // : overallCount(
-      //     kpi.weitage, kpi.kpiEdit == "NO" ? kpi.selfScore : "0.0");
+
       totalWeightage = totalWeightage + double.parse(kpi.weitage);
 
       dropdwonValueForSelfScore[kpi.sl] = TextEditingController(text: "");
-
-      // dropdwonValueForSelfScore.forEach((key, value) {
-      //   key = kpi.sl;
-      // });
     }
     print(dropdwonValueForSelfScore);
   }
@@ -160,6 +155,21 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
         double.parse(weightageKey));
 
     return overallCount;
+  }
+
+  double totalScoreResult(List<RetStr> retStr) {
+    double result = 0.0;
+    for (var element in retStr.first.kpiTable) {
+      result += element.kpiEdit == "YES"
+          ? double.parse(dropdwonValueForSelfScore[element.sl]!.text.isEmpty
+              ? "0"
+              : dropdwonValueForSelfScore[element.sl]!.text.toString())
+          : double.parse(element.selfScore);
+      // *
+      //     (double.parse(element.weightage ?? '0') / 100);
+    }
+
+    return result;
   }
 
 //====================================== Internet check for Appraisal Submit============================================
@@ -1189,25 +1199,13 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                             contentPadding: EdgeInsets.only(right: 8),
                           ),
                           onChanged: (value) {
+                            if (value.isEmpty) return;
                             if (double.parse(value) > double.parse(e.weitage)) {
                               AllServices().toastMessage(
                                   "Input value must be equal or less than ${e.weitage}",
                                   Colors.red,
                                   Colors.white,
                                   12);
-                              // dropdwonValueForSelfScore[e.sl]!.value =
-                              //     dropdwonValueForSelfScore[e.sl]!
-                              //         .value
-                              //         .copyWith(
-                              //           text: value.substring(
-                              //               0,
-                              //               int.parse(e.weitage)
-                              //                       .toString()
-                              //                       .length -
-                              //                   1),
-                              //           selection:
-                              //               TextSelection.collapsed(offset: 10),
-                              //         );
                             }
 
                             setState(() {
@@ -1312,10 +1310,10 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ))),
-          const DataCell(Center(
+          DataCell(Center(
               child: Text(
-            "Total",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            totalScoreResult(appraisalDetailsModel!.resData.retStr).toString(),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ))),
           DataCell(Center(
               child: Align(

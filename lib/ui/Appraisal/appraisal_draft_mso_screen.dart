@@ -58,6 +58,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   List<String>? selfDropdownValue = <String>['1', '2', '3'];
   Map<String, TextEditingController> dropdwonValueForSelfScore = {};
   List<Map<String, dynamic>> supDataForSubmit = [];
+  Map<String, bool> supScoreErrorHandling = {};
   List kpiValuesList = [];
 
   bool isSubmit = false;
@@ -721,8 +722,19 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      if (!mounted) return;
-      alartDialogForSubmitOrDraft(context, retStr, selpKpiData, "submit");
+      if (supScoreErrorHandling.values.any((element) => element == true)) {
+        AllServices().toastMessage(
+            'Score Not more than corresponding weightage!',
+            Colors.yellow,
+            Colors.black,
+            12);
+        setState(() {
+          isSubmit = false;
+        });
+      } else {
+        if (!mounted) return;
+        alartDialogForSubmitOrDraft(context, retStr, selpKpiData, "submit");
+      }
     } else {
       setState(() {
         isSubmit = false;
@@ -902,79 +914,89 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
   }
 
   //======================================= Appraisal Master Widget==============================================
-  SizedBox appraisalMasterWidget(RetStr appraisalMaster) {
-    return SizedBox(
-      height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 60),
-      child: DataTable2(
-          border: TableBorder.all(),
-          columnSpacing: 12,
-          horizontalMargin: 8,
-          dataRowHeight: 45,
-          minWidth: 800,
-          headingRowColor: MaterialStateColor.resolveWith(
-            (states) {
-              return const Color.fromARGB(255, 159, 193, 165);
-            },
-          ),
-          headingRowHeight: 80,
-          columns: const [
-            DataColumn2(
-                fixedWidth: 40,
-                label: Center(
-                    child: Text(
-                  "SL",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            DataColumn2(
-                fixedWidth: 220,
-                label: Center(
-                    child: Text(
-                  "KPI Name",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            DataColumn2(
-                fixedWidth: 100,
-                label: Center(
-                    child: Text(
-                  "Weightage(%)",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-            DataColumn2(
-                fixedWidth: 120,
-                label: Center(
-                    child: Text(
-                  "Score",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))
-                // label: Center(
-                //     child: Column(
-                //   children: const [
-                //     SizedBox(
-                //       height: 12,
-                //     ),
-                //     Text(
-                //       "",
-                //       style: TextStyle(fontWeight: FontWeight.bold),
-                //     ),
-                //     SizedBox(
-                //       height: 5,
-                //     ),
-                //     Text(
-                //       "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
-                //       style: TextStyle(fontSize: 10, color: Colors.black),
-                //     ),
-                //   ],
-                // )),
-                ),
-            DataColumn2(
-                fixedWidth: 100,
-                label: Center(
-                    child: Text(
-                  "Achievement %",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))),
-          ],
-          rows: kpiDataRow(appraisalMaster.kpiTable!)),
+  Column appraisalMasterWidget(RetStr appraisalMaster) {
+    return Column(
+      children: [
+        SizedBox(
+          height: (appraisalMaster.kpiTable!.length * 45 + 70 + 45 + 60),
+          child: DataTable2(
+              border: TableBorder.all(),
+              columnSpacing: 12,
+              horizontalMargin: 8,
+              dataRowHeight: 45,
+              minWidth: 800,
+              headingRowColor: MaterialStateColor.resolveWith(
+                (states) {
+                  return const Color.fromARGB(255, 159, 193, 165);
+                },
+              ),
+              headingRowHeight: 80,
+              columns: const [
+                DataColumn2(
+                    fixedWidth: 40,
+                    label: Center(
+                        child: Text(
+                      "SL",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
+                DataColumn2(
+                    fixedWidth: 220,
+                    label: Center(
+                        child: Text(
+                      "KPI Name",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
+                DataColumn2(
+                    fixedWidth: 100,
+                    label: Center(
+                        child: Text(
+                      "Weightage(%)",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
+                DataColumn2(
+                    fixedWidth: 120,
+                    label: Center(
+                        child: Text(
+                      "Score",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))
+                    // label: Center(
+                    //     child: Column(
+                    //   children: const [
+                    //     SizedBox(
+                    //       height: 12,
+                    //     ),
+                    //     Text(
+                    //       "",
+                    //       style: TextStyle(fontWeight: FontWeight.bold),
+                    //     ),
+                    //     SizedBox(
+                    //       height: 5,
+                    //     ),
+                    //     Text(
+                    //       "1 - Below Expectation\n2 - Meets Expectation\n3 - Exceeds Expectation",
+                    //       style: TextStyle(fontSize: 10, color: Colors.black),
+                    //     ),
+                    //   ],
+                    // )),
+                    ),
+                DataColumn2(
+                    fixedWidth: 100,
+                    label: Center(
+                        child: Text(
+                      "Achievement %",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
+              ],
+              rows: kpiDataRow(appraisalMaster.kpiTable!)),
+        ),
+        supScoreErrorHandling.values.any((element) => element == true)
+            ? const Text(
+                'Score not more than corresponding weightage',
+                style: TextStyle(color: Colors.red),
+              )
+            : const SizedBox()
+      ],
     );
   }
 
@@ -1041,7 +1063,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                             if (double.parse(value) >
                                 double.parse(e.weightage!)) {
                               AllServices().toastMessage(
-                                  "Input value must be equal or less than ${e.weightage!}",
+                                  "Input value must be less than or equal to ${e.weightage!}",
                                   Colors.red,
                                   Colors.white,
                                   12);
@@ -1057,7 +1079,10 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                               //                   1),
                               //           selection:
                               //               TextSelection.collapsed(offset: 10),
-                              //         );
+                              supScoreErrorHandling[e.sl!] = true;
+                            } else if (double.parse(value) <=
+                                double.parse(e.weightage!)) {
+                              supScoreErrorHandling[e.sl!] = false;
                             }
                             setState(() {
                               print(

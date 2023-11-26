@@ -58,3 +58,56 @@ class AppraisalApis {
       "${url}api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=$userPass&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
   // "$ipPort/$app/api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
 }
+
+// class AppraisalApis {
+//   static String ipPort = 'http://10.168.27.183:8000';
+//   static String app = 'skf_api';
+
+//   static employeeApi(
+//           String syncUrl, String cid, String userId, String usrPass) =>
+//       '$ipPort/$app/api_appraisal_skf/get_area_rep?cid=$cid&user_id=$userId&user_pass=1234';
+
+//   static employeeAppraisaldetails(String url, String cid, String userId,
+//           String userPass, String levelDepth, String employeeId) =>
+//       "$ipPort/$app/api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
+
+//   static employeeAppraisalSubmit(
+//           String url,
+//           String cid,
+//           String userId,
+//           String userPass,
+//           String levelDepth,
+//           String employeeId,
+//           List kpiValus,
+//           String headRowId,
+//           String incrementAmount,
+//           String upgradeGrade,
+//           String designationChange,
+//           String feedback,
+//           String kpiKey,
+//           String actionButtonName) =>
+//       "$ipPort/$app/api_appraisal_submit/data_submit?cid=$cid&rep_id=$userId&rep_pass=1234&head_row_id=$headRowId&sup_level_depth_no=$levelDepth&employee_id=$employeeId&increment_amount=$incrementAmount&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedback&kpi_key=$kpiKey&app_acction_button=$actionButtonName";
+
+//   static ffApi(String syncUrl, String cid, String userId, String usrPass) =>
+//       '$ipPort/$app/api_appraisal_approve/sup_home?cid=$cid&user_id=$userId&user_pass=1234';
+
+//   static ffDetailsApi(String syncUrl, String cid, String userId, String usrPass,
+//           String restParams) =>
+//       '$ipPort/$app/api_appraisal_approve/appraisal_details?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
+
+//   static ffapprovalSubmitApi(String syncUrl, String cid, String userId,
+//           String usrPass, String restParams) =>
+//       '$ipPort/$app/api_appraisal_approve/app_approval?cid=$cid&user_id=$userId&user_pass=1234&$restParams';
+
+//   static appraisalSelfAssesment(
+//     String syncUrl,
+//     String cid,
+//     String userId,
+//     String userPass,
+//   ) =>
+//       "$ipPort/$app/api_appraisal_submit/self_appraisal_details?cid=$cid&rep_id=$userId&rep_pass=1234";
+
+//   static employeeAppraisalForDraft(String url, String cid, String userId,
+//           String userPass, String levelDepth, String employeeId) =>
+//       "$ipPort/$app/api_appraisal_skf/get_rep_details?cid=$cid&user_id=$userId&user_pass=1234&sup_level_depth_no=$levelDepth&employee_id=$employeeId";
+// }

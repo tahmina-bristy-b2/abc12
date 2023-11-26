@@ -311,28 +311,28 @@ class _MyHomePageState extends State<MyHomePage> {
                             userPassword: userPassword,
                           ))),
             ),
-            const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(Icons.note_add, color: Colors.blueAccent),
-              title: const Text(
-                'Appraisal',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 15, 53, 85),
-                ),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AppraisalSelfAssesmentHistoryScreen(
-                    cid: cid,
-                    userId: userId,
-                    userPass: userPassword,
-                  ),
-                ),
-              ),
-            ),
+            // const SizedBox(height: 10),
+            // ListTile(
+            //   leading: const Icon(Icons.note_add, color: Colors.blueAccent),
+            //   title: const Text(
+            //     'Appraisal',
+            //     style: TextStyle(
+            //       fontSize: 14,
+            //       fontWeight: FontWeight.w500,
+            //       color: Color.fromARGB(255, 15, 53, 85),
+            //     ),
+            //   ),
+            //   onTap: () => Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (_) => AppraisalSelfAssesmentHistoryScreen(
+            //         cid: cid,
+            //         userId: userId,
+            //         userPass: userPassword,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.vpn_key, color: Colors.blueAccent),

@@ -210,8 +210,19 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      if (!mounted) return;
-      alartDialogForSubmitOrDraft(context, "draft");
+      if (supScoreErrorHandling.values.any((element) => element == true)) {
+        AllServices().toastMessage(
+            'Score Not more than corresponding weightage!',
+            Colors.yellow,
+            Colors.black,
+            12);
+        setState(() {
+          isDraft = false;
+        });
+      } else {
+        if (!mounted) return;
+        alartDialogForSubmitOrDraft(context, "draft");
+      }
       //draftEmployeeAppraisal();
     } else {
       setState(() {

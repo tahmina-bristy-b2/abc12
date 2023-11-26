@@ -438,7 +438,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               },
                         child: Container(
                           height: 40,
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: _isPressed
@@ -497,7 +497,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               },
                         child: Container(
                           height: 40,
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: _isPressed
@@ -515,44 +515,44 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                           )),
                         ),
                       ),
-                      InkWell(
-                        onTap: _isPressed
-                            ? () {}
-                            : () {
-                                String upgradeGrade = isUpgrade ? '1' : '0';
-                                String designationChange =
-                                    isDesignationChange ? '1' : '0';
-                                String feedBack =
-                                    feedbackController.text.trim();
+                      // InkWell(
+                      //   onTap: _isPressed
+                      //       ? () {}
+                      //       : () {
+                      //           String upgradeGrade = isUpgrade ? '1' : '0';
+                      //           String designationChange =
+                      //               isDesignationChange ? '1' : '0';
+                      //           String feedBack =
+                      //               feedbackController.text.trim();
 
-                                // print(_feedBack);
-                                String approvalRestParams =
-                                    'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Rejected';
-                                _showConfirmationDialogue(
-                                  index,
-                                  'Reject', //Button action
-                                  approvalRestParams,
-                                  supDataForSubmit,
-                                );
-                              },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: _isPressed ? Colors.grey[300] : Colors.red,
-                          ),
-                          // color: Colors.blue),
-                          child: const Center(
-                              child: Text(
-                            "Reject",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
-                        ),
-                      ),
+                      //           // print(_feedBack);
+                      //           String approvalRestParams =
+                      //               'head_row_id=${appraisalDetails[index].headRowId}&increment_amount=${incrementController.text}&upgrade_grade=$upgradeGrade&designation_change=$designationChange&feedback=$feedBack&status=Rejected';
+                      //           _showConfirmationDialogue(
+                      //             index,
+                      //             'Reject', //Button action
+                      //             approvalRestParams,
+                      //             supDataForSubmit,
+                      //           );
+                      //         },
+                      //   child: Container(
+                      //     height: 40,
+                      //     width: MediaQuery.of(context).size.width * 0.3,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(5),
+                      //       color: _isPressed ? Colors.grey[300] : Colors.red,
+                      //     ),
+                      //     // color: Colors.blue),
+                      //     child: const Center(
+                      //         child: Text(
+                      //       "Reject",
+                      //       style: TextStyle(
+                      //           color: Colors.white,
+                      //           fontWeight: FontWeight.bold,
+                      //           fontSize: 18),
+                      //     )),
+                      //   ),
+                      // ),
                     ],
                   ),
             SizedBox(
@@ -896,7 +896,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               fixedWidth: 70,
                               label: Center(
                                   child: Text(
-                                "Weightage\n\t\t\t\t\t\t(%)",
+                                "Weightage",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ))),
                         ],
@@ -929,7 +929,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                                 ),
                                 DataCell(Align(
                                     alignment: Alignment.center,
-                                    child: Text('${element.weightage}%'))),
+                                    child: Text(element.weightage ?? '0'))),
                               ],
                             );
                           }).toList(),
@@ -954,7 +954,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               DataCell(Align(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    '${totalWeitages(appraisalMaster)}%',
+                                    totalWeitages(appraisalMaster),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: totalWeitages(appraisalMaster) !=

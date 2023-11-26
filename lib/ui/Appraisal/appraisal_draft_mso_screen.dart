@@ -752,9 +752,19 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
     });
     bool hasInternet = await InternetConnectionChecker().hasConnection;
     if (hasInternet == true) {
-      // draftEmployeeAppraisal(retStr, selpKpiData);
-      if (!mounted) return;
-      alartDialogForSubmitOrDraft(context, retStr, selpKpiData, "draft");
+      if (supScoreErrorHandling.values.any((element) => element == true)) {
+        AllServices().toastMessage(
+            'Score Not more than corresponding weightage!',
+            Colors.yellow,
+            Colors.black,
+            12);
+        setState(() {
+          isDraft = false;
+        });
+      } else {
+        if (!mounted) return;
+        alartDialogForSubmitOrDraft(context, retStr, selpKpiData, "draft");
+      }
     } else {
       setState(() {
         isDraft = false;

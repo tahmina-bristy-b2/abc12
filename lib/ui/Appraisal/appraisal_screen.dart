@@ -759,7 +759,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                     fixedWidth: 80,
                     label: Center(
                         child: Text(
-                      "Weightage\n\t\t\t\t\t\t\t(%)",
+                      "Weightage",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
@@ -1200,8 +1200,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                       },
                     ))),
                 DataCell(Align(
-                    alignment: Alignment.centerRight,
-                    child: Text("${e.weitage}%"))),
+                    alignment: Alignment.centerRight, child: Text(e.weitage))),
                 e.kpiEdit == "NO"
                     ? DataCell(
                         Align(
@@ -1344,7 +1343,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
           DataCell(Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "${totalWeightage.toStringAsFixed(0)}%",
+                totalWeightage.toStringAsFixed(0),
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ))),

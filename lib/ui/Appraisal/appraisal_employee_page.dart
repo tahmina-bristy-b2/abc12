@@ -49,7 +49,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
   @override
   initState() {
     super.initState();
-    controller = TabController(length: 6, vsync: this);
+    controller = TabController(length: 5, vsync: this);
     controller.addListener(() {
       setState(() {});
     });
@@ -104,9 +104,9 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
       // releadedHREmployeeList = appraisalEmployee!.resData.ffList
       //     .where((element) => element.appActionStatus == "RELEASED_HR")
       // .toList();
-      rejectedEmployeeList = appraisalEmployee!.resData.ffList
-          .where((element) => element.appActionStatus == "REJECTED")
-          .toList();
+      // rejectedEmployeeList = appraisalEmployee!.resData.ffList
+      //     .where((element) => element.appActionStatus == "REJECTED")
+      //     .toList();
       setState(() {
         isLoading = false;
       });
@@ -180,9 +180,9 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
               // releadedHREmployeeList = appraisalEmployee!.resData.ffList
               //     .where((element) => element.appActionStatus == "RELEASED_HR")
               // .toList();
-              rejectedEmployeeList = appraisalEmployee!.resData.ffList
-                  .where((element) => element.appActionStatus == "REJECTED")
-                  .toList();
+              // rejectedEmployeeList = appraisalEmployee!.resData.ffList
+              //     .where((element) => element.appActionStatus == "REJECTED")
+              //     .toList();
               setState(() {});
             },
             isScrollable: true,
@@ -192,7 +192,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
               Tab(text: "  DRAFT "),
               Tab(text: "SUBMITTED"),
               Tab(text: "APPROVED"),
-              Tab(text: "REJECTED"),
+              // Tab(text: "REJECTED"),
               // Tab(text: "RELEASED_HR"),
               // Tab(text: "RELEASED_SUP"),
             ]),
@@ -203,7 +203,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
         columnWIdget(context, draftEmployeeList, "Draft"),
         columnWIdget(context, submittedEmployeeList, "Submitted"),
         columnWIdget(context, approvedEmployeeList, "Approved"),
-        columnWIdget(context, rejectedEmployeeList, "Rejected"),
+        // columnWIdget(context, rejectedEmployeeList, "Rejected"),
         // columnWIdget(context, releadedHREmployeeList, "Released_HR"),
         // columnWIdget(context, releadedSUPEmployeeList, "Released_SUP"),
       ]),
@@ -448,7 +448,7 @@ class _ApprovalAppraisalState extends State<ApprovalAppraisal>
                 subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Employee id: ${employeeList[index].employeeId}'),
+                    Text('Employee ID: ${employeeList[index].employeeId}'),
                     const SizedBox(
                       width: 13,
                     ),

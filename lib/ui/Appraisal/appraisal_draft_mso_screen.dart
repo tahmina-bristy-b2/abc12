@@ -960,7 +960,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     fixedWidth: 80,
                     label: Center(
                         child: Text(
-                      "Weightage\n\t\t\t\t\t\t\t(%)",
+                      "Weightage",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
                 DataColumn2(
@@ -1038,7 +1038,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     ))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text("${e.weightage}%"))),
+                    child: Text("${e.weightage}"))),
                 e.kpiEdit == "NO"
                     ? DataCell(
                         Align(
@@ -1258,7 +1258,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
               child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              "${totalWeightage.toStringAsFixed(0)}%",
+              totalWeightage.toStringAsFixed(0),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ))),

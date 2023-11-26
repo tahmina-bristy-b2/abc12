@@ -1016,38 +1016,16 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         // dataRowHeight: 45,
                         minWidth: 172,
                         headingRowHeight: 50,
-                        columns: [
+                        columns: const [
                           DataColumn2(
                             fixedWidth: 70,
-                            label: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Center(
-                                      child: Text(
-                                    "Score",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                                  Text(
-                                    "1 - Below Expectation",
-                                    style: TextStyle(fontSize: 9),
-                                  ),
-                                  Text(
-                                    "2 - Meets Expectation",
-                                    style: TextStyle(fontSize: 9),
-                                  ),
-                                  Text(
-                                    "3 - Exceeds Expectation",
-                                    style: TextStyle(fontSize: 9),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            label: Center(
+                                child: Text(
+                              "Score",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
                           ),
-                          const DataColumn2(
+                          DataColumn2(
                               fixedWidth: 100,
                               label: Center(
                                   child: Text(
@@ -1154,38 +1132,15 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                         // dataRowHeight: 45,
                         minWidth: 175,
                         headingRowHeight: 50,
-                        columns: [
+                        columns: const [
                           DataColumn2(
-                            fixedWidth: 75,
-                            label: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Center(
-                                      child: Text(
-                                    "Score",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                                  Text(
-                                    "1 - Below Expectation",
-                                    style: TextStyle(fontSize: 9),
-                                  ),
-                                  Text(
-                                    "2 - Meets Expectation",
-                                    style: TextStyle(fontSize: 9),
-                                  ),
-                                  Text(
-                                    "3 - Exceeds Expectation",
-                                    style: TextStyle(fontSize: 9),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const DataColumn2(
+                              fixedWidth: 75,
+                              label: Center(
+                                  child: Text(
+                                "Score",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))),
+                          DataColumn2(
                               fixedWidth: 100,
                               label: Center(
                                   child: Text(

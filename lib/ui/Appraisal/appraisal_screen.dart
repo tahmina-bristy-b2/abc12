@@ -392,7 +392,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         height: 8,
                       ),
                       RowWidget(
-                          title: "Emplpyee ID",
+                          title: "Employee ID",
                           description: appraisalDetailsModel!
                               .resData.retStr[0].employeeId
                               .toString()),
@@ -400,7 +400,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                         height: 8,
                       ),
                       RowWidget(
-                          title: "Emplpyee Name",
+                          title: "Employee Name",
                           description: appraisalDetailsModel!
                               .resData.retStr[0].empName
                               .toString()),

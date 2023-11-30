@@ -127,6 +127,17 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                   '$title :',
                 ),
                 content: Text(description),
+                actions: [
+                  TextButton(
+                    child: const Text(
+                      'OK',
+                      // style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
             ),
           );
@@ -1029,7 +1040,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               fixedWidth: 100,
                               label: Center(
                                   child: Text(
-                                "Acheivement\n\t\t\t\t\t\t\t\t(%)",
+                                "Achievement\n\t\t\t\t\t\t\t\t(%)",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ))),
                         ],
@@ -1144,7 +1155,7 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                               fixedWidth: 100,
                               label: Center(
                                   child: Text(
-                                "Acheivement\n\t\t\t\t\t\t\t\t(%)",
+                                "Achievement\n\t\t\t\t\t\t\t\t(%)",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ))),
                         ],

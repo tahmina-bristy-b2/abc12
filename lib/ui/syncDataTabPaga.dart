@@ -357,6 +357,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                       List doctorList = await DcrRepositories()
                                           .syncDCR(dmpathData!.syncUrl, cid,
                                               userId, userPassword);
+                                              
 
                                       // RegionListModel? body =
                                       //     await EDSRServices()

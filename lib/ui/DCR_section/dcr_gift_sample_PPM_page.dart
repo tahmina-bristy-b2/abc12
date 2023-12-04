@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/dcr/dcr_services.dart';
 import 'package:MREPORTING/utils/constant.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
@@ -30,9 +33,9 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   final List<DcrGSPDataModel> draftOrderItem;
   final String notes;
   final String visitedWith;
-  final bool magic;
+   bool magic;
 
-  const DcrGiftSamplePpmPage(
+   DcrGiftSamplePpmPage(
       {Key? key,
       required this.address,
       required this.areaId,
@@ -57,6 +60,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   final TextEditingController noteController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  late ConfettiController _confettiController;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -107,6 +111,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   @override
   void initState() {
     super.initState();
+   widget.magic=true;
 
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
@@ -129,6 +134,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     dcrDiscussion = userInfo!.dcrDiscussion;
     dcrVisitedWithList = userInfo!.dcrVisitWithList;
     dropdownVisitWithValue = dcrVisitedWithList.first;
+    _confettiController=ConfettiController(duration: const Duration(milliseconds: 800));
+    _confettiController.play();
 
     if (widget.isDraft) {
       addedDcrGSPList = widget.draftOrderItem;
@@ -236,8 +243,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
               centerTitle: true,
             ),
             body: SafeArea(
-              child: Column(
+              child: Stack(
                 children: [
+                  Column(
+                 children: [
                   Card(
                     color: const Color(0xff56CCF2).withOpacity(.3),
                     // decoration: BoxDecoration(
@@ -792,8 +801,22 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                   const SizedBox(
                     height: 5,
                   )
+                   ], 
+                ),
+                   Align(
+                    alignment: Alignment.topCenter,
+                    child: ConfettiWidget(confettiController: _confettiController,
+                    blastDirection:-pi/2 ,
+                    emissionFrequency: 0.02,
+                    numberOfParticles: 15,
+                    blastDirectionality: BlastDirectionality.explosive,
+                    shouldLoop: true,
+
+                    ),
+
+                   )
                 ],
-              ),
+              )
             ),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
@@ -961,6 +984,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       },
     );
   }
+
+
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

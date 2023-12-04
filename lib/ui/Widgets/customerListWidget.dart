@@ -44,7 +44,7 @@ class CustomerListCardWidget extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          '$base ,$marketName',
+          '$base, $marketName',
           // style: const TextStyle(
           //     color: Color.fromARGB(255, 30, 66, 77), fontSize: 16),
         ),

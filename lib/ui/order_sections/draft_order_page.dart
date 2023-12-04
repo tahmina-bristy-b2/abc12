@@ -72,16 +72,16 @@ class _DraftOrderPageState extends State<DraftOrderPage> {
               color: Colors.white,
               child: ExpansionTile(
                 title: Text(
-                  "${user[index].clientName} (${user[index].marketName}) ",
+                  "${user[index].clientName} (${user[index].clientId}) ",
                   maxLines: 2,
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 30, 66, 77), fontSize: 18),
+                  // style: const TextStyle(
+                  //     color: Color.fromARGB(255, 30, 66, 77), fontSize: 18),
                 ),
                 subtitle: Text(
-                  "${user[index].clientId}  ${user[index].deliveryDate}   ${user[index].deliveryTime} ",
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 30, 66, 77),
-                  ),
+                  "${user[index].marketName} ${user[index].deliveryDate} ${user[index].deliveryTime}",
+                  // style: const TextStyle(
+                  //   color: Color.fromARGB(255, 30, 66, 77),
+                  // ),
                 ),
                 children: [
                   Row(

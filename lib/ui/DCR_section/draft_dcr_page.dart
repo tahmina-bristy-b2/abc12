@@ -56,7 +56,7 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
               // color: Colors.white,
               child: ExpansionTile(
                 title: Text(
-                  "${user[index].docName} || ${user[index].docId} ",
+                  "${user[index].docName}(${user[index].docId})",
                   maxLines: 2,
                   style: TextStyle(
                       color: user[index].magic == true
@@ -64,7 +64,7 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                           : null),
                 ),
                 subtitle:
-                    Text('${user[index].areaName} || ${user[index].areaId}'),
+                    Text('${user[index].areaName}(${user[index].areaId})'),
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

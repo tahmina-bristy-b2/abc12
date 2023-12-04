@@ -182,15 +182,24 @@ class _DcrListPageState extends State<DcrListPage> {
                                                   ['address'],
                                               notes: '',
                                               visitedWith: '',
+                                              magic: foundUsers[index]
+                                                          ['magic_doctor'] ==
+                                                      'magic_doctor'
+                                                  ? true
+                                                  : false,
                                             )));
                               },
                               child: CustomerListCardWidget(
                                 clientName: foundUsers[index]['doc_name'] +
-                                    '(${foundUsers[index]['doc_id']})',
+                                    ' || ${foundUsers[index]['doc_id']}',
                                 base: foundUsers[index]['area_name'] +
-                                    '(${foundUsers[index]['area_id']})',
+                                    ' || ${foundUsers[index]['area_id']}',
                                 marketName: foundUsers[index]['address'],
                                 outstanding: '',
+                                magic: foundUsers[index]['magic_doctor'] ==
+                                        'magic_doctor'
+                                    ? true
+                                    : false,
                                 icon: const Icon(
                                   Icons.edit,
                                   color: Color.fromARGB(255, 138, 201, 149),

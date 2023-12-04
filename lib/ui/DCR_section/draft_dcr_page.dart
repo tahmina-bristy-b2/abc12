@@ -53,15 +53,18 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
           return GestureDetector(
             onTap: () {},
             child: Card(
-              color: Colors.white,
+              // color: Colors.white,
               child: ExpansionTile(
                 title: Text(
-                  "${user[index].docName} (${user[index].areaName}) ",
+                  "${user[index].docName} || ${user[index].docId} ",
                   maxLines: 2,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(
+                      color: user[index].magic == true
+                          ? const Color.fromARGB(255, 138, 201, 149)
+                          : null),
                 ),
-                subtitle: Text("${user[index].docId}  "),
+                subtitle:
+                    Text('${user[index].areaName} || ${user[index].areaId}'),
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -94,6 +97,7 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                                 areaName: user[index].areaName,
                                 areaId: user[index].areaId,
                                 address: user[index].address,
+                                magic: user[index].magic ?? false,
                               ),
                             ),
                           );

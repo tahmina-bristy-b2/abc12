@@ -145,21 +145,21 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DcrDataModel(
-      docName: fields[0] as String,
-      docId: fields[1] as String,
-      areaId: fields[2] as String,
-      areaName: fields[3] as String,
-      address: fields[4] as String,
-      visitedWith: fields[5] as String,
-      notes: fields[6] as String,
-      dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
-    );
+        docName: fields[0] as String,
+        docId: fields[1] as String,
+        areaId: fields[2] as String,
+        areaName: fields[3] as String,
+        address: fields[4] as String,
+        visitedWith: fields[5] as String,
+        notes: fields[6] as String,
+        dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
+        magic: fields[8] as bool?);
   }
 
   @override
   void write(BinaryWriter writer, DcrDataModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.docName)
       ..writeByte(1)
@@ -175,7 +175,9 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       ..writeByte(6)
       ..write(obj.notes)
       ..writeByte(7)
-      ..write(obj.dcrGspList);
+      ..write(obj.dcrGspList)
+      ..writeByte(8)
+      ..write(obj.magic);
   }
 
   @override

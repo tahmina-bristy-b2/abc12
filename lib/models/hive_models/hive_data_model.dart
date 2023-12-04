@@ -100,6 +100,8 @@ class DcrDataModel extends HiveObject {
   String notes;
   @HiveField(7)
   List<DcrGSPDataModel> dcrGspList;
+  @HiveField(8)
+  bool? magic;
 
   DcrDataModel(
       {required this.docName,
@@ -109,7 +111,8 @@ class DcrDataModel extends HiveObject {
       required this.address,
       required this.visitedWith,
       required this.notes,
-      required this.dcrGspList});
+      required this.dcrGspList,
+      this.magic});
 }
 
 @HiveType(typeId: 3)

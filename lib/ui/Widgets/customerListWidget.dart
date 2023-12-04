@@ -8,16 +8,18 @@ class CustomerListCardWidget extends StatelessWidget {
   final String base;
   final String marketName;
   final String outstanding;
-  const CustomerListCardWidget({
-    Key? key,
-    required this.clientName,
-    required this.boolIcon,
-    required this.icon,
-    required this.onPressed,
-    required this.base,
-    required this.marketName,
-    required this.outstanding,
-  }) : super(key: key);
+  final bool? magic;
+  const CustomerListCardWidget(
+      {Key? key,
+      required this.clientName,
+      required this.boolIcon,
+      required this.icon,
+      required this.onPressed,
+      required this.base,
+      required this.marketName,
+      required this.outstanding,
+      this.magic})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +35,18 @@ class CustomerListCardWidget extends StatelessWidget {
         minVerticalPadding: 0,
         title: Text(
           clientName,
-          style: const TextStyle(
-              color: Color.fromARGB(255, 30, 66, 77),
-              fontSize: 18,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(
+            color:
+                magic == true ? const Color.fromARGB(255, 138, 201, 149) : null,
+            // color: Color.fromARGB(255, 30, 66, 77),
+            // fontSize: 18,
+            // fontWeight: FontWeight.w600,
+          ),
         ),
         subtitle: Text(
           '$base ,$marketName',
-          style: const TextStyle(
-              color: Color.fromARGB(255, 30, 66, 77), fontSize: 16),
+          // style: const TextStyle(
+          //     color: Color.fromARGB(255, 30, 66, 77), fontSize: 16),
         ),
         trailing:
             boolIcon ? IconButton(onPressed: onPressed, icon: icon) : null,

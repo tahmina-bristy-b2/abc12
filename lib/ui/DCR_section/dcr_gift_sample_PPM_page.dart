@@ -30,19 +30,21 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   final List<DcrGSPDataModel> draftOrderItem;
   final String notes;
   final String visitedWith;
+  final bool magic;
 
-  const DcrGiftSamplePpmPage({
-    Key? key,
-    required this.address,
-    required this.areaId,
-    required this.isDraft,
-    required this.docName,
-    required this.docId,
-    required this.areaName,
-    required this.draftOrderItem,
-    required this.notes,
-    required this.visitedWith,
-  }) : super(key: key);
+  const DcrGiftSamplePpmPage(
+      {Key? key,
+      required this.address,
+      required this.areaId,
+      required this.isDraft,
+      required this.docName,
+      required this.docId,
+      required this.areaName,
+      required this.draftOrderItem,
+      required this.notes,
+      required this.visitedWith,
+      required this.magic})
+      : super(key: key);
 
   @override
   State<DcrGiftSamplePpmPage> createState() => _DcrGiftSamplePpmPageState();
@@ -841,7 +843,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
           address: 'address',
           dcrGspList: addedDcrGSPList,
           visitedWith: dcrString,
-          notes: noteText));
+          notes: noteText,
+          magic: widget.magic));
     }
   }
 

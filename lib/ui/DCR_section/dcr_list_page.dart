@@ -191,8 +191,8 @@ class _DcrListPageState extends State<DcrListPage> {
                                               magic: foundUsers[index]
                                                           ['magic_doctor'] ==
                                                       'magic_doctor'
-                                                  ? true
-                                                  : false,
+                                                  ? false
+                                                  : true,
                                             )));
                               },
                               child: CustomerListCardWidget(
@@ -204,8 +204,8 @@ class _DcrListPageState extends State<DcrListPage> {
                                 outstanding: '',
                                 magic: foundUsers[index]['magic_doctor'] ==
                                         'magic_doctor'
-                                    ? true
-                                    : false,
+                                    ? false
+                                    : true,
                                 confettiController: _confettiController,
                                 icon: const Icon(
                                   Icons.edit,

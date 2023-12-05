@@ -34,9 +34,9 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   final List<DcrGSPDataModel> draftOrderItem;
   final String notes;
   final String visitedWith;
-   bool magic;
+  bool magic;
 
-   DcrGiftSamplePpmPage(
+  DcrGiftSamplePpmPage(
       {Key? key,
       required this.address,
       required this.areaId,
@@ -112,7 +112,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   @override
   void initState() {
     super.initState();
-   widget.magic=true;
 
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
@@ -135,7 +134,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     dcrDiscussion = userInfo!.dcrDiscussion;
     dcrVisitedWithList = userInfo!.dcrVisitWithList;
     dropdownVisitWithValue = dcrVisitedWithList.first;
-    _confettiController=ConfettiController(duration: const Duration(milliseconds: 800));
+    _confettiController =
+        ConfettiController(duration: const Duration(milliseconds: 800));
     _confettiController.play();
 
     if (widget.isDraft) {
@@ -245,643 +245,651 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
               centerTitle: true,
             ),
             body: SafeArea(
-              child: Stack(
-                children: [
-                  Column(
-                 children: [
-                  Card(
-                     color: const Color(0xff56CCF2).withOpacity(.3),
-                   // color: Color.fromARGB(255, 163, 92, 176),
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(10),
-                    //     color: const Color(0xff56CCF2).withOpacity(.3),
-                    //   ),
-                    child: SizedBox(
-                      width: screenWidth,
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // const SizedBox(
-                                  //   height: 10,
-                                  // ),
-                                //  widget.magic==true? AnimatedTextKit(
-                                //     repeatForever: true,
-                                //     animatedTexts: [
-                                //     ColorizeAnimatedText("  ${widget.docName}", textStyle: const TextStyle(
-                                //       fontSize:18 ,
-                                //     ), colors: [
-                                //       Colors.purple,Colors.amber,Colors.blue,Colors.red
-                            
-                                //     ]),
-                                   
-                            
-                            
-                                    
-                                //   ]): 
-                                  
-                                  Text(
-                                    "  ${widget.docName}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  //  widget.magic==true? AnimatedTextKit(
-                                  //   repeatForever: true,
-                                  //   animatedTexts: [
-                                  //   ColorizeAnimatedText("${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
-                                  //     fontSize:14 ,
-                                  //   ), colors: [
-                                  //   Colors.amber,  Colors.purple,Colors.blue,Colors.red
-                            
-                                  //   ]),
-                                  //   // ColorizeAnimatedText("   ${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
-                                  //   //   fontSize: 12,
-                                  //   // ), colors: [
-                                  //   //   Colors.purple,Colors.blue,Colors.yellow,Colors.red
-                            
-                                  //   // ]),
-                            
-                            
-                                    
-                                  // ]): 
-                                  
-                                  Text(
-                                    "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
-                                    style: const TextStyle(
-                                        color: Colors.black, fontSize: 14),
-                                  ),
-                                  // Text(
-                                  //   "  ${widget.docName}",
-                                  //   style: const TextStyle(
-                                  //     color: Colors.black,
-                                  //     fontSize: 16,
-                                  //   ),
-                                  // ),
-                                  // Text(
-                                  //   "   ${widget.areaName} (${widget.areaId}), ${widget.address}",
-                                  //   style: const TextStyle(
-                                  //       color: Colors.black, fontSize: 14),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                             widget.magic==true?  Expanded(
-                              child: Container(
-                                height:40,
-                                
-                                child: Image.asset('assets/images/hat_icon.png',color: Colors.deepOrange,)),
-                            ):const SizedBox(),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  dcrVisitedWithList.isNotEmpty
-                      ? Padding(
+                child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Card(
+                      color: const Color(0xff56CCF2).withOpacity(.3),
+                      // color: Color.fromARGB(255, 163, 92, 176),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     color: const Color(0xff56CCF2).withOpacity(.3),
+                      //   ),
+                      child: SizedBox(
+                        width: screenWidth,
+                        child: Padding(
                           padding: const EdgeInsets.all(2.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            color: Colors.teal.shade100,
-                            // height: 40,
-
-                            child: Row(
-                              children: [
-                                const Expanded(
-                                    child: Text(
-                                  "Visited With : ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                )),
-                                Expanded(
-                                  flex: 2,
-                                  child: GFMultiSelect(
-                                    initialSelectedItemsIndex:
-                                        dcrVisitedWithIInt,
-                                    items: dcrVisitedWithList,
-                                    onSelect: (value) {
-                                      dcrString = '';
-                                      if (value.isNotEmpty) {
-                                        for (var e in value) {
-                                          if (dcrString == '') {
-                                            dcrString = dcrVisitedWithList[e];
-                                          } else {
-                                            dcrString +=
-                                                '|${dcrVisitedWithList[e]}';
-                                          }
-                                        }
-                                      }
-                                    },
-                                    dropdownTitleTileText: 'Select',
-                                    dropdownTitleTileMargin: EdgeInsets.zero,
-                                    dropdownTitleTilePadding:
-                                        const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    dropdownUnderlineBorder: const BorderSide(
-                                        color: Colors.transparent, width: 2),
-                                    expandedIcon: const Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: Colors.teal,
-                                    ),
-                                    collapsedIcon: const Icon(
-                                      Icons.keyboard_arrow_up,
-                                      color: Colors.teal,
-                                    ),
-                                    padding: const EdgeInsets.all(0),
-                                    margin: const EdgeInsets.all(0),
-                                    type: GFCheckboxType.basic,
-                                    activeBgColor:
-                                        Colors.green.withOpacity(0.5),
-                                    inactiveBorderColor: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container(),
-
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                    child: Container(
-                      height: 55,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color.fromARGB(255, 138, 201, 149)
-                            .withOpacity(.5),
-                      ),
-                      // elevation: 6,
-
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.deny(
-                              RegExp(r'[@#%^!~\\/:;]'))
-                        ],
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.black),
-                        controller: noteController,
-                        focusNode: FocusNode(),
-                        textInputAction: TextInputAction.done,
-                        autofocus: false,
-                        decoration: const InputDecoration(
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                            labelText: '  Notes...',
-                            labelStyle: TextStyle(color: Colors.blueGrey)),
-                        onChanged: (value) {
-                          noteText = (noteController.text)
-                              .replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                        },
-                      ),
-                    ),
-                  ),
-                  // Doctor Gift section..................................
-                  Expanded(
-                    child: SizedBox(
-                      // height: screenHeight / 2.2,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: addedDcrGSPList.length,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (BuildContext itemBuilder, index) {
-                          return Card(
-                            // elevation: 15,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Container(
-                              height: 90,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 10,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    addedDcrGSPList[index]
-                                                        .giftName,
-                                                    style: const TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 9, 38, 61),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 16),
-                                                  ),
-                                                ),
-                                                // Text(
-                                                //   '(${addedDcrGSPList[index].giftType})',
-                                                //   style: const TextStyle(
-                                                //       fontSize: 16),
-                                                // ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              _showMyDialog(index);
-                                            },
-                                            icon: const Icon(
-                                              Icons.clear,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
+                                    // const SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    //  widget.magic==true? AnimatedTextKit(
+                                    //     repeatForever: true,
+                                    //     animatedTexts: [
+                                    //     ColorizeAnimatedText("  ${widget.docName}", textStyle: const TextStyle(
+                                    //       fontSize:18 ,
+                                    //     ), colors: [
+                                    //       Colors.purple,Colors.amber,Colors.blue,Colors.red
+
+                                    //     ]),
+
+                                    //   ]):
+
+                                    Text(
+                                      "  ${widget.docName}",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          addedDcrGSPList[index].giftType !=
-                                                  "Discussion"
-                                              ? Row(
-                                                  children: [
-                                                    const Text(
-                                                      'Qt:  ',
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Color.fromARGB(
-                                                              255, 9, 38, 61)),
-                                                    ),
-                                                    Text(
-                                                      addedDcrGSPList[index]
-                                                          .quantity
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 9, 38, 61),
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                )
-                                              : const Text(""),
-                                          const Spacer(),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '(${addedDcrGSPList[index].giftType})',
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 9, 38, 61),
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                    //  widget.magic==true? AnimatedTextKit(
+                                    //   repeatForever: true,
+                                    //   animatedTexts: [
+                                    //   ColorizeAnimatedText("${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
+                                    //     fontSize:14 ,
+                                    //   ), colors: [
+                                    //   Colors.amber,  Colors.purple,Colors.blue,Colors.red
+
+                                    //   ]),
+                                    //   // ColorizeAnimatedText("   ${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
+                                    //   //   fontSize: 12,
+                                    //   // ), colors: [
+                                    //   //   Colors.purple,Colors.blue,Colors.yellow,Colors.red
+
+                                    //   // ]),
+
+                                    // ]):
+
+                                    Text(
+                                      "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 14),
                                     ),
+                                    // Text(
+                                    //   "  ${widget.docName}",
+                                    //   style: const TextStyle(
+                                    //     color: Colors.black,
+                                    //     fontSize: 16,
+                                    //   ),
+                                    // ),
+                                    // Text(
+                                    //   "   ${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                    //   style: const TextStyle(
+                                    //       color: Colors.black, fontSize: 14),
+                                    // ),
                                   ],
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                              widget.magic == true
+                                  ? Expanded(
+                                      child: Container(
+                                          height: 40,
+                                          child: Image.asset(
+                                            'assets/images/hat_icon.png',
+                                            color: Colors.deepOrange,
+                                          )),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    dcrVisitedWithList.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              color: Colors.teal.shade100,
+                              // height: 40,
 
-                  // const Spacer(),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // GestureDetector(
-                      //   onTap: () async {
-                      //     List doctorGiftlist = await AllServices()
-                      //         .getSyncSavedData('dcrGiftListData');
-
-                      //     if (!mounted) return;
-
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (_) => DcrGiftDataPage(
-                      //           // uniqueId: widget.uniqueId,
-                      //           doctorGiftlist: doctorGiftlist,
-                      //           tempList: addedDcrGSPList,
-                      //           tempListFunc: (value) {
-                      //             addedDcrGSPList = value;
-                      //             itemString = DcrServices()
-                      //                 .calculatingGspItemString(
-                      //                     addedDcrGSPList);
-
-                      //             setState(() {});
-                      //           },
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: Container(
-                      //     height: MediaQuery.of(context).size.height / 16,
-                      //     width: screenWidth / 5.7,
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //       color: const Color.fromARGB(255, 138, 201, 149),
-                      //     ),
-                      //     child: const Center(
-                      //       child: FittedBox(
-                      //         child: Text(
-                      //           'Gift',
-                      //           style: TextStyle(
-                      //               color: Color.fromARGB(255, 8, 15, 9),
-                      //               fontWeight: FontWeight.w500,
-                      //               fontSize: 16),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-
-                      // GestureDetector(
-                      //   onTap: () async {
-                      //     List doctorSamplelist = await AllServices()
-                      //         .getSyncSavedData('dcrSampleListData');
-
-                      //     if (!mounted) return;
-
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (_) => DcrSampleDataPage(
-                      //           // uniqueId: widget.uniqueId,
-                      //           doctorSamplelist: doctorSamplelist.isNotEmpty
-                      //               ? doctorSamplelist
-                      //               : [],
-                      //           tempList: addedDcrGSPList,
-                      //           tempListFunc: (value) {
-                      //             addedDcrGSPList = value;
-                      //             itemString = DcrServices()
-                      //                 .calculatingGspItemString(
-                      //                     addedDcrGSPList);
-
-                      //             setState(() {});
-                      //           },
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: Container(
-                      //     height: MediaQuery.of(context).size.height / 16,
-                      //     width: screenWidth / 4,
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //       color: const Color.fromARGB(255, 138, 201, 149),
-                      //     ),
-                      //     child: const Center(
-                      //       child: Text(
-                      //         'Sample',
-                      //         style: TextStyle(
-                      //             color: Color.fromARGB(255, 7, 14, 8),
-                      //             fontWeight: FontWeight.w500,
-                      //             fontSize: 16),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-
-                      ElevatedButton(
-                        onPressed: () async {
-                          List doctorGiftlist = await AllServices()
-                              .getSyncSavedData('dcrGiftListData');
-
-                          if (!mounted) return;
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => DcrGiftDataPage(
-                                // uniqueId: widget.uniqueId,
-                                doctorGiftlist: doctorGiftlist,
-                                tempList: addedDcrGSPList,
-                                tempListFunc: (value) {
-                                  addedDcrGSPList = value;
-                                  itemString = DcrServices()
-                                      .calculatingGspItemString(
-                                          addedDcrGSPList);
-
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(screenWidth / 4.8,
-                              MediaQuery.of(context).size.height / 16),
-                          backgroundColor:
-                              const Color.fromARGB(255, 138, 201, 149),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(10), // <-- Radius
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Gift',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 9, 19, 11),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          List doctorSamplelist = await AllServices()
-                              .getSyncSavedData('dcrSampleListData');
-
-                          if (!mounted) return;
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => DcrSampleDataPage(
-                                // uniqueId: widget.uniqueId,
-                                doctorSamplelist: doctorSamplelist.isNotEmpty
-                                    ? doctorSamplelist
-                                    : [],
-                                tempList: addedDcrGSPList,
-                                tempListFunc: (value) {
-                                  addedDcrGSPList = value;
-                                  itemString = DcrServices()
-                                      .calculatingGspItemString(
-                                          addedDcrGSPList);
-
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(screenWidth / 4,
-                              MediaQuery.of(context).size.height / 16),
-                          backgroundColor:
-                              const Color.fromARGB(255, 138, 201, 149),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(10), // <-- Radius
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Sample',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 9, 19, 11),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ),
-
-                      ElevatedButton(
-                        onPressed: () async {
-                          List doctorPpmlist = await AllServices()
-                              .getSyncSavedData('dcrPpmListData');
-
-                          if (!mounted) return;
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => DcrPpmDataPage(
-                                doctorPpmlist: doctorPpmlist.isNotEmpty
-                                    ? doctorPpmlist
-                                    : [],
-                                tempList: addedDcrGSPList,
-                                tempListFunc: (value) {
-                                  addedDcrGSPList = value;
-                                  itemString = DcrServices()
-                                      .calculatingGspItemString(
-                                          addedDcrGSPList);
-
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(screenWidth / 4.8,
-                              MediaQuery.of(context).size.height / 16),
-                          backgroundColor:
-                              const Color.fromARGB(255, 138, 201, 149),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(10), // <-- Radius
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'PPM',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 9, 19, 11),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ),
-                      dcrDiscussion == true
-                          ? ElevatedButton(
-                              onPressed: () async {
-                                List doctorDiscussionlist = await AllServices()
-                                    .getSyncSavedData('syncItemData');
-                                if (!mounted) return;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => DcrDiscussionPage(
-                                      // uniqueId: widget.uniqueId,
-                                      doctorDiscussionlist:
-                                          doctorDiscussionlist,
-                                      tempList: addedDcrGSPList,
-                                      tempListFunc: (value) {
-                                        addedDcrGSPList = value;
-                                        itemString = DcrServices()
-                                            .calculatingGspItemString(
-                                                addedDcrGSPList);
-
-                                        setState(() {});
+                              child: Row(
+                                children: [
+                                  const Expanded(
+                                      child: Text(
+                                    "Visited With : ",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                    ),
+                                  )),
+                                  Expanded(
+                                    flex: 2,
+                                    child: GFMultiSelect(
+                                      initialSelectedItemsIndex:
+                                          dcrVisitedWithIInt,
+                                      items: dcrVisitedWithList,
+                                      onSelect: (value) {
+                                        dcrString = '';
+                                        if (value.isNotEmpty) {
+                                          for (var e in value) {
+                                            if (dcrString == '') {
+                                              dcrString = dcrVisitedWithList[e];
+                                            } else {
+                                              dcrString +=
+                                                  '|${dcrVisitedWithList[e]}';
+                                            }
+                                          }
+                                        }
                                       },
+                                      dropdownTitleTileText: 'Select',
+                                      dropdownTitleTileMargin: EdgeInsets.zero,
+                                      dropdownTitleTilePadding:
+                                          const EdgeInsets.fromLTRB(
+                                              10, 0, 10, 0),
+                                      dropdownUnderlineBorder: const BorderSide(
+                                          color: Colors.transparent, width: 2),
+                                      expandedIcon: const Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: Colors.teal,
+                                      ),
+                                      collapsedIcon: const Icon(
+                                        Icons.keyboard_arrow_up,
+                                        color: Colors.teal,
+                                      ),
+                                      padding: const EdgeInsets.all(0),
+                                      margin: const EdgeInsets.all(0),
+                                      type: GFCheckboxType.basic,
+                                      activeBgColor:
+                                          Colors.green.withOpacity(0.5),
+                                      inactiveBorderColor: Colors.grey,
                                     ),
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(screenWidth / 4,
-                                    MediaQuery.of(context).size.height / 16),
-                                backgroundColor:
-                                    const Color.fromARGB(255, 138, 201, 149),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(10), // <-- Radius
-                                ),
+                                ],
                               ),
-                              child: const Center(
-                                child: Text(
-                                  'Discus.',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 7, 14, 8),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
-                                ),
-                              ),
-                            )
-                          : Container()
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  )
-                   ], 
-                ),
-                 widget.magic==true? Align(
-                    alignment: Alignment.topCenter,
-                    child: ConfettiWidget(confettiController: _confettiController,
-                    blastDirection:-pi/2 ,
-                    emissionFrequency: 0.02,
-                    numberOfParticles: 150,
-                    blastDirectionality: BlastDirectionality.explosive,
-                   
+                            ),
+                          )
+                        : Container(),
 
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                      child: Container(
+                        height: 55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color.fromARGB(255, 138, 201, 149)
+                              .withOpacity(.5),
+                        ),
+                        // elevation: 6,
+
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r'[@#%^!~\\/:;]'))
+                          ],
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          controller: noteController,
+                          focusNode: FocusNode(),
+                          textInputAction: TextInputAction.done,
+                          autofocus: false,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              labelText: '  Notes...',
+                              labelStyle: TextStyle(color: Colors.blueGrey)),
+                          onChanged: (value) {
+                            noteText = (noteController.text)
+                                .replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+                          },
+                        ),
+                      ),
+                    ),
+                    // Doctor Gift section..................................
+                    Expanded(
+                      child: SizedBox(
+                        // height: screenHeight / 2.2,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: addedDcrGSPList.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext itemBuilder, index) {
+                            return Card(
+                              // elevation: 15,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    color: Colors.white70, width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Container(
+                                height: 90,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 10,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      addedDcrGSPList[index]
+                                                          .giftName,
+                                                      style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 9, 38, 61),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 16),
+                                                    ),
+                                                  ),
+                                                  // Text(
+                                                  //   '(${addedDcrGSPList[index].giftType})',
+                                                  //   style: const TextStyle(
+                                                  //       fontSize: 16),
+                                                  // ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                _showMyDialog(index);
+                                              },
+                                              icon: const Icon(
+                                                Icons.clear,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            addedDcrGSPList[index].giftType !=
+                                                    "Discussion"
+                                                ? Row(
+                                                    children: [
+                                                      const Text(
+                                                        'Qt:  ',
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    9,
+                                                                    38,
+                                                                    61)),
+                                                      ),
+                                                      Text(
+                                                        addedDcrGSPList[index]
+                                                            .quantity
+                                                            .toString(),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    9,
+                                                                    38,
+                                                                    61),
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : const Text(""),
+                                            const Spacer(),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '(${addedDcrGSPList[index].giftType})',
+                                                  style: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 9, 38, 61),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
 
-                   ):const SizedBox()
-                ],
-              )
-            ),
+                    // const Spacer(),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // GestureDetector(
+                        //   onTap: () async {
+                        //     List doctorGiftlist = await AllServices()
+                        //         .getSyncSavedData('dcrGiftListData');
+
+                        //     if (!mounted) return;
+
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (_) => DcrGiftDataPage(
+                        //           // uniqueId: widget.uniqueId,
+                        //           doctorGiftlist: doctorGiftlist,
+                        //           tempList: addedDcrGSPList,
+                        //           tempListFunc: (value) {
+                        //             addedDcrGSPList = value;
+                        //             itemString = DcrServices()
+                        //                 .calculatingGspItemString(
+                        //                     addedDcrGSPList);
+
+                        //             setState(() {});
+                        //           },
+                        //         ),
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: Container(
+                        //     height: MediaQuery.of(context).size.height / 16,
+                        //     width: screenWidth / 5.7,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       color: const Color.fromARGB(255, 138, 201, 149),
+                        //     ),
+                        //     child: const Center(
+                        //       child: FittedBox(
+                        //         child: Text(
+                        //           'Gift',
+                        //           style: TextStyle(
+                        //               color: Color.fromARGB(255, 8, 15, 9),
+                        //               fontWeight: FontWeight.w500,
+                        //               fontSize: 16),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
+                        // GestureDetector(
+                        //   onTap: () async {
+                        //     List doctorSamplelist = await AllServices()
+                        //         .getSyncSavedData('dcrSampleListData');
+
+                        //     if (!mounted) return;
+
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (_) => DcrSampleDataPage(
+                        //           // uniqueId: widget.uniqueId,
+                        //           doctorSamplelist: doctorSamplelist.isNotEmpty
+                        //               ? doctorSamplelist
+                        //               : [],
+                        //           tempList: addedDcrGSPList,
+                        //           tempListFunc: (value) {
+                        //             addedDcrGSPList = value;
+                        //             itemString = DcrServices()
+                        //                 .calculatingGspItemString(
+                        //                     addedDcrGSPList);
+
+                        //             setState(() {});
+                        //           },
+                        //         ),
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: Container(
+                        //     height: MediaQuery.of(context).size.height / 16,
+                        //     width: screenWidth / 4,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       color: const Color.fromARGB(255, 138, 201, 149),
+                        //     ),
+                        //     child: const Center(
+                        //       child: Text(
+                        //         'Sample',
+                        //         style: TextStyle(
+                        //             color: Color.fromARGB(255, 7, 14, 8),
+                        //             fontWeight: FontWeight.w500,
+                        //             fontSize: 16),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
+                        ElevatedButton(
+                          onPressed: () async {
+                            List doctorGiftlist = await AllServices()
+                                .getSyncSavedData('dcrGiftListData');
+
+                            if (!mounted) return;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcrGiftDataPage(
+                                  // uniqueId: widget.uniqueId,
+                                  doctorGiftlist: doctorGiftlist,
+                                  tempList: addedDcrGSPList,
+                                  tempListFunc: (value) {
+                                    addedDcrGSPList = value;
+                                    itemString = DcrServices()
+                                        .calculatingGspItemString(
+                                            addedDcrGSPList);
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(screenWidth / 4.8,
+                                MediaQuery.of(context).size.height / 16),
+                            backgroundColor:
+                                const Color.fromARGB(255, 138, 201, 149),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Gift',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 9, 19, 11),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            List doctorSamplelist = await AllServices()
+                                .getSyncSavedData('dcrSampleListData');
+
+                            if (!mounted) return;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcrSampleDataPage(
+                                  // uniqueId: widget.uniqueId,
+                                  doctorSamplelist: doctorSamplelist.isNotEmpty
+                                      ? doctorSamplelist
+                                      : [],
+                                  tempList: addedDcrGSPList,
+                                  tempListFunc: (value) {
+                                    addedDcrGSPList = value;
+                                    itemString = DcrServices()
+                                        .calculatingGspItemString(
+                                            addedDcrGSPList);
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(screenWidth / 4,
+                                MediaQuery.of(context).size.height / 16),
+                            backgroundColor:
+                                const Color.fromARGB(255, 138, 201, 149),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Sample',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 9, 19, 11),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ),
+
+                        ElevatedButton(
+                          onPressed: () async {
+                            List doctorPpmlist = await AllServices()
+                                .getSyncSavedData('dcrPpmListData');
+
+                            if (!mounted) return;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DcrPpmDataPage(
+                                  doctorPpmlist: doctorPpmlist.isNotEmpty
+                                      ? doctorPpmlist
+                                      : [],
+                                  tempList: addedDcrGSPList,
+                                  tempListFunc: (value) {
+                                    addedDcrGSPList = value;
+                                    itemString = DcrServices()
+                                        .calculatingGspItemString(
+                                            addedDcrGSPList);
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(screenWidth / 4.8,
+                                MediaQuery.of(context).size.height / 16),
+                            backgroundColor:
+                                const Color.fromARGB(255, 138, 201, 149),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10), // <-- Radius
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'PPM',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 9, 19, 11),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ),
+                        dcrDiscussion == true
+                            ? ElevatedButton(
+                                onPressed: () async {
+                                  List doctorDiscussionlist =
+                                      await AllServices()
+                                          .getSyncSavedData('syncItemData');
+                                  if (!mounted) return;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => DcrDiscussionPage(
+                                        // uniqueId: widget.uniqueId,
+                                        doctorDiscussionlist:
+                                            doctorDiscussionlist,
+                                        tempList: addedDcrGSPList,
+                                        tempListFunc: (value) {
+                                          addedDcrGSPList = value;
+                                          itemString = DcrServices()
+                                              .calculatingGspItemString(
+                                                  addedDcrGSPList);
+
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(screenWidth / 4,
+                                      MediaQuery.of(context).size.height / 16),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 138, 201, 149),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // <-- Radius
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Discus.',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 7, 14, 8),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              )
+                            : Container()
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    )
+                  ],
+                ),
+                widget.magic == true
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: ConfettiWidget(
+                          confettiController: _confettiController,
+                          blastDirection: -pi / 2,
+                          emissionFrequency: 0.02,
+                          numberOfParticles: 150,
+                          blastDirectionality: BlastDirectionality.explosive,
+                        ),
+                      )
+                    : const SizedBox()
+              ],
+            )),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               onTap: _onItemTapped,
@@ -1048,8 +1056,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
       },
     );
   }
-
-
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

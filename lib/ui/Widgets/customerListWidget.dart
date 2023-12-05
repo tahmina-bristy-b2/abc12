@@ -29,7 +29,7 @@ class CustomerListCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return magic == false
+    return magic == true
         ? Card(
             // elevation: 2,
             // color: Colors.yellow.shade50,

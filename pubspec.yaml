@@ -48,6 +48,7 @@ dependencies:
   shimmer: ^3.0.0
   dropdown_button2: ^1.9.4
   confetti: ^0.7.0
+ 
   
   
   # thumbnailer: ^2.2.0

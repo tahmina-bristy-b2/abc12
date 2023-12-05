@@ -6,6 +6,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/dcr/dcr_services.dart';
 import 'package:MREPORTING/utils/constant.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -168,6 +169,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     timefieldController.dispose();
     paymentfieldController.dispose();
     noteController.dispose();
+    _confettiController.dispose();
 
     super.dispose();
   }
@@ -248,7 +250,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                   Column(
                  children: [
                   Card(
-                    color: const Color(0xff56CCF2).withOpacity(.3),
+                     color: const Color(0xff56CCF2).withOpacity(.3),
+                   // color: Color.fromARGB(255, 163, 92, 176),
                     // decoration: BoxDecoration(
                     //     borderRadius: BorderRadius.circular(10),
                     //     color: const Color(0xff56CCF2).withOpacity(.3),
@@ -257,24 +260,85 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                       width: screenWidth,
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-                            Text(
-                              "  ${widget.docName}",
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
+                            Expanded(
+                              flex: 4,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // const SizedBox(
+                                  //   height: 10,
+                                  // ),
+                                //  widget.magic==true? AnimatedTextKit(
+                                //     repeatForever: true,
+                                //     animatedTexts: [
+                                //     ColorizeAnimatedText("  ${widget.docName}", textStyle: const TextStyle(
+                                //       fontSize:18 ,
+                                //     ), colors: [
+                                //       Colors.purple,Colors.amber,Colors.blue,Colors.red
+                            
+                                //     ]),
+                                   
+                            
+                            
+                                    
+                                //   ]): 
+                                  
+                                  Text(
+                                    "  ${widget.docName}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  //  widget.magic==true? AnimatedTextKit(
+                                  //   repeatForever: true,
+                                  //   animatedTexts: [
+                                  //   ColorizeAnimatedText("${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
+                                  //     fontSize:14 ,
+                                  //   ), colors: [
+                                  //   Colors.amber,  Colors.purple,Colors.blue,Colors.red
+                            
+                                  //   ]),
+                                  //   // ColorizeAnimatedText("   ${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
+                                  //   //   fontSize: 12,
+                                  //   // ), colors: [
+                                  //   //   Colors.purple,Colors.blue,Colors.yellow,Colors.red
+                            
+                                  //   // ]),
+                            
+                            
+                                    
+                                  // ]): 
+                                  
+                                  Text(
+                                    "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 14),
+                                  ),
+                                  // Text(
+                                  //   "  ${widget.docName}",
+                                  //   style: const TextStyle(
+                                  //     color: Colors.black,
+                                  //     fontSize: 16,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "   ${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                  //   style: const TextStyle(
+                                  //       color: Colors.black, fontSize: 14),
+                                  // ),
+                                ],
                               ),
                             ),
-                            Text(
-                              "   ${widget.areaName} (${widget.areaId}), ${widget.address}",
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 14),
-                            ),
+                             widget.magic==true?  Expanded(
+                              child: Container(
+                                height:40,
+                                
+                                child: Image.asset('assets/images/hat_icon.png',color: Colors.deepOrange,)),
+                            ):const SizedBox(),
+
                           ],
                         ),
                       ),
@@ -803,18 +867,18 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                   )
                    ], 
                 ),
-                   Align(
+                 widget.magic==true? Align(
                     alignment: Alignment.topCenter,
                     child: ConfettiWidget(confettiController: _confettiController,
                     blastDirection:-pi/2 ,
                     emissionFrequency: 0.02,
-                    numberOfParticles: 15,
+                    numberOfParticles: 150,
                     blastDirectionality: BlastDirectionality.explosive,
-                    shouldLoop: true,
+                   
 
                     ),
 
-                   )
+                   ):const SizedBox()
                 ],
               )
             ),

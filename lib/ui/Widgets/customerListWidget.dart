@@ -79,11 +79,18 @@ class CustomerListCardWidget extends StatelessWidget {
                           width: 110,
                           child: Row(
                             children: [
-                              Image.asset(
-                                'assets/images/magic_hat.jpg',
-                                height: 60,
-                                width: 60,
-                              ),
+                               Transform(
+                                        alignment: Alignment.center,
+                        transform: Matrix4.rotationZ(
+                          3.1415926535897932/4 
+                        ),
+                                        child: SizedBox(
+                                            height: 70,
+                                            child: Image.asset(
+                                              'assets/images/hat_picture.png',
+                                              //color: Colors.deepOrange,
+                                            )),
+                                      ),
                               IconButton(onPressed: onPressed, icon: icon),
                             ],
                           ),
@@ -117,14 +124,14 @@ class CustomerListCardWidget extends StatelessWidget {
               minVerticalPadding: 0,
               title: Text(
                 clientName,
-                style: TextStyle(
-                  color: magic == true
-                      ? const Color.fromARGB(255, 138, 201, 149)
-                      : null,
-                  // color: Color.fromARGB(255, 30, 66, 77),
-                  // fontSize: 18,
-                  // fontWeight: FontWeight.w600,
-                ),
+                // style: TextStyle(
+                //   color: magic == true
+                //       ? const Color.fromARGB(255, 138, 201, 149)
+                //       : null,
+                //   // color: Color.fromARGB(255, 30, 66, 77),
+                //   // fontSize: 18,
+                //   // fontWeight: FontWeight.w600,
+                // ),
               ),
               subtitle: Text(
                 '$base, $marketName',

@@ -263,25 +263,11 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                           child: Row(
                             children: [
                               Expanded(
-                                flex: 4,
+                                flex: 5,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // const SizedBox(
-                                    //   height: 10,
-                                    // ),
-                                    //  widget.magic==true? AnimatedTextKit(
-                                    //     repeatForever: true,
-                                    //     animatedTexts: [
-                                    //     ColorizeAnimatedText("  ${widget.docName}", textStyle: const TextStyle(
-                                    //       fontSize:18 ,
-                                    //     ), colors: [
-                                    //       Colors.purple,Colors.amber,Colors.blue,Colors.red
-
-                                    //     ]),
-
-                                    //   ]):
-
+                                   
                                     Text(
                                       "  ${widget.docName}",
                                       style: const TextStyle(
@@ -289,24 +275,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    //  widget.magic==true? AnimatedTextKit(
-                                    //   repeatForever: true,
-                                    //   animatedTexts: [
-                                    //   ColorizeAnimatedText("${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
-                                    //     fontSize:14 ,
-                                    //   ), colors: [
-                                    //   Colors.amber,  Colors.purple,Colors.blue,Colors.red
-
-                                    //   ]),
-                                    //   // ColorizeAnimatedText("   ${widget.areaName} (${widget.areaId}), ${widget.address}", textStyle: const TextStyle(
-                                    //   //   fontSize: 12,
-                                    //   // ), colors: [
-                                    //   //   Colors.purple,Colors.blue,Colors.yellow,Colors.red
-
-                                    //   // ]),
-
-                                    // ]):
-
+                                  
                                     Text(
                                       "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
                                       style: const TextStyle(
@@ -329,12 +298,18 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                               ),
                               widget.magic == true
                                   ? Expanded(
-                                      child: Container(
-                                          height: 40,
-                                          child: Image.asset(
-                                            'assets/images/hat_icon.png',
-                                            color: Colors.deepOrange,
-                                          )),
+                                      child: Transform(
+                                        alignment: Alignment.center,
+                        transform: Matrix4.rotationZ(
+                          3.1415926535897932/4 
+                        ),
+                                        child: SizedBox(
+                                            height: 65,
+                                            child: Image.asset(
+                                              'assets/images/hat_picture.png',
+                                              //color: Colors.deepOrange,
+                                            )),
+                                      ),
                                     )
                                   : const SizedBox(),
                             ],

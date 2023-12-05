@@ -7,6 +7,7 @@ import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_area_page.dart';
 import 'package:MREPORTING/utils/constant.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
 import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
@@ -24,6 +25,7 @@ class DcrListPage extends StatefulWidget {
 class _DcrListPageState extends State<DcrListPage> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
+  late ConfettiController _confettiController;
 
   String cid = '';
   bool _isLoading = false;
@@ -37,6 +39,9 @@ class _DcrListPageState extends State<DcrListPage> {
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
+    _confettiController =
+        ConfettiController(duration: const Duration(milliseconds: 800));
+    _confettiController.play();
 
     dmpathData = Boxes.getDmpath().get("dmPathData");
     SharedPreferences.getInstance().then((prefs) {
@@ -182,6 +187,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                                   ['address'],
                                               notes: '',
                                               visitedWith: '',
+
                                               magic: foundUsers[index]
                                                           ['magic_doctor'] ==
                                                       'magic_doctor'
@@ -200,6 +206,7 @@ class _DcrListPageState extends State<DcrListPage> {
                                         'magic_doctor'
                                     ? true
                                     : false,
+                                confettiController: _confettiController,
                                 icon: const Icon(
                                   Icons.edit,
                                   color: Color.fromARGB(255, 138, 201, 149),
@@ -210,9 +217,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                     _isLoading = true;
                                   });
 
-//=======================================================================================================================================
-//======================================================CustomerApi======================================================================
-//=======================================================================================================================================
+                                  //=======================================================================================================================================
+                                  //======================================================CustomerApi======================================================================
+                                  //=======================================================================================================================================
                                   List clientList = await DcrRepositories()
                                       .getDCRAreaBaseClient(
                                           dmpathData!.syncUrl,
@@ -221,9 +228,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                           userPassword,
                                           foundUsers[index]['area_id']);
                                   // if (clientList.isNotEmpty) {
-//=======================================================================================================================================
-//======================================================DOCEditApi======================================================================
-//=======================================================================================================================================
+                                  //=======================================================================================================================================
+                                  //======================================================DOCEditApi======================================================================
+                                  //=======================================================================================================================================
                                   final Map<String, dynamic>
                                       responseOfDoEditInfo =
                                       await DcrRepositories().docEditInfo(
@@ -233,9 +240,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                           userPassword,
                                           foundUsers[index]['area_id'],
                                           foundUsers[index]['doc_id']);
-//=======================================================================================================================================
-//======================================================DOCSettingsApi======================================================================
-//=======================================================================================================================================
+                                  //=======================================================================================================================================
+                                  //======================================================DOCSettingsApi======================================================================
+                                  //=======================================================================================================================================
                                   final DocSettingsModel?
                                       responseOfDocSettings =
                                       await DcrRepositories().docSettingsRepo(
@@ -244,9 +251,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                           userInfo!.userId,
                                           userPassword);
 
-//=======================================================================================================================================
-//======================================================Navigation======================================================================
-//=======================================================================================================================================
+                                  //=======================================================================================================================================
+                                  //======================================================Navigation======================================================================
+                                  //=======================================================================================================================================
                                   if (responseOfDoEditInfo != {} &&
                                       responseOfDocSettings != null) {
                                     setState(() {

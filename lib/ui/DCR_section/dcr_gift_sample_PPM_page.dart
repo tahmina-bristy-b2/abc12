@@ -6,7 +6,6 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/dcr/dcr_services.dart';
 import 'package:MREPORTING/utils/constant.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,7 +53,7 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   State<DcrGiftSamplePpmPage> createState() => _DcrGiftSamplePpmPageState();
 }
 
-class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
+class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with TickerProviderStateMixin {
   final TextEditingController datefieldController = TextEditingController();
   final TextEditingController timefieldController = TextEditingController();
   final TextEditingController paymentfieldController = TextEditingController();
@@ -62,6 +61,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   late ConfettiController _confettiController;
+  late AnimationController _animationController ;
+  late Animation<double> _animation;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -134,9 +135,15 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     dcrDiscussion = userInfo!.dcrDiscussion;
     dcrVisitedWithList = userInfo!.dcrVisitWithList;
     dropdownVisitWithValue = dcrVisitedWithList.first;
-    _confettiController =
+    if(widget.magic==true){
+      _confettiController =
         ConfettiController(duration: const Duration(milliseconds: 800));
     _confettiController.play();
+    _animationController= AnimationController(vsync: this, duration:const Duration(seconds: 5));
+    _animation=CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+    _animationController.forward();
+    }
+    
 
     if (widget.isDraft) {
       addedDcrGSPList = widget.draftOrderItem;
@@ -170,6 +177,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     paymentfieldController.dispose();
     noteController.dispose();
     _confettiController.dispose();
+    _animationController.dispose();
 
     super.dispose();
   }
@@ -298,11 +306,13 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                               ),
                               widget.magic == true
                                   ? Expanded(
+                                    child: RotationTransition(
+                                      turns:_animation ,
                                       child: Transform(
                                         alignment: Alignment.center,
-                        transform: Matrix4.rotationZ(
-                          3.1415926535897932/4 
-                        ),
+                                                        transform: Matrix4.rotationZ(
+                                                          3.1415926535897932/4 
+                                                        ),
                                         child: SizedBox(
                                             height: 65,
                                             child: Image.asset(
@@ -310,7 +320,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                               //color: Colors.deepOrange,
                                             )),
                                       ),
-                                    )
+                                    ),
+                                  )
                                   : const SizedBox(),
                             ],
                           ),

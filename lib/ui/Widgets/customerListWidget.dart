@@ -58,20 +58,22 @@ class CustomerListCardWidget extends StatelessWidget {
 
                       Text(
                     clientName,
-                    style: const TextStyle(
-                      color: Color(0xff4100E0),
-                      // color: const Color.fromARGB(255, 138, 201, 149),
-                      // color: Color.fromARGB(255, 30, 66, 77),
-                      // fontSize: 18,
-                      // fontWeight: FontWeight.w600,
-                    ),
+                    style:
+                        const TextStyle(color: Color.fromARGB(255, 0, 174, 29)
+                            // color: Color(0xff4100E0),
+                            // color: const Color.fromARGB(255, 138, 201, 149),
+                            // color: Color.fromARGB(255, 30, 66, 77),
+                            // fontSize: 18,
+                            // fontWeight: FontWeight.w600,
+                            ),
                   ),
                   subtitle: Text(
                     '$base, $marketName',
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 150, 121, 224),
-                      // color: Color.fromARGB(255, 30, 66, 77),
-                    ),
+                    style:
+                        const TextStyle(color: Color.fromARGB(255, 86, 173, 100)
+                            // color: Color.fromARGB(255, 150, 121, 224),
+                            // color: Color.fromARGB(255, 30, 66, 77),
+                            ),
                   ),
                   trailing: boolIcon
                       ? SizedBox(
@@ -79,18 +81,17 @@ class CustomerListCardWidget extends StatelessWidget {
                           width: 110,
                           child: Row(
                             children: [
-                               Transform(
-                                        alignment: Alignment.center,
-                        transform: Matrix4.rotationZ(
-                          3.1415926535897932/4 
-                        ),
-                                        child: SizedBox(
-                                            height: 70,
-                                            child: Image.asset(
-                                              'assets/images/hat_picture.png',
-                                              //color: Colors.deepOrange,
-                                            )),
-                                      ),
+                              Transform(
+                                alignment: Alignment.center,
+                                transform:
+                                    Matrix4.rotationZ(3.1415926535897932 / 4),
+                                child: SizedBox(
+                                    height: 70,
+                                    child: Image.asset(
+                                      'assets/images/hat_picture.png',
+                                      //color: Colors.deepOrange,
+                                    )),
+                              ),
                               IconButton(onPressed: onPressed, icon: icon),
                             ],
                           ),

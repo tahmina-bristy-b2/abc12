@@ -60,11 +60,28 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                   maxLines: 2,
                   style: TextStyle(
                       color: user[index].magic == true
-                          ? const Color.fromARGB(255, 138, 201, 149)
+                          ? const Color.fromARGB(255, 0, 174, 29)
                           : null),
                 ),
-                subtitle:
-                    Text('${user[index].areaName}(${user[index].areaId})'),
+                subtitle: Text(
+                  '${user[index].areaName}(${user[index].areaId})',
+                  style: TextStyle(
+                      color: user[index].magic == true
+                          ? const Color.fromARGB(255, 86, 173, 100)
+                          : null),
+                ),
+                trailing: user[index].magic == true
+                    ? Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationZ(3.1415926535897932 / 4),
+                        child: SizedBox(
+                            height: 70,
+                            child: Image.asset(
+                              'assets/images/hat_picture.png',
+                              //color: Colors.deepOrange,
+                            )),
+                      )
+                    : const SizedBox.shrink(),
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

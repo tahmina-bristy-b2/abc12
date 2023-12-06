@@ -590,7 +590,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 100,
+                fixedWidth: 120,
                 label: Center(
                     child: Text(
                   appraisalDetailsModel!.resData.retStr.first.currentAchievement

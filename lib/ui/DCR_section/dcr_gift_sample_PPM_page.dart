@@ -267,7 +267,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                       child: SizedBox(
                         width: screenWidth,
                         child: Padding(
-                          padding: const EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -277,7 +277,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                                   children: [
                                    
                                     Text(
-                                      "  ${widget.docName}",
+                                      widget.docName,
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
@@ -285,9 +285,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                                     ),
                                   
                                     Text(
-                                      "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                      "${widget.areaName} (${widget.areaId}), ${widget.address}",
                                       style: const TextStyle(
-                                          color: Colors.black, fontSize: 14),
+                                          color: Colors.black, fontSize: 12),
                                     ),
                                     // Text(
                                     //   "  ${widget.docName}",
@@ -397,9 +397,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                       child: Container(
-                        height: 55,
+                        height: 45,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(255, 138, 201, 149)
                               .withOpacity(.5),
                         ),

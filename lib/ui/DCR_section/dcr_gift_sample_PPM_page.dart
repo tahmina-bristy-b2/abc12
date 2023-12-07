@@ -53,7 +53,7 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   State<DcrGiftSamplePpmPage> createState() => _DcrGiftSamplePpmPageState();
 }
 
-class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with TickerProviderStateMixin {
+class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   final TextEditingController datefieldController = TextEditingController();
   final TextEditingController timefieldController = TextEditingController();
   final TextEditingController paymentfieldController = TextEditingController();
@@ -61,8 +61,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   late ConfettiController _confettiController;
-  late AnimationController _animationController ;
-  late Animation<double> _animation;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -135,15 +133,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
     dcrDiscussion = userInfo!.dcrDiscussion;
     dcrVisitedWithList = userInfo!.dcrVisitWithList;
     dropdownVisitWithValue = dcrVisitedWithList.first;
-    if(widget.magic==true){
-      _confettiController =
+    _confettiController =
         ConfettiController(duration: const Duration(milliseconds: 800));
     _confettiController.play();
-    _animationController= AnimationController(vsync: this, duration:const Duration(seconds: 5));
-    _animation=CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
-    _animationController.forward();
-    }
-    
 
     if (widget.isDraft) {
       addedDcrGSPList = widget.draftOrderItem;
@@ -177,7 +169,6 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
     paymentfieldController.dispose();
     noteController.dispose();
     _confettiController.dispose();
-    _animationController.dispose();
 
     super.dispose();
   }
@@ -267,7 +258,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                       child: SizedBox(
                         width: screenWidth,
                         child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.all(2.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -275,19 +266,18 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                   
                                     Text(
-                                      widget.docName,
+                                      "  ${widget.docName}",
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
                                       ),
                                     ),
-                                  
+
                                     Text(
-                                      "${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                      "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
                                       style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                          color: Colors.black, fontSize: 14),
                                     ),
                                     // Text(
                                     //   "  ${widget.docName}",
@@ -306,13 +296,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                               ),
                               widget.magic == true
                                   ? Expanded(
-                                    child: RotationTransition(
-                                      turns:_animation ,
                                       child: Transform(
                                         alignment: Alignment.center,
-                                                        transform: Matrix4.rotationZ(
-                                                          3.1415926535897932/4 
-                                                        ),
+                                        transform: Matrix4.rotationZ(
+                                            3.1415926535897932 / 4),
                                         child: SizedBox(
                                             height: 65,
                                             child: Image.asset(
@@ -320,8 +307,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                                               //color: Colors.deepOrange,
                                             )),
                                       ),
-                                    ),
-                                  )
+                                    )
                                   : const SizedBox(),
                             ],
                           ),
@@ -397,9 +383,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> with Ticker
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                       child: Container(
-                        height: 45,
+                        height: 55,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(20),
                           color: const Color.fromARGB(255, 138, 201, 149)
                               .withOpacity(.5),
                         ),

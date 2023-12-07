@@ -806,14 +806,14 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 115,
                 label: Center(
                     child: Text(
                   achievementData.previousAchievement ?? 'Current Year',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 110,
+                fixedWidth: 115,
                 label: Center(
                     child: Text(
                   achievementData.currentAchievement ?? 'Current Year',
@@ -857,7 +857,7 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Achievement (%)"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text("${achievementData.achievement2}%"))),
+                    child: Text("${achievementData.achievement1}%"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
                     child: Text("${achievementData.achievement2}%")))
@@ -871,10 +871,10 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
                     child: Text("Avg. Rx Share (Seen Rx) "))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text("${achievementData.avgSalesEmr1}%"))),
+                    child: Text("${achievementData.seenRx1}%"))),
                 DataCell(Align(
                     alignment: Alignment.centerRight,
-                    child: Text("${achievementData.avgSalesEmr2}%")))
+                    child: Text("${achievementData.seenRx}%")))
               ],
             ),
             DataRow2(
@@ -1409,51 +1409,51 @@ class _AppraisalDraftMsoScreenState extends State<AppraisalDraftMsoScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Increment Amount",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 250, 250, 250),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextField(
-                        controller: incrementController,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.right,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp("[0-9]"),
-                          ),
-                        ],
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(right: 8),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8.0),
+          //   child: Row(
+          //     children: [
+          //       const Expanded(
+          //           flex: 5,
+          //           child: Text(
+          //             "Increment Amount",
+          //             style: TextStyle(fontWeight: FontWeight.bold),
+          //           )),
+          //       const Expanded(
+          //           child: Text(
+          //         ":",
+          //         style: TextStyle(fontWeight: FontWeight.bold),
+          //       )),
+          //       Expanded(
+          //         flex: 7,
+          //         child: Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Container(
+          //             height: 45,
+          //             decoration: BoxDecoration(
+          //                 color: const Color.fromARGB(255, 250, 250, 250),
+          //                 shape: BoxShape.rectangle,
+          //                 borderRadius: BorderRadius.circular(5)),
+          //             child: TextField(
+          //               controller: incrementController,
+          //               keyboardType: TextInputType.number,
+          //               textAlign: TextAlign.right,
+          //               inputFormatters: [
+          //                 FilteringTextInputFormatter.allow(
+          //                   RegExp("[0-9]"),
+          //                 ),
+          //               ],
+          //               decoration: const InputDecoration(
+          //                 border: InputBorder.none,
+          //                 contentPadding: EdgeInsets.only(right: 8),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(
               right: 8.0,

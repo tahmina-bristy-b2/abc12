@@ -1415,37 +1415,37 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
           // const SizedBox(
           //   height: 8.0,
           // ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Increment Amount",
-                      // style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      appraisalOthers2.incrementAmount ?? '0.00',
-                      // style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8.0),
+          //   child: Row(
+          //     children: [
+          //       const Expanded(
+          //           flex: 5,
+          //           child: Text(
+          //             "Increment Amount",
+          //             // style: TextStyle(fontWeight: FontWeight.bold),
+          //           )),
+          //       const Expanded(
+          //           child: Text(
+          //         ":",
+          //         style: TextStyle(fontWeight: FontWeight.bold),
+          //       )),
+          //       Expanded(
+          //         flex: 7,
+          //         child: Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Text(
+          //             appraisalOthers2.incrementAmount ?? '0.00',
+          //             // style: const TextStyle(fontWeight: FontWeight.bold),
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(
+          //   height: 8,
+          // ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0, right: 8.0),
             child: Row(
@@ -1733,54 +1733,54 @@ class _AppraisalApprovalDetailsState extends State<AppraisalApprovalDetails> {
                       color: Colors.black87),
                 ),
                 const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                          flex: 5,
-                          child: Text(
-                            "Increment Amount",
-                            // style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                      const Expanded(
-                          child: Text(
-                        ":",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                      Expanded(
-                        flex: 7,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 250, 250, 250),
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: TextField(
-                              controller: incrementController,
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.right,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
-                                ),
-                              ],
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.only(right: 8),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 8.0),
+                //   child: Row(
+                //     children: [
+                //       const Expanded(
+                //           flex: 5,
+                //           child: Text(
+                //             "Increment Amount",
+                //             // style: TextStyle(fontWeight: FontWeight.bold),
+                //           )),
+                //       const Expanded(
+                //           child: Text(
+                //         ":",
+                //         style: TextStyle(fontWeight: FontWeight.bold),
+                //       )),
+                //       Expanded(
+                //         flex: 7,
+                //         child: Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Container(
+                //             height: 45,
+                //             decoration: BoxDecoration(
+                //                 color: const Color.fromARGB(255, 250, 250, 250),
+                //                 shape: BoxShape.rectangle,
+                //                 borderRadius: BorderRadius.circular(5)),
+                //             child: TextField(
+                //               controller: incrementController,
+                //               keyboardType: TextInputType.number,
+                //               textAlign: TextAlign.right,
+                //               inputFormatters: [
+                //                 FilteringTextInputFormatter.allow(
+                //                   RegExp("[0-9]"),
+                //                 ),
+                //               ],
+                //               decoration: const InputDecoration(
+                //                 contentPadding: EdgeInsets.only(right: 8),
+                //                 border: InputBorder.none,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(
                     right: 8.0,

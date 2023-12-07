@@ -59,7 +59,7 @@ class AppraisalServices {
               element.employeeName
                   .toLowerCase()
                   .startsWith(enteredekeye.toLowerCase()) ||
-              element.territoryId
+              element.employeeId
                   .toLowerCase()
                   .startsWith(enteredekeye.toLowerCase()))
           .toList();
@@ -68,13 +68,13 @@ class AppraisalServices {
               (element.employeeName
                       .toLowerCase()
                       .contains(enteredekeye.toLowerCase()) ||
-                  element.territoryId
+                  element.employeeId
                       .toLowerCase()
                       .contains(enteredekeye.toLowerCase())) &&
               !(element.employeeName
                       .toLowerCase()
                       .startsWith(enteredekeye.toLowerCase()) ||
-                  element.territoryId
+                  element.employeeId
                       .toLowerCase()
                       .startsWith(enteredekeye.toLowerCase())))
           .toList();

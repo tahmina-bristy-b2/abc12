@@ -590,7 +590,7 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ))),
             DataColumn2(
-                fixedWidth: 100,
+                fixedWidth: 120,
                 label: Center(
                     child: Text(
                   appraisalDetailsModel!.resData.retStr.first.currentAchievement
@@ -820,54 +820,54 @@ class _ApprisalScreenState extends State<ApprisalScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Row(
-              children: [
-                const Expanded(
-                    flex: 5,
-                    child: Text(
-                      "Increment Amount",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                const Expanded(
-                    child: Text(
-                  ":",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-                Expanded(
-                  flex: 7,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 250, 250, 250),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextField(
-                        controller: incrementController,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.right,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp("[0-9]"),
-                          ),
-                        ],
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(right: 8),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8.0),
+          //   child: Row(
+          //     children: [
+          //       const Expanded(
+          //           flex: 5,
+          //           child: Text(
+          //             "Increment Amount",
+          //             style: TextStyle(fontWeight: FontWeight.bold),
+          //           )),
+          //       const Expanded(
+          //           child: Text(
+          //         ":",
+          //         style: TextStyle(fontWeight: FontWeight.bold),
+          //       )),
+          //       Expanded(
+          //         flex: 7,
+          //         child: Align(
+          //           alignment: Alignment.centerRight,
+          //           child: Container(
+          //             height: 40,
+          //             decoration: BoxDecoration(
+          //                 color: const Color.fromARGB(255, 250, 250, 250),
+          //                 shape: BoxShape.rectangle,
+          //                 borderRadius: BorderRadius.circular(5)),
+          //             child: TextField(
+          //               controller: incrementController,
+          //               keyboardType: TextInputType.number,
+          //               textAlign: TextAlign.right,
+          //               inputFormatters: [
+          //                 FilteringTextInputFormatter.allow(
+          //                   RegExp("[0-9]"),
+          //                 ),
+          //               ],
+          //               decoration: const InputDecoration(
+          //                 border: InputBorder.none,
+          //                 contentPadding: EdgeInsets.only(right: 8),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(
+          //   height: 8,
+          // ),
           Padding(
             padding: const EdgeInsets.only(
               right: 8.0,

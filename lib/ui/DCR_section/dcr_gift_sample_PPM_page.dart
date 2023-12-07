@@ -71,6 +71,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
   DmPathDataModel? dmpathData;
   final gspBox = Boxes.selectedDcrGSP();
   final dcrBox = Boxes.dcrUsers();
+  List magicBrandList = [];
 
   double screenHeight = 0.0;
   double screenWidth = 0.0;
@@ -120,6 +121,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
+    getMagicBrandList();
 
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
@@ -171,6 +173,11 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     } else {
       return;
     }
+  }
+
+  void getMagicBrandList() async {
+    magicBrandList = await AllServices().getSyncSavedData('DcrMagicBrand');
+    setState(() {});
   }
 
   @override
@@ -256,21 +263,88 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
               ),
               centerTitle: true,
               actions: [
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
-                  // height: 10,
-                  // width: 60,
-                  // decoration: const BoxDecoration(
-                  //   color: Colors.white,
-                  //   borderRadius: BorderRadius.all(
-                  //     Radius.circular(10),
-                  //   ),
-                  // ),
-                  child: Image.asset(
-                    'assets/icons/brand_2.png',
-                    // height: 40,
-                    width: 35,
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        // barrierColor: Colors.greenAccent,
+                        // backgroundColor: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        isScrollControlled: true,
+                        builder: (BuildContext context) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            // height: 200,
+                            child: ListView.builder(
+                                itemCount: magicBrandList.length,
+                                itemBuilder: (itemBuilder, index) {
+                                  return Container(
+                                    height: 150,
+                                    // height: double.infinity,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            'Team: ${magicBrandList[index]['team']}'),
+                                        const Divider(
+                                          color: Colors.grey,
+                                          // thickness: 2,
+                                        ),
+                                        Expanded(
+                                          child: GridView.builder(
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                      maxCrossAxisExtent: 80,
+                                                      childAspectRatio: 6 / 2,
+                                                      crossAxisSpacing: 10,
+                                                      mainAxisSpacing: 10),
+                                              itemCount: magicBrandList[index]
+                                                      ['brand']
+                                                  .length,
+                                              itemBuilder:
+                                                  (itemBuilder, index2) {
+                                                return Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    constraints:
+                                                        const BoxConstraints(
+                                                            maxWidth: double
+                                                                .infinity),
+                                                    color: Colors.green,
+                                                    child: Text(
+                                                        magicBrandList[index]
+                                                            ['brand'][index2]));
+                                              }),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          );
+                        });
+                  },
+                  child: Container(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
+                    // height: 10,
+                    // width: 60,
+                    // decoration: const BoxDecoration(
+                    //   color: Colors.white,
+                    //   borderRadius: BorderRadius.all(
+                    //     Radius.circular(10),
+                    //   ),
+                    // ),
+                    child: Image.asset(
+                      'assets/icons/brand_2.png',
+                      // height: 40,
+                      width: 35,
+                    ),
                   ),
                 )
               ],

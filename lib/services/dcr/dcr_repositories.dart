@@ -21,7 +21,12 @@ class DcrRepositories {
       doctorList = resData['doctorList'];
 
       if (status == 'Success') {
+        List magicBrandList = resData['magicBrandList'];
         await Boxes().openAndAddDataToBox('dcrListData', doctorList);
+
+        // For saving magic brand Data
+        await Boxes().openAndAddDataToBox('DcrMagicBrand', magicBrandList);
+
         return doctorList;
       }
     } catch (e) {

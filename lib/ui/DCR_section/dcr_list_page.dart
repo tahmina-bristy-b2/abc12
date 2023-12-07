@@ -187,12 +187,13 @@ class _DcrListPageState extends State<DcrListPage> {
                                                   ['address'],
                                               notes: '',
                                               visitedWith: '',
-
                                               magic: foundUsers[index]
                                                           ['magic_doctor'] ==
                                                       'magic_doctor'
                                                   ? false
                                                   : true,
+                                              // magicBrand: foundUsers[index]
+                                              //     ['magic_brand'],
                                             )));
                               },
                               child: CustomerListCardWidget(

@@ -115,6 +115,7 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                                 areaId: user[index].areaId,
                                 address: user[index].address,
                                 magic: user[index].magic ?? false,
+                                magicBrand: const [],
                               ),
                             ),
                           );

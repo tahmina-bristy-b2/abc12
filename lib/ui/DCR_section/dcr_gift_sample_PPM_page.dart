@@ -33,9 +33,10 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
   final List<DcrGSPDataModel> draftOrderItem;
   final String notes;
   final String visitedWith;
-  bool magic;
+  final bool magic;
+  final List? magicBrand;
 
-  DcrGiftSamplePpmPage(
+  const DcrGiftSamplePpmPage(
       {Key? key,
       required this.address,
       required this.areaId,
@@ -46,14 +47,16 @@ class DcrGiftSamplePpmPage extends StatefulWidget {
       required this.draftOrderItem,
       required this.notes,
       required this.visitedWith,
-      required this.magic})
+      required this.magic,
+      this.magicBrand})
       : super(key: key);
 
   @override
   State<DcrGiftSamplePpmPage> createState() => _DcrGiftSamplePpmPageState();
 }
 
-class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
+class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
+    with TickerProviderStateMixin {
   final TextEditingController datefieldController = TextEditingController();
   final TextEditingController timefieldController = TextEditingController();
   final TextEditingController paymentfieldController = TextEditingController();
@@ -61,6 +64,8 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   late ConfettiController _confettiController;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -133,9 +138,16 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     dcrDiscussion = userInfo!.dcrDiscussion;
     dcrVisitedWithList = userInfo!.dcrVisitWithList;
     dropdownVisitWithValue = dcrVisitedWithList.first;
-    _confettiController =
-        ConfettiController(duration: const Duration(milliseconds: 800));
-    _confettiController.play();
+    if (widget.magic == true) {
+      _confettiController =
+          ConfettiController(duration: const Duration(milliseconds: 800));
+      _confettiController.play();
+      _animationController = AnimationController(
+          vsync: this, duration: const Duration(seconds: 5));
+      _animation =
+          CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+      _animationController.forward();
+    }
 
     if (widget.isDraft) {
       addedDcrGSPList = widget.draftOrderItem;
@@ -169,6 +181,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
     paymentfieldController.dispose();
     noteController.dispose();
     _confettiController.dispose();
+    _animationController.dispose();
 
     super.dispose();
   }
@@ -225,7 +238,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
             resizeToAvoidBottomInset: false,
             key: _drawerKey,
             appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 138, 201, 149),
+              // backgroundColor: const Color.fromARGB(255, 138, 201, 149),
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -242,6 +255,25 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                     fontSize: 20),
               ),
               centerTitle: true,
+              actions: [
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
+                  // height: 10,
+                  // width: 60,
+                  // decoration: const BoxDecoration(
+                  //   color: Colors.white,
+                  //   borderRadius: BorderRadius.all(
+                  //     Radius.circular(10),
+                  //   ),
+                  // ),
+                  child: Image.asset(
+                    'assets/icons/brand_2.png',
+                    // height: 40,
+                    width: 35,
+                  ),
+                )
+              ],
             ),
             body: SafeArea(
                 child: Stack(
@@ -258,7 +290,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                       child: SizedBox(
                         width: screenWidth,
                         child: Padding(
-                          padding: const EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -267,7 +299,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "  ${widget.docName}",
+                                      widget.docName,
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
@@ -275,9 +307,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                                     ),
 
                                     Text(
-                                      "  ${widget.areaName} (${widget.areaId}), ${widget.address}",
+                                      "${widget.areaName} (${widget.areaId}), ${widget.address}",
                                       style: const TextStyle(
-                                          color: Colors.black, fontSize: 14),
+                                          color: Colors.black, fontSize: 12),
                                     ),
                                     // Text(
                                     //   "  ${widget.docName}",
@@ -296,16 +328,19 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                               ),
                               widget.magic == true
                                   ? Expanded(
-                                      child: Transform(
-                                        alignment: Alignment.center,
-                                        transform: Matrix4.rotationZ(
-                                            3.1415926535897932 / 4),
-                                        child: SizedBox(
-                                            height: 65,
-                                            child: Image.asset(
-                                              'assets/images/hat_picture.png',
-                                              //color: Colors.deepOrange,
-                                            )),
+                                      child: RotationTransition(
+                                        turns: _animation,
+                                        child: Transform(
+                                          alignment: Alignment.center,
+                                          transform: Matrix4.rotationZ(
+                                              3.1415926535897932 / 4),
+                                          child: SizedBox(
+                                              height: 65,
+                                              child: Image.asset(
+                                                'assets/images/hat_picture.png',
+                                                //color: Colors.deepOrange,
+                                              )),
+                                        ),
                                       ),
                                     )
                                   : const SizedBox(),
@@ -383,9 +418,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                       child: Container(
-                        height: 55,
+                        height: 45,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(255, 138, 201, 149)
                               .withOpacity(.5),
                         ),

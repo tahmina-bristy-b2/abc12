@@ -20,6 +20,7 @@ import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math' as math;
 
 class DcrGiftSamplePpmPage extends StatefulWidget {
   // final int dcrKey;
@@ -265,69 +266,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
               actions: [
                 InkWell(
                   onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        // barrierColor: Colors.greenAccent,
-                        // backgroundColor: Colors.amber,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 10),
-                            // height: 200,
-                            child: ListView.builder(
-                                itemCount: magicBrandList.length,
-                                itemBuilder: (itemBuilder, index) {
-                                  return Container(
-                                    height: 150,
-                                    // height: double.infinity,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'Team: ${magicBrandList[index]['team']}'),
-                                        const Divider(
-                                          color: Colors.grey,
-                                          // thickness: 2,
-                                        ),
-                                        Expanded(
-                                          child: GridView.builder(
-                                              gridDelegate:
-                                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                                      maxCrossAxisExtent: 80,
-                                                      childAspectRatio: 6 / 2,
-                                                      crossAxisSpacing: 10,
-                                                      mainAxisSpacing: 10),
-                                              itemCount: magicBrandList[index]
-                                                      ['brand']
-                                                  .length,
-                                              itemBuilder:
-                                                  (itemBuilder, index2) {
-                                                return Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    constraints:
-                                                        const BoxConstraints(
-                                                            maxWidth: double
-                                                                .infinity),
-                                                    color: Colors.green,
-                                                    child: Text(
-                                                        magicBrandList[index]
-                                                            ['brand'][index2]));
-                                              }),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          );
-                        });
+                    magicDoctorBrandShow(context);
                   },
                   child: Container(
                     margin:
@@ -1002,6 +941,108 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
             padding: const EdgeInsets.all(100),
             color: Colors.white,
             child: const Center(child: CircularProgressIndicator()));
+  }
+
+  Future<dynamic> magicDoctorBrandShow(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        // barrierColor: Colors.greenAccent,
+        // backgroundColor: Colors.amber,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            height: MediaQuery.of(context).size.height * 0.85,
+            child: ListView.builder(
+                itemCount: magicBrandList.length,
+                shrinkWrap: true,
+                itemBuilder: (itemBuilder, index) {
+                  return SizedBox(
+                    height: magicBrandList[index]['team'] == 'AB' ? 250 : 150,
+                    // height: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 3, vertical: 5),
+                            decoration: BoxDecoration(
+                                // color: const Color.fromARGB(255, 176, 208, 193),
+                                gradient: LinearGradient(
+                                  stops: const [
+                                    0.3,
+                                    0.45,
+                                    0.70,
+                                    0.85,
+                                  ],
+                                  colors: [
+                                    // const Color(0xff027DFD),
+                                    const Color(0xff0C9F63).withOpacity(.7),
+                                    const Color(0xff4100E0).withOpacity(.7),
+                                    const Color(0xff1CDAC5).withOpacity(.7),
+                                    const Color(0xffF2DD22).withOpacity(.6)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              'Team ${magicBrandList[index]['team']}',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        // const Divider(
+                        //   color: Colors.grey,
+                        //   // thickness: 2,
+                        // ),
+                        Expanded(
+                          child: GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 80,
+                                      childAspectRatio: 5 / 2,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10),
+                              itemCount: magicBrandList[index]['brand'].length,
+                              itemBuilder: (itemBuilder, index2) {
+                                return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 2),
+                                    decoration: BoxDecoration(
+                                        // color: Colors.green,
+                                        // color: Color(
+                                        //         (math.Random().nextDouble() *
+                                        //                 0xFFFFFF)
+                                        //             .toInt())
+                                        //     .withOpacity(.8),
+                                        color: Colors.primaries[Random()
+                                                .nextInt(
+                                                    Colors.primaries.length)]
+                                            .withOpacity(.4),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: FittedBox(
+                                      child: Text(
+                                        magicBrandList[index]['brand'][index2],
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 50, 49, 49),
+                                        ),
+                                      ),
+                                    ));
+                              }),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+          );
+        });
   }
 
   // Saved Added Gift, Sample, PPM to Hive

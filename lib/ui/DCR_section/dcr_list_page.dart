@@ -74,6 +74,7 @@ class _DcrListPageState extends State<DcrListPage> with SingleTickerProviderStat
   @override
   void dispose() {
     searchController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -372,7 +373,7 @@ allDoctorList=widget.dcrDataList;
                                             // magicBrand: foundUsers[index]
                                             //     ['magic_brand'],
                                           )));
-                                         
+                                         // searchController.clear();
                             },
                             child: CustomerListCardWidget(
                               clientName: foundUsers[index]['doc_name'] +

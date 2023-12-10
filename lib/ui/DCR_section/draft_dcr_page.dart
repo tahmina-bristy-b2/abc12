@@ -23,16 +23,65 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Draft Doctor'), centerTitle: true),
-      body: SafeArea(
-        child: ValueListenableBuilder(
-          valueListenable: Boxes.dcrUsers().listenable(),
-          builder: (BuildContext context, Box box, Widget? child) {
-            final orderCustomers = box.values.toList().cast<DcrDataModel>();
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Draft Doctor'),
+          centerTitle: true,
+          bottom: const TabBar(tabs: [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0, left: 8.0),
+              child: Tab(
+                text: 'ALL Doctor',
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 8.0, left: 8.0),
+              child: Tab(
+                text: 'Magic Doctor',
+              ),
+            ),
+          ]),
+        ),
+        body: TabBarView(
+          children: [
+            SafeArea(
+              child: ValueListenableBuilder(
+                valueListenable: Boxes.dcrUsers().listenable(),
+                builder: (BuildContext context, Box box, Widget? child) {
+                  final orderCustomers =
+                      box.values.toList().cast<DcrDataModel>();
 
-            return genContent(orderCustomers);
-          },
+                  return genContent(orderCustomers);
+                },
+              ),
+            ),
+            //For showing Magic draft doctor
+            SafeArea(
+              child: ValueListenableBuilder(
+                valueListenable: Boxes.dcrUsers().listenable(),
+                builder: (BuildContext context, Box box, Widget? child) {
+                  final orderCustomers =
+                      box.values.toList().cast<DcrDataModel>();
+                  orderCustomers.removeWhere((element) => !element.magic!);
+
+                  return genContent(orderCustomers);
+                },
+              ),
+            ),
+          ],
+          // child: SafeArea(
+          //   child: ValueListenableBuilder(
+          //     valueListenable: Boxes.dcrUsers().listenable(),
+          //     builder: (BuildContext context, Box box, Widget? child) {
+          //       final orderCustomers = box.values.toList().cast<DcrDataModel>();
+
+          //       return genContent(orderCustomers);
+          //     },
+          //   ),
+          // ),
         ),
       ),
     );

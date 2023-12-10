@@ -20,7 +20,7 @@ import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:math' as math;
+// import 'dart:math' as math;
 
 class DcrGiftSamplePpmPage extends StatefulWidget {
   // final int dcrKey;
@@ -264,28 +264,30 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
               ),
               centerTitle: true,
               actions: [
-                InkWell(
-                  onTap: () {
-                    magicDoctorBrandShow(context);
-                  },
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
-                    // height: 10,
-                    // width: 60,
-                    // decoration: const BoxDecoration(
-                    //   color: Colors.white,
-                    //   borderRadius: BorderRadius.all(
-                    //     Radius.circular(10),
-                    //   ),
-                    // ),
-                    child: Image.asset(
-                      'assets/icons/brand_2.png',
-                      // height: 40,
-                      width: 35,
-                    ),
-                  ),
-                )
+                widget.magic
+                    ? InkWell(
+                        onTap: () {
+                          magicDoctorBrandShow(context);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 7, horizontal: 13),
+                          // height: 10,
+                          // width: 60,
+                          // decoration: const BoxDecoration(
+                          //   color: Colors.white,
+                          //   borderRadius: BorderRadius.all(
+                          //     Radius.circular(10),
+                          //   ),
+                          // ),
+                          child: Image.asset(
+                            'assets/icons/brand_2.png',
+                            // height: 40,
+                            width: 35,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink()
               ],
             ),
             body: SafeArea(

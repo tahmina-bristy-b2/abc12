@@ -189,9 +189,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                               visitedWith: '',
                                               magic: foundUsers[index]
                                                           ['magic_doctor'] ==
-                                                      'magic_doctor'
-                                                  ? false
-                                                  : true,
+                                                      'Magic_Doctor'
+                                                  ? true
+                                                  : false,
                                               // magicBrand: foundUsers[index]
                                               //     ['magic_brand'],
                                             )));
@@ -204,9 +204,9 @@ class _DcrListPageState extends State<DcrListPage> {
                                 marketName: foundUsers[index]['address'],
                                 outstanding: '',
                                 magic: foundUsers[index]['magic_doctor'] ==
-                                        'magic_doctor'
-                                    ? false
-                                    : true,
+                                        'Magic_Doctor'
+                                    ? true
+                                    : false,
                                 confettiController: _confettiController,
                                 icon: const Icon(
                                   Icons.edit,

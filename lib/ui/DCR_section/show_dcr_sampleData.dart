@@ -104,10 +104,10 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
           // const SizedBox(
           //   height: 10,
           // ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 60,
+          SizedBox(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 onChanged: (value) {
                   foundDcrSample = AllServices().searchDynamicMethod(
@@ -118,7 +118,8 @@ class _DcrSampleDataPageState extends State<DcrSampleDataPage> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.teal.shade50,
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   labelText: 'Sample Search',
                   suffixIcon: searchController.text.isEmpty &&
                           searchController.text == ''

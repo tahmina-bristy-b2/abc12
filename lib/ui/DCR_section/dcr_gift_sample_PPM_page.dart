@@ -325,7 +325,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                       child: SizedBox(
                         width: screenWidth,
                         child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -362,22 +362,29 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                 ),
                               ),
                               widget.magic == true
-                                  ? Expanded(
-                                      child: RotationTransition(
-                                        turns: _animation!,
-                                        child: Transform(
-                                          alignment: Alignment.center,
-                                          transform: Matrix4.rotationZ(
-                                              3.1415926535897932 / 4),
-                                          child: SizedBox(
-                                              height: 65,
-                                              child: Image.asset(
-                                                'assets/images/hat_picture.png',
-                                                //color: Colors.deepOrange,
-                                              )),
+                                  ? InkWell(
+                                    onTap: () {
+                                       _confettiController!.play();
+                                       _animationController!.reset();
+                                       _animationController!.forward();
+                                    },
+                                    child: Expanded(
+                                        child: RotationTransition(
+                                          turns: _animation!,
+                                          child: Transform(
+                                            alignment: Alignment.center,
+                                            transform: Matrix4.rotationZ(
+                                                3.1415926535897932 / 4),
+                                            child: SizedBox(
+                                                height: 65,
+                                                child: Image.asset(
+                                                  'assets/images/hat_picture.png',
+                                                  //color: Colors.deepOrange,
+                                                )),
+                                          ),
                                         ),
                                       ),
-                                    )
+                                  )
                                   : const SizedBox(),
                             ],
                           ),

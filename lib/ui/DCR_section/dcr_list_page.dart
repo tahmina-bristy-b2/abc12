@@ -188,8 +188,10 @@ class _DcrListPageState extends State<DcrListPage> {
                                               notes: '',
                                               visitedWith: '',
                                               magic: foundUsers[index]
-                                                          ['magic_doctor'] ==
-                                                      'Magic_Doctor'
+                                                              ['magic_doctor']
+                                                          .toString()
+                                                          .toUpperCase() ==
+                                                      'MAGIC_DOCTOR'
                                                   ? true
                                                   : false,
                                               // magicBrand: foundUsers[index]
@@ -203,8 +205,10 @@ class _DcrListPageState extends State<DcrListPage> {
                                     '(${foundUsers[index]['area_id']})',
                                 marketName: foundUsers[index]['address'],
                                 outstanding: '',
-                                magic: foundUsers[index]['magic_doctor'] ==
-                                        'Magic_Doctor'
+                                magic: foundUsers[index]['magic_doctor']
+                                            .toString()
+                                            .toUpperCase() ==
+                                        'MAGIC_DOCTOR'
                                     ? true
                                     : false,
                                 confettiController: _confettiController,

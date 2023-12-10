@@ -64,9 +64,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
   final TextEditingController noteController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  late ConfettiController _confettiController;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+   ConfettiController? _confettiController;
+   AnimationController? _animationController;
+   Animation<double>? _animation;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -144,12 +144,12 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     if (widget.magic == true) {
       _confettiController =
           ConfettiController(duration: const Duration(milliseconds: 800));
-      _confettiController.play();
+      _confettiController!.play();
       _animationController = AnimationController(
           vsync: this, duration: const Duration(seconds: 5));
       _animation =
-          CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
-      _animationController.forward();
+          CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
+      _animationController!.forward();
     }
 
     if (widget.isDraft) {
@@ -188,9 +188,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     timefieldController.dispose();
     paymentfieldController.dispose();
     noteController.dispose();
-    _confettiController.dispose();
-    _animationController.dispose();
-
+    if (widget.magic == true) {
+    _confettiController!.dispose();
+    _animationController!.dispose();
+    }
     super.dispose();
   }
 
@@ -344,7 +345,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                               widget.magic == true
                                   ? Expanded(
                                       child: RotationTransition(
-                                        turns: _animation,
+                                        turns: _animation!,
                                         child: Transform(
                                           alignment: Alignment.center,
                                           transform: Matrix4.rotationZ(
@@ -902,7 +903,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                     ? Align(
                         alignment: Alignment.topCenter,
                         child: ConfettiWidget(
-                          confettiController: _confettiController,
+                          confettiController: _confettiController!,
                           blastDirection: -pi / 2,
                           emissionFrequency: 0.02,
                           numberOfParticles: 150,

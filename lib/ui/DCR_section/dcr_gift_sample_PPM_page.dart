@@ -64,9 +64,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
   final TextEditingController noteController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-   ConfettiController? _confettiController;
-   AnimationController? _animationController;
-   Animation<double>? _animation;
+  ConfettiController? _confettiController;
+  AnimationController? _animationController;
+  Animation<double>? _animation;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -260,9 +260,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
               title: const Text(
                 'Visit Doctor',
                 style: TextStyle(
-                    color: Color.fromARGB(255, 27, 56, 34),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20),
+                  color: Color.fromARGB(255, 27, 56, 34),
+                  // fontWeight: FontWeight.w500,
+                  // fontSize: 20,
+                ),
               ),
               centerTitle: true,
               actions: [
@@ -404,10 +405,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                   const Expanded(
                                       child: Text(
                                     "Visited With : ",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
+                                    // style: TextStyle(
+                                    //   color: Colors.black,
+                                    //   fontSize: 16,
+                                    // ),
                                   )),
                                   Expanded(
                                     flex: 2,
@@ -509,7 +510,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Container(
-                                height: 90,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -533,12 +534,12 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                                     child: Text(
                                                       addedDcrGSPList[index]
                                                           .giftName,
-                                                      style: const TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 9, 38, 61),
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: 16),
+                                                      // style: const TextStyle(
+                                                      //     color: Color.fromARGB(
+                                                      //         255, 9, 38, 61),
+                                                      //     fontWeight:
+                                                      //         FontWeight.w400,
+                                                      //     fontSize: 16),
                                                     ),
                                                   ),
                                                   // Text(
@@ -575,30 +576,30 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                                     children: [
                                                       const Text(
                                                         'Qt:  ',
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    9,
-                                                                    38,
-                                                                    61)),
+                                                        // style: TextStyle(
+                                                        //     fontSize: 16,
+                                                        //     color:
+                                                        //         Color.fromARGB(
+                                                        //             255,
+                                                        //             9,
+                                                        //             38,
+                                                        //             61)),
                                                       ),
                                                       Text(
                                                         addedDcrGSPList[index]
                                                             .quantity
                                                             .toString(),
-                                                        style: const TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    9,
-                                                                    38,
-                                                                    61),
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                        // style: const TextStyle(
+                                                        //     color:
+                                                        //         Color.fromARGB(
+                                                        //             255,
+                                                        //             9,
+                                                        //             38,
+                                                        //             61),
+                                                        //     fontSize: 16,
+                                                        //     fontWeight:
+                                                        //         FontWeight
+                                                        //             .bold),
                                                       ),
                                                     ],
                                                   )
@@ -608,11 +609,11 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                               children: [
                                                 Text(
                                                   '(${addedDcrGSPList[index].giftType})',
-                                                  style: const TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 9, 38, 61),
-                                                    fontSize: 16,
-                                                  ),
+                                                  // style: const TextStyle(
+                                                  //   color: Color.fromARGB(
+                                                  //       255, 9, 38, 61),
+                                                  //   fontSize: 16,
+                                                  // ),
                                                 ),
                                               ],
                                             ),
@@ -990,8 +991,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                 shrinkWrap: true,
                 itemBuilder: (itemBuilder, index) {
                   return SizedBox(
-                    height: magicBrandList[index]['team'] == 'AB' ? 250 : 150,
-                    // height: double.infinity,
+                    // height: magicBrandList[index]['team'] == 'AB' ? 250 : 150,
+                    height: (magicBrandList[index]['brand'].length / 5).ceil() *
+                        50.0,
+
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1031,13 +1034,15 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                         // ),
                         Expanded(
                           child: GridView.builder(
-                              shrinkWrap: true,
+                              shrinkWrap: false,
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   const SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 80,
-                                      childAspectRatio: 5 / 2,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10),
+                                maxCrossAxisExtent: 80,
+                                childAspectRatio: 5 / 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
                               itemCount: magicBrandList[index]['brand'].length,
                               itemBuilder: (itemBuilder, index2) {
                                 return Container(

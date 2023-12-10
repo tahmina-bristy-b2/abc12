@@ -94,10 +94,10 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
           // const SizedBox(
           //   height: 10,
           // ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 60,
+          SizedBox(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 onChanged: (value) {
                   foundDcrPPM = AllServices().searchDynamicMethod(
@@ -108,7 +108,8 @@ class _DcrPpmDataPageState extends State<DcrPpmDataPage> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.teal.shade50,
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   labelText: 'Item Search',
                   suffixIcon: searchController.text.isEmpty &&
                           searchController.text == ''

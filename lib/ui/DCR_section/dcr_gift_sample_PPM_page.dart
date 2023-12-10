@@ -188,8 +188,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     timefieldController.dispose();
     paymentfieldController.dispose();
     noteController.dispose();
-    _confettiController.dispose();
-    _animationController.dispose();
+    if (widget.magic) {
+      _confettiController.dispose();
+      _animationController.dispose();
+    }
 
     super.dispose();
   }

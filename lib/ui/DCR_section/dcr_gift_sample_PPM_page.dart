@@ -264,6 +264,23 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
               ),
               centerTitle: true,
               actions: [
+                // Container(
+                //   margin:
+                //       const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
+                //   // height: 10,
+                //   // width: 60,
+                //   // decoration: const BoxDecoration(
+                //   //   color: Colors.white,
+                //   //   borderRadius: BorderRadius.all(
+                //   //     Radius.circular(10),
+                //   //   ),
+                //   // ),
+                //   child: Image.asset(
+                //     'assets/icons/brand_3.png',
+                //     // height: 40,
+                //     width: 35,
+                //   ),
+                // ),
                 widget.magic
                     ? InkWell(
                         onTap: () {
@@ -284,10 +301,11 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                             'assets/icons/brand_2.png',
                             // height: 40,
                             width: 35,
+                            // color: Colors.white,
                           ),
                         ),
                       )
-                    : SizedBox.shrink()
+                    : const SizedBox.shrink()
               ],
             ),
             body: SafeArea(

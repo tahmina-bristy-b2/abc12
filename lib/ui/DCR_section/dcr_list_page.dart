@@ -333,7 +333,7 @@ allDoctorList=widget.dcrDataList;
   Expanded customerListWidget(BuildContext context, List doctorList,bool isMagic) {
     return Expanded(
                 flex: 9,
-                child: foundUsers.isNotEmpty
+                child: doctorList.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
                         

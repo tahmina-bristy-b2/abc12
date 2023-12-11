@@ -64,9 +64,9 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
   final TextEditingController noteController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
- late ConfettiController _confettiController;
- late AnimationController _animationController;
- late Animation<double>_animation;
+//  late ConfettiController _confettiController;
+//  late AnimationController _animationController;
+//  late Animation<double>_animation;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
@@ -141,16 +141,16 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     dcrDiscussion = userInfo!.dcrDiscussion;
     dcrVisitedWithList = userInfo!.dcrVisitWithList;
     dropdownVisitWithValue = dcrVisitedWithList.first;
-    if (widget.magic == true) {
-      _confettiController =
-          ConfettiController(duration: const Duration(milliseconds: 800));
-      _confettiController.play();
-      _animationController = AnimationController(
-          vsync: this, duration: const Duration(seconds: 5));
-      _animation =
-          CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
-      _animationController.forward();
-    }
+    // if (widget.magic == true) {
+    //   _confettiController =
+    //       ConfettiController(duration: const Duration(milliseconds: 800));
+    //   _confettiController.play();
+    //   _animationController = AnimationController(
+    //       vsync: this, duration: const Duration(seconds: 5));
+    //   _animation =
+    //       CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+    //   _animationController.forward();
+    // }
 
     if (widget.isDraft) {
       addedDcrGSPList = widget.draftOrderItem;
@@ -188,10 +188,10 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
     timefieldController.dispose();
     paymentfieldController.dispose();
     noteController.dispose();
-    if (widget.magic) {
-      _confettiController.dispose();
-      _animationController.dispose();
-    }
+    // if (widget.magic) {
+    //   _confettiController.dispose();
+    //   _animationController.dispose();
+    // }
 
     super.dispose();
   }
@@ -312,9 +312,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
               ],
             ),
             body: SafeArea(
-                child: Stack(
-              children: [
-                Column(
+                child: Column(
                   children: [
                     Card(
                       color: const Color(0xff56CCF2).withOpacity(.3),
@@ -364,27 +362,33 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                               ),
                               widget.magic == true
                                   ? Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                       _confettiController.play();
-                                       _animationController.reset();
-                                       _animationController.forward();
-                                    },
-                                        child: RotationTransition(
-                                          turns: _animation,
-                                          child: Transform(
-                                            alignment: Alignment.center,
-                                            transform: Matrix4.rotationZ(
-                                                3.1415926535897932 / 4),
-                                            child: SizedBox(
-                                                height: 65,
+                                    child: SizedBox(
+                                                height:50,
                                                 child: Image.asset(
-                                                  'assets/images/hat_picture.png',
+                                                  'assets/images/m.png',
                                                   //color: Colors.deepOrange,
                                                 )),
-                                          ),
-                                        ),
-                                      ),
+                                    //   child: InkWell(
+                                    //     onTap: () {
+                                    //    _confettiController.play();
+                                    //    _animationController.reset();
+                                    //    _animationController.forward();
+                                    // },
+                                    //     child: RotationTransition(
+                                    //       turns: _animation,
+                                    //       child: Transform(
+                                    //         alignment: Alignment.center,
+                                    //         transform: Matrix4.rotationZ(
+                                    //             3.1415926535897932 / 4),
+                                    //         child: SizedBox(
+                                    //             height: 65,
+                                    //             child: Image.asset(
+                                    //               'assets/images/hat_picture.png',
+                                    //               //color: Colors.deepOrange,
+                                    //             )),
+                                    //       ),
+                                    //     ),
+                                    //   ),
                                     )
                                   : const SizedBox(),
                             ],
@@ -925,21 +929,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                       height: 5,
                     )
                   ],
-                ),
-                widget.magic == true
-                    ? Align(
-                        alignment: Alignment.topCenter,
-                        child: ConfettiWidget(
-                          confettiController: _confettiController,
-                          blastDirection: -pi / 2,
-                          emissionFrequency: 0.02,
-                          numberOfParticles: 150,
-                          blastDirectionality: BlastDirectionality.explosive,
-                        ),
-                      )
-                    : const SizedBox()
-              ],
-            )),
+                )),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               onTap: _onItemTapped,

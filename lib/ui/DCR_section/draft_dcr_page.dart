@@ -34,13 +34,13 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
             Padding(
               padding: EdgeInsets.only(right: 8.0, left: 8.0),
               child: Tab(
-                text: 'ALL Doctor',
+                text: 'ALL DOCTOR',
               ),
             ),
             Padding(
               padding: EdgeInsets.only(right: 8.0, left: 8.0),
               child: Tab(
-                text: 'Magic Doctor',
+                text: 'MAGIC DOCTOR',
               ),
             ),
           ]),

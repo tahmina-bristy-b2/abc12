@@ -165,9 +165,10 @@ class _DcrListPageState extends State<DcrListPage>
             },
             isScrollable: true,
             tabs: const [
-              Tab(text: "  ALL Doctor "),
-              Tab(text: "  Magic Doctor  "),
-            ]),
+              Tab(text: "   ALL DOCTOR  "),
+              Tab(text: "  MAGIC DOCTOR  "),
+            ],
+            ),
       ),
       body: TabBarView(
         controller: _tabController,
@@ -178,34 +179,34 @@ class _DcrListPageState extends State<DcrListPage>
                 )
               : Column(
                   children: [
-                    SizedBox(
-                      height: 60,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
+                        height: 50,
                         child: TextFormField(
                           onChanged: (value) {
                             setState(() {
-                              foundUsers = AllServices().searchDynamicMethod(
-                                  value, allDoctorList, "doc_name");
+                              foundUsers = AllServices().searchDoctor(
+                                  value, allDoctorList, "doc_name", "area_name", "doc_id");
                             });
                           },
                           controller: searchController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            labelText: ' Search Doctor.....',
+                            hintText: 'Search Doctor by name/id/area.....',
                             suffixIcon: searchController.text.isEmpty &&
                                     searchController.text == ''
                                 ? const Icon(Icons.search)
                                 : IconButton(
                                     onPressed: () {
                                       searchController.clear();
-
+                      
                                       // runFilter('');
                                       setState(() {
                                         foundUsers = AllServices()
-                                            .searchDynamicMethod(
-                                                "", allDoctorList, "doc_name");
+                                            .searchDoctor(
+                                                "", allDoctorList, "doc_name", "area_name", "doc_id");
                                       });
                                     },
                                     icon: const Icon(
@@ -233,35 +234,46 @@ class _DcrListPageState extends State<DcrListPage>
                 )
               : Column(
                   children: [
-                    SizedBox(
-                      height: 60,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
+                        height: 50,
                         child: TextFormField(
                           onChanged: (value) {
+                            // setState(() {
+                            //   foundUsers = AllServices().searchDynamicMethod(
+                            //       value, magicDcrDataList, "doc_name");
+                            // });
+                      
                             setState(() {
-                              foundUsers = AllServices().searchDynamicMethod(
-                                  value, magicDcrDataList, "doc_name");
-                            });
+                                        foundUsers = AllServices()
+                                            .searchDoctor(value,
+                                                magicDcrDataList, "doc_name", "area_name", "doc_id");
+                                      });
                           },
                           controller: searchController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            labelText: ' Search Magic Doctor',
+                            hintText: 'Search Magic Doctor by name/id/area...',
                             suffixIcon: searchController.text.isEmpty &&
                                     searchController.text == ''
                                 ? const Icon(Icons.search)
                                 : IconButton(
                                     onPressed: () {
                                       searchController.clear();
-
-                                      // runFilter('');
-                                      setState(() {
+                                       setState(() {
                                         foundUsers = AllServices()
-                                            .searchDynamicMethod("",
-                                                magicDcrDataList, "doc_name");
+                                            .searchDoctor("",
+                                                magicDcrDataList, "doc_name", "area_name", "doc_id");
                                       });
+                      
+                                   
+                                      // setState(() {
+                                      //   foundUsers = AllServices()
+                                      //       .searchDynamicMethod("",
+                                      //           magicDcrDataList, "doc_name");
+                                      // });
                                     },
                                     icon: const Icon(
                                       Icons.clear,

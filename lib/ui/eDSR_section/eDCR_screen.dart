@@ -81,7 +81,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
               padding: const EdgeInsets.all(6.0),
               child: Row(
                 children: [
-                  result.isNotEmpty
+                  box!.isNotEmpty
                       ? Expanded(
                           flex: 4,
                           child: TextField(
@@ -127,7 +127,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
                           ),
                         )
                       : const SizedBox(),
-                  result.isNotEmpty
+                  box!.isNotEmpty
                       ? const SizedBox(
                           width: 10,
                         )
@@ -162,7 +162,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            result.isEmpty
+                            box!.isEmpty
                                 ? const Text(
                                     "Add Doctor/Client ",
                                     style: TextStyle(

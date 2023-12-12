@@ -34,13 +34,13 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
             Padding(
               padding: EdgeInsets.only(right: 8.0, left: 8.0),
               child: Tab(
-                text: 'ALL Doctor',
+                text: 'ALL DOCTOR',
               ),
             ),
             Padding(
               padding: EdgeInsets.only(right: 8.0, left: 8.0),
               child: Tab(
-                text: 'Magic Doctor',
+                text: 'MAGIC DOCTOR',
               ),
             ),
           ]),
@@ -120,16 +120,23 @@ class _DraftDCRScreenState extends State<DraftDCRScreen> {
                           : null),
                 ),
                 trailing: user[index].magic == true
-                    ? Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.rotationZ(3.1415926535897932 / 4),
-                        child: SizedBox(
-                            height: 70,
-                            child: Image.asset(
-                              'assets/images/hat_picture.png',
-                              //color: Colors.deepOrange,
-                            )),
-                      )
+                    ? SizedBox(
+                                      height: 30,
+                                      child: Image.asset(
+                                        'assets/images/m.png',
+                                        //color: Colors.deepOrange,
+                                      ))
+                    
+                    // Transform(
+                    //     alignment: Alignment.center,
+                    //     transform: Matrix4.rotationZ(3.1415926535897932 / 4),
+                    //     child:  SizedBox(
+                    //                   height: 30,
+                    //                   child: Image.asset(
+                    //                     'assets/images/m.png',
+                    //                     //color: Colors.deepOrange,
+                    //                   )),
+                    //   )
                     : const SizedBox.shrink(),
                 children: [
                   Row(

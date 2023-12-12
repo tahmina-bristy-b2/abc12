@@ -81,17 +81,28 @@ class CustomerListCardWidget extends StatelessWidget {
                           width: 110,
                           child: Row(
                             children: [
-                              Transform(
-                                alignment: Alignment.center,
-                                transform:
-                                    Matrix4.rotationZ(3.1415926535897932 / 4),
-                                child: SizedBox(
-                                    height: 70,
-                                    child: Image.asset(
-                                      'assets/images/hat_picture.png',
-                                      //color: Colors.deepOrange,
-                                    )),
-                              ),
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10,left: 10),
+                                 child: SizedBox(
+                                      height: 30,
+                                      child: Image.asset(
+                                        'assets/images/m.png',
+                                        //color: Colors.deepOrange,
+                                      )),
+                               ),
+                              // Transform(
+                              //   alignment: Alignment.center,
+                              //   transform:
+                              //       Matrix4.rotationZ(3.1415926535897932 / 4),
+                              //   child: SizedBox(
+                              //       height: 40,
+                              //       child: Image.asset(
+                              //         'assets/images/m.png',
+                              //         //color: Colors.deepOrange,
+                              //       )),
+                              // ),
+                          
+
                               IconButton(onPressed: onPressed, icon: icon),
                             ],
                           ),

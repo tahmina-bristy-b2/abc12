@@ -354,7 +354,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.docName,
+                                      '${widget.docName}(${widget.docId})',
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,

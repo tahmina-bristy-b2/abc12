@@ -1344,67 +1344,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ///****************************************** Sync Data************************************************///
                 Container(
-                  color: const Color(0xFFE2EFDA),
-                  height: screenHeight / 6.8,
-                  width: screenWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //==========================================================Notice flag +Notice url will be here====================================
-                          userInfo!.noteFlag
-                              ? Expanded(
-                                  child: CustomBuildButton(
-                                    icon: Icons.note_alt,
-                                    onClick: () async {
-                                      // var noticeBody = await noticeEvent();
-                                      // print("list ${noticeBody}");
-
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (_) => NoticeScreen(
-                                      //               noticelist: noticeBody,
-                                      //             )));
-                                    },
-                                    title: 'Notice',
-                                    sizeWidth: screenWidth,
-                                    inputColor: Colors.white,
-                                  ),
-                                )
-                              : const SizedBox(
-                                  width: 5,
-                                ),
-
-                          Expanded(
-                            child: CustomBuildButton(
-                              icon: Icons.sync,
-                              onClick: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => SyncDataTabScreen(
-                                              cid: cid,
-                                              userId: userId,
-                                              userPassword: userPassword,
-                                            )));
-                              },
-                              title: 'Sync Data',
-                              sizeWidth: screenWidth,
-                              inputColor: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                ///****************************************** Sync Data************************************************///
-                Container(
                   color: const Color(0xFFDDEBF7),
                   height: screenHeight / 6.8,
                   width: screenWidth,
@@ -1415,36 +1354,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          //==========================================================Notice flag +Notice url will be here====================================
-                          userInfo!.noteFlag
-                              ? Expanded(
-                                  child: CustomBuildButton(
-                                    icon: Icons.add,
-                                    onClick: () async {
-                                      if (regionListData != null) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const EDcrScreen()));
-                                      } else {
-                                        AllServices().toastMessage(
-                                            "eDSR data not found, Sync first...",
-                                            Colors.red,
-                                            Colors.white,
-                                            16);
-                                        setState(() {});
-                                      }
-                                    },
-                                    title: 'Add eDSR',
-                                    sizeWidth: screenWidth,
-                                    inputColor: Colors.white,
-                                  ),
-                                )
-                              : const SizedBox(
-                                  width: 5,
-                                ),
-
+                          Expanded(
+                            child: CustomBuildButton(
+                              icon: Icons.add,
+                              onClick: () async {
+                                if (regionListData != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => const EDcrScreen()));
+                                } else {
+                                  AllServices().toastMessage(
+                                      "eDSR data not found, Sync first...",
+                                      Colors.red,
+                                      Colors.white,
+                                      16);
+                                  setState(() {});
+                                }
+                              },
+                              title: 'Add eDSR',
+                              sizeWidth: screenWidth,
+                              inputColor: Colors.white,
+                            ),
+                          ),
                           Expanded(
                             child: CustomBuildButton(
                               icon: Icons.note_alt,
@@ -1489,7 +1421,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          //==========================================================Notice flag +Notice url will be here====================================
                           Expanded(
                             child: CustomBuildButton(
                               icon: Icons.add,
@@ -1508,7 +1439,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               inputColor: Colors.white,
                             ),
                           ),
-
                           Expanded(
                             child: CustomBuildButton(
                               icon: Icons.note_alt,
@@ -1524,6 +1454,67 @@ class _MyHomePageState extends State<MyHomePage> {
                                             )));
                               },
                               title: 'Appraisal Approval',
+                              sizeWidth: screenWidth,
+                              inputColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                ///*************************** Sync Data********************///
+                Container(
+                  color: const Color(0xFFE2EFDA),
+                  height: screenHeight / 6.8,
+                  width: screenWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //==========================================================Notice flag +Notice url will be here====================================
+                          userInfo!.noticeFlag
+                              ? Expanded(
+                                  child: CustomBuildButton(
+                                    icon: Icons.note_alt,
+                                    onClick: () async {
+                                      // var noticeBody = await noticeEvent();
+                                      // print("list ${noticeBody}");
+
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (_) => NoticeScreen(
+                                      //               noticelist: noticeBody,
+                                      //             )));
+                                    },
+                                    title: 'Notice',
+                                    sizeWidth: screenWidth,
+                                    inputColor: Colors.white,
+                                  ),
+                                )
+                              : const SizedBox(
+                                  width: 5,
+                                ),
+
+                          Expanded(
+                            child: CustomBuildButton(
+                              icon: Icons.sync,
+                              onClick: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => SyncDataTabScreen(
+                                              cid: cid,
+                                              userId: userId,
+                                              userPassword: userPassword,
+                                            )));
+                              },
+                              title: 'Sync Data',
                               sizeWidth: screenWidth,
                               inputColor: Colors.white,
                             ),

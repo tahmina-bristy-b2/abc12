@@ -81,6 +81,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
 
     Future.delayed(const Duration(seconds: 1), () {
       dsrDetails!.resData.dataList.removeAt(index);
+      if (dsrDetails!.resData.dataList.isEmpty) {
+        widget.calledBackAction('value');
+        Navigator.pop(context);
+      }
     });
 
     // if (index == dsrDetails!.resData.dataList.length - 1) {

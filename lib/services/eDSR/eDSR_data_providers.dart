@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:MREPORTING/services/eDSR/eDSR_apis.dart';
 import 'package:http/http.dart' as http;
 
@@ -83,41 +85,70 @@ class EDSRDataProvider {
   ) async {
     final http.Response response;
 
-    print(
-        "eDsr Submit api==${EDSRApis().eDsrAddApi(eDsrSettingsUrl, cid, userId, userPass, syncCode, brandStr, areaId, doctorId, doctorName, doctorCategory, latitude, longitude, dsrType, dsrCat, purpose, purposeSub, pDes, pDtFrom, pDtTo, noOfPatient, payFrom, payTo, schedule, payNMonth, payMode, chequeTo, rsmCash, issueTo)}");
-    response = await http.get(
+    // print(
+    //     "eDsr Submit api==${EDSRApis().eDsrAddApi(eDsrSettingsUrl, cid, userId, userPass, syncCode, brandStr, areaId, doctorId, doctorName, doctorCategory, latitude, longitude, dsrType, dsrCat, purpose, purposeSub, pDes, pDtFrom, pDtTo, noOfPatient, payFrom, payTo, schedule, payNMonth, payMode, chequeTo, rsmCash, issueTo)}");
+    response = await http.post(
       Uri.parse(EDSRApis().eDsrAddApi(
-          eDsrSettingsUrl,
-          cid,
-          userId,
-          userPass,
-          syncCode,
-          brandStr,
-          areaId,
-          doctorId,
-          doctorName,
-          doctorCategory,
-          latitude,
-          longitude,
-          dsrType,
-          dsrCat,
-          purpose,
-          purposeSub,
-          pDes,
-          pDtFrom,
-          pDtTo,
-          noOfPatient,
-          payFrom,
-          payTo,
-          schedule,
-          payNMonth,
-          payMode,
-          chequeTo,
-          rsmCash,
-          issueTo)),
+        eDsrSettingsUrl,
+        cid,
+        userId,
+        userPass,
+        // syncCode,
+        // brandStr,
+        // areaId,
+        // doctorId,
+        // doctorName,
+        // doctorCategory,
+        // latitude,
+        // longitude,
+        // dsrType,
+        // dsrCat,
+        // purpose,
+        // purposeSub,
+        // pDes,
+        // pDtFrom,
+        // pDtTo,
+        // noOfPatient,
+        // payFrom,
+        // payTo,
+        // schedule,
+        // payNMonth,
+        // payMode,
+        // chequeTo,
+        // rsmCash,
+        // issueTo,
+      )),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
+      body: jsonEncode(
+        <String, dynamic>{
+          "synccode": syncCode,
+          "brand_Str": brandStr,
+          "areaId": areaId,
+          "doctor_id": doctorId,
+          "doctor_name": doctorName,
+          "doctor_category": doctorCategory,
+          "latitude": latitude,
+          "longitude": longitude,
+          "dsr_type": dsrType,
+          "dsr_cat": dsrCat,
+          "purpose": purpose,
+          "purpose_sub": purposeSub,
+          "p_des": pDes,
+          "p_dt_from": pDtFrom,
+          "p_dt_to": pDtTo,
+          "no_of_patient": noOfPatient,
+          "pay_from": payFrom,
+          "pay_to": payTo,
+          "schedule": schedule,
+          "pay_n_month": payNMonth,
+          "pay_mode": payMode,
+          "cheque_to": chequeTo,
+          "rsm_cash": rsmCash,
+          "pay_mode_bill_to": issueTo,
+        },
+      ),
     );
 
     return response;

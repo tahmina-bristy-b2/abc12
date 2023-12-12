@@ -125,50 +125,50 @@ class _DcrListPageState extends State<DcrListPage>
           )
         ],
         bottom: TabBar(
-            controller: _tabController,
-            onTap: (value) async {
-              searchController.clear();
-              foundUsers = [];
+          controller: _tabController,
+          onTap: (value) async {
+            searchController.clear();
+            foundUsers = [];
 
-              // _searchController.clear();
-              // _searchExpand = false;
-              // height = 0;
-              // _color = false;
+            // _searchController.clear();
+            // _searchExpand = false;
+            // height = 0;
+            // _color = false;
 
-              // allEmployeeList = appraisalEmployee!.resData.ffList.toList();
-              // submittedEmployeeList = appraisalEmployee!.resData.ffList
-              //     .where((element) => element.appActionStatus == "SUBMITTED")
-              //     .toList();
+            // allEmployeeList = appraisalEmployee!.resData.ffList.toList();
+            // submittedEmployeeList = appraisalEmployee!.resData.ffList
+            //     .where((element) => element.appActionStatus == "SUBMITTED")
+            //     .toList();
 
-              allDoctorList = widget.dcrDataList;
-              magicDcrDataList = widget.dcrDataList
-                  .where((element) =>
-                      element["magic_doctor"].toString().toUpperCase() ==
-                      "MAGIC_DOCTOR")
-                  .toList();
+            allDoctorList = widget.dcrDataList;
+            magicDcrDataList = widget.dcrDataList
+                .where((element) =>
+                    element["magic_doctor"].toString().toUpperCase() ==
+                    "MAGIC_DOCTOR")
+                .toList();
 
-              if (value == 0) {
-                // allDoctorList=widget.dcrDataList;
+            if (value == 0) {
+              // allDoctorList=widget.dcrDataList;
 
-                isMagicDoctor = false;
-                foundUsers = allDoctorList;
-              } else {
-                //    magicDcrDataList = widget.dcrDataList
-                // .where((element) => element["magic_doctor"].toString().toUpperCase() == "MAGIC_DOCTOR")
-                // .toList();
-                // foundUsers=[];
-                isMagicDoctor = true;
-                foundUsers = magicDcrDataList;
-              }
+              isMagicDoctor = false;
+              foundUsers = allDoctorList;
+            } else {
+              //    magicDcrDataList = widget.dcrDataList
+              // .where((element) => element["magic_doctor"].toString().toUpperCase() == "MAGIC_DOCTOR")
+              // .toList();
+              // foundUsers=[];
+              isMagicDoctor = true;
+              foundUsers = magicDcrDataList;
+            }
 
-              setState(() {});
-            },
-            isScrollable: true,
-            tabs: const [
-              Tab(text: "   ALL DOCTOR  "),
-              Tab(text: "  MAGIC DOCTOR  "),
-            ],
-            ),
+            setState(() {});
+          },
+          isScrollable: true,
+          tabs: const [
+            Tab(text: "   ALL DOCTOR  "),
+            Tab(text: "  MAGIC DOCTOR  "),
+          ],
+        ),
       ),
       body: TabBarView(
         controller: _tabController,
@@ -187,7 +187,11 @@ class _DcrListPageState extends State<DcrListPage>
                           onChanged: (value) {
                             setState(() {
                               foundUsers = AllServices().searchDoctor(
-                                  value, allDoctorList, "doc_name", "area_name", "doc_id");
+                                  value,
+                                  allDoctorList,
+                                  "doc_name",
+                                  "area_name",
+                                  "doc_id");
                             });
                           },
                           controller: searchController,
@@ -201,12 +205,15 @@ class _DcrListPageState extends State<DcrListPage>
                                 : IconButton(
                                     onPressed: () {
                                       searchController.clear();
-                      
+
                                       // runFilter('');
                                       setState(() {
-                                        foundUsers = AllServices()
-                                            .searchDoctor(
-                                                "", allDoctorList, "doc_name", "area_name", "doc_id");
+                                        foundUsers = AllServices().searchDoctor(
+                                            "",
+                                            allDoctorList,
+                                            "doc_name",
+                                            "area_name",
+                                            "doc_id");
                                       });
                                     },
                                     icon: const Icon(
@@ -244,12 +251,15 @@ class _DcrListPageState extends State<DcrListPage>
                             //   foundUsers = AllServices().searchDynamicMethod(
                             //       value, magicDcrDataList, "doc_name");
                             // });
-                      
+
                             setState(() {
-                                        foundUsers = AllServices()
-                                            .searchDoctor(value,
-                                                magicDcrDataList, "doc_name", "area_name", "doc_id");
-                                      });
+                              foundUsers = AllServices().searchDoctor(
+                                  value,
+                                  magicDcrDataList,
+                                  "doc_name",
+                                  "area_name",
+                                  "doc_id");
+                            });
                           },
                           controller: searchController,
                           decoration: InputDecoration(
@@ -262,13 +272,15 @@ class _DcrListPageState extends State<DcrListPage>
                                 : IconButton(
                                     onPressed: () {
                                       searchController.clear();
-                                       setState(() {
-                                        foundUsers = AllServices()
-                                            .searchDoctor("",
-                                                magicDcrDataList, "doc_name", "area_name", "doc_id");
+                                      setState(() {
+                                        foundUsers = AllServices().searchDoctor(
+                                            "",
+                                            magicDcrDataList,
+                                            "doc_name",
+                                            "area_name",
+                                            "doc_id");
                                       });
-                      
-                                   
+
                                       // setState(() {
                                       //   foundUsers = AllServices()
                                       //       .searchDynamicMethod("",
@@ -381,8 +393,7 @@ class _DcrListPageState extends State<DcrListPage>
                                           'MAGIC_DOCTOR'
                                       ? true
                                       : false,
-                                  // magicBrand: foundUsers[index]
-                                  //     ['magic_brand'],
+                                  magicBrand: foundUsers[index]['magic_brand'],
                                 )));
                     // searchController.clear();
                   },
@@ -393,6 +404,7 @@ class _DcrListPageState extends State<DcrListPage>
                         '(${doctorList[index]['area_id']})',
                     marketName: doctorList[index]['address'],
                     outstanding: '',
+                    magicBrand: doctorList[index]['magic_brand'],
                     magic: doctorList[index]['magic_doctor']
                                 .toString()
                                 .toUpperCase() ==

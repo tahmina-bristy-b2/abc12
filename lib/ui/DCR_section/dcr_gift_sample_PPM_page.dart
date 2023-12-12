@@ -731,7 +731,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: Size(screenWidth / 4.8,
+                        fixedSize: Size(screenWidth / 4.3,
                             MediaQuery.of(context).size.height / 16),
                         backgroundColor:
                             const Color.fromARGB(255, 138, 201, 149),
@@ -746,6 +746,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                               Icons.add,
                               color: Color.fromARGB(255, 47, 49, 47),
                             ),
+                            SizedBox(width: 8.0),
                             Text(
                               'Gift',
                               style: TextStyle(
@@ -785,7 +786,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: Size(screenWidth / 3.5,
+                        fixedSize: Size(screenWidth / 3.2,
                             MediaQuery.of(context).size.height / 16),
                         backgroundColor:
                             const Color.fromARGB(255, 138, 201, 149),
@@ -799,6 +800,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                             Icons.add,
                             color: Color.fromARGB(255, 47, 49, 47),
                           ),
+                          SizedBox(width: 8.0),
                           Text(
                             'Sample',
                             style: TextStyle(
@@ -835,7 +837,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: Size(screenWidth / 4.3,
+                        fixedSize: Size(screenWidth / 4.0,
                             MediaQuery.of(context).size.height / 18),
                         backgroundColor:
                             const Color.fromARGB(255, 138, 201, 149),
@@ -849,6 +851,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                             Icons.add,
                             color: Color.fromARGB(255, 47, 49, 47),
                           ),
+                          SizedBox(width: 8.0),
                           Text(
                             'PPM',
                             style: TextStyle(

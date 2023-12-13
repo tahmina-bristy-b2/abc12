@@ -732,7 +732,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                       },
                       style: ElevatedButton.styleFrom(
                         fixedSize: Size(screenWidth / 4.3,
-                            MediaQuery.of(context).size.height / 16),
+                            MediaQuery.of(context).size.height / 17),
                         backgroundColor:
                             const Color.fromARGB(255, 138, 201, 149),
                         shape: RoundedRectangleBorder(
@@ -752,7 +752,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                               style: TextStyle(
                                   color: Color.fromARGB(255, 47, 49, 47),
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 16),
+                                  fontSize: 12),
                             ),
                           ],
                         ),
@@ -806,7 +806,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                             style: TextStyle(
                                 color: Color.fromARGB(255, 47, 49, 47),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 16),
+                                fontSize: 12),
                           ),
                         ],
                       ),
@@ -857,7 +857,7 @@ class _DcrGiftSamplePpmPageState extends State<DcrGiftSamplePpmPage>
                             style: TextStyle(
                                 color: Color.fromARGB(255, 47, 49, 47),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 16),
+                                fontSize: 12),
                           ),
                         ],
                       ),

@@ -791,32 +791,38 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           )),
                           Expanded(
+                            flex: 3,
                               child: Center(
                             child: Text(
-                              dsrDetails!.resData.dataList[index].dsrType ==
-                                      'DCC'
-                                  ? 'Monthly Avg. Sales'
-                                  : 'Rx/Day',
+                              // dsrDetails!.resData.dataList[index].dsrType ==
+                              //         'DCC'
+                              //     ? 'Monthly Avg. Sales'
+                              //     : 'Rx/Day',
+
+
+                             dsrDetails!.resData.dataList[index].dsrType ==   "DOCTOR"
+                                                                  ? "Seen RX Objective/Per Day*"
+                                                                  : "Business Objective Per Month(Qty)*",
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 12),
                             ),
                           )),
-                          const Expanded(
-                              child: Center(
-                            child: Text(
-                              'EMRX',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                          )),
-                          const Expanded(
-                              child: Center(
-                            child: Text(
-                              '4P RX',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                          )),
+                          // const Expanded(
+                          //     child: Center(
+                          //   child: Text(
+                          //     'EMRX',
+                          //     style:
+                          //         TextStyle(color: Colors.white, fontSize: 12),
+                          //   ),
+                          // )),
+                          // const Expanded(
+                          //     child: Center(
+                          //   child: Text(
+                          //     '4P RX',
+                          //     style:
+                          //         TextStyle(color: Colors.white, fontSize: 12),
+                          //   ),
+                          // )),
                           const Expanded(
                               child: Align(
                             alignment: Alignment.centerRight,
@@ -872,6 +878,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     style: const TextStyle(fontSize: 12),
                                   )),
                                   Expanded(
+                                    flex: 3,
                                       child: Center(
                                     child: Text(
                                       dsrDetails!.resData.dataList[index]
@@ -879,22 +886,22 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                   )),
-                                  Expanded(
-                                      child: Center(
-                                    child: Text(
-                                      dsrDetails!.resData.dataList[index]
-                                          .brandList[index2].emrx,
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  )),
-                                  Expanded(
-                                      child: Center(
-                                    child: Text(
-                                      dsrDetails!.resData.dataList[index]
-                                          .brandList[index2].fourPRx,
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  )),
+                                  // Expanded(
+                                  //     child: Center(
+                                  //   child: Text(
+                                  //     dsrDetails!.resData.dataList[index]
+                                  //         .brandList[index2].emrx,
+                                  //     style: const TextStyle(fontSize: 12),
+                                  //   ),
+                                  // )),
+                                  // Expanded(
+                                  //     child: Center(
+                                  //   child: Text(
+                                  //     dsrDetails!.resData.dataList[index]
+                                  //         .brandList[index2].fourPRx,
+                                  //     style: const TextStyle(fontSize: 12),
+                                  //   ),
+                                  // )),
                                   Expanded(
                                       child: Align(
                                     alignment: Alignment.centerRight,

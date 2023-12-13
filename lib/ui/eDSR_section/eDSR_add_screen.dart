@@ -35,8 +35,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
   TextEditingController issueToController = TextEditingController(text: "");
   TextEditingController rxPerDayController = TextEditingController();
   TextEditingController dSrController = TextEditingController();
-  TextEditingController emrRXController = TextEditingController();
-  TextEditingController p4RXController = TextEditingController();
+  // TextEditingController emrRXController = TextEditingController();
+  // TextEditingController p4RXController = TextEditingController();
   TextEditingController doctorMobileNumberController = TextEditingController();
   final brandSelectedController = TextEditingController();
 
@@ -226,8 +226,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
     issueToController.dispose();
     rxPerDayController.dispose();
     dSrController.dispose();
-    p4RXController.dispose();
-    emrRXController.dispose();
+    // p4RXController.dispose();
+    // emrRXController.dispose();
     brandSelectedController.clear();
     super.dispose();
   }
@@ -339,17 +339,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 doctorMobileNumberController,
                                             inputFormatters: [
                                               FilteringTextInputFormatter.deny(
-                                                RegExp(r'^\d{14,}$'),
+                                                RegExp(r'^\d{12,}$'),
                                               ),
                                             ],
                                             validator: (value) {
                                               if (value!.isEmpty) {
                                                 return "Mobile Number is required";
                                               }
-                                              if (value.length < 11 ||
-                                                  value.length > 13 ||
-                                                  value.length == 12) {
-                                                return "Mobile Number should be  11 or 13 digits";
+                                              if (value.length < 11 
+                                                  ) {
+                                                return "Mobile Number should be  11  digits";
                                               }
                                             },
                                           ),
@@ -604,6 +603,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 ),
                                 Container(
                                   height: wholeHeight / 18.98,
+                                  //height: wholeHeight /7,
                                   width: wholeWidth / 9.8,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -616,11 +616,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
+                                                  
                                                   scrollable: true,
                                                   title: const Text(
                                                       "Brand Details"),
                                                   content: SizedBox(
-                                                    height: 470,
+                                                    height: 310,
                                                     child:
                                                         SingleChildScrollView(
                                                       child: Column(
@@ -770,8 +771,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                             child: Text(
                                                               doctorType ==
                                                                       "DOCTOR"
-                                                                  ? "RX/Day*"
-                                                                  : "Monthly Avg.Sales*",
+                                                                  ? "Seen RX Objective/Per Day*"
+                                                                  : "Business Objective Per Month(Qty)*",
                                                               style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
@@ -816,110 +817,110 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                   ),
                                                                 ),
                                                               )),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          const Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "EMR RX*",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[A-Za-z0-9]"),
-                                                                  ),
-                                                                ],
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    emrRXController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          const Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "4P RX*",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[A-Za-z0-9]"),
-                                                                  ),
-                                                                ],
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    p4RXController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
-                                                                ),
-                                                              )),
+                                                          // const SizedBox(
+                                                          //   height: 15,
+                                                          // ),
+                                                          // const Align(
+                                                          //   alignment: Alignment
+                                                          //       .centerLeft,
+                                                          //   child: Text(
+                                                          //     "EMR RX*",
+                                                          //     style: TextStyle(
+                                                          //         fontWeight:
+                                                          //             FontWeight
+                                                          //                 .w600),
+                                                          //   ),
+                                                          // ),
+                                                          // const SizedBox(
+                                                          //   height: 5,
+                                                          // ),
+                                                          // SizedBox(
+                                                          //     width: MediaQuery.of(
+                                                          //                 context)
+                                                          //             .size
+                                                          //             .width /
+                                                          //         1.1,
+                                                          //     height: 45,
+                                                          //     child:
+                                                          //         TextFormField(
+                                                          //       inputFormatters: [
+                                                          //         FilteringTextInputFormatter
+                                                          //             .allow(
+                                                          //           RegExp(
+                                                          //               "[A-Za-z0-9]"),
+                                                          //         ),
+                                                          //       ],
+                                                          //       keyboardType:
+                                                          //           TextInputType
+                                                          //               .number,
+                                                          //       controller:
+                                                          //           emrRXController,
+                                                          //       decoration:
+                                                          //           InputDecoration(
+                                                          //         border:
+                                                          //             OutlineInputBorder(
+                                                          //           borderSide:
+                                                          //               const BorderSide(
+                                                          //                   color:
+                                                          //                       Colors.white),
+                                                          //           borderRadius:
+                                                          //               BorderRadius.circular(
+                                                          //                   5.0),
+                                                          //         ),
+                                                          //       ),
+                                                          //     )),
+                                                          // const SizedBox(
+                                                          //   height: 15,
+                                                          // ),
+                                                          // const Align(
+                                                          //   alignment: Alignment
+                                                          //       .centerLeft,
+                                                          //   child: Text(
+                                                          //     "4P RX*",
+                                                          //     style: TextStyle(
+                                                          //         fontWeight:
+                                                          //             FontWeight
+                                                          //                 .w600),
+                                                          //   ),
+                                                          // ),
+                                                          // const SizedBox(
+                                                          //   height: 5,
+                                                          // ),
+                                                          // SizedBox(
+                                                          //     width: MediaQuery.of(
+                                                          //                 context)
+                                                          //             .size
+                                                          //             .width /
+                                                          //         1.1,
+                                                          //     height: 45,
+                                                          //     child:
+                                                          //         TextFormField(
+                                                          //       inputFormatters: [
+                                                          //         FilteringTextInputFormatter
+                                                          //             .allow(
+                                                          //           RegExp(
+                                                          //               "[A-Za-z0-9]"),
+                                                          //         ),
+                                                          //       ],
+                                                          //       keyboardType:
+                                                          //           TextInputType
+                                                          //               .number,
+                                                          //       controller:
+                                                          //           p4RXController,
+                                                          //       decoration:
+                                                          //           InputDecoration(
+                                                          //         border:
+                                                          //             OutlineInputBorder(
+                                                          //           borderSide:
+                                                          //               const BorderSide(
+                                                          //                   color:
+                                                          //                       Colors.white),
+                                                          //           borderRadius:
+                                                          //               BorderRadius.circular(
+                                                          //                   5.0),
+                                                          //         ),
+                                                          //       ),
+                                                          //     )),
                                                           const SizedBox(
                                                             height: 15,
                                                           ),
@@ -1037,17 +1038,20 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                     ),
                                                                     onTap: () {
                                                                       if (initialBrand !=
-                                                                          null) {
-                                                                        if (emrRXController.text !=
-                                                                            '') {
-                                                                          if (p4RXController.text !=
-                                                                              "") {
-                                                                            dynamicRowsListForBrand.add([
+                                                                          null) 
+                                                                          
+                                                                    {
+
+                                                                      if(rxPerDayController.text!=""){
+                                                                        if(dSrController.text!=""){
+                                                                             dynamicRowsListForBrand.add([
                                                                               initialBrand,
                                                                               rxPerDayController.text == "" ? "0" : rxPerDayController.text,
                                                                               dSrController.text == "" ? "0" : dSrController.text,
-                                                                              emrRXController.text,
-                                                                              p4RXController.text
+                                                                              "0",
+                                                                              "0"
+                                                                              // emrRXController.text,
+                                                                              // p4RXController.text
                                                                             ]);
 
                                                                             finalBrandListAftrRemoveDuplication =
@@ -1058,24 +1062,67 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                               initialBrand = null;
                                                                               rxPerDayController.clear();
                                                                               dSrController.clear();
-                                                                              emrRXController.clear();
-                                                                              p4RXController.clear();
+                                                                              // emrRXController.clear();
+                                                                              // p4RXController.clear();
                                                                             });
-                                                                          } else {
+
+                                                                       }
+                                                                        else {
                                                                             AllServices().toastMessage(
-                                                                                "Please Enter 4P RX ",
+                                                                                "Please Enter DSR Amount  ",
                                                                                 Colors.red,
                                                                                 Colors.white,
                                                                                 16);
-                                                                          }
-                                                                        } else {
-                                                                          AllServices().toastMessage(
-                                                                              "Please Enter EMR RX ",
-                                                                              Colors.red,
-                                                                              Colors.white,
-                                                                              16);
-                                                                        }
-                                                                      } else {
+                                                                             }
+
+
+                                                                      }
+                                                                      else{
+                                                                        AllServices().toastMessage(
+                                                                          doctorType ==
+                                                                      "DOCTOR"
+                                                                  ? "Please Enter Seen RX Objective/Per Day Amount"
+                                                                  : "Please Enter Business Objective Per Month(Qty) Amount",
+                                                                                
+                                                                                Colors.red,
+                                                                                Colors.white,
+                                                                                16);
+
+                                                                      }
+
+
+
+
+
+
+                                                                        // if (emrRXController.text !=
+                                                                        //     '') {
+                                                                        //   if (p4RXController.text !=
+                                                                        //       "") {
+
+                                                                         
+                                                                           
+                                                                  } 
+                                                                          
+                                                                          
+                                                                      //     else {
+                                                                      //       AllServices().toastMessage(
+                                                                      //           "Please Enter 4P RX ",
+                                                                      //           Colors.red,
+                                                                      //           Colors.white,
+                                                                      //           16);
+                                                                      //     }
+                                                                      //   } else {
+                                                                      //     AllServices().toastMessage(
+                                                                      //         "Please Enter EMR RX ",
+                                                                      //         Colors.red,
+                                                                      //         Colors.white,
+                                                                      //         16);
+                                                                      //   }
+
+                                                                        
+                                                                      // }
+                                                                       else {
                                                                         AllServices().toastMessage(
                                                                             "Please Select Brand First",
                                                                             Colors.red,
@@ -1110,6 +1157,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                       Container(
                                         color: const Color(0xff8AC995),
                                         width: wholeWidth / 1.073,
+                                        // decoration: BoxDecoration(
+                                        //   border: Border
+                                        // ),
                                         child: Row(
                                           children: [
                                             SizedBox(
@@ -1132,13 +1182,17 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 7,
-                                                height: wholeHeight / 25.309,
+                                                width: wholeWidth / 3,
+                                                height: wholeHeight / 19,
                                                 child: Center(
                                                   child: Text(
-                                                    doctorType == "DOCTOR"
-                                                        ? "Rx/Day"
-                                                        : "Monthly Avg.Sales**",
+                                                    doctorType ==
+                                                                      "DOCTOR"
+                                                                  ? "Seen RX Objective/Per Day*"
+                                                                  : "Business Objective Per Month(Qty)*",
+                                                    // doctorType == "DOCTOR"
+                                                    //     ? "Rx/Day"
+                                                    //     : "Monthly Avg.Sales**",
                                                     style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Color.fromARGB(
@@ -1149,52 +1203,52 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 ),
                                               ),
                                             ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(
+                                            //     left: 5,
+                                            //   ),
+                                            //   child: SizedBox(
+                                            //     width: wholeWidth / 7,
+                                            //     height: wholeHeight / 25.309,
+                                            //     child: const Center(
+                                            //       child: Text(
+                                            //         "EMR RX",
+                                            //         style: TextStyle(
+                                            //             fontSize: 12,
+                                            //             color: Color.fromARGB(
+                                            //                 255, 0, 0, 0),
+                                            //             fontWeight:
+                                            //                 FontWeight.w600),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(
+                                            //     left: 5,
+                                            //   ),
+                                            //   child: SizedBox(
+                                            //     width: wholeWidth / 7,
+                                            //     height: wholeHeight / 25.309,
+                                            //     child: const Center(
+                                            //       child: Text(
+                                            //         "4P RX",
+                                            //         style: TextStyle(
+                                            //             fontSize: 12,
+                                            //             color: Color.fromARGB(
+                                            //                 255, 0, 0, 0),
+                                            //             fontWeight:
+                                            //                 FontWeight.w600),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                 left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 7,
-                                                height: wholeHeight / 25.309,
-                                                child: const Center(
-                                                  child: Text(
-                                                    "EMR RX",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 5,
-                                              ),
-                                              child: SizedBox(
-                                                width: wholeWidth / 7,
-                                                height: wholeHeight / 25.309,
-                                                child: const Center(
-                                                  child: Text(
-                                                    "4P RX",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 5,
-                                              ),
-                                              child: SizedBox(
-                                                width: wholeWidth / 7,
+                                                width: wholeWidth / 4,
                                                 height: wholeHeight / 25.309,
                                                 child: const Center(
                                                   child: Text(
@@ -1274,7 +1328,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width: wholeWidth / 7,
+                                                        width: wholeWidth / 3,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(
@@ -1297,61 +1351,61 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                         ),
                                                       ),
                                                     ),
+                                                    // Padding(
+                                                    //   padding:
+                                                    //       const EdgeInsets.only(
+                                                    //     left: 5,
+                                                    //   ),
+                                                    //   child: SizedBox(
+                                                    //     width: wholeWidth / 7,
+                                                    //     height: wholeHeight /
+                                                    //         25.309,
+                                                    //     child: Center(
+                                                    //       child: Text(
+                                                    //         finalBrandListAftrRemoveDuplication[
+                                                    //             index][3],
+                                                    //         style:
+                                                    //             const TextStyle(
+                                                    //           fontSize: 13,
+                                                    //           color: Color
+                                                    //               .fromARGB(255,
+                                                    //                   0, 0, 0),
+                                                    //         ),
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                    // Padding(
+                                                    //   padding:
+                                                    //       const EdgeInsets.only(
+                                                    //     left: 5,
+                                                    //   ),
+                                                    //   child: SizedBox(
+                                                    //     width: wholeWidth / 7,
+                                                    //     height: wholeHeight /
+                                                    //         25.309,
+                                                    //     child: Center(
+                                                    //       child: Text(
+                                                    //         finalBrandListAftrRemoveDuplication[
+                                                    //             index][4],
+                                                    //         style:
+                                                    //             const TextStyle(
+                                                    //           fontSize: 13,
+                                                    //           color: Color
+                                                    //               .fromARGB(255,
+                                                    //                   0, 0, 0),
+                                                    //         ),
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
                                                         left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width: wholeWidth / 7,
-                                                        height: wholeHeight /
-                                                            25.309,
-                                                        child: Center(
-                                                          child: Text(
-                                                            finalBrandListAftrRemoveDuplication[
-                                                                index][3],
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 13,
-                                                              color: Color
-                                                                  .fromARGB(255,
-                                                                      0, 0, 0),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                      ),
-                                                      child: SizedBox(
-                                                        width: wholeWidth / 7,
-                                                        height: wholeHeight /
-                                                            25.309,
-                                                        child: Center(
-                                                          child: Text(
-                                                            finalBrandListAftrRemoveDuplication[
-                                                                index][4],
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 13,
-                                                              color: Color
-                                                                  .fromARGB(255,
-                                                                      0, 0, 0),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                      ),
-                                                      child: SizedBox(
-                                                        width: wholeWidth / 7,
+                                                        width: wholeWidth / 4,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(

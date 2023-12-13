@@ -355,38 +355,39 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                             fontSize: 12),
                                       )),
                                       Expanded(
+                                        flex: 3,
                                           child: Center(
                                         child: Text(
-                                          widget.previewData["dsr_type"] !=
-                                                  'DOCTOR'
-                                              ? 'Monthly Avg. Sales'
-                                              : 'Rx/Day',
+                                          widget.previewData["dsr_type"] ==
+                                                   "DOCTOR"
+                                                                  ? "Seen RX Objective/Per Day*"
+                                                                  : "Business Objective Per Month(Qty)*",
                                           style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 253, 253, 253),
                                               fontSize: 12),
                                         ),
                                       )),
-                                      const Expanded(
-                                          child: Center(
-                                        child: Text(
-                                          "EMR RX",
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 253, 253, 253),
-                                              fontSize: 12),
-                                        ),
-                                      )),
-                                      const Expanded(
-                                          child: Center(
-                                        child: Text(
-                                          "4P RX",
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 253, 253, 253),
-                                              fontSize: 12),
-                                        ),
-                                      )),
+                                      // const Expanded(
+                                      //     child: Center(
+                                      //   child: Text(
+                                      //     "EMR RX",
+                                      //     style: TextStyle(
+                                      //         color: Color.fromARGB(
+                                      //             255, 253, 253, 253),
+                                      //         fontSize: 12),
+                                      //   ),
+                                      // )),
+                                      // const Expanded(
+                                      //     child: Center(
+                                      //   child: Text(
+                                      //     "4P RX",
+                                      //     style: TextStyle(
+                                      //         color: Color.fromARGB(
+                                      //             255, 253, 253, 253),
+                                      //         fontSize: 12),
+                                      //   ),
+                                      // )),
                                       const Expanded(
                                           child: Align(
                                         alignment: Alignment.centerRight,
@@ -430,6 +431,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                                     fontSize: 12),
                                               )),
                                               Expanded(
+                                                flex: 3,
                                                   child: Center(
                                                 child: Text(
                                                   widget.previewData["Brand"]
@@ -438,24 +440,24 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                                       fontSize: 12),
                                                 ),
                                               )),
-                                              Expanded(
-                                                  child: Center(
-                                                child: Text(
-                                                  widget.previewData["Brand"]
-                                                      [index2][3],
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              )),
-                                              Expanded(
-                                                  child: Center(
-                                                child: Text(
-                                                  widget.previewData["Brand"]
-                                                      [index2][4],
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              )),
+                                              // Expanded(
+                                              //     child: Center(
+                                              //   child: Text(
+                                              //     widget.previewData["Brand"]
+                                              //         [index2][3],
+                                              //     style: const TextStyle(
+                                              //         fontSize: 12),
+                                              //   ),
+                                              // )),
+                                              // Expanded(
+                                              //     child: Center(
+                                              //   child: Text(
+                                              //     widget.previewData["Brand"]
+                                              //         [index2][4],
+                                              //     style: const TextStyle(
+                                              //         fontSize: 12),
+                                              //   ),
+                                              // )),
                                               Expanded(
                                                   child: Align(
                                                 alignment: Alignment.topRight,
@@ -490,6 +492,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                             fontSize: 12),
                                       )),
                                       Expanded(
+                                        flex: 3,
                                         child: Center(
                                           child: Text(
                                             totalRxperDay.toString(),
@@ -500,28 +503,28 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                           ),
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            totalEmrX.toString(),
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 254, 254, 254),
-                                                fontSize: 13),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            total4pRX.toString(),
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 254, 254, 254),
-                                                fontSize: 13),
-                                          ),
-                                        ),
-                                      ),
+                                      // Expanded(
+                                      //   child: Center(
+                                      //     child: Text(
+                                      //       totalEmrX.toString(),
+                                      //       style: const TextStyle(
+                                      //           color: Color.fromARGB(
+                                      //               255, 254, 254, 254),
+                                      //           fontSize: 13),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // Expanded(
+                                      //   child: Center(
+                                      //     child: Text(
+                                      //       total4pRX.toString(),
+                                      //       style: const TextStyle(
+                                      //           color: Color.fromARGB(
+                                      //               255, 254, 254, 254),
+                                      //           fontSize: 13),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       Expanded(
                                         child: Align(
                                           alignment: Alignment.centerRight,

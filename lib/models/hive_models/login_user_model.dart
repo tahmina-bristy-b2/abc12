@@ -203,7 +203,7 @@ class UserLoginModel extends HiveObject {
       noticeFlag: json["notice_flag"],
       docFlag: json["doc_flag"],
       docEditFlag: json["doc_edit_flag"],
-      userLevelDepth: json["user_level_depth"] ?? '',
+      userLevelDepth: (json["user_level_depth"] ?? '').toString(),
       edsrFlag: json["edsr_flag"] ?? false,
       edsrApprovalFlag: json["edsr_approve_flag"] ?? false,
       appraisalFlag: json["appraisal_flag"] ?? false,

@@ -1343,126 +1343,150 @@ class _MyHomePageState extends State<MyHomePage> {
                     : const SizedBox.shrink(),
 
                 ///****************************************** Sync Data************************************************///
-                Container(
-                  color: const Color(0xFFDDEBF7),
-                  height: screenHeight / 6.8,
-                  width: screenWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: CustomBuildButton(
-                              icon: Icons.add,
-                              onClick: () async {
-                                if (regionListData != null) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const EDcrScreen()));
-                                } else {
-                                  AllServices().toastMessage(
-                                      "eDSR data not found, Sync first...",
-                                      Colors.red,
-                                      Colors.white,
-                                      16);
-                                  setState(() {});
-                                }
-                              },
-                              title: 'Add eDSR',
-                              sizeWidth: screenWidth,
-                              inputColor: Colors.white,
+                (userInfo!.edsrFlag == false &&
+                        userInfo!.edsrApprovalFlag == false)
+                    ? const SizedBox.shrink()
+                    : Container(
+                        color: const Color(0xFFDDEBF7),
+                        height: screenHeight / 6.8,
+                        width: screenWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                userInfo!.edsrFlag!
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.add,
+                                          onClick: () async {
+                                            if (regionListData != null) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          const EDcrScreen()));
+                                            } else {
+                                              AllServices().toastMessage(
+                                                  "eDSR data not found, Sync first...",
+                                                  Colors.red,
+                                                  Colors.white,
+                                                  16);
+                                              setState(() {});
+                                            }
+                                          },
+                                          title: 'Add eDSR',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                                userInfo!.edsrApprovalFlag!
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.note_alt,
+                                          onClick: () async {
+                                            bool result =
+                                                await InternetConnectionChecker()
+                                                    .hasConnection;
+                                            if (result == true) {
+                                              if (!mounted) return;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => EdsrFmList(
+                                                    cid: cid,
+                                                    userPass: userPassword,
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              AllServices().toastMessage(
+                                                  interNetErrorMsg,
+                                                  Colors.yellow,
+                                                  Colors.black,
+                                                  16);
+                                            }
+                                          },
+                                          title: 'eDSR Approval',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ],
                             ),
-                          ),
-                          Expanded(
-                            child: CustomBuildButton(
-                              icon: Icons.note_alt,
-                              onClick: () async {
-                                bool result = await InternetConnectionChecker()
-                                    .hasConnection;
-                                if (result == true) {
-                                  if (!mounted) return;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => EdsrFmList(
-                                        cid: cid,
-                                        userPass: userPassword,
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  AllServices().toastMessage(interNetErrorMsg,
-                                      Colors.yellow, Colors.black, 16);
-                                }
-                              },
-                              title: 'eDSR Approve',
-                              sizeWidth: screenWidth,
-                              inputColor: Colors.white,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                //============================================================ Appraisal Scetion======================================
-                Container(
-                  color: const Color(0xFFE2EFDA),
-                  height: screenHeight / 6.8,
-                  width: screenWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: CustomBuildButton(
-                              icon: Icons.add,
-                              onClick: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => ApprovalAppraisal(
-                                              pageState: 'Appraisal',
-                                              cid: cid,
-                                              userPass: userPassword,
-                                            )));
-                              },
-                              title: ' Appraisal',
-                              sizeWidth: screenWidth,
-                              inputColor: Colors.white,
+                //================================ Appraisal Scetion=====================
+
+                (userInfo!.appraisalFlag == false &&
+                        userInfo!.appraisalApprovalFlag == false)
+                    ? const SizedBox.shrink()
+                    : Container(
+                        color: const Color(0xFFE2EFDA),
+                        height: screenHeight / 6.8,
+                        width: screenWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                userInfo!.appraisalFlag!
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.add,
+                                          onClick: () async {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        ApprovalAppraisal(
+                                                          pageState:
+                                                              'Appraisal',
+                                                          cid: cid,
+                                                          userPass:
+                                                              userPassword,
+                                                        )));
+                                          },
+                                          title: 'Appraisal',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                                userInfo!.appraisalApprovalFlag!
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.note_alt,
+                                          onClick: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        ApprovalAppraisalFieldForce(
+                                                          pageState: 'Approval',
+                                                          cid: cid,
+                                                          userPass:
+                                                              userPassword,
+                                                        )));
+                                          },
+                                          title: 'Appraisal Approval',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ],
                             ),
-                          ),
-                          Expanded(
-                            child: CustomBuildButton(
-                              icon: Icons.note_alt,
-                              onClick: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            ApprovalAppraisalFieldForce(
-                                              pageState: 'Approval',
-                                              cid: cid,
-                                              userPass: userPassword,
-                                            )));
-                              },
-                              title: 'Appraisal Approval',
-                              sizeWidth: screenWidth,
-                              inputColor: Colors.white,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
 
                 ///*************************** Sync Data********************///
                 Container(

@@ -50,13 +50,18 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
       noticeFlag: fields[31] as bool,
       docFlag: fields[32] as bool,
       docEditFlag: fields[33] as bool,
+      userLevelDepth: fields[34] as String,
+      edsrFlag: fields[35] as bool,
+      edsrApprovalFlag: fields[36] as bool,
+      appraisalFlag: fields[37] as bool,
+      appraisalApprovalFlag: fields[38] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserLoginModel obj) {
     writer
-      ..writeByte(33)
+      ..writeByte(38)
       ..writeByte(0)
       ..write(obj.status)
       ..writeByte(2)
@@ -122,7 +127,17 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
       ..writeByte(32)
       ..write(obj.docFlag)
       ..writeByte(33)
-      ..write(obj.docEditFlag);
+      ..write(obj.docEditFlag)
+      ..writeByte(34)
+      ..write(obj.userLevelDepth)
+      ..writeByte(35)
+      ..write(obj.edsrFlag)
+      ..writeByte(36)
+      ..write(obj.edsrApprovalFlag)
+      ..writeByte(37)
+      ..write(obj.appraisalFlag)
+      ..writeByte(38)
+      ..write(obj.appraisalApprovalFlag);
   }
 
   @override

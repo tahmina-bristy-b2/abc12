@@ -7,6 +7,7 @@ import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -338,6 +339,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             controller:
                                                 doctorMobileNumberController,
                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                                      .allow(
+                                                                    RegExp(
+                                                                        "[A-Za-z0-9]"),
+                                                                  ),
                                               FilteringTextInputFormatter.deny(
                                                 RegExp(r'^\d{12,}$'),
                                               ),
@@ -407,7 +413,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           const Color.fromARGB(
                                                               255, 44, 114, 66),
                                                     ),
-                                                    child: const Center(
+                                                    child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
                                                         child: Text("Update",
                                                             style: TextStyle(
                                                               color: Color
@@ -762,7 +768,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               ),
                                                             ],
                                                           ),
-                                                          const SizedBox(
+                                                          const SizedBox( 
                                                             height: 15,
                                                           ),
                                                           Align(

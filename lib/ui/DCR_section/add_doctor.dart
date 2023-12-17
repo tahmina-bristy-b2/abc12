@@ -666,9 +666,19 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                         ),
                         //==========================================================Degree Row===============================================================
 
-                        const Text(
-                          " Degree",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Row(
+                          children:const [
+                             Text(
+                              " Degree",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                                        "*",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red),
+                                      ),
+                          ],
                         ),
                         GFMultiSelect(
                           initialSelectedItemsIndex: degreeInt,
@@ -1401,7 +1411,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                 if (docCategoryValue != null &&
                     docTypeValue != null &&
                     docSpecialityValue != null) {
-                  if (categoryValue!.isNotEmpty) {
+                      if(degreeList != " "){
+                        if (categoryValue!.isNotEmpty) {
                     if (adressController.text.isNotEmpty) {
                       if (mobileController.text.isNotEmpty) {
                         if (thanaSelectedId != "") {
@@ -1510,6 +1521,12 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     AllServices().toastMessage("Please select up your Category",
                         Colors.red, Colors.white, 14);
                   }
+
+                      }
+                      else{
+                        AllServices().toastMessage("Please select at least one degree", Colors.red, Colors.white, 14);
+                      }
+                  
                 } else {
                   AllServices().toastMessage(
                       "Please select your Doctor Category, Type and Speciality.",
@@ -1552,7 +1569,8 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                 if (docCategoryValue != null &&
                     docTypeValue != null &&
                     docSpecialityValue != null) {
-                  if (categoryValue != null) {
+                      if(degreeList != " "){
+                        if (categoryValue != null) {
                     if (adressController.text.isNotEmpty) {
                       if (districtSelectedId != '' && thanaSelectedId != '') {
                         if (mobileController.text.isNotEmpty) {
@@ -1645,6 +1663,13 @@ class _DcotorInfoScreenState extends State<DcotorInfoScreen> {
                     AllServices().toastMessage("Please select up your Category",
                         Colors.red, Colors.white, 14);
                   }
+
+                      }
+                      else{
+                        AllServices().toastMessage("Please select at least one degree", Colors.red, Colors.white, 14);
+
+                      }
+                  
                 } else {
                   AllServices().toastMessage(
                       "Please select your Doctor Category, Type and Speciality.",

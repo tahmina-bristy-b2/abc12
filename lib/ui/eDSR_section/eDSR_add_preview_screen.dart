@@ -269,7 +269,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                     Expanded(
                       flex: 8,
                       child:
-                          Text('  ${widget.previewData["Number_of_Patient"]}'),
+                          Text('  ${widget.previewData["Number_of_Patient"].toString().trim()}'),
                     ),
                   ],
                 ),
@@ -319,7 +319,7 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                     Text(''),
                     Expanded(
                       flex: 8,
-                      child: Text(' '),
+                      child: Text(':'),
                     ),
                   ],
                 ),

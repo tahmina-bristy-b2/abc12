@@ -1081,8 +1081,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                         AllServices().toastMessage(
                                                                           doctorType ==
                                                                       "DOCTOR"
-                                                                  ? "Please Enter Seen RX Objective/Per Day Amount"
-                                                                  : "Please Enter Business Objective Per Month(Qty) Amount",
+                                                                  ? "Please Enter Seen RX Objective/Per Day "
+                                                                  : "Please Enter Business Objective Per Month(Qty) ",
                                                                                 
                                                                                 Colors.red,
                                                                                 Colors.white,
@@ -1155,7 +1155,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                 ? Column(
                                     children: [
                                       Container(
-                                        color: const Color(0xff8AC995),
+                                        decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color:
+                                        const Color.fromARGB(255, 98, 158, 219),
+                                  ),
+                                        // color: const Color(0xff8AC995),
                                         width: wholeWidth / 1.073,
                                         // decoration: BoxDecoration(
                                         //   border: Border
@@ -1163,17 +1168,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         child: Row(
                                           children: [
                                             SizedBox(
-                                              width: wholeWidth / 7,
-                                              height: wholeHeight / 25.309,
+                                              width: wholeWidth / 5,
+                                              height: 40,
+                                              //height: wholeHeight / 25.309,
                                               child: const Center(
                                                 child: Text(
                                                   "Name",
                                                   style: TextStyle(
                                                       fontSize: 12,
-                                                      color: Color.fromARGB(
-                                                          255, 0, 0, 0),
-                                                      fontWeight:
-                                                          FontWeight.w600),
+                                                      color: Colors.white,
+                                                      ),
                                                 ),
                                               ),
                                             ),
@@ -1182,8 +1186,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 3,
-                                                height: wholeHeight / 19,
+                                                width: wholeWidth / 4,
+                                                //height: wholeHeight / 19,
                                                 child: Center(
                                                   child: Text(
                                                     doctorType ==
@@ -1195,10 +1199,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     //     : "Monthly Avg.Sales**",
                                                     style: const TextStyle(
                                                         fontSize: 12,
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                        color: Colors.white,
+                                                       ),
                                                   ),
                                                 ),
                                               ),
@@ -1255,10 +1257,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     "DSR",
                                                     style: TextStyle(
                                                         fontSize: 12,
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                        color: Colors.white,
+                                                        ),
                                                   ),
                                                 ),
                                               ),
@@ -1275,10 +1275,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     "Action",
                                                     style: TextStyle(
                                                         fontSize: 12,
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                        color: Colors.white,
+                                                        ),
                                                   ),
                                                 ),
                                               ),
@@ -1290,175 +1288,193 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                         height:
                                             finalBrandListAftrRemoveDuplication
                                                     .length *
-                                                40,
+                                                30,
                                         width: wholeWidth / 1.073,
+                                        
                                         child: ListView.builder(
                                             itemCount:
                                                 finalBrandListAftrRemoveDuplication
                                                     .length,
                                             itemBuilder: (context, index) {
-                                              return SizedBox(
-                                                height: 40,
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: wholeWidth / 7,
-                                                      height:
-                                                          wholeHeight / 25.309,
-                                                      child: Center(
-                                                        child: Text(
-                                                          finalBrandListAftrRemoveDuplication[
-                                                              index][0],
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 13,
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    0,
-                                                                    0,
-                                                                    0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                      ),
-                                                      child: SizedBox(
-                                                        width: wholeWidth / 3,
-                                                        height: wholeHeight /
-                                                            25.309,
-                                                        child: Center(
-                                                          child: Text(
-                                                            finalBrandListAftrRemoveDuplication[
-                                                                            index]
-                                                                        [1] ==
-                                                                    ""
-                                                                ? "0"
-                                                                : finalBrandListAftrRemoveDuplication[
-                                                                    index][1],
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 13,
-                                                              color: Color
-                                                                  .fromARGB(255,
-                                                                      0, 0, 0),
+                                              return Padding(
+                                                padding: const EdgeInsets.only(left: 4,right: 4),
+                                                child: Container(
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: index % 2 != 0
+                                                  ? Colors.grey[300]
+                                                  : Colors.transparent,),
+                                                  height: 30,
+                                                  
+                                                                                      
+                                                  
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: wholeWidth / 5,
+                                                        height:
+                                                            wholeHeight / 25.309,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(left: 2),
+                                                          child: Center(
+                                                            child: Text(
+                                                              finalBrandListAftrRemoveDuplication[
+                                                                  index][0],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 12,
+                                                                color:
+                                                                    Color.fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    // Padding(
-                                                    //   padding:
-                                                    //       const EdgeInsets.only(
-                                                    //     left: 5,
-                                                    //   ),
-                                                    //   child: SizedBox(
-                                                    //     width: wholeWidth / 7,
-                                                    //     height: wholeHeight /
-                                                    //         25.309,
-                                                    //     child: Center(
-                                                    //       child: Text(
-                                                    //         finalBrandListAftrRemoveDuplication[
-                                                    //             index][3],
-                                                    //         style:
-                                                    //             const TextStyle(
-                                                    //           fontSize: 13,
-                                                    //           color: Color
-                                                    //               .fromARGB(255,
-                                                    //                   0, 0, 0),
-                                                    //         ),
-                                                    //       ),
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
-                                                    // Padding(
-                                                    //   padding:
-                                                    //       const EdgeInsets.only(
-                                                    //     left: 5,
-                                                    //   ),
-                                                    //   child: SizedBox(
-                                                    //     width: wholeWidth / 7,
-                                                    //     height: wholeHeight /
-                                                    //         25.309,
-                                                    //     child: Center(
-                                                    //       child: Text(
-                                                    //         finalBrandListAftrRemoveDuplication[
-                                                    //             index][4],
-                                                    //         style:
-                                                    //             const TextStyle(
-                                                    //           fontSize: 13,
-                                                    //           color: Color
-                                                    //               .fromARGB(255,
-                                                    //                   0, 0, 0),
-                                                    //         ),
-                                                    //       ),
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                      ),
-                                                      child: SizedBox(
-                                                        width: wholeWidth / 4,
-                                                        height: wholeHeight /
-                                                            25.309,
-                                                        child: Center(
-                                                          child: Text(
-                                                            finalBrandListAftrRemoveDuplication[
-                                                                            index]
-                                                                        [2] ==
-                                                                    ""
-                                                                ? "0"
-                                                                : finalBrandListAftrRemoveDuplication[
-                                                                    index][2],
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 13,
-                                                              color: Color
-                                                                  .fromARGB(255,
-                                                                      0, 0, 0),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                          left: 5,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: wholeWidth / 4,
+                                                          height: wholeHeight /
+                                                              25.309,
+                                                          child: Center(
+                                                            child: Text(
+                                                              finalBrandListAftrRemoveDuplication[
+                                                                              index]
+                                                                          [1] ==
+                                                                      ""
+                                                                  ? "0"
+                                                                  : finalBrandListAftrRemoveDuplication[
+                                                                      index][1],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 12,
+                                                                color: Color
+                                                                    .fromARGB(255,
+                                                                        0, 0, 0),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                      ),
-                                                      child: SizedBox(
-                                                        width: wholeWidth / 7,
-                                                        height: wholeHeight /
-                                                            25.309,
-                                                        child: Center(
-                                                          child: IconButton(
-                                                            icon: const Icon(
-                                                              Icons
-                                                                  .delete_forever,
-                                                              color: Colors.red,
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets.only(
+                                                      //     left: 5,
+                                                      //   ),
+                                                      //   child: SizedBox(
+                                                      //     width: wholeWidth / 7,
+                                                      //     height: wholeHeight /
+                                                      //         25.309,
+                                                      //     child: Center(
+                                                      //       child: Text(
+                                                      //         finalBrandListAftrRemoveDuplication[
+                                                      //             index][3],
+                                                      //         style:
+                                                      //             const TextStyle(
+                                                      //           fontSize: 13,
+                                                      //           color: Color
+                                                      //               .fromARGB(255,
+                                                      //                   0, 0, 0),
+                                                      //         ),
+                                                      //       ),
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets.only(
+                                                      //     left: 5,
+                                                      //   ),
+                                                      //   child: SizedBox(
+                                                      //     width: wholeWidth / 7,
+                                                      //     height: wholeHeight /
+                                                      //         25.309,
+                                                      //     child: Center(
+                                                      //       child: Text(
+                                                      //         finalBrandListAftrRemoveDuplication[
+                                                      //             index][4],
+                                                      //         style:
+                                                      //             const TextStyle(
+                                                      //           fontSize: 13,
+                                                      //           color: Color
+                                                      //               .fromARGB(255,
+                                                      //                   0, 0, 0),
+                                                      //         ),
+                                                      //       ),
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                          left: 5,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: wholeWidth / 4,
+                                                          height: wholeHeight /
+                                                              25.309,
+                                                          child: Center(
+                                                            child: Text(
+                                                              finalBrandListAftrRemoveDuplication[
+                                                                              index]
+                                                                          [2] ==
+                                                                      ""
+                                                                  ? "0"
+                                                                  : finalBrandListAftrRemoveDuplication[
+                                                                      index][2],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 12,
+                                                                color: Color
+                                                                    .fromARGB(255,
+                                                                        0, 0, 0),
+                                                              ),
                                                             ),
-                                                            onPressed: () {
-                                                              dynamicRowsListForBrand
-                                                                  .removeAt(
-                                                                      index);
-                                                              finalBrandListAftrRemoveDuplication
-                                                                  .removeAt(
-                                                                      index);
-
-                                                              setState(() {});
-                                                            },
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                          left: 5,
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: wholeWidth / 7,
+                                                          height: wholeHeight /
+                                                              25.309,
+                                                              
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(bottom: 10,top: 0),
+                                                            child: Center(
+                                                              child: IconButton(
+                                                                icon: const Icon(
+                                                                  Icons
+                                                                      .delete_forever,
+                                                                  color: Colors.red,
+                                                                  size: 20,
+                                                                ),
+                                                                onPressed: () {
+                                                                  dynamicRowsListForBrand
+                                                                      .removeAt(
+                                                                          index);
+                                                                  finalBrandListAftrRemoveDuplication
+                                                                      .removeAt(
+                                                                          index);
+                                                                                                        
+                                                                  setState(() {});
+                                                                },
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               );
                                             }),
@@ -2062,10 +2078,10 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                                 ? initialPaySchdedule != null
                                                                                     ? dsrFromdate != ""
                                                                                         ? dsrTodate != ""
-                                                                                            ? noOfPatientController.text != ""
+                                                                                            ? noOfPatientController.text .toString().trim().isNotEmpty
                                                                                                 ? initialIssueMode != null
                                                                                                     ? isCheck == true
-                                                                                                        ? issueToController.text != ""
+                                                                                                        ? issueToController.text.toString().trim().isNotEmpty
                                                                                                             ? readyForPreviewMethod()
                                                                                                             : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
                                                                                                         : readyForPreviewMethod()

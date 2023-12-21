@@ -19,6 +19,9 @@ class Boxes {
   /// [dcrRxTargetToSave] This methode used for Savig Dcr Rx Target to local Database
   static Box dcrRxTargetToSave() => Hive.box('DcrRxTarget');
 
+  /// [chemistRxTargetToSave] This methode used for Savig Chemist Rx Target to local Database
+  static Box chemistRxTargetToSave() => Hive.box('ChemistRxTarget');
+
   // This method Used for only sync Data
   Future openAndAddDataToBox(String tableName, List syncData) async {
     var dir = await getApplicationDocumentsDirectory();

@@ -37,6 +37,11 @@ class HiveAdapter {
 
     await Hive.openBox<EdsrDataModel>('eDSRSettingsData');
     await Hive.openBox('doctorList');
+
+    /// [DcrRxTarget] this table name used for Dcr Rx target value
     await Hive.openBox('DcrRxTarget');
+
+    /// [ChemistRxTarget] this table name used for Chemist Rx target value
+    await Hive.openBox('ChemistRxTarget');
   }
 }

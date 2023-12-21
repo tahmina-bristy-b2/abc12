@@ -34,8 +34,8 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
   int _currentSelected = 2;
   List foundUsers = [];
-  var orderamount = 0.0;
-  var neworderamount = 0.0;
+  int doctorCount = 0;
+  int initialDoctorCount = 0;
   int amount = 0;
   bool isInList = false;
   var total = 0.0;
@@ -87,7 +87,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     }
 
     if (index == 2) {
-      //print("dataaaaaaaaaaaaaaaaaaaaaa");
+     
       setState(() {
         _isLoading = false;
       });
@@ -133,7 +133,6 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
     if (doctorlistString != '') {
       Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, doctorlistString);
-
       if (rxTargetWholeData['status'] == "Success") {
         if (!mounted) return;
 
@@ -152,8 +151,6 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
             Colors.white,
             16);
             dcrRxTagetSavedBox.clear();
-
-
             
       } else {
         setState(() {
@@ -175,20 +172,17 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
           ),
           backgroundColor: Colors.red));
     }
- 
-
   }
+ String updateCount() {
+ int doctorCount = 0;
+  for (var element in dcrRxTargetValueInputedList) {
+    doctorCount += int.parse(element.rxTargetValue);
+  }
+ 
+  return doctorCount.toString();
+}
 
-  // doctorLstDelete(Box<CustomerDataModel> customerBox,
-  //     List<AddItemModel> dcrRxTagetSavedBox, String clientId) {
-  //   dynamic desireKey;
-  //   customerBox.toMap().forEach((key, value) {
-  //     if (value.clientId == clientId) {
-  //       desireKey = key;
-  //     }
-  //   });
-  //   customerBox.delete(desireKey);
-  // }
+  
 
   @override
   void dispose() {
@@ -205,12 +199,26 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        title: const Text('RX Target'),
+        title: const Text('Doctor Census RX'),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
             fontSize: 20),
         centerTitle: true,
+        actions: [
+        
+             Padding(
+                padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+                child: Text(
+                  updateCount(),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 27, 56, 34),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18),
+                ),
+              )
+            
+      ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -241,55 +249,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       body: Column(
         children: [
           itemSearchTextFormWidget(),
-          Container(
-           // color:const Color.fromARGB(255, 116, 188, 180) ,
-            height: 35,
-            child: Row(
-                       
-                          children: [
-                            Expanded(
-                              flex: 7,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children:const [
-                                     
-                                 SizedBox(
-                                  width: 10,
-                                ),
-                                    Expanded(
-                                      child:  Center(child: Text("Doctors ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Center(
-                                      child: Container(
-                                      
-                                        child:Center(child: FittedBox(child: const Text("  Monthly Rx\n    Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
-                                        
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-          ),
-          //Expanded(child: itemSearchTextFormWidget()),
+          listTileHeadingWidget(),
           itemListViewBuilderWIdget(),
           const SizedBox(
             height: 5,
@@ -298,6 +258,57 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
         ],
       ),
     );
+  }
+
+  Container listTileHeadingWidget() {
+    return  Container(
+         // color:const Color.fromARGB(255, 116, 188, 180) ,
+          height: 35,
+          child: Row(
+                     
+                        children: [
+                          Expanded(
+                            flex: 7,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children:const [
+                                   
+                               SizedBox(
+                                width: 10,
+                              ),
+                                  Expanded(
+                                    child:  Center(child: Text("Doctors ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Center(
+                                    child:  Container(
+                                    
+                                      child:Center(child: FittedBox(child: const Text("  Monthly Rx\n     Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
+                                      
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+        );
   }
 
   //==================================================== doctor seacrch===================================
@@ -454,10 +465,13 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                           border: OutlineInputBorder(),
                                         ),
                                         onChanged: (value) {
+                                         // if(value.isEmpty) return ;
+                                         
                                         // itemCount(value, index);
                                         // Thats Added for Save
                                         if (value.isNotEmpty &&
                                             value.trim() != '') {
+                                              
                                           var temp = DcrDataModel(
                                               docName: foundUsers[index]
                                                   ['doc_name'],
@@ -481,13 +495,42 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                                   element.docId ==
                                                   foundUsers[index]['doc_id']);
 
+
+                                                  
+
                                           dcrRxTargetValueInputedList.add(temp);
+                                          
+                                               
+                       
+                        //  if (dcrRxTargetValueInputedList.isNotEmpty) {
+                        //           for (var element in dcrRxTargetValueInputedList) {
+                        //          doctorCount= doctorCount + int.parse(element.rxTargetValue);
+                        //              }
+                        //         }
+
+
+                          
+                           // updateCount();
+      
+                                    
                                         } else {
                                           dcrRxTargetValueInputedList
                                               .removeWhere((element) =>
                                                   element.docId ==
                                                   foundUsers[index]['doc_id']);
+                                                  // doctorCountMethod('0');
+                            //  doctorCount=0;
+                            //  doctorCount= doctorCount + int.parse('');
+                            //  setState(() {
+                            //   updateCount();
+                               
+                            //  });
+
+                                
                                         }
+                                        setState(() {
+                                          
+                                        });
                                       },
                                       ),
                                       

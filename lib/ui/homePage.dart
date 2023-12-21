@@ -906,11 +906,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                       child: CustomBuildButton(
                                         icon: Icons.calculate_sharp,
                                         onClick: ()async {
-                                           List dcrList = await AllServices()
+
+                                          List dcrList = await AllServices()
                                               .getSyncSavedData('dcrListData');
-                                              if (dcrList.isNotEmpty) {
+
+                                          if (userInfo!.areaPage) {
                                             if (!mounted) return;
                                             Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'dcr',
+                                                      )),
+                                            );
+                                          } else if (dcrList.isNotEmpty) {
+                                            if (!mounted) return;
+                                             Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
@@ -923,6 +934,43 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 Colors.white,
                                                 16);
                                           }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          //  List dcrList = await AllServices()
+                                          //     .getSyncSavedData('dcrListData');
+                                          //     if (dcrList.isNotEmpty) {
+                                          //   if (!mounted) return;
+                                          //   Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                                          //   ),
+                                          // );
+                                          // } else {
+                                          //   AllServices().toastMessage(
+                                          //       'Doctor List Empty!',
+                                          //       Colors.red,
+                                          //       Colors.white,
+                                          //       16);
+                                          // }
                                           
                                         },
                                         title: 'RX Target',

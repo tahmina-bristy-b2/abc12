@@ -3,8 +3,13 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/services/order/order_services.dart';
+import 'package:MREPORTING/ui/homePage.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RxTargetScreen extends StatefulWidget {
   final List syncDoctorList;
@@ -23,6 +28,8 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
   DmPathDataModel? dmpathData;
   final dcrRxTagetSavedBox = Boxes.dcrRxTargetToSave();
+  // List<DcrDataModel> dcrRxTargetValueInputedList = [];
+   bool  _isLoading = false;
   List dcrRxTargetValueInputedList = [];
 
   int _currentSelected = 2;
@@ -33,13 +40,24 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   bool isInList = false;
   var total = 0.0;
   bool incLen = true;
-  bool promo_flag = false;
+  String cid = "";
+  String deviceId="";
 
   @override
   void initState() {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
+    SharedPreferences.getInstance().then((prefs) {
+        setState(() {
+          cid = prefs.getString("CID")!; 
+          deviceId = prefs.getString("deviceId") ?? '';
 
+        });
+
+        
+      });
+    
+   
     /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
     dcrRxTargetValueInputedList =
         Boxes.dcrRxTargetToSave().get('dcrRxTargetValue') ?? [];
@@ -54,19 +72,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
         controllers[element.docId]!.text = element.rxTargetValue ?? '';
       }
     }
-    // for (var element in widget.tempList) {
-    //   controllers.forEach((key, value) {
-    //     if (key == element.item_id) {
-    //       value.text = element.quantity.toString();
-    //     }
-    //   });
-    // }
-
-    // for (var element in widget.tempList) {
-    //   total = (element.tp + element.vat) * element.quantity;
-
-    //   orderamount = orderamount + total;
-    // }
+    
 
     super.initState();
   }
@@ -80,31 +86,109 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       });
     }
 
-    // if (index == 2) {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //   bool result = await InternetConnectionChecker().hasConnection;
-    //   if (result == true) {
-    //     // dcrGSPSubmit();
-    //   } else {
-    //     AllServices()
-    //         .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
-    //     setState(() {
-    //       _isLoading = true;
-    //     });
-    //     // print(InternetConnectionChecker().lastTryResults);
-    //   }
+    if (index == 2) {
+      //print("dataaaaaaaaaaaaaaaaaaaaaa");
+      setState(() {
+        _isLoading = false;
+      });
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (result == true) {
+          submitRXTraget();
 
-    //   setState(() {
-    //     _currentSelected = index;
-    //   });
-    // }
+      } else {
+        AllServices()
+            .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+        setState(() {
+          _isLoading = true;
+        });
+       
+      }
+
+      setState(() {
+        _currentSelected = index;
+      });
+    }
   }
+
+
 
   Future toSaveRxTargetValue() async {
     dcrRxTagetSavedBox.put('dcrRxTargetValue', dcrRxTargetValueInputedList);
   }
+
+  submitRXTraget()async{
+    String doctorlistString = '';
+    if (dcrRxTargetValueInputedList.isNotEmpty) {
+      for (var element in dcrRxTargetValueInputedList) {
+   
+        if (doctorlistString == '' && element.rxTargetValue !="" ) {
+          doctorlistString = '${element.docId}|${element.areaId}|${element.rxTargetValue}';
+        } else if (element.rxTargetValue != "") {
+          doctorlistString += '||${element.docId}|${element.areaId}|${element.rxTargetValue}';
+        }
+        
+      }
+    }
+
+
+    if (doctorlistString != '') {
+      Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, doctorlistString);
+
+      if (rxTargetWholeData['status'] == "Success") {
+        if (!mounted) return;
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                      userName: userLoginInfo!.userName,
+                      userId: userLoginInfo!.userId,
+                      userPassword: userPassword,
+                    )),
+            (Route<dynamic> route) => false);
+
+        AllServices().toastMessageForSubmitData(
+            "Rx Target Submitted\n${rxTargetWholeData['ret_str']}",
+            Colors.green.shade900,
+            Colors.white,
+            16);
+            dcrRxTagetSavedBox.clear();
+
+
+            
+      } else {
+        setState(() {
+          _isLoading = true;
+        });
+        AllServices().toastMessage(
+            "${rxTargetWholeData['ret_str']}", 
+            Colors.red,
+            Colors.white,
+            16);
+      }
+    } else {
+      setState(() {
+        _isLoading = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            'Please Add something',
+          ),
+          backgroundColor: Colors.red));
+    }
+ 
+
+  }
+
+  // doctorLstDelete(Box<CustomerDataModel> customerBox,
+  //     List<AddItemModel> dcrRxTagetSavedBox, String clientId) {
+  //   dynamic desireKey;
+  //   customerBox.toMap().forEach((key, value) {
+  //     if (value.clientId == clientId) {
+  //       desireKey = key;
+  //     }
+  //   });
+  //   customerBox.delete(desireKey);
+  // }
 
   @override
   void dispose() {
@@ -157,6 +241,54 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       body: Column(
         children: [
           itemSearchTextFormWidget(),
+          Container(
+           // color:const Color.fromARGB(255, 116, 188, 180) ,
+            height: 35,
+            child: Row(
+                       
+                          children: [
+                            Expanded(
+                              flex: 7,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children:const [
+                                     
+                                 SizedBox(
+                                  width: 10,
+                                ),
+                                    Expanded(
+                                      child:  Center(child: Text("Doctors ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Center(
+                                      child: Container(
+                                      
+                                        child:Center(child: FittedBox(child: const Text("  Monthly Rx\n    Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
+                                        
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+          ),
           //Expanded(child: itemSearchTextFormWidget()),
           itemListViewBuilderWIdget(),
           const SizedBox(
@@ -174,78 +306,24 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       height: 60,
       child: Row(
         children: [
-          //  Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: SizedBox(
-          //               height: 50,
-          //               child: TextFormField(
-          //                 onChanged: (value) {
-          //                   // setState(() {
-          //                   //   foundUsers = AllServices().searchDynamicMethod(
-          //                   //       value, magicDcrDataList, "doc_name");
-          //                   // });
-
-          //                   setState(() {
-          //                     foundUsers = AllServices().searchDoctor(
-          //                         value,
-          //                         widget.syncDoctorList,
-          //                         "doc_name",
-          //                         "area_name",
-          //                         "doc_id");
-          //                   });
-          //                 },
-          //                 controller: searchController,
-          //                 decoration: InputDecoration(
-          //                   border: OutlineInputBorder(
-          //                       borderRadius: BorderRadius.circular(10)),
-          //                   hintText: 'Search Magic Doctor by name/id/area...',
-          //                   suffixIcon: searchController.text.isEmpty &&
-          //                           searchController.text == ''
-          //                       ? const Icon(Icons.search)
-          //                       : IconButton(
-          //                           onPressed: () {
-          //                             searchController.clear();
-          //                             setState(() {
-          //                               foundUsers = AllServices().searchDoctor(
-          //                                   "",
-          //                                   widget.syncDoctorList,
-          //                                   "doc_name",
-          //                                   "area_name",
-          //                                   "doc_id");
-          //                             });
-
-          //                             // setState(() {
-          //                             //   foundUsers = AllServices()
-          //                             //       .searchDynamicMethod("",
-          //                             //           magicDcrDataList, "doc_name");
-          //                             // });
-          //                           },
-          //                           icon: const Icon(
-          //                             Icons.clear,
-          //                             color: Colors.black,
-          //                             // size: 28,
-          //                           ),
-          //                         ),
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
+          
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 onChanged: (value) {
                   foundUsers = AllServices().searchDynamicMethod(
-                      value, widget.syncDoctorList, 'item_name');
+                      value, widget.syncDoctorList, 'doc_name');
                   setState(() {});
                 },
                 controller: searchController,
                 decoration: InputDecoration(
                   filled: true,
+                 // fillColor: Colors.white,
                   fillColor: Colors.teal.shade50,
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))),
-                  labelText: 'Doctor Search',
+                  labelText: 'Search doctor by name....',
                   suffixIcon: searchController.text.isEmpty &&
                           searchController.text == ''
                       ? const Icon(Icons.search)
@@ -253,12 +331,12 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           onPressed: () {
                             searchController.clear();
                             foundUsers = AllServices().searchDynamicMethod(
-                                '', widget.syncDoctorList, 'item_name');
+                                '', widget.syncDoctorList, 'doc_name');
                             setState(() {});
                           },
                           icon: const Icon(
                             Icons.clear,
-                            color: Colors.black,
+                            color: Color.fromARGB(255, 239, 242, 239),
                             // size: 28,
                           ),
                         ),
@@ -283,88 +361,67 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: foundUsers.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    // color: Colors.yellow.shade50,
-                    // elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                          color: Color.fromARGB(108, 255, 255, 255), width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Row(
+                  return Column(
+                    children: [
+                      Row(
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Expanded(
                             flex: 7,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // crossAxisAlignment: ,
-                              children: [
-                                Text(
-                                  foundUsers[index]['doc_id'],
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 18, 20),
-                                      fontSize: 14),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${foundUsers[index]['area_name']}${foundUsers[index]['area_id']}|${foundUsers[index]['address']} ',
-                                      style: const TextStyle(
-                                          color: Color.fromARGB(255, 8, 18, 20),
-                                          fontSize: 12),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                   Opacity(
+                                opacity: 0.7,
+                                child: Container(
+                                  decoration: const ShapeDecoration(
+                                    shape: CircleBorder(),
+                                    // color: Color.fromARGB(255, 138, 201, 149),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/doctor.png',
+                                      ), 
+                                      fit: BoxFit.cover,
                                     ),
-                                    // Container(
-                                    //   color:
-                                    //       const Color.fromARGB(255, 4, 60, 105),
-                                    //   child: Text(
-                                    //     'Stock: ${foundUsers[index]['stock']}',
-                                    //     style: const TextStyle(
-                                    //         color: Colors.white, fontSize: 14),
-                                    //   ),
-                                    // )
-                                  ],
+                                  ),
+                                  height: 50,
+                                  width: 50,
                                 ),
-                                // userLoginInfo!.promoFlag &&
-                                //         foundUsers[index]['promo'] != ''
-                                //     ? Card(
-                                //         color: Colors.yellow,
-                                //         child: Text(
-                                //           foundUsers[index]['promo'],
-                                //           style: const TextStyle(
-                                //               color:
-                                //                   // Colors.teal,
-                                //                   Color.fromARGB(
-                                //                       255, 238, 4, 4),
-                                //               fontSize: 14),
-                                //         ),
-                                //       )
-                                // ? Padding(
-                                //     padding: const EdgeInsets.all(4.0),
-                                //     child: AnimatedTextKit(
-                                //       repeatForever: true,
-                                //       animatedTexts: [
-                                //         ColorizeAnimatedText(
-                                //           foundUsers[index]['promo'],
-                                //           textStyle: const TextStyle(
-                                //               color: Color.fromARGB(
-                                //                   255, 8, 18, 20),
-                                //               fontSize: 15),
-                                //           colors: [
-                                //             const Color.fromARGB(
-                                //                 255, 18, 137, 235),
-                                //             Colors.red
-                                //           ],
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   )
-                                // : Container(),
-                              ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      // crossAxisAlignment: ,
+                                      children: [
+                                        Text(
+                                          "${foundUsers[index]['doc_name']}(${foundUsers[index]['doc_id']})",
+                                          style: const TextStyle(
+                                              color: Color.fromARGB(255, 8, 18, 20),
+                                              fontSize: 16),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '${foundUsers[index]['area_name']} | ${foundUsers[index]['area_id']} | ${foundUsers[index]['address']} ',
+                                              style: const TextStyle(
+                                                  color: Color.fromARGB(255, 86, 84, 84),
+                                                  fontSize: 12),
+                                            ),
+                                          
+                                          ],
+                                        ),
+                                       
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -373,28 +430,30 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           Expanded(
                             flex: 2,
                             child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.start,
+                              
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Card(
-                                  // elevation: 1,
-                                  child: Container(
-                                    // height: 50,
-                                    color:
-                                        const Color.fromARGB(255, 138, 201, 149)
-                                            .withOpacity(.3),
-                                    width: 60,
-                                    child: TextFormField(
-                                      textDirection: TextDirection.ltr,
-                                      // maxLength: 1000,
-                                      textAlign: TextAlign.center,
-                                      controller: controllers[foundUsers[index]
-                                          ['doc_id']],
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      onChanged: (value) {
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Card(
+                                   
+                                    child: Container(
+                                      
+                                      color:
+                                          const Color.fromARGB(255, 138, 201, 149)
+                                              .withOpacity(.3),
+                                      width: 60,
+                                      child: TextFormField(
+                                        textDirection: TextDirection.ltr,
+                                       
+                                        textAlign: TextAlign.center,
+                                        controller: controllers[foundUsers[index]
+                                            ['doc_id']],
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        onChanged: (value) {
                                         // itemCount(value, index);
                                         // Thats Added for Save
                                         if (value.isNotEmpty &&
@@ -405,10 +464,11 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                               docId: foundUsers[index]
                                                   ['doc_id'],
                                               areaId: foundUsers[index]
-                                                  ['doc_id'],
+                                                  ['area_id'],
                                               areaName: foundUsers[index]
-                                                  ['doc_id'],
-                                              address: 'address',
+                                                  ['area_name'],
+                                              address: foundUsers[index]
+                                                  ['address'],
                                               dcrGspList: [],
                                               visitedWith: '',
                                               notes: '',
@@ -429,6 +489,8 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                                   foundUsers[index]['doc_id']);
                                         }
                                       },
+                                      ),
+                                      
                                     ),
                                   ),
                                 ),
@@ -437,7 +499,9 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           ),
                         ],
                       ),
-                    ),
+                      Container(color: Colors.grey,
+                      height: 0.7,)
+                    ],
                   );
                 })
             : const Text(

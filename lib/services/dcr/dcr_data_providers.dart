@@ -169,4 +169,41 @@ class DcrDataProviders {
 
     return response;
   }
+
+  //============================Rx Target  Submit=================================
+  Future<http.Response> rxTargetSubmitDP(
+      String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString) async {
+        print(jsonEncode(
+        <String, dynamic>{
+          'cid': cid,
+          'user_id': userId,
+          'user_pass': userpass,
+          'device_id': deviceId,
+          'item_list': doctorListString,
+        
+        },
+      ),);
+
+    final response = await http.post(
+      Uri.parse(DcrApis.rxTarget(submitUrl, cid, userId, userpass, deviceId, doctorListString)),
+      
+      
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'cid': cid,
+          'user_id': userId,
+          'user_pass': userpass,
+          'device_id': deviceId,
+          'item_list': doctorListString,
+        
+        },
+      ),
+    );
+
+    return response;
+  }
+
 }

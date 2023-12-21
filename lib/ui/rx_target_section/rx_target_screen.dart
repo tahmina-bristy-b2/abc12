@@ -28,8 +28,9 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
   DmPathDataModel? dmpathData;
   final dcrRxTagetSavedBox = Boxes.dcrRxTargetToSave();
-  List<DcrDataModel> dcrRxTargetValueInputedList = [];
+  // List<DcrDataModel> dcrRxTargetValueInputedList = [];
    bool  _isLoading = false;
+  List dcrRxTargetValueInputedList = [];
 
   int _currentSelected = 2;
   List foundUsers = [];
@@ -57,15 +58,19 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       });
     
    
+    /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
+    dcrRxTargetValueInputedList =
+        Boxes.dcrRxTargetToSave().get('dcrRxTargetValue') ?? [];
 
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
       controllers[element['doc_id']] = TextEditingController();
     }
+
     if (dcrRxTargetValueInputedList.isNotEmpty) {
-      dcrRxTargetValueInputedList.forEach((element) {
+      for (var element in dcrRxTargetValueInputedList) {
         controllers[element.docId]!.text = element.rxTargetValue ?? '';
-      });
+      }
     }
     
 
@@ -388,7 +393,8 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                         onChanged: (value) {
                                         // itemCount(value, index);
                                         // Thats Added for Save
-                                        if (value.isNotEmpty && value != '') {
+                                        if (value.isNotEmpty &&
+                                            value.trim() != '') {
                                           var temp = DcrDataModel(
                                               docName: foundUsers[index]
                                                   ['doc_name'],

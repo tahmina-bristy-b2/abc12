@@ -236,6 +236,7 @@ class DcrRepositories {
       docSettingData = docSettingsModelFromJson(response.body);
 
       if (docSettingData.resData.status == 'Success') {
+        Boxes.dcrRxTargetToSave().clear();
         return docSettingData;
       }
     } catch (e) {

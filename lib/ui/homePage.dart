@@ -367,6 +367,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 await prefs.setString("Area", '');
                 await prefs.setString("Territory", '');
                 Hive.box("doctorList").clear();
+               
                 final eDsrSettingBox = Boxes.geteDSRsetData();
                 eDsrSettingBox.clear();
                 if (!mounted) return;

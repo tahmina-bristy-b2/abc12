@@ -330,6 +330,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     );
                                                   } else {
                                                     Boxes.clearBox();
+                                                    
 
                                                     Navigator.pushReplacement(
                                                       context,

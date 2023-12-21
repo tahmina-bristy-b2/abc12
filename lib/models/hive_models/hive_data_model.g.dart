@@ -75,26 +75,26 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CustomerDataModel(
-      clientName: fields[0] as String,
-      marketName: fields[1] as String,
-      areaId: fields[2] as String,
-      clientId: fields[3] as String,
-      outstanding: fields[4] as String,
-      thana: fields[5] as String,
-      address: fields[6] as String,
-      deliveryDate: fields[7] as String,
-      deliveryTime: fields[8] as String,
-      paymentMethod: fields[9] as String,
-      offer: fields[10] as String?,
-      note: fields[11] as String,
-      itemList: (fields[12] as List).cast<AddItemModel>(),
-    );
+        clientName: fields[0] as String,
+        marketName: fields[1] as String,
+        areaId: fields[2] as String,
+        clientId: fields[3] as String,
+        outstanding: fields[4] as String,
+        thana: fields[5] as String,
+        address: fields[6] as String,
+        deliveryDate: fields[7] as String,
+        deliveryTime: fields[8] as String,
+        paymentMethod: fields[9] as String,
+        offer: fields[10] as String?,
+        note: fields[11] as String,
+        itemList: (fields[12] as List).cast<AddItemModel>(),
+        chemistRxTargetValue: fields[13] as String?);
   }
 
   @override
   void write(BinaryWriter writer, CustomerDataModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.clientName)
       ..writeByte(1)
@@ -120,7 +120,9 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       ..writeByte(11)
       ..write(obj.note)
       ..writeByte(12)
-      ..write(obj.itemList);
+      ..write(obj.itemList)
+      ..writeByte(13)
+      ..write(obj.chemistRxTargetValue);
   }
 
   @override

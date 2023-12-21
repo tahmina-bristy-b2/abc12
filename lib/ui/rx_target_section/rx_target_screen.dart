@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
@@ -29,7 +31,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   DmPathDataModel? dmpathData;
   final dcrRxTagetSavedBox = Boxes.dcrRxTargetToSave();
   // List<DcrDataModel> dcrRxTargetValueInputedList = [];
-   bool  _isLoading = false;
+  bool _isLoading = false;
   List dcrRxTargetValueInputedList = [];
 
   int _currentSelected = 2;
@@ -41,23 +43,19 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   var total = 0.0;
   bool incLen = true;
   String cid = "";
-  String deviceId="";
+  String deviceId = "";
 
   @override
   void initState() {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     SharedPreferences.getInstance().then((prefs) {
-        setState(() {
-          cid = prefs.getString("CID")!; 
-          deviceId = prefs.getString("deviceId") ?? '';
-
-        });
-
-        
+      setState(() {
+        cid = prefs.getString("CID")!;
+        deviceId = prefs.getString("deviceId") ?? '';
       });
-    
-   
+    });
+
     /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
     dcrRxTargetValueInputedList =
         Boxes.dcrRxTargetToSave().get('dcrRxTargetValue') ?? [];
@@ -72,7 +70,6 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
         controllers[element.docId]!.text = element.rxTargetValue ?? '';
       }
     }
-    
 
     super.initState();
   }
@@ -93,15 +90,13 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-          submitRXTraget();
-
+        submitRXTraget();
       } else {
         AllServices()
             .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
         setState(() {
           _isLoading = true;
         });
-       
       }
 
       setState(() {
@@ -110,26 +105,23 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     }
   }
 
-
-
   Future toSaveRxTargetValue() async {
     dcrRxTagetSavedBox.put('dcrRxTargetValue', dcrRxTargetValueInputedList);
   }
 
-  submitRXTraget()async{
+  submitRXTraget() async {
     String doctorlistString = '';
     if (dcrRxTargetValueInputedList.isNotEmpty) {
       for (var element in dcrRxTargetValueInputedList) {
-   
-        if (doctorlistString == '' && element.rxTargetValue !="" ) {
-          doctorlistString = '${element.docId}|${element.areaId}|${element.rxTargetValue}';
+        if (doctorlistString == '' && element.rxTargetValue != "") {
+          doctorlistString =
+              '${element.docId}|${element.areaId}|${element.rxTargetValue}';
         } else if (element.rxTargetValue != "") {
-          doctorlistString += '||${element.docId}|${element.areaId}|${element.rxTargetValue}';
+          doctorlistString +=
+              '||${element.docId}|${element.areaId}|${element.rxTargetValue}';
         }
-        
       }
     }
-
 
     if (doctorlistString != '') {
       Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, doctorlistString);
@@ -157,10 +149,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
           _isLoading = true;
         });
         AllServices().toastMessage(
-            "${rxTargetWholeData['ret_str']}", 
-            Colors.red,
-            Colors.white,
-            16);
+            "${rxTargetWholeData['ret_str']}", Colors.red, Colors.white, 16);
       }
     } else {
       setState(() {
@@ -317,7 +306,6 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       height: 60,
       child: Row(
         children: [
-          
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -330,7 +318,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                 controller: searchController,
                 decoration: InputDecoration(
                   filled: true,
-                 // fillColor: Colors.white,
+                  // fillColor: Colors.white,
                   fillColor: Colors.teal.shade50,
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -372,6 +360,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: foundUsers.length,
                 itemBuilder: (context, index) {
+                  List magicBrandList = foundUsers[index]['magic_brand'];
                   return Column(
                     children: [
                       Row(
@@ -384,53 +373,91 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                   Opacity(
-                                opacity: 0.7,
-                                child: Container(
-                                  decoration: const ShapeDecoration(
-                                    shape: CircleBorder(),
-                                    // color: Color.fromARGB(255, 138, 201, 149),
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/doctor.png',
-                                      ), 
-                                      fit: BoxFit.cover,
+                                  Opacity(
+                                    opacity: 0.7,
+                                    child: Container(
+                                      decoration: const ShapeDecoration(
+                                        shape: CircleBorder(),
+                                        // color: Color.fromARGB(255, 138, 201, 149),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            'assets/images/doctor.png',
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      height: 50,
+                                      width: 50,
                                     ),
                                   ),
-                                  height: 50,
-                                  width: 50,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Expanded(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       // crossAxisAlignment: ,
                                       children: [
                                         Text(
                                           "${foundUsers[index]['doc_name']}(${foundUsers[index]['doc_id']})",
                                           style: const TextStyle(
-                                              color: Color.fromARGB(255, 8, 18, 20),
+                                              color: Color.fromARGB(
+                                                  255, 8, 18, 20),
                                               fontSize: 16),
                                         ),
-                                        Row(
+                                        Wrap(
                                           children: [
                                             Text(
                                               '${foundUsers[index]['area_name']} | ${foundUsers[index]['area_id']} | ${foundUsers[index]['address']} ',
                                               style: const TextStyle(
-                                                  color: Color.fromARGB(255, 86, 84, 84),
+                                                  color: Color.fromARGB(
+                                                      255, 86, 84, 84),
                                                   fontSize: 12),
                                             ),
-                                          
                                           ],
                                         ),
-                                       
                                       ],
                                     ),
                                   ),
+                                  foundUsers[index]['magic_doctor']
+                                              .toString()
+                                              .toUpperCase() ==
+                                          "MAGIC_DOCTOR"
+                                      ? Transform(
+                                          transform: Matrix4.rotationY(
+                                              0.2), // Adjust the rotation angle
+                                          child: Opacity(
+                                            opacity: 0.6,
+                                            child: Container(
+                                              width: 30.0,
+                                              height: 30.0,
+                                              decoration: BoxDecoration(
+                                                image: const DecorationImage(
+                                                  image: AssetImage(
+                                                    'assets/icons/m.png',
+                                                  ), // Replace with your image path
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                                color: Colors.green,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 3,
+                                                    offset: const Offset(0, 3),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(),
                                 ],
                               ),
                             ),
@@ -438,35 +465,27 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Card(
-                                   
-                                    child: Container(
-                                      
-                                      color:
-                                          const Color.fromARGB(255, 138, 201, 149)
-                                              .withOpacity(.3),
-                                      width: 60,
-                                      child: TextFormField(
-                                        textDirection: TextDirection.ltr,
-                                       
-                                        textAlign: TextAlign.center,
-                                        controller: controllers[foundUsers[index]
-                                            ['doc_id']],
-                                        keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                        ),
-                                        onChanged: (value) {
-                                         // if(value.isEmpty) return ;
-                                         
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 4.0),
+                                child: Card(
+                                  child: Container(
+                                    color:
+                                        const Color.fromARGB(255, 138, 201, 149)
+                                            .withOpacity(.3),
+                                    width: 60,
+                                    child: TextFormField(
+                                      textDirection: TextDirection.ltr,
+                                      textAlign: TextAlign.center,
+                                      controller: controllers[foundUsers[index]
+                                          ['doc_id']],
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      onChanged: (value) {
                                         // itemCount(value, index);
                                         // Thats Added for Save
                                         if (value.isNotEmpty &&
@@ -532,18 +551,62 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                           
                                         });
                                       },
-                                      ),
-                                      
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Container(color: Colors.grey,
-                      height: 0.7,)
+                      // foundUsers[index]['magic_brand'].isNotEmpty
+                      magicBrandList.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 8.0),
+                              child: Row(children: [
+                                Expanded(
+                                    child: Wrap(
+                                  spacing: 3.0,
+                                  runSpacing: 3.0,
+                                  children: magicBrandList
+                                      .map(
+                                        (e) => Container(
+                                          // margin: EdgeInsets.all(3.0),
+                                          padding: const EdgeInsets.all(3.0),
+                                          decoration: BoxDecoration(
+                                              // color: Colors.green,
+                                              // color: Color(
+                                              //         (math.Random().nextDouble() *
+                                              //                 0xFFFFFF)
+                                              //             .toInt())
+                                              //     .withOpacity(.8),
+                                              color: Colors
+                                                  .primaries[Random().nextInt(
+                                                      Colors.primaries.length)]
+                                                  .withOpacity(.4),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+
+                                          child: Text(
+                                            e,
+                                            style: const TextStyle(
+                                              fontSize: 9,
+                                              color: Color.fromARGB(
+                                                  255, 50, 49, 49),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ))
+                              ]),
+                            )
+                          : const SizedBox.shrink(),
+                      Container(
+                        color: Colors.grey,
+                        height: 0.7,
+                      )
                     ],
                   );
                 })

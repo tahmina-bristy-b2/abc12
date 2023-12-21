@@ -3,6 +3,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -72,26 +73,46 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       });
     }
 
-    // if (index == 2) {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //   bool result = await InternetConnectionChecker().hasConnection;
-    //   if (result == true) {
-    //     // dcrGSPSubmit();
-    //   } else {
-    //     AllServices()
-    //         .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
-    //     setState(() {
-    //       _isLoading = true;
-    //     });
-    //     // print(InternetConnectionChecker().lastTryResults);
+    if (index == 1) {
+      setState(() {
+        //_isLoading = false;
+      });
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (result == true) {
+    //  String   itemString = '';
+   
+    // if (finalItemDataList.isNotEmpty) {
+    //   for (var element in finalItemDataList) {
+    //     total = (element.tp + element.vat) * element.quantity;
+    //     if (itemString == '' && element.quantity != 0) {
+    //       itemString = '${element.item_id}|${element.quantity}';
+    //     } else if (element.quantity != 0) {
+    //       itemString += '||${element.item_id}|${element.quantity}';
+    //     }
+    //     // orderAmount = orderAmount + total;
+    //     // totalAmount = orderAmount.toStringAsFixed(2);
     //   }
-
-    //   setState(() {
-    //     _currentSelected = index;
-    //   });
     // }
+    //     // OrderServices().ordertotalAmount(itemString, orderAmount,
+        //   finalItemDataList, total, totalAmount)["ItemString"];
+
+
+
+
+        // dcrGSPSubmit();
+      } else {
+        AllServices()
+            .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
+        setState(() {
+        //  _isLoading = true;
+        });
+        // print(InternetConnectionChecker().lastTryResults);
+      }
+
+      setState(() {
+        _currentSelected = index;
+      });
+    }
   }
 
   Future toSaveRxTargetValue() async {

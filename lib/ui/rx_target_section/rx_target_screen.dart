@@ -132,7 +132,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
 
     if (doctorlistString != '') {
-      Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, userLoginInfo!.userId, userId,userPassword, deviceId, doctorlistString);
+      Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, doctorlistString);
 
       if (rxTargetWholeData['status'] == "Success") {
         if (!mounted) return;
@@ -337,10 +337,10 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                       // crossAxisAlignment: ,
                                       children: [
                                         Text(
-                                          "${foundUsers[index]['doc_name']}",
+                                          "${foundUsers[index]['doc_name']}(${foundUsers[index]['doc_id']})",
                                           style: const TextStyle(
                                               color: Color.fromARGB(255, 8, 18, 20),
-                                              fontSize: 16),
+                                              fontSize: 15),
                                         ),
                                         Row(
                                           children: [
@@ -401,10 +401,11 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                               docId: foundUsers[index]
                                                   ['doc_id'],
                                               areaId: foundUsers[index]
-                                                  ['doc_id'],
+                                                  ['area_id'],
                                               areaName: foundUsers[index]
-                                                  ['doc_id'],
-                                              address: 'address',
+                                                  ['area_name'],
+                                              address: foundUsers[index]
+                                                  ['address'],
                                               dcrGspList: [],
                                               visitedWith: '',
                                               notes: '',

@@ -154,13 +154,14 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
         notes: fields[6] as String,
         dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
         magic: fields[8] as bool?,
-        magicBrandList: fields[9] as List?);
+        magicBrandList: fields[9] as List?,
+        rxTargetValue: fields[10] as String?);
   }
 
   @override
   void write(BinaryWriter writer, DcrDataModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.docName)
       ..writeByte(1)
@@ -180,7 +181,9 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       ..writeByte(8)
       ..write(obj.magic)
       ..writeByte(9)
-      ..write(obj.magicBrandList);
+      ..write(obj.magicBrandList)
+      ..writeByte(10)
+      ..write(obj.rxTargetValue);
   }
 
   @override

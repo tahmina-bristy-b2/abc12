@@ -24,7 +24,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   final TextEditingController searchController2 = TextEditingController();
 
   DmPathDataModel? dmpathData;
-  final dcrRxTagetSavedBox = Boxes.dcrUsers();
+  final dcrRxTagetSavedBox = Boxes.dcrRxTargetToSave();
   List<DcrDataModel> dcrRxTargetValueInputedList = [];
 
   int _currentSelected = 2;
@@ -42,9 +42,20 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
 
+    /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
+    if (dcrRxTagetSavedBox.get('dcrRxTargetValue') != null) {
+      dcrRxTargetValueInputedList =
+          dcrRxTagetSavedBox.get('dcrRxTargetValue') ?? [];
+    }
+
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
       controllers[element['doc_id']] = TextEditingController();
+    }
+    if (dcrRxTargetValueInputedList.isNotEmpty) {
+      dcrRxTargetValueInputedList.forEach((element) {
+        controllers[element.docId]!.text = element.rxTargetValue ?? '';
+      });
     }
     // for (var element in widget.tempList) {
     //   controllers.forEach((key, value) {
@@ -95,7 +106,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   }
 
   Future toSaveRxTargetValue() async {
-    // dcrRxTagetSavedBox.put('dcrRxTargetValue', dcrRxTargetValueInputedList);
+    dcrRxTagetSavedBox.put('dcrRxTargetValue', dcrRxTargetValueInputedList);
   }
 
   @override
@@ -413,6 +424,11 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                                   foundUsers[index]['doc_id']);
 
                                           dcrRxTargetValueInputedList.add(temp);
+                                        } else {
+                                          dcrRxTargetValueInputedList
+                                              .removeWhere((element) =>
+                                                  element.docId ==
+                                                  foundUsers[index]['doc_id']);
                                         }
                                       },
                                     ),

@@ -17,7 +17,7 @@ class Boxes {
   static Box<EdsrDataModel> geteDSRsetData() => Hive.box('eDSRSettingsData');
 
   /// [dcrRxTargetToSave] This methode used for Savig Dcr Rx Target to local Database
-  static Box<List<DcrDataModel>> dcrRxTargetToSave() => Hive.box('DcrRxTarget');
+  static Box dcrRxTargetToSave() => Hive.box('DcrRxTarget');
 
   // This method Used for only sync Data
   Future openAndAddDataToBox(String tableName, List syncData) async {

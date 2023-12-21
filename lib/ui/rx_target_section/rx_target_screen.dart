@@ -3,8 +3,6 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -25,7 +23,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
   DmPathDataModel? dmpathData;
   final dcrRxTagetSavedBox = Boxes.dcrRxTargetToSave();
-  List<DcrDataModel> dcrRxTargetValueInputedList = [];
+  List dcrRxTargetValueInputedList = [];
 
   int _currentSelected = 2;
   List foundUsers = [];
@@ -43,19 +41,18 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     dmpathData = Boxes.getDmpath().get('dmPathData');
 
     /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
-    if (dcrRxTagetSavedBox.get('dcrRxTargetValue') != null) {
-      dcrRxTargetValueInputedList =
-          dcrRxTagetSavedBox.get('dcrRxTargetValue') ?? [];
-    }
+    dcrRxTargetValueInputedList =
+        Boxes.dcrRxTargetToSave().get('dcrRxTargetValue') ?? [];
 
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
       controllers[element['doc_id']] = TextEditingController();
     }
+
     if (dcrRxTargetValueInputedList.isNotEmpty) {
-      dcrRxTargetValueInputedList.forEach((element) {
+      for (var element in dcrRxTargetValueInputedList) {
         controllers[element.docId]!.text = element.rxTargetValue ?? '';
-      });
+      }
     }
     // for (var element in widget.tempList) {
     //   controllers.forEach((key, value) {
@@ -400,7 +397,8 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                       onChanged: (value) {
                                         // itemCount(value, index);
                                         // Thats Added for Save
-                                        if (value.isNotEmpty && value != '') {
+                                        if (value.isNotEmpty &&
+                                            value.trim() != '') {
                                           var temp = DcrDataModel(
                                               docName: foundUsers[index]
                                                   ['doc_name'],

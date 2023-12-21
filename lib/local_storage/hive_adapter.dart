@@ -37,6 +37,6 @@ class HiveAdapter {
 
     await Hive.openBox<EdsrDataModel>('eDSRSettingsData');
     await Hive.openBox('doctorList');
-    await Hive.openBox<List<DcrDataModel>>('DcrRxTarget');
+    await Hive.openBox('DcrRxTarget');
   }
 }

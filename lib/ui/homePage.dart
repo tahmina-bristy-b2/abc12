@@ -15,6 +15,7 @@ import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
+import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:MREPORTING/ui/stock_page.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -883,11 +884,65 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfo!.rxFlag
+                     userInfo!.rxFlag
                     ? const SizedBox(
                         height: 10,
                       )
                     : const SizedBox.shrink(),
+
+                    Container(
+                        color: const Color(0xFFE2EFDA),
+                        height: screenHeight / 6.4,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomBuildButton(
+                                        icon: Icons.calculate_sharp,
+                                        onClick: ()async {
+                                           List dcrList = await AllServices()
+                                              .getSyncSavedData('dcrListData');
+                                              if (dcrList.isNotEmpty) {
+                                            if (!mounted) return;
+                                            Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                                            ),
+                                          );
+                                          } else {
+                                            AllServices().toastMessage(
+                                                'Doctor List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+                                          
+                                        },
+                                        title: 'RX Target',
+                                        sizeWidth: screenWidth,
+                                        inputColor: const Color(0xff70BA85)
+                                            .withOpacity(.3),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                   
 
                 ///*******************************************Expense and Attendance  section ***********************************///
                 userInfo!.othersFlag

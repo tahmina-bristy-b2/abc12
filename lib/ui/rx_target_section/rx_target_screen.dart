@@ -401,7 +401,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                           style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 8, 18, 20),
-                                              fontSize: 16),
+                                              fontSize: 14),
                                         ),
                                         Wrap(
                                           children: [
@@ -410,7 +410,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                               style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 86, 84, 84),
-                                                  fontSize: 12),
+                                                  fontSize: 11),
                                             ),
                                           ],
                                         ),

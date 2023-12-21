@@ -60,7 +60,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   @override
   void dispose() {
     for (var element in foundUsers) {
-      controllers[element['item_id']]!.dispose();
+      controllers[element['doc_id']]!.dispose();
     }
 
     searchController.dispose();

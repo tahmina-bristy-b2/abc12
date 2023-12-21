@@ -1,6 +1,6 @@
 const appVersion = 'v04'; //app identify version
 const loginPageVersionName =
-    "$appVersion-2023122116"; //this variable used in login page bottom secttion
+    "$appVersion-202312211428"; //this variable used in login page bottom secttion
 // String cid = '';
 String userId = '';
 String userPassword = '';

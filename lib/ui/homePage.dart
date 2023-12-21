@@ -903,20 +903,20 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 Row(
                                   children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.calculate_sharp,
-                                        onClick: () {
+                                    // Expanded(
+                                    //   child: CustomBuildButton(
+                                    //     icon: Icons.calculate_sharp,
+                                    //     onClick: () {
                                          
-                                        },
-                                        title: 'Chemist Census',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
+                                    //     },
+                                    //     title: 'Chemist Census',
+                                    //     sizeWidth: screenWidth,
+                                    //     inputColor: Colors.white,
+                                    //   ),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 5,
+                                    // ),
                                     Expanded(
                                       child: CustomBuildButton(
                                         icon: Icons.calculate_sharp,

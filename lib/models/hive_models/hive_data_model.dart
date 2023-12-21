@@ -104,6 +104,8 @@ class DcrDataModel extends HiveObject {
   bool? magic;
   @HiveField(9)
   final List? magicBrandList;
+  @HiveField(10)
+  String? rxTargetValue;
 
   DcrDataModel(
       {required this.docName,
@@ -115,7 +117,8 @@ class DcrDataModel extends HiveObject {
       required this.notes,
       required this.dcrGspList,
       this.magic,
-      this.magicBrandList});
+      this.magicBrandList,
+      this.rxTargetValue});
 }
 
 @HiveType(typeId: 3)

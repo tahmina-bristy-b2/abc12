@@ -909,7 +909,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         onClick: () {
                                          
                                         },
-                                        title: 'Chemist Census RX',
+                                        title: 'Chemist Census',
                                         sizeWidth: screenWidth,
                                         inputColor: Colors.white,
                                       ),
@@ -988,7 +988,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           // }
                                           
                                         },
-                                        title: 'Doctor Census RX',
+                                        title: 'Doctor Census',
                                         sizeWidth: screenWidth,
                                         inputColor:  Colors.white,
                                       ),

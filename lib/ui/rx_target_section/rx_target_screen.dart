@@ -188,7 +188,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        title: const Text('Doctor Census RX'),
+        title: const Text('Doctor Census'),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,

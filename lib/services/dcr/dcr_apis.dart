@@ -44,6 +44,6 @@ class DcrApis {
 
       //============================================= RX Target===============================================
       static String rxTarget(String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString)=>
-        "http://10.168.27.182:8000/skf_api/api_census_submit/submit_data_doctor";
+        "${submitUrl}api_census_submit/submit_data_doctor";
       
 }

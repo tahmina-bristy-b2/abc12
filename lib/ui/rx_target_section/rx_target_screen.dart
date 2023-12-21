@@ -151,6 +151,10 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
             Colors.green.shade900,
             Colors.white,
             16);
+            dcrRxTagetSavedBox.clear();
+
+
+            
       } else {
         setState(() {
           _isLoading = true;
@@ -174,6 +178,17 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
  
 
   }
+
+  // doctorLstDelete(Box<CustomerDataModel> customerBox,
+  //     List<AddItemModel> dcrRxTagetSavedBox, String clientId) {
+  //   dynamic desireKey;
+  //   customerBox.toMap().forEach((key, value) {
+  //     if (value.clientId == clientId) {
+  //       desireKey = key;
+  //     }
+  //   });
+  //   customerBox.delete(desireKey);
+  // }
 
   @override
   void dispose() {
@@ -226,6 +241,54 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       body: Column(
         children: [
           itemSearchTextFormWidget(),
+          Container(
+           // color:const Color.fromARGB(255, 116, 188, 180) ,
+            height: 35,
+            child: Row(
+                       
+                          children: [
+                            Expanded(
+                              flex: 7,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children:const [
+                                     
+                                 SizedBox(
+                                  width: 10,
+                                ),
+                                    Expanded(
+                                      child:  Center(child: Text("Doctors ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Center(
+                                      child: Container(
+                                      
+                                        child:Center(child: FittedBox(child: const Text("  Monthly Rx\n    Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
+                                        
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+          ),
           //Expanded(child: itemSearchTextFormWidget()),
           itemListViewBuilderWIdget(),
           const SizedBox(
@@ -340,12 +403,12 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                           "${foundUsers[index]['doc_name']}(${foundUsers[index]['doc_id']})",
                                           style: const TextStyle(
                                               color: Color.fromARGB(255, 8, 18, 20),
-                                              fontSize: 15),
+                                              fontSize: 16),
                                         ),
                                         Row(
                                           children: [
                                             Text(
-                                              '${foundUsers[index]['area_name']}${foundUsers[index]['area_id']}|${foundUsers[index]['address']} ',
+                                              '${foundUsers[index]['area_name']} | ${foundUsers[index]['area_id']} | ${foundUsers[index]['address']} ',
                                               style: const TextStyle(
                                                   color: Color.fromARGB(255, 86, 84, 84),
                                                   fontSize: 12),

@@ -905,6 +905,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Expanded(
                                       child: CustomBuildButton(
                                         icon: Icons.calculate_sharp,
+                                        onClick: () {
+                                         
+                                        },
+                                        title: 'Chemist Census RX',
+                                        sizeWidth: screenWidth,
+                                        inputColor: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: CustomBuildButton(
+                                        icon: Icons.calculate_sharp,
                                         onClick: ()async {
 
                                           List dcrList = await AllServices()
@@ -973,14 +987,45 @@ class _MyHomePageState extends State<MyHomePage> {
                                           // }
                                           
                                         },
-                                        title: 'RX Target',
+                                        title: 'Doctor Census RX',
                                         sizeWidth: screenWidth,
-                                        inputColor: const Color(0xff70BA85)
-                                            .withOpacity(.3),
+                                        inputColor:  Colors.white,
                                       ),
                                     ),
                                   ],
                                 ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
                                 // const SizedBox(
                                 //   height: 5,
                                 // ),

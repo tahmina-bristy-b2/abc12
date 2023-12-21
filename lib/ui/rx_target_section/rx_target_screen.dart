@@ -108,78 +108,24 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       height: 60,
       child: Row(
         children: [
-          //  Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: SizedBox(
-          //               height: 50,
-          //               child: TextFormField(
-          //                 onChanged: (value) {
-          //                   // setState(() {
-          //                   //   foundUsers = AllServices().searchDynamicMethod(
-          //                   //       value, magicDcrDataList, "doc_name");
-          //                   // });
-
-          //                   setState(() {
-          //                     foundUsers = AllServices().searchDoctor(
-          //                         value,
-          //                         widget.syncDoctorList,
-          //                         "doc_name",
-          //                         "area_name",
-          //                         "doc_id");
-          //                   });
-          //                 },
-          //                 controller: searchController,
-          //                 decoration: InputDecoration(
-          //                   border: OutlineInputBorder(
-          //                       borderRadius: BorderRadius.circular(10)),
-          //                   hintText: 'Search Magic Doctor by name/id/area...',
-          //                   suffixIcon: searchController.text.isEmpty &&
-          //                           searchController.text == ''
-          //                       ? const Icon(Icons.search)
-          //                       : IconButton(
-          //                           onPressed: () {
-          //                             searchController.clear();
-          //                             setState(() {
-          //                               foundUsers = AllServices().searchDoctor(
-          //                                   "",
-          //                                   widget.syncDoctorList,
-          //                                   "doc_name",
-          //                                   "area_name",
-          //                                   "doc_id");
-          //                             });
-
-          //                             // setState(() {
-          //                             //   foundUsers = AllServices()
-          //                             //       .searchDynamicMethod("",
-          //                             //           magicDcrDataList, "doc_name");
-          //                             // });
-          //                           },
-          //                           icon: const Icon(
-          //                             Icons.clear,
-          //                             color: Colors.black,
-          //                             // size: 28,
-          //                           ),
-          //                         ),
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
+          
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 onChanged: (value) {
                   foundUsers = AllServices().searchDynamicMethod(
-                      value, widget.syncDoctorList, 'item_name');
+                      value, widget.syncDoctorList, 'doc_name');
                   setState(() {});
                 },
                 controller: searchController,
                 decoration: InputDecoration(
                   filled: true,
+                 // fillColor: Colors.white,
                   fillColor: Colors.teal.shade50,
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))),
-                  labelText: 'Doctor Search',
+                  labelText: 'Search doctor by name....',
                   suffixIcon: searchController.text.isEmpty &&
                           searchController.text == ''
                       ? const Icon(Icons.search)
@@ -187,12 +133,12 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           onPressed: () {
                             searchController.clear();
                             foundUsers = AllServices().searchDynamicMethod(
-                                '', widget.syncDoctorList, 'item_name');
+                                '', widget.syncDoctorList, 'doc_name');
                             setState(() {});
                           },
                           icon: const Icon(
                             Icons.clear,
-                            color: Colors.black,
+                            color: Color.fromARGB(255, 239, 242, 239),
                             // size: 28,
                           ),
                         ),
@@ -217,88 +163,67 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: foundUsers.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    // color: Colors.yellow.shade50,
-                    // elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                          color: Color.fromARGB(108, 255, 255, 255), width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Row(
+                  return Column(
+                    children: [
+                      Row(
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Expanded(
                             flex: 7,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // crossAxisAlignment: ,
-                              children: [
-                                Text(
-                                  foundUsers[index]['doc_id'],
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 18, 20),
-                                      fontSize: 14),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${foundUsers[index]['area_name']}${foundUsers[index]['area_id']}|${foundUsers[index]['address']} ',
-                                      style: const TextStyle(
-                                          color: Color.fromARGB(255, 8, 18, 20),
-                                          fontSize: 12),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                   Opacity(
+                                opacity: 0.7,
+                                child: Container(
+                                  decoration: const ShapeDecoration(
+                                    shape: CircleBorder(),
+                                    // color: Color.fromARGB(255, 138, 201, 149),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/doctor.png',
+                                      ), 
+                                      fit: BoxFit.cover,
                                     ),
-                                    // Container(
-                                    //   color:
-                                    //       const Color.fromARGB(255, 4, 60, 105),
-                                    //   child: Text(
-                                    //     'Stock: ${foundUsers[index]['stock']}',
-                                    //     style: const TextStyle(
-                                    //         color: Colors.white, fontSize: 14),
-                                    //   ),
-                                    // )
-                                  ],
+                                  ),
+                                  height: 50,
+                                  width: 50,
                                 ),
-                                // userLoginInfo!.promoFlag &&
-                                //         foundUsers[index]['promo'] != ''
-                                //     ? Card(
-                                //         color: Colors.yellow,
-                                //         child: Text(
-                                //           foundUsers[index]['promo'],
-                                //           style: const TextStyle(
-                                //               color:
-                                //                   // Colors.teal,
-                                //                   Color.fromARGB(
-                                //                       255, 238, 4, 4),
-                                //               fontSize: 14),
-                                //         ),
-                                //       )
-                                    // ? Padding(
-                                    //     padding: const EdgeInsets.all(4.0),
-                                    //     child: AnimatedTextKit(
-                                    //       repeatForever: true,
-                                    //       animatedTexts: [
-                                    //         ColorizeAnimatedText(
-                                    //           foundUsers[index]['promo'],
-                                    //           textStyle: const TextStyle(
-                                    //               color: Color.fromARGB(
-                                    //                   255, 8, 18, 20),
-                                    //               fontSize: 15),
-                                    //           colors: [
-                                    //             const Color.fromARGB(
-                                    //                 255, 18, 137, 235),
-                                    //             Colors.red
-                                    //           ],
-                                    //         ),
-                                    //       ],
-                                    //     ),
-                                    //   )
-                                    // : Container(),
-                              ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      // crossAxisAlignment: ,
+                                      children: [
+                                        Text(
+                                          "${foundUsers[index]['doc_name']}",
+                                          style: const TextStyle(
+                                              color: Color.fromARGB(255, 8, 18, 20),
+                                              fontSize: 16),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '${foundUsers[index]['area_name']}${foundUsers[index]['area_id']}|${foundUsers[index]['address']} ',
+                                              style: const TextStyle(
+                                                  color: Color.fromARGB(255, 86, 84, 84),
+                                                  fontSize: 12),
+                                            ),
+                                          
+                                          ],
+                                        ),
+                                       
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -307,30 +232,33 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           Expanded(
                             flex: 2,
                             child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.start,
+                              
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Card(
-                                  // elevation: 1,
-                                  child: Container(
-                                    // height: 50,
-                                    color:
-                                        const Color.fromARGB(255, 138, 201, 149)
-                                            .withOpacity(.3),
-                                    width: 60,
-                                    child: TextFormField(
-                                      textDirection: TextDirection.ltr,
-                                      // maxLength: 1000,
-                                      textAlign: TextAlign.center,
-                                      controller: controllers[foundUsers[index]
-                                          ['doc_id']],
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Card(
+                                   
+                                    child: Container(
+                                      
+                                      color:
+                                          const Color.fromARGB(255, 138, 201, 149)
+                                              .withOpacity(.3),
+                                      width: 60,
+                                      child: TextFormField(
+                                        textDirection: TextDirection.ltr,
+                                       
+                                        textAlign: TextAlign.center,
+                                        controller: controllers[foundUsers[index]
+                                            ['doc_id']],
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        onChanged: (value) {
+                                         
+                                        },
                                       ),
-                                      onChanged: (value) {
-                                       // itemCount(value, index);
-                                      },
                                     ),
                                   ),
                                 ),
@@ -339,7 +267,9 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           ),
                         ],
                       ),
-                    ),
+                      Container(color: Colors.grey,
+                      height: 0.7,)
+                    ],
                   );
                 })
             : const Text(

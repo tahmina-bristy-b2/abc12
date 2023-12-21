@@ -40,4 +40,10 @@ class DcrApis {
 
   static String gspSubmitApi(String gspSubmitUrl) =>
       '${gspSubmitUrl}api_dcr_submit/submit_data';
+
+
+      //============================================= RX Target===============================================
+      static String rxTarget(String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString)=>
+        "http://127.0.0.1:8000/skf_api/api_census_submit/submit_data_doctor?cid=$cid&user_id=$userId&user_pass=$userpass&device_id$deviceId&item_list=$doctorListString";
+      
 }

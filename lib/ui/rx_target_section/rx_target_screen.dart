@@ -3,11 +3,13 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RxTargetScreen extends StatefulWidget {
   final List syncDoctorList;
@@ -27,6 +29,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   DmPathDataModel? dmpathData;
   final dcrRxTagetSavedBox = Boxes.dcrRxTargetToSave();
   List<DcrDataModel> dcrRxTargetValueInputedList = [];
+   bool  _isLoading = false;
 
   int _currentSelected = 2;
   List foundUsers = [];
@@ -36,18 +39,24 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   bool isInList = false;
   var total = 0.0;
   bool incLen = true;
-  bool promo_flag = false;
+  String cid = "";
+  String deviceId="";
 
   @override
   void initState() {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
+    SharedPreferences.getInstance().then((prefs) {
+        setState(() {
+          cid = prefs.getString("CID")!; 
+          deviceId = prefs.getString("deviceId") ?? '';
 
-    /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
-    if (dcrRxTagetSavedBox.get('dcrRxTargetValue') != null) {
-      dcrRxTargetValueInputedList =
-          dcrRxTagetSavedBox.get('dcrRxTargetValue') ?? [];
-    }
+        });
+
+        
+      });
+    
+   
 
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
@@ -58,19 +67,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
         controllers[element.docId]!.text = element.rxTargetValue ?? '';
       });
     }
-    // for (var element in widget.tempList) {
-    //   controllers.forEach((key, value) {
-    //     if (key == element.item_id) {
-    //       value.text = element.quantity.toString();
-    //     }
-    //   });
-    // }
-
-    // for (var element in widget.tempList) {
-    //   total = (element.tp + element.vat) * element.quantity;
-
-    //   orderamount = orderamount + total;
-    // }
+    
 
     super.initState();
   }
@@ -84,40 +81,22 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
       });
     }
 
-    if (index == 1) {
+    if (index == 2) {
+      //print("dataaaaaaaaaaaaaaaaaaaaaa");
       setState(() {
-        //_isLoading = false;
+        _isLoading = false;
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-    //  String   itemString = '';
-   
-    // if (finalItemDataList.isNotEmpty) {
-    //   for (var element in finalItemDataList) {
-    //     total = (element.tp + element.vat) * element.quantity;
-    //     if (itemString == '' && element.quantity != 0) {
-    //       itemString = '${element.item_id}|${element.quantity}';
-    //     } else if (element.quantity != 0) {
-    //       itemString += '||${element.item_id}|${element.quantity}';
-    //     }
-    //     // orderAmount = orderAmount + total;
-    //     // totalAmount = orderAmount.toStringAsFixed(2);
-    //   }
-    // }
-    //     // OrderServices().ordertotalAmount(itemString, orderAmount,
-        //   finalItemDataList, total, totalAmount)["ItemString"];
+          submitRXTraget();
 
-
-
-
-        // dcrGSPSubmit();
       } else {
         AllServices()
             .toastMessage(interNetErrorMsg, Colors.red, Colors.white, 16);
         setState(() {
-        //  _isLoading = true;
+          _isLoading = true;
         });
-        // print(InternetConnectionChecker().lastTryResults);
+       
       }
 
       setState(() {
@@ -126,8 +105,69 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     }
   }
 
+
+
   Future toSaveRxTargetValue() async {
     dcrRxTagetSavedBox.put('dcrRxTargetValue', dcrRxTargetValueInputedList);
+  }
+
+  submitRXTraget()async{
+    String doctorlistString = '';
+    if (dcrRxTargetValueInputedList.isNotEmpty) {
+      for (var element in dcrRxTargetValueInputedList) {
+   
+        if (doctorlistString == '' && element.rxTargetValue !="" ) {
+          doctorlistString = '${element.docId}|${element.areaId}|${element.rxTargetValue}';
+        } else if (element.rxTargetValue != "") {
+          doctorlistString += '||${element.docId}|${element.areaId}|${element.rxTargetValue}';
+        }
+        
+      }
+    }
+
+
+    if (doctorlistString != '') {
+      Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, userLoginInfo!.userId, userId,userPassword, deviceId, doctorlistString);
+
+      if (rxTargetWholeData['status'] == "Success") {
+        if (!mounted) return;
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                      userName: userLoginInfo!.userName,
+                      userId: userLoginInfo!.userId,
+                      userPassword: userPassword,
+                    )),
+            (Route<dynamic> route) => false);
+
+        AllServices().toastMessageForSubmitData(
+            "Rx Target Submitted\n${rxTargetWholeData['ret_str']}",
+            Colors.green.shade900,
+            Colors.white,
+            16);
+      } else {
+        setState(() {
+          _isLoading = true;
+        });
+        AllServices().toastMessage(
+            "${rxTargetWholeData['ret_str']}", 
+            Colors.red,
+            Colors.white,
+            16);
+      }
+    } else {
+      setState(() {
+        _isLoading = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            'Please Add something',
+          ),
+          backgroundColor: Colors.red));
+    }
+ 
+
   }
 
   @override

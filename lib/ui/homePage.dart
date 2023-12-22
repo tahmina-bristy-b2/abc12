@@ -892,7 +892,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     : const SizedBox.shrink(),
 
-                    Container(
+                  (userInfo!.censusDocFlag==true || userInfo!.censusDocFlag==true ) ?Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 6.4,
                         width: MediaQuery.of(context).size.width,
@@ -904,7 +904,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 Row(
                                   children: [
-                                    Expanded(
+                                  userInfo!.censusClFlag==true?  Expanded(
                                       child: CustomBuildButton(
                                         icon: Icons.calculate_sharp,
                                         onClick: () async{
@@ -948,11 +948,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                         sizeWidth: screenWidth,
                                         inputColor: Colors.white,
                                       ),
+                                    ):const SizedBox(),
+                                     SizedBox(
+                                      width:userInfo!.censusClFlag==true?  5:0,
                                     ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
+                                 userInfo!.censusDocFlag==true?    Expanded(
                                       child: CustomBuildButton(
                                         icon: Icons.calculate_sharp,
                                         onClick: ()async {
@@ -1027,7 +1027,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         sizeWidth: screenWidth,
                                         inputColor:  Colors.white,
                                       ),
-                                    ),
+                                    ):const SizedBox(),
                                   ],
                                 ),
 
@@ -1070,7 +1070,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-                      ),
+                      ):const SizedBox(),
                    
 
                 ///*******************************************Expense and Attendance  section ***********************************///

@@ -75,20 +75,21 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CustomerDataModel(
-        clientName: fields[0] as String,
-        marketName: fields[1] as String,
-        areaId: fields[2] as String,
-        clientId: fields[3] as String,
-        outstanding: fields[4] as String,
-        thana: fields[5] as String,
-        address: fields[6] as String,
-        deliveryDate: fields[7] as String,
-        deliveryTime: fields[8] as String,
-        paymentMethod: fields[9] as String,
-        offer: fields[10] as String?,
-        note: fields[11] as String,
-        itemList: (fields[12] as List).cast<AddItemModel>(),
-        chemistRxTargetValue: fields[13] as String?);
+      clientName: fields[0] as String,
+      marketName: fields[1] as String,
+      areaId: fields[2] as String,
+      clientId: fields[3] as String,
+      outstanding: fields[4] as String,
+      thana: fields[5] as String,
+      address: fields[6] as String,
+      deliveryDate: fields[7] as String,
+      deliveryTime: fields[8] as String,
+      paymentMethod: fields[9] as String,
+      offer: fields[10] as String?,
+      note: fields[11] as String,
+      itemList: (fields[12] as List).cast<AddItemModel>(),
+      chemistRxTargetValue: fields[13] as String?,
+    );
   }
 
   @override
@@ -147,17 +148,18 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DcrDataModel(
-        docName: fields[0] as String,
-        docId: fields[1] as String,
-        areaId: fields[2] as String,
-        areaName: fields[3] as String,
-        address: fields[4] as String,
-        visitedWith: fields[5] as String,
-        notes: fields[6] as String,
-        dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
-        magic: fields[8] as bool?,
-        magicBrandList: fields[9] as List?,
-        rxTargetValue: fields[10] as String?);
+      docName: fields[0] as String,
+      docId: fields[1] as String,
+      areaId: fields[2] as String,
+      areaName: fields[3] as String,
+      address: fields[4] as String,
+      visitedWith: fields[5] as String,
+      notes: fields[6] as String,
+      dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
+      magic: fields[8] as bool?,
+      magicBrandList: (fields[9] as List?)?.cast<dynamic>(),
+      rxTargetValue: fields[10] as String?,
+    );
   }
 
   @override

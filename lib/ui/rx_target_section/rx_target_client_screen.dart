@@ -155,7 +155,7 @@ if (clientRxTargetInputList.isNotEmpty) {
             (Route<dynamic> route) => false);
 
         AllServices().toastMessageForSubmitData(
-            "Client Census Submitted\n${rxTargetWholeData['ret_str']}",
+            "Chemist Census Submitted\n${rxTargetWholeData['ret_str']}",
             Colors.green.shade900,
             Colors.white,
             16);
@@ -205,7 +205,7 @@ if (clientRxTargetInputList.isNotEmpty) {
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        title: const Text('Client Census'),
+        title: const Text('Chemist Census'),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
@@ -285,7 +285,7 @@ if (clientRxTargetInputList.isNotEmpty) {
                                 width: 10,
                               ),
                                   Expanded(
-                                    child:  Center(child: Text("Clients ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
+                                    child:  Center(child: Text("Chemists ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
                                   ),
                                 ],
                               ),
@@ -340,7 +340,7 @@ if (clientRxTargetInputList.isNotEmpty) {
                   fillColor: Colors.teal.shade50,
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))),
-                  labelText: 'Search client by name....',
+                  labelText: 'Search chemist by name....',
                   suffixIcon: searchController.text.isEmpty &&
                           searchController.text == ''
                       ? const Icon(Icons.search)
@@ -402,8 +402,8 @@ if (clientRxTargetInputList.isNotEmpty) {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      height: 47,
-                                      width: 47,
+                                      height: 45,
+                                      width: 45,
                                     ),
                                   ),
                                   const SizedBox(

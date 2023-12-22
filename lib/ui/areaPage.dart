@@ -81,7 +81,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userPassword,
                                       snapshot.data![index]['area_id']);
 
-                                      print("clientList===$clientList");
+                                      //print("clientList===$clientList");
 
                               if (clientList.isNotEmpty) {
                                 // response = true;
@@ -116,7 +116,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-                                      print("chemistList=====$chemistList");
+                                     // print("chemistList=====$chemistList");
 
                               if (chemistList.isNotEmpty) {
                                 // response = true;
@@ -151,7 +151,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-                                      print("chemistLIs===$chemistList");
+                                     // print("chemistLIs===$chemistList");
 
                               if (chemistList.isNotEmpty) {
                                 // response = true;

@@ -52,7 +52,10 @@ class UserLoginModel extends HiveObject {
       this.edsrFlag,
       this.edsrApprovalFlag,
       this.appraisalFlag,
-      this.appraisalApprovalFlag});
+      this.appraisalApprovalFlag,
+      this.censusDocFlag,
+      this.censusClFlag
+      });
   @HiveField(0)
   final String status;
   @HiveField(2)
@@ -129,6 +132,10 @@ class UserLoginModel extends HiveObject {
   final bool? appraisalFlag;
   @HiveField(38)
   final bool? appraisalApprovalFlag;
+  @HiveField(39)
+  final bool? censusDocFlag;
+  @HiveField(40)
+  final bool? censusClFlag;
   factory UserLoginModel.buildEmpty() => UserLoginModel(
       status: '',
       userId: '',
@@ -167,7 +174,10 @@ class UserLoginModel extends HiveObject {
       edsrFlag: false,
       edsrApprovalFlag: false,
       appraisalFlag: false,
-      appraisalApprovalFlag: false);
+      appraisalApprovalFlag: false,
+      censusDocFlag: false,
+      censusClFlag: false
+      );
   factory UserLoginModel.fromJson(Map<String, dynamic> json) => UserLoginModel(
       status: json["status"],
       userId: json["user_id"],
@@ -207,7 +217,10 @@ class UserLoginModel extends HiveObject {
       edsrFlag: json["edsr_flag"] ?? false,
       edsrApprovalFlag: json["edsr_approve_flag"] ?? false,
       appraisalFlag: json["appraisal_flag"] ?? false,
-      appraisalApprovalFlag: json["appraisal_approve_flag"] ?? false);
+      appraisalApprovalFlag: json["appraisal_approve_flag"] ?? false,
+      censusDocFlag: json["census_doc_flag"] ?? false,
+      censusClFlag: json["census_cl_flag"] ?? false,
+      );
 
   Map<String, dynamic> toJson() => {
         "status": status,

@@ -369,6 +369,24 @@ class DcrRepositories {
 
     return dcrResponsedata;
   }
+
+  Future<Map<String, dynamic>> clientCensusRepo(
+       String submitUrl, String cid, String userId, String userpass,String deviceId,String clientItemString) async {
+    Map<String, dynamic> dcrResponsedata = {};
+    try {
+      final response = await DcrDataProviders().clientCensusDP(submitUrl, cid, userId, userpass, deviceId, clientItemString);
+      dcrResponsedata = json.decode(response.body);
+
+      if (dcrResponsedata.isNotEmpty) {
+        return dcrResponsedata;
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 16);
+      // print("rx Target error: $e");
+    }
+
+    return dcrResponsedata;
+  }
 }
 
 

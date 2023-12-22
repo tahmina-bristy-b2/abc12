@@ -57,5 +57,6 @@ class Boxes {
     Hive.openBox('dcrPpmListData').then((value) => value.clear());
     Hive.openBox('medicineList').then((value) => value.clear());
     Boxes.dcrRxTargetToSave().clear();
+    Boxes.chemistRxTargetToSave().clear();
   }
 }

@@ -10,6 +10,7 @@ import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/homePage.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,7 +59,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
     /// The Hive Box key [dcrRxTargetValue] used for [dcrRxTagetSavedBox]
     dcrRxTargetValueInputedList =
-        Boxes.dcrRxTargetToSave().get('dcrRxTargetValue') ?? [];
+        Boxes.dcrRxTargetToSave().get('DcrRxTarget') ?? [];
 
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
@@ -77,7 +78,14 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   _onItemTapped(int index) async {
     if (index == 0) {
       toSaveRxTargetValue();
-      Navigator.pop(context);
+      Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                      userName: userLoginInfo!.userName,
+                      userId: userLoginInfo!.userId,
+                      userPassword: userPassword,
+                    )),
+            (Route<dynamic> route) => false);
       setState(() {
         _currentSelected = index;
       });
@@ -106,7 +114,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   }
 
   Future toSaveRxTargetValue() async {
-    dcrRxTagetSavedBox.put('dcrRxTargetValue', dcrRxTargetValueInputedList);
+    dcrRxTagetSavedBox.put('DcrRxTarget', dcrRxTargetValueInputedList);
   }
 
   submitRXTraget() async {
@@ -138,7 +146,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
             (Route<dynamic> route) => false);
 
         AllServices().toastMessageForSubmitData(
-            "Rx Target Submitted\n${rxTargetWholeData['ret_str']}",
+            "Doctor Census Submitted\n${rxTargetWholeData['ret_str']}",
             Colors.green.shade900,
             Colors.white,
             16);
@@ -335,7 +343,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                           },
                           icon: const Icon(
                             Icons.clear,
-                            color: Color.fromARGB(255, 239, 242, 239),
+                            color: Colors.grey,
                             // size: 28,
                           ),
                         ),
@@ -478,6 +486,13 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                     width: 60,
                                     child: TextFormField(
                                       textDirection: TextDirection.ltr,
+                                      inputFormatters: [
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(
+                                                                    RegExp(
+                                                                        "[0-9]"),
+                                                                  ),
+                                                                ],
                                       textAlign: TextAlign.center,
                                       controller: controllers[foundUsers[index]
                                           ['doc_id']],
@@ -489,7 +504,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                         // itemCount(value, index);
                                         // Thats Added for Save
                                         if (value.isNotEmpty &&
-                                            value.trim() != '') {
+                                       value.trim() != '') {
                                               
                                           var temp = DcrDataModel(
                                               docName: foundUsers[index]

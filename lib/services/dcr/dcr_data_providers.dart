@@ -170,7 +170,7 @@ class DcrDataProviders {
     return response;
   }
 
-  //============================Rx Target  Submit=================================
+  //============================ Doctor Census=================================
   Future<http.Response> rxTargetSubmitDP(
       String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString) async {
         print(jsonEncode(
@@ -198,6 +198,45 @@ class DcrDataProviders {
           'user_pass': userpass,
           'device_id': deviceId,
           'item_list': doctorListString,
+        
+        },
+      ),
+    );
+
+    return response;
+  }
+
+  
+
+
+  //============================ Doctor Census=================================
+  Future<http.Response> clientCensusDP(
+      String submitUrl, String cid, String userId, String userpass,String deviceId,String clientItemString) async {
+        print(jsonEncode(
+        <String, dynamic>{
+          'cid': cid,
+          'user_id': userId,
+          'user_pass': userpass,
+          'device_id': deviceId,
+          'item_list': clientItemString,
+        
+        },
+      ),);
+
+    final response = await http.post(
+      Uri.parse(DcrApis.clientCensusApi(submitUrl)),
+      
+      
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'cid': cid,
+          'user_id': userId,
+          'user_pass': userpass,
+          'device_id': deviceId,
+          'item_list': clientItemString,
         
         },
       ),

@@ -5,6 +5,8 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
+import 'package:MREPORTING/ui/rx_target_section/rx_target_client_screen.dart';
+import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,6 +81,8 @@ class _AreaPageState extends State<AreaPage> {
                                       userPassword,
                                       snapshot.data![index]['area_id']);
 
+                                      print("clientList===$clientList");
+
                               if (clientList.isNotEmpty) {
                                 // response = true;
                                 setState1(() {
@@ -102,7 +106,78 @@ class _AreaPageState extends State<AreaPage> {
                                     Colors.white,
                                     16);
                               }
-                            } else if (widget.screenName == 'dcr') {
+                            } 
+                            
+                            else if (widget.screenName == 'dcr') {
+                              List chemistList = await Repositories()
+                                  .areaBaseDoctorRepo(
+                                      dmpathData!.syncUrl,
+                                      cid,
+                                      userInfo!.userId,
+                                      userPassword,
+                                      snapshot.data![index]['area_id']);
+                                      print("chemistList=====$chemistList");
+
+                              if (chemistList.isNotEmpty) {
+                                // response = true;
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+
+                                if (!mounted) return;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => DcrListPage(
+                                              dcrDataList: chemistList,
+                                            )));
+                              } else {
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+                                AllServices().toastMessage(
+                                    'Doctor Loading failed!',
+                                    Colors.red,
+                                    Colors.white,
+                                    16);
+                              }
+                            }
+
+                            else if (widget.screenName == 'chemist census') {
+                              List chemistList = await Repositories()
+                                  .areaBaseClientRepo(
+                                      dmpathData!.syncUrl,
+                                      cid,
+                                      userInfo!.userId,
+                                      userPassword,
+                                      snapshot.data![index]['area_id']);
+                                      print("chemistLIs===$chemistList");
+
+                              if (chemistList.isNotEmpty) {
+                                // response = true;
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+
+                                if (!mounted) return;
+                                Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                   ClientCensusScreen(syncClientList: chemistList)));
+                              } else {
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+                                AllServices().toastMessage(
+                                    'Chemist Loading failed!',
+                                    Colors.red,
+                                    Colors.white,
+                                    16);
+                              }
+                            }
+
+                            else if (widget.screenName == 'doctor census') {
                               List doctorList = await Repositories()
                                   .areaBaseDoctorRepo(
                                       dmpathData!.syncUrl,
@@ -117,13 +192,13 @@ class _AreaPageState extends State<AreaPage> {
                                   _isLoading = false;
                                 });
 
-                                if (!mounted) return;
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => DcrListPage(
-                                              dcrDataList: doctorList,
-                                            )));
+                                 if (!mounted) return;
+                                             Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => RxTargetScreen(syncDoctorList: doctorList)
+                                            ),
+                                          );
                               } else {
                                 setState1(() {
                                   _isLoading = false;

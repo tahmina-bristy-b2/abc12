@@ -42,8 +42,12 @@ class DcrApis {
       '${gspSubmitUrl}api_dcr_submit/submit_data';
 
 
-      //============================================= RX Target===============================================
+   //=============================================Doctor Census===============================================
       static String rxTarget(String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString)=>
         "${submitUrl}api_census_submit/submit_data_doctor";
+
+  //=============================================Doctor Census===============================================
+      static String clientCensusApi(String submitUrl)=>
+        "${submitUrl}api_census_submit/submit_data_doctor";      
       
 }

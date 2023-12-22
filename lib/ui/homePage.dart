@@ -15,6 +15,7 @@ import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
+import 'package:MREPORTING/ui/rx_target_section/rx_target_client_screen.dart';
 import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:MREPORTING/ui/stock_page.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
@@ -903,20 +904,54 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 Row(
                                   children: [
-                                    // Expanded(
-                                    //   child: CustomBuildButton(
-                                    //     icon: Icons.calculate_sharp,
-                                    //     onClick: () {
+                                    Expanded(
+                                      child: CustomBuildButton(
+                                        icon: Icons.calculate_sharp,
+                                        onClick: () async{
                                          
-                                    //     },
-                                    //     title: 'Chemist Census',
-                                    //     sizeWidth: screenWidth,
-                                    //     inputColor: Colors.white,
-                                    //   ),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 5,
-                                    // ),
+                                         List orderList = await AllServices()
+                                          .getSyncSavedData('data');
+
+                                      if (userInfo!.areaPage == false) {
+                                        if(orderList.isNotEmpty){
+                                           if (!mounted) return;
+
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                   ClientCensusScreen(syncClientList: orderList)));
+
+                                        }
+                                        else {
+                                            AllServices().toastMessage(
+                                                'Chemist List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+                                       
+                                      } else {
+                                        
+                                        if (!mounted) return;
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => AreaPage(
+                                                    screenName: 'chemist census',
+                                                  )),
+                                        );
+                                      }
+                                        },
+                                        title: 'Chemist Census',
+                                        sizeWidth: screenWidth,
+                                        inputColor: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
                                     Expanded(
                                       child: CustomBuildButton(
                                         icon: Icons.calculate_sharp,
@@ -931,7 +966,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) => AreaPage(
-                                                        screenName: 'dcr',
+                                                        screenName: 'doctor census',
                                                       )),
                                             );
                                           } else if (dcrList.isNotEmpty) {

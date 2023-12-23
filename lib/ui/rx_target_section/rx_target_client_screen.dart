@@ -131,14 +131,14 @@ if (clientRxTargetInputList.isNotEmpty) {
       for (var element in clientRxTargetInputList) {
         if (clientLIistString == '' && element.chemistRxTargetValue != "") {
           clientLIistString =
-              '${element.clientId}|${element.areaId}|${element.chemistRxTargetValue}';
+              '${element.areaId}|${element.clientId}|${element.chemistRxTargetValue}';
         } else if (element.chemistRxTargetValue != "") {
           clientLIistString +=
-              '||${element.clientId}|${element.areaId}|${element.chemistRxTargetValue}';
+              '||${element.areaId}|${element.clientId}|${element.chemistRxTargetValue}';
         }
       }
     }
-   // print("chemist ==================$clientLIistString");
+    print("chemist ==================$clientLIistString");
 
     if (clientLIistString != '') {
       Map<String, dynamic> rxTargetWholeData = await DcrRepositories().clientCensusRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, clientLIistString);
@@ -305,7 +305,7 @@ if (clientRxTargetInputList.isNotEmpty) {
                                   child: Center(
                                     child:    Container(
                                     
-                                      child: const Center(child: FittedBox(child:  Text("  Business Rx\n     Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
+                                      child: const Center(child: FittedBox(child:  Text("           Monthly \n   Business Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
                                       
                                     ),
                                   ),

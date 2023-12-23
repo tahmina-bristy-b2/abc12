@@ -48,6 +48,6 @@ class DcrApis {
 
   //=============================================Doctor Census===============================================
       static String clientCensusApi(String submitUrl)=>
-        "${submitUrl}api_census_submit/submit_data_doctor";      
+        "${submitUrl}api_census_submit/submit_data_client";      
       
 }

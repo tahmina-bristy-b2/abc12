@@ -182,7 +182,15 @@ if (clientRxTargetInputList.isNotEmpty) {
  String updateCount() {
  int doctorCount = 0;
   for (var element in clientRxTargetInputList) {
-    doctorCount += int.parse(element.chemistRxTargetValue==""?"0":element.chemistRxTargetValue);
+    for( var element2 in widget.syncClientList){
+      if(element.clientId==element2["client_id"]){
+        doctorCount += int.parse(element.chemistRxTargetValue==""?"0":element.chemistRxTargetValue);
+      }
+      else{
+        doctorCount+=0;
+      }
+    }
+    
   }
  
   return doctorCount.toString();

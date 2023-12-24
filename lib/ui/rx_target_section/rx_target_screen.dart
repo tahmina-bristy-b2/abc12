@@ -63,14 +63,28 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
-      controllers[element['doc_id']] = TextEditingController();
+       var docId = element['doc_id'];
+       if(docId!=null){
+        controllers[docId] = TextEditingController();
+
+       }
+      
     }
 
     if (dcrRxTargetValueInputedList.isNotEmpty) {
       for (var element in dcrRxTargetValueInputedList) {
-        controllers[element.docId]!.text = element.rxTargetValue ?? '';
+        var docId = element.docId;
+        var controller= controllers[docId];
+       if(controller!=null){
+        controller.text = element.rxTargetValue ?? '';
+
+       }
+
+
+        
       }
     }
+    
 
     super.initState();
   }
@@ -172,10 +186,20 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   }
  String updateCount() {
  int doctorCount = 0;
-  for (var element in dcrRxTargetValueInputedList) {
-    doctorCount += int.parse(element.rxTargetValue);
-  }
- 
+ if(dcrRxTargetValueInputedList.isNotEmpty){
+   for (var element in dcrRxTargetValueInputedList) {
+    for (var element2 in widget.syncDoctorList) { 
+      if(element.docId==element2['doc_id']){
+        doctorCount += int.parse(element.rxTargetValue);
+      }  
+    }   
+    
+    }
+ }
+ else{
+  doctorCount+=0;
+ }
+
   return doctorCount.toString();
 }
 

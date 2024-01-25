@@ -88,13 +88,14 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       offer: fields[10] as String?,
       note: fields[11] as String,
       itemList: (fields[12] as List).cast<AddItemModel>(),
+      chemistRxTargetValue: fields[13] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CustomerDataModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.clientName)
       ..writeByte(1)
@@ -120,7 +121,9 @@ class CustomerDataModelAdapter extends TypeAdapter<CustomerDataModel> {
       ..writeByte(11)
       ..write(obj.note)
       ..writeByte(12)
-      ..write(obj.itemList);
+      ..write(obj.itemList)
+      ..writeByte(13)
+      ..write(obj.chemistRxTargetValue);
   }
 
   @override
@@ -145,22 +148,24 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DcrDataModel(
-        docName: fields[0] as String,
-        docId: fields[1] as String,
-        areaId: fields[2] as String,
-        areaName: fields[3] as String,
-        address: fields[4] as String,
-        visitedWith: fields[5] as String,
-        notes: fields[6] as String,
-        dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
-        magic: fields[8] as bool?,
-        magicBrandList: fields[9] as List?);
+      docName: fields[0] as String,
+      docId: fields[1] as String,
+      areaId: fields[2] as String,
+      areaName: fields[3] as String,
+      address: fields[4] as String,
+      visitedWith: fields[5] as String,
+      notes: fields[6] as String,
+      dcrGspList: (fields[7] as List).cast<DcrGSPDataModel>(),
+      magic: fields[8] as bool?,
+      magicBrandList: (fields[9] as List?)?.cast<dynamic>(),
+      rxTargetValue: fields[10] as String?,
+    );
   }
 
   @override
   void write(BinaryWriter writer, DcrDataModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.docName)
       ..writeByte(1)
@@ -180,7 +185,9 @@ class DcrDataModelAdapter extends TypeAdapter<DcrDataModel> {
       ..writeByte(8)
       ..write(obj.magic)
       ..writeByte(9)
-      ..write(obj.magicBrandList);
+      ..write(obj.magicBrandList)
+      ..writeByte(10)
+      ..write(obj.rxTargetValue);
   }
 
   @override

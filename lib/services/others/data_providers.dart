@@ -23,7 +23,7 @@ class DataProviders {
       String? deviceBrand,
       String? deviceModel,
       String version) async {
-    late http.Response response;
+            late http.Response response;
     try {
       response = await http.get(
         Uri.parse(

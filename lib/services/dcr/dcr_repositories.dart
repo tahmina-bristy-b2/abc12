@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/doc_settings_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_data_providers.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class DcrRepositories {
@@ -234,6 +236,7 @@ class DcrRepositories {
       docSettingData = docSettingsModelFromJson(response.body);
 
       if (docSettingData.resData.status == 'Success') {
+        Boxes.dcrRxTargetToSave().clear();
         return docSettingData;
       }
     } catch (e) {
@@ -346,6 +349,44 @@ class DcrRepositories {
 
   //   return docEditInfoData;
   // }
+
+
+
+  Future<Map<String, dynamic>> rxTargetRepo(
+       String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString) async {
+    Map<String, dynamic> dcrResponsedata = {};
+    try {
+      final response = await DcrDataProviders().rxTargetSubmitDP(submitUrl, cid, userId, userpass, deviceId, doctorListString);
+      dcrResponsedata = json.decode(response.body);
+
+      if (dcrResponsedata.isNotEmpty) {
+        return dcrResponsedata;
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 16);
+      // print("rx Target error: $e");
+    }
+
+    return dcrResponsedata;
+  }
+
+  Future<Map<String, dynamic>> clientCensusRepo(
+       String submitUrl, String cid, String userId, String userpass,String deviceId,String clientItemString) async {
+    Map<String, dynamic> dcrResponsedata = {};
+    try {
+      final response = await DcrDataProviders().clientCensusDP(submitUrl, cid, userId, userpass, deviceId, clientItemString);
+      dcrResponsedata = json.decode(response.body);
+
+      if (dcrResponsedata.isNotEmpty) {
+        return dcrResponsedata;
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 16);
+      // print("rx Target error: $e");
+    }
+
+    return dcrResponsedata;
+  }
 }
 
 

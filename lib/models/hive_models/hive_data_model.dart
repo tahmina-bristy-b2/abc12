@@ -64,22 +64,24 @@ class CustomerDataModel extends HiveObject {
   String note;
   @HiveField(12)
   List<AddItemModel> itemList;
+  @HiveField(13)
+  String? chemistRxTargetValue;
 
-  CustomerDataModel({
-    required this.clientName,
-    required this.marketName,
-    required this.areaId,
-    required this.clientId,
-    required this.outstanding,
-    required this.thana,
-    required this.address,
-    required this.deliveryDate,
-    required this.deliveryTime,
-    required this.paymentMethod,
-    this.offer,
-    required this.note,
-    required this.itemList,
-  });
+  CustomerDataModel(
+      {required this.clientName,
+      required this.marketName,
+      required this.areaId,
+      required this.clientId,
+      required this.outstanding,
+      required this.thana,
+      required this.address,
+      required this.deliveryDate,
+      required this.deliveryTime,
+      required this.paymentMethod,
+      this.offer,
+      required this.note,
+      required this.itemList,
+      this.chemistRxTargetValue});
 }
 
 @HiveType(typeId: 2)
@@ -104,6 +106,8 @@ class DcrDataModel extends HiveObject {
   bool? magic;
   @HiveField(9)
   final List? magicBrandList;
+  @HiveField(10)
+  String? rxTargetValue;
 
   DcrDataModel(
       {required this.docName,
@@ -115,7 +119,8 @@ class DcrDataModel extends HiveObject {
       required this.notes,
       required this.dcrGspList,
       this.magic,
-      this.magicBrandList});
+      this.magicBrandList,
+      this.rxTargetValue});
 }
 
 @HiveType(typeId: 3)

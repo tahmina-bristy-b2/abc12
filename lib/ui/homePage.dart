@@ -15,6 +15,8 @@ import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
+import 'package:MREPORTING/ui/rx_target_section/rx_target_client_screen.dart';
+import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:MREPORTING/ui/stock_page.dart';
 import 'package:MREPORTING/ui/target_achievemet.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -366,6 +368,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 await prefs.setString("Area", '');
                 await prefs.setString("Territory", '');
                 Hive.box("doctorList").clear();
+               
                 final eDsrSettingBox = Boxes.geteDSRsetData();
                 eDsrSettingBox.clear();
                 if (!mounted) return;
@@ -883,11 +886,192 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                userInfo!.rxFlag
+                     userInfo!.rxFlag
                     ? const SizedBox(
                         height: 10,
                       )
                     : const SizedBox.shrink(),
+
+                  (userInfo!.censusDocFlag==true || userInfo!.censusDocFlag==true ) ?Container(
+                        color: const Color(0xFFE2EFDA),
+                        height: screenHeight / 6.4,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                  userInfo!.censusClFlag==true?  Expanded(
+                                      child: CustomBuildButton(
+                                        icon: Icons.calculate_sharp,
+                                        onClick: () async{
+                                         
+                                         List orderList = await AllServices()
+                                          .getSyncSavedData('data');
+
+                                      if (userInfo!.areaPage == false) {
+                                        if(orderList.isNotEmpty){
+                                           if (!mounted) return;
+
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                   ClientCensusScreen(syncClientList: orderList)));
+
+                                        }
+                                        else {
+                                            AllServices().toastMessage(
+                                                'Chemist List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+                                       
+                                      } else {
+                                        
+                                        if (!mounted) return;
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => AreaPage(
+                                                    screenName: 'chemist census',
+                                                  )),
+                                        );
+                                      }
+                                        },
+                                        title: 'Chemist Census',
+                                        sizeWidth: screenWidth,
+                                        inputColor: Colors.white,
+                                      ),
+                                    ):const SizedBox(),
+                                     SizedBox(
+                                      width:userInfo!.censusClFlag==true?  5:0,
+                                    ),
+                                 userInfo!.censusDocFlag==true?    Expanded(
+                                      child: CustomBuildButton(
+                                        icon: Icons.calculate_sharp,
+                                        onClick: ()async {
+
+                                          List dcrList = await AllServices()
+                                              .getSyncSavedData('dcrListData');
+
+                                          if (userInfo!.areaPage) {
+                                            if (!mounted) return;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'doctor census',
+                                                      )),
+                                            );
+                                          } else if (dcrList.isNotEmpty) {
+                                            if (!mounted) return;
+                                             Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                                            ),
+                                          );
+                                          } else {
+                                            AllServices().toastMessage(
+                                                'Doctor List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          //  List dcrList = await AllServices()
+                                          //     .getSyncSavedData('dcrListData');
+                                          //     if (dcrList.isNotEmpty) {
+                                          //   if (!mounted) return;
+                                          //   Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                                          //   ),
+                                          // );
+                                          // } else {
+                                          //   AllServices().toastMessage(
+                                          //       'Doctor List Empty!',
+                                          //       Colors.red,
+                                          //       Colors.white,
+                                          //       16);
+                                          // }
+                                          
+                                        },
+                                        title: 'Doctor Census',
+                                        sizeWidth: screenWidth,
+                                        inputColor:  Colors.white,
+                                      ),
+                                    ):const SizedBox(),
+                                  ],
+                                ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                
+                              ],
+                            ),
+                          ],
+                        ),
+                      ):const SizedBox(),
+                   
 
                 ///*******************************************Expense and Attendance  section ***********************************///
                 userInfo!.othersFlag

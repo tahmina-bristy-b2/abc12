@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class AttendanceScreen extends StatefulWidget {
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
+  
   TextEditingController mtrReading = TextEditingController();
   late AnimationController controller;
   var dt = DateFormat('HH:mm a').format(DateTime.now());
@@ -39,6 +41,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   String address = "";
   bool reportAttendance = true;
+  String startTime="";
+  String endTime="";
+  bool isLoading=false;
 
   @override
   void initState() {
@@ -100,9 +105,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   getAddress(lat, long) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-    // print(placemarks);
+  
     setState(() {
-      address = "${placemarks[0].street!} ${placemarks[0].country!}";
+      address = "${placemarks[0].name}, "
+      "${placemarks[0].street}, "
+      "${placemarks[0].subLocality}, "
+      "${placemarks[0].locality}, "
+      "${placemarks[0].administrativeArea}, "
+      "${placemarks[0].country}, "
+      "${placemarks[0].postalCode}";
+
     });
     for (int i = 0; i < placemarks.length; i++) {}
   }
@@ -129,251 +141,229 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               )
             : SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    DataTable(
-                      dataRowHeight: 70,
-                      columns: const [
-                        DataColumn(label: Text("")),
-                        DataColumn(label: Text(""))
-                      ],
-                      rows: [
-                        DataRow(
-                          cells: [
-                            const DataCell(
-                              Text(
-                                "Latitude",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                lat.toString(),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        DataRow(
-                          cells: [
-                            const DataCell(
-                              Text(
-                                "Longitude",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                "$long",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        DataRow(
-                          cells: [
-                            const DataCell(
-                              Text(
-                                "Address",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                address,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        DataRow(
-                          cells: [
-                            const DataCell(
-                              Text(
-                                "Time",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                dt,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        DataRow(
-                          color: MaterialStateProperty.all(
-                              const Color.fromARGB(255, 230, 179, 192)),
-                          cells: [
-                            const DataCell(
-                              Text(
-                                "Meter Reading",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                            DataCell(
-                              TextField(
-                                controller: mtrReading,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.teal.withOpacity(0.5),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                            ),
-                            onPressed: () async {
-                              if (reportAttendance == true) {
-                                Map<String, dynamic> result =
-                                    await Repositories().attendanceRepo(
-                                        dmpathData!.syncUrl,
-                                        cid,
-                                        userId,
-                                        userPass,
-                                        deviceId,
-                                        lat.toString(),
-                                        long.toString(),
-                                        address.toString(),
-                                        "START",
-                                        mtrReading.text);
-
-                                if (result["status"] == "Success") {
-                                  reportAttendance = false;
-                                  if (!mounted) return;
-
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MyHomePage(
-                                                userName: userInfo!.userName,
-                                                userId: userInfo!.userId,
-                                                userPassword: userPass!,
-                                              )));
-                                }
-                              } else {
-                                AllServices().toastMessage(
-                                    'Start Time has been Submitted for Today',
-                                    Colors.red,
-                                    Colors.white,
-                                    16.0);
-                              }
-                            },
-                            child: const Text(
-                              "Day Start",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AttenceRowClass(titleName: "Latitude", value: lat.toString()),
+                      AttenceRowClass(titleName: "Longitude", value: long.toString()),
+                      AttenceRowClass(titleName: "Address", value: address.toString()),
+                      AttenceRowClass(titleName: "Time", value: dt),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
-                                backgroundColor: Colors.blueGrey,
+                                backgroundColor: Colors.teal.withOpacity(0.5),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                            onPressed: () async {
-                              if (reportAttendance == true) {
-                                Map<String, dynamic> result =
-                                    await Repositories().attendanceRepo(
-                                        dmpathData!.syncUrl,
-                                        cid,
-                                        userId,
-                                        userPass,
-                                        deviceId,
-                                        lat.toString(),
-                                        long.toString(),
-                                        address.toString(),
-                                        "END",
-                                        mtrReading.text);
-
-                                if (result["status"] == "Success") {
-                                  reportAttendance = false;
-                                  if (!mounted) return;
-
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MyHomePage(
-                                                userName: userInfo!.userName,
-                                                userId: userInfo!.userId,
-                                                userPassword: userPass!,
-                                              )));
+                                    borderRadius: BorderRadius.circular(15)),
+                              ),
+                              onPressed: () async {
+                                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                                 setState(() {
+                                isLoading=true;
+                                 
+                               });
+                                
+                                  Map<String, dynamic> result =
+                                      await Repositories().attendanceRepo(
+                                          dmpathData!.syncUrl,
+                                          cid,
+                                          userInfo!.userId,
+                                          userPassword,
+                                          deviceId,
+                                          lat.toString(),
+                                          long.toString(),
+                                          address.toString(),
+                                          "START",
+                                          "0");
+                
+                                  if (result["status"] == "Success") {
+                                    reportAttendance = false;
+                                    setState(() {
+                                      isLoading=false;
+                                    });
+                                    
+                                    if (!mounted) return;
+                                     prefs.setString('startTime', result["start_time"].toString());
+                
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyHomePage(
+                                                  userName: userInfo!.userName,
+                                                  userId: userInfo!.userId,
+                                                  userPassword: userPass!,
+                                                )));
+                                  }
+                                  else {
+                                    setState(() {
+                                      isLoading=false;
+                                    });
+                                  AllServices().toastMessage(
+                                     result["ret_str"].toString(),
+                                      Colors.red,
+                                      Colors.white,
+                                      16.0);
                                 }
-                              } else {
-                                AllServices().toastMessage(
-                                    'End Time has been Submitted for Today',
-                                    Colors.red,
-                                    Colors.white,
-                                    16.0);
-                              }
-                            },
-                            child: const Text(
-                              "Day End",
-                              style: TextStyle(fontSize: 20),
+                                // } else {
+                                //   AllServices().toastMessage(
+                                //       'Start Time has been Submitted for Today',
+                                //       Colors.red,
+                                //       Colors.white,
+                                //       16.0);
+                                // }
+                              },
+                              child: const Text(
+                                "Day Start",
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.blueGrey,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              onPressed: () async {
+                               SharedPreferences prefs = await SharedPreferences.getInstance();
+                               setState(() {
+                                isLoading=true;
+                                 
+                               });
+    
+                                  Map<String, dynamic> result =
+                                      await Repositories().attendanceRepo(
+                                          dmpathData!.syncUrl,
+                                          cid,
+                                          userInfo!.userId,
+                                          userPassword,
+                                          deviceId,
+                                          lat.toString(),
+                                          long.toString(),
+                                          address.toString(),
+                                          "END",
+                                          "0");
+                
+                                  if (result["status"] == "Success") {
+                                    prefs.setString('endTime', result["end_time"].toString());
+                                    setState(() {
+                                      isLoading=false;
+                                    });
+                                    if (!mounted) return;
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyHomePage(
+                                                  userName: userInfo!.userName,
+                                                  userId: userInfo!.userId,
+                                                  userPassword: userPass!,
+                                                )));
+                                  }
+                                  else {
+                                    setState(() {
+                                      isLoading=false;
+                                    });
+                                  AllServices().toastMessage(
+                                     result["ret_str"].toString(),
+                                      Colors.red,
+                                      Colors.white,
+                                      16.0);
+                                }
+                                // } else {
+                                //   AllServices().toastMessage(
+                                //       'End Time has been Submitted for Today',
+                                //       Colors.red,
+                                //       Colors.white,
+                                //       16.0);
+                                // }
+                              },
+                              child: const Text(
+                                "Day End",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
       ),
     );
   }
+
 }
+
+
+
+ class AttenceRowClass extends StatelessWidget {
+  String titleName;
+  String value;
+  
+    AttenceRowClass({super.key,required this.titleName,required this.value });
+ 
+   @override
+   Widget build(BuildContext context) {
+     return Padding(
+       padding: const EdgeInsets.symmetric(vertical: 10),
+       child: Column(
+         children: [
+           Row(
+                              children: [
+                                Expanded(
+                            flex: 4,
+                            child: Text(
+                                        titleName,
+                                        style:const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ), ),
+                                      const     Expanded(child: Text(
+                                        ":",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ), ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          value,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ), ),
+
+                                     
+                              ],
+                            ),
+                           ///  Divider(thickness: 0.1,color: Colors.black,)
+         ],
+       ),
+     );
+   }
+ }

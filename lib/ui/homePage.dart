@@ -34,6 +34,7 @@ import 'package:MREPORTING/ui/order_sections/order_report_page.dart';
 import 'package:MREPORTING/ui/Rx/rx_report_page.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/link.dart';
 import 'package:MREPORTING/ui/reset_password.dart';
 import 'package:MREPORTING/ui/syncDataTabPaga.dart';
@@ -99,7 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
           userPassword = prefs.getString("PASSWORD") ?? widget.userPassword;
           startTime = prefs.getString("startTime") ?? '';
           endTime = prefs.getString("endTime") ?? '';
-
           timer_track_url = prefs.getString("timer_track_url") ?? '';
 
           deviceId = prefs.getString("deviceId") ?? '';
@@ -109,8 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
           String dt = DateTime.now().toString();
           var parts2 = dt.split(' ');
           prefix2 = parts2[0].trim();
+          
         });
-
         setState(() {
           int space = startTime!.indexOf(" ");
           String removeSpace =
@@ -119,10 +119,21 @@ class _MyHomePageState extends State<MyHomePage> {
           int space1 = endTime!.indexOf(" ");
           String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
           endTime = removeSpace1.replaceAll("'", '');
+
         });
       });
     });
   }
+  String getDateTime(String? givenDate){
+    DateTime targetDateTime = DateTime.parse(givenDate!);
+          DateTime now = DateTime.now();
+          print(now);
+          bool sameDate = targetDateTime.year == now.year &&
+          targetDateTime.month == now.month &&
+          targetDateTime.day == now.day;       
+          return sameDate?DateFormat.Hm().format(targetDateTime) :"00:00";
+  }
+
 
   // getLoc() {
   //   String location = "";
@@ -487,7 +498,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             )),
                       ),
-                      userInfo!.othersFlag
+                      userInfo!.attendanceFlag==true
                           ? Expanded(
                               flex: 3,
                               child: Padding(
@@ -506,21 +517,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                       }),
                                       child: FittedBox(
                                         child: prefix != prefix2
-                                            ? const Text(
+                                            ?  Text(
                                                 '[Attendance]'
                                                 '\n'
                                                 'Start: '
-                                                " "
+                                                "$startTime"
                                                 '\n'
                                                 "End: "
-                                                " ",
-                                                style: TextStyle(
+                                                "${endTime} ",
+                                                style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 15, 53, 85),
                                                   fontSize: 18,
                                                 ),
                                               )
                                             : Text(
+                                               
                                                 '[Attendance]' '\n' 'Start: ' +
                                                     startTime.toString() +
                                                     '\n' +
@@ -1074,8 +1086,7 @@ class _MyHomePageState extends State<MyHomePage> {
                    
 
                 ///*******************************************Expense and Attendance  section ***********************************///
-                userInfo!.othersFlag
-                    ? Container(
+                 Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 6.80,
                         width: MediaQuery.of(context).size.width,
@@ -1083,7 +1094,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             Row(
                               children: [
-                                Expanded(
+                              userInfo!.othersFlag?  Expanded(
                                   child: CustomBuildButton(
                                     icon: Icons.add,
                                     onClick: () {
@@ -1097,11 +1108,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     sizeWidth: screenWidth,
                                     inputColor: Colors.white,
                                   ),
-                                ),
-                                // const SizedBox(
-                                //   width: 5,
-                                // ),
-                                Expanded(
+                                ):const SizedBox(),
+                               
+                              userInfo!.attendanceFlag==true?  Expanded(
                                   child: CustomBuildButton(
                                     onClick: () {
                                       Navigator.push(
@@ -1115,13 +1124,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     sizeWidth: screenWidth,
                                     inputColor: Colors.white,
                                   ),
-                                ),
+                                ):const SizedBox(),
                               ],
                             ),
                           ],
                         ),
-                      )
-                    : Container(),
+                      ),
+                  
                 userInfo!.othersFlag
                     ? const SizedBox(
                         height: 10,
@@ -1740,6 +1749,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+
+  Color getColorForIndex(int index) {
+    // Your logic for assigning colors based on the index
+    // Adjust this logic as needed
+    List<Color> colors = [
+      Color(0xffFED93E),
+      Colors.blue,
+      Colors.red,
+    ];
+
+    return colors[index % colors.length];
+  }
+}
+
   // // Draft Item order section.......................
 
   // Future orderOpenBox() async {
@@ -1789,4 +1812,4 @@ class _MyHomePageState extends State<MyHomePage> {
   //   // }
   //   return "Null";
   // }
-}
+//}

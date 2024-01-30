@@ -1,4 +1,5 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
-    "cmake.sourceDirectory": "D:/Office_Project/Flutter/M_reporting/windows"
+    "cmake.sourceDirectory": "D:/Office_Project/Flutter/M_reporting/windows",
+    "dart.flutterSdkPath": "C:\\src\\flutter"
 }

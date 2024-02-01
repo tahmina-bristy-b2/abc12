@@ -51,7 +51,7 @@ class DataProviders {
       String mtrReading) async {
     String params =
         "cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId&latitude=$lat&longitude=$long&address=$address&submit_type=$submitType&meter_reading=$mtrReading";
-
+print(Apis.attendanceApi(attendanceUrl, params));
     http.Response response = await http.get(
       Uri.parse(Apis.attendanceApi(attendanceUrl, params)),
     );
@@ -193,6 +193,19 @@ class DataProviders {
     // print(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass));
     http.Response response = await http.get(
       Uri.parse(Apis.userDepotApi(userDepotUrl, cid, userId, uesrpass)),
+    );
+
+    return response;
+  }
+
+
+  // ==============================Get Attendance Data Providers===========
+
+  Future<http.Response> getAttenadance (
+     String attendaceurl,String cid,String userid,String userPass,) async {  
+    print(Apis.attendanceGetApi(attendaceurl, cid, userid, userPass));
+    http.Response response = await http.get(
+      Uri.parse(Apis.attendanceGetApi(attendaceurl, cid, userid, userPass)),
     );
 
     return response;

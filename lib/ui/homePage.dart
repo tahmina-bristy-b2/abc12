@@ -72,13 +72,14 @@ class _MyHomePageState extends State<MyHomePage> {
   double screenHeight = 0.0;
   double screenWidth = 0.0;
 
-  String? startTime;
+  String startTime="";
 
   String deviceId = "";
 
-  String? endTime;
+  String endTime="";
   var prefix;
   var prefix2;
+  bool isLoading=false;
 
   @override
   void initState() {
@@ -87,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     AllServices().getLatLong();
+      getAttenadce();
     if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
       regionListData =
           Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
@@ -98,31 +100,44 @@ class _MyHomePageState extends State<MyHomePage> {
           cid = prefs.getString("CID")!;
           userId = prefs.getString("USER_ID") ?? widget.userId;
           userPassword = prefs.getString("PASSWORD") ?? widget.userPassword;
-          startTime = prefs.getString("startTime") ?? '';
-          endTime = prefs.getString("endTime") ?? '';
+          // startTime = prefs.getString("startTime") ?? '';
+          // endTime = prefs.getString("endTime") ?? '';
           timer_track_url = prefs.getString("timer_track_url") ?? '';
 
           deviceId = prefs.getString("deviceId") ?? '';
 
-          var parts = startTime?.split(' ');
-          prefix = parts![0].trim();
-          String dt = DateTime.now().toString();
-          var parts2 = dt.split(' ');
-          prefix2 = parts2[0].trim();
+          // var parts = startTime?.split(' ');
+          // prefix = parts![0].trim();
+          // String dt = DateTime.now().toString();
+          // var parts2 = dt.split(' ');
+          // prefix2 = parts2[0].trim();
           
         });
-        setState(() {
-          int space = startTime!.indexOf(" ");
-          String removeSpace =
-              startTime!.substring(space + 1, startTime!.length);
-          startTime = removeSpace.replaceAll("'", '');
-          int space1 = endTime!.indexOf(" ");
-          String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
-          endTime = removeSpace1.replaceAll("'", '');
+        // setState(() {
+        //   int space = startTime!.indexOf(" ");
+        //   String removeSpace =
+        //       startTime!.substring(space + 1, startTime!.length);
+        //   startTime = removeSpace.replaceAll("'", '');
+        //   int space1 = endTime!.indexOf(" ");
+        //   String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
+        //   endTime = removeSpace1.replaceAll("'", '');
 
-        });
+        // });
       });
     });
+
+    // if(startTime!=""){
+    //   setState(() {
+    //       int space = startTime!.indexOf(" ");
+    //       String removeSpace =
+    //           startTime!.substring(space + 1, startTime!.length);
+    //       startTime = removeSpace.replaceAll("'", '');
+    //       int space1 = endTime!.indexOf(" ");
+    //       String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
+    //       endTime = removeSpace1.replaceAll("'", '');
+
+    //     });
+    // }
   }
   String getDateTime(String? givenDate){
     DateTime targetDateTime = DateTime.parse(givenDate!);
@@ -509,11 +524,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     GestureDetector(
                                       onTap: (() {
+                                    // SharedPreferences pref=   await SharedPreferences.getInstance();
+                                     if(!mounted)return;
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const AttendanceScreen()));
+                                                     AttendanceScreen(
+                                                       userPassword: widget.userPassword,
+
+                                                     )));
                                       }),
                                       child: FittedBox(
                                         child: prefix != prefix2
@@ -1112,12 +1132,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                
                               userInfo!.attendanceFlag==true?  Expanded(
                                   child: CustomBuildButton(
-                                    onClick: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AttendanceScreen()));
+                                    onClick: () async{
+                                     if(!mounted)return;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                     AttendanceScreen(
+                                                      userPassword: widget.userPassword,
+                                                      // callbackFunction: (value){
+                                                      //   getAttenadce();
+                                                       
+                                                      // }, endTime: '', startTime: '',userPassword: widget.userPassword,
+
+                                                     )));
                                     },
                                     icon: Icons.assignment_turned_in_sharp,
                                     title: 'Attendance',
@@ -1747,6 +1775,51 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  getAttenadce()async{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                     setState(() {
+                                    isLoading=true;
+                                     
+                                   });
+                                    
+                                      Map<String, dynamic> result =
+                                          await Repositories().attendanceGetRepo(
+                                              dmpathData!.syncUrl,
+                                              prefs.getString("CID")!,
+                                              userInfo!.userId,
+                                              widget.userPassword,
+                                              );
+                                              
+                                      if (result["status"] == "Success") {
+
+                                        startTime=result["start_time"].toString();
+                                        endTime=result["end_time"].toString();
+                                         setState(() {
+                                            int space = startTime.indexOf(" ");
+                                            String removeSpace =
+                                                startTime.substring(space + 1, startTime.length);
+                                            startTime = removeSpace.replaceAll("'", '');
+                                            int space1 = endTime.indexOf(" ");
+                                            String removeSpace1 = endTime.substring(space1 + 1, endTime.length);
+                                            endTime = removeSpace1.replaceAll("'", '');
+                                            isLoading=false;
+
+                                          });
+                                      
+                                      }
+                                      else {
+                                        setState(() {
+                                          isLoading=false;
+                                        });
+                                      AllServices().toastMessage(
+                                         result["ret_str"].toString(),
+                                          Colors.red,
+                                          Colors.white,
+                                          16.0);
+                                    }
+                                  
   }
 
 

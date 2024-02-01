@@ -6,6 +6,7 @@ class Apis {
 
   static attendanceApi(attendanceUrl, params) =>
       "${attendanceUrl}api_attendance_submit/submit_data?$params";
+   //   "http://10.168.27.182:8000/skf_api/api_attendance_submit/submit_data?$params";
 
   static areaApi(areaUrl, params) => "$areaUrl?$params";
 
@@ -34,4 +35,11 @@ class Apis {
   static userDepotApi(String userDepotUrl, String? cid, String? userId,
           String? userPassword) =>
       '$userDepotUrl?cid=$cid&user_id=$userId&user_pass=$userPassword'; //user Depor Api for stock
+
+
+
+ static attendanceGetApi(String attendaceurl,String cid,String userid,String userPass, ) =>
+//  "http://10.168.27.182:8000/skf_api/api_attendance_submit/get_attendance?cid=SKF&user_id=IT006&user_pass=1900";
+//     //  "${attendanceUrl}api_attendance_submit/submit_data?$params";
+   "${attendaceurl}api_attendance_submit/get_attendance?cid=$cid&user_id=$userid&user_pass=$userPass";
 }

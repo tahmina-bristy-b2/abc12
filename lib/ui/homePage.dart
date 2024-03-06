@@ -546,8 +546,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 "End: "
                                                 "${endTime} ",
                                                 style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 15, 53, 85),
+                                                  color: Color.fromARGB(255, 70, 102, 128),
                                                   fontSize: 18,
                                                 ),
                                               )

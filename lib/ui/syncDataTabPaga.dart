@@ -2,11 +2,13 @@
 
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
 import 'package:MREPORTING/services/eDSR/eDSR_services.dart';
+import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -445,6 +447,58 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                             sizeWidth: screenWidth,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                                child: syncCustomBuildButton(
+                                  onClick: () async {
+                                    setState(() {
+                                      syncMsg = 'Expired data synchronizing... ';
+                                      _loading = true;
+                                    });
+                                    bool result =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (result == true) {
+                                      ExpiredItemListDataModel? doctorList = await ExpiredRepositoryRepo()
+                                          .syncExpiredItems("",dmpathData!.syncUrl, cid,
+                                              userId, userPassword);
+                                      if (ExpiredItemListDataModel!=null) {
+                                        // AllServices().toastMessage(
+                                        //     'Sync Expired data Done.',
+                                        //     Colors.teal,
+                                        //     Colors.white,
+                                        //     16);
+                                        setState(() {
+                                          _loading = false;
+                                        });
+                                      } else {
+                                        // AllServices().toastMessage(
+                                        //     'Didn\'t sync Dcr Data',
+                                        //     Colors.red,
+                                        //     Colors.white,
+                                        //     16);
+
+                                        setState(() {
+                                          _loading = false;
+                                        });
+                                      }
+                                    } else {
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
+                                    }
+                                  },
+                                  color: Colors.white,
+                                  title: 'Expired Dated Items',
+                                  sizeWidth: screenWidth,
+                                ),
+                              )
+                           
                       ],
                     ),
                     const SizedBox(

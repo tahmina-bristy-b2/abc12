@@ -5,6 +5,5 @@ class ExpiredApi{
   static syncExpiredItemsApi(
           String syncUrl, String cid, String userId, String userpass) =>
           "http://10.168.27.183:8000/skf_api/api_exp_item/item_list?cid=SKF&user_id=it003&user_pass=1234";
-          //'http://10.168.27.183:8000/skf_api/api_exp_item/item_list?cid=SKF&user_id=it003&user_pass=1234';
       
 }

@@ -5,12 +5,10 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
-import 'package:MREPORTING/ui/Appraisal/apparaisal_self_assesment_history.dart';
-import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_employee_page.dart';
 import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart';
-
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/customer_list_expired.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
@@ -339,6 +337,53 @@ class _MyHomePageState extends State<MyHomePage> {
                             userPassword: userPassword,
                           ))),
             ),
+            // ListTile(
+            //   leading:
+            //       const Icon(Icons.dataset_sharp, color: Colors.blueAccent),
+            //   title: const Text(
+            //     'Expired Dated',
+            //     style: TextStyle(
+            //       fontSize: 14,
+            //       fontWeight: FontWeight.w500,
+            //       color: Color.fromARGB(255, 15, 53, 85),
+            //     ),
+            //   ),
+            //   onTap: ()async {
+            //     List customerList = await AllServices()
+            //                               .getSyncSavedData('data');
+
+            //                           if (userInfo!.areaPage == false) {
+            //                             if (!mounted) return;
+
+            //                             Navigator.push(
+            //                                 context,
+            //                                 MaterialPageRoute(
+            //                                     builder: (_) =>
+            //                                         CustomerListExpiredScreen(
+            //                                           data: customerList,
+            //                                         )));
+            //                           } else {
+            //                             if (!mounted) return;
+
+            //                             Navigator.push(
+            //                               context,
+            //                               MaterialPageRoute(
+            //                                   builder: (_) => AreaPage(
+            //                                         screenName: 'order',
+            //                                       )),
+            //                             );
+            //                           }
+
+
+            //   } 
+            //   // Navigator.push(
+            //   //     context,
+            //   //     MaterialPageRoute(
+            //   //         builder: (_) => CustomerListExpiredScreen(
+            //   //               cid: cid,
+            //   //               userPassword: userPassword, data: [],
+            //   //             ))),
+            // ),
             // const SizedBox(height: 10),
             // ListTile(
             //   leading: const Icon(Icons.note_add, color: Colors.blueAccent),

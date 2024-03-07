@@ -17,9 +17,7 @@ class ExpiredRepositoryRepo{
       if (status == 'Success') {
         expiredModelDataModel=expiredItemListDataModelFromJson(response.body);
         ExpiredServices().putExpiredDate(expiredModelDataModel);
-        // if(routeName=="") {
-          AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.green, Colors.white, 16);
-       // }
+        AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.green, Colors.white, 16);
         return expiredModelDataModel;
       }
       else{

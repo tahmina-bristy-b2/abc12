@@ -1,17 +1,17 @@
+import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_add_screen.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/order_sections/approved_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:MREPORTING/ui/order_sections/order_item_list.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,37 +20,39 @@ import 'package:url_launcher/url_launcher.dart';
 DateTime DT = DateTime.now();
 String dateSelected = DateFormat('yyyy-MM-dd').format(DT);
 
-class NewOrderPage extends StatefulWidget {
+class ExpiredDatedAddScreen extends StatefulWidget {
+  final List<AddItemModel> draftOrderItem;
   final String clientName;
   final String marketName;
   final String clientId;
-  final String deliveryTime;
-  final String deliveryDate;
-  final String paymentMethod;
   final String? outStanding;
-  final String? offer;
-  final String note;
+  // final String deliveryTime;
+  // final String deliveryDate;
+  // final String paymentMethod;
+ 
+  // final String? offer;
+  // final String note;
 
-  final List<AddItemModel> draftOrderItem;
-  const NewOrderPage(
+  
+  const ExpiredDatedAddScreen(
       {Key? key,
       required this.draftOrderItem,
       required this.clientName,
       required this.clientId,
       this.outStanding,
-      required this.deliveryDate,
-      required this.deliveryTime,
-      required this.paymentMethod,
-      this.offer,
-      required this.note,
+      // required this.deliveryDate,
+      // required this.deliveryTime,
+      // required this.paymentMethod,
+      // this.offer,
+      // required this.note,
       required this.marketName})
       : super(key: key);
 
   @override
-  State<NewOrderPage> createState() => _NewOrderPageState();
+  State<ExpiredDatedAddScreen> createState() => _ExpiredDatedAddScreenState();
 }
 
-class _NewOrderPageState extends State<NewOrderPage> {
+class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
@@ -120,14 +122,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
     tempCount = widget.draftOrderItem.length;
 
-    if (widget.deliveryDate != '' && widget.deliveryTime != '') {
-      finalItemDataList = widget.draftOrderItem;
-      selectedDeliveryTime = widget.deliveryTime;
-      dateSelected = widget.deliveryDate;
-      slectedPayMethod = widget.paymentMethod;
-      initialOffer = widget.offer ?? 'Offer';
-      noteController.text = widget.note;
-    }
+    // if (widget.deliveryDate != '' && widget.deliveryTime != '') {
+    //   finalItemDataList = widget.draftOrderItem;
+    //   selectedDeliveryTime = widget.deliveryTime;
+    //   dateSelected = widget.deliveryDate;
+    //   slectedPayMethod = widget.paymentMethod;
+    //   initialOffer = widget.offer ?? 'Offer';
+    //   noteController.text = widget.note;
+    // }
     if (widget.draftOrderItem.isNotEmpty) {
       for (var element in finalItemDataList) {
         controllers[element.item_id] = TextEditingController();
@@ -172,13 +174,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
             resizeToAvoidBottomInset: false,
             key: _drawerKey,
             appBar: appBarDetailsWidget(context),
-            endDrawer: EndDrawerWidget(),
+           // endDrawer: EndDrawerWidget(),
             body: SafeArea(
               child: Column(
                 children: [
                   customerInfoWidget(),
-                  itemDeliveryDetailsWidget(),
-                  customerNotesTextFieldWidget(),
+                 // itemDeliveryDetailsWidget(),
+                 // customerNotesTextFieldWidget(),
                   Expanded(child: perItemCalculationListViewWidget()),
                 ],
               ),
@@ -194,9 +196,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           );
   }
 
-  //************************************ WIDGETS ***************************************/
-  //************************************************************************************/
-  //************************************************************************************/
+
 
   AppBar appBarDetailsWidget(BuildContext context) {
     return AppBar(
@@ -210,7 +210,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             color: Colors.white,
           )),
       title: const Text(
-        'Order Cart',
+        'Expired Dated Add Screen',
       ),
       titleTextStyle: const TextStyle(
           color: Color.fromARGB(255, 27, 56, 34),
@@ -272,45 +272,45 @@ class _NewOrderPageState extends State<NewOrderPage> {
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
-                if (widget.deliveryDate != '') {
-                  // .final uniqueKey = widget.clientId;
-                  OrderServices().deleteSingleOrderItem(customerBox, itemBox,
-                      widget.clientId, finalItemDataList[index].item_id);
+                // if (widget.deliveryDate != '') {
+                //   // .final uniqueKey = widget.clientId;
+                //   OrderServices().deleteSingleOrderItem(customerBox, itemBox,
+                //       widget.clientId, finalItemDataList[index].item_id);
 
-                  itemString = OrderServices().ordertotalAmount(
-                      itemString,
-                      orderAmount,
-                      finalItemDataList,
-                      total,
-                      totalAmount)["ItemString"];
-                  totalAmount = OrderServices().ordertotalAmount(
-                      itemString,
-                      orderAmount,
-                      finalItemDataList,
-                      total,
-                      totalAmount)["TotalAmount"];
+                //   itemString = OrderServices().ordertotalAmount(
+                //       itemString,
+                //       orderAmount,
+                //       finalItemDataList,
+                //       total,
+                //       totalAmount)["ItemString"];
+                //   totalAmount = OrderServices().ordertotalAmount(
+                //       itemString,
+                //       orderAmount,
+                //       finalItemDataList,
+                //       total,
+                //       totalAmount)["TotalAmount"];
 
-                  setState(() {});
-                } else {
-                  finalItemDataList.removeAt(index);
+                //   setState(() {});
+                // } else {
+                //   finalItemDataList.removeAt(index);
 
-                  itemString = OrderServices().ordertotalAmount(
-                      itemString,
-                      orderAmount,
-                      finalItemDataList,
-                      total,
-                      totalAmount)["ItemString"];
-                  totalAmount = OrderServices().ordertotalAmount(
-                      itemString,
-                      orderAmount,
-                      finalItemDataList,
-                      total,
-                      totalAmount)["TotalAmount"];
+                //   itemString = OrderServices().ordertotalAmount(
+                //       itemString,
+                //       orderAmount,
+                //       finalItemDataList,
+                //       total,
+                //       totalAmount)["ItemString"];
+                //   totalAmount = OrderServices().ordertotalAmount(
+                //       itemString,
+                //       orderAmount,
+                //       finalItemDataList,
+                //       total,
+                //       totalAmount)["TotalAmount"];
 
-                  setState(() {});
-                }
+                //   setState(() {});
+                // }
 
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               },
             ),
             TextButton(
@@ -328,405 +328,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
-//************************************ END DRAWER ****************************************/
-  Drawer EndDrawerWidget() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          drawerHeaderDetails(),
-          // ListTile(
-          //   leading:
-          //       const Icon(Icons.sync_outlined, color: Colors.black),
-          //   title: const Text('Outstanding'),
-          //   onTap: () {},
-          // ),
-          // ListTile(
-          //   leading: const Icon(Icons.document_scanner_outlined,
-          //       color: Colors.black),
-          //   title: const Text('Report'),
-          //   onTap: () {
-          //     // Update the state of the app.
-          //   },
-          // ),
-          // const Center(child: Text("SHOW OUTSTANDING")),
-          // const SizedBox(
-          //   height: 200,
-          // ),
 
-          SizedBox(
-            height: 80,
-            child: Center(
-              child: Text(
-                resultofOuts,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
 
-          userLoginInfo!.osShowFlag ? clientOutStandingWidget() : Container(),
-          outstandingURLShowWidget(),
-          reportLastOrderShowWidget(),
-          reportLastInvoiceShowWidget(),
-          approvedShowWidget(),
-          
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: ElevatedButton(
-              onPressed: (){
-               
-                
-              //   setState(() {
-              //   _counter = OrderServices().incrementCounter(_counter);
-              // });
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => ExpiredDatedAddScreen(
-                        
-                             draftOrderItem: [],
-                            // deliveryDate: '',
-                            // deliveryTime: '',
-                            // paymentMethod: '',
-                            outStanding:
-                                widget.outStanding,
-                            clientName: widget.clientName,
-                            clientId: widget.clientId,
-                            marketName: widget.marketName,
-                            // note: '',
-                          )));
-              setState(() {});
-
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 27, 43, 23),
-                backgroundColor: const Color.fromARGB(223, 146, 212, 157),
-                fixedSize: const Size(20, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: const Text(
-                "Track Expired",
-                style: TextStyle(fontSize: 16),
-              ),
-            ))
-  
-  
-          
-
-          // widget.os_details_flag == true
-          //     ? Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: ElevatedButton(
-          //           onPressed: () {
-          //             setState(() {
-          //               Navigator.push(
-          //                   context,
-          //                   MaterialPageRoute(
-          //                       builder: (context) =>
-          //                           const OutStandingHistory()));
-          //             });
-          //           },
-          //           child: const Text("Show Outstanding Details"),
-          //           style: ElevatedButton.styleFrom(
-          //             fixedSize: const Size(20, 50),
-          //             primary: Color.fromARGB(255, 55, 129, 167),
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(15),
-          //             ),
-          //           ),
-          //         ),
-          //       )
-          //     : Container(),
-
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Row(children: [
-          //     widget.ord_history_flag == true
-          //         ? Expanded(
-          //             child: ElevatedButton(
-          //               onPressed: () {
-          //                 setState(() {
-          //                   Navigator.push(
-          //                       context,
-          //                       MaterialPageRoute(
-          //                           builder: (context) =>
-          //                               const OrderHistory()));
-          //                 });
-          //               },
-          //               child: const Text("Order History"),
-          //               style: ElevatedButton.styleFrom(
-          //                 fixedSize: const Size(20, 50),
-          //                 primary: Color.fromARGB(255, 55, 129, 167),
-          //                 shape: RoundedRectangleBorder(
-          //                   borderRadius: BorderRadius.circular(15),
-          //                 ),
-          //               ),
-          //             ),
-          //           )
-          //         : Container(),
-          //     const SizedBox(
-          //       width: 10,
-          //     ),
-          //     widget.inv_histroy_flag == true
-          //         ? Expanded(
-          //             child: ElevatedButton(
-          //               onPressed: () {
-          //                 setState(() {
-          //                   Navigator.push(
-          //                       context,
-          //                       MaterialPageRoute(
-          //                           builder: (context) =>
-          //                               const InvoiceHistory()));
-          //                 });
-          //               },
-          //               child: const Text("Invoice History"),
-          //               style: ElevatedButton.styleFrom(
-          //                 fixedSize: const Size(20, 50),
-          //                 primary: Color.fromARGB(255, 55, 129, 167),
-          //                 shape: RoundedRectangleBorder(
-          //                   borderRadius: BorderRadius.circular(15),
-          //                 ),
-          //               ),
-          //             ),
-          //           )
-          //         : Container(),
-          //   ]),
-          // )
-        ],
-      ),
-    );
-  }
-
-//===================================================================End Drawer Head======================================================================
-  DrawerHeader drawerHeaderDetails() {
-    return DrawerHeader(
-      padding: const EdgeInsets.fromLTRB(16, 15, 16, 15),
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 138, 201, 149),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 25, 8, 0),
-        child: Column(
-          children: [
-            FittedBox(
-              child: Text(
-                widget.clientName,
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 11, 22, 13),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-            ),
-            Text(widget.clientId,
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 11, 22, 13),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15))
-            // Image.asset('assets/images/logo-black.png'),
-            // Expanded(
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.end,
-            //     children: [
-            //       FittedBox(
-            //         child: Text(
-            //           widget.clientName,
-            //           style: const TextStyle(
-            //               color: Color.fromARGB(255, 11, 22, 13),
-            //               fontWeight: FontWeight.bold,
-            //               fontSize: 20),
-            //         ),
-            //       ),
-            //       userLoginInfo!.clientEditFlag
-            //           ? customerEditUrlWidget()
-            //           : Container(
-            //               width: 70,
-            //             )
-            //     ],
-            //   ),
-            // ),
-            // Expanded(
-            //   child: Text(widget.clientId,
-            //       style: const TextStyle(
-            //           color: Color.fromARGB(255, 11, 22, 13),
-            //           fontWeight: FontWeight.w500,
-            //           fontSize: 15)),
-            // )
-          ],
-        ),
-      ),
-    );
-  }
-
-//========================================================= Last Invoice Report==========================================================
-  Padding reportLastInvoiceShowWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => CommonInAppWebView(
-                  title: "Last Invoice",
-                  cid: cid,
-                  userId: userLoginInfo!.userId,
-                  userPassword: userPassword,
-                  url: dmPathData!.reportLastInvUrl,
-                  clientId: widget.clientId),
-            ),
-          );
-          // var url =
-          //     '${dmPathData!.reportLastInvUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-          // var url = OrderApis.lastInvoiceApi(dmPathData!.reportLastInvUrl, cid,
-          //     userLoginInfo!.userId, userPassword, widget.clientId);
-          // if (await canLaunchUrl(Uri.parse(url))) {
-          //   await launchUrl(Uri.parse(url));
-          // } else {
-          //   throw 'Could not launch $url';
-          // }
-
-          // setState(() {});
-        },
-        style: ElevatedButton.styleFrom(
-          foregroundColor: const Color.fromARGB(255, 27, 43, 23),
-          backgroundColor: const Color.fromARGB(223, 146, 212, 157),
-          fixedSize: const Size(20, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        child: const Text(
-          "Last Invoice",
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
-
-//========================================================= Last Invoice Report==========================================================
-  Padding approvedShowWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: ElevatedButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => ApprovedPage(
-                      cid: cid,
-                      userPassword: userPassword,
-                      clientId: widget.clientId,
-                      clientName: widget.clientName,
-                    ))),
-        style: ElevatedButton.styleFrom(
-          foregroundColor: const Color.fromARGB(255, 27, 43, 23),
-          backgroundColor: const Color.fromARGB(223, 146, 212, 157),
-          fixedSize: const Size(20, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        child: const Text(
-          "Approved",
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
-
-//===============================Last Order Report==================================
-  Padding reportLastOrderShowWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: ElevatedButton(
-          onPressed: () async {
-            // var url =
-            //     '${dmPathData!.reportLastOrdUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword&client_id=${widget.clientId}';
-            // var url = OrderApis.lastOrderInvoice(dmPathData!.reportLastOrdUrl,
-            //     cid, userLoginInfo!.userId, userPassword, widget.clientId);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => CommonInAppWebView(
-                    title: "Last Order",
-                    cid: cid,
-                    userId: userLoginInfo!.userId,
-                    userPassword: userPassword,
-                    url: dmPathData!.reportLastOrdUrl,
-                    clientId: widget.clientId),
-              ),
-            );
-            // print('lastOrderApi=$url');
-            // if (await canLaunchUrl(Uri.parse(url))) {
-            //   await launchUrl(Uri.parse(url));
-            // } else {
-            //   throw 'Could not launch $url';
-            // }
-
-            // setState(() {});
-          },
-          style: ElevatedButton.styleFrom(
-            foregroundColor: const Color.fromARGB(255, 27, 43, 23),
-            backgroundColor: const Color.fromARGB(223, 146, 212, 157),
-            fixedSize: const Size(20, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          child: const Text(
-            "Last Order",
-            style: TextStyle(fontSize: 16),
-          )),
-    );
-  }
-
-//=================================================================outStanding Report===========================================================
-  Padding outstandingURLShowWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => CommonInAppWebView(
-                  title: 'Outstanding',
-                  cid: cid,
-                  userId: userLoginInfo!.userId,
-                  userPassword: userPassword,
-                  url: dmPathData!.reportOutstUrl,
-                  clientId: widget.clientId),
-            ),
-          );
-          // var url = OrderApis.outstandingReport(dmPathData!.reportOutstUrl, cid,
-          //     userLoginInfo!.userId, userPassword, widget.clientId);
-          // // print("outStandingurl=$url");
-          // if (await canLaunchUrl(Uri.parse(url))) {
-          //   await launchUrl(Uri.parse(url));
-          // } else {
-          //   throw 'Could not launch $url';
-          // }
-
-          // setState(() {});
-        },
-        style: ElevatedButton.styleFrom(
-          foregroundColor: const Color.fromARGB(255, 27, 43, 23),
-          backgroundColor: const Color.fromARGB(223, 146, 212, 157),
-          fixedSize: const Size(20, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        child: const Text(
-          "Outstanding",
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
 
 //=======================================================Customer Edit Url============================================================
   IconButton customerEditUrlWidget() {
@@ -844,9 +447,9 @@ class _NewOrderPageState extends State<NewOrderPage> {
               child: Row(
                 children: [
                   deliveryDatePickerWidget(),
-                  deliveryShiftWidget(),
-                  paymentDropdownWidget(),
-                  offerDrapdownWidget()
+                  // deliveryShiftWidget(),
+                  // paymentDropdownWidget(),
+                  // offerDrapdownWidget()
                 ],
               ),
             ),
@@ -889,115 +492,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
     );
   }
 
-//============================================Item Delivery Shift================================================================
-  Expanded deliveryShiftWidget() {
-    return Expanded(
-      flex: 2,
-      child: Card(
-        color: Colors.teal.shade50,
-        child: Center(
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedDeliveryTime,
-              iconEnabledColor: Colors.teal,
-              iconDisabledColor: Colors.grey,
-              iconSize: 28,
-              items: deliveryTime
-                  .map(
-                    (String item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (item) => setState(
-                () {
-                  selectedDeliveryTime = item.toString();
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-//============================================Item Delivery Payment Method================================================================
-  Expanded paymentDropdownWidget() {
-    return Expanded(
-      flex: 2,
-      child: Card(
-        color: Colors.teal.shade50,
-        child: Center(
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: slectedPayMethod,
-              iconEnabledColor: Colors.teal,
-              iconDisabledColor: Colors.grey,
-              iconSize: 28,
-              items: payMethod
-                  .map(
-                    (String item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (item) => setState(
-                () {
-                  slectedPayMethod = item.toString();
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-//============================================Item Offer ================================================================
-  Expanded offerDrapdownWidget() {
-    return Expanded(
-      flex: 2,
-      child: Card(
-        color: Colors.teal.shade50,
-        child: Center(
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: initialOffer,
-              iconEnabledColor: Colors.teal,
-              iconDisabledColor: Colors.grey,
-              iconSize: 28,
-              // borderRadius: BorderRadius.circular(5),
-              // underline: ,
-              items: offer
-                  .map(
-                    (String item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (item) => setState(
-                () {
-                  initialOffer = item.toString();
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
 //============================================Customer Info Details================================================================
   Container customerInfoWidget() {
@@ -1121,19 +615,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                                   color: Colors.black, fontSize: 16),
                             ),
                           ),
-                          userLoginInfo!.promoFlag &&
-                                  finalItemDataList[index].promo != '' &&
-                                  finalItemDataList[index].promo != null
-                              ? Card(
-                                  color: Colors.yellow,
-                                  child: Text(
-                                    finalItemDataList[index].promo!,
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                )
-                              : Container(),
+                         
                         ],
                       ),
                     ),
@@ -1318,7 +800,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
 //============================================Bottom Navigation Bar Index Function================================================================
   _onItemTapped(int index) async {
     if (index == 0) {
-      await orderSaveAndDraftData();
+      //await orderSaveAndDraftData();
       if (!mounted) return;
       Navigator.pop(context);
       Navigator.pop(context);
@@ -1333,7 +815,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-        orderSubmit();
+      //92  orderSubmit();
       } else {
         AllServices().toastMessage(
             "No Internet Connection\nPlease check your internet connection.",
@@ -1358,14 +840,16 @@ class _NewOrderPageState extends State<NewOrderPage> {
   }
 
   getData() async {
-    List mymap = await AllServices().getSyncSavedData('syncItemData');
-    syncItemList = mymap;
+    ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
+    if(expiredItems!=null){
+     List<ExpiredItemList> expiredItemList= expiredItems.expiredItemList;
+      // syncItemList = mymap;
     if (!mounted) return;
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ShowSyncItemData(
-          syncItemList: syncItemList,
+        builder: (_) => ItemsExpiredDatedScreen(
+          expiredItemList: expiredItemList,
           tempList: finalItemDataList,
           tempListFunc: (value) {
             finalItemDataList = value;
@@ -1391,11 +875,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
         ),
       ),
     );
+
+    }
+    
   }
 
 //================================================Save & draft Order Data===========================================================
   Future orderSaveAndDraftData() async {
-    if (widget.deliveryDate != '' && finalItemDataList.isNotEmpty) {
+    if ( finalItemDataList.isNotEmpty) {
       OrderServices().orderDraftDataUpdate(
         finalItemDataList,
         customerBox,

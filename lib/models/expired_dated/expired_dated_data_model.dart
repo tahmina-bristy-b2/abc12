@@ -7,7 +7,7 @@ part 'expired_dated_data_model.g.dart';
 ExpiredItemListDataModel expiredItemListDataModelFromJson(String str) => ExpiredItemListDataModel.fromJson(json.decode(str));
 
 String expiredItemListDataModelToJson(ExpiredItemListDataModel data) => json.encode(data.toJson());
-@HiveType(typeId:70)
+@HiveType(typeId:91)
 class ExpiredItemListDataModel {
    @HiveField(0)
     String status;
@@ -30,7 +30,7 @@ class ExpiredItemListDataModel {
     };
 }
 
-@HiveType(typeId: 71)
+@HiveType(typeId: 92)
 class ExpiredItemList {
     @HiveField(0)
     String itemId;
@@ -41,9 +41,9 @@ class ExpiredItemList {
     @HiveField(3)
     String manufacturer;
     @HiveField(4)
-    String tp;
+    double tp;
     @HiveField(5)
-    String vat;
+    double vat;
     @HiveField(6)
     String promo;
     @HiveField(7)
@@ -65,8 +65,8 @@ class ExpiredItemList {
         itemName: json["item_name"]??"",
         categoryId: json["category_id"]??"",
         manufacturer: json["manufacturer"]??"",
-        tp: json["tp"]??"",
-        vat: json["vat"]??"",
+        tp: json["tp"]??0.0,
+        vat: json["vat"]??0.0,
         promo: json["promo"]??"",
         stock: json["stock"]??"",
     );

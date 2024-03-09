@@ -25,6 +25,7 @@ class HiveAdapter {
     Hive.registerAdapter(SubPurposeListAdapter());
     Hive.registerAdapter(RxDurationMonthListAdapter());
     Hive.registerAdapter(DsrDurationMonthListAdapter());
+    
     //================= expired Dated ================
     Hive.registerAdapter(ExpiredItemListDataModelAdapter());
     Hive.registerAdapter(ExpiredItemListAdapter());
@@ -56,7 +57,7 @@ class HiveAdapter {
 
     //========================= expired sync data =========================
     await Hive.openBox<ExpiredItemListDataModel>('expiredDatedItemSync');
-    await Hive.openBox<ExpiredItemListDataModel>('expiredSavedData');
+    await Hive.openBox<ExpiredSubmitDataModel>('expiredSavedData');
 
 
   }

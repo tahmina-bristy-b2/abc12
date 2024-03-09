@@ -35,17 +35,17 @@ class ExpiredSubmitDataModel extends HiveObject {
 @HiveType(typeId: 82)
 class ExpiredItemSubmitModel extends HiveObject {
   @HiveField(0)
-  int itemName ;
+  String itemName ;
   @HiveField(1)
   String quantity;
   @HiveField(2)
-  double tp;
+  String tp;
   @HiveField(3)
   String itemId;
   @HiveField(4)
   String categoryId;
   @HiveField(5)
-  double vat;
+  String vat;
   @HiveField(6)
   String manufacturer;
   @HiveField(7)

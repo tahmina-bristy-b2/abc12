@@ -1,4 +1,5 @@
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -6,8 +7,7 @@ import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
-import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
-import 'package:MREPORTING/ui/order_sections/approved_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -56,19 +56,19 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
-  final customerBox = Boxes.getCustomerUsers();
+  final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
   final itemBox = Boxes.getDraftOrderedData();
 
-  final TextEditingController datefieldController = TextEditingController();
-  final TextEditingController timefieldController = TextEditingController();
-  final TextEditingController paymentfieldController = TextEditingController();
-  final TextEditingController noteController = TextEditingController();
+  // final TextEditingController datefieldController = TextEditingController();
+  // final TextEditingController timefieldController = TextEditingController();
+  // final TextEditingController paymentfieldController = TextEditingController();
+  // final TextEditingController noteController = TextEditingController();
   final List<TextEditingController> _itemController = [];
   final _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   double screenHeight = 0.0;
   double screenWidth = 0.0;
-  List<AddItemModel> finalItemDataList = [];
+  List<ExpiredItemSubmitModel> finalItemDataList = [];
   List syncItemList = [];
   List<String> deliveryTime = ['Morning', 'Evening'];
   String selectedDeliveryTime = 'Morning';
@@ -120,34 +120,34 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       });
     });
 
-    tempCount = widget.draftOrderItem.length;
+    // tempCount = widget.draftOrderItem.length;
 
-    // if (widget.deliveryDate != '' && widget.deliveryTime != '') {
-    //   finalItemDataList = widget.draftOrderItem;
-    //   selectedDeliveryTime = widget.deliveryTime;
-    //   dateSelected = widget.deliveryDate;
-    //   slectedPayMethod = widget.paymentMethod;
-    //   initialOffer = widget.offer ?? 'Offer';
-    //   noteController.text = widget.note;
+    // // if (widget.deliveryDate != '' && widget.deliveryTime != '') {
+    // //   finalItemDataList = widget.draftOrderItem;
+    // //   selectedDeliveryTime = widget.deliveryTime;
+    // //   dateSelected = widget.deliveryDate;
+    // //   slectedPayMethod = widget.paymentMethod;
+    // //   initialOffer = widget.offer ?? 'Offer';
+    // //   noteController.text = widget.note;
+    // // }
+    // if (widget.draftOrderItem.isNotEmpty) {
+    //   for (var element in finalItemDataList) {
+    //     controllers[element.item_id] = TextEditingController();
+    //     for (var e in widget.draftOrderItem) {
+    //       controllers.forEach((key, value) {
+    //         if (key == e.item_id) {
+    //           value.text = e.quantity.toString();
+    //         }
+    //       });
+    //     }
+    //   }
     // }
-    if (widget.draftOrderItem.isNotEmpty) {
-      for (var element in finalItemDataList) {
-        controllers[element.item_id] = TextEditingController();
-        for (var e in widget.draftOrderItem) {
-          controllers.forEach((key, value) {
-            if (key == e.item_id) {
-              value.text = e.quantity.toString();
-            }
-          });
-        }
-      }
-    }
-    setState(() {
-      itemString = OrderServices().ordertotalAmount(itemString, orderAmount,
-          finalItemDataList, total, totalAmount)["ItemString"];
-      totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
-          finalItemDataList, total, totalAmount)["TotalAmount"];
-    });
+    // setState(() {
+    //   itemString = OrderServices().ordertotalAmount(itemString, orderAmount,
+    //       finalItemDataList, total, totalAmount)["ItemString"];
+    //   totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
+    //       finalItemDataList, total, totalAmount)["TotalAmount"];
+    // });
 
     // FocusScope.of(context).requestFocus(FocusNode());
   }
@@ -155,7 +155,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   @override
   void dispose() {
     _quantityController.dispose();
-    noteController.dispose();
+   // noteController.dispose();
     _itemController.map((element) {
       element.dispose();
     });
@@ -386,78 +386,78 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     );
   }
 
-//============================================Item Delivery Details================================================================
-  itemDeliveryDetailsWidget() {
-    return SizedBox(
-      // height: screenHeight / 9,
-      height: 100,
+// //============================================Item Delivery Details================================================================
+//   itemDeliveryDetailsWidget() {
+//     return SizedBox(
+//       // height: screenHeight / 9,
+//       height: 100,
 
-      width: screenWidth,
+//       width: screenWidth,
 
-      child: Column(
-        children: [
-          Expanded(
-            child: Card(
-              color: const Color.fromARGB(255, 196, 209, 231),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      'CPP: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(13, 106, 129, 1),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)}',
-                      // style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      ' R.DiscOnTP: ${OrderServices().regDiscOnTp(finalItemDataList)}',
-                      // style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      'Count: ${finalItemDataList.length}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(13, 106, 129, 1),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // const SizedBox(height: 5.0),
-          Expanded(
-            child: Card(
-              child: Row(
-                children: [
-                  deliveryDatePickerWidget(),
-                  // deliveryShiftWidget(),
-                  // paymentDropdownWidget(),
-                  // offerDrapdownWidget()
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//       child: Column(
+//         children: [
+//           Expanded(
+//             child: Card(
+//               color: const Color.fromARGB(255, 196, 209, 231),
+//               child: Row(
+//                 children: [
+//                   Expanded(
+//                     flex: 3,
+//                     child: Text(
+//                       'CPP: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
+//                       style: const TextStyle(
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.bold,
+//                         color: Color.fromRGBO(13, 106, 129, 1),
+//                       ),
+//                     ),
+//                   ),
+//                   Expanded(
+//                     flex: 2,
+//                     child: Text(
+//                       'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)}',
+//                       // style: const TextStyle(fontSize: 16),
+//                     ),
+//                   ),
+//                   Expanded(
+//                     flex: 3,
+//                     child: Text(
+//                       ' R.DiscOnTP: ${OrderServices().regDiscOnTp(finalItemDataList)}',
+//                       // style: TextStyle(fontSize: 14),
+//                     ),
+//                   ),
+//                   Expanded(
+//                     flex: 2,
+//                     child: Text(
+//                       'Count: ${finalItemDataList.length}',
+//                       style: const TextStyle(
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.bold,
+//                         color: Color.fromRGBO(13, 106, 129, 1),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           // const SizedBox(height: 5.0),
+//           Expanded(
+//             child: Card(
+//               child: Row(
+//                 children: [
+//                   deliveryDatePickerWidget(),
+//                   // deliveryShiftWidget(),
+//                   // paymentDropdownWidget(),
+//                   // offerDrapdownWidget()
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
 //============================================Item Delivery Date================================================================
   Expanded deliveryDatePickerWidget() {
@@ -542,40 +542,40 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     );
   }
 
-//============================================Note================================================================
-  Padding customerNotesTextFieldWidget() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-      child: userLoginInfo!.noteFlag
-          ? SizedBox(
-              height: 60,
-              width: screenWidth,
-              // color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
-              child: TextFormField(
-                maxLength: 100,
-                keyboardType: TextInputType.text,
+// //============================================Note================================================================
+//   Padding customerNotesTextFieldWidget() {
+//     return Padding(
+//       padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+//       child: userLoginInfo!.noteFlag
+//           ? SizedBox(
+//               height: 60,
+//               width: screenWidth,
+//               // color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
+//               child: TextFormField(
+//                 maxLength: 100,
+//                 keyboardType: TextInputType.text,
 
-                style: const TextStyle(color: Colors.black),
-                controller: noteController,
-                // focusNode: FocusNode(),
-                autofocus: false,
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 167, 209, 174)
-                        .withOpacity(.5),
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    labelText: 'Notes',
-                    labelStyle: const TextStyle(color: Colors.blueGrey)),
-                onChanged: (value) {
-                  // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                  (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-                },
-              ),
-            )
-          : const Text(''),
-    );
-  }
+//                 style: const TextStyle(color: Colors.black),
+//                 controller: noteController,
+//                 // focusNode: FocusNode(),
+//                 autofocus: false,
+//                 decoration: InputDecoration(
+//                     filled: true,
+//                     fillColor: const Color.fromARGB(255, 167, 209, 174)
+//                         .withOpacity(.5),
+//                     border: const OutlineInputBorder(
+//                         borderRadius: BorderRadius.all(Radius.circular(10))),
+//                     labelText: 'Notes',
+//                     labelStyle: const TextStyle(color: Colors.blueGrey)),
+//                 onChanged: (value) {
+//                   // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+//                   (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
+//                 },
+//               ),
+//             )
+//           : const Text(''),
+//     );
+//   }
 
 //============================================Item Per Calculation LisView builder================================================================
   ListView perItemCalculationListViewWidget() {
@@ -610,7 +610,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 3),
                             child: Text(
-                              finalItemDataList[index].item_name,
+                              finalItemDataList[index].itemId,
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 16),
                             ),
@@ -706,7 +706,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             controller:
-                                controllers[finalItemDataList[index].item_id],
+                                controllers[finalItemDataList[index].itemId],
 
                             keyboardType: TextInputType.number,
                             // focusNode: FocusNode(),
@@ -719,31 +719,31 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                             ),
 
                             onChanged: (value) {
-                              //_itemController[index].clear();
-                              finalItemDataList[index].quantity =
-                                  controllers[finalItemDataList[index].item_id]
-                                              ?.text !=
-                                          ''
-                                      ? int.parse(controllers[
-                                              finalItemDataList[index].item_id]!
-                                          .text)
-                                      : 0;
+                              // //_itemController[index].clear();
+                              // finalItemDataList[index].quantity =
+                              //     controllers[finalItemDataList[index].item_id]
+                              //                 ?.text !=
+                              //             ''
+                              //         ? int.parse(controllers[
+                              //                 finalItemDataList[index].item_id]!
+                              //             .text)
+                              //         : 0;
 
-                              setState(() {
-                                itemString = OrderServices().ordertotalAmount(
-                                    itemString,
-                                    orderAmount,
-                                    finalItemDataList,
-                                    total,
-                                    totalAmount)["ItemString"];
-                                totalAmount = OrderServices().ordertotalAmount(
-                                    itemString,
-                                    orderAmount,
-                                    finalItemDataList,
-                                    total,
-                                    totalAmount)["TotalAmount"];
-                              });
-                              setState(() {});
+                              // setState(() {
+                              //   itemString = OrderServices().ordertotalAmount(
+                              //       itemString,
+                              //       orderAmount,
+                              //       finalItemDataList,
+                              //       total,
+                              //       totalAmount)["ItemString"];
+                              //   totalAmount = OrderServices().ordertotalAmount(
+                              //       itemString,
+                              //       orderAmount,
+                              //       finalItemDataList,
+                              //       total,
+                              //       totalAmount)["TotalAmount"];
+                              // });
+                              // setState(() {});
                             },
                           ),
                         ),
@@ -773,20 +773,20 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: Text(
-                          OrderServices()
-                              .totalCount(finalItemDataList[index])
-                              .toStringAsFixed(2),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    )
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: Center(
+                    //     child: Text(
+                    //       OrderServices()
+                    //           .totalCount(finalItemDataList[index])
+                    //           .toStringAsFixed(2),
+                    //       style: const TextStyle(
+                    //         color: Colors.black,
+                    //         fontSize: 15,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ],
@@ -849,28 +849,28 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => ItemsExpiredDatedScreen(
-          expiredItemList: expiredItemList,
-          tempList: finalItemDataList,
-          tempListFunc: (value) {
-            finalItemDataList = value;
-            for (var element in finalItemDataList) {
-              controllers[element.item_id] = TextEditingController();
-              controllers[element.item_id]?.text = element.quantity.toString();
-            }
-            setState(() {
-              itemString = OrderServices().ordertotalAmount(
-                  itemString,
-                  orderAmount,
-                  finalItemDataList,
-                  total,
-                  totalAmount)["ItemString"];
-              totalAmount = OrderServices().ordertotalAmount(
-                  itemString,
-                  orderAmount,
-                  finalItemDataList,
-                  total,
-                  totalAmount)["TotalAmount"];
-            });
+          syncItem: expiredItemList,
+          expiredItemSubmitModel: finalItemDataList,
+          callbackMethod: (value) {
+            // finalItemDataList = value!;
+            // for (var element in finalItemDataList) {
+            //   controllers[element.item_id] = TextEditingController();
+            //   controllers[element.item_id]?.text = element.quantity.toString();
+            // }
+            // setState(() {
+            //   itemString = OrderServices().ordertotalAmount(
+            //       itemString,
+            //       orderAmount,
+            //       finalItemDataList,
+            //       total,
+            //       totalAmount)["ItemString"];
+            //   totalAmount = OrderServices().ordertotalAmount(
+            //       itemString,
+            //       orderAmount,
+            //       finalItemDataList,
+            //       total,
+            //       totalAmount)["TotalAmount"];
+            // });
           },
         ),
       ),
@@ -883,18 +883,18 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
 //================================================Save & draft Order Data===========================================================
   Future orderSaveAndDraftData() async {
     if ( finalItemDataList.isNotEmpty) {
-      OrderServices().orderDraftDataUpdate(
-        finalItemDataList,
-        customerBox,
-        widget.clientId,
-        dateSelected,
-        selectedDeliveryTime,
-        initialOffer,
-        noteController.text,
-        slectedPayMethod,
-      );
+      // OrderServices().orderDraftDataUpdate(
+      //   finalItemDataList,
+      //   customerBox,
+      //   widget.clientId,
+      //   dateSelected,
+      //   selectedDeliveryTime,
+      //   initialOffer,
+      //   noteController.text,
+      //   slectedPayMethod,
+      // );
     } else {
-      customerBox.add(CustomerDataModel(
+      customerExpiredItemsBox.add(ExpiredSubmitDataModel(
           clientName: widget.clientName,
           marketName: widget.marketName,
           areaId: 'areaId',
@@ -902,12 +902,8 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           outstanding: widget.outStanding ?? "",
           thana: 'thana',
           address: 'address',
-          deliveryDate: dateSelected,
-          deliveryTime: selectedDeliveryTime,
-          offer: initialOffer,
-          paymentMethod: slectedPayMethod,
-          note: noteController.text,
-          itemList: finalItemDataList));
+          expiredItemSubmitModel: finalItemDataList
+          ));
     }
   }
 
@@ -951,7 +947,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           selectedDeliveryTime,
           slectedPayMethod,
           initialOffer,
-          noteController.text,
+          "",
           itemString,
           latitude,
           longitude);
@@ -963,8 +959,8 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           setState(() {
             _isLoading = true;
           });
-          OrderServices()
-              .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
+          // OrderServices()
+          //     .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
 
           AllServices().toastMessage("Order Submitted\n$ret_str", Colors.green,
               Colors.white, 16); //order submit success message

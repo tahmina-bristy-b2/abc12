@@ -14,6 +14,7 @@ class Boxes {
   static Box<DcrGSPDataModel> selectedDcrGSP() => Hive.box('selectedDcrGSP');
   static Box<RxDcrDataModel> rxdDoctor() => Hive.box('RxdDoctor');
   static Box<MedicineListModel> getMedicine() => Hive.box('draftMdicinList');
+
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
   static Box<EdsrDataModel> geteDSRsetData() => Hive.box('eDSRSettingsData');

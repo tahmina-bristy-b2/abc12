@@ -1,5 +1,6 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
@@ -7,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class ItemsExpiredDatedScreen extends StatefulWidget {
-  final List<ExpiredItemList> expiredItemList;
-  final List<AddItemModel> tempList;
-  final Function tempListFunc;
+  final List<ExpiredItemList> syncItem;
+  List<ExpiredItemSubmitModel> expiredItemSubmitModel;
+  final Function(List<ExpiredItemSubmitModel>?) callbackMethod;
 
-  const ItemsExpiredDatedScreen(
+   ItemsExpiredDatedScreen(
       {Key? key,
-      required this.expiredItemList,
-      required this.tempList,
+      required this.syncItem,
+      required this.expiredItemSubmitModel,
       // required this.uniqueId,
-      required this.tempListFunc})
+      required this.callbackMethod})
       : super(key: key);
 
   @override
@@ -32,6 +33,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
 
   DmPathDataModel? dmpathData;
   List<ExpiredItemList> filteredItems=[];
+  List<ExpiredItemSubmitModel> expiredItemSubmitModel=[];
   var orderamount = 0.0;
   var neworderamount = 0.0;
   int amount = 0;
@@ -45,23 +47,23 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
 
-    filteredItems = widget.expiredItemList;
-    for (var element in filteredItems) {
-      controllers[element.itemId] = TextEditingController();
-    }
-    for (var element in widget.tempList) {
-      controllers.forEach((key, value) {
-        if (key == element.item_id) {
-          value.text = element.quantity.toString();
-        }
-      });
-    }
+    filteredItems = widget.syncItem;
+    // for (var element in filteredItems) {
+    //   controllers[element.itemId] = TextEditingController();
+    // }
+    // for (var element in widget.tempList) {
+    //   controllers.forEach((key, value) {
+    //     if (key == element.item_id) {
+    //       value.text = element.quantity.toString();
+    //     }
+    //   });
+    // }
 
-    for (var element in widget.tempList) {
-      total = (element.tp + element.vat) * element.quantity;
+    // for (var element in widget.tempList) {
+    //   total = (element.tp + element.vat) * element.quantity;
 
-      orderamount = orderamount + total;
-    }
+    //   orderamount = orderamount + total;
+    // }
 
     super.initState();
   }
@@ -80,7 +82,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        widget.tempListFunc(widget.tempList);
+        widget.callbackMethod(widget.expiredItemSubmitModel);
         Navigator.pop(context);
         return true;
       },
@@ -158,7 +160,22 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                      borderRadius: BorderRadius.circular(16.0),
                                    ),
                                  ),
-                                ), child: ExpiredIteminputShowDialogScreen(expiredItem: filteredItems[itemIndeex],
+                                ), child: ExpiredIteminputShowDialogScreen(
+                                  expiredItem: filteredItems[itemIndeex],
+                                  expiredItemSubmitModel: null, 
+                                  callbackFunction: (value ) { 
+                                    if(value!=null){
+                                      expiredItemSubmitModel.removeWhere((element) => element.itemId==value.itemId);
+                                      expiredItemSubmitModel.add(value);
+                                      print("data model =${expiredItemSubmitModel}");
+
+
+                                      
+                                    }
+                                    setState(() {
+                                      
+                                    });
+                                   }, 
 
                                ));
                         
@@ -327,7 +344,8 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
       alignment: Alignment.centerRight,
       child: ElevatedButton(
         onPressed: () {
-          widget.tempListFunc(widget.tempList);
+          widget.expiredItemSubmitModel;
+          widget.callbackMethod(widget.expiredItemSubmitModel);
 
           Navigator.pop(context);
         },
@@ -345,12 +363,12 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Icon(Icons.add_shopping_cart_outlined, size: 30),
+              //Icon(Icons.add_shopping_cart_outlined, size: 30),
               SizedBox(
                 width: 5,
               ),
               Text(
-                "AddToCart",
+                "Add as Expired",
                 style: TextStyle(fontSize: 15),
               ),
             ],

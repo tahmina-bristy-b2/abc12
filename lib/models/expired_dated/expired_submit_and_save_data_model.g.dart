@@ -75,12 +75,12 @@ class ExpiredItemSubmitModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExpiredItemSubmitModel(
-      itemName: fields[0] as int,
+      itemName: fields[0] as String,
       quantity: fields[1] as String,
-      tp: fields[2] as double,
+      tp: fields[2] as String,
       itemId: fields[3] as String,
       categoryId: fields[4] as String,
-      vat: fields[5] as double,
+      vat: fields[5] as String,
       manufacturer: fields[6] as String,
       itemString: fields[7] as String,
       batchWiseItem: (fields[8] as List).cast<BatchWiseItemListModel>(),

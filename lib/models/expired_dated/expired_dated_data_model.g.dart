@@ -9,7 +9,7 @@ part of 'expired_dated_data_model.dart';
 class ExpiredItemListDataModelAdapter
     extends TypeAdapter<ExpiredItemListDataModel> {
   @override
-  final int typeId = 70;
+  final int typeId = 91;
 
   @override
   ExpiredItemListDataModel read(BinaryReader reader) {
@@ -46,7 +46,7 @@ class ExpiredItemListDataModelAdapter
 
 class ExpiredItemListAdapter extends TypeAdapter<ExpiredItemList> {
   @override
-  final int typeId = 71;
+  final int typeId = 92;
 
   @override
   ExpiredItemList read(BinaryReader reader) {
@@ -59,8 +59,8 @@ class ExpiredItemListAdapter extends TypeAdapter<ExpiredItemList> {
       itemName: fields[1] as String,
       categoryId: fields[2] as String,
       manufacturer: fields[3] as String,
-      tp: fields[4] as String,
-      vat: fields[5] as String,
+      tp: fields[4] as double,
+      vat: fields[5] as double,
       promo: fields[6] as String,
       stock: fields[7] as dynamic,
     );

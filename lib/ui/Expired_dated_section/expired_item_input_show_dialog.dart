@@ -1,20 +1,23 @@
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/cancel-button.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/confirm_widget.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/each_batch_scareen.dart';
+
 import 'package:MREPORTING/ui/Expired_dated_section/textform_field_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 class ExpiredIteminputShowDialogScreen extends StatefulWidget {
-  ExpiredItemList expiredItem; 
-//  List<ExpiredItemList> savedData;
-//  ExpiredItemList? itemInfoMR;
-//  final ItemListStock marketReturnSyncItem;
-//  Function(MarketReturnItem?) callbackFunction;
+  ExpiredItemList expiredItem;
+   ExpiredItemSubmitModel? expiredItemSubmitModel;
+   Function(ExpiredItemSubmitModel?) callbackFunction;
 
-  ExpiredIteminputShowDialogScreen({super.key, required this.expiredItem
-  // required this.savedData, required this.itemInfoMR,
-  // required this.marketReturnSyncItem,required this.callbackFunction
+
+  ExpiredIteminputShowDialogScreen({super.key, 
+      required this.expiredItem,
+      required this.expiredItemSubmitModel,
+      required this.callbackFunction,
   });
 
   @override
@@ -25,6 +28,7 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
   // List<
   // List<String> reasonForMarketReturn = ['Date Expired', 'Micro Leak', 'Product Damage'];
   List<DynamicItemsWidget> batchItems=[];
+  List<BatchWiseItemListModel> batchWiseItemSaved=[];
    String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
   String total="";
   bool isUpdate=false;
@@ -54,31 +58,68 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
         insetPadding:const EdgeInsets.all(5),
          contentPadding: EdgeInsets.zero,
                   content: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                               Row(
-                                children: [        
-                                             Expanded(
-                                              flex: 8,
-                                              child:Center(child: Text(widget.expiredItem.itemName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),Expanded(
-                                                child:Center(child: IconButton(onPressed: (){
-                                                  batchItems.add(DynamicItemsWidget());
-                                                  setState(() {
-                                                    
-                                                  });
-                                                   print(batchItems.length);
-                                                }, icon:const Icon(Icons.add,color:  Color.fromARGB(255, 82, 179, 98),))))
-                                           ],
-                                         ),
-                                        //  const SizedBox(height: 10,),
-                                        fixedRowWidget(),
-                                        Column(
-                                          children: batchItems,
-                                        )
-                        ],
-                      ),
+                    child: StatefulBuilder(
+                      builder: (context, setState2) {
+                        return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                                 Row(
+                                  children: [        
+                                               Expanded(
+                                                flex: 8,
+                                                child:Center(child: Text(widget.expiredItem.itemName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),Expanded(
+                                                  child:Center(child: IconButton(onPressed: (){
+                                                    showDialog(context: context, builder: (BuildContext context){
+                                                      return EachBtachItemWidget(itemName:widget.expiredItem.itemName , batchWiseItemSaved: null, 
+                                                        callbackFunction: (BatchWiseItemListModel? value ) { 
+                                                                //batchWiseItemSaved=value;
+                                                                batchItems.add(
+                                                                  DynamicItemsWidget(
+                                                                    batchWiseItemListModel:value
+                                                                     //batchItems: value, indexNum: 2, setState2: setState2, callbackFunction: callbackFunction
+                                                                  
+                                                                   )
+                                                                  );
+                                                                setState(() {
+                                                                  
+                                                                });
+                                                        
+                                                       setState(() {
+                                                         
+                                                       });
+                                                       },
+
+                                                      );
+
+                                                    });
+                                                    // batchItems.add(DynamicItemsWidget( 
+                                                    //   batchItems: batchItems,
+                                                    //   indexNum: batchItems.length,
+                                                    //   setState2: setState2, 
+                                                    //   callbackFunction: (BatchWiseItemListModel? value ) { 
+                                                    //     if(value!.batchId!=null && value!.expiredDate!=null && value!.unitQty!=null && value!.eachbatchWiseItemString!=null){
+                                                    //       batchWiseItemSaved.add(value);
+                                                    //       print("eo j $batchWiseItemSaved");
+
+                                                    //     }
+                                                    //   },));
+                                                    // setState(() {
+                                                      
+                                                    // });
+                                                    //  print(batchItems.length);
+                                                  }, icon:const Icon(Icons.add,color:  Color.fromARGB(255, 82, 179, 98),))))
+                                             ],
+                                           ),
+                                          //  const SizedBox(height: 10,),
+                                          fixedRowWidget(),
+                                          Column(
+                                            children: batchItems,
+                                          )
+                          ],
+                        ),
+                      );
+                      },
                     ),
                 
                     
@@ -91,13 +132,16 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                             Expanded(child: CancelButtonWidget(buttonHeight: 50, fontColor:const Color.fromARGB(255, 82, 179, 98)
                                             , buttonName: "Cancel", fontSize: 16, onTapFuction:  () { 
                               Navigator.pop(context) ;
+
                               
                             },borderColor:const Color.fromARGB(255, 82, 179, 98))),
                            const SizedBox(width: 10,),
                          Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Add", fontSize: 16, onTapFuction: () {
-                             if(pcsController.text.isEmpty  ){
+                             if(batchItems.isEmpty){
                                 AllServices().toastMessageForSubmitData("Please add something", Colors.red, Colors.white, 16);
                               }
+                             
+                              
                             //  else  if(selectedReasonForMR==null)  {
                             //     AllServices().toastMessageForSubmitData("Please add reason for market return ", Colors.red, Colors.white, 16);
                             //   }
@@ -106,14 +150,14 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                             //   }
                               
                             else{
-                              // final getSyncItem=Boxes.marketReturnSavedata().get('MarketReturnSavedData');
-                              //if(getSyncItem!.clientId==widget.) 
-
-                              
-                              //  MarketReturnItem? marketReturnItem=  AllServices().addMarketReturnItem(pcsController.text,selectedReasonForMR.toString(),selectedExpiredDateString,widget.savedData, widget.marketReturnSyncItem ); 
-                               
-                              //  widget.callbackFunction(marketReturnItem);
+                              final eachItemtemList=ExpiredItemSubmitModel(itemName: widget.expiredItem.itemName.toString(), quantity: widget.expiredItem.stock.toString(), tp:widget.expiredItem.tp.toString()
+                               , itemId: widget.expiredItem.itemId.toString(), categoryId: widget.expiredItem.categoryId.toString(), vat: widget.expiredItem.vat.toString(), manufacturer: widget.expiredItem.manufacturer.toString(), itemString: "", batchWiseItem: batchWiseItemSaved);
+                               widget.expiredItemSubmitModel= eachItemtemList;
+                               widget.callbackFunction(widget.expiredItemSubmitModel!);
                                Navigator.pop(context) ;
+                               setState(() {
+                                 
+                               });
                              
 
                             }
@@ -163,7 +207,8 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                                 padding:  EdgeInsets.all(8.0),
                                                 child:  Center(child: Text("Expired Date",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
                                               )),
-                                               Expanded(child: Padding(
+                                               Expanded(flex: 1,
+                                                child: Padding(
                                                 padding:  EdgeInsets.all(8.0),
                                                 child:  Center(child: Text("Qty",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
                                               )),
@@ -228,12 +273,45 @@ class AlwaysDisabledFocusNode extends FocusNode {
 
 
 
-class DynamicItemsWidget extends StatelessWidget {
+class DynamicItemsWidget extends StatefulWidget {
+  BatchWiseItemListModel? batchWiseItemListModel;
+  // List<DynamicItemsWidget> batchItems;
+  // int indexNum;
+  // void Function(void Function()) setState2;
+  // Function(BatchWiseItemListModel?) callbackFunction;
+  
+
+  DynamicItemsWidget({super.key, required this.batchWiseItemListModel
+  // required this.batchItems,required this.indexNum,required this.setState2,required this.callbackFunction
+  });
+
+  @override
+  State<DynamicItemsWidget> createState() => _DynamicItemsWidgetState();
+}
+
+class _DynamicItemsWidgetState extends State<DynamicItemsWidget> {
   DateTime selectedExpiredDate=DateTime.now();
   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
-  
   TextEditingController batchcontroller=TextEditingController();
-  
+  TextEditingController qtyController=TextEditingController();
+ // BatchWiseItemListModel batchWiseItem=BatchWiseItemListModel();
+
+  @override
+  void initState() {
+    super.initState();
+    // BatchWiseItemListModel batchWiseItem=BatchWiseItemListModel(
+    //   expiredDate:selectedExpiredDateString,
+    //   unitQty:qtyController.text,
+    //   batchId:batchcontroller.text, eachbatchWiseItemString: ''
+    // );
+    batchcontroller.text=widget.batchWiseItemListModel!.batchId.toString();
+    qtyController.text=widget.batchWiseItemListModel!.unitQty.toString();
+   // batchcontroller.text=widget.batchWiseItemListModel!.batchId.toString();
+    
+    
+  }
+  //BatchWiseItemListModel? batchWiseItemListModel;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -244,7 +322,18 @@ class DynamicItemsWidget extends StatelessWidget {
                                                   flex: 2,
                                                   child: Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:  Center(child: TextFormFieldCustomOrderInput(controller: batchcontroller, borderColor: Colors.teal, hintText: "Batch id", textAlign: TextAlign.center, validator: (value) {  }, afterClickingDone: () {  },)),
+                                                  child:  Center(child: TextFormFieldCustomOrderInput(controller: batchcontroller, borderColor: Colors.teal, 
+                                                  hintText: "---id---", 
+                                                  textAlign: TextAlign.center, 
+                                                  validator: (value) { 
+                                                    // if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
+                                                    
+                                                    //  widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
+
+                                                    // }
+                                                    
+                                                    
+                                                   }, afterClickingDone: () {  },)),
                                                 )),
                                                  Expanded(
                                                   flex: 2,
@@ -256,10 +345,10 @@ class DynamicItemsWidget extends StatelessWidget {
                                                               controller: initialValue(selectedExpiredDateString),
                                                               focusNode: AlwaysDisabledFocusNode(),
                                                               style:const TextStyle(fontSize: 14,color: Colors.teal,),
-                                                              textAlign: TextAlign.left,
-                                                              
+                                                              textAlign: TextAlign.center,
                                                               decoration:const InputDecoration(
-                                                                suffixIcon: Icon(Icons.calendar_month_outlined,color: Colors.teal,),
+                                                                hintText: "select",
+                                                                //suffixIcon: Icon(Icons.calendar_month_outlined,color: Colors.teal,),
                                                                 focusedBorder: UnderlineInputBorder(
                                                                 borderSide: BorderSide(
                                                                     width: 1, 
@@ -269,16 +358,27 @@ class DynamicItemsWidget extends StatelessWidget {
                                                                 enabledBorder: UnderlineInputBorder(
                                                                 borderSide: BorderSide(
                                                                     width: 1, 
-                                                                    color:  Color.fromARGB(255, 227, 227, 227), 
+                                                                    color:  Colors.teal, 
                                                                 ), 
                                                                 ),
                                                                 
                                                               ),
                                                               
                                                               onChanged: (String value) {
-                                                                setState2(() {});
-                                                                selectedExpiredDateString  = value;
-                                                            
+                                                    //             setState2(() {});
+                                                    //             selectedExpiredDateString  = value;
+                                                    //              if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
+                                                    
+                                                    //                widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
+
+                                                    // }
+                                                    //             //  widget.callbackFunction(BatchWiseItemListModel(
+                                                    //             //       expiredDate: selectedExpiredDateString,
+                                                    //             //       unitQty: qtyController.text,
+                                                    //             //       batchId: batchcontroller.text,
+                                                    //             //       eachbatchWiseItemString: '',
+                                                    //             //     ));
+                                                                        
                                                               },
                                                               onTap: () {
                                                                 pickDate(context,setState2);
@@ -288,15 +388,33 @@ class DynamicItemsWidget extends StatelessWidget {
                                                     
                                                   },) ),
                                                Expanded(
-                                                  flex: 2,
+                                                  flex: 1,
                                                   child: Padding(
                                                   padding:const  EdgeInsets.all(8.0),
-                                                  child:  Center(child: TextFormFieldCustomOrderInput(controller: batchcontroller, borderColor: Colors.teal, hintText: "value", textAlign: TextAlign.center, validator: (value) {  }, afterClickingDone: () {  },)),
+                                                  child:  Center(child: TextFormFieldCustomOrderInput(controller: qtyController, borderColor: Colors.teal, hintText: "-qty-", textAlign: TextAlign.center, 
+                                                  validator: (value) { 
+                                                    //   if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
+                                                    
+                                                    //  widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
+                                                    //   batchcontroller.clear();
+                                                    //   qtyController.clear();
+                                                    //   setState(() {});
+
+                                                    // }
+                                                   }, afterClickingDone: () {  },)),
                                                 )),
                                                  Expanded(child: Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child:  Center(child: IconButton(onPressed: (){
-                                                  //  batchItems.add(DynamicItemsWidget())
+                                                
+                                                  //  widget.batchItems.removeAt(widget.indexNum);
+                                                  //  widget.setState2;
+                                                  //  setState(() {
+                                                     
+                                                  //  });
+                                                 
+                                                    
+                                                   
 
                                                   }, icon:const Icon(Icons.delete,color: Colors.redAccent,size:20))),
                                                 )),
@@ -304,9 +422,11 @@ class DynamicItemsWidget extends StatelessWidget {
                                             ),
     );
   }
+
    initialValue(String val) {
     return TextEditingController(text: val);
   }
+
   pickDate(BuildContext context,void Function(void Function()) setState2) async {
     final newDate = await showDatePicker(
       context: context,
@@ -317,7 +437,7 @@ class DynamicItemsWidget extends StatelessWidget {
         return Theme(
           data: ThemeData.light().copyWith(
             primaryColor: Colors.teal,
-            colorScheme: ColorScheme.light(primary: Colors.teal,),
+            colorScheme:const ColorScheme.light(primary: Colors.teal,),
             canvasColor: Colors.teal,
           ),
           child: child!,

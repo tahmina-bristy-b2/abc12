@@ -7,6 +7,7 @@ import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/textform_field_custom.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -26,13 +27,6 @@ class ExpiredDatedAddScreen extends StatefulWidget {
   final String marketName;
   final String clientId;
   final String? outStanding;
-  // final String deliveryTime;
-  // final String deliveryDate;
-  // final String paymentMethod;
- 
-  // final String? offer;
-  // final String note;
-
   
   const ExpiredDatedAddScreen(
       {Key? key,
@@ -40,11 +34,7 @@ class ExpiredDatedAddScreen extends StatefulWidget {
       required this.clientName,
       required this.clientId,
       this.outStanding,
-      // required this.deliveryDate,
-      // required this.deliveryTime,
-      // required this.paymentMethod,
-      // this.offer,
-      // required this.note,
+      
       required this.marketName})
       : super(key: key);
 
@@ -56,13 +46,12 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
+  //List<DynamicItemsWidgetB> batchItems=[];
   final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
   final itemBox = Boxes.getDraftOrderedData();
+  bool isEdit=false;
 
-  // final TextEditingController datefieldController = TextEditingController();
-  // final TextEditingController timefieldController = TextEditingController();
-  // final TextEditingController paymentfieldController = TextEditingController();
-  // final TextEditingController noteController = TextEditingController();
+  
   final List<TextEditingController> _itemController = [];
   final _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
@@ -105,7 +94,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     super.initState();
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
-    box = Boxes.getCustomerUsers();
+    box = Boxes.getExpiredItemSubmitItems();
     dateSelected = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     SharedPreferences.getInstance().then((prefs) {
@@ -119,6 +108,19 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
         deviceModel = prefs.getString("deviceModel");
       });
     });
+
+    customerExpiredItemsBox.toMap().forEach((key, value) {
+      if(value.clientId==widget.clientId){
+        finalItemDataList= value.expiredItemSubmitModel;
+        isEdit=true;
+        print("dat paichi");
+      }
+    });
+    setState(() {
+      
+    });
+
+
 
     // tempCount = widget.draftOrderItem.length;
 
@@ -386,111 +388,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     );
   }
 
-// //============================================Item Delivery Details================================================================
-//   itemDeliveryDetailsWidget() {
-//     return SizedBox(
-//       // height: screenHeight / 9,
-//       height: 100,
 
-//       width: screenWidth,
-
-//       child: Column(
-//         children: [
-//           Expanded(
-//             child: Card(
-//               color: const Color.fromARGB(255, 196, 209, 231),
-//               child: Row(
-//                 children: [
-//                   Expanded(
-//                     flex: 3,
-//                     child: Text(
-//                       'CPP: ${OrderServices().ordertotalAmount(itemString, orderAmount, finalItemDataList, total, totalAmount)["TotalAmount"]}',
-//                       style: const TextStyle(
-//                         fontSize: 16,
-//                         fontWeight: FontWeight.bold,
-//                         color: Color.fromRGBO(13, 106, 129, 1),
-//                       ),
-//                     ),
-//                   ),
-//                   Expanded(
-//                     flex: 2,
-//                     child: Text(
-//                       'TP: ${OrderServices().orderTotalTPAmount(finalItemDataList)}',
-//                       // style: const TextStyle(fontSize: 16),
-//                     ),
-//                   ),
-//                   Expanded(
-//                     flex: 3,
-//                     child: Text(
-//                       ' R.DiscOnTP: ${OrderServices().regDiscOnTp(finalItemDataList)}',
-//                       // style: TextStyle(fontSize: 14),
-//                     ),
-//                   ),
-//                   Expanded(
-//                     flex: 2,
-//                     child: Text(
-//                       'Count: ${finalItemDataList.length}',
-//                       style: const TextStyle(
-//                         fontSize: 16,
-//                         fontWeight: FontWeight.bold,
-//                         color: Color.fromRGBO(13, 106, 129, 1),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           // const SizedBox(height: 5.0),
-//           Expanded(
-//             child: Card(
-//               child: Row(
-//                 children: [
-//                   deliveryDatePickerWidget(),
-//                   // deliveryShiftWidget(),
-//                   // paymentDropdownWidget(),
-//                   // offerDrapdownWidget()
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//============================================Item Delivery Date================================================================
-  Expanded deliveryDatePickerWidget() {
-    return Expanded(
-      flex: 2,
-      child: TextField(
-        autofocus: false,
-        controller: initialValue(dateSelected),
-        focusNode: AlwaysDisabledFocusNode(),
-        style: const TextStyle(color: Colors.black),
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          fillColor: Colors.teal.shade50,
-          filled: true,
-          hintText: 'Delivery Date',
-          labelText: 'Delivery Date',
-          labelStyle: const TextStyle(color: Color.fromARGB(255, 1, 99, 89)),
-          contentPadding: const EdgeInsets.all(2.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(2.0),
-              borderSide: const BorderSide(color: Colors.green)),
-        ),
-        onChanged: (String value) {
-          setState(() {});
-          dateSelected = value;
-          //dateSelected;
-        },
-        onTap: () {
-          pickDate();
-        },
-      ),
-    );
-  }
 
 
 //============================================Customer Info Details================================================================
@@ -542,266 +440,105 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     );
   }
 
-// //============================================Note================================================================
-//   Padding customerNotesTextFieldWidget() {
-//     return Padding(
-//       padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-//       child: userLoginInfo!.noteFlag
-//           ? SizedBox(
-//               height: 60,
-//               width: screenWidth,
-//               // color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.5),
-//               child: TextFormField(
-//                 maxLength: 100,
-//                 keyboardType: TextInputType.text,
 
-//                 style: const TextStyle(color: Colors.black),
-//                 controller: noteController,
-//                 // focusNode: FocusNode(),
-//                 autofocus: false,
-//                 decoration: InputDecoration(
-//                     filled: true,
-//                     fillColor: const Color.fromARGB(255, 167, 209, 174)
-//                         .withOpacity(.5),
-//                     border: const OutlineInputBorder(
-//                         borderRadius: BorderRadius.all(Radius.circular(10))),
-//                     labelText: 'Notes',
-//                     labelStyle: const TextStyle(color: Colors.blueGrey)),
-//                 onChanged: (value) {
-//                   // value.replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-//                   (noteController.text).replaceAll(RegExp('[^A-Za-z0-9]'), " ");
-//                 },
-//               ),
-//             )
-//           : const Text(''),
-//     );
-//   }
 
 //============================================Item Per Calculation LisView builder================================================================
   ListView perItemCalculationListViewWidget() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: finalItemDataList.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (BuildContext itemBuilder, index) {
-        // _itemController.add(TextEditingController());
-
-        // _itemController[index].text =
-        //     finalItemDataList[index].quantity.toString();
-        return Card(
-          // elevation: 15,
-          color: const Color.fromARGB(255, 222, 233, 243),
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(color: Colors.white70, width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  return ListView.builder(
+  shrinkWrap: true,
+  itemCount: finalItemDataList.length,
+  physics: const BouncingScrollPhysics(),
+  itemBuilder: (BuildContext context, index) {
+    //print("")
+    return Card(
+      color: Colors.white,
+      // color: const Color.fromARGB(255, 222, 233, 243),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.white, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      // flex: 10,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 3),
-                            child: Text(
-                              finalItemDataList[index].itemId,
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 16),
-                            ),
-                          ),
-                         
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        _showMyDialog(index);
-                      },
-                      icon: const Icon(
-                        Icons.clear,
-                        size: 20,
-                        color: Colors.grey,
-                      ),
-                    )
-                  ],
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    finalItemDataList[index].itemName,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
-                  color: const Color.fromARGB(255, 200, 250, 207),
-                  // elevation: 2,
+                ),
+                Expanded(
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () {
+                        
+                      },
+                      icon: const Icon(Icons.edit, color: Color.fromARGB(255, 82, 179, 98)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            fixedRowWidget(), 
+            Column(
+              children: finalItemDataList[index].batchWiseItem.map((batchItem) {
+                return SizedBox(
+                  height: 30,
                   child: Row(
-                    children: const [
+                    children: [
                       Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'QT',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                          ),
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 13),
+                          child: Text(batchItem.batchId),
                         ),
                       ),
                       Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'TP',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
+                        flex: 2,
+                        child: Center(child: Text(batchItem.expiredDate)),
                       ),
                       Expanded(
                         flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Vat',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                          ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Center(child: Text(batchItem.unitQty)),
                         ),
                       ),
                       Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Total',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                
+                              },
+                              icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      // flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Container(
-                          height: 30,
-                          color: const Color.fromARGB(255, 138, 201, 149)
-                              .withOpacity(.3),
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            controller:
-                                controllers[finalItemDataList[index].itemId],
-
-                            keyboardType: TextInputType.number,
-                            // focusNode: FocusNode(),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-
-                            onChanged: (value) {
-                              // //_itemController[index].clear();
-                              // finalItemDataList[index].quantity =
-                              //     controllers[finalItemDataList[index].item_id]
-                              //                 ?.text !=
-                              //             ''
-                              //         ? int.parse(controllers[
-                              //                 finalItemDataList[index].item_id]!
-                              //             .text)
-                              //         : 0;
-
-                              // setState(() {
-                              //   itemString = OrderServices().ordertotalAmount(
-                              //       itemString,
-                              //       orderAmount,
-                              //       finalItemDataList,
-                              //       total,
-                              //       totalAmount)["ItemString"];
-                              //   totalAmount = OrderServices().ordertotalAmount(
-                              //       itemString,
-                              //       orderAmount,
-                              //       finalItemDataList,
-                              //       total,
-                              //       totalAmount)["TotalAmount"];
-                              // });
-                              // setState(() {});
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: Text(
-                          '${finalItemDataList[index].tp}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: Text(
-                          '${finalItemDataList[index].vat}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: Center(
-                    //     child: Text(
-                    //       OrderServices()
-                    //           .totalCount(finalItemDataList[index])
-                    //           .toStringAsFixed(2),
-                    //       style: const TextStyle(
-                    //         color: Colors.black,
-                    //         fontSize: 15,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
-                  ],
-                ),
-              ],
+                );
+              }).toList(),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
+  },
+);
   }
 
 //============================================Bottom Navigation Bar Index Function================================================================
   _onItemTapped(int index) async {
     if (index == 0) {
-      //await orderSaveAndDraftData();
+      await orderSaveAndDraftData();
       if (!mounted) return;
+      Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       setState(() {
@@ -850,9 +587,19 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       MaterialPageRoute(
         builder: (_) => ItemsExpiredDatedScreen(
           syncItem: expiredItemList,
+          customerInfo: {
+            "client_name": widget.clientName,
+            "client_id": widget.clientId,
+            "market_name": widget.marketName,
+            "outStanding": widget.outStanding,
+
+          },
           expiredItemSubmitModel: finalItemDataList,
           callbackMethod: (value) {
-            // finalItemDataList = value!;
+            finalItemDataList = value!;
+            setState(() {
+              
+            });
             // for (var element in finalItemDataList) {
             //   controllers[element.item_id] = TextEditingController();
             //   controllers[element.item_id]?.text = element.quantity.toString();
@@ -871,7 +618,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
             //       total,
             //       totalAmount)["TotalAmount"];
             // });
-          },
+          }, 
         ),
       ),
     );
@@ -882,19 +629,24 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
 
 //================================================Save & draft Order Data===========================================================
   Future orderSaveAndDraftData() async {
-    if ( finalItemDataList.isNotEmpty) {
-      // OrderServices().orderDraftDataUpdate(
-      //   finalItemDataList,
-      //   customerBox,
-      //   widget.clientId,
-      //   dateSelected,
-      //   selectedDeliveryTime,
-      //   initialOffer,
-      //   noteController.text,
-      //   slectedPayMethod,
-      // );
-    } else {
-      customerExpiredItemsBox.add(ExpiredSubmitDataModel(
+    if(isEdit==true && finalItemDataList.isNotEmpty){
+      dynamic desireKey;
+      customerExpiredItemsBox.toMap().forEach((key, value) {
+      if (value.clientId == widget.clientId) {
+        desireKey = key;  
+      }
+     });
+    
+     ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
+      print("order services 3=$clientData");
+    if (clientData!.isInBox) {
+      clientData.expiredItemSubmitModel=finalItemDataList;
+      print("order services 2=$clientData");
+    }
+    customerExpiredItemsBox.put(desireKey, clientData);
+    }
+    else{
+       customerExpiredItemsBox.add(ExpiredSubmitDataModel(
           clientName: widget.clientName,
           marketName: widget.marketName,
           areaId: 'areaId',
@@ -904,32 +656,82 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           address: 'address',
           expiredItemSubmitModel: finalItemDataList
           ));
+
     }
+
   }
+  Container fixedRowWidget() {
+                  return Container(
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color : const Color.fromARGB(255, 138, 201, 149)
+                                          .withOpacity(.3) ,
+                                              spreadRadius : 2,
+                                              blurStyle :BlurStyle.outer,
+                                              blurRadius: 1,
+                                            ),
+                                          ], 
+                                          borderRadius: BorderRadius.circular(12),
+                                          color:  const Color.fromARGB(255, 138, 201, 149)
+                                          .withOpacity(.3),
+                                          
+                                        ),
+                                        
+                                          child: Row(
+                                            children:const [
+                                              Expanded(
+                                                flex: 2,
+                                                child: Padding(
+                                                padding:  EdgeInsets.all(8.0),
+                                                child:  Center(child: Text("Batch Id",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
+                                              )),
+                                               Expanded(
+                                                flex: 2,
+                                                child: Padding(
+                                                padding:  EdgeInsets.all(8.0),
+                                                child:  Center(child: Text("Expired Date",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
+                                              )),
+                                               Expanded(flex: 1,
+                                                child: Padding(
+                                                padding:  EdgeInsets.all(8.0),
+                                                child:  Center(child: Text("Qty",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
+                                              )),
+                                               Expanded(child: Padding(
+                                                padding:  EdgeInsets.all(8.0),
+                                                child:  Center(child: Text("Action",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
+                                              )),
+                                            ],  
+                                          )
+                                          
+                                       
+                                      );
+  }
+
 
 //=============================================================Date Time Picker==================================================================
-  pickDate() async {
-    final newDate = await showDatePicker(
-      context: context,
-      initialDate: DT,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 10),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData(
-            primaryColor: Colors.white,
-          ), // This will change to light theme.
-          child: child!,
-        );
-      },
-    );
+  // pickDate() async {
+  //   final newDate = await showDatePicker(
+  //     context: context,
+  //     initialDate: DT,
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime(DateTime.now().year + 10),
+  //     builder: (context, child) {
+  //       return Theme(
+  //         data: ThemeData(
+  //           primaryColor: Colors.white,
+  //         ), // This will change to light theme.
+  //         child: child!,
+  //       );
+  //     },
+  //   );
 
-    if (newDate == null) return;
+  //   if (newDate == null) return;
 
-    DT = newDate;
-    dateSelected = DateFormat('yyyy-MM-dd').format(newDate);
-    setState(() => DT = newDate);
-  }
+  //   DT = newDate;
+  //   dateSelected = DateFormat('yyyy-MM-dd').format(newDate);
+  //   setState(() => DT = newDate);
+  // }
 
   //===========================Submit Api call==============================================
 
@@ -1001,3 +803,183 @@ class AlwaysDisabledFocusNode extends FocusNode {
   @override
   bool get hasFocus => false;
 }
+// class DynamicItemsWidgetB extends StatefulWidget {
+//   BatchWiseItemListModel? batchWiseItemListModel;
+//   // List<DynamicItemsWidget> batchItems;
+//   // int indexNum;
+//   // void Function(void Function()) setState2;
+//   // Function(BatchWiseItemListModel?) callbackFunction;
+  
+
+//   DynamicItemsWidgetB({super.key, required this.batchWiseItemListModel
+//   // required this.batchItems,required this.indexNum,required this.setState2,required this.callbackFunction
+//   });
+
+//   @override
+//   State<DynamicItemsWidgetB> createState() => _DynamicItemsWidgetBState();
+// }
+
+// class _DynamicItemsWidgetBState extends State<DynamicItemsWidgetB> {
+//   DateTime selectedExpiredDate=DateTime.now();
+//   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
+//   TextEditingController batchcontroller=TextEditingController();
+//   TextEditingController qtyController=TextEditingController();
+//  // BatchWiseItemListModel batchWiseItem=BatchWiseItemListModel();
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     // BatchWiseItemListModel batchWiseItem=BatchWiseItemListModel(
+//     //   expiredDate:selectedExpiredDateString,
+//     //   unitQty:qtyController.text,
+//     //   batchId:batchcontroller.text, eachbatchWiseItemString: ''
+//     // );
+//     batchcontroller.text=widget.batchWiseItemListModel!.batchId.toString();
+//     qtyController.text=widget.batchWiseItemListModel!.unitQty.toString();
+//    // batchcontroller.text=widget.batchWiseItemListModel!.batchId.toString();
+    
+    
+//   }
+//   //BatchWiseItemListModel? batchWiseItemListModel;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(bottom: 1,),
+//       child: Row(
+//                                               children: [
+//                                                 Expanded(
+//                                                   flex: 2,
+//                                                   child: Padding(
+//                                                   padding: const EdgeInsets.all(8.0),
+//                                                   child:  Center(child: TextFormFieldCustomOrderInput(controller: batchcontroller, borderColor: Colors.teal, 
+//                                                   hintText: "---id---", 
+//                                                   textAlign: TextAlign.center, 
+//                                                   validator: (value) { 
+//                                                     // if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
+                                                    
+//                                                     //  widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
+
+//                                                     // }
+                                                    
+                                                    
+//                                                    }, afterClickingDone: () {  },)),
+//                                                 )),
+//                                                  Expanded(
+//                                                   flex: 2,
+//                                                   child:StatefulBuilder(builder: (context, setState2) {
+//                                                     return Padding(
+//                                                   padding:const  EdgeInsets.all(8.0),
+//                                                   child:  Center(child:TextFormField(
+//                                                               autofocus: false,
+//                                                               controller: initialValue(selectedExpiredDateString),
+//                                                               focusNode: AlwaysDisabledFocusNode(),
+//                                                               style:const TextStyle(fontSize: 14,color: Colors.teal,),
+//                                                               textAlign: TextAlign.center,
+//                                                               decoration:const InputDecoration(
+//                                                                 hintText: "select",
+//                                                                 //suffixIcon: Icon(Icons.calendar_month_outlined,color: Colors.teal,),
+//                                                                 focusedBorder: UnderlineInputBorder(
+//                                                                 borderSide: BorderSide(
+//                                                                     width: 1, 
+//                                                                     color:  Colors.white
+//                                                                 ), 
+//                                                                 ),
+//                                                                 enabledBorder: UnderlineInputBorder(
+//                                                                 borderSide: BorderSide(
+//                                                                     width: 1, 
+//                                                                     color:  Colors.teal, 
+//                                                                 ), 
+//                                                                 ),
+                                                                
+//                                                               ),
+                                                              
+//                                                               onChanged: (String value) {
+//                                                     //             setState2(() {});
+//                                                     //             selectedExpiredDateString  = value;
+//                                                     //              if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
+                                                    
+//                                                     //                widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
+
+//                                                     // }
+//                                                     //             //  widget.callbackFunction(BatchWiseItemListModel(
+//                                                     //             //       expiredDate: selectedExpiredDateString,
+//                                                     //             //       unitQty: qtyController.text,
+//                                                     //             //       batchId: batchcontroller.text,
+//                                                     //             //       eachbatchWiseItemString: '',
+//                                                     //             //     ));
+                                                                        
+//                                                               },
+//                                                               onTap: () {
+//                                                                 pickDate(context,setState2);
+//                                                               },
+//                                                             ), ),
+//                                                 );
+                                                    
+//                                                   },) ),
+//                                                Expanded(
+//                                                   flex: 1,
+//                                                   child: Padding(
+//                                                   padding:const  EdgeInsets.all(8.0),
+//                                                   child:  Center(child: TextFormFieldCustomOrderInput(controller: qtyController, borderColor: Colors.teal, hintText: "-qty-", textAlign: TextAlign.center, 
+//                                                   validator: (value) { 
+//                                                     //   if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
+                                                    
+//                                                     //  widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
+//                                                     //   batchcontroller.clear();
+//                                                     //   qtyController.clear();
+//                                                     //   setState(() {});
+
+//                                                     // }
+//                                                    }, afterClickingDone: () {  },)),
+//                                                 )),
+//                                                  Expanded(child: Padding(
+//                                                   padding: const EdgeInsets.all(8.0),
+//                                                   child:  Center(child: IconButton(onPressed: (){
+                                                
+//                                                   //  widget.batchItems.removeAt(widget.indexNum);
+//                                                   //  widget.setState2;
+//                                                   //  setState(() {
+                                                     
+//                                                   //  });
+                                                 
+                                                    
+                                                   
+
+//                                                   }, icon:const Icon(Icons.delete,color: Colors.redAccent,size:20))),
+//                                                 )),
+//                                               ],  
+//                                             ),
+//     );
+//   }
+
+//    initialValue(String val) {
+//     return TextEditingController(text: val);
+//   }
+
+//   pickDate(BuildContext context,void Function(void Function()) setState2) async {
+//     final newDate = await showDatePicker(
+//       context: context,
+//       initialDate:selectedExpiredDate,
+//       firstDate: DateTime(DateTime.now().year - 3),
+//       lastDate: DateTime.now(),
+//       builder: (context, child) {
+//         return Theme(
+//           data: ThemeData.light().copyWith(
+//             primaryColor: Colors.teal,
+//             colorScheme:const ColorScheme.light(primary: Colors.teal,),
+//             canvasColor: Colors.teal,
+//           ),
+//           child: child!,
+//         );
+//       },
+//     );
+
+//     if (newDate == null) return;
+
+//     selectedExpiredDate = newDate;
+//     selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(selectedExpiredDate);
+//     setState2(() => selectedExpiredDate = newDate);
+  
+//   }
+// }

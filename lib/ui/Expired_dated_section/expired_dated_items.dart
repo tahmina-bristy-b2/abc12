@@ -5,16 +5,17 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 
 class ItemsExpiredDatedScreen extends StatefulWidget {
   final List<ExpiredItemList> syncItem;
+  Map<String,dynamic> customerInfo;
   List<ExpiredItemSubmitModel> expiredItemSubmitModel;
   final Function(List<ExpiredItemSubmitModel>?) callbackMethod;
 
    ItemsExpiredDatedScreen(
       {Key? key,
       required this.syncItem,
+      required this.customerInfo,
       required this.expiredItemSubmitModel,
       // required this.uniqueId,
       required this.callbackMethod})
@@ -27,13 +28,13 @@ class ItemsExpiredDatedScreen extends StatefulWidget {
 class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   UserLoginModel? userLoginInfo;
   final _formkey = GlobalKey<FormState>();
-  Map<String, TextEditingController> controllers = {};
+  Map<String, TextEditingController> controllers = {}; 
+  int batchwiseCount=0;
   final TextEditingController searchController = TextEditingController();
   final TextEditingController searchController2 = TextEditingController();
 
   DmPathDataModel? dmpathData;
   List<ExpiredItemList> filteredItems=[];
-  List<ExpiredItemSubmitModel> expiredItemSubmitModel=[];
   var orderamount = 0.0;
   var neworderamount = 0.0;
   int amount = 0;
@@ -48,35 +49,19 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
     dmpathData = Boxes.getDmpath().get('dmPathData');
 
     filteredItems = widget.syncItem;
-    // for (var element in filteredItems) {
-    //   controllers[element.itemId] = TextEditingController();
-    // }
-    // for (var element in widget.tempList) {
-    //   controllers.forEach((key, value) {
-    //     if (key == element.item_id) {
-    //       value.text = element.quantity.toString();
-    //     }
-    //   });
-    // }
-
-    // for (var element in widget.tempList) {
-    //   total = (element.tp + element.vat) * element.quantity;
-
-    //   orderamount = orderamount + total;
-    // }
-
+    itemCount();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    for (var element in filteredItems) {
-      controllers[element.itemId]!.dispose();
-    }
+  // @override
+  // void dispose() {
+  //   for (var element in filteredItems) {
+  //     controllers[element.itemId]!.dispose();
+  //   }
 
-    searchController.dispose();
-    super.dispose();
-  }
+  //   searchController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +81,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
             const SizedBox(
               height: 5,
             ),
-            addtoCartButtonWidget(context)
+           // addtoCartButtonWidget(context)
           ],
         ),
       ),
@@ -116,24 +101,23 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
           fontSize: 20),
       centerTitle: true,
       actions: [
-        incLen
-            ? Padding(
+         Padding(
                 padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
                 child: Text(
-                  orderamount.toStringAsFixed(2),
+                  batchwiseCount.toStringAsFixed(0),
                   style: const TextStyle(
                       color: Color.fromARGB(255, 27, 56, 34),
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
               )
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-                child: Text(neworderamount.toStringAsFixed(2),
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 27, 56, 34),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18)))
+            // : Padding(
+            //     padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+            //     child: Text(neworderamount.toStringAsFixed(2),
+            //         style: const TextStyle(
+            //             color: Color.fromARGB(255, 27, 56, 34),
+            //             fontWeight: FontWeight.w500,
+            //             fontSize: 18)))
       ],
     );
   }
@@ -152,6 +136,14 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                 itemBuilder: (context, itemIndeex) {
                   return GestureDetector(
                     onTap: (){
+                      ExpiredItemSubmitModel? expiredItemModel;
+                      widget.expiredItemSubmitModel.forEach((element) {
+                        if(element.itemId==filteredItems[itemIndeex].itemId ){
+                          expiredItemModel=element;
+                        }
+                        
+                      },);
+
                       showDialog(context: context, builder:(BuildContext context){
                         return Theme( data: ThemeData(
                                  dialogBackgroundColor: Colors.white,
@@ -160,21 +152,21 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                      borderRadius: BorderRadius.circular(16.0),
                                    ),
                                  ),
-                                ), child: ExpiredIteminputShowDialogScreen(
+                                ), 
+                               child: ExpiredIteminputShowDialogScreen(
                                   expiredItem: filteredItems[itemIndeex],
-                                  expiredItemSubmitModel: null, 
+                                  expiredItemSubmitModel: expiredItemModel, 
                                   callbackFunction: (value ) { 
                                     if(value!=null){
-                                      expiredItemSubmitModel.removeWhere((element) => element.itemId==value.itemId);
-                                      expiredItemSubmitModel.add(value);
-                                      print("data model =${expiredItemSubmitModel}");
-
-
+                                     widget.expiredItemSubmitModel.removeWhere((element) => element.itemId==value.itemId);
+                                     widget. expiredItemSubmitModel.add(value);
+                                     itemCount() ;
+                                     //print("data model =${widget.expiredItemSubmitModel}");
+                                     setState(() { 
+                                      });
                                       
                                     }
-                                    setState(() {
-                                      
-                                    });
+                                    setState(() { });
                                    }, 
 
                                ));
@@ -339,94 +331,57 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   }
 
 //====================================================== Add to Cart ====================================================
-  Align addtoCartButtonWidget(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: ElevatedButton(
-        onPressed: () {
-          widget.expiredItemSubmitModel;
-          widget.callbackMethod(widget.expiredItemSubmitModel);
-
-          Navigator.pop(context);
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(200, 50),
-          backgroundColor: const Color.fromARGB(255, 4, 60, 105),
-          maximumSize: const Size(200, 50),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  bottomLeft: Radius.circular(5))),
-        ),
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              //Icon(Icons.add_shopping_cart_outlined, size: 30),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                "Add as Expired",
-                style: TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Align addtoCartButtonWidget(BuildContext context) {
+  //   return Align(
+  //     alignment: Alignment.centerRight,
+  //     child: ElevatedButton(
+  //       onPressed: () {
+        
+  //         widget.expiredItemSubmitModel=widget.expiredItemSubmitModel;
+  //         widget.callbackMethod(widget.expiredItemSubmitModel);
+  //         Navigator.pop(context);
+  //       },
+  //       style: ElevatedButton.styleFrom(
+  //         minimumSize: const Size(200, 50),
+  //         backgroundColor: const Color.fromARGB(255, 4, 60, 105),
+  //         maximumSize: const Size(200, 50),
+  //         shape: const RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(25),
+  //                 bottomLeft: Radius.circular(5))),
+  //       ),
+  //       child: Align(
+  //         alignment: Alignment.centerRight,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: const [
+  //             //Icon(Icons.add_shopping_cart_outlined, size: 30),
+  //             SizedBox(
+  //               width: 5,
+  //             ),
+  //             Text(
+  //               "Add as Expired",
+  //               style: TextStyle(fontSize: 15),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
 //=========================================== Item count Method ===================================================
-  itemCount(String value, int index) {
-    // if (value != '') {
-    //   final temp = AddItemModel(
-    //       quantity: int.parse(controllers[foundUsers[index]['item_id']]!.text),
-    //       item_name: foundUsers[index]['item_name'],
-    //       tp: foundUsers[index]['tp'],
-    //       item_id: foundUsers[index]['item_id'],
-    //       category_id: foundUsers[index]['category_id'],
-    //       vat: foundUsers[index]['vat'],
-    //       manufacturer: foundUsers[index]['manufacturer'],
-    //       promo: foundUsers[index]['promo'],
-    //       stock: foundUsers[index]['stock'].toString());
+  itemCount() {
+    batchwiseCount=0;
+    widget.expiredItemSubmitModel.forEach((element) {
+      element.batchWiseItem.forEach((element) { 
+        batchwiseCount+=1;
+        print("data $batchwiseCount");
 
-    //   widget.tempList.removeWhere((item) => item.item_id == temp.item_id);
-    //   widget.tempList.add(temp);
-    //   incLen = false;
-    //   neworderamount = 0.0;
-    //   for (var element in widget.tempList) {
-    //     total = (element.tp + element.vat) * element.quantity;
+      });
 
-    //     neworderamount = neworderamount + total;
-    //   }
-
-    //   setState(() {});
-    // } else if (value == '') {
-    //   final temp = AddItemModel(
-    //       quantity: value == ''
-    //           ? 0
-    //           : int.parse(controllers[foundUsers[index]['item_id']]!.text),
-    //       item_name: foundUsers[index]['item_name'],
-    //       tp: foundUsers[index]['tp'],
-    //       item_id: foundUsers[index]['item_id'],
-    //       category_id: foundUsers[index]['category_id'],
-    //       vat: foundUsers[index]['vat'],
-    //       manufacturer: foundUsers[index]['manufacturer'],
-    //       promo: foundUsers[index]['promo'],
-    //       stock: foundUsers[index]['stock'].toString());
-
-    //   widget.tempList.removeWhere((item) => item.item_id == temp.item_id);
-    //   // orderamount = 0.0;
-    //   incLen = false;
-    //   neworderamount = 0.0;
-    //   for (var element in widget.tempList) {
-    //     total = (element.tp + element.vat) * element.quantity;
-    //     neworderamount = neworderamount + total;
-    //   }
-
-    //   setState(() {});
-    // }
+     });
+     print("batchwise counter=$batchwiseCount");
+   
   }
 }

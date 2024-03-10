@@ -4,11 +4,12 @@ class TextFormFieldCustomOrderInput extends StatelessWidget {
   String hintText;
   Color borderColor;
   TextAlign textAlign;
+  bool readOnly;
   final TextEditingController controller;
   final void Function(dynamic) validator; 
   final void Function() afterClickingDone; 
 
-   TextFormFieldCustomOrderInput({super.key,required this.hintText, required this.borderColor,
+   TextFormFieldCustomOrderInput({super.key,required this.hintText, required this.borderColor,required this.readOnly,
    required this.textAlign,
    required this.controller,required this.validator,required this.afterClickingDone});
 
@@ -40,6 +41,7 @@ class TextFormFieldCustomOrderInput extends StatelessWidget {
                                               
                                              controller:  controller,
                                              textAlign: textAlign,
+                                             readOnly: readOnly,
                                          
                                              style:const TextStyle(fontSize: 14),
                                              keyboardType: TextInputType.number,

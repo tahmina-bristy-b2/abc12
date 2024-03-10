@@ -10,11 +10,13 @@ import 'package:MREPORTING/ui/Expired_dated_section/confirm_widget.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/textform_field_custom.dart';
 
 class EachBtachItemWidget extends StatefulWidget {
+  bool routeName;
   String itemName;
   BatchWiseItemListModel? batchWiseItemSaved;
   Function(BatchWiseItemListModel) callbackFunction;
   EachBtachItemWidget({
     Key? key,
+    required this.routeName,
     required this.itemName,
     required this.batchWiseItemSaved,
     required this.callbackFunction,
@@ -34,14 +36,14 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
   void initState() {
     super.initState();
     selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    // if(widget.itemInfoMR!=null){
-    //   pcsController.text=widget.itemInfoMR!.pcs!;
-    //   selectedReasonForMR=widget.itemInfoMR!.reasonforMarketR!;
-    //   selectedExpiredDateString=widget.itemInfoMR!.expiredDate;
-    //   total=widget.itemInfoMR!.totalPrice!;
-    //   isUpdate=true;
+    if(widget.routeName==true){
+      batchcontroller.text=widget.batchWiseItemSaved!.batchId;
+      qtyController.text=widget.batchWiseItemSaved!.unitQty;
+      batchcontroller.text=widget.batchWiseItemSaved!.batchId;
 
-    // }
+
+    }
+   
   }
 
   @override
@@ -93,7 +95,8 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                                              Expanded(flex: 3,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:  Center(child: TextFormFieldCustomOrderInput(controller: batchcontroller, borderColor: Colors.teal, 
+                                                  child:  Center(child: TextFormFieldCustomOrderInput(readOnly: false,
+                                                    controller: batchcontroller, borderColor: Colors.teal, 
                                                   hintText: "---batch id---", 
                                                   textAlign: TextAlign.center, 
                                                   validator: (value) { 
@@ -110,7 +113,7 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                                                        Expanded(flex: 3,
                                                         child: Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:  Center(child: TextFormFieldCustomOrderInput(
+                                                  child:  Center(child: TextFormFieldCustomOrderInput(readOnly: false,
                                                     controller: qtyController, 
                                                     borderColor: Colors.teal, 
                                                   hintText: "---Qty---", 
@@ -186,7 +189,28 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                               
                             },borderColor: const Color.fromARGB(255, 82, 179, 98),)),
                            const SizedBox(width: 10,),
-                         Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Add", fontSize: 16, 
+                        widget.routeName==true?  Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Update", fontSize: 16, 
+                         onTapFuction: () {
+                          if(batchcontroller.text!="" && qtyController.text !=""){
+                           final item= BatchWiseItemListModel(batchId:batchcontroller.text , eachbatchWiseItemString: '', expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
+                            widget.batchWiseItemSaved=item;
+                            widget.callbackFunction(widget.batchWiseItemSaved!);
+                            Navigator.pop(context);
+                          }
+                          else if(batchcontroller.text=="" ||  qtyController.text ==""){
+                            if(batchcontroller.text==""){
+                              AllServices().toastMessageForSubmitData("Plaese enter batch id ", Colors.red, Colors.red, 15);
+                            }
+                            else{
+                              AllServices().toastMessageForSubmitData("Plaese enter qty amount ", Colors.red, Colors.red, 15);
+                            }
+                          }
+                          else{
+                            AllServices().toastMessageForSubmitData("Plaese fill up all information", Colors.red, Colors.red, 15);
+                          }
+                        
+                            
+                             },)) :Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Add", fontSize: 16, 
                          onTapFuction: () {
                           if(batchcontroller.text!="" && qtyController.text !=""){
                            final item= BatchWiseItemListModel(batchId:batchcontroller.text , eachbatchWiseItemString: '', expiredDate: selectedExpiredDateString, unitQty: qtyController.text);

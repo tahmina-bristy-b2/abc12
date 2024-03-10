@@ -81,7 +81,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
             const SizedBox(
               height: 5,
             ),
-           // addtoCartButtonWidget(context)
+            addtoCartButtonWidget(context)
           ],
         ),
       ),
@@ -161,6 +161,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                      widget.expiredItemSubmitModel.removeWhere((element) => element.itemId==value.itemId);
                                      widget. expiredItemSubmitModel.add(value);
                                      itemCount() ;
+                                     Navigator.pop(context) ;
                                      //print("data model =${widget.expiredItemSubmitModel}");
                                      setState(() { 
                                       });
@@ -176,7 +177,6 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
 
                     },
                     child: Card(
-                      // color: Colors.yellow.shade50,
                       elevation: 0.3,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
@@ -226,35 +226,16 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                             Expanded(
                               flex: 2,
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Card(
-                                    // elevation: 1,
                                     child: Container(
-                                      // height: 50,
                                       color:
                                           const Color.fromARGB(255, 138, 201, 149)
                                               .withOpacity(.3),
                                       width: 60,
-                                      child: IconButton(onPressed: (){
-                                       // batc.add(BatchItem());
-
-                                      }, icon:const Icon(Icons.add))
-                                      // TextFormField(
-                                      //   textDirection: TextDirection.ltr,
-                                      //   // maxLength: 1000,
-                                      //   textAlign: TextAlign.center,
-                                      //   controller: controllers[filteredItems[index].itemId
-                                      //      ],
-                                      //   keyboardType: TextInputType.number,
-                                      //   decoration: const InputDecoration(
-                                      //     border: OutlineInputBorder(),
-                                      //   ),
-                                      //   onChanged: (value) {
-                                      //     itemCount(value, index);
-                                      //   },
-                                      // ),
+                                      child:const IconButton(onPressed: null, icon: Icon(Icons.add,color: Colors.black,))
+                                     
                                     ),
                                   ),
                                 ],
@@ -331,44 +312,44 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   }
 
 //====================================================== Add to Cart ====================================================
-  // Align addtoCartButtonWidget(BuildContext context) {
-  //   return Align(
-  //     alignment: Alignment.centerRight,
-  //     child: ElevatedButton(
-  //       onPressed: () {
+  Align addtoCartButtonWidget(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+        onPressed: () {
         
-  //         widget.expiredItemSubmitModel=widget.expiredItemSubmitModel;
-  //         widget.callbackMethod(widget.expiredItemSubmitModel);
-  //         Navigator.pop(context);
-  //       },
-  //       style: ElevatedButton.styleFrom(
-  //         minimumSize: const Size(200, 50),
-  //         backgroundColor: const Color.fromARGB(255, 4, 60, 105),
-  //         maximumSize: const Size(200, 50),
-  //         shape: const RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.only(
-  //                 topLeft: Radius.circular(25),
-  //                 bottomLeft: Radius.circular(5))),
-  //       ),
-  //       child: Align(
-  //         alignment: Alignment.centerRight,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: const [
-  //             //Icon(Icons.add_shopping_cart_outlined, size: 30),
-  //             SizedBox(
-  //               width: 5,
-  //             ),
-  //             Text(
-  //               "Add as Expired",
-  //               style: TextStyle(fontSize: 15),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+          widget.expiredItemSubmitModel=widget.expiredItemSubmitModel;
+          widget.callbackMethod(widget.expiredItemSubmitModel);
+          Navigator.pop(context);
+        },
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(200, 50),
+          backgroundColor: const Color.fromARGB(255, 4, 60, 105),
+          maximumSize: const Size(200, 50),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  bottomLeft: Radius.circular(5))),
+        ),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              //Icon(Icons.add_shopping_cart_outlined, size: 30),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "Add as Expired",
+                style: TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 //=========================================== Item count Method ===================================================
   itemCount() {

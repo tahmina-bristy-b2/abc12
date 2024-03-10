@@ -82,9 +82,9 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                                                   
                                                                 });
                                                         
-                                                       setState(() {
-                                                         
-                                                       });
+                                                        setState(() {
+                                                          
+                                                        });
                                                        }, routeName: false,
 
                                                       );
@@ -130,7 +130,7 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                , itemId: widget.expiredItem.itemId.toString(), categoryId: widget.expiredItem.categoryId.toString(), vat: widget.expiredItem.vat.toString(), manufacturer: widget.expiredItem.manufacturer.toString(), itemString: "", batchWiseItem: batchWiseItemSaved);
                                widget.expiredItemSubmitModel= eachItemtemList;
                                widget.callbackFunction(widget.expiredItemSubmitModel!);
-                               Navigator.pop(context) ;
+                               //Navigator.pop(context) ;
                                setState(() {
                                  
                                });

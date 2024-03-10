@@ -3,6 +3,7 @@ import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_mod
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
@@ -513,6 +514,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                           child: Center(
                             child: IconButton(
                               onPressed: () {
+
                                 
                               },
                               icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
@@ -552,7 +554,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-      //92  orderSubmit();
+       orderSubmit();
       } else {
         AllServices().toastMessage(
             "No Internet Connection\nPlease check your internet connection.",
@@ -736,19 +738,39 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   //===========================Submit Api call==============================================
 
   Future orderSubmit() async {
+    itemString="";
+    
+    customerExpiredItemsBox.toMap().values.forEach((element1) {
+      if(element1.clientId==widget.clientId){
+        for (var element2 in element1.expiredItemSubmitModel) {
+          for (var element3 in element2.batchWiseItem) {
+            if(itemString.isEmpty){
+              itemString="${element2.itemId}|${element3.batchId}|${element3.expiredDate}|${element3.unitQty}";
+            }
+            else{
+              itemString+="||${element2.itemId}|${element3.batchId}|${element3.expiredDate}|${element3.unitQty}";
+            }
+            setState(() {
+              
+            });
+          }  
+        }
+      } 
+    });
+    print("itemString $itemString");
+
+
+
+
     if (itemString != '') {
       String status;
-      Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
+      Map<String, dynamic> orderInfo = await ExpiredRepositoryRepo().expiredSubmitRepo(
           dmPathData!.submitUrl,
           cid,
           userLoginInfo!.userId,
           userPassword,
           deviceId,
           widget.clientId,
-          dateSelected,
-          selectedDeliveryTime,
-          slectedPayMethod,
-          initialOffer,
           "",
           itemString,
           latitude,

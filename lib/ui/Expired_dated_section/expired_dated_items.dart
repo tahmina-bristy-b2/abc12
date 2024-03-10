@@ -137,12 +137,12 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                   return GestureDetector(
                     onTap: (){
                       ExpiredItemSubmitModel? expiredItemModel;
-                      widget.expiredItemSubmitModel.forEach((element) {
+                      for (var element in widget.expiredItemSubmitModel) {
                         if(element.itemId==filteredItems[itemIndeex].itemId ){
                           expiredItemModel=element;
                         }
                         
-                      },);
+                      }
 
                       showDialog(context: context, builder:(BuildContext context){
                         return Theme( data: ThemeData(
@@ -156,23 +156,33 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                child: ExpiredIteminputShowDialogScreen(
                                   expiredItem: filteredItems[itemIndeex],
                                   expiredItemSubmitModel: expiredItemModel, 
+
                                   callbackFunction: (value ) { 
                                     if(value!=null){
                                      widget.expiredItemSubmitModel.removeWhere((element) => element.itemId==value.itemId);
                                      widget. expiredItemSubmitModel.add(value);
                                      itemCount() ;
-                                     Navigator.pop(context) ;
+                                     widget.callbackMethod(widget.expiredItemSubmitModel);
+
+                              Navigator.pop(context) ;
                                      //print("data model =${widget.expiredItemSubmitModel}");
-                                     setState(() { 
-                                      });
+                                    //  setState(() { 
+                                    //   });
                                       
                                     }
-                                    setState(() { });
+                                    // setState(() { });
                                    }, 
 
                                ));
                         
                       } );
+                      // .then((value){
+                      //   print( "vALUE==$value");
+                        
+                      //   widget.callbackMethod(widget.expiredItemSubmitModel);
+
+                      //         Navigator.pop(context) ;
+                      //         });
                       // ExpiredIteminputShowDialogScreen()
 
                     },

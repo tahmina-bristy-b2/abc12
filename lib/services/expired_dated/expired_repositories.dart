@@ -29,4 +29,46 @@ class ExpiredRepositoryRepo{
     }
     return expiredModelDataModel;
   }
+
+
+  //======================================== expired irtem submit==================================
+  Future<Map<String, dynamic>> expiredSubmitRepo(
+      String submitUrl,
+      String? cid,
+      String? userId,
+      String? userPassword,
+      String? deviceId,
+      String clientId,
+      String noteText,
+      String itemString,
+      double latitude,
+      double longitude
+      ) async {
+    final http.Response response;
+    Map<String, dynamic> orderInfo = {};
+    // print();
+    try {
+      response = await ExpiredDataProviders().expiredItemsSubmit(
+          submitUrl,
+          cid,
+          userId,
+          userPassword,
+          deviceId,
+          clientId,
+          noteText,
+          itemString,
+          latitude,
+          longitude);
+
+      if (response.statusCode == 200) {
+        orderInfo = json.decode(response.body);
+        return orderInfo;
+      }
+    } on Exception catch (e) {
+      AllServices().toastMessage('$e', Colors.red, Colors.white, 16);
+      print('Error Message: $e');
+      return orderInfo;
+    }
+    return orderInfo;
+  }
 }

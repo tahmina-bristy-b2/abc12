@@ -129,12 +129,8 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                               final eachItemtemList=ExpiredItemSubmitModel(itemName: widget.expiredItem.itemName.toString(), quantity: widget.expiredItem.stock.toString(), tp:widget.expiredItem.tp.toString()
                                , itemId: widget.expiredItem.itemId.toString(), categoryId: widget.expiredItem.categoryId.toString(), vat: widget.expiredItem.vat.toString(), manufacturer: widget.expiredItem.manufacturer.toString(), itemString: "", batchWiseItem: batchWiseItemSaved);
                                widget.expiredItemSubmitModel= eachItemtemList;
-                               widget.callbackFunction(widget.expiredItemSubmitModel!);
-                               //Navigator.pop(context) ;
-                               setState(() {
-                                 
-                               });
-                             
+                               widget.callbackFunction(widget.expiredItemSubmitModel);
+                                Navigator.pop(context) ;
 
                             }
                             

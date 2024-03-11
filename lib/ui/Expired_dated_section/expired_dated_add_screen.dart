@@ -8,6 +8,7 @@ import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/textform_field_custom.dart';
 
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   @override
   void dispose() {
     _quantityController.dispose();
-   // noteController.dispose();
+// noteController.dispose();
     _itemController.map((element) {
       element.dispose();
     });
@@ -421,7 +422,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     //print("")
     return Card(
       color: Colors.white,
-      // color: const Color.fromARGB(255, 222, 233, 243),
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.white, width: 1),
         borderRadius: BorderRadius.circular(10),
@@ -439,10 +439,73 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                 ),
+                Expanded(child: Center(child: IconButton(onPressed: (){
+                  finalItemDataList.removeWhere((element) =>element.itemId== finalItemDataList[index].itemId);
+                  setState(() {
+                    
+                  });
+
+
+                }, icon: const Icon(Icons.delete,color: Colors.red,)),)),
+                const SizedBox(width: 10,),
                 Expanded(
                   child: Center(
                     child: IconButton(
                       onPressed: () {
+                        ExpiredItemSubmitModel? expiredItemModel;
+                        ExpiredItemList? expiredItem;
+                        ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
+                        for (var element in expiredItems!.expiredItemList) { 
+                          if(element.itemId==finalItemDataList[index].itemId){
+                            expiredItem=element;
+                          }
+                        }
+                      for (var element in finalItemDataList) {
+                        if(element.itemId==finalItemDataList[index].itemId ){
+                          expiredItemModel=element; 
+                        }  
+                      }
+                      if(expiredItem!=null){
+                        showDialog(context: context, builder:(BuildContext context){
+                        return Theme( data: ThemeData(
+                                 dialogBackgroundColor: Colors.white,
+                                 dialogTheme: DialogTheme(
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.circular(16.0),
+                                   ),
+                                 ),
+                                ), 
+                               child: ExpiredIteminputShowDialogScreen(
+                                  expiredItem: expiredItem!,
+                                  expiredItemSubmitModel: expiredItemModel, 
+                                  callbackFunction: (value ) { 
+                                    if(value!=null){
+                                     finalItemDataList.removeWhere((element) => element.itemId==value.itemId);
+                                     finalItemDataList.add(value);
+                                     setState(() {
+                                     });
+                                     
+                                    
+                                    }
+                                    
+                                   }, clinetId: widget.clientId, itemId: finalItemDataList[index].itemId, 
+
+                               ));
+                        
+                      } );
+                      setState(() {
+                        
+                      });
+                      }
+                      
+                     
+                   setState(() {
+                     
+                   });
+
+                      
+                     
+
                         
                       },
                       icon: const Icon(Icons.edit, color: Color.fromARGB(255, 82, 179, 98)),
@@ -481,9 +544,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                           padding: const EdgeInsets.all(0.0),
                           child: Center(
                             child: IconButton(
-                              onPressed: () {
-
-                                
+                              onPressed: () { 
                               },
                               icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
                             ),

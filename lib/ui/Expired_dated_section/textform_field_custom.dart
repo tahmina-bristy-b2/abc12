@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFormFieldCustomOrderInput extends StatelessWidget {
   String hintText;
@@ -42,6 +43,9 @@ class TextFormFieldCustomOrderInput extends StatelessWidget {
                                              controller:  controller,
                                              textAlign: textAlign,
                                              readOnly: readOnly,
+                                             inputFormatters: [
+                                                  FilteringTextInputFormatter.digitsOnly,
+                                            ],
                                          
                                              style:const TextStyle(fontSize: 14),
                                              keyboardType: TextInputType.number,

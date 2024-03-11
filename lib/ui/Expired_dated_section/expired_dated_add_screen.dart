@@ -533,24 +533,24 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                         child: Center(child: Text(batchItem.expiredDate)),
                       ),
                       Expanded(
-                        flex: 1,
+                        flex: 2,
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: Center(child: Text(batchItem.unitQty)),
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Center(
-                            child: IconButton(
-                              onPressed: () { 
-                              },
-                              icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(0.0),
+                      //     child: Center(
+                      //       child: IconButton(
+                      //         onPressed: () { 
+                      //         },
+                      //         icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 );
@@ -723,15 +723,15 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                                                 padding:  EdgeInsets.all(8.0),
                                                 child:  Center(child: Text("Expired Date",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
                                               )),
-                                               Expanded(flex: 1,
+                                               Expanded(flex: 2,
                                                 child: Padding(
                                                 padding:  EdgeInsets.all(8.0),
                                                 child:  Center(child: Text("Qty",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
                                               )),
-                                               Expanded(child: Padding(
-                                                padding:  EdgeInsets.all(8.0),
-                                                child:  Center(child: Text("Action",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
-                                              )),
+                                              //  Expanded(child: Padding(
+                                              //   padding:  EdgeInsets.all(8.0),
+                                              //   child:  Center(child: Text("Action",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
+                                              // )),
                                             ],  
                                           )
                                           

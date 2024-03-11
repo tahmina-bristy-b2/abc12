@@ -57,6 +57,8 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
             setState(() { });
            }, 
            )); 
+           batchWiseItemSaved.add(element);
+           print("*************save init ${batchWiseItemSaved.length}******************");
       }
     }
   }
@@ -101,14 +103,17 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                                 child:Center(child: Text(widget.expiredItem.itemName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),Expanded(
                                                   child:Center(child: IconButton(onPressed: (){
                                                     showDialog(context: context, builder: (BuildContext context){
+                                                      print("*************save show dialog 1 ${batchWiseItemSaved.length}******************");
                                                       return EachBtachItemWidget(
                                                         itemName:widget.expiredItem.itemName , 
                                                         batchWiseItemSaved: null, 
                                                         callbackFunction: (BatchWiseItemListModel? value ) {
                                                           batchWiseItemSaved.add(value!) ;
+                                                          print("*************save show dialog vitor ${batchWiseItemSaved.length}******************");
                                                           var dynamicWidget=  DynamicItemsWidget(
                                                                     batchWiseItemListModel:value,
-                                                                     itemName: widget.expiredItem.itemName, batchwiseItemList:batchWiseItemSaved, 
+                                                                     itemName: widget.expiredItem.itemName, 
+                                                                     batchwiseItemList:batchWiseItemSaved, 
                                                                      onTap: (){
                                                                       int index= batchItems.length;
                                                                       batchItems.removeAt(index-1);

@@ -153,27 +153,16 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                      widget. expiredItemSubmitModel.add(value);
                                      itemCount() ;
                                      widget.callbackMethod(widget.expiredItemSubmitModel);
-
-                              Navigator.pop(context) ;
-                                     //print("data model =${widget.expiredItemSubmitModel}");
-                                    //  setState(() { 
-                                    //   });
-                                      
+                                     Navigator.pop(context) ;
+                                    
                                     }
-                                    // setState(() { });
+                                    
                                    }, clinetId: widget.customerInfo["client_id"], itemId: filteredItems[itemIndeex].itemId, 
 
                                ));
                         
                       } );
-                      // .then((value){
-                      //   print( "vALUE==$value");
-                        
-                      //   widget.callbackMethod(widget.expiredItemSubmitModel);
-
-                      //         Navigator.pop(context) ;
-                      //         });
-                      // ExpiredIteminputShowDialogScreen()
+                     
 
                     },
                     child: Card(

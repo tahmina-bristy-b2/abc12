@@ -28,4 +28,32 @@ class ExpiredServices{
     }
     customerExpiredItemsBox.put(desireKey, clientData);
   }
+
+  //=========================================== item Search========================================================
+  List<ExpiredItemList> searchDynamicMethod(String enteredKeyword, List<ExpiredItemList>  data, ) {
+    List<ExpiredItemList>  serachedData;
+    serachedData = data;
+    List<ExpiredItemList>  results = [];
+    if (enteredKeyword.isEmpty) {
+      results = serachedData;
+    } else {
+      var starts = serachedData
+          .where((s) =>
+              s.itemName.toLowerCase().startsWith(enteredKeyword.toLowerCase()))
+          .toList();
+
+      var contains = serachedData
+          .where((s) =>
+              s.itemName.toLowerCase().contains(enteredKeyword.toLowerCase()) &&
+              !s.itemName
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()))
+          .toList()
+        ..sort((a, b) =>
+            a.itemName.toLowerCase().compareTo(b.itemName.toLowerCase()));
+
+      results = [...starts, ...contains];
+    }
+    return results;
+  }
 }

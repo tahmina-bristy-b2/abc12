@@ -3,6 +3,8 @@ import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/expired_dated/expired_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -259,9 +261,9 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                 ),
                 child: TextFormField(
                   onChanged: (value) {
-                    // filteredItems = AllServices().searchDynamicMethod(
-                    //     value, widget.expiredItemList, 'item_name');
-                    // setState(() {});
+                    filteredItems = ExpiredServices().searchDynamicMethod(
+                        value, widget.syncItem);
+                    setState(() {});
                   },
                   
                   controller: searchController,
@@ -279,10 +281,10 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                         ? const Icon(Icons.search)
                         : IconButton(
                             onPressed: () {
-                              // searchController.clear();
-                              // foundUsers = AllServices().searchDynamicMethod(
-                              //     '', widget.expiredItemList, 'item_name');
-                              // setState(() {});
+                              searchController.clear();
+                              filteredItems = ExpiredServices().searchDynamicMethod(
+                                  '', widget.syncItem);
+                              setState(() {});
                             },
                             icon: const Icon(
                               Icons.clear,

@@ -114,43 +114,11 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       if(value.clientId==widget.clientId){
         finalItemDataList= value.expiredItemSubmitModel;
         isEdit=true;
-        print("dat paichi");
       }
     });
     setState(() {
       
     });
-
-
-
-    // tempCount = widget.draftOrderItem.length;
-
-    // // if (widget.deliveryDate != '' && widget.deliveryTime != '') {
-    // //   finalItemDataList = widget.draftOrderItem;
-    // //   selectedDeliveryTime = widget.deliveryTime;
-    // //   dateSelected = widget.deliveryDate;
-    // //   slectedPayMethod = widget.paymentMethod;
-    // //   initialOffer = widget.offer ?? 'Offer';
-    // //   noteController.text = widget.note;
-    // // }
-    // if (widget.draftOrderItem.isNotEmpty) {
-    //   for (var element in finalItemDataList) {
-    //     controllers[element.item_id] = TextEditingController();
-    //     for (var e in widget.draftOrderItem) {
-    //       controllers.forEach((key, value) {
-    //         if (key == e.item_id) {
-    //           value.text = e.quantity.toString();
-    //         }
-    //       });
-    //     }
-    //   }
-    // }
-    // setState(() {
-    //   itemString = OrderServices().ordertotalAmount(itemString, orderAmount,
-    //       finalItemDataList, total, totalAmount)["ItemString"];
-    //   totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
-    //       finalItemDataList, total, totalAmount)["TotalAmount"];
-    // });
 
     // FocusScope.of(context).requestFocus(FocusNode());
   }

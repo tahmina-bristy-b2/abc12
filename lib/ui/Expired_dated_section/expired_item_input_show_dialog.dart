@@ -1,6 +1,8 @@
+import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/expired_dated/expired_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/cancel-button.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/confirm_widget.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/each_batch_scareen.dart';
@@ -8,12 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 class ExpiredIteminputShowDialogScreen extends StatefulWidget {
   ExpiredItemList expiredItem;
-   ExpiredItemSubmitModel? expiredItemSubmitModel;
-   Function(ExpiredItemSubmitModel?) callbackFunction;
+  String itemId;
+  String clinetId;
+  ExpiredItemSubmitModel? expiredItemSubmitModel;
+  Function(ExpiredItemSubmitModel?) callbackFunction;
 
 
   ExpiredIteminputShowDialogScreen({super.key, 
       required this.expiredItem,
+      required this.itemId,
+      required this.clinetId,
       required this.expiredItemSubmitModel,
       required this.callbackFunction,
   });
@@ -25,7 +31,8 @@ class ExpiredIteminputShowDialogScreen extends StatefulWidget {
 class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowDialogScreen> {
   List<DynamicItemsWidget> batchItems=[];
   List<BatchWiseItemListModel> batchWiseItemSaved=[];
-   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
+  String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
   String total="";
   bool isUpdate=false;
   int remaingPcs=0;
@@ -40,11 +47,39 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
     if(widget.expiredItemSubmitModel!=null){
       for (var element in widget.expiredItemSubmitModel!.batchWiseItem) {
         batchItems.add(DynamicItemsWidget(
-          batchWiseItemListModel:element, itemName: widget.expiredItem.itemName,
+          batchWiseItemListModel:element, 
+          itemName: widget.expiredItem.itemName,
+          batchwiseItemList:batchWiseItemSaved,
+          isDelete: false, onTap: () { 
+            int index= batchItems.length;
+            batchItems.removeAt(index-1);
+           ExpiredServices().  deleteEachItem(customerExpiredItemsBox,widget.itemId,widget.clinetId,element.batchId, element.expiredDate, element.unitQty);
+            setState(() { });
+           }, 
            )); 
       }
     }
   }
+  deleteItem(String batchId, String expiredDate, String qty){
+    dynamic desireKey;
+    customerExpiredItemsBox.toMap().forEach((key, value) {
+      if (value.clientId == widget.clinetId) {
+        desireKey = key;  
+      }
+     });
+     ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
+    if (clientData!.isInBox) {
+      for (var element in clientData.expiredItemSubmitModel) {
+        if(element.itemId==widget.itemId){
+           element.batchWiseItem.removeWhere((element1) => (element1.batchId==batchId)&&(element1.expiredDate==expiredDate)&&(element1.unitQty==qty)); 
+        }  
+      }
+       clientData.expiredItemSubmitModel.removeWhere((element) =>element.batchWiseItem.isEmpty );
+    }
+    customerExpiredItemsBox.put(desireKey, clientData);
+  }
+ 
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +106,20 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                                         batchWiseItemSaved: null, 
                                                         callbackFunction: (BatchWiseItemListModel? value ) {
                                                           batchWiseItemSaved.add(value!) ;
+                                                          var dynamicWidget=  DynamicItemsWidget(
+                                                                    batchWiseItemListModel:value,
+                                                                     itemName: widget.expiredItem.itemName, batchwiseItemList:batchWiseItemSaved, 
+                                                                     onTap: (){
+                                                                      int index= batchItems.length;
+                                                                      batchItems.removeAt(index-1);
+                                                                      deleteItem(value.batchId, value.expiredDate, value.unitQty);
+                                                                      setState(() { 
+                                                                      });
+                                                                    },
+                                                                    isDelete: false,
+                                                                   );
                                                                 batchItems.add(
-                                                                  DynamicItemsWidget(
-                                                                    batchWiseItemListModel:value, itemName: widget.expiredItem.itemName,
-                                                                    
-                                                                  
-                                                                   )
+                                                                  dynamicWidget
                                                                   );
                                                                 setState(() {
                                                                   
@@ -247,11 +290,19 @@ class AlwaysDisabledFocusNode extends FocusNode {
 
 class DynamicItemsWidget extends StatefulWidget {
   BatchWiseItemListModel? batchWiseItemListModel;
+  List<BatchWiseItemListModel> batchwiseItemList;
+  void Function()? onTap;
+  
+  bool isDelete; 
   String itemName;
   DynamicItemsWidget({
     super.key, 
     required this.itemName,
     required this.batchWiseItemListModel,
+    required this.batchwiseItemList,
+    required this.onTap,
+   
+    required this.isDelete,
  
   });
 
@@ -312,9 +363,8 @@ class _DynamicItemsWidgetState extends State<DynamicItemsWidget> {
                               padding: const EdgeInsets.all(0.0),
                               child: Center(
                                 child: IconButton(
-                                  onPressed: () {
-                                    
-                                  },
+                                  onPressed:widget.onTap,
+                                 
                                   icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
                                 ),
                               ),

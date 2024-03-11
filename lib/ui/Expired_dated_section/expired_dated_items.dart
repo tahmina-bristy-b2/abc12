@@ -41,8 +41,6 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   bool isInList = false;
   var total = 0.0;
   bool incLen = true;
-  // bool promo_flag = false;
-
   @override
   void initState() {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
@@ -53,15 +51,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   for (var element in filteredItems) {
-  //     controllers[element.itemId]!.dispose();
-  //   }
-
-  //   searchController.dispose();
-  //   super.dispose();
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +161,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                       
                                     }
                                     // setState(() { });
-                                   }, 
+                                   }, clinetId: widget.customerInfo["client_id"], itemId: filteredItems[itemIndeex].itemId, 
 
                                ));
                         

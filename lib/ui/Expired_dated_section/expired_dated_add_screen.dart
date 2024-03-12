@@ -223,19 +223,28 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   }
 
   //************************************ DIALOG ******************************************/
-  Future<void> _showMyDialog(int index) async {
+  Future<void> showMyDialog(String itemId) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Please Confirm'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: const <Widget>[
-                Text('Are you sure to remove the Item?'),
-              ],
-            ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 70,
+                child: Image.asset('assets/images/alert.png'),
+              ),
+              const SizedBox(height: 10,),
+              const Text(
+                "Are you sure to delete this item ?",
+                style:  TextStyle(fontSize: 14),
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -244,45 +253,12 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
-                // if (widget.deliveryDate != '') {
-                //   // .final uniqueKey = widget.clientId;
-                //   OrderServices().deleteSingleOrderItem(customerBox, itemBox,
-                //       widget.clientId, finalItemDataList[index].item_id);
-
-                //   itemString = OrderServices().ordertotalAmount(
-                //       itemString,
-                //       orderAmount,
-                //       finalItemDataList,
-                //       total,
-                //       totalAmount)["ItemString"];
-                //   totalAmount = OrderServices().ordertotalAmount(
-                //       itemString,
-                //       orderAmount,
-                //       finalItemDataList,
-                //       total,
-                //       totalAmount)["TotalAmount"];
-
-                //   setState(() {});
-                // } else {
-                //   finalItemDataList.removeAt(index);
-
-                //   itemString = OrderServices().ordertotalAmount(
-                //       itemString,
-                //       orderAmount,
-                //       finalItemDataList,
-                //       total,
-                //       totalAmount)["ItemString"];
-                //   totalAmount = OrderServices().ordertotalAmount(
-                //       itemString,
-                //       orderAmount,
-                //       finalItemDataList,
-                //       total,
-                //       totalAmount)["TotalAmount"];
-
-                //   setState(() {});
-                // }
-
-                // Navigator.of(context).pop();
+                finalItemDataList.removeWhere((element) =>element.itemId== itemId);
+                Navigator.of(context).pop();
+                  setState(() {
+                    
+                  });
+               
               },
             ),
             TextButton(
@@ -441,11 +417,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                   ),
                 ),
                 Expanded(child: Center(child: IconButton(onPressed: (){
-                  finalItemDataList.removeWhere((element) =>element.itemId== finalItemDataList[index].itemId);
-                  setState(() {
-                    
-                  });
-
+                  showMyDialog(finalItemDataList[index].itemId);
 
                 }, icon: const Icon(Icons.delete,color: Colors.red,)),)),
                 const SizedBox(width: 10,),

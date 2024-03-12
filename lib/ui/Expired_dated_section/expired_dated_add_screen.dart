@@ -343,7 +343,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       width: screenWidth,
       height: 60,
       // height: screenHeight / 13,
-      color: const Color.fromARGB(223, 171, 241, 153),
+      color: Color.fromARGB(223, 212, 241, 205),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -359,7 +359,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                         '${widget.clientName}(${widget.clientId})',
                         style: const TextStyle(
                             color: Color.fromARGB(255, 23, 41, 23),
-                            fontSize: 17,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -374,7 +374,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                     child: Text(
                       widget.marketName,
                       style: const TextStyle(
-                          color: Color.fromARGB(255, 26, 66, 28), fontSize: 16),
+                          color: Color.fromARGB(255, 26, 66, 28), fontSize: 15),
                     ),
                   ),
                 ],

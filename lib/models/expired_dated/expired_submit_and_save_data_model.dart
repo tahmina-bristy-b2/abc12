@@ -74,14 +74,14 @@ class BatchWiseItemListModel extends HiveObject {
   @HiveField(2)
   String expiredDate;
   @HiveField(3)
-  String eachbatchWiseItemString;
+  DateTime expiredDateTime;
 
   BatchWiseItemListModel(
       { 
         required this.batchId,
         required this.unitQty,
         required this.expiredDate, 
-        required this.eachbatchWiseItemString, 
+        required this.expiredDateTime, 
       }
     );
 }

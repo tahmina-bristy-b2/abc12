@@ -137,7 +137,7 @@ class BatchWiseItemListModelAdapter
       batchId: fields[0] as String,
       unitQty: fields[1] as String,
       expiredDate: fields[2] as String,
-      eachbatchWiseItemString: fields[3] as String,
+      expiredDateTime: fields[3] as DateTime,
     );
   }
 
@@ -152,7 +152,7 @@ class BatchWiseItemListModelAdapter
       ..writeByte(2)
       ..write(obj.expiredDate)
       ..writeByte(3)
-      ..write(obj.eachbatchWiseItemString);
+      ..write(obj.expiredDateTime);
   }
 
   @override

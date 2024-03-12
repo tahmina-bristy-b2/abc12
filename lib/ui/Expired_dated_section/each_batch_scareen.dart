@@ -40,6 +40,7 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
       batchcontroller.text=widget.batchWiseItemSaved!.batchId;
       qtyController.text=widget.batchWiseItemSaved!.unitQty;
       selectedExpiredDateString=widget.batchWiseItemSaved!.expiredDate;
+      selectedExpiredDate=widget.batchWiseItemSaved!.expiredDateTime;
 
 
 
@@ -193,7 +194,7 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                         widget.routeName==true?  Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Update", fontSize: 16, 
                          onTapFuction: () {
                           if(batchcontroller.text!="" && qtyController.text !=""){
-                           final item= BatchWiseItemListModel(batchId:batchcontroller.text , eachbatchWiseItemString: '', expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
+                           final item= BatchWiseItemListModel(batchId:batchcontroller.text , expiredDateTime: selectedExpiredDate, expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
                             widget.batchWiseItemSaved=item;
                             widget.callbackFunction(widget.batchWiseItemSaved!);
                             Navigator.pop(context);
@@ -214,7 +215,7 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                              },)) :Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Add", fontSize: 16, 
                          onTapFuction: () {
                           if(batchcontroller.text!="" && qtyController.text !=""){
-                           final item= BatchWiseItemListModel(batchId:batchcontroller.text , eachbatchWiseItemString: '', expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
+                           final item= BatchWiseItemListModel(batchId:batchcontroller.text , expiredDateTime: selectedExpiredDate, expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
                             widget.batchWiseItemSaved=item;
                             widget.callbackFunction(widget.batchWiseItemSaved!);
                             Navigator.pop(context);

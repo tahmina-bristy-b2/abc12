@@ -570,6 +570,9 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
     EdsrDataModel? eDsRData = await EDSRServices().geteDSRDataSettingsInfo(
         dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "all");
+        ExpiredItemListDataModel? expiredItemsData = await ExpiredRepositoryRepo()
+                                          .syncExpiredItems("all",dmpathData!.syncUrl, cid,
+                                              userId, userPassword);
     if (itemList.isNotEmpty &&
         clientList.isNotEmpty &&
         dcrGiftList.isNotEmpty &&
@@ -577,7 +580,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         ppmList.isNotEmpty &&
         rxItemList.isNotEmpty &&
         doctorList.isNotEmpty &&
-        (eDsRData == null || eDsRData != null)) {
+        (eDsRData == null || eDsRData != null)&& expiredItemsData!=null ) {
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

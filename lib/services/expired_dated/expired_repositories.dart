@@ -17,11 +17,17 @@ class ExpiredRepositoryRepo{
       if (status == 'Success') {
         expiredModelDataModel=expiredItemListDataModelFromJson(response.body);
         ExpiredServices().putExpiredDate(expiredModelDataModel);
-        AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.green, Colors.white, 16);
+        if(routeName==""){
+          AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.green, Colors.white, 16);
+
+        }
         return expiredModelDataModel;
       }
       else{
-        AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.red, Colors.white, 16);
+        if(routeName==""){
+          AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.red, Colors.white, 16);
+        }
+        
         return expiredModelDataModel;
       }
     } catch (e) {

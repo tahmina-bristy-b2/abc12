@@ -63,5 +63,7 @@ class Boxes {
     Hive.openBox('medicineList').then((value) => value.clear());
     Boxes.dcrRxTargetToSave().clear();
     Boxes.chemistRxTargetToSave().clear();
+    Boxes.getExpiredItemSubmitItems().clear();
+    Boxes.getExpiredDatedIItems().clear();
   }
 }

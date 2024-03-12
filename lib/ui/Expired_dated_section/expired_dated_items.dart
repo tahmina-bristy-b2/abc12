@@ -292,58 +292,18 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
     );
   }
 
-// //====================================================== Add to Cart ====================================================
-//   Align addtoCartButtonWidget(BuildContext context) {
-//     return Align(
-//       alignment: Alignment.centerRight,
-//       child: ElevatedButton(
-//         onPressed: () {
-        
-//           widget.expiredItemSubmitModel=widget.expiredItemSubmitModel;
-//           widget.callbackMethod(widget.expiredItemSubmitModel);
-//           Navigator.pop(context);
-//         },
-//         style: ElevatedButton.styleFrom(
-//           minimumSize: const Size(200, 50),
-//           backgroundColor: const Color.fromARGB(255, 4, 60, 105),
-//           maximumSize: const Size(200, 50),
-//           shape: const RoundedRectangleBorder(
-//               borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(25),
-//                   bottomLeft: Radius.circular(5))),
-//         ),
-//         child: Align(
-//           alignment: Alignment.centerRight,
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: const [
-//               //Icon(Icons.add_shopping_cart_outlined, size: 30),
-//               SizedBox(
-//                 width: 5,
-//               ),
-//               Text(
-//                 "Add as Expired",
-//                 style: TextStyle(fontSize: 15),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+
 
 //=========================================== Item count Method ===================================================
   itemCount() {
     batchwiseCount=0;
-    widget.expiredItemSubmitModel.forEach((element) {
-      element.batchWiseItem.forEach((element) { 
+    for (var element in widget.expiredItemSubmitModel) {
+      for (var element2 in element.batchWiseItem) { 
         batchwiseCount+=1;
-        print("data $batchwiseCount");
+      }
 
-      });
-
-     });
-     print("batchwise counter=$batchwiseCount");
+     }
+     
    
   }
 }

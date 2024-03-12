@@ -139,7 +139,6 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                                                               focusNode: AlwaysDisabledFocusNode(),
                                                               style:const TextStyle(fontSize: 14,color: Color.fromARGB(255, 82, 179, 98),),
                                                               textAlign: TextAlign.left,
-                                                              
                                                               decoration:const InputDecoration(
                                                                 suffixIcon: Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
                                                                 focusedBorder: UnderlineInputBorder(
@@ -201,14 +200,14 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                           }
                           else if(batchcontroller.text=="" ||  qtyController.text ==""){
                             if(batchcontroller.text==""){
-                              AllServices().toastMessageForSubmitData("Plaese enter batch id ", Colors.red, Colors.white, 15);
+                              AllServices().toastMessage("Please enter batch id ", Colors.red, Colors.white, 15);
                             }
                             else{
-                              AllServices().toastMessageForSubmitData("Plaese enter qty amount ", Colors.red, Colors.white, 15);
+                              AllServices().toastMessage("Please enter unit quantity ", Colors.red, Colors.white, 15);
                             }
                           }
                           else{
-                            AllServices().toastMessageForSubmitData("Plaese fill up all information", Colors.red, Colors.white, 15);
+                            AllServices().toastMessage("Please fill up all information", Colors.red, Colors.black, 15);
                           }
                         
                             
@@ -222,14 +221,14 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                           }
                           else if(batchcontroller.text=="" ||  qtyController.text ==""){
                             if(batchcontroller.text==""){
-                              AllServices().toastMessageForSubmitData("Plaese enter batch id ", Colors.red, Colors.red, 15);
+                              AllServices().toastMessageForSubmitData("Please enter batch id ", Colors.red, Colors.white, 15);
                             }
                             else{
-                              AllServices().toastMessageForSubmitData("Plaese enter qty amount ", Colors.red, Colors.red, 15);
+                              AllServices().toastMessageForSubmitData("Please enter unit quantity ", Colors.red, Colors.white, 15);
                             }
                           }
                           else{
-                            AllServices().toastMessageForSubmitData("Plaese fill up all information", Colors.red, Colors.red, 15);
+                            AllServices().toastMessageForSubmitData("Please fill up all information", Colors.red, Colors.white, 15);
                           }
                         
                             

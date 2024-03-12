@@ -195,7 +195,7 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                 child: IconButton(
                                   onPressed:(){
                                     batchWiseItemSaved.removeAt(index);
-                                    deleteItem(eachSavedBatchItem.batchId, eachSavedBatchItem.expiredDate, eachSavedBatchItem.unitQty);
+                                    //eleteItem(eachSavedBatchItem.batchId, eachSavedBatchItem.expiredDate, eachSavedBatchItem.unitQty);
                                     setState((){});
                                   },
                                  

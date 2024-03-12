@@ -484,34 +484,23 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                                       return;
                                      }
                                      if(value.batchWiseItem.isEmpty){
-                                      finalItemDataList.removeWhere((element) => element.batchWiseItem.isEmpty);
+                                    // print(value!.batchWiseItem.length);
+                                    // print("data paichi ${finalItemDataList.length}");
+
+                                      finalItemDataList.removeAt(index);
+                                     // finalItemDataList.removeWhere((element) => element.itemId==value.itemId);
                                        setState(() {
                                        
                                      });
                                      return;
                                     
                                      }
-                                     
-                                    
-                                         finalItemDataList[index] = value;
+                                     finalItemDataList[index] = value;
                                       
-                                     
-                                
-                                      
-                                     
-                                     
                                      setState(() {
                                        
                                      });
-                                    // if(value!=null){
-                                    //  finalItemDataList.removeWhere((element) => element.itemId==value.itemId);
-                                    //  finalItemDataList.add(value);
-                                    //  setState(() {
-                                    //  });
-                                     
-                                    
-                                    // }
-                                    
+                                   
                                    }, clinetId: widget.clientId, itemId: finalItemDataList[index].itemId, 
 
                                ));
@@ -562,18 +551,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                           child: Center(child: Text(batchItem.unitQty)),
                         ),
                       ),
-                      // Expanded(
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(0.0),
-                      //     child: Center(
-                      //       child: IconButton(
-                      //         onPressed: () { 
-                      //         },
-                      //         icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      
                     ],
                   ),
                 );
@@ -655,24 +633,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
             setState(() {
               
             });
-            // for (var element in finalItemDataList) {
-            //   controllers[element.item_id] = TextEditingController();
-            //   controllers[element.item_id]?.text = element.quantity.toString();
-            // }
-            // setState(() {
-            //   itemString = OrderServices().ordertotalAmount(
-            //       itemString,
-            //       orderAmount,
-            //       finalItemDataList,
-            //       total,
-            //       totalAmount)["ItemString"];
-            //   totalAmount = OrderServices().ordertotalAmount(
-            //       itemString,
-            //       orderAmount,
-            //       finalItemDataList,
-            //       total,
-            //       totalAmount)["TotalAmount"];
-            // });
+           
           }, 
         ),
       ),
@@ -693,10 +654,8 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
      });
     
      ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
-      print("order services 3=$clientData");
     if (clientData!.isInBox) {
       clientData.expiredItemSubmitModel=finalItemDataList;
-      print("order services 2=$clientData");
     }
     customerExpiredItemsBox.put(desireKey, clientData);
     }

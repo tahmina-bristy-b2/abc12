@@ -419,6 +419,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   itemCount: finalItemDataList.length,
   physics: const BouncingScrollPhysics(),
   itemBuilder: (BuildContext context, index) {
+    ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
     //print("")
     return Card(
       color: Colors.white,
@@ -451,10 +452,10 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                 Expanded(
                   child: Center(
                     child: IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         ExpiredItemSubmitModel? expiredItemModel;
                         ExpiredItemList? expiredItem;
-                        ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
+                        
                         for (var element in expiredItems!.expiredItemList) { 
                           if(element.itemId==finalItemDataList[index].itemId){
                             expiredItem=element;
@@ -466,7 +467,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                         }  
                       }
                       if(expiredItem!=null){
-                        showDialog(context: context, builder:(BuildContext context){
+                       await showDialog(context: context, builder:(BuildContext context){
                         return Theme( data: ThemeData(
                                  dialogBackgroundColor: Colors.white,
                                  dialogTheme: DialogTheme(
@@ -478,30 +479,52 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                                child: ExpiredIteminputShowDialogScreen(
                                   expiredItem: expiredItem!,
                                   expiredItemSubmitModel: expiredItemModel, 
-                                  callbackFunction: (value ) { 
-                                    if(value!=null){
-                                     finalItemDataList.removeWhere((element) => element.itemId==value.itemId);
-                                     finalItemDataList.add(value);
-                                     setState(() {
+                                  callbackFunction: (value) {
+                                     if(value == null){
+                                      return;
+                                     }
+                                     if(value.batchWiseItem.isEmpty){
+                                      finalItemDataList.removeWhere((element) => element.batchWiseItem.isEmpty);
+                                       setState(() {
+                                       
                                      });
+                                     return;
+                                    
+                                     }
                                      
                                     
-                                    }
+                                         finalItemDataList[index] = value;
+                                      
+                                     
+                                
+                                      
+                                     
+                                     
+                                     setState(() {
+                                       
+                                     });
+                                    // if(value!=null){
+                                    //  finalItemDataList.removeWhere((element) => element.itemId==value.itemId);
+                                    //  finalItemDataList.add(value);
+                                    //  setState(() {
+                                    //  });
+                                     
+                                    
+                                    // }
                                     
                                    }, clinetId: widget.clientId, itemId: finalItemDataList[index].itemId, 
 
                                ));
                         
-                      } );
+                      } ,
+                     );
                       setState(() {
                         
                       });
                       }
                       
                      
-                   setState(() {
-                     
-                   });
+                   
 
                       
                      
@@ -627,6 +650,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           },
           expiredItemSubmitModel: finalItemDataList,
           callbackMethod: (value) {
+            value?.removeWhere((element) => element.batchWiseItem.isEmpty);
             finalItemDataList = value!;
             setState(() {
               

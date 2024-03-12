@@ -70,10 +70,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
           children: [
             itemSearchTextFormWidget(),
             itemListViewBuilderWIdget(),
-            const SizedBox(
-              height: 5,
-            ),
-            addtoCartButtonWidget(context)
+            
           ],
         ),
       ),
@@ -103,13 +100,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                       fontSize: 18),
                 ),
               )
-            // : Padding(
-            //     padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-            //     child: Text(neworderamount.toStringAsFixed(2),
-            //         style: const TextStyle(
-            //             color: Color.fromARGB(255, 27, 56, 34),
-            //             fontWeight: FontWeight.w500,
-            //             fontSize: 18)))
+          
       ],
     );
   }
@@ -127,7 +118,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                 itemCount: filteredItems.length,
                 itemBuilder: (context, itemIndeex) {
                   return GestureDetector(
-                    onTap: (){
+                    onTap: ()async{
                       ExpiredItemSubmitModel? expiredItemModel;
                       for (var element in widget.expiredItemSubmitModel) {
                         if(element.itemId==filteredItems[itemIndeex].itemId ){
@@ -136,7 +127,10 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                         
                       }
 
-                      showDialog(context: context, builder:(BuildContext context){
+                    await  showDialog(
+                     // barrierDismissible: false,
+                      context: context,
+                      builder:(BuildContext context){
                         return Theme( data: ThemeData(
                                  dialogBackgroundColor: Colors.white,
                                  dialogTheme: DialogTheme(
@@ -148,22 +142,22 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                child: ExpiredIteminputShowDialogScreen(
                                   expiredItem: filteredItems[itemIndeex],
                                   expiredItemSubmitModel: expiredItemModel, 
-
-                                  callbackFunction: (value ) { 
+                                  callbackFunction: (value) async { 
                                     if(value!=null){
                                      widget.expiredItemSubmitModel.removeWhere((element) => element.itemId==value.itemId);
                                      widget. expiredItemSubmitModel.add(value);
                                      itemCount() ;
                                      widget.callbackMethod(widget.expiredItemSubmitModel);
                                      Navigator.pop(context) ;
-                                    
                                     }
-                                    
                                    }, clinetId: widget.customerInfo["client_id"], itemId: filteredItems[itemIndeex].itemId, 
 
                                ));
                         
                       } );
+                      setState(() {
+                        
+                      });
                      
 
                     },
@@ -272,10 +266,6 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                     filled: true,
                     fillColor: Colors.transparent,
                     border: InputBorder.none,
-                    
-                    // border: const OutlineInputBorder(
-                    //     borderRadius: BorderRadius.all(Radius.circular(5))),
-                   // labelText: 'Item Search',
                     suffixIcon: searchController.text.isEmpty &&
                             searchController.text == ''
                         ? const Icon(Icons.search)
@@ -289,7 +279,7 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                             icon: const Icon(
                               Icons.clear,
                               color: Colors.black,
-                              // size: 28,
+                            
                             ),
                           ),
                   ),
@@ -302,45 +292,45 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
     );
   }
 
-//====================================================== Add to Cart ====================================================
-  Align addtoCartButtonWidget(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: ElevatedButton(
-        onPressed: () {
+// //====================================================== Add to Cart ====================================================
+//   Align addtoCartButtonWidget(BuildContext context) {
+//     return Align(
+//       alignment: Alignment.centerRight,
+//       child: ElevatedButton(
+//         onPressed: () {
         
-          widget.expiredItemSubmitModel=widget.expiredItemSubmitModel;
-          widget.callbackMethod(widget.expiredItemSubmitModel);
-          Navigator.pop(context);
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(200, 50),
-          backgroundColor: const Color.fromARGB(255, 4, 60, 105),
-          maximumSize: const Size(200, 50),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  bottomLeft: Radius.circular(5))),
-        ),
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              //Icon(Icons.add_shopping_cart_outlined, size: 30),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                "Add as Expired",
-                style: TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+//           widget.expiredItemSubmitModel=widget.expiredItemSubmitModel;
+//           widget.callbackMethod(widget.expiredItemSubmitModel);
+//           Navigator.pop(context);
+//         },
+//         style: ElevatedButton.styleFrom(
+//           minimumSize: const Size(200, 50),
+//           backgroundColor: const Color.fromARGB(255, 4, 60, 105),
+//           maximumSize: const Size(200, 50),
+//           shape: const RoundedRectangleBorder(
+//               borderRadius: BorderRadius.only(
+//                   topLeft: Radius.circular(25),
+//                   bottomLeft: Radius.circular(5))),
+//         ),
+//         child: Align(
+//           alignment: Alignment.centerRight,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: const [
+//               //Icon(Icons.add_shopping_cart_outlined, size: 30),
+//               SizedBox(
+//                 width: 5,
+//               ),
+//               Text(
+//                 "Add as Expired",
+//                 style: TextStyle(fontSize: 15),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
 //=========================================== Item count Method ===================================================
   itemCount() {

@@ -39,7 +39,8 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
     if(widget.routeName==true){
       batchcontroller.text=widget.batchWiseItemSaved!.batchId;
       qtyController.text=widget.batchWiseItemSaved!.unitQty;
-      batchcontroller.text=widget.batchWiseItemSaved!.batchId;
+      selectedExpiredDateString=widget.batchWiseItemSaved!.expiredDate;
+
 
 
     }
@@ -199,14 +200,14 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                           }
                           else if(batchcontroller.text=="" ||  qtyController.text ==""){
                             if(batchcontroller.text==""){
-                              AllServices().toastMessageForSubmitData("Plaese enter batch id ", Colors.red, Colors.red, 15);
+                              AllServices().toastMessageForSubmitData("Plaese enter batch id ", Colors.red, Colors.white, 15);
                             }
                             else{
-                              AllServices().toastMessageForSubmitData("Plaese enter qty amount ", Colors.red, Colors.red, 15);
+                              AllServices().toastMessageForSubmitData("Plaese enter qty amount ", Colors.red, Colors.white, 15);
                             }
                           }
                           else{
-                            AllServices().toastMessageForSubmitData("Plaese fill up all information", Colors.red, Colors.red, 15);
+                            AllServices().toastMessageForSubmitData("Plaese fill up all information", Colors.red, Colors.white, 15);
                           }
                         
                             

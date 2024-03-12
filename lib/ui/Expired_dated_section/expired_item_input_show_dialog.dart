@@ -207,7 +207,10 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                         ],
                   ),
                 ),
-                const Divider(thickness: 0.7,)
+                (batchWiseItemSaved.length-1==index) ?const SizedBox(): const Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 11),
+                  child: Divider(thickness: 0.7,),
+                )
                       ],
                     )
                  

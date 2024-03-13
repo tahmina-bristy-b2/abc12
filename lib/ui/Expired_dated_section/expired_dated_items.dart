@@ -3,7 +3,6 @@ import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/expired_dated/expired_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class ItemsExpiredDatedScreen extends StatefulWidget {
       required this.syncItem,
       required this.customerInfo,
       required this.expiredItemSubmitModel,
-      // required this.uniqueId,
       required this.callbackMethod})
       : super(key: key);
 
@@ -29,14 +27,13 @@ class ItemsExpiredDatedScreen extends StatefulWidget {
 
 class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   UserLoginModel? userLoginInfo;
-  final _formkey = GlobalKey<FormState>();
-  Map<String, TextEditingController> controllers = {}; 
-  int batchwiseCount=0;
+   DmPathDataModel? dmpathData;
   final TextEditingController searchController = TextEditingController();
   final TextEditingController searchController2 = TextEditingController();
-
-  DmPathDataModel? dmpathData;
+  final _formkey = GlobalKey<FormState>();
+  Map<String, TextEditingController> controllers = {}; 
   List<ExpiredItemList> filteredItems=[];
+  int batchwiseCount=0;
   var orderamount = 0.0;
   var neworderamount = 0.0;
   int amount = 0;
@@ -47,13 +44,10 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
   void initState() {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-
     filteredItems = widget.syncItem;
     itemCount();
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +122,6 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                       }
 
                     await  showDialog(
-                     // barrierDismissible: false,
                       context: context,
                       builder:(BuildContext context){
                         return Theme( data: ThemeData(
@@ -152,9 +145,8 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                                     }
                                    }, clinetId: widget.customerInfo["client_id"], itemId: filteredItems[itemIndeex].itemId, 
 
-                               ));
-                        
-                      } );
+                               ));} 
+                      );
                       setState(() {
                         
                       });
@@ -259,7 +251,6 @@ class _ItemsExpiredDatedScreenState extends State<ItemsExpiredDatedScreen> {
                         value, widget.syncItem);
                     setState(() {});
                   },
-                  
                   controller: searchController,
                   decoration: InputDecoration(
                     hintText:" Search Items here.....",

@@ -9,8 +9,8 @@ import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/textform_field_custom.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/show_dialog/expired_item_input_show_dialog.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/textform_field_custom.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -672,7 +672,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
             _isLoading = true;
           });
          ExpiredServices().deleteOrderItem(customerExpiredItemsBox, finalItemDataList, widget.clientId);
-          AllServices().toastMessage("Expired item submittion done\n${orderInfo['ret_str']}", Colors.green,
+          AllServices().toastMessage("Expired items submission done\n${orderInfo['ret_str']}", Colors.green,
               Colors.white, 16); 
           if (!mounted) return;
           Navigator.of(context).pop();

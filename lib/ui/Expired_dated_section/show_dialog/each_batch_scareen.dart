@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/cancel-button.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/confirm_widget.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/textform_field_custom.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/cancel-button.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/confirm_widget.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/textform_field_custom.dart';
 
 class EachBtachItemWidget extends StatefulWidget {
   bool routeName;

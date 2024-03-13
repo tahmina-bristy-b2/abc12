@@ -1,9 +1,9 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/cancel-button.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/confirm_widget.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/each_batch_scareen.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/cancel-button.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/confirm_widget.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/show_dialog/each_batch_scareen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 class ExpiredIteminputShowDialogScreen extends StatefulWidget {

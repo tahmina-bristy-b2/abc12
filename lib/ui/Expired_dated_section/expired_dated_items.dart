@@ -4,7 +4,7 @@ import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_mod
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/expired_dated/expired_services.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/expired_item_input_show_dialog.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/show_dialog/expired_item_input_show_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ItemsExpiredDatedScreen extends StatefulWidget {

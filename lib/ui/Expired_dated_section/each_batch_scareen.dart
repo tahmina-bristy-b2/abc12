@@ -41,11 +41,13 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
       qtyController.text=widget.batchWiseItemSaved!.unitQty;
       selectedExpiredDateString=widget.batchWiseItemSaved!.expiredDate;
       selectedExpiredDate=widget.batchWiseItemSaved!.expiredDateTime;
-
-
-
     }
-   
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    batchcontroller.dispose();
+    qtyController.dispose();
   }
 
   @override
@@ -244,19 +246,6 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
     );
   }
 
- 
-
-  
-  // void updateTotal() {
-  //   setState(() {
-  //     total = AllServices().getItemMReturnEachItemCount(
-  //       widget.marketReturnSyncItem,pcsController.text.toString(),
-       
-  //     );
-      
-  //   });
-  // }
- 
     initialValue(String val) {
     return TextEditingController(text: val);
   }
@@ -270,7 +259,7 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
         return Theme(
           data: ThemeData.light().copyWith(
             primaryColor: Colors.white,
-            colorScheme: ColorScheme.light(primary: Colors.teal),
+            colorScheme: const ColorScheme.light(primary: Colors.teal),
             canvasColor: Colors.teal,
           ),
           child: child!,
@@ -279,7 +268,6 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
     );
 
     if (newDate == null) return;
-
     selectedExpiredDate = newDate;
     selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(selectedExpiredDate);
     setState(() => selectedExpiredDate = newDate);

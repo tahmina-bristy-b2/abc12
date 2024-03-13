@@ -128,7 +128,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   @override
   void dispose() {
     _quantityController.dispose();
-// noteController.dispose();
+
     _itemController.map((element) {
       element.dispose();
     });
@@ -136,7 +136,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     super.dispose();
   }
 
-  int _currentSelected = 2; // this variable used for  bottom navigation bar
+  int _currentSelected = 2; 
 
   @override
   Widget build(BuildContext context) {
@@ -147,13 +147,12 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
             resizeToAvoidBottomInset: false,
             key: _drawerKey,
             appBar: appBarDetailsWidget(context),
-           // endDrawer: EndDrawerWidget(),
+           
             body: SafeArea(
               child: Column(
                 children: [
                   customerInfoWidget(),
-                 // itemDeliveryDetailsWidget(),
-                 // customerNotesTextFieldWidget(),
+                 
                   Expanded(child: perItemCalculationListViewWidget()),
                 ],
               ),

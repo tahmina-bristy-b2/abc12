@@ -32,11 +32,8 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
   final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
   List<BatchWiseItemListModel> batchWiseItemSaved=[];
- // String total="";
   bool isUpdate=false;
-  //int remaingPcs=0;
   
-
   @override
   void initState() {
     super.initState();
@@ -55,7 +52,6 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
   Widget build(BuildContext context) {
     return SizedBox(
       child: AlertDialog(
-        
         insetPadding:const EdgeInsets.all(5),
          contentPadding: EdgeInsets.zero,
                   content: StatefulBuilder(
@@ -104,74 +100,74 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                             itemCount: batchWiseItemSaved.length,
                                             itemBuilder: (ctx, index){
                                                final eachSavedBatchItem = batchWiseItemSaved[index];
-                                            return GestureDetector(
-                                             onTap: (){
-                                                   showDialog(context: context, builder: (BuildContext context){
-                                                     return EachBtachItemWidget(
-                                                        itemName:widget.expiredItem.itemName, 
-                                                        batchWiseItemSaved: batchWiseItemSaved[index], 
-                                                        callbackFunction: (BatchWiseItemListModel? value ) {
-                                                          batchWiseItemSaved[index]=value!;
-                                                          setState(() {  
-                                                          });
-                                                       }, routeName: true,
+                                                return GestureDetector(
+                                                onTap: (){
+                                                      showDialog(context: context, builder: (BuildContext context){
+                                                        return EachBtachItemWidget(
+                                                            itemName:widget.expiredItem.itemName, 
+                                                            batchWiseItemSaved: batchWiseItemSaved[index], 
+                                                            callbackFunction: (BatchWiseItemListModel? value ) {
+                                                              batchWiseItemSaved[index]=value!;
+                                                              setState(() {  
+                                                              });
+                                                          }, routeName: true,
 
-                                                      );
+                                                          );
 
-                                                    },
-                                                    );
-                                            },
-                                            
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(bottom: 1,),
-                                              child:Column(
-                                                children: [
-                                                  SizedBox(
-                                            height: 35,
-                                            child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: Center(child: Text(eachSavedBatchItem.batchId,style:const TextStyle(fontSize: 14),)),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: Center(child: Text(eachSavedBatchItem.expiredDate,style:const TextStyle(fontSize: 14),)),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(0.0),
-                                                        child: Center(child: Text(eachSavedBatchItem.unitQty,style:const TextStyle(fontSize: 14),)),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(0.0),
-                                                        child: Center(
-                                                          child: IconButton(
-                                                            onPressed:(){
-                                                              batchWiseItemSaved.removeAt(index);
-                                                              setState((){});
-                                                            },
-                                                          
-                                                            icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
+                                                        },
+                                                        );
+                                                },
+                                                
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(bottom: 1,),
+                                                  child:Column(
+                                                    children: [
+                                                      SizedBox(
+                                                height: 35,
+                                                child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Center(child: Text(eachSavedBatchItem.batchId,style:const TextStyle(fontSize: 14),)),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Center(child: Text(eachSavedBatchItem.expiredDate,style:const TextStyle(fontSize: 14),)),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(0.0),
+                                                            child: Center(child: Text(eachSavedBatchItem.unitQty,style:const TextStyle(fontSize: 14),)),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                            ),
-                                          ),
-                                          (batchWiseItemSaved.length-1==index) ?const SizedBox(): const Padding(
-                                            padding:  EdgeInsets.symmetric(horizontal: 11),
-                                            child: Divider(thickness: 0.7,),
-                                          )
-                                                ],
-                                              )
-                                          
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(0.0),
+                                                            child: Center(
+                                                              child: IconButton(
+                                                                onPressed:(){
+                                                                  batchWiseItemSaved.removeAt(index);
+                                                                  setState((){});
+                                                                },
+                                                              
+                                                                icon: const Icon(Icons.delete, color: Colors.redAccent, size: 15),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                ),
                                               ),
-                                          );
+                                              (batchWiseItemSaved.length-1==index) ?const SizedBox(): const Padding(
+                                                padding:  EdgeInsets.symmetric(horizontal: 11),
+                                                child: Divider(thickness: 0.7,),
+                                              )
+                                                    ],
+                                                  )
+                                              
+                                                  ),
+                                              );
                                                                       }
                                                                       ),
                                                                   )
@@ -193,7 +189,6 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                    Navigator.pop(context) ;},
                                    borderColor:const Color.fromARGB(255, 82, 179, 98))),
                             const SizedBox(width: 10,),
-                         
                             Expanded(
                               child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "OK", fontSize: 16, onTapFuction: () {
                               

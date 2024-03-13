@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
+import 'package:MREPORTING/services/expired_dated/expired_services.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
@@ -214,10 +215,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           label: 'Add Item',
           icon: Icon(Icons.add),
         ),
-        // BottomNavigationBarItem(
-        //   label: 'Drawer',
-        //   icon: Icon(Icons.menu),
-        // )
+        
       ],
     );
   }
@@ -256,7 +254,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                 finalItemDataList.removeWhere((element) =>element.itemId== itemId);
                 Navigator.of(context).pop();
                   setState(() {
-                    
                   });
                
               },
@@ -283,10 +280,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   IconButton customerEditUrlWidget() {
     return IconButton(
       onPressed: () async {
-        // print(
-        //     "clentEditUrl=${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userLoginInfo!.userId&rep_pass=$userPassword");
-        // var url =
-        //     '${dmPathData!.clientEditUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword';
         var url = OrderApis.cutomerEditUrlApi(dmPathData!.clientEditUrl, cid,
             userLoginInfo!.userId, userPassword);
         if (await canLaunchUrl(Uri.parse(url))) {
@@ -298,7 +291,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       icon: const Icon(
         Icons.edit,
         color: Colors.white,
-        // size: 15,
       ),
     );
   }
@@ -456,15 +448,10 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                                       return;
                                      }
                                      if(value.batchWiseItem.isEmpty){
-                                    // print(value!.batchWiseItem.length);
-                                    // print("data paichi ${finalItemDataList.length}");
-
-                                      finalItemDataList.removeAt(index);
-                                     // finalItemDataList.removeWhere((element) => element.itemId==value.itemId);
-                                       setState(() {
-                                       
-                                     });
-                                     return;
+                                        finalItemDataList.removeAt(index);
+                                        setState(() {  
+                                      });
+                                      return;
                                     
                                      }
                                      finalItemDataList[index] = value;
@@ -483,13 +470,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                         
                       });
                       }
-                      
-                     
-                   
-
-                      
-                     
-
                         
                       },
                       icon: const Icon(Icons.edit, color: Color.fromARGB(255, 82, 179, 98)),
@@ -540,7 +520,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
 //============================================Bottom Navigation Bar Index Function================================================================
   _onItemTapped(int index) async {
     if (index == 0) {
-      await orderSaveAndDraftData();
+      await ExpiredServices().orderSaveAndDraftData(isEdit,finalItemDataList,customerExpiredItemsBox, widget.clientName, widget.marketName, widget.clientId, widget.outStanding!);
       if (!mounted) return;
       Navigator.pop(context);
       Navigator.pop(context);
@@ -556,7 +536,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-       orderSubmit();
+       expiredItemSubmit();
       } else {
         AllServices().toastMessage(
             "No Internet Connection\nPlease check your internet connection.",
@@ -583,8 +563,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   getData() async {
     ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
     if(expiredItems!=null){
-     List<ExpiredItemList> expiredItemList= expiredItems.expiredItemList;
-      // syncItemList = mymap;
+    List<ExpiredItemList> expiredItemList= expiredItems.expiredItemList;
     if (!mounted) return;
     Navigator.push(
       context,
@@ -615,37 +594,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     
   }
 
-//================================================Save & draft Order Data===========================================================
-  Future orderSaveAndDraftData() async {
-    if(isEdit==true && finalItemDataList.isNotEmpty){
-      dynamic desireKey;
-      customerExpiredItemsBox.toMap().forEach((key, value) {
-      if (value.clientId == widget.clientId) {
-        desireKey = key;  
-      }
-     });
-    
-     ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
-    if (clientData!.isInBox) {
-      clientData.expiredItemSubmitModel=finalItemDataList;
-    }
-    customerExpiredItemsBox.put(desireKey, clientData);
-    }
-    else{
-       customerExpiredItemsBox.add(ExpiredSubmitDataModel(
-          clientName: widget.clientName,
-          marketName: widget.marketName,
-          areaId: 'areaId',
-          clientId: widget.clientId,
-          outstanding: widget.outStanding ?? "",
-          thana: 'thana',
-          address: 'address',
-          expiredItemSubmitModel: finalItemDataList
-          ));
 
-    }
-
-  }
   Container fixedRowWidget() {
                   return Container(
                                         decoration: BoxDecoration(
@@ -695,57 +644,13 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   }
 
 
-//=============================================================Date Time Picker==================================================================
-  // pickDate() async {
-  //   final newDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: DT,
-  //     firstDate: DateTime.now(),
-  //     lastDate: DateTime(DateTime.now().year + 10),
-  //     builder: (context, child) {
-  //       return Theme(
-  //         data: ThemeData(
-  //           primaryColor: Colors.white,
-  //         ), // This will change to light theme.
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-
-  //   if (newDate == null) return;
-
-  //   DT = newDate;
-  //   dateSelected = DateFormat('yyyy-MM-dd').format(newDate);
-  //   setState(() => DT = newDate);
-  // }
 
   //===========================Submit Api call==============================================
 
-  Future orderSubmit() async {
-    itemString="";
-    
-    customerExpiredItemsBox.toMap().values.forEach((element1) {
-      if(element1.clientId==widget.clientId){
-        for (var element2 in element1.expiredItemSubmitModel) {
-          for (var element3 in element2.batchWiseItem) {
-            if(itemString.isEmpty){
-              itemString="${element2.itemId}|${element3.batchId}|${element3.expiredDate}|${element3.unitQty}";
-            }
-            else{
-              itemString+="||${element2.itemId}|${element3.batchId}|${element3.expiredDate}|${element3.unitQty}";
-            }
-            setState(() {
-              
-            });
-          }  
-        }
-      } 
+  Future expiredItemSubmit() async {
+    setState(() {
+      itemString= ExpiredServices().getItemString(customerExpiredItemsBox,widget.clientId); 
     });
-    print("itemString $itemString");
-
-
-
-
     if (itemString != '') {
       String status;
       Map<String, dynamic> orderInfo = await ExpiredRepositoryRepo().expiredSubmitRepo(
@@ -767,17 +672,15 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           setState(() {
             _isLoading = true;
           });
-          // OrderServices()
-          //     .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
-
-          AllServices().toastMessage("Order Submitted\n$ret_str", Colors.green,
-              Colors.white, 16); //order submit success message
+         ExpiredServices().deleteOrderItem(customerExpiredItemsBox, finalItemDataList, widget.clientId);
+          AllServices().toastMessage("Expired item submittion done\n${orderInfo['ret_str']}", Colors.green,
+              Colors.white, 16); 
           if (!mounted) return;
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         } else {
           AllServices().toastMessage(
-              ret_str, Colors.red, Colors.white, 16); //order faild message
+              ret_str, Colors.red, Colors.white, 16); 
           setState(() {
             _isLoading = true;
           });
@@ -797,6 +700,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           .toastMessage('Please Order something', Colors.red, Colors.white, 16);
     }
   }
+ 
 
 //===========================================================end========================================================================================================
 
@@ -809,183 +713,3 @@ class AlwaysDisabledFocusNode extends FocusNode {
   @override
   bool get hasFocus => false;
 }
-// class DynamicItemsWidgetB extends StatefulWidget {
-//   BatchWiseItemListModel? batchWiseItemListModel;
-//   // List<DynamicItemsWidget> batchItems;
-//   // int indexNum;
-//   // void Function(void Function()) setState2;
-//   // Function(BatchWiseItemListModel?) callbackFunction;
-  
-
-//   DynamicItemsWidgetB({super.key, required this.batchWiseItemListModel
-//   // required this.batchItems,required this.indexNum,required this.setState2,required this.callbackFunction
-//   });
-
-//   @override
-//   State<DynamicItemsWidgetB> createState() => _DynamicItemsWidgetBState();
-// }
-
-// class _DynamicItemsWidgetBState extends State<DynamicItemsWidgetB> {
-//   DateTime selectedExpiredDate=DateTime.now();
-//   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
-//   TextEditingController batchcontroller=TextEditingController();
-//   TextEditingController qtyController=TextEditingController();
-//  // BatchWiseItemListModel batchWiseItem=BatchWiseItemListModel();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     // BatchWiseItemListModel batchWiseItem=BatchWiseItemListModel(
-//     //   expiredDate:selectedExpiredDateString,
-//     //   unitQty:qtyController.text,
-//     //   batchId:batchcontroller.text, eachbatchWiseItemString: ''
-//     // );
-//     batchcontroller.text=widget.batchWiseItemListModel!.batchId.toString();
-//     qtyController.text=widget.batchWiseItemListModel!.unitQty.toString();
-//    // batchcontroller.text=widget.batchWiseItemListModel!.batchId.toString();
-    
-    
-//   }
-//   //BatchWiseItemListModel? batchWiseItemListModel;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(bottom: 1,),
-//       child: Row(
-//                                               children: [
-//                                                 Expanded(
-//                                                   flex: 2,
-//                                                   child: Padding(
-//                                                   padding: const EdgeInsets.all(8.0),
-//                                                   child:  Center(child: TextFormFieldCustomOrderInput(controller: batchcontroller, borderColor: Colors.teal, 
-//                                                   hintText: "---id---", 
-//                                                   textAlign: TextAlign.center, 
-//                                                   validator: (value) { 
-//                                                     // if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
-                                                    
-//                                                     //  widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
-
-//                                                     // }
-                                                    
-                                                    
-//                                                    }, afterClickingDone: () {  },)),
-//                                                 )),
-//                                                  Expanded(
-//                                                   flex: 2,
-//                                                   child:StatefulBuilder(builder: (context, setState2) {
-//                                                     return Padding(
-//                                                   padding:const  EdgeInsets.all(8.0),
-//                                                   child:  Center(child:TextFormField(
-//                                                               autofocus: false,
-//                                                               controller: initialValue(selectedExpiredDateString),
-//                                                               focusNode: AlwaysDisabledFocusNode(),
-//                                                               style:const TextStyle(fontSize: 14,color: Colors.teal,),
-//                                                               textAlign: TextAlign.center,
-//                                                               decoration:const InputDecoration(
-//                                                                 hintText: "select",
-//                                                                 //suffixIcon: Icon(Icons.calendar_month_outlined,color: Colors.teal,),
-//                                                                 focusedBorder: UnderlineInputBorder(
-//                                                                 borderSide: BorderSide(
-//                                                                     width: 1, 
-//                                                                     color:  Colors.white
-//                                                                 ), 
-//                                                                 ),
-//                                                                 enabledBorder: UnderlineInputBorder(
-//                                                                 borderSide: BorderSide(
-//                                                                     width: 1, 
-//                                                                     color:  Colors.teal, 
-//                                                                 ), 
-//                                                                 ),
-                                                                
-//                                                               ),
-                                                              
-//                                                               onChanged: (String value) {
-//                                                     //             setState2(() {});
-//                                                     //             selectedExpiredDateString  = value;
-//                                                     //              if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
-                                                    
-//                                                     //                widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
-
-//                                                     // }
-//                                                     //             //  widget.callbackFunction(BatchWiseItemListModel(
-//                                                     //             //       expiredDate: selectedExpiredDateString,
-//                                                     //             //       unitQty: qtyController.text,
-//                                                     //             //       batchId: batchcontroller.text,
-//                                                     //             //       eachbatchWiseItemString: '',
-//                                                     //             //     ));
-                                                                        
-//                                                               },
-//                                                               onTap: () {
-//                                                                 pickDate(context,setState2);
-//                                                               },
-//                                                             ), ),
-//                                                 );
-                                                    
-//                                                   },) ),
-//                                                Expanded(
-//                                                   flex: 1,
-//                                                   child: Padding(
-//                                                   padding:const  EdgeInsets.all(8.0),
-//                                                   child:  Center(child: TextFormFieldCustomOrderInput(controller: qtyController, borderColor: Colors.teal, hintText: "-qty-", textAlign: TextAlign.center, 
-//                                                   validator: (value) { 
-//                                                     //   if(batchcontroller.text!="" && qtyController.text!="" && selectedExpiredDateString!=""){
-                                                    
-//                                                     //  widget.callbackFunction(BatchWiseItemListModel(batchId: batchcontroller.text, unitQty: qtyController.text, expiredDate: selectedExpiredDateString, eachbatchWiseItemString: ''));
-//                                                     //   batchcontroller.clear();
-//                                                     //   qtyController.clear();
-//                                                     //   setState(() {});
-
-//                                                     // }
-//                                                    }, afterClickingDone: () {  },)),
-//                                                 )),
-//                                                  Expanded(child: Padding(
-//                                                   padding: const EdgeInsets.all(8.0),
-//                                                   child:  Center(child: IconButton(onPressed: (){
-                                                
-//                                                   //  widget.batchItems.removeAt(widget.indexNum);
-//                                                   //  widget.setState2;
-//                                                   //  setState(() {
-                                                     
-//                                                   //  });
-                                                 
-                                                    
-                                                   
-
-//                                                   }, icon:const Icon(Icons.delete,color: Colors.redAccent,size:20))),
-//                                                 )),
-//                                               ],  
-//                                             ),
-//     );
-//   }
-
-//    initialValue(String val) {
-//     return TextEditingController(text: val);
-//   }
-
-//   pickDate(BuildContext context,void Function(void Function()) setState2) async {
-//     final newDate = await showDatePicker(
-//       context: context,
-//       initialDate:selectedExpiredDate,
-//       firstDate: DateTime(DateTime.now().year - 3),
-//       lastDate: DateTime.now(),
-//       builder: (context, child) {
-//         return Theme(
-//           data: ThemeData.light().copyWith(
-//             primaryColor: Colors.teal,
-//             colorScheme:const ColorScheme.light(primary: Colors.teal,),
-//             canvasColor: Colors.teal,
-//           ),
-//           child: child!,
-//         );
-//       },
-//     );
-
-//     if (newDate == null) return;
-
-//     selectedExpiredDate = newDate;
-//     selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(selectedExpiredDate);
-//     setState2(() => selectedExpiredDate = newDate);
-  
-//   }
-// }

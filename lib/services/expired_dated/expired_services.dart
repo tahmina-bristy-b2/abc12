@@ -56,4 +56,69 @@ class ExpiredServices{
     }
     return results;
   }
+
+  //========================================== order saved and draft ============================
+ Future orderSaveAndDraftData(bool isEdit,List<ExpiredItemSubmitModel> finalItemDataList,Box<ExpiredSubmitDataModel> customerExpiredItemsBox,String clientName, String marketName, String clientId, String outStanding) async {
+    if(isEdit==true && finalItemDataList.isNotEmpty){
+      dynamic desireKey;
+      customerExpiredItemsBox.toMap().forEach((key, value) {
+      if (value.clientId == clientId) {
+        desireKey = key;  
+      }
+     });
+    
+     ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
+    if (clientData!.isInBox) {
+      clientData.expiredItemSubmitModel=finalItemDataList;
+    }
+    customerExpiredItemsBox.put(desireKey, clientData);
+    }
+    else{
+       customerExpiredItemsBox.add(ExpiredSubmitDataModel(
+          clientName: clientName,
+          marketName: marketName,
+          areaId: 'areaId',
+          clientId: clientId,
+          outstanding: outStanding ?? "",
+          thana: 'thana',
+          address: 'address',
+          expiredItemSubmitModel: finalItemDataList
+          ));
+    }
+  } 
+
+  //======================================== make a itemString against a ExpiredItem =======================
+ String getItemString(Box<ExpiredSubmitDataModel> customerExpiredItemsBox,String clientId,){
+    String itemString="";
+    customerExpiredItemsBox.toMap().values.forEach((element1) {
+      if(element1.clientId==clientId){
+        for (var element2 in element1.expiredItemSubmitModel) {
+          for (var element3 in element2.batchWiseItem) {
+            if(itemString.isEmpty){
+              itemString="${element2.itemId}|${element3.batchId}|${element3.expiredDate}|${element3.unitQty}";
+            }
+            else{
+              itemString+="||${element2.itemId}|${element3.batchId}|${element3.expiredDate}|${element3.unitQty}";
+            }
+            
+          }  
+        }
+      } 
+    });
+    return itemString;
+
+  }
+
+  //======================================================= customer deleted ==================================
+  deleteOrderItem(Box<ExpiredSubmitDataModel> customerBox,
+      List<ExpiredItemSubmitModel> orderDataBox, String clientId) {
+    dynamic desireKey;
+    customerBox.toMap().forEach((key, value) {
+      if (value.clientId == clientId) {
+        desireKey = key;
+      }
+    });
+    customerBox.delete(desireKey);
+  }
+
 }

@@ -1,8 +1,6 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/expired_dated/expired_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/cancel-button.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/confirm_widget.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/each_batch_scareen.dart';
@@ -29,20 +27,19 @@ class ExpiredIteminputShowDialogScreen extends StatefulWidget {
 }
 
 class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowDialogScreen> {
-  //List<DynamicItemsWidget> batchItems=[];
-  List<BatchWiseItemListModel> batchWiseItemSaved=[];
-    final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
-  String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String total="";
-  bool isUpdate=false;
-  int remaingPcs=0;
   DateTime selectedExpiredDate=DateTime.now();
   TextEditingController pcsController=TextEditingController();
+  final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
+  String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
+  List<BatchWiseItemListModel> batchWiseItemSaved=[];
+ // String total="";
+  bool isUpdate=false;
+  //int remaingPcs=0;
+  
 
   @override
   void initState() {
     super.initState();
-
     selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
     if(widget.expiredItemSubmitModel!=null){
       for (var element in widget.expiredItemSubmitModel!.batchWiseItem) {
@@ -52,42 +49,42 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
     }
   }
  
- deleteItem(String batchId, String expiredDate, String qty) async{
-  dynamic desireKey;
-  customerExpiredItemsBox.toMap().forEach((key, value) {
-    if (value.clientId == widget.clinetId) {
-      desireKey = key;
-    }
-  });
-  ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
-  setState(() {
-      batchWiseItemSaved
-          .removeWhere((element) => (element.batchId == batchId) && (element.expiredDate == expiredDate) && (element.unitQty == qty));
-    });
-    if(clientData == null){
-      return;
-    }
-  if (clientData.isInBox) {
-    for (var element in clientData.expiredItemSubmitModel) {
-      if (element.itemId == widget.itemId) {
-        element.batchWiseItem.removeWhere((element1) =>
-            (element1.batchId == batchId) &&
-            (element1.expiredDate == expiredDate) &&
-            (element1.unitQty == qty));
-      }
-    }
-    clientData.expiredItemSubmitModel
-        .removeWhere((element) => element.batchWiseItem.isEmpty);
-        print("deleted");
+//  deleteItem(String batchId, String expiredDate, String qty) async{
+//   dynamic desireKey;
+//   customerExpiredItemsBox.toMap().forEach((key, value) {
+//     if (value.clientId == widget.clinetId) {
+//       desireKey = key;
+//     }
+//   });
+//   ExpiredSubmitDataModel? clientData = customerExpiredItemsBox.get(desireKey);
+//   setState(() {
+//       batchWiseItemSaved
+//           .removeWhere((element) => (element.batchId == batchId) && (element.expiredDate == expiredDate) && (element.unitQty == qty));
+//     });
+//     if(clientData == null){
+//       return;
+//     }
+//   if (clientData.isInBox) {
+//     for (var element in clientData.expiredItemSubmitModel) {
+//       if (element.itemId == widget.itemId) {
+//         element.batchWiseItem.removeWhere((element1) =>
+//             (element1.batchId == batchId) &&
+//             (element1.expiredDate == expiredDate) &&
+//             (element1.unitQty == qty));
+//       }
+//     }
+//     clientData.expiredItemSubmitModel
+//         .removeWhere((element) => element.batchWiseItem.isEmpty);
+//         print("deleted");
 
    
     
-  }
-  await customerExpiredItemsBox.put(desireKey, clientData);
-  setState(() {
+//   }
+//   await customerExpiredItemsBox.put(desireKey, clientData);
+//   setState(() {
     
-  });
-}
+//   });
+// }
 
 
   @override
@@ -150,13 +147,9 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                                         itemName:widget.expiredItem.itemName, 
                                                         batchWiseItemSaved: batchWiseItemSaved[index], 
                                                         callbackFunction: (BatchWiseItemListModel? value ) {
-
                                                           batchWiseItemSaved[index]=value!;
-                                                          setState(() {
-                                                            
+                                                          setState(() {  
                                                           });
-                                                        
-                                                      
                                                        }, routeName: true,
 
                                                       );
@@ -195,7 +188,6 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                 child: IconButton(
                                   onPressed:(){
                                     batchWiseItemSaved.removeAt(index);
-                                    //eleteItem(eachSavedBatchItem.batchId, eachSavedBatchItem.expiredDate, eachSavedBatchItem.unitQty);
                                     setState((){});
                                   },
                                  
@@ -229,33 +221,34 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                      padding: const EdgeInsets.symmetric(horizontal:10,vertical: 10 ),
                      child: Row(
                           children: [
-                            Expanded(child: CancelButtonWidget(buttonHeight: 50, fontColor:const Color.fromARGB(255, 82, 179, 98)
-                                            , buttonName: "Cancel", fontSize: 16, onTapFuction:  () { 
-                              Navigator.pop(context) ;
-
-                              
-                            },borderColor:const Color.fromARGB(255, 82, 179, 98))),
-                           const SizedBox(width: 10,),
+                            Expanded(
+                              child: CancelButtonWidget(
+                                buttonHeight: 50, 
+                                fontColor:const Color.fromARGB(255, 82, 179, 98),
+                                buttonName: "Cancel", fontSize: 16, onTapFuction:  () { 
+                                   Navigator.pop(context) ;},
+                                   borderColor:const Color.fromARGB(255, 82, 179, 98))),
+                            const SizedBox(width: 10,),
                          
-                         Expanded(
-                          child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "OK", fontSize: 16, onTapFuction: () {
-                           
-                              final eachItemtemList = ExpiredItemSubmitModel(
-                                itemName: widget.expiredItem.itemName.toString(), 
-                                quantity: widget.expiredItem.stock.toString(), 
-                                tp:widget.expiredItem.tp.toString()
-                               , itemId: widget.expiredItem.itemId.toString(), 
-                               categoryId: widget.expiredItem.categoryId.toString(), 
-                               vat: widget.expiredItem.vat.toString(), 
-                               manufacturer: widget.expiredItem.manufacturer.toString(), 
-                               itemString: "", 
-                               batchWiseItem: batchWiseItemSaved
-                               );
-                            
-                               widget.callbackFunction(eachItemtemList);
-                               Navigator.pop(context) ;
+                            Expanded(
+                              child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "OK", fontSize: 16, onTapFuction: () {
+                              
+                                  final eachItemtemList = ExpiredItemSubmitModel(
+                                    itemName: widget.expiredItem.itemName.toString(), 
+                                    quantity: widget.expiredItem.stock.toString(), 
+                                    tp:widget.expiredItem.tp.toString()
+                                    ,itemId: widget.expiredItem.itemId.toString(), 
+                                    categoryId: widget.expiredItem.categoryId.toString(), 
+                                    vat: widget.expiredItem.vat.toString(), 
+                                    manufacturer: widget.expiredItem.manufacturer.toString(), 
+                                    itemString: "", 
+                                    batchWiseItem: batchWiseItemSaved
+                                  );
+                                
+                                  widget.callbackFunction(eachItemtemList);
+                                  Navigator.pop(context) ;
 
-                             },))
+                                },))
                            
                           ],
                         ),
@@ -321,7 +314,7 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
     final newDate = await showDatePicker(
       context: context,
       initialDate:selectedExpiredDate,
-      firstDate: DateTime(DateTime.now().year - 3),
+      firstDate: DateTime(DateTime.now().year - 10),
       lastDate: DateTime.now(),
       builder: (context, child) {
         return Theme(

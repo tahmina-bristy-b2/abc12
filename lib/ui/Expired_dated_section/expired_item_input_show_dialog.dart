@@ -298,7 +298,7 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                               )),
                                                Expanded(child: Padding(
                                                 padding:  EdgeInsets.all(8.0),
-                                                child:  Center(child: Text("Ac",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
+                                                child:  Center(child: Text("Action",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
                                               )),
                                             ],  
                                           )

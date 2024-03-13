@@ -580,7 +580,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         ppmList.isNotEmpty &&
         rxItemList.isNotEmpty &&
         doctorList.isNotEmpty &&
-        (eDsRData == null || eDsRData != null)&& expiredItemsData!=null ) {
+        (eDsRData == null || eDsRData != null)&& (expiredItemsData != null || expiredItemsData==null ) ){
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

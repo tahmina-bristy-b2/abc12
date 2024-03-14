@@ -1,4 +1,6 @@
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,10 +16,8 @@ class HiveAdapter {
     Hive.registerAdapter(MedicineListModelAdapter());
     Hive.registerAdapter(DmPathDataModelAdapter());
     Hive.registerAdapter(UserLoginModelAdapter());
-
     Hive.registerAdapter(EdsrDataModelAdapter());
     Hive.registerAdapter(BrandListAdapter());
-
     Hive.registerAdapter(RegionListAdapter());
     Hive.registerAdapter(AreaListAdapter());
     Hive.registerAdapter(TerritoryListAdapter());
@@ -25,6 +25,15 @@ class HiveAdapter {
     Hive.registerAdapter(SubPurposeListAdapter());
     Hive.registerAdapter(RxDurationMonthListAdapter());
     Hive.registerAdapter(DsrDurationMonthListAdapter());
+    
+    //================= expired Dated ================
+    Hive.registerAdapter(ExpiredItemListDataModelAdapter());
+    Hive.registerAdapter(ExpiredItemListAdapter());
+    //================= expired Dated Saved & Submit ================
+    Hive.registerAdapter(ExpiredSubmitDataModelAdapter());
+    Hive.registerAdapter(ExpiredItemSubmitModelAdapter());
+    Hive.registerAdapter(BatchWiseItemListModelAdapter());
+
 
     await Hive.openBox<AddItemModel>('orderedItem');
     await Hive.openBox<CustomerDataModel>('customerHive');
@@ -34,8 +43,10 @@ class HiveAdapter {
     await Hive.openBox<MedicineListModel>('draftMdicinList');
     await Hive.openBox<DmPathDataModel>('DmPath');
     await Hive.openBox<UserLoginModel>('UserLoginData');
-
     await Hive.openBox<EdsrDataModel>('eDSRSettingsData');
+    
+
+
     await Hive.openBox('doctorList');
 
     /// [DcrRxTarget] this table name used for Dcr Rx target value
@@ -43,5 +54,11 @@ class HiveAdapter {
 
     /// [ChemistRxTarget] this table name used for Chemist Rx target value
     await Hive.openBox('ChemistRxTarget');
+
+    //========================= expired sync data =========================
+    await Hive.openBox<ExpiredItemListDataModel>('expiredDatedItemSync');
+    await Hive.openBox<ExpiredSubmitDataModel>('expiredSavedData');
+
+
   }
 }

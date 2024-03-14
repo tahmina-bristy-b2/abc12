@@ -1,4 +1,6 @@
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:hive/hive.dart';
@@ -12,9 +14,12 @@ class Boxes {
   static Box<DcrGSPDataModel> selectedDcrGSP() => Hive.box('selectedDcrGSP');
   static Box<RxDcrDataModel> rxdDoctor() => Hive.box('RxdDoctor');
   static Box<MedicineListModel> getMedicine() => Hive.box('draftMdicinList');
+
   static Box<DmPathDataModel> getDmpath() => Hive.box('DmPath');
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
   static Box<EdsrDataModel> geteDSRsetData() => Hive.box('eDSRSettingsData');
+  static Box<ExpiredItemListDataModel> getExpiredDatedIItems() => Hive.box('expiredDatedItemSync'); // expired items sync data for very initial portion
+  static Box<ExpiredSubmitDataModel> getExpiredItemSubmitItems() => Hive.box('expiredSavedData'); // expired items save
 
   /// [dcrRxTargetToSave] This methode used for Savig Dcr Rx Target to local Database
   static Box dcrRxTargetToSave() => Hive.box('DcrRxTarget');
@@ -58,5 +63,7 @@ class Boxes {
     Hive.openBox('medicineList').then((value) => value.clear());
     Boxes.dcrRxTargetToSave().clear();
     Boxes.chemistRxTargetToSave().clear();
+    Boxes.getExpiredItemSubmitItems().clear();
+    Boxes.getExpiredDatedIItems().clear();
   }
 }

@@ -16,6 +16,7 @@ class OrderDataProviders {
   //################################ Sync Item  Data########################
   Future<http.Response> syncItemDP(
       String syncUrl, String cid, String userId, String userpass) async {
+        print("items =${OrderApis.syncItemApi(syncUrl, cid, userId, userpass)}");
     final response = await http.get(
       Uri.parse(OrderApis.syncItemApi(syncUrl, cid, userId, userpass)),
     );

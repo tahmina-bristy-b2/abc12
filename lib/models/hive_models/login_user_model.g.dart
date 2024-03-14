@@ -58,13 +58,14 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
       censusDocFlag: fields[39] as bool?,
       censusClFlag: fields[40] as bool?,
       attendanceFlag: fields[41] as bool?,
+      expiredFlag: fields[42] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserLoginModel obj) {
     writer
-      ..writeByte(41)
+      ..writeByte(42)
       ..writeByte(0)
       ..write(obj.status)
       ..writeByte(2)
@@ -146,7 +147,9 @@ class UserLoginModelAdapter extends TypeAdapter<UserLoginModel> {
       ..writeByte(40)
       ..write(obj.censusClFlag)
       ..writeByte(41)
-      ..write(obj.attendanceFlag);
+      ..write(obj.attendanceFlag)
+      ..writeByte(42)
+      ..write(obj.expiredFlag);
   }
 
   @override

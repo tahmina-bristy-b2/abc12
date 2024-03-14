@@ -41,9 +41,9 @@ class ExpiredItemList {
     @HiveField(3)
     String manufacturer;
     @HiveField(4)
-    double tp;
+    String tp;
     @HiveField(5)
-    double vat;
+    String vat;
     @HiveField(6)
     String promo;
     @HiveField(7)
@@ -65,8 +65,8 @@ class ExpiredItemList {
         itemName: json["item_name"]??"",
         categoryId: json["category_id"]??"",
         manufacturer: json["manufacturer"]??"",
-        tp: json["tp"]??0.0,
-        vat: json["vat"]??0.0,
+        tp: json["tp"]??'',
+        vat: json["vat"]??'',
         promo: json["promo"]??"",
         stock: json["stock"]??"",
     );

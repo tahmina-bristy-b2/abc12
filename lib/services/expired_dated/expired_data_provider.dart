@@ -29,7 +29,7 @@ class ExpiredDataProviders{
       ) async {
     http.Response response;
     response = await http.post(
-      Uri.parse(ExpiredApi.orderExpiredItemsSubmitApi(submitUrl)),
+      Uri.parse(ExpiredApi.orderSubmitApi(submitUrl)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },

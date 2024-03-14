@@ -59,8 +59,8 @@ class ExpiredItemListAdapter extends TypeAdapter<ExpiredItemList> {
       itemName: fields[1] as String,
       categoryId: fields[2] as String,
       manufacturer: fields[3] as String,
-      tp: fields[4] as double,
-      vat: fields[5] as double,
+      tp: fields[4] as String,
+      vat: fields[5] as String,
       promo: fields[6] as String,
       stock: fields[7] as dynamic,
     );

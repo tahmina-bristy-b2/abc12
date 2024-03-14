@@ -631,10 +631,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                                                 padding:  EdgeInsets.all(8.0),
                                                 child:  Center(child: Text("Qty",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
                                               )),
-                                              //  Expanded(child: Padding(
-                                              //   padding:  EdgeInsets.all(8.0),
-                                              //   child:  Center(child: Text("Action",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
-                                              // )),
+                                             
                                             ],  
                                           )
                                           
@@ -647,9 +644,22 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   //===========================Submit Api call==============================================
 
   Future expiredItemSubmit() async {
-    setState(() {
-      itemString= ExpiredServices().getItemString(customerExpiredItemsBox,widget.clientId); 
-    });
+    String itemString="";
+    if(finalItemDataList.isNotEmpty){
+    for (var element1 in finalItemDataList) {
+          for (var element2 in element1.batchWiseItem) {
+            if(itemString.isEmpty){
+              itemString="${element1.itemId}|${element2.batchId}|${element2.expiredDate}|${element2.unitQty}";
+            }
+            else{
+              itemString+="||${element1.itemId}|${element2.batchId}|${element2.expiredDate}|${element2.unitQty}";
+            }
+            
+          }  
+    }
+    }
+    print("itemString =$itemString");
+
     if (itemString != '') {
       String status;
       Map<String, dynamic> orderInfo = await ExpiredRepositoryRepo().expiredSubmitRepo(
@@ -665,7 +675,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           longitude);
       if (orderInfo.isNotEmpty) {
         status = orderInfo['status'];
-        var ret_str = orderInfo['ret_str']; //for reponse return message
+        var ret_str = orderInfo['ret_str']; 
 
         if (status == "Success") {
           setState(() {

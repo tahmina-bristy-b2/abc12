@@ -17,7 +17,7 @@ class TextFormFieldCustomOrderInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
                        return TextFormField(
-                        autofocus: false,
+                                   autofocus: false,
                                              textDirection: TextDirection.rtl,
                                               decoration: InputDecoration(
                                                 
@@ -44,11 +44,11 @@ class TextFormFieldCustomOrderInput extends StatelessWidget {
                                              textAlign: textAlign,
                                              readOnly: readOnly,
                                              inputFormatters: [
-                                                  FilteringTextInputFormatter.digitsOnly,
+                                             hintText!=   "---batch id---"?  FilteringTextInputFormatter.digitsOnly: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9]"))
                                             ],
                                          
                                              style:const TextStyle(fontSize: 14),
-                                             keyboardType: TextInputType.number,
+                                             keyboardType:hintText!= "---batch id---"? TextInputType.number:TextInputType.text,
                                              onChanged: validator,
                                              onEditingComplete:afterClickingDone ,
                                                              

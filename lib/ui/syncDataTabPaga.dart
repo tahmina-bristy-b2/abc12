@@ -449,7 +449,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                         ),
                       ],
                     ),
-                    Row(
+                  userInfo!.expiredFlag==true?  Row(
                       children: [
                         Expanded(
                                 child: syncCustomBuildButton(
@@ -500,7 +500,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               )
                            
                       ],
-                    ),
+                    ) :SizedBox(),
                     const SizedBox(
                       height: 20,
                     ),

@@ -19,7 +19,8 @@ class Boxes {
   static Box<UserLoginModel> getLoginData() => Hive.box('UserLoginData');
   static Box<EdsrDataModel> geteDSRsetData() => Hive.box('eDSRSettingsData');
   static Box<ExpiredItemListDataModel> getExpiredDatedIItems() => Hive.box('expiredDatedItemSync'); // expired items sync data for very initial portion
-  static Box<ExpiredSubmitDataModel> getExpiredItemSubmitItems() => Hive.box('expiredSavedData'); // expired items save
+  static Box<ExpiredSubmitDataModel> getExpiredItemSubmitItems() => Hive.box('expiredSavedData');
+  static Box<EdsrDataModel> geteCMEsetData() => Hive.box('eDSRSettingsData'); // expired items save
 
   /// [dcrRxTargetToSave] This methode used for Savig Dcr Rx Target to local Database
   static Box dcrRxTargetToSave() => Hive.box('DcrRxTarget');

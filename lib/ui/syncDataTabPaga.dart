@@ -49,7 +49,6 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
   @override
   void initState() {
     super.initState();
-    // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     userId = userInfo!.userId;
@@ -449,9 +448,9 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                         ),
                       ],
                     ),
-                  userInfo!.expiredFlag==true?  Row(
+                    Row(
                       children: [
-                        Expanded(
+                     userInfo!.expiredFlag==true?   Expanded(
                                 child: syncCustomBuildButton(
                                   onClick: () async {
                                     setState(() {
@@ -494,13 +493,55 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                     }
                                   },
                                   color: Colors.white,
-                                  title: 'Expired Dated Items',
+                                  title: 'Expired\nDated Items',
                                   sizeWidth: screenWidth,
                                 ),
-                              )
+                              ) :const SizedBox(),
+                        Expanded(
+                          child: syncCustomBuildButton(
+                            onClick: () async {
+                              setState(() {
+                                syncMsg = 'e-CME data synchronizing... ';
+                                _loading = true;
+                              });
+                              bool result = await InternetConnectionChecker()
+                                  .hasConnection;
+                              if (result == true) {
+                                EdsrDataModel? body = await EDSRServices()
+                                    .geteDSRDataSettingsInfo(
+                                        dmpathData!.submitUrl,
+                                        cid,
+                                        userInfo!.userId,
+                                        userPassword,
+                                        "");
+
+                                if (body != null) {
+                                  AllServices().toastMessage(
+                                      'Sync e-CME data Done.',
+                                      Colors.teal,
+                                      Colors.white,
+                                      16);
+                                  setState(() {
+                                    _loading = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _loading = false;
+                                  });
+                                }
+                              } else {
+                                AllServices().toastMessage(interNetErrorMsg,
+                                    Colors.red, Colors.white, 16);
+                              }
+                            },
+                            color: Colors.white,
+                            title: 'e-CME',
+                            sizeWidth: screenWidth,
+                          ),
+                        ),
                            
                       ],
-                    ) :SizedBox(),
+                    ) ,
                     const SizedBox(
                       height: 20,
                     ),

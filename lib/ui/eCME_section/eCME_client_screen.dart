@@ -1,23 +1,22 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDSR_add_screen.dart';
+import 'package:MREPORTING/ui/eCME_section/eCME_selection_screen.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_doctor_selection.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class EDcrScreen extends StatefulWidget {
-  const EDcrScreen({super.key});
+class ECMEClientScreen extends StatefulWidget {
+  const ECMEClientScreen({super.key});
 
   @override
-  State<EDcrScreen> createState() => _EDcrScreenState();
+  State<ECMEClientScreen> createState() => _ECMEClientScreenState();
 }
 
-class _EDcrScreenState extends State<EDcrScreen> {
+class _ECMEClientScreenState extends State<ECMEClientScreen> {
   Box? box;
-  // OthersDataModel? othersData;
   List<RegionList>? regionListData;
 
   TextEditingController searchController = TextEditingController();
@@ -69,7 +68,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-          title: const Text("eDSR Doctor/Client List"),
+          title: const Text("e-CME Doctor/Client List"),
           titleTextStyle: const TextStyle(
               color: Color.fromARGB(255, 27, 56, 34),
               fontWeight: FontWeight.w500,
@@ -231,7 +230,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => EDSRScreen(
+                                builder: (_) => eECMETypeSelectionScreen(
                                       docInfo: result,
                                       dsrType: dSRType,
                                       index: index,
@@ -245,7 +244,7 @@ class _EDcrScreenState extends State<EDcrScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          //elevation: 7,
+                          
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
                             child: Column(

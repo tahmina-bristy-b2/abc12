@@ -10,6 +10,7 @@ import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
+import 'package:MREPORTING/ui/eCME_section/eCME_client_screen.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
@@ -1676,6 +1677,88 @@ class _MyHomePageState extends State<MyHomePage> {
                                             }
                                           },
                                           title: 'eDSR Approval',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+
+
+                      ///****************************************** Sync Data************************************************///
+                (userInfo!.edsrFlag == false &&
+                        userInfo!.edsrApprovalFlag == false)
+                    ? const SizedBox.shrink()
+                    : Container(
+                        color: const Color(0xFFDDEBF7),
+                        height: screenHeight / 6.8,
+                        width: screenWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                userInfo!.edsrFlag!
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.add,
+                                          onClick: () async {
+                                            if (regionListData != null) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          const ECMEClientScreen()));
+                                            } else {
+                                              AllServices().toastMessage(
+                                                  "e_CME data not found, Sync first...",
+                                                  Colors.red,
+                                                  Colors.white,
+                                                  16);
+                                              setState(() {});
+                                            }
+                                          },
+                                          title: 'Add e-CME',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                                userInfo!.edsrApprovalFlag!
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.note_alt,
+                                          onClick: () async {
+                                            bool result =
+                                                await InternetConnectionChecker()
+                                                    .hasConnection;
+                                            if (result == true) {
+                                              if (!mounted) return;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => EdsrFmList(
+                                                    cid: cid,
+                                                    userPass: userPassword,
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              AllServices().toastMessage(
+                                                  interNetErrorMsg,
+                                                  Colors.yellow,
+                                                  Colors.black,
+                                                  16);
+                                            }
+                                          },
+                                          title: 'CME Approval',
                                           sizeWidth: screenWidth,
                                           inputColor: Colors.white,
                                         ),

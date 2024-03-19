@@ -6,11 +6,9 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
 import 'package:MREPORTING/services/expired_dated/expired_services.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
-import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/show_dialog/expired_item_input_show_dialog.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/widget/textform_field_custom.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -49,7 +47,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
-  //List<DynamicItemsWidgetB> batchItems=[];
   final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
   final itemBox = Boxes.getDraftOrderedData();
   bool isEdit=false;

@@ -1,4 +1,5 @@
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
@@ -20,7 +21,7 @@ class Boxes {
   static Box<EdsrDataModel> geteDSRsetData() => Hive.box('eDSRSettingsData');
   static Box<ExpiredItemListDataModel> getExpiredDatedIItems() => Hive.box('expiredDatedItemSync'); // expired items sync data for very initial portion
   static Box<ExpiredSubmitDataModel> getExpiredItemSubmitItems() => Hive.box('expiredSavedData');
-  static Box<EdsrDataModel> geteCMEsetData() => Hive.box('eDSRSettingsData'); // expired items save
+  static Box<ECMESavedDataModel> geteCMEsetData() => Hive.box('eCMESavedDataSync'); // eCME Data for Sync
 
   /// [dcrRxTargetToSave] This methode used for Savig Dcr Rx Target to local Database
   static Box dcrRxTargetToSave() => Hive.box('DcrRxTarget');

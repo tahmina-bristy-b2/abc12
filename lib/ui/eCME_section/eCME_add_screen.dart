@@ -6,6 +6,7 @@ import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/confirm_widget.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -120,7 +121,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: SizedBox(
-        height: 470,
+        height: 480,
         child: StatefulBuilder(builder: (context, setState2) {
           return SingleChildScrollView(
             child: Column(
@@ -128,8 +129,8 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Doctor/Client List Area",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    "Doctor List Area",
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: const Color.fromARGB(255, 82, 179, 98),),
                   ),
                 ),
                 const SizedBox(
@@ -144,7 +145,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Type *"),
+                  child: Text("e-CME Type *"),
                 ),
                 const SizedBox(
                   height: 10,
@@ -164,9 +165,10 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                                 child: ButtonTheme(
                                   alignedDropdown: true,
                                   child: DropdownButtonFormField(
+                                    iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
                                     isExpanded: true,
                                     value: initialDoctorType,
-                                    hint: const Text("Select Type"),
+                                     hint: const Text("-------Select type -------"),
                                     iconSize: 30,
                                     items: dcrTypeList!.map((item) {
                                       return DropdownMenuItem<String>(
@@ -215,7 +217,8 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                                   child: DropdownButtonFormField(
                                     isExpanded: true,
                                     value: initialRegion,
-                                    hint: const Text("Select Region"),
+                                     iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                    hint: const Text("-------Select Region -------"),
                                     iconSize: 30,
                                     items: regionName.map((item) {
                                       return DropdownMenuItem<String>(
@@ -271,10 +274,12 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                           child: DropdownButtonHideUnderline(
                             child: ButtonTheme(
                               alignedDropdown: true,
+                              
                               child: DropdownButtonFormField(
                                 isExpanded: true,
+                                iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
                                 value: initialDocroeArea,
-                                hint: const Text("Select Area"),
+                                hint: const Text("------Select Area------"),
                                 iconSize: 30,
                                 items: areaNameList.map((item) {
                                   return DropdownMenuItem<String>(
@@ -330,8 +335,9 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                             child: DropdownButtonFormField(
                               isExpanded: true,
                               iconSize: 30,
+                              iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
                               value: initialTerritory,
-                              hint: const Text("Select Territory"),
+                              hint: const Text("------Select Territory ------"),
                               items: terrolist.map((item) {
                                 return DropdownMenuItem<String>(
                                   value: item,
@@ -376,8 +382,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                   height: 10,
                 ),
                 isLoading != true
-                    ? ElevatedButton(
-                        onPressed: () async {
+                    ? ConfirmButtonWidget(buttonHeight: 50, buttonName: "Get Doctor List", fontColor: Colors.white, fontSize: 16, onTapFuction: () async{
                           bool hasInternet =
                               await InternetConnectionChecker().hasConnection;
                           if (hasInternet == true) {
@@ -416,8 +421,54 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                             AllServices().toastMessage(
                                 interNetErrorMsg, Colors.red, Colors.white, 16);
                           }
-                        },
-                        child: const Text("Get Doctor/Client List"))
+                        },)
+                    
+                    
+                    // ElevatedButton(
+                    //     onPressed: () async {
+                    //       bool hasInternet =
+                    //           await InternetConnectionChecker().hasConnection;
+                    //       if (hasInternet == true) {
+                    //         if (regionID != "") {
+                    //           if (areaID != "") {
+                    //             bool result = await InternetConnectionChecker()
+                    //                 .hasConnection;
+                    //             if (result == true) {
+                    //               getTerriBaesdDoctor();
+                    //             } else {
+                    //               AllServices().toastMessage(interNetErrorMsg,
+                    //                   Colors.red, Colors.white, 16);
+                    //             }
+                    //           } else {
+                    //             Fluttertoast.showToast(
+                    //                 msg: 'Please Select Area ',
+                    //                 toastLength: Toast.LENGTH_LONG,
+                    //                 gravity: ToastGravity.BOTTOM,
+                    //                 backgroundColor: Colors.red,
+                    //                 textColor: Colors.white,
+                    //                 fontSize: 16.0);
+                    //           }
+                    //         } else {
+                    //           Fluttertoast.showToast(
+                    //               msg: 'Please Select Region ',
+                    //               toastLength: Toast.LENGTH_LONG,
+                    //               gravity: ToastGravity.BOTTOM,
+                    //               backgroundColor: Colors.red,
+                    //               textColor: Colors.white,
+                    //               fontSize: 16.0);
+                    //         }
+                    //       } else {
+                    //         setState(() {
+                    //           isLoading = false;
+                    //         });
+                    //         AllServices().toastMessage(
+                    //             interNetErrorMsg, Colors.red, Colors.white, 16);
+                    //       }
+                    //     },
+                    //     child: const Text("Get Doctor/Client List"))
+
+
+
                     : const Center(
                         child: CircularProgressIndicator(),
                       )

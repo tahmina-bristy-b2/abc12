@@ -1,6 +1,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_selection_screen.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_doctor_selection.dart';
 
@@ -68,7 +69,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-          title: const Text("e-CME Doctor/Client List"),
+          title: const Text("e-CME Doctor List"),
           titleTextStyle: const TextStyle(
               color: Color.fromARGB(255, 27, 56, 34),
               fontWeight: FontWeight.w500,
@@ -83,63 +84,131 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                 children: [
                   box!.isNotEmpty
                       ? Expanded(
-                          flex: 4,
-                          child: TextField(
-                            controller: searchController,
-                            onChanged: (value) {
-                              result = box!.toMap().values.toList();
-                              result = AllServices().doctorSearch(
-                                  value,
-                                  result,
-                                  'doc_name',
-                                  'area_name',
-                                  'area_id',
-                                  'address');
-                              setState(() {});
-                            },
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: 'Search Doctor/Client.....',
-                              suffixIcon: searchController.text.isEmpty &&
-                                      searchController.text == ''
-                                  ? const Icon(Icons.search)
-                                  : IconButton(
-                                      onPressed: () {
-                                        searchController.clear();
-                                        result = box!.toMap().values.toList();
+                          flex: 5,
+                        child: SizedBox(
+                          height: 70,
+                          child: Row(
+                            children: [
+                              Expanded(
+                              
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.teal.shade50,
+                                  ),
+                                  child: TextFormField(
+                                    onChanged: (value) {
+                                                result = box!.toMap().values.toList();
+                                                result = AllServices().doctorSearch(
+                                                    value,
+                                                    result,
+                                                    'doc_name',
+                                                    'area_name',
+                                                    'area_id',
+                                                    'address');
+                                                setState(() {});
+                                              },
+                                    controller: searchController,
+                                    decoration: InputDecoration(
+                                      hintText:" Search doctor.....",
+                                      filled: true,
+                                      fillColor: Colors.transparent,
+                                      border: InputBorder.none,
+                                      suffixIcon: searchController.text.isEmpty &&
+                                              searchController.text == ''
+                                          ? const Icon(Icons.search,color: Colors.teal,)
+                                          : IconButton(
+                                                              onPressed: () {
+                                                          searchController.clear();
+                                                          result = box!.toMap().values.toList();
 
-                                        setState(() {
-                                          result = AllServices().doctorSearch(
-                                              '',
-                                              result,
-                                              'doc_name',
-                                              'area_name',
-                                              'area_id',
-                                              'address');
-                                        });
-                                      },
-                                      icon: const Icon(
-                                        Icons.clear,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        )
+                                                          setState(() {
+                                                            result = AllServices().doctorSearch(
+                                                                '',
+                                                                result,
+                                                                'doc_name',
+                                                                'area_name',
+                                                                'area_id',
+                                                                'address');
+                                                          });
+                                                        },
+                                              icon: const Icon(
+                                                Icons.clear,
+                                                color: Colors.teal
+                                              
+                                              ),
+                                            ),
+                  ),
+                ),
+              ),
+          ),
+        ],
+      ),
+    ))
+                      
+                      
+                      //  Expanded(
+                      //     flex: 4,
+                      //     child: TextField(
+                      //       controller: searchController,
+                      //       onChanged: (value) {
+                      //         result = box!.toMap().values.toList();
+                      //         result = AllServices().doctorSearch(
+                      //             value,
+                      //             result,
+                      //             'doc_name',
+                      //             'area_name',
+                      //             'area_id',
+                      //             'address');
+                      //         setState(() {});
+                      //       },
+                      //       decoration: InputDecoration(
+                      //         border: const OutlineInputBorder(),
+                      //         labelText: 'Search Doctor/Client.....',
+                      //         suffixIcon: searchController.text.isEmpty &&
+                      //                 searchController.text == ''
+                      //             ? const Icon(Icons.search)
+                      //             : IconButton(
+                      //                 onPressed: () {
+                      //                   searchController.clear();
+                      //                   result = box!.toMap().values.toList();
+
+                      //                   setState(() {
+                      //                     result = AllServices().doctorSearch(
+                      //                         '',
+                      //                         result,
+                      //                         'doc_name',
+                      //                         'area_name',
+                      //                         'area_id',
+                      //                         'address');
+                      //                   });
+                      //                 },
+                      //                 icon: const Icon(
+                      //                   Icons.clear,
+                      //                   color: Colors.black,
+                      //                 ),
+                      //               ),
+                      //       ),
+                      //     ),
+                      //   )
+
+
+
+
                       : const SizedBox(),
                   box!.isNotEmpty
                       ? const SizedBox(
                           width: 10,
                         )
                       : const SizedBox(),
-                  //******************************************************eDsr doctor Selection******************************************* */
+                  //******************************************************eCME doctor Selection******************************************* */
                   Expanded(
                       child: InkWell(
                     onTap: () async {
                       await showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return EDsrDoctorSelection(
+                            return ECMETypeSelection(
                                 callbackData: mapData,
                                 callbackFuc: (value) {
                                   region = value["Region"];
@@ -155,16 +224,19 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                       });
                     },
                     child: Container(
-                        height: 58,
+                        height: 50,
+                       // width: ,
                         decoration: BoxDecoration(
-                            border: Border.all(),
+                            border: Border.all(
+                              color: Colors.teal,
+                            ),
                             borderRadius: BorderRadius.circular(8)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             box!.isEmpty
                                 ? const Text(
-                                    "Add Doctor/Client ",
+                                    "Add Doctor ",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Color.fromARGB(255, 54, 110, 63),
@@ -181,7 +253,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8,right: 8,bottom: 8),
               child: Row(
                 children: [
                   Expanded(
@@ -191,6 +263,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                       Text(
                         " $region ",
                         style: const TextStyle(
+                          color: Colors.teal,
                             fontWeight: FontWeight.w700, fontSize: 15),
                       ),
                     ],
@@ -200,7 +273,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                     children: [
                       Text(" $area ",
                           style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 15)),
+                              fontWeight: FontWeight.w700, fontSize: 15,color: Colors.teal,)),
                     ],
                   )),
                   Expanded(
@@ -214,7 +287,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                           : Text(
                               " $territory ",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 15),
+                                  fontWeight: FontWeight.w700, fontSize: 15,color: Colors.teal,),
                             ),
                     ],
                   )),
@@ -238,10 +311,12 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Card(
+                          elevation: 0,
                           shape: RoundedRectangleBorder(
+                            
                             borderRadius: BorderRadius.circular(5),
                           ),
                           
@@ -255,15 +330,16 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 14,
                                   ),
                                 ),
                                 Text(
-                                  "${result[index]["area_name"]}  (${result[index]["area_id"]}),",
+                                  "${result[index]["area_name"]}  (${result[index]["area_id"]}),",style: const TextStyle(fontSize: 12),
                                 ),
                                 Text(
                                   "${result[index]["address"]}",
                                   overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 12)
                                 )
                               ],
                             ),

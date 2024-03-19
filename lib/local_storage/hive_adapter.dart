@@ -1,4 +1,5 @@
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
@@ -33,6 +34,15 @@ class HiveAdapter {
     Hive.registerAdapter(ExpiredSubmitDataModelAdapter());
     Hive.registerAdapter(ExpiredItemSubmitModelAdapter());
     Hive.registerAdapter(BatchWiseItemListModelAdapter());
+    //======================= eCME Saved Data Apter=========================
+    Hive.registerAdapter(ECMESavedDataModelAdapter());
+    Hive.registerAdapter(ECMEBrandListAdapter());
+    Hive.registerAdapter(ECMERegionListAdapter());
+    Hive.registerAdapter(ECMEAreaListAdapter());
+    Hive.registerAdapter(ECMETerritoryListAdapter());
+
+
+
 
 
     await Hive.openBox<AddItemModel>('orderedItem');
@@ -58,6 +68,7 @@ class HiveAdapter {
     //========================= expired sync data =========================
     await Hive.openBox<ExpiredItemListDataModel>('expiredDatedItemSync');
     await Hive.openBox<ExpiredSubmitDataModel>('expiredSavedData');
+    await Hive.openBox<ECMESavedDataModel>('eCMESavedDataSync');
 
 
   }

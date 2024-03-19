@@ -1,26 +1,26 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
-import 'package:MREPORTING/utils/constant.dart';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class eECMETypeSelectionScreen extends StatefulWidget {
   List<dynamic> docInfo;
-  String dsrType;
+ // String dsrType;
   int index;
   eECMETypeSelectionScreen(
       {super.key,
       required this.docInfo,
       required this.index,
-      required this.dsrType});
+    //  required this.dsrType
+      });
 
   @override
   State<eECMETypeSelectionScreen> createState() => _eECMETypeSelectionScreenState();
@@ -30,38 +30,37 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   final GlobalKey<FormState> _form1Key = GlobalKey();
-  TextEditingController noOfPatientController = TextEditingController();
-  TextEditingController addDescriptionController = TextEditingController();
-  TextEditingController issueToController = TextEditingController(text: "");
+  DateTime selectedExpiredDate=DateTime.now();
+  String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
+  TextEditingController meetingDateController = TextEditingController();
+  TextEditingController meetingVenueController = TextEditingController();
+  TextEditingController meetingTopicController = TextEditingController();
+  TextEditingController brandSelectedController = TextEditingController();
   TextEditingController rxPerDayController = TextEditingController();
-  TextEditingController dSrController = TextEditingController();
-  TextEditingController doctorMobileNumberController = TextEditingController();
-  final brandSelectedController = TextEditingController();
+  TextEditingController eCMEController = TextEditingController();
+  TextEditingController probaleSpeakerController = TextEditingController();
+  TextEditingController probaleSpeakerInstituteController = TextEditingController();
+  TextEditingController totalNumberOfParticiController = TextEditingController();
+  TextEditingController totalBudgetController = TextEditingController();
+  TextEditingController hallRentController = TextEditingController();
+  TextEditingController morningEveningController = TextEditingController();
+  TextEditingController costperDoctorController = TextEditingController();
+  TextEditingController lunchDinnerController = TextEditingController();
+  TextEditingController stationnairesController = TextEditingController();
+  TextEditingController giftController = TextEditingController();
+  TextEditingController othersController = TextEditingController();
 
-  EdsrDataModel? eDSRSettingsData;
+
+
+
+  ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
-  List<String> eCatergoryList = [];
-  List<String> ePayModeList = [];
-  List<String> ePayScheduleList = [];
-  List<String> ePurposeList = [];
-  List<String> eSubpurposeList = [];
-  List<String> eRxDurationMonthList = [];
-  List<String> eRxDurationMonthListTo = [];
-  List<String> eDsrDurationMonthList = [];
-  List<String> eDsrDurationMonthListTo = [];
+  
   List<List<dynamic>> dynamicRowsListForBrand = [];
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
 
-  String? initialBrand;
-  String? initialCategory;
-  String? initialPurpose;
-  String? initialSubPurpose;
-  String? initialIssueMode;
-  String? initialPaySchdedule;
-  String? initialRxDurationMonthList;
-  String? initialRxDurationMonthListTo;
-  String? initialdsrDurationMonthList;
-  String? initialdsrDurationMonthListTo;
+   String? initialBrand;
+ 
 
   String? cid;
   String? password;
@@ -89,10 +88,8 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
     super.initState();
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    eDSRSettingsData = Boxes.geteDSRsetData().get("eDSRSettingsData")!;
-    doctorMobileNumberController.text = widget.docInfo[widget.index]["mobile"];
-
-    allSettingsDataGet(eDSRSettingsData);
+    eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
+    allSettingsDataGet(eCMESettingsData);
 
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
@@ -105,88 +102,17 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
   }
 
   //===============================All Settings Data get Method============================
-  allSettingsDataGet(EdsrDataModel? eDSRsettingsData) {
-    eCatergoryList = eDSRSettingsData!.categoryList;
-    ePayModeList = eDSRSettingsData!.payModeList;
-    ePayScheduleList = eDSRSettingsData!.payScheduleList;
-    eBrandList = eDSRsettingsData!.brandList.map((e) => e.brandName).toList();
-    eRxDurationMonthList =
-        eDSRSettingsData!.rxDurationMonthList.map((e) => e.nextDateV).toList();
-  }
-
-  //================================ get Purpose List=====================================
-  getEDsrPurposeList(String dsrType, String? categoryName) {
-    String newDsrType = (dsrType == "OTHERS") ? "DCC" : dsrType;
-    ePurposeList = eDSRSettingsData!.purposeList
-        .where((e) => e.dsrCategory == categoryName! && e.dsrType == newDsrType)
-        .map((e) => e.purposeName)
-        .toList();
-    //print("dsrType1=========================$newDsrType");
-    dsrType = dsrType;
-    // print("dsrType1  =========================$dsrType");
-    initialSubPurpose = null;
-    eSubpurposeList = [];
-  }
-
-  //================================ get sub Purpose List=====================================
-  getEDsrSubPurposeList(String purposeId, String category, String doctorType) {
-    String newDsrType = (doctorType == "OTHERS") ? "DCC" : doctorType;
-    eSubpurposeList = eDSRSettingsData!.subPurposeList
-        .where((element) =>
-            element.sDsrCategory == category &&
-            element.sDsrType == newDsrType &&
-            element.sPurposeId == purposeId)
-        .map((e) => e.sPurposeSubName)
-        .toList();
-    doctorType = doctorType;
-  }
-
-  //============================  get rxDurationMonthList ==========================
-  List<String> getRXDurationMonthListTo(String value) {
-    int selectedIndex = eRxDurationMonthList.indexOf(value);
-    eRxDurationMonthListTo = [];
-    if (selectedIndex == -1) {
-      eRxDurationMonthListTo = [];
-    } else {
-      eRxDurationMonthListTo = eRxDurationMonthList.sublist(selectedIndex);
-      initialRxDurationMonthListTo = eRxDurationMonthListTo.first;
-    }
-    setState(() {});
-    return eRxDurationMonthListTo;
-  }
-
-  //============================  get dsrDurationMonthList from ==========================
-  getDSRDurationMonthListFrom() {
-    eDsrDurationMonthList =
-        eDSRSettingsData!.dsrDurationMonthList.map((e) => e.nextDateV).toList();
-    setState(() {});
-  }
-
-  //============================  get dsrDurationMonthList to ==========================
-  List<String> getDsrDurationMonthListTo(String value) {
-    int selectedIndex = eDsrDurationMonthList.indexOf(value);
-    eDsrDurationMonthListTo = [];
-    if (selectedIndex == -1) {
-      eDsrDurationMonthListTo = [];
-    } else {
-      if (initialPaySchdedule == "MONTHLY") {
-        eDsrDurationMonthListTo = eDsrDurationMonthList.sublist(selectedIndex);
-        initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
-      } else {
-        eDsrDurationMonthListTo =
-            eDsrDurationMonthList.sublist(selectedIndex, selectedIndex + 1);
-        initialdsrDurationMonthListTo = eDsrDurationMonthListTo.first;
-      }
-    }
-    setState(() {});
-    return eDsrDurationMonthListTo;
+  allSettingsDataGet(ECMESavedDataModel? eDSRsettingsData) {
+  
+    eBrandList = eDSRsettingsData!.eCMEBrandList.map((e) => e.brandName).toList();
+    
   }
 
   //=============================== get brand String ===============================
   String getbrandString() {
     brandString = '';
 
-    for (var element1 in eDSRSettingsData!.brandList) {
+    for (var element1 in eCMESettingsData!.eCMEBrandList) {
       if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
         for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
           if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
@@ -219,13 +145,9 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
 
   @override
   void dispose() {
-    noOfPatientController.dispose();
-    addDescriptionController.dispose();
-    issueToController.dispose();
+    meetingDateController.dispose();
     rxPerDayController.dispose();
-    dSrController.dispose();
-    // p4RXController.dispose();
-    // emrRXController.dispose();
+    eCMEController.dispose();
     brandSelectedController.clear();
     super.dispose();
   }
@@ -333,8 +255,8 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                           height: 45,
                                           child: TextFormField(
                                             keyboardType: TextInputType.number,
-                                            controller:
-                                                doctorMobileNumberController,
+                                            // controller:
+                                            //     doctorMobileNumberController,
                                             inputFormatters: [
                                                FilteringTextInputFormatter
                                                                       .allow(
@@ -388,11 +310,11 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                                             ))),
                                                   ),
                                                   onTap: () {
-                                                    Navigator.pop(context);
-                                                    doctorMobileNumberController
-                                                        .text = widget
-                                                            .docInfo[
-                                                        widget.index]["mobile"];
+                                                    // Navigator.pop(context);
+                                                    // doctorMobileNumberController
+                                                    //     .text = widget
+                                                    //         .docInfo[
+                                                    //     widget.index]["mobile"];
                                                   }),
                                             ),
                                             const SizedBox(
@@ -422,98 +344,98 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                                             ))),
                                                   ),
                                                   onTap: () async {
-                                                    if (_form1Key.currentState!
-                                                        .validate()) {
-                                                      setState(() {
-                                                        isMobileUpdate = true;
-                                                      });
-                                                      bool result =
-                                                          await InternetConnectionChecker()
-                                                              .hasConnection;
-                                                      if (result == true) {
-                                                        Map<String, dynamic>
-                                                            responsData =
-                                                            await EDSRRepositories().getMobileNumberUpdation(
-                                                                dmpathData!
-                                                                    .submitUrl,
-                                                                cid!,
-                                                                userInfo!
-                                                                    .userId,
-                                                                userPassword,
-                                                                widget.docInfo[
-                                                                        widget
-                                                                            .index]
-                                                                    ["doc_id"],
-                                                                doctorType!,
-                                                                doctorMobileNumberController
-                                                                    .text,
-                                                                widget.docInfo[
-                                                                        widget
-                                                                            .index]
-                                                                    [
-                                                                    "area_id"]);
-                                                        if (responsData
-                                                            .isNotEmpty) {
-                                                          if (responsData[
-                                                                  "status"] ==
-                                                              "Success") {
-                                                            widget.docInfo[widget
-                                                                        .index]
-                                                                    ["mobile"] =
-                                                                doctorMobileNumberController
-                                                                    .text;
-                                                            setState(() {
-                                                              isMobileUpdate =
-                                                                  false;
-                                                            });
-                                                            AllServices()
-                                                                .toastMessage(
-                                                                    responsData[
-                                                                        "ret_str"],
-                                                                    Colors
-                                                                        .green,
-                                                                    Colors
-                                                                        .white,
-                                                                    14);
+                                                    // if (_form1Key.currentState!
+                                                    //     .validate()) {
+                                                    //   setState(() {
+                                                    //     isMobileUpdate = true;
+                                                    //   });
+                                                    //   bool result =
+                                                    //       await InternetConnectionChecker()
+                                                    //           .hasConnection;
+                                                    //   if (result == true) {
+                                                    //     Map<String, dynamic>
+                                                    //         responsData =
+                                                    //         await EDSRRepositories().getMobileNumberUpdation(
+                                                    //             dmpathData!
+                                                    //                 .submitUrl,
+                                                    //             cid!,
+                                                    //             userInfo!
+                                                    //                 .userId,
+                                                    //             userPassword,
+                                                    //             widget.docInfo[
+                                                    //                     widget
+                                                    //                         .index]
+                                                    //                 ["doc_id"],
+                                                    //             doctorType!,
+                                                    //             doctorMobileNumberController
+                                                    //                 .text,
+                                                    //             widget.docInfo[
+                                                    //                     widget
+                                                    //                         .index]
+                                                    //                 [
+                                                    //                 "area_id"]);
+                                                    //     if (responsData
+                                                    //         .isNotEmpty) {
+                                                    //       if (responsData[
+                                                    //               "status"] ==
+                                                    //           "Success") {
+                                                    //         widget.docInfo[widget
+                                                    //                     .index]
+                                                    //                 ["mobile"] =
+                                                    //             doctorMobileNumberController
+                                                    //                 .text;
+                                                    //         setState(() {
+                                                    //           isMobileUpdate =
+                                                    //               false;
+                                                    //         });
+                                                    //         AllServices()
+                                                    //             .toastMessage(
+                                                    //                 responsData[
+                                                    //                     "ret_str"],
+                                                    //                 Colors
+                                                    //                     .green,
+                                                    //                 Colors
+                                                    //                     .white,
+                                                    //                 14);
 
-                                                            if (!mounted) {
-                                                              return;
-                                                            }
-                                                            Navigator.pop(
-                                                                context);
-                                                          } else {
-                                                            setState(() {
-                                                              isMobileUpdate =
-                                                                  false;
-                                                            });
-                                                            AllServices()
-                                                                .toastMessage(
-                                                                    responsData[
-                                                                        "ret_str"],
-                                                                    Colors.red,
-                                                                    Colors
-                                                                        .white,
-                                                                    14);
-                                                          }
-                                                        } else {
-                                                          setState(() {
-                                                            isMobileUpdate =
-                                                                false;
-                                                          });
-                                                        }
-                                                      } else {
-                                                        setState(() {
-                                                          isMobileUpdate =
-                                                              false;
-                                                        });
-                                                        AllServices()
-                                                            .toastMessage(
-                                                                interNetErrorMsg,
-                                                                Colors.red,
-                                                                Colors.white,
-                                                                16);
-                                                      }
-                                                    }
+                                                    //         if (!mounted) {
+                                                    //           return;
+                                                    //         }
+                                                    //         Navigator.pop(
+                                                    //             context);
+                                                    //       } else {
+                                                    //         setState(() {
+                                                    //           isMobileUpdate =
+                                                    //               false;
+                                                    //         });
+                                                    //         AllServices()
+                                                    //             .toastMessage(
+                                                    //                 responsData[
+                                                    //                     "ret_str"],
+                                                    //                 Colors.red,
+                                                    //                 Colors
+                                                    //                     .white,
+                                                    //                 14);
+                                                    //       }
+                                                    //     } else {
+                                                    //       setState(() {
+                                                    //         isMobileUpdate =
+                                                    //             false;
+                                                    //       });
+                                                    //     }
+                                                    //   } else {
+                                                    //     setState(() {
+                                                    //       isMobileUpdate =
+                                                    //           false;
+                                                    //     });
+                                                    //     AllServices()
+                                                    //         .toastMessage(
+                                                    //             interNetErrorMsg,
+                                                    //             Colors.red,
+                                                    //             Colors.white,
+                                                    //             16);
+                                                    //   }
+                                                    // }
                                                   }),
                                             ),
                                           ],
@@ -542,52 +464,134 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              "Category*",
+                             const Text(
+                              "Meeting Date*",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 6,
                             ),
-                            DropdownButton<String>(
-                              iconEnabledColor: const Color(0xff8AC995),
-                              value: initialCategory,
-                              hint: const Text(
-                                "Select Category",
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              items: eCatergoryList.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(fontSize: 14),
-                                      )),
-                                );
-                              }).toList(),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  initialCategory = value!;
-
-                                  initialPurpose = null;
-                                  initialSubPurpose = null;
-                                  ePurposeList = [];
-                                  eSubpurposeList = [];
-
-                                  purposeId = '';
-                                  subPurposeId = '';
-
-                                  getEDsrPurposeList(
-                                      doctorType!, initialCategory);
-                                });
-                              },
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: 45,
+                                child: TextFormField(
+                                  
+                                  autofocus: false,
+                                  controller: initialValue(selectedExpiredDateString),
+                                  focusNode: AlwaysDisabledFocusNode(),
+                                  style:const TextStyle(fontSize: 14,color: Color.fromARGB(255, 82, 179, 98),),
+                                  textAlign: TextAlign.left,
+                                   decoration: InputDecoration(
+                                     suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                        
+                                    // focusedBorder: UnderlineInputBorder(
+                                    // borderSide: BorderSide(
+                                    //     width: 1, 
+                                    //     color:  Colors.white,
+                                    // ), 
+                                    // )
+                                    ),
+                                  )
+                                  // decoration:const InputDecoration(
+                                  //   suffixIcon: Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
+                                  //   // focusedBorder: UnderlineInputBorder(
+                                  //   // borderSide: BorderSide(
+                                  //   //     width: 1, 
+                                  //   //     color:  Colors.white,
+                                  //   // ), 
+                                  //   // ),
+                                  //   // enabledBorder: In(
+                                  //   // borderSide: BorderSide(
+                                  //   //     width: 1, 
+                                  //   //     color:  Color.fromARGB(255, 79, 78, 78), 
+                                  //   // ), 
+                                  //   // ),
+                                    
+                                  // ),
+                                  ,
+                                  onChanged: (String value) {
+                                    setState(() {});
+                                    selectedExpiredDateString  = value;
+                                
+                                  },
+                                  onTap: () {
+                                    pickDate();
+                                  },
+                                ),
+                                // child: TextFormField(
+                                //   controller: meetingDateController,
+                                //   decoration: InputDecoration(
+                                //     border: OutlineInputBorder(
+                                //       borderSide:
+                                //           const BorderSide(color: Colors.white),
+                                //       borderRadius: BorderRadius.circular(5.0),
+                                //     ),
+                                //   ),
+                                // )
+                                ),
+                                const SizedBox(
+                              height: 10,
                             ),
+                                const Text(
+                              "Meeting venue*",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: 45,
+                                child: TextFormField(
+                                  controller: meetingVenueController,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                  ),
+                                )),
+                                const SizedBox(
+                              height: 10,
+                            ),
+                                const Text(
+                              "Meeting Topic*",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: 45,
+                                child: TextFormField(
+                                  controller: meetingTopicController,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                  ),
+                                )),
+
+
+
+                            
                             SizedBox(
                               height: wholeHeight / 75.927,
                             ),
@@ -606,7 +610,7 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                 ),
                                 Container(
                                   height: wholeHeight / 18.98,
-                                  //height: wholeHeight /7,
+                                 
                                   width: wholeWidth / 9.8,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -619,524 +623,351 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(15.0),
+                                                          ),
+                                                                                                  //  shape: ,
                                                   
                                                   scrollable: true,
                                                   title: const Text(
                                                       "Brand Details"),
-                                                  content: SizedBox(
-                                                    height: 310,
-                                                    child:
-                                                        SingleChildScrollView(
-                                                      child: Column(
-                                                        children: [
-                                                          const Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "Brand*",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                  content: Container(
+                                          //           decoration: BoxDecoration(
+                                          //   boxShadow:const [
+                                          //     BoxShadow(
+                                          //       color :Colors.white ,
+                                          //       spreadRadius : 2,
+                                          //       blurStyle :BlurStyle.outer,
+                                          //       blurRadius: 1,
+                                          //     ),
+                                          //   ],
+                                            
+                                          //  // borderRadius: BorderRadius.circular(40),
+                                          //   color: Colors.white ,
+                                            
+                                          // ),
+
+                                                    child: SizedBox(
+                                                      height: 220,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            const Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                "Brand*",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              StatefulBuilder(
-                                                                builder: (context,
-                                                                    setState2) {
-                                                                  return DropdownButtonHideUnderline(
-                                                                    child:
-                                                                        DropdownButton2(
-                                                                      isExpanded:
-                                                                          true,
-                                                                      iconEnabledColor:
-                                                                          const Color(
-                                                                              0xff8AC995),
-                                                                      hint:
-                                                                          Text(
-                                                                        'Select Brand',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          color:
-                                                                              Theme.of(context).hintColor,
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                StatefulBuilder(
+                                                                  builder: (context,
+                                                                      setState2) {
+                                                                    return DropdownButtonHideUnderline(
+                                                                      child:
+                                                                          DropdownButton2(
+                                                                        isExpanded:
+                                                                            true,
+                                                                        iconEnabledColor:
+                                                                            const Color(
+                                                                                0xff8AC995),
+                                                                        hint:
+                                                                            Text(
+                                                                          'Select Brand',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            color:
+                                                                                Theme.of(context).hintColor,
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                      items: eBrandList!
-                                                                          .map((item) => DropdownMenuItem<String>(
-                                                                                value: item,
-                                                                                child: Text(
-                                                                                  item,
-                                                                                  style: const TextStyle(
-                                                                                    fontSize: 14,
+                                                                        items: eBrandList!
+                                                                            .map((item) => DropdownMenuItem<String>(
+                                                                                  value: item,
+                                                                                  child: Text(
+                                                                                    item,
+                                                                                    style: const TextStyle(
+                                                                                      fontSize: 14,
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                              ))
-                                                                          .toList(),
-                                                                      value:
-                                                                          initialBrand,
-                                                                      onChanged:
-                                                                          (value) {
-                                                                        setState2(
-                                                                            () {
-                                                                          initialBrand =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      buttonHeight:
-                                                                          50,
-                                                                      buttonWidth:
-                                                                          MediaQuery.of(context).size.width /
-                                                                              1.5,
-                                                                      itemHeight:
-                                                                          40,
-                                                                      dropdownMaxHeight:
-                                                                          252,
-                                                                      searchController:
-                                                                          brandSelectedController,
-                                                                      searchInnerWidgetHeight:
-                                                                          50,
-                                                                      searchInnerWidget:
-                                                                          Container(
-                                                                        height:
+                                                                                ))
+                                                                            .toList(),
+                                                                        value:
+                                                                            initialBrand,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState2(
+                                                                              () {
+                                                                            initialBrand =
+                                                                                value;
+                                                                          });
+                                                                        },
+                                                                        buttonHeight:
                                                                             50,
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                          top:
-                                                                              8,
-                                                                          bottom:
-                                                                              4,
-                                                                          right:
-                                                                              8,
-                                                                          left:
-                                                                              8,
-                                                                        ),
-                                                                        child:
-                                                                            TextFormField(
-                                                                          expands:
-                                                                              true,
-                                                                          maxLines:
-                                                                              null,
-                                                                          controller:
-                                                                              brandSelectedController,
-                                                                          decoration:
-                                                                              InputDecoration(
-                                                                            isDense:
+                                                                        buttonWidth:
+                                                                            MediaQuery.of(context).size.width /
+                                                                                1.5,
+                                                                        itemHeight:
+                                                                            40,
+                                                                        dropdownMaxHeight:
+                                                                            252,
+                                                                        searchController:
+                                                                            brandSelectedController,
+                                                                        searchInnerWidgetHeight:
+                                                                            50,
+                                                                        searchInnerWidget:
+                                                                            Container(
+                                                                          height:
+                                                                              50,
+                                                                          padding:
+                                                                              const EdgeInsets.only(
+                                                                            top:
+                                                                                8,
+                                                                            bottom:
+                                                                                4,
+                                                                            right:
+                                                                                8,
+                                                                            left:
+                                                                                8,
+                                                                          ),
+                                                                          child:
+                                                                              TextFormField(
+                                                                            expands:
                                                                                 true,
-                                                                            contentPadding:
-                                                                                const EdgeInsets.symmetric(
-                                                                              horizontal: 6,
-                                                                              vertical: 8,
-                                                                            ),
-                                                                            hintText:
-                                                                                'Search Brand here...',
-                                                                            hintStyle:
-                                                                                const TextStyle(fontSize: 14),
-                                                                            border:
-                                                                                OutlineInputBorder(
-                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            maxLines:
+                                                                                null,
+                                                                            controller:
+                                                                                brandSelectedController,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              isDense:
+                                                                                  true,
+                                                                              contentPadding:
+                                                                                  const EdgeInsets.symmetric(
+                                                                                horizontal: 6,
+                                                                                vertical: 8,
+                                                                              ),
+                                                                              hintText:
+                                                                                  'Search Brand here...',
+                                                                              hintStyle:
+                                                                                  const TextStyle(fontSize: 14),
+                                                                              border:
+                                                                                  OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(8),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
+                                                                        searchMatchFn:
+                                                                            (item,
+                                                                                searchValue) {
+                                                                          return (item
+                                                                              .value
+                                                                              .toString()
+                                                                              .startsWith(searchValue.toUpperCase()));
+                                                                        },
+                                                                        onMenuStateChange:
+                                                                            (isOpen) {
+                                                                          if (!isOpen) {
+                                                                            brandSelectedController
+                                                                                .clear();
+                                                                          }
+                                                                        },
                                                                       ),
-                                                                      searchMatchFn:
-                                                                          (item,
-                                                                              searchValue) {
-                                                                        return (item
-                                                                            .value
-                                                                            .toString()
-                                                                            .startsWith(searchValue.toUpperCase()));
-                                                                      },
-                                                                      onMenuStateChange:
-                                                                          (isOpen) {
-                                                                        if (!isOpen) {
-                                                                          brandSelectedController
-                                                                              .clear();
-                                                                        }
-                                                                      },
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox( 
-                                                            height: 15,
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "Seen RX Objective/Per Day*"
-                                                                  : "Business Objective Per Month(Qty)*",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[A-Za-z0-9]"),
-                                                                  ),
-                                                                ],
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    rxPerDayController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
+                                                                    );
+                                                                  },
                                                                 ),
-                                                              )),
-                                                          // const SizedBox(
-                                                          //   height: 15,
-                                                          // ),
-                                                          // const Align(
-                                                          //   alignment: Alignment
-                                                          //       .centerLeft,
-                                                          //   child: Text(
-                                                          //     "EMR RX*",
-                                                          //     style: TextStyle(
-                                                          //         fontWeight:
-                                                          //             FontWeight
-                                                          //                 .w600),
-                                                          //   ),
-                                                          // ),
-                                                          // const SizedBox(
-                                                          //   height: 5,
-                                                          // ),
-                                                          // SizedBox(
-                                                          //     width: MediaQuery.of(
-                                                          //                 context)
-                                                          //             .size
-                                                          //             .width /
-                                                          //         1.1,
-                                                          //     height: 45,
-                                                          //     child:
-                                                          //         TextFormField(
-                                                          //       inputFormatters: [
-                                                          //         FilteringTextInputFormatter
-                                                          //             .allow(
-                                                          //           RegExp(
-                                                          //               "[A-Za-z0-9]"),
-                                                          //         ),
-                                                          //       ],
-                                                          //       keyboardType:
-                                                          //           TextInputType
-                                                          //               .number,
-                                                          //       controller:
-                                                          //           emrRXController,
-                                                          //       decoration:
-                                                          //           InputDecoration(
-                                                          //         border:
-                                                          //             OutlineInputBorder(
-                                                          //           borderSide:
-                                                          //               const BorderSide(
-                                                          //                   color:
-                                                          //                       Colors.white),
-                                                          //           borderRadius:
-                                                          //               BorderRadius.circular(
-                                                          //                   5.0),
-                                                          //         ),
-                                                          //       ),
-                                                          //     )),
-                                                          // const SizedBox(
-                                                          //   height: 15,
-                                                          // ),
-                                                          // const Align(
-                                                          //   alignment: Alignment
-                                                          //       .centerLeft,
-                                                          //   child: Text(
-                                                          //     "4P RX*",
-                                                          //     style: TextStyle(
-                                                          //         fontWeight:
-                                                          //             FontWeight
-                                                          //                 .w600),
-                                                          //   ),
-                                                          // ),
-                                                          // const SizedBox(
-                                                          //   height: 5,
-                                                          // ),
-                                                          // SizedBox(
-                                                          //     width: MediaQuery.of(
-                                                          //                 context)
-                                                          //             .size
-                                                          //             .width /
-                                                          //         1.1,
-                                                          //     height: 45,
-                                                          //     child:
-                                                          //         TextFormField(
-                                                          //       inputFormatters: [
-                                                          //         FilteringTextInputFormatter
-                                                          //             .allow(
-                                                          //           RegExp(
-                                                          //               "[A-Za-z0-9]"),
-                                                          //         ),
-                                                          //       ],
-                                                          //       keyboardType:
-                                                          //           TextInputType
-                                                          //               .number,
-                                                          //       controller:
-                                                          //           p4RXController,
-                                                          //       decoration:
-                                                          //           InputDecoration(
-                                                          //         border:
-                                                          //             OutlineInputBorder(
-                                                          //           borderSide:
-                                                          //               const BorderSide(
-                                                          //                   color:
-                                                          //                       Colors.white),
-                                                          //           borderRadius:
-                                                          //               BorderRadius.circular(
-                                                          //                   5.0),
-                                                          //         ),
-                                                          //       ),
-                                                          //     )),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          const Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "DSR*",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                              ],
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(RegExp(
-                                                                          r'[0-9.]')), // Allow only digits and dots.
-                                                                ],
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    dSrController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
+                                                            
+                                                        
+                                                            const SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            const Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                "e-CME*",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    1.1,
+                                                                height: 45,
+                                                                child:
+                                                                    TextFormField(
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .allow(RegExp(
+                                                                            r'[0-9]')), 
+                                                                  ],
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  controller:
+                                                                      eCMEController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                              color:
+                                                                                  Colors.white),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5.0),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: InkWell(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          40,
-                                                                      //width: 160,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: const Color.fromARGB(
-                                                                            255,
-                                                                            170,
-                                                                            172,
-                                                                            170),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Text("Cancel",
-                                                                              style: TextStyle(
-                                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                              ))),
-                                                                    ),
-                                                                    onTap: () {
-                                                                      initialBrand =
-                                                                          null;
-                                                                      rxPerDayController
-                                                                          .clear();
-                                                                      dSrController
-                                                                          .clear();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    }),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Expanded(
-                                                                child: InkWell(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          40,
-                                                                      //width: 160,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: const Color.fromARGB(
-                                                                            255,
-                                                                            44,
-                                                                            114,
-                                                                            66),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Text("Add",
-                                                                              style: TextStyle(
-                                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                              ))),
-                                                                    ),
-                                                                    onTap: () {
-                                                                      if (initialBrand !=
-                                                                          null) 
-                                                                          
-                                                                    {
-
-                                                                      if(rxPerDayController.text!=""){
-                                                                        if(dSrController.text!=""){
-                                                                             dynamicRowsListForBrand.add([
-                                                                              initialBrand,
-                                                                              rxPerDayController.text == "" ? "0" : rxPerDayController.text,
-                                                                              dSrController.text == "" ? "0" : dSrController.text,
-                                                                              "0",
-                                                                              "0"
-                                                                              // emrRXController.text,
-                                                                              // p4RXController.text
-                                                                            ]);
-
-                                                                            finalBrandListAftrRemoveDuplication =
-                                                                                removeDuplicationForBrand(dynamicRowsListForBrand);
-
-                                                                            Navigator.pop(context);
-                                                                            setState(() {
-                                                                              initialBrand = null;
-                                                                              rxPerDayController.clear();
-                                                                              dSrController.clear();
-                                                                              // emrRXController.clear();
-                                                                              // p4RXController.clear();
-                                                                            });
-
-                                                                       }
-                                                                        else {
-                                                                            AllServices().toastMessage(
-                                                                                "Please Enter DSR Amount  ",
-                                                                                Colors.red,
-                                                                                Colors.white,
-                                                                                16);
-                                                                             }
-
-
-                                                                      }
-                                                                      else{
-                                                                        AllServices().toastMessage(
-                                                                          doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "Please Enter Seen RX Objective/Per Day "
-                                                                  : "Please Enter Business Objective Per Month(Qty) ",
-                                                                                
-                                                                                Colors.red,
-                                                                                Colors.white,
-                                                                                16);
-
-                                                                      }
-
-
-
-
-
-
-                                                                        // if (emrRXController.text !=
-                                                                        //     '') {
-                                                                        //   if (p4RXController.text !=
-                                                                        //       "") {
-
-                                                                         
-                                                                           
-                                                                  } 
-                                                                          
-                                                                          
-                                                                      //     else {
-                                                                      //       AllServices().toastMessage(
-                                                                      //           "Please Enter 4P RX ",
-                                                                      //           Colors.red,
-                                                                      //           Colors.white,
-                                                                      //           16);
-                                                                      //     }
-                                                                      //   } else {
-                                                                      //     AllServices().toastMessage(
-                                                                      //         "Please Enter EMR RX ",
-                                                                      //         Colors.red,
-                                                                      //         Colors.white,
-                                                                      //         16);
-                                                                      //   }
-
+                                                                )),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            40,
                                                                         
-                                                                      // }
-                                                                       else {
-                                                                        AllServices().toastMessage(
-                                                                            "Please Select Brand First",
-                                                                            Colors.red,
-                                                                            Colors.white,
-                                                                            16);
-                                                                      }
-                                                                    }),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                          color: const Color.fromARGB(
+                                                                              255,
+                                                                              170,
+                                                                              172,
+                                                                              170),
+                                                                        ),
+                                                                        child: const Center(
+                                                                            child: Text("Cancel",
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                                ))),
+                                                                      ),
+                                                                      onTap: () {
+                                                                        initialBrand =
+                                                                            null;
+                                                                        rxPerDayController
+                                                                            .clear();
+                                                                        eCMEController
+                                                                            .clear();
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            40,
+                                                                     
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                          color: const Color.fromARGB(
+                                                                              255,
+                                                                              44,
+                                                                              114,
+                                                                              66),
+                                                                        ),
+                                                                        child: const Center(
+                                                                            child: Text("Add",
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                                ))),
+                                                                      ),
+                                                                      onTap: () {
+                                                                        if (initialBrand !=
+                                                                            null) 
+                                                                            
+                                                                      {
+                                                  
+                                                                          if(eCMEController.text!=""){
+                                                                               dynamicRowsListForBrand.add([
+                                                                                initialBrand,
+                                                                                rxPerDayController.text == "" ? "0" : rxPerDayController.text,
+                                                                                eCMEController.text == "" ? "0" : eCMEController.text,
+                                                                                "0",
+                                                                                "0"
+                                                                               
+                                                                              ]);
+                                                  
+                                                                              finalBrandListAftrRemoveDuplication =
+                                                                                  removeDuplicationForBrand(dynamicRowsListForBrand);
+                                                  
+                                                                              Navigator.pop(context);
+                                                                              setState(() {
+                                                                                initialBrand = null;
+                                                                                rxPerDayController.clear();
+                                                                                eCMEController.clear();
+                                                                               
+                                                                              });
+                                                  
+                                                                         }
+                                                                          else {
+                                                                              AllServices().toastMessage(
+                                                                                  "Please Enter e_CME Amount  ",
+                                                                                  Colors.red,
+                                                                                  Colors.white,
+                                                                                  16);
+                                                                               }
+                                                  
+                                                  
+                                                                        
+                                                  
+                                                  
+                                                  
+                                                  
+                                                  
+                                                                           
+                                                                             
+                                                                    } 
+                                                                            
+                                                                            
+                                                                      
+                                                                         else {
+                                                                          AllServices().toastMessage(
+                                                                              "Please Select Brand First",
+                                                                              Colors.red,
+                                                                              Colors.white,
+                                                                              16);
+                                                                        }
+                                                                      }),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -1163,17 +994,15 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                     color:
                                         const Color.fromARGB(255, 98, 158, 219),
                                   ),
-                                        // color: const Color(0xff8AC995),
+                                     
                                         width: wholeWidth / 1.073,
-                                        // decoration: BoxDecoration(
-                                        //   border: Border
-                                        // ),
+                                       
                                         child: Row(
                                           children: [
                                             SizedBox(
                                               width: wholeWidth / 5,
                                               height: 40,
-                                              //height: wholeHeight / 25.309,
+                                              
                                               child: const Center(
                                                 child: Text(
                                                   "Name",
@@ -1184,80 +1013,17 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                                 ),
                                               ),
                                             ),
+                                           
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                 left: 5,
                                               ),
                                               child: SizedBox(
-                                                width: wholeWidth / 4,
-                                                //height: wholeHeight / 19,
-                                                child: Center(
-                                                  child: Text(
-                                                    doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "Seen RX Objective/Per Day*"
-                                                                  : "Business Objective Per Month(Qty)*",
-                                                    // doctorType == "DOCTOR"
-                                                    //     ? "Rx/Day"
-                                                    //     : "Monthly Avg.Sales**",
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                       ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            // Padding(
-                                            //   padding: const EdgeInsets.only(
-                                            //     left: 5,
-                                            //   ),
-                                            //   child: SizedBox(
-                                            //     width: wholeWidth / 7,
-                                            //     height: wholeHeight / 25.309,
-                                            //     child: const Center(
-                                            //       child: Text(
-                                            //         "EMR RX",
-                                            //         style: TextStyle(
-                                            //             fontSize: 12,
-                                            //             color: Color.fromARGB(
-                                            //                 255, 0, 0, 0),
-                                            //             fontWeight:
-                                            //                 FontWeight.w600),
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                            // Padding(
-                                            //   padding: const EdgeInsets.only(
-                                            //     left: 5,
-                                            //   ),
-                                            //   child: SizedBox(
-                                            //     width: wholeWidth / 7,
-                                            //     height: wholeHeight / 25.309,
-                                            //     child: const Center(
-                                            //       child: Text(
-                                            //         "4P RX",
-                                            //         style: TextStyle(
-                                            //             fontSize: 12,
-                                            //             color: Color.fromARGB(
-                                            //                 255, 0, 0, 0),
-                                            //             fontWeight:
-                                            //                 FontWeight.w600),
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 5,
-                                              ),
-                                              child: SizedBox(
-                                                width: wholeWidth / 4,
+                                                width: wholeWidth / 2,
                                                 height: wholeHeight / 25.309,
                                                 child: const Center(
                                                   child: Text(
-                                                    "DSR",
+                                                    "e-CME",
                                                     style: TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white,
@@ -1341,7 +1107,7 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                                           left: 5,
                                                         ),
                                                         child: SizedBox(
-                                                          width: wholeWidth / 4,
+                                                          width: wholeWidth / 2,
                                                           height: wholeHeight /
                                                               25.309,
                                                           child: Center(
@@ -1364,83 +1130,7 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets.only(
-                                                      //     left: 5,
-                                                      //   ),
-                                                      //   child: SizedBox(
-                                                      //     width: wholeWidth / 7,
-                                                      //     height: wholeHeight /
-                                                      //         25.309,
-                                                      //     child: Center(
-                                                      //       child: Text(
-                                                      //         finalBrandListAftrRemoveDuplication[
-                                                      //             index][3],
-                                                      //         style:
-                                                      //             const TextStyle(
-                                                      //           fontSize: 13,
-                                                      //           color: Color
-                                                      //               .fromARGB(255,
-                                                      //                   0, 0, 0),
-                                                      //         ),
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets.only(
-                                                      //     left: 5,
-                                                      //   ),
-                                                      //   child: SizedBox(
-                                                      //     width: wholeWidth / 7,
-                                                      //     height: wholeHeight /
-                                                      //         25.309,
-                                                      //     child: Center(
-                                                      //       child: Text(
-                                                      //         finalBrandListAftrRemoveDuplication[
-                                                      //             index][4],
-                                                      //         style:
-                                                      //             const TextStyle(
-                                                      //           fontSize: 13,
-                                                      //           color: Color
-                                                      //               .fromARGB(255,
-                                                      //                   0, 0, 0),
-                                                      //         ),
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                          left: 5,
-                                                        ),
-                                                        child: SizedBox(
-                                                          width: wholeWidth / 4,
-                                                          height: wholeHeight /
-                                                              25.309,
-                                                          child: Center(
-                                                            child: Text(
-                                                              finalBrandListAftrRemoveDuplication[
-                                                                              index]
-                                                                          [2] ==
-                                                                      ""
-                                                                  ? "0"
-                                                                  : finalBrandListAftrRemoveDuplication[
-                                                                      index][2],
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 12,
-                                                                color: Color
-                                                                    .fromARGB(255,
-                                                                        0, 0, 0),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                      
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets.only(
@@ -1488,119 +1178,9 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                     ],
                                   )
                                 : const SizedBox(),
-                            SizedBox(
-                              height: ePurposeList.isNotEmpty ? 10 : 0,
-                            ),
-                            ePurposeList.isNotEmpty
-                                ? const Text(
-                                    "Purpose*",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                : const SizedBox(),
-                            SizedBox(
-                              height: ePurposeList.isNotEmpty ? 5 : 0,
-                            ),
-                            ePurposeList.isNotEmpty
-                                ? DropdownButton<String>(
-                                    iconEnabledColor: const Color(0xff8AC995),
-                                    value: initialPurpose,
-                                    hint: const Text("Select Purpose",
-                                        style: TextStyle(fontSize: 14)),
-                                    items: ePurposeList.map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.2,
-                                            child: Text(
-                                              item,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
-                                            )),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        initialPurpose = value!;
-                                        for (var data
-                                            in eDSRSettingsData!.purposeList) {
-                                          if (data.purposeName == value) {
-                                            purposeId = data.purposeId;
-                                          }
-                                        }
-                                        initialSubPurpose = null;
-                                        eSubpurposeList = [];
-                                        getEDsrSubPurposeList(purposeId,
-                                            initialCategory!, doctorType!);
-                                      });
-                                    },
-                                  )
-                                : const SizedBox(),
-                            eSubpurposeList.isNotEmpty
-                                ? const SizedBox(
-                                    height: 10,
-                                  )
-                                : const SizedBox(),
-                            eSubpurposeList.isNotEmpty
-                                ? const Text(
-                                    "Sub-purpose*",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                : const SizedBox(),
-                            SizedBox(
-                              height: eSubpurposeList.isNotEmpty ? 5 : 0,
-                            ),
-                            eSubpurposeList.isNotEmpty
-                                ? DropdownButton<String>(
-                                    iconEnabledColor: const Color(0xff8AC995),
-                                    value: initialSubPurpose,
-                                    hint: const Text("Sub-purpose",
-                                        style: TextStyle(fontSize: 14)),
-                                    items: eSubpurposeList.map((
-                                      String item,
-                                    ) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.2,
-                                            child: Text(
-                                              item,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
-                                            )),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        initialSubPurpose = value!;
-                                        for (var sPurpose in eDSRSettingsData!
-                                            .subPurposeList) {
-                                          if (sPurpose.sPurposeSubName ==
-                                              value) {
-                                            subPurposeId =
-                                                sPurpose.sPurposeSubId;
-                                          }
-                                        }
-                                      });
-                                    },
-                                  )
-                                : const SizedBox(),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                               const SizedBox(height: 10,),
                             const Text(
-                              "Add Descripton*",
+                              "Probable Speaker Name",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Color.fromARGB(255, 0, 0, 0),
@@ -1613,7 +1193,7 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                 width: MediaQuery.of(context).size.width / 1.1,
                                 height: 45,
                                 child: TextFormField(
-                                  controller: addDescriptionController,
+                                  controller: meetingTopicController,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderSide:
@@ -1622,262 +1202,24 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                     ),
                                   ),
                                 )),
-                            const SizedBox(
+                                const SizedBox(
                               height: 10,
                             ),
-                            const Text(
-                              "RX Duration*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                DropdownButton<String>(
-                                  iconEnabledColor: const Color(0xff8AC995),
-                                  value: initialRxDurationMonthList,
-                                  hint: const Text("Select RX From",
-                                      style: TextStyle(fontSize: 14)),
-                                  items:
-                                      eRxDurationMonthList.map((String item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item,
-                                      child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.9,
-                                          child: Text(
-                                            item,
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          )),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      initialRxDurationMonthList = value!;
-
-                                      getRXDurationMonthListTo(value);
-                                      for (var date in eDSRSettingsData!
-                                          .rxDurationMonthList) {
-                                        if (date.nextDateV == value) {
-                                          if (date.nextDate == "-") {
-                                            rxFromDate = '';
-                                            rxToDate = '';
-                                          } else {
-                                            rxFromDate = date.nextDate;
-                                            rxToDate = date.nextDate;
-                                          }
-                                        }
-                                      }
-                                    });
-                                  },
-                                ),
                                 const Text(
-                                  "   To   ",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                DropdownButton<String>(
-                                  iconEnabledColor: const Color(0xff8AC995),
-                                  value: initialRxDurationMonthListTo,
-                                  hint: const Text("Select RX to",
-                                      style: TextStyle(fontSize: 14)),
-                                  items:
-                                      eRxDurationMonthListTo.map((String item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item,
-                                      child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.9,
-                                          child: Text(
-                                            item,
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          )),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      initialRxDurationMonthListTo = value!;
-                                      for (var date in eDSRSettingsData!
-                                          .rxDurationMonthList) {
-                                        if (date.nextDateV == value) {
-                                          rxToDate = date.nextDate;
-                                        }
-                                      }
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: wholeHeight / 50.618,
-                            ),
-                            const Text(
-                              "DSR Schedule*",
+                              "Probable Speaker Degree",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
-                              height: 5,
-                            ),
-                            DropdownButton<String>(
-                              iconEnabledColor: const Color(0xff8AC995),
-                              value: initialPaySchdedule,
-                              hint: const Text("Select DSR Schedule*",
-                                  style: TextStyle(fontSize: 14)),
-                              items: ePayScheduleList.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(fontSize: 14),
-                                      )),
-                                );
-                              }).toList(),
-                              onChanged: (String? value) {
-                                initialPaySchdedule = value!;
-                                eDsrDurationMonthList = [];
-                                eDsrDurationMonthListTo = [];
-                                initialdsrDurationMonthListTo = null;
-                                initialdsrDurationMonthList = null;
-                                dsrFromdate = "";
-                                dsrTodate = "";
-
-                                getDSRDurationMonthListFrom();
-                                setState(() {});
-                              },
-                            ),
-                            SizedBox(
-                              height: wholeHeight / 50.618,
-                            ),
-                            const Text(
-                              "DSR Duration*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                DropdownButton<String>(
-                                  iconEnabledColor: const Color(0xff8AC995),
-                                  value: initialdsrDurationMonthList,
-                                  hint: const Text("Select DSR From",
-                                      style: TextStyle(fontSize: 14)),
-                                  items:
-                                      eDsrDurationMonthList.map((String item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item,
-                                      child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.9,
-                                          child: Text(
-                                            item,
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          )),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
-                                    initialdsrDurationMonthList = value!;
-                                    eDsrDurationMonthListTo = [];
-                                    getDsrDurationMonthListTo(value);
-
-                                    for (var date in eDSRSettingsData!
-                                        .dsrDurationMonthList) {
-                                      if (date.nextDateV == value) {
-                                        if (date.nextDate == "-") {
-                                          dsrFromdate = '';
-                                          dsrTodate = '';
-                                        } else {
-                                          dsrFromdate = date.nextDate;
-                                          dsrTodate = date.nextDate;
-                                        }
-                                      }
-                                    }
-                                    setState(() {});
-                                  },
-                                ),
-                                const Text(
-                                  "   To   ",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                DropdownButton<String>(
-                                  iconEnabledColor: const Color(0xff8AC995),
-                                  value: initialdsrDurationMonthListTo,
-                                  hint: const Text("Select DSR To",
-                                      style: TextStyle(fontSize: 14)),
-                                  items: eDsrDurationMonthListTo
-                                      .map((String item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item,
-                                      child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.9,
-                                          child: Text(item,
-                                              style: const TextStyle(
-                                                  fontSize: 14))),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      initialdsrDurationMonthListTo = value!;
-                                      for (var date in eDSRSettingsData!
-                                          .dsrDurationMonthList) {
-                                        if (date.nextDateV == value) {
-                                          dsrTodate = date.nextDate;
-                                        }
-                                      }
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: wholeHeight / 50.618,
-                            ),
-                            const Text(
-                              "Number Of Patient*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 5,
+                              height: 6,
                             ),
                             SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.1,
                                 height: 45,
                                 child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: noOfPatientController,
+                                  controller: probaleSpeakerController,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderSide:
@@ -1886,98 +1228,158 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                     ),
                                   ),
                                 )),
-                            const SizedBox(
+                                const SizedBox(
                               height: 10,
                             ),
-                            const Text(
-                              "Issue Mode*",
+
+                                const Text(
+                              "Probable Speaker Institute",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
-                              height: 5,
-                            ),
-                            DropdownButton<String>(
-                              iconEnabledColor: const Color(0xff8AC995),
-                              value: initialIssueMode,
-                              hint: const Text("Select Issue Mode",
-                                  style: TextStyle(fontSize: 14)),
-                              items: ePayModeList.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      child: Text(item,
-                                          style:
-                                              const TextStyle(fontSize: 14))),
-                                );
-                              }).toList(),
-                              onChanged: (String? value) {
-                                if (value == "APC" ||
-                                    value == "CT" ||
-                                    value == "CC") {
-                                  isCheck = true;
-                                  int indexNo = widget.docInfo[widget.index]
-                                          ["doc_name"]
-                                      .indexOf("(");
-                                  issueToController.text =
-                                      "${widget.docInfo[widget.index]["doc_name"].replaceRange(indexNo, widget.docInfo[widget.index]["doc_name"].length, "")}";
-                                } else {
-                                  isCheck = false;
-                                  issueToController.clear();
-                                }
-                                setState(() {
-                                  initialIssueMode = value!;
-                                });
-                              },
+                              height: 6,
                             ),
                             SizedBox(
-                              height: initialIssueMode != null ? 10 : 0,
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: 45,
+                                child: TextFormField(
+                                  controller: probaleSpeakerInstituteController,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                  ),
+                                )),
+                                const SizedBox(
+                              height: 10,
                             ),
-                            isCheck == true
-                                ? const Text(
-                                    "Issue To*",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                : const SizedBox(),
-                            SizedBox(
-                              height: isCheck == true ? 6 : 0,
-                            ),
-                            isCheck == true
-                                ? SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.1,
-                                    height: 45,
-                                    child: TextFormField(
-                                      controller: issueToController,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.white),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                        ),
+
+                            Row(
+                                    children: [
+                                      
+                                      SizedBox(
+                                        width:MediaQuery.of(context).size.width /2.15 ,
+                                        child:const Text("Total numbers of participants*",
+                                              style: TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(255, 0, 0, 0),
+                                              fontWeight: FontWeight.w600)
+                                                    ),
+                                        
                                       ),
-                                    ))
-                                : const SizedBox(),
-                            SizedBox(
-                              height: isCheck == true ? 2 : 0,
+                                       SizedBox(
+                                        width:MediaQuery.of(context).size.width / 9 ,
+                                        child:const Text(":"),
+                                        
+                                      ),
+                                      SizedBox(
+                                        height: 45,
+                                         width:MediaQuery.of(context).size.width / 3,
+                                        child: TextFormField(
+                                    controller: totalNumberOfParticiController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            const BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                    ),
+                                  )),
+                                      
+    
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      
+                                      SizedBox(
+                                        width:MediaQuery.of(context).size.width /2.15 ,
+                                        child:const Text("Total budget*",
+                                              style: TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(255, 0, 0, 0),
+                                              fontWeight: FontWeight.w600)
+                                                    ),
+                                        
+                                      ),
+                                       SizedBox(
+                                        width:MediaQuery.of(context).size.width / 9 ,
+                                        child:const Text(":"),
+                                        
+                                      ),
+                                      SizedBox(
+                                        height: 45,
+                                         width:MediaQuery.of(context).size.width / 3,
+                                        child: TextFormField(
+                                    controller: totalBudgetController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            const BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                    ),
+                                  )),
+                                      
+    
+                                    ],
+                                  ),
+
+                         
+                                 const SizedBox(height: 10,),
+
+                              const  Text(
+                              "Budget breakdown*",
+                              style: TextStyle(
+                                 fontSize: 15,
+                                 color: Color.fromARGB(255, 0, 0, 0),
+                                 fontWeight: FontWeight.w600),
                             ),
-                            isCheck == true
-                                ? const Text(
-                                    "**Please Fill With The Correct Name**",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                : const SizedBox()
+                            Column(
+                              
+                              children: [
+                                BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,),
+                                BudgetBreakDownRowWidget(rowNumber: "2.", reason:"Morning/Evening refreshment(total cost)", controller: morningEveningController,),
+                                BudgetBreakDownRowWidget(rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController,),
+                                BudgetBreakDownRowWidget(rowNumber: "4.", reason:"Lunch/Dinner(total cost) ", controller: lunchDinnerController,),
+                                BudgetBreakDownRowWidget(rowNumber: "5.", reason:"Stationnaires", controller: stationnairesController,),
+                                BudgetBreakDownRowWidget(rowNumber: "6.", reason:"Gift/Souvenirs ", controller: giftController,),
+                                BudgetBreakDownRowWidget(rowNumber: "7.", reason:"Others ", controller: othersController,),
+                              
+                              
+
+                              ],
+                            ),
+                            
+
+
+                                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            
+                            
                           ],
                         ),
                       ),
@@ -2057,53 +1459,53 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
                                             ))),
                                   ),
                                   onTap: () async {
-                                    getbrandString() != ""
-                                        ? widget.docInfo[widget.index]
-                                                    ["area_id"] !=
-                                                ""
-                                            ? widget.docInfo[widget.index]
-                                                        ["doc_id"] !=
-                                                    ""
-                                                ? widget.docInfo[widget.index]
-                                                            ["doc_name"] !=
-                                                        ""
-                                                    ? initialCategory != null
-                                                        ? initialCategory !=
-                                                                null
-                                                            ? purposeId != ""
-                                                                ? subPurposeId !=
-                                                                        ""
-                                                                    ? addDescriptionController.text !=
-                                                                            ""
-                                                                        ? rxFromDate !=
-                                                                                ""
-                                                                            ? rxToDate != ""
-                                                                                ? initialPaySchdedule != null
-                                                                                    ? dsrFromdate != ""
-                                                                                        ? dsrTodate != ""
-                                                                                            ? noOfPatientController.text .toString().trim().isNotEmpty
-                                                                                                ? initialIssueMode != null
-                                                                                                    ? isCheck == true
-                                                                                                        ? issueToController.text.toString().trim().isNotEmpty
-                                                                                                            ? readyForPreviewMethod()
-                                                                                                            : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                                                                                        : readyForPreviewMethod()
-                                                                                                    : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
-                                                                                                : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
-                                                                                            : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
-                                                                                        : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
-                                                                                    : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
-                                                                                : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
-                                                                            : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
-                                                                        : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
-                                                                    : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
-                                                                : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
-                                                            : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                        : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                                    : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
-                                                : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
-                                            : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
-                                        : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
+                                    // getbrandString() != ""
+                                    //     ? widget.docInfo[widget.index]
+                                    //                 ["area_id"] !=
+                                    //             ""
+                                    //         ? widget.docInfo[widget.index]
+                                    //                     ["doc_id"] !=
+                                    //                 ""
+                                    //             ? widget.docInfo[widget.index]
+                                    //                         ["doc_name"] !=
+                                    //                     ""
+                                    //                 ? initialCategory != null
+                                    //                     ? initialCategory !=
+                                    //                             null
+                                    //                         ? purposeId != ""
+                                    //                             ? subPurposeId !=
+                                    //                                     ""
+                                    //                                 ? addDescriptionController.text !=
+                                    //                                         ""
+                                    //                                     ? rxFromDate !=
+                                    //                                             ""
+                                    //                                         ? rxToDate != ""
+                                    //                                             ? initialPaySchdedule != null
+                                    //                                                 ? dsrFromdate != ""
+                                    //                                                     ? dsrTodate != ""
+                                    //                                                         ? noOfPatientController.text .toString().trim().isNotEmpty
+                                    //                                                             ? initialIssueMode != null
+                                    //                                                                 ? isCheck == true
+                                    //                                                                     ? issueToController.text.toString().trim().isNotEmpty
+                                    //                                                                         ? readyForPreviewMethod()
+                                    //                                                                         : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                    //                                                                     : readyForPreviewMethod()
+                                    //                                                                 : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
+                                    //                                                             : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
+                                    //                                                         : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
+                                    //                      0                               : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
+                                    //                                                 : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
+                                    //                                             : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
+                                    //                                         : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
+                                    //                                     : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
+                                    //                                 : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
+                                    //                             : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
+                                    //                         : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                    //                     : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                    //                 : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
+                                    //             : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
+                                    //         : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
+                                    //     : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
                                   }),
                             ),
                           ],
@@ -2124,40 +1526,40 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
     });
 
     Map<String, dynamic> readyForPreviewData = {
-      "submit_url": dmpathData!.submitUrl,
-      "cid": cid!,
-      "userId": userInfo!.userId,
-      "password": password,
-      "brandString": brandString,
-      "area_id": widget.docInfo[widget.index]["area_id"],
-      "doc_id": widget.docInfo[widget.index]["doc_id"],
-      "latitude": latitude.toString(),
-      "longitude": longitude.toString(),
-      "doc_name": widget.docInfo[widget.index]["doc_name"],
-      "degree": widget.docInfo[widget.index]["degree"],
-      "specialty": widget.docInfo[widget.index]["specialty"],
-      "address": widget.docInfo[widget.index]["address"],
-      "mobile": widget.docInfo[widget.index]["mobile"],
-      "Category": initialCategory,
-      "purposeName": initialPurpose,
-      "purposeId": purposeId,
-      "Sub_purpose_Name": initialSubPurpose,
-      "Sub_purpose": subPurposeId,
-      "Descripton": addDescriptionController.text,
-      "RX_Duration_from_Name": initialRxDurationMonthList,
-      "RX_Duration_from": rxFromDate,
-      "RX_Duration_to": rxToDate,
-      "RX_Duration_to_name": initialRxDurationMonthListTo,
-      "DSR_Schedule": initialPaySchdedule,
-      "DSR_Duration_from_name": initialdsrDurationMonthList,
-      "DSR_Duration_from": dsrFromdate,
-      "DSR_Duration_to": dsrTodate,
-      "DSR_Duration_to_name": initialdsrDurationMonthListTo,
-      "Number_of_Patient": noOfPatientController.text,
-      "Issue_Mode": initialIssueMode,
-      "Issue_To": issueToController.text,
-      "Brand": finalBrandListAftrRemoveDuplication,
-      "dsr_type": doctorType
+    //   "submit_url": dmpathData!.submitUrl,
+    //   "cid": cid!,
+    //   "userId": userInfo!.userId,
+    //   "password": password,
+    //   "brandString": brandString,
+    //   "area_id": widget.docInfo[widget.index]["area_id"],
+    //   "doc_id": widget.docInfo[widget.index]["doc_id"],
+    //   "latitude": latitude.toString(),
+    //   "longitude": longitude.toString(),
+    //   "doc_name": widget.docInfo[widget.index]["doc_name"],
+    //   "degree": widget.docInfo[widget.index]["degree"],
+    //   "specialty": widget.docInfo[widget.index]["specialty"],
+    //   "address": widget.docInfo[widget.index]["address"],
+    //   "mobile": widget.docInfo[widget.index]["mobile"],
+    //   // "Category": initialCategory,
+    //   // "purposeName": initialPurpose,
+    //   "purposeId": purposeId,
+    //   "Sub_purpose_Name": initialSubPurpose,
+    //   "Sub_purpose": subPurposeId,
+    //   "Descripton": addDescriptionController.text,
+    //   "RX_Duration_from_Name": initialRxDurationMonthList,
+    //   "RX_Duration_from": rxFromDate,
+    //   "RX_Duration_to": rxToDate,
+    //   "RX_Duration_to_name": initialRxDurationMonthListTo,
+    //   "DSR_Schedule": initialPaySchdedule,
+    //   "DSR_Duration_from_name": initialdsrDurationMonthList,
+    //   "DSR_Duration_from": dsrFromdate,
+    //   "DSR_Duration_to": dsrTodate,
+    //   "DSR_Duration_to_name": initialdsrDurationMonthListTo,
+    // //  "Number_of_Patient": noOfPatientController.text,
+    //   "Issue_Mode": initialIssueMode,
+    //   "Issue_To": issueToController.text,
+    //   "Brand": finalBrandListAftrRemoveDuplication,
+    //   "dsr_type": doctorType
     };
 
     if (readyForPreviewData.isNotEmpty) {
@@ -2173,5 +1575,90 @@ class _eECMETypeSelectionScreenState extends State<eECMETypeSelectionScreen> {
         ),
       );
     }
+  }
+      initialValue(String val) {
+    return TextEditingController(text: val);
+  }
+  pickDate() async {
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate:selectedExpiredDate,
+      firstDate: DateTime(DateTime.now().year - 100),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.white,
+            colorScheme: const ColorScheme.light(primary: Colors.teal),
+            canvasColor: Colors.teal,
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (newDate == null) return;
+    selectedExpiredDate = newDate;
+    selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(selectedExpiredDate);
+    setState(() => selectedExpiredDate = newDate);
+  
+  }
+}
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
+
+class BudgetBreakDownRowWidget extends StatelessWidget {
+  String rowNumber;
+  String reason;
+  TextEditingController controller;
+   BudgetBreakDownRowWidget({
+    super.key,
+    required this.rowNumber,
+    required this.reason,
+    required this.controller,
+    });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 6,left: 10,right: 10),
+      child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width:MediaQuery.of(context).size.width / 9 ,
+                                        child: Text(rowNumber),
+    
+                                      ),
+                                      SizedBox(
+                                        width:MediaQuery.of(context).size.width / 3 ,
+                                        child: Text(reason),
+                                        
+                                      ),
+                                       SizedBox(
+                                        width:MediaQuery.of(context).size.width / 9 ,
+                                        child:const Text(":"),
+                                        
+                                      ),
+                                      SizedBox(
+                                        height: 45,
+                                         width:MediaQuery.of(context).size.width / 3,
+                                        child: TextFormField(
+                                    controller: controller,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            const BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                    ),
+                                  )),
+                                      
+    
+                                    ],
+                                  ),
+    );
   }
 }

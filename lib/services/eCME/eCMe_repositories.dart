@@ -7,7 +7,7 @@ import 'package:MREPORTING/services/eCME/eCME_services.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class eCMERepositry{
+class ECMERepositry{
 
    //=========================================== get all settigs data from api  ==========================================
   Future<ECMESavedDataModel?> getECMESettingsData(String eDsrSettingsUrl, String cid,
@@ -41,4 +41,30 @@ class eCMERepositry{
     }
     return eCMEDataModeldata;
   }
+
+   //=========================================== Territory Based Doctor ==========================================
+  Future<Map<String, dynamic>> getTerritoryBasedDoctor(
+      String doctorUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String regionId,
+      String areaId,
+      String terroId,
+      String dsrType) async {
+    Map<String, dynamic> submitInfo = {};
+    try {
+      http.Response response = await ECMEDataProviders().terroBasedDoctor(
+          doctorUrl, cid, userId, userPass, regionId, areaId, terroId, dsrType);
+
+      submitInfo = json.decode(response.body);
+      return submitInfo;
+    } catch (e) {
+      print('get Doctor: $e');
+    }
+    return submitInfo;
+  }
+
+
+
 }

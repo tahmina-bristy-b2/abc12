@@ -2,11 +2,13 @@
 
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/services/eDSR/eDSR_services.dart';
 import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
@@ -507,8 +509,8 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                               bool result = await InternetConnectionChecker()
                                   .hasConnection;
                               if (result == true) {
-                                EdsrDataModel? body = await EDSRServices()
-                                    .geteDSRDataSettingsInfo(
+                                ECMESavedDataModel? body = await ECMERepositry()
+                                    .getECMESettingsData(
                                         dmpathData!.submitUrl,
                                         cid,
                                         userInfo!.userId,

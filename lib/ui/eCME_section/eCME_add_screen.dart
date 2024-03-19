@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/widget/confirm_widget.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -26,15 +26,15 @@ class ECMETypeSelection extends StatefulWidget {
 class _ECMETypeSelectionState extends State<ECMETypeSelection> {
   Box? box;
 
-  List<RegionList> regionList = [];
-  List<RegionList> filterRegionList = [];
-  List<AreaList> areaListoregion = [];
-  List<TerritoryList> territoryListM = [];
+  List<ECMERegionList> regionList = [];
+  List<ECMERegionList> filterRegionList = [];
+  List<ECMEAreaList> areaListoregion = [];
+  List<ECMETerritoryList> territoryListM = [];
   DmPathDataModel? dmPathData;
   UserLoginModel? loginDataInfo;
   List<RxDcrDataModel> doctroList = [];
-  List<RegionList>? regionListData;
-  List<String>? dcrTypeList;
+  List<ECMERegionList>? regionListData;
+  List<String>? eCMEType;
 
   TextEditingController doctorController = TextEditingController();
   TextEditingController adressController = TextEditingController();
@@ -60,8 +60,9 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
   void initState() {
     dmPathData = Boxes.getDmpath().get('dmPathData');
     loginDataInfo = Boxes.getLoginData().get('UserLoginData');
-    regionListData = Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
-    dcrTypeList = Boxes.geteDSRsetData().get("eDSRSettingsData")!.dsrTypeList;
+    regionListData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMERegionList;
+    eCMEType=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
+
     if (regionListData != null) {
       regionList = regionListData!;
       regionName = regionList.map((e) => e.regionName).toList();
@@ -80,10 +81,10 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
   doctorArea(String area) {
     filterRegionList =
         regionList.where((element) => element.regionName == area).toList();
-    areaListoregion = filterRegionList.first.areaList;
+    areaListoregion = filterRegionList.first.eCMEAreaList;
     areaNameList =
-        filterRegionList.first.areaList.map((e) => e.areaName).toList();
-    if (filterRegionList.first.areaList.isNotEmpty) {
+        filterRegionList.first.eCMEAreaList.map((e) => e.areaName).toList();
+    if (filterRegionList.first.eCMEAreaList.isNotEmpty) {
       setState(() {
         initialDocroeArea = null;
       });
@@ -99,11 +100,11 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
       }
     }
 
-    List<AreaList> areaNamewiseID =
+    List<ECMEAreaList> areaNamewiseID =
         areaListoregion.where((element) => element.areaId == areaID1).toList();
-    territoryListM = areaNamewiseID.first.territoryList;
+    territoryListM = areaNamewiseID.first.eCMEterritoryList;
     for (var element in areaNamewiseID) {
-      terrolist = element.territoryList.map((e) => e.territoryName).toList();
+      terrolist = element.eCMEterritoryList.map((e) => e.territoryName).toList();
       setState(() {
         initialTerritory = null;
       });
@@ -130,7 +131,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Doctor List Area",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: const Color.fromARGB(255, 82, 179, 98),),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color:  Color.fromARGB(255, 82, 179, 98),),
                   ),
                 ),
                 const SizedBox(
@@ -150,7 +151,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                 const SizedBox(
                   height: 10,
                 ),
-                dcrTypeList == null
+                eCMEType == null
                     ? const CircularProgressIndicator()
                     : Container(
                         decoration: BoxDecoration(
@@ -170,7 +171,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                                     value: initialDoctorType,
                                      hint: const Text("-------Select type -------"),
                                     iconSize: 30,
-                                    items: dcrTypeList!.map((item) {
+                                    items: eCMEType!.map((item) {
                                       return DropdownMenuItem<String>(
                                         value: item.toString(),
                                         child: Text(
@@ -354,12 +355,12 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                                     areaID = element.areaId;
                                   }
                                 }
-                                List<AreaList> areaNamewiseID = areaListoregion
+                                List<ECMEAreaList> areaNamewiseID = areaListoregion
                                     .where(
                                         (element) => element.areaId == areaID)
                                     .toList();
                                 for (var element in areaNamewiseID) {
-                                  for (var element in element.territoryList) {
+                                  for (var element in element.eCMEterritoryList) {
                                     if (element.territoryName == terrorID) {
                                       terrorID = element.territoryId;
                                       setState(() {
@@ -422,51 +423,7 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
                                 interNetErrorMsg, Colors.red, Colors.white, 16);
                           }
                         },)
-                    
-                    
-                    // ElevatedButton(
-                    //     onPressed: () async {
-                    //       bool hasInternet =
-                    //           await InternetConnectionChecker().hasConnection;
-                    //       if (hasInternet == true) {
-                    //         if (regionID != "") {
-                    //           if (areaID != "") {
-                    //             bool result = await InternetConnectionChecker()
-                    //                 .hasConnection;
-                    //             if (result == true) {
-                    //               getTerriBaesdDoctor();
-                    //             } else {
-                    //               AllServices().toastMessage(interNetErrorMsg,
-                    //                   Colors.red, Colors.white, 16);
-                    //             }
-                    //           } else {
-                    //             Fluttertoast.showToast(
-                    //                 msg: 'Please Select Area ',
-                    //                 toastLength: Toast.LENGTH_LONG,
-                    //                 gravity: ToastGravity.BOTTOM,
-                    //                 backgroundColor: Colors.red,
-                    //                 textColor: Colors.white,
-                    //                 fontSize: 16.0);
-                    //           }
-                    //         } else {
-                    //           Fluttertoast.showToast(
-                    //               msg: 'Please Select Region ',
-                    //               toastLength: Toast.LENGTH_LONG,
-                    //               gravity: ToastGravity.BOTTOM,
-                    //               backgroundColor: Colors.red,
-                    //               textColor: Colors.white,
-                    //               fontSize: 16.0);
-                    //         }
-                    //       } else {
-                    //         setState(() {
-                    //           isLoading = false;
-                    //         });
-                    //         AllServices().toastMessage(
-                    //             interNetErrorMsg, Colors.red, Colors.white, 16);
-                    //       }
-                    //     },
-                    //     child: const Text("Get Doctor/Client List"))
-
+                  
 
 
                     : const Center(
@@ -485,9 +442,9 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
     setState(() {
       isLoading = true;
     });
-    box = Hive.box("doctorList");
+    box = Hive.box("eCMEDoctorList");
     box?.clear();
-    Map<String, dynamic> data = await EDSRRepositories()
+    Map<String, dynamic> data = await ECMERepositry()
         .getTerritoryBasedDoctor(dmPathData!.submitUrl, cid!, userId!,
             password!, regionID, areaID, terrorID, initialDoctorType!);
     if (data["res_data"]["status"] == "Success") {
@@ -502,17 +459,17 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
       for (var disco in result) {
         box?.add(disco);
       }
-      widget.callbackData["dsr_Type"] = initialDoctorType;
-      widget.callbackData["Region"] = initialRegion;
-      widget.callbackData["Area"] = initialDocroeArea;
-      widget.callbackData["Territory"] = initialTerritory;
+    //  widget.callbackData["dsr_Type"] = initialDoctorType;
+      widget.callbackData["eCMERegion"] = initialRegion;
+      widget.callbackData["eCMEArea"] = initialDocroeArea;
+      widget.callbackData["eCMETerritory"] = initialTerritory;
       widget.callbackFuc(widget.callbackData);
 
       var pref = await SharedPreferences.getInstance();
-      pref.setString("Region", regionID);
-      pref.setString("Area", areaID);
-      pref.setString("Territory", terrorID);
-      pref.setString("DoctorType", initialDoctorType!);
+      pref.setString("eCMERegion", regionID);
+      pref.setString("eCMEArea", areaID);
+      pref.setString("eCMETerritory", terrorID);
+     // pref.setString("DoctorType", initialDoctorType!);
     } else {
       setState(() {
         isLoading = false;

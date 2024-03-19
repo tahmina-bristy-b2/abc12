@@ -1,9 +1,8 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_selection_screen.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDSR_doctor_selection.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,7 +17,7 @@ class ECMEClientScreen extends StatefulWidget {
 
 class _ECMEClientScreenState extends State<ECMEClientScreen> {
   Box? box;
-  List<RegionList>? regionListData;
+  List<ECMERegionList>? regionListData;
 
   TextEditingController searchController = TextEditingController();
   List foundUsers = [];
@@ -37,20 +36,21 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
 
   @override
   void initState() {
-    if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
+  //  openHiveBox();
+    if (Boxes.geteCMEsetData().get("eCMESavedDataSync") != null) {
       regionListData =
-          Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
+          Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMERegionList;
     }
 
-    box = Hive.box("doctorList");
+    box = Hive.box("eCMEDoctorList");
     result = box!.toMap().values.toList();
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
       userId = prefs.getString("USER_ID");
       password = prefs.getString("PASSWORD");
-      region = prefs.getString("Region") ?? "";
-      area = prefs.getString("Area") ?? "";
-      territory = prefs.getString("Territory") ?? "";
+      region = prefs.getString("eCMERegion") ?? "";
+      area = prefs.getString("eCMEArea") ?? "";
+      territory = prefs.getString("eCMETerritory") ?? "";
       setState(() {});
     });
 
@@ -93,7 +93,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                               
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
+                                    borderRadius: BorderRadius.circular(8),
                                     color: Colors.teal.shade50,
                                   ),
                                   child: TextFormField(
@@ -146,53 +146,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       ),
     ))
                       
-                      
-                      //  Expanded(
-                      //     flex: 4,
-                      //     child: TextField(
-                      //       controller: searchController,
-                      //       onChanged: (value) {
-                      //         result = box!.toMap().values.toList();
-                      //         result = AllServices().doctorSearch(
-                      //             value,
-                      //             result,
-                      //             'doc_name',
-                      //             'area_name',
-                      //             'area_id',
-                      //             'address');
-                      //         setState(() {});
-                      //       },
-                      //       decoration: InputDecoration(
-                      //         border: const OutlineInputBorder(),
-                      //         labelText: 'Search Doctor/Client.....',
-                      //         suffixIcon: searchController.text.isEmpty &&
-                      //                 searchController.text == ''
-                      //             ? const Icon(Icons.search)
-                      //             : IconButton(
-                      //                 onPressed: () {
-                      //                   searchController.clear();
-                      //                   result = box!.toMap().values.toList();
-
-                      //                   setState(() {
-                      //                     result = AllServices().doctorSearch(
-                      //                         '',
-                      //                         result,
-                      //                         'doc_name',
-                      //                         'area_name',
-                      //                         'area_id',
-                      //                         'address');
-                      //                   });
-                      //                 },
-                      //                 icon: const Icon(
-                      //                   Icons.clear,
-                      //                   color: Colors.black,
-                      //                 ),
-                      //               ),
-                      //       ),
-                      //     ),
-                      //   )
-
-
+                   
 
 
                       : const SizedBox(),
@@ -211,20 +165,20 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                             return ECMETypeSelection(
                                 callbackData: mapData,
                                 callbackFuc: (value) {
-                                  region = value["Region"];
-                                  area = value["Area"];
-                                  territory = value["Territory"];
-                                  dSRType = value["dsr_Type"];
+                                  region = value["eCMERegion"];
+                                  area = value["eCMEArea"];
+                                  territory = value["eCMETerritory"];
+                                 // dSRType = value["dsr_Type"];
                                   setState(() {});
                                 });
                           });
                       setState(() {
-                        box = Hive.box("doctorList");
+                        box = Hive.box("eCMEDoctorList");
                         result = box!.toMap().values.toList();
                       });
                     },
                     child: Container(
-                        height: 50,
+                        height: 47,
                        // width: ,
                         decoration: BoxDecoration(
                             border: Border.all(
@@ -279,7 +233,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                   Expanded(
                       child: Column(
                     children: [
-                      // ignore: unnecessary_null_comparison
+                 
                       territory == null
                           ? const Text(
                               " ",
@@ -305,7 +259,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                             MaterialPageRoute(
                                 builder: (_) => eECMETypeSelectionScreen(
                                       docInfo: result,
-                                      dsrType: dSRType,
                                       index: index,
                                     )));
                       },
@@ -321,7 +274,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                           ),
                           
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
+                            padding: const EdgeInsets.fromLTRB(6, 3, 6, 2),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -330,12 +283,14 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    fontSize: 14.5,
                                   ),
                                 ),
+                                const SizedBox(height: 3,),
                                 Text(
                                   "${result[index]["area_name"]}  (${result[index]["area_id"]}),",style: const TextStyle(fontSize: 12),
                                 ),
+                                const SizedBox(height: 3,),
                                 Text(
                                   "${result[index]["address"]}",
                                   overflow: TextOverflow.ellipsis,
@@ -357,4 +312,5 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       ),
     );
   }
+
 }

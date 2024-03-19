@@ -58,6 +58,7 @@ class HiveAdapter {
 
 
     await Hive.openBox('doctorList');
+    Hive.openBox("eCMEDoctorList");
 
     /// [DcrRxTarget] this table name used for Dcr Rx target value
     await Hive.openBox('DcrRxTarget');

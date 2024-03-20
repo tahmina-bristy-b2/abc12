@@ -2,11 +2,11 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
-import 'package:MREPORTING/ui/eCME_section/eCME_selection_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'eCME_dortor _selection_screen.dart';
 
 class ECMEClientScreen extends StatefulWidget {
   const ECMEClientScreen({super.key});
@@ -36,7 +36,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
 
   @override
   void initState() {
-  //  openHiveBox();
     if (Boxes.geteCMEsetData().get("eCMESavedDataSync") != null) {
       regionListData =
           Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMERegionList;
@@ -167,8 +166,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                 callbackFuc: (value) {
                                   region = value["eCMERegion"];
                                   area = value["eCMEArea"];
-                                  territory = value["eCMETerritory"];
-                                 // dSRType = value["dsr_Type"];
                                   setState(() {});
                                 });
                           });
@@ -179,7 +176,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                     },
                     child: Container(
                         height: 47,
-                       // width: ,
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.teal,
@@ -257,7 +253,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => eECMETypeSelectionScreen(
+                                builder: (_) => ECMEAddScreen(
                                       docInfo: result,
                                       index: index,
                                     )));

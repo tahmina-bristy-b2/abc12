@@ -1,0 +1,52 @@
+
+import 'package:flutter/material.dart';
+
+class CustomtextFormFiledWidget extends StatelessWidget {
+ TextEditingController controller;
+ FocusNode focusNode;
+ TextAlign textAlign;
+ TextStyle textStyle;
+ Widget? suffixIcon;
+ String hinText;
+ void Function(String)? onChanged;
+ void Function()? onTap;
+
+   CustomtextFormFiledWidget({
+      super.key,
+      required this.controller,
+      required this.textAlign,
+      required this.textStyle,
+      required this.hinText,
+      this.suffixIcon,
+      this.onChanged,
+      this.onTap,
+      required this.focusNode,
+    });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+      ),
+      child: TextFormField(
+                                    
+                                    autofocus:false,
+                                    controller: controller,
+                                    focusNode:hinText==""? focusNode:null,
+                                    readOnly:hinText==""?true:false ,
+                                    style:textStyle,
+                                    textAlign:textAlign,
+                                    decoration: InputDecoration(
+                                      hintText: hinText,
+                                       border: InputBorder.none,
+                                      filled: true,
+                                      fillColor: Colors.transparent,
+                                      suffixIcon: suffixIcon,
+                                    ),
+                                    onChanged: onChanged,
+                                    onTap: onTap
+               ),
+    );
+  }
+}

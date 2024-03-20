@@ -10,7 +10,7 @@ import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
-import 'package:MREPORTING/ui/eCME_section/eCME_client_screen.dart';
+import 'package:MREPORTING/ui/eCME_section/eCME_doctor_List_screen.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';

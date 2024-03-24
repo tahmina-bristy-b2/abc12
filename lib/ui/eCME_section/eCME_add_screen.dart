@@ -14,14 +14,11 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEAddScreen extends StatefulWidget {
-  List<dynamic> docInfo;
- // String dsrType;
-  int index;
+  Map docInfo;
+
   ECMEAddScreen(
       {super.key,
       required this.docInfo,
-      required this.index,
-    //  required this.dsrType
       });
 
   @override
@@ -46,18 +43,22 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController totalNumberOfParticiController = TextEditingController();
   TextEditingController totalBudgetController = TextEditingController();
   TextEditingController hallRentController = TextEditingController();
-  TextEditingController morningEveningController = TextEditingController();
+  TextEditingController foodExpansesController = TextEditingController();
   TextEditingController costperDoctorController = TextEditingController();
   TextEditingController lunchDinnerController = TextEditingController();
   TextEditingController stationnairesController = TextEditingController();
   TextEditingController giftController = TextEditingController();
   TextEditingController othersController = TextEditingController();
+  TextEditingController institutionController = TextEditingController();
+  TextEditingController departmentController = TextEditingController();
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
   
   List<List<dynamic>> dynamicRowsListForBrand = [];
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
   String? initialBrand;
+  String? selectedECMEType;
+  String? selcetDoctorCategory;
  
 
   String? cid;
@@ -80,6 +81,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   bool isCheck = false;
   final RegExp phoneRegex = RegExp(r'^\d{13}$');
   bool isMobileUpdate = false;
+  List<String> eCMETypeList=[];
 
   @override
   void initState() {
@@ -87,7 +89,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
+    eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
+
     allSettingsDataGet(eCMESettingsData);
+    print("c_CME type List===$eCMETypeList");
 
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
@@ -138,6 +143,15 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     }
     return uniqueBrandMap.values.toList();
   }
+
+
+  //============================ total budget =========================
+   double totalBudget(){
+    double totalBudget= double.parse(hallRentController.text.toString()==""?"0.0":hallRentController.text.toString())+double.parse(foodExpansesController.text.toString()==""?"0.0":foodExpansesController.text.toString())+ double.parse(costperDoctorController.text.toString()==""?"0.0":costperDoctorController.text.toString())+double.parse(giftController.text.toString()==""?"0.0":giftController.text.toString())+double.parse(othersController.text.toString()==""?"0.0":othersController.text.toString()); 
+    totalBudgetController.text=totalBudget.toStringAsFixed(2);
+    print(totalBudget);
+    return totalBudget;
+   }
 
   @override
   void dispose() {
@@ -200,7 +214,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${widget.docInfo[widget.index]["doc_name"]}|${widget.docInfo[widget.index]["degree"]}|${widget.docInfo[widget.index]["specialty"]}",
+                          "${widget.docInfo["doc_name"]}|${widget.docInfo["degree"]}|${widget.docInfo["specialty"]}",
                           style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 0, 0, 0),
@@ -210,7 +224,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                           height: 5,
                         ),
                         Text(
-                          "${widget.docInfo[widget.index]["address"]}|$territoryid",
+                          "${widget.docInfo["address"]}|$territoryid",
                           style: const TextStyle(
                               fontSize: 12,
                               color: Color.fromARGB(255, 64, 64, 64)),
@@ -219,7 +233,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                           height: 5,
                         ),
                         Text(
-                          "${widget.docInfo[widget.index]["mobile"]}",
+                          "${widget.docInfo["mobile"]}",
                           style: const TextStyle(
                                fontSize: 12,
                               color: Color.fromARGB(255, 64, 64, 64)),
@@ -240,7 +254,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 scrollable: true,
                                 title: Center(
                                     child: Text(
-                                        "${widget.docInfo[widget.index]["doc_name"]}")),
+                                        "${widget.docInfo["doc_name"]}")),
                                 content: SizedBox(
                                   height: 150,
                                   child: Form(
@@ -476,6 +490,107 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            const Text(
+                              "e-CME Type*",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Container(
+                                     width: MediaQuery.of(context).size.width / 1.1,
+                                       height: 45,
+                                  decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+                                  ),
+                                  child:   DropdownButtonHideUnderline(
+                                            child: DropdownButton2(
+                                              isExpanded: true,
+                                                iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                                hint: const Text(
+                                                  '  Select e-CME Type',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                items: eCMETypeList.map((String item) {
+                                                  return DropdownMenuItem(
+                                                    value: item, 
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 8),
+                                                      child: Text(
+                                                        item,
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                                value: selectedECMEType,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedECMEType = value; 
+                                                  });
+                                                },
+                                                
+                                               
+                                                
+                                              buttonHeight: 50,
+                                              buttonWidth: MediaQuery.of(context).size.width / 1.5,
+                                              itemHeight: 40,
+                                              dropdownMaxHeight: 252,
+                                              searchController: brandSelectedController,
+                                              searchInnerWidgetHeight: 50,
+                                              searchInnerWidget: Container(
+                                                height: 50,
+                                                padding: const EdgeInsets.only(
+                                                  top: 8,
+                                                  bottom: 4,
+                                                  right: 8,
+                                                  left: 8,
+                                                ),
+                                                child: TextFormField(
+                                                  expands: true,
+                                                  maxLines: null,
+                                                  controller: brandSelectedController,
+                                                  decoration: InputDecoration(
+                                                    fillColor: Colors.transparent,
+                                                    filled: true,
+                                                    isDense: true,
+                                                    contentPadding: const EdgeInsets.symmetric(
+                                                      horizontal: 6,
+                                                      vertical: 8,
+                                                    ),
+                                                    hintText: '  Search e-CME Type...',
+                                                    hintStyle: const TextStyle(fontSize: 14),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(8),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              searchMatchFn: (item, searchValue) {
+                                                return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                              },
+                                              onMenuStateChange: (isOpen) {
+                                                if (!isOpen) {
+                                                  brandSelectedController.clear();
+                                                }
+                                              },
+                                              
+                                            ),
+                                          )
+                                                                                  
+                              
+                              ),
+                                const SizedBox(
+                              height: 10,
+                            ),
                              const Text(
                               "Meeting Date*",
                               style: TextStyle(
@@ -510,8 +625,157 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 ),
                                 const SizedBox(
                               height: 10,
+                                ) ,
+                           const Text(
+                              "Doctor Category*",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Container(
+                                     width: MediaQuery.of(context).size.width / 1.1,
+                                       height: 45,
+                                  decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+                                  ),
+                                  child:   DropdownButtonHideUnderline(
+                                            child: DropdownButton2(
+                                              isExpanded: true,
+                                                iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                                hint: const Text(
+                                                  ' Select Doctor Category',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                items: ["Institution","KOL Hub or GP Area","Society"].map((String item) {
+                                                  return DropdownMenuItem(
+                                                    value: item, 
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 8),
+                                                      child: Text(
+                                                        item,
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                                value: selcetDoctorCategory,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selcetDoctorCategory = value; 
+                                                  });
+                                                },
+                                              buttonHeight: 50,
+                                              buttonWidth: MediaQuery.of(context).size.width / 1.5,
+                                              itemHeight: 40,
+                                              dropdownMaxHeight: 252,
+                                              searchController: brandSelectedController,
+                                              searchInnerWidgetHeight: 50,
+                                              searchInnerWidget: Container(
+                                                height: 50,
+                                                padding: const EdgeInsets.only(
+                                                  top: 8,
+                                                  bottom: 4,
+                                                  right: 8,
+                                                  left: 8,
+                                                ),
+                                                child: TextFormField(
+                                                  expands: true,
+                                                  maxLines: null,
+                                                  controller: brandSelectedController,
+                                                  decoration: InputDecoration(
+                                                    fillColor: Colors.transparent,
+                                                    filled: true,
+                                                    isDense: true,
+                                                    contentPadding: const EdgeInsets.symmetric(
+                                                      horizontal: 6,
+                                                      vertical: 8,
+                                                    ),
+                                                    hintText: '  Search e-CME Type...',
+                                                    hintStyle: const TextStyle(fontSize: 14),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(8),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              searchMatchFn: (item, searchValue) {
+                                                return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                              },
+                                              onMenuStateChange: (isOpen) {
+                                                if (!isOpen) {
+                                                  brandSelectedController.clear();
+                                                }
+                                              },
+                                              
+                                            ),
+                                          )
+                                                                                  
+                              
+                             ),
+                             selcetDoctorCategory=="Institution"? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                               const SizedBox(height: 10,),
+                                const Text(
+                              "Institution Name*",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: 45,
+                                child: CustomtextFormFiledWidget(
+                                           hinText: '----Enter Institution Name----',
+                                            controller: institutionController,
+                                            textAlign: TextAlign.left, 
+                                            textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                            focusNode: AlwaysDisabledFocusNode(),
+                                          ),
+                               
+                                ),
+                                const SizedBox(
+                              height: 10,
                             ),
                                 const Text(
+                              "Department*",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: 45,
+                                child: CustomtextFormFiledWidget(
+                                  hinText: '----Enter Department---',
+                                    controller: departmentController,
+                                    textAlign: TextAlign.left, 
+                                    textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                    focusNode: AlwaysDisabledFocusNode(),
+                                  ),
+                               
+                              ),
+                              ],
+                             ): const SizedBox(),
+                             const SizedBox(height: 10,),
+                              const Text(
                               "Meeting venue*",
                               style: TextStyle(
                                   fontSize: 15,
@@ -584,7 +848,32 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 ? brandDetailsWidget(wholeWidth, wholeHeight)
                                 : const SizedBox(),
                                const SizedBox(height: 10,),
-                            const Text(
+                            // const Text(
+                            //   "Probable Speaker Name",
+                            //   style: TextStyle(
+                            //       fontSize: 15,
+                            //       color: Color.fromARGB(255, 0, 0, 0),
+                            //       fontWeight: FontWeight.w600),
+                            // ),
+                            // const SizedBox(
+                            //   height: 6,
+                            // ),
+                            // SizedBox(
+                            //     width: MediaQuery.of(context).size.width / 1.1,
+                            //     height: 45,
+                            //     child: CustomtextFormFiledWidget(
+                            //          hinText: '----Enter Speaker Name----',
+                            //         controller: meetingTopicController,
+                            //         textAlign: TextAlign.left, 
+                            //         textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                            //         focusNode: AlwaysDisabledFocusNode(),
+                            //       ),
+                                
+                            //     ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                                const Text(
                               "Probable Speaker Name",
                               style: TextStyle(
                                   fontSize: 15,
@@ -598,32 +887,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 width: MediaQuery.of(context).size.width / 1.1,
                                 height: 45,
                                 child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter Speaker Name----',
-                                    controller: meetingTopicController,
-                                    textAlign: TextAlign.left, 
-                                    textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                    focusNode: AlwaysDisabledFocusNode(),
-                                  ),
-                                
-                                ),
-                                const SizedBox(
-                              height: 10,
-                            ),
-                                const Text(
-                              "Probable Speaker Degree",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                   hinText: '----Enter Speaker Degree----',
+                                   hinText: '----Enter Speaker Name----',
                                     controller: probaleSpeakerController,
                                     textAlign: TextAlign.left, 
                                     textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
@@ -635,7 +899,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                             ),
 
                                 const Text(
-                              "Probable Speaker Institute",
+                              "Probable Speaker Designation",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Color.fromARGB(255, 0, 0, 0),
@@ -648,7 +912,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 width: MediaQuery.of(context).size.width / 1.1,
                                 height: 45,
                                 child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter Speaker Institute----',
+                                     hinText: '----Enter Speaker Designation----',
                                     controller: probaleSpeakerInstituteController,
                                     textAlign: TextAlign.left, 
                                     textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
@@ -720,6 +984,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                         height: 45,
                                          width:MediaQuery.of(context).size.width / 3,
                                          child: TextFormField(
+                                          readOnly: true,
                                             textAlign: TextAlign.right,
                                             style:const TextStyle(fontSize: 14),
                                           controller: totalBudgetController,
@@ -750,17 +1015,68 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                  fontWeight: FontWeight.w600),
                             ),
                             Column(
-                              
                               children: [
-                                BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,),
-                                BudgetBreakDownRowWidget(rowNumber: "2.", reason:"Morning/Evening refreshment(total cost)", controller: morningEveningController,),
-                                BudgetBreakDownRowWidget(rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController,),
-                                BudgetBreakDownRowWidget(rowNumber: "4.", reason:"Lunch/Dinner(total cost) ", controller: lunchDinnerController,),
-                                BudgetBreakDownRowWidget(rowNumber: "5.", reason:"Stationnaires", controller: stationnairesController,),
-                                BudgetBreakDownRowWidget(rowNumber: "6.", reason:"Gift/Souvenirs ", controller: giftController,),
-                                BudgetBreakDownRowWidget(rowNumber: "7.", reason:"Others ", controller: othersController,),
-                          
+                                BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,
+                                      onChanged: (value ) {  
+                                       // if(hallRentController.text){
+                                          totalBudget();
+                                          setState(() {
+                                            
+                                          });
 
+                                       // }
+
+                                      },
+                                      ),
+                                BudgetBreakDownRowWidget(rowNumber: "2.", reason:"Food Expense", controller: foodExpansesController, 
+                                         onChanged: (value ) {  
+                                      //  if(value.isNotEmpty){
+                                          totalBudget();
+                                          setState(() {
+                                            
+                                          });
+
+                                      //  }
+
+                                      },
+                                        ),
+                                BudgetBreakDownRowWidget(rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
+                                       onChanged: (value ) {  
+                                      //  if(value.isNotEmpty){
+                                          totalBudget();
+                                          setState(() {
+                                            
+                                          });
+
+                                       // }
+
+                                      },
+                                      ),
+                                BudgetBreakDownRowWidget(rowNumber: "4.", reason:"Speaker Gift or Souvenir) ", controller: giftController, 
+                                    onChanged: (value ) {  
+                                      //  if(value.isNotEmpty){
+                                          totalBudget();
+                                          setState(() {
+                                            
+                                          });
+
+                                      //  }
+
+                                      },
+                                    ),
+                                BudgetBreakDownRowWidget(rowNumber: "5.", reason:"Stationnaires or Others", controller: othersController, 
+                                     onChanged: (value ) {  
+                                      //  if(value.isNotEmpty){
+                                          totalBudget();
+                                          setState(() {
+                                            
+                                          });
+
+                                     //   }
+
+                                      },
+                                    ),
+                               
                               ],
                             ),
                             
@@ -790,7 +1106,6 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                               child: InkWell(
                                 child: Container(
                                   height: 55,
-                                  //width: 160,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: const Border(
@@ -848,6 +1163,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             ))),
                                   ),
                                   onTap: () async {
+
                                     // getbrandString() != ""
                                     //     ? widget.docInfo[widget.index]
                                     //                 ["area_id"] !=
@@ -1516,7 +1832,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     // //  "Number_of_Patient": noOfPatientController.text,
     //   "Issue_Mode": initialIssueMode,
     //   "Issue_To": issueToController.text,
-    //   "Brand": finalBrandListAftrRemoveDuplication,
+      "Brand": finalBrandListAftrRemoveDuplication,
     //   "dsr_type": doctorType
     };
 

@@ -4,11 +4,14 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
   String rowNumber;
   String reason;
   TextEditingController controller;
+  void Function(String)? onChanged;
+
    BudgetBreakDownRowWidget({
     super.key,
     required this.rowNumber,
     required this.reason,
     required this.controller,
+    required this.onChanged
     });
 
   @override
@@ -48,6 +51,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                               borderRadius: BorderRadius.circular(10.0),
                                             ),
                                           ),
+                                          onChanged:  onChanged,
                                   
                                      ),
                                   

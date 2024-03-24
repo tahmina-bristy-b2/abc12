@@ -11,6 +11,7 @@ import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_doctor_List_screen.dart';
+import 'package:MREPORTING/ui/eCME_section/e_cme_doctor_list_new.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
@@ -1710,12 +1711,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: CustomBuildButton(
                                           icon: Icons.add,
                                           onClick: () async {
+                                             List dcrList = await AllServices()
+                                              .getSyncSavedData('dcrListData');
                                             if (regionListData != null) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          const ECMEClientScreen()));
+                                              if (dcrList.isNotEmpty) {
+                                            if (!mounted) return;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) => ECMEDoctorList(
+                                                    dcrDataList: dcrList),
+                                              ),
+                                            );
+                                          } else {
+                                            AllServices().toastMessage(
+                                                'Doctor List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+                                              
                                             } else {
                                               AllServices().toastMessage(
                                                   "e_CME data not found, Sync first...",

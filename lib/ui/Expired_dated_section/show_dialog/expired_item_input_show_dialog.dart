@@ -68,23 +68,23 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                               child:Center(child: Text(widget.expiredItem.itemName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),
                                               Expanded(
                                                 child:Center(child: IconButton(onPressed: (){
-                                                showDialog(context: context, builder: (BuildContext context){
-                                                    return EachBtachItemWidget(
-                                                      itemName:widget.expiredItem.itemName , 
-                                                      batchWiseItemSaved: null, 
-                                                      callbackFunction: (BatchWiseItemListModel? value ) {
-                                                        if(value==null){
-                                                         return;
-                                                         }
-                                                         batchWiseItemSaved.add(value);
-                                                        setState(() {
-                                                          
-                                                        });
-                                                     }, routeName: false,
+                                                  showDialog(context: context, builder: (BuildContext context){
+                                                      return EachBtachItemWidget(
+                                                        itemName:widget.expiredItem.itemName , 
+                                                        batchWiseItemSaved: null, 
+                                                        callbackFunction: (BatchWiseItemListModel? value ) {
+                                                          if(value==null){
+                                                          return;
+                                                          }
+                                                          batchWiseItemSaved.add(value);
+                                                          setState(() {
+                                                            
+                                                          });
+                                                      }, routeName: false,
 
-                                                    );
+                                                      );
 
-                                                  },
+                                                    },
                                                   );
                                                 
                                                  
@@ -103,7 +103,7 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
                                                 return GestureDetector(
                                                 onTap: (){
                                                       showDialog(context: context, builder: (BuildContext context){
-                                                        return EachBtachItemWidget(
+                                                         return EachBtachItemWidget(
                                                             itemName:widget.expiredItem.itemName, 
                                                             batchWiseItemSaved: batchWiseItemSaved[index], 
                                                             callbackFunction: (BatchWiseItemListModel? value ) {

@@ -180,1045 +180,1047 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         reverse: false,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: wholeHeight / 75.927,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 1,
-                          color:const Color(0xff8AC995)
-                        ),
-                        borderRadius: BorderRadius.circular(50)
-                        
-                        
-                        
-                      ),
-                      child: const Icon(Icons.person, size: 50, color: Color(0xff8AC995))),
-                  ),
-                  SizedBox(
-                    width: wholeWidth / 39.272,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${widget.docInfo["doc_name"]}|${widget.docInfo["degree"]}|${widget.docInfo["specialty"]}",
-                          style: const TextStyle(
-                              fontSize: 15,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "${widget.docInfo["address"]}|$territoryid",
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 64, 64, 64)),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "${widget.docInfo["mobile"]}",
-                          style: const TextStyle(
-                               fontSize: 12,
-                              color: Color.fromARGB(255, 64, 64, 64)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: IconButton(
-                      icon: const Icon(Icons.edit,
-                          size: 20, color: Color(0xff8AC995)),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                scrollable: true,
-                                title: Center(
-                                    child: Text(
-                                        "${widget.docInfo["doc_name"]}")),
-                                content: SizedBox(
-                                  height: 150,
-                                  child: Form(
-                                    key: _form1Key,
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            "Mobile Number*",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.1,
-                                          height: 45,
-                                          child: TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            inputFormatters: [
-                                               FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[A-Za-z0-9]"),
-                                                                  ),
-                                              FilteringTextInputFormatter.deny(
-                                                RegExp(r'^\d{12,}$'),
-                                              ),
-                                            ],
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return "Mobile Number is required";
-                                              }
-                                              if (value.length < 11 
-                                                  ) {
-                                                return "Mobile Number should be  11  digits";
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: InkWell(
-                                                  child: Container(
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              170,
-                                                              172,
-                                                              170),
-                                                    ),
-                                                    child: const Center(
-                                                        child: Text("Cancel",
-                                                            style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      255),
-                                                            ))),
-                                                  ),
-                                                  onTap: () {
-                                                    // Navigator.pop(context);
-                                                    // doctorMobileNumberController
-                                                    //     .text = widget
-                                                    //         .docInfo[
-                                                    //     widget.index]["mobile"];
-                                                  }),
-                                            ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            Expanded(
-                                              child: InkWell(
-                                                  child: Container(
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255, 44, 114, 66),
-                                                    ),
-                                                    child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
-                                                        child: Text("Update",
-                                                            style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      255),
-                                                            ))),
-                                                  ),
-                                                  onTap: () async {
-                                                    // if (_form1Key.currentState!
-                                                    //     .validate()) {
-                                                    //   setState(() {
-                                                    //     isMobileUpdate = true;
-                                                    //   });
-                                                    //   bool result =
-                                                    //       await InternetConnectionChecker()
-                                                    //           .hasConnection;
-                                                    //   if (result == true) {
-                                                    //     Map<String, dynamic>
-                                                    //         responsData =
-                                                    //         await EDSRRepositories().getMobileNumberUpdation(
-                                                    //             dmpathData!
-                                                    //                 .submitUrl,
-                                                    //             cid!,
-                                                    //             userInfo!
-                                                    //                 .userId,
-                                                    //             userPassword,
-                                                    //             widget.docInfo[
-                                                    //                     widget
-                                                    //                         .index]
-                                                    //                 ["doc_id"],
-                                                    //             doctorType!,
-                                                    //             doctorMobileNumberController
-                                                    //                 .text,
-                                                    //             widget.docInfo[
-                                                    //                     widget
-                                                    //                         .index]
-                                                    //                 [
-                                                    //                 "area_id"]);
-                                                    //     if (responsData
-                                                    //         .isNotEmpty) {
-                                                    //       if (responsData[
-                                                    //               "status"] ==
-                                                    //           "Success") {
-                                                    //         widget.docInfo[widget
-                                                    //                     .index]
-                                                    //                 ["mobile"] =
-                                                    //             doctorMobileNumberController
-                                                    //                 .text;
-                                                    //         setState(() {
-                                                    //           isMobileUpdate =
-                                                    //               false;
-                                                    //         });
-                                                    //         AllServices()
-                                                    //             .toastMessage(
-                                                    //                 responsData[
-                                                    //                     "ret_str"],
-                                                    //                 Colors
-                                                    //                     .green,
-                                                    //                 Colors
-                                                    //                     .white,
-                                                    //                 14);
-
-                                                    //         if (!mounted) {
-                                                    //           return;
-                                                    //         }
-                                                    //         Navigator.pop(
-                                                    //             context);
-                                                    //       } else {
-                                                    //         setState(() {
-                                                    //           isMobileUpdate =
-                                                    //               false;
-                                                    //         });
-                                                    //         AllServices()
-                                                    //             .toastMessage(
-                                                    //                 responsData[
-                                                    //                     "ret_str"],
-                                                    //                 Colors.red,
-                                                    //                 Colors
-                                                    //                     .white,
-                                                    //                 14);
-                                                    //       }
-                                                    //     } else {
-                                                    //       setState(() {
-                                                    //         isMobileUpdate =
-                                                    //             false;
-                                                    //       });
-                                                    //     }
-                                                    //   } else {
-                                                    //     setState(() {
-                                                    //       isMobileUpdate =
-                                                    //           false;
-                                                    //     });
-                                                    //     AllServices()
-                                                    //         .toastMessage(
-                                                    //             interNetErrorMsg,
-                                                    //             Colors.red,
-                                                    //             Colors.white,
-                                                    //             16);
-                                                    //   }
-                                                    // }
-                                                  }),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            });
-                      },
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: wholeHeight / 25.309,
-              ),
-              SizedBox(
-                child: Row(
+          child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction, 
+            key:_form1Key,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: wholeHeight / 75.927,
+                ),
+                Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "e-CME Type*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Container(
-                                     width: MediaQuery.of(context).size.width / 1.1,
-                                       height: 45,
-                                  decoration: BoxDecoration(
-                                     borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
-                                  ),
-                                  child:   DropdownButtonHideUnderline(
-                                            child: DropdownButton2(
-                                              isExpanded: true,
-                                                iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
-                                                hint: const Text(
-                                                  '  Select e-CME Type',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                items: eCMETypeList.map((String item) {
-                                                  return DropdownMenuItem(
-                                                    value: item, 
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 8),
-                                                      child: Text(
-                                                        item,
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                                value: selectedECMEType,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    selectedECMEType = value; 
-                                                  });
-                                                },
-                                                
-                                               
-                                                
-                                              buttonHeight: 50,
-                                              buttonWidth: MediaQuery.of(context).size.width / 1.5,
-                                              itemHeight: 40,
-                                              dropdownMaxHeight: 252,
-                                              searchController: brandSelectedController,
-                                              searchInnerWidgetHeight: 50,
-                                              searchInnerWidget: Container(
-                                                height: 50,
-                                                padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  bottom: 4,
-                                                  right: 8,
-                                                  left: 8,
-                                                ),
-                                                child: TextFormField(
-                                                  expands: true,
-                                                  maxLines: null,
-                                                  controller: brandSelectedController,
-                                                  decoration: InputDecoration(
-                                                    fillColor: Colors.transparent,
-                                                    filled: true,
-                                                    isDense: true,
-                                                    contentPadding: const EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 8,
-                                                    ),
-                                                    hintText: '  Search e-CME Type...',
-                                                    hintStyle: const TextStyle(fontSize: 14),
-                                                    border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              searchMatchFn: (item, searchValue) {
-                                                return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
-                                              },
-                                              onMenuStateChange: (isOpen) {
-                                                if (!isOpen) {
-                                                  brandSelectedController.clear();
-                                                }
-                                              },
-                                              
-                                            ),
-                                          )
-                                                                                  
-                              
-                              ),
-                                const SizedBox(
-                              height: 10,
-                            ),
-                             const Text(
-                              "Meeting Date*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                  
-                                  
-                                    controller: initialValue(selectedExpiredDateString), 
-                                    textAlign: TextAlign.left, 
-                                    suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
-                                    textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 82, 179, 98),), 
-                                    onChanged: (String value) {
-                                      setState(() {});
-                                      selectedExpiredDateString  = value;
-                                    },
-
-                                    onTap: () {
-                                       pickDate();
-                                      },
-                                    focusNode: AlwaysDisabledFocusNode(), 
-                                    hinText: "",
-                                  ),
-                                ),
-                                const SizedBox(
-                              height: 10,
-                                ) ,
-                           const Text(
-                              "Doctor Category*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Container(
-                                     width: MediaQuery.of(context).size.width / 1.1,
-                                       height: 45,
-                                  decoration: BoxDecoration(
-                                     borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
-                                  ),
-                                  child:   DropdownButtonHideUnderline(
-                                            child: DropdownButton2(
-                                              isExpanded: true,
-                                                iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
-                                                hint: const Text(
-                                                  ' Select Doctor Category',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                items: ["Institution","KOL Hub or GP Area","Society"].map((String item) {
-                                                  return DropdownMenuItem(
-                                                    value: item, 
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 8),
-                                                      child: Text(
-                                                        item,
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                                value: selcetDoctorCategory,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    selcetDoctorCategory = value; 
-                                                  });
-                                                },
-                                              buttonHeight: 50,
-                                              buttonWidth: MediaQuery.of(context).size.width / 1.5,
-                                              itemHeight: 40,
-                                              dropdownMaxHeight: 252,
-                                              searchController: brandSelectedController,
-                                              searchInnerWidgetHeight: 50,
-                                              searchInnerWidget: Container(
-                                                height: 50,
-                                                padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  bottom: 4,
-                                                  right: 8,
-                                                  left: 8,
-                                                ),
-                                                child: TextFormField(
-                                                  expands: true,
-                                                  maxLines: null,
-                                                  controller: brandSelectedController,
-                                                  decoration: InputDecoration(
-                                                    fillColor: Colors.transparent,
-                                                    filled: true,
-                                                    isDense: true,
-                                                    contentPadding: const EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 8,
-                                                    ),
-                                                    hintText: '  Search e-CME Type...',
-                                                    hintStyle: const TextStyle(fontSize: 14),
-                                                    border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              searchMatchFn: (item, searchValue) {
-                                                return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
-                                              },
-                                              onMenuStateChange: (isOpen) {
-                                                if (!isOpen) {
-                                                  brandSelectedController.clear();
-                                                }
-                                              },
-                                              
-                                            ),
-                                          )
-                                                                                  
-                              
-                             ),
-                             selcetDoctorCategory=="Institution"? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                               const SizedBox(height: 10,),
-                                const Text(
-                              "Institution Name*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                           hinText: '----Enter Institution Name----',
-                                            controller: institutionController,
-                                            textAlign: TextAlign.left, 
-                                            textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                            focusNode: AlwaysDisabledFocusNode(),
-                                          ),
-                               
-                                ),
-                                const SizedBox(
-                              height: 10,
-                            ),
-                                const Text(
-                              "Department*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                  hinText: '----Enter Department---',
-                                    controller: departmentController,
-                                    textAlign: TextAlign.left, 
-                                    textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                    focusNode: AlwaysDisabledFocusNode(),
-                                  ),
-                               
-                              ),
-                              ],
-                             ): const SizedBox(),
-                             const SizedBox(height: 10,),
-                              const Text(
-                              "Meeting venue*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                           hinText: '----Enter Meeting Venue----',
-                                            controller: meetingVenueController,
-                                            textAlign: TextAlign.left, 
-                                            textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                            focusNode: AlwaysDisabledFocusNode(),
-                                          ),
-                               
-                                ),
-                                const SizedBox(
-                              height: 10,
-                            ),
-                                const Text(
-                              "Meeting Topic*",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                  hinText: '----Enter Meeting Topic----',
-                                    controller: meetingProbaleSpeakerController,
-                                    textAlign: TextAlign.left, 
-                                    textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                    focusNode: AlwaysDisabledFocusNode(),
-                                  ),
-                               
-                              ),
-                            SizedBox(
-                              height: wholeHeight / 75.927,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Brand",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  width: wholeWidth / 1.45,
-                                ),
-                                brandAddWidget(wholeHeight, wholeWidth, context)
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            dynamicRowsListForBrand.isNotEmpty
-                                ? brandDetailsWidget(wholeWidth, wholeHeight)
-                                : const SizedBox(),
-                               const SizedBox(height: 10,),
-                            // const Text(
-                            //   "Probable Speaker Name",
-                            //   style: TextStyle(
-                            //       fontSize: 15,
-                            //       color: Color.fromARGB(255, 0, 0, 0),
-                            //       fontWeight: FontWeight.w600),
-                            // ),
-                            // const SizedBox(
-                            //   height: 6,
-                            // ),
-                            // SizedBox(
-                            //     width: MediaQuery.of(context).size.width / 1.1,
-                            //     height: 45,
-                            //     child: CustomtextFormFiledWidget(
-                            //          hinText: '----Enter Speaker Name----',
-                            //         controller: meetingTopicController,
-                            //         textAlign: TextAlign.left, 
-                            //         textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                            //         focusNode: AlwaysDisabledFocusNode(),
-                            //       ),
-                                
-                            //     ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                                const Text(
-                              "Probable Speaker Name",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                   hinText: '----Enter Speaker Name----',
-                                    controller: probaleSpeakerController,
-                                    textAlign: TextAlign.left, 
-                                    textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                    focusNode: AlwaysDisabledFocusNode(),
-                                  ),
-                                ),
-                                const SizedBox(
-                              height: 10,
-                            ),
-
-                                const Text(
-                              "Probable Speaker Designation",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.1,
-                                height: 45,
-                                child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter Speaker Designation----',
-                                    controller: probaleSpeakerInstituteController,
-                                    textAlign: TextAlign.left, 
-                                    textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                    focusNode: AlwaysDisabledFocusNode(),
-                                  ),
-                                ),
-                                const SizedBox(
-                              height: 10,
-                            ),
-
-                            Row(
-                             children: [
-                                      
-                                      SizedBox(
-                                        width:MediaQuery.of(context).size.width /2.15 ,
-                                        child:const Text("Total numbers of participants*",
-                                              style: TextStyle(
-                                              fontSize: 15,
-                                              color: Color.fromARGB(255, 0, 0, 0),
-                                              fontWeight: FontWeight.w600)
-                                                    ),
-                                        
-                                      ),
-                                       SizedBox(
-                                        width:MediaQuery.of(context).size.width / 9 ,
-                                        child:const Text(":"),
-                                        
-                                      ),
-                                      SizedBox(
-                                        height: 45,
-                                         width:MediaQuery.of(context).size.width / 3,
-                                         child:TextFormField(
-                                          controller: totalNumberOfParticiController,
-                                          textAlign: TextAlign.right,
-                                          style:const TextStyle(fontSize: 14),
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderSide:
-                                                  const BorderSide(color: Colors.white),
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
-                                          ),
-                                        )
-                                   
-                                       ),
-                                    
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    children: [
-                                      
-                                      SizedBox(
-                                        width:MediaQuery.of(context).size.width /2.15 ,
-                                        child:const Text("Total budget*",
-                                              style: TextStyle(
-                                              fontSize: 15,
-                                              color: Color.fromARGB(255, 0, 0, 0),
-                                              fontWeight: FontWeight.w600)
-                                                    ),
-                                        
-                                      ),
-                                       SizedBox(
-                                        width:MediaQuery.of(context).size.width / 9 ,
-                                        child:const Text(":"),
-                                        
-                                      ),
-                                      SizedBox(
-                                        height: 45,
-                                         width:MediaQuery.of(context).size.width / 3,
-                                         child: TextFormField(
-                                          readOnly: true,
-                                            textAlign: TextAlign.right,
-                                            style:const TextStyle(fontSize: 14),
-                                          controller: totalBudgetController,
-                                          decoration: InputDecoration(
-                                            
-                                            border: OutlineInputBorder(
-                                              borderSide:
-                                                  const BorderSide(color: Colors.white),
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
-                                          ),
-                                        )
-                                  
-                                  ),
-                                      
-    
-                                    ],
-                                  ),
-
-                         
-                                 const SizedBox(height: 10,),
-
-                              const  Text(
-                              "Budget breakdown*",
-                              style: TextStyle(
-                                 fontSize: 15,
-                                 color: Color.fromARGB(255, 0, 0, 0),
-                                 fontWeight: FontWeight.w600),
-                            ),
-                            Column(
-                              children: [
-                                BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,
-                                      onChanged: (value ) {  
-                                       // if(hallRentController.text){
-                                          totalBudget();
-                                          setState(() {
-                                            
-                                          });
-
-                                       // }
-
-                                      },
-                                      ),
-                                BudgetBreakDownRowWidget(rowNumber: "2.", reason:"Food Expense", controller: foodExpansesController, 
-                                         onChanged: (value ) {  
-                                      //  if(value.isNotEmpty){
-                                          totalBudget();
-                                          setState(() {
-                                            
-                                          });
-
-                                      //  }
-
-                                      },
-                                        ),
-                                BudgetBreakDownRowWidget(rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
-                                       onChanged: (value ) {  
-                                      //  if(value.isNotEmpty){
-                                          totalBudget();
-                                          setState(() {
-                                            
-                                          });
-
-                                       // }
-
-                                      },
-                                      ),
-                                BudgetBreakDownRowWidget(rowNumber: "4.", reason:"Speaker Gift or Souvenir) ", controller: giftController, 
-                                    onChanged: (value ) {  
-                                      //  if(value.isNotEmpty){
-                                          totalBudget();
-                                          setState(() {
-                                            
-                                          });
-
-                                      //  }
-
-                                      },
-                                    ),
-                                BudgetBreakDownRowWidget(rowNumber: "5.", reason:"Stationnaires or Others", controller: othersController, 
-                                     onChanged: (value ) {  
-                                      //  if(value.isNotEmpty){
-                                          totalBudget();
-                                          setState(() {
-                                            
-                                          });
-
-                                     //   }
-
-                                      },
-                                    ),
-                               
-                              ],
-                            ),
-                            
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            
-                            
-                          ],
+                      padding: const EdgeInsets.only(left: 6),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 1,
+                            color:const Color(0xff8AC995)
+                          ),
+                          borderRadius: BorderRadius.circular(50)
+                          
+                          
+                          
                         ),
+                        child: const Icon(Icons.person, size: 50, color: Color(0xff8AC995))),
+                    ),
+                    SizedBox(
+                      width: wholeWidth / 39.272,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${widget.docInfo["doc_name"]}|${widget.docInfo["degree"]}|${widget.docInfo["specialty"]}",
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "${widget.docInfo["address"]}|$territoryid",
+                            style: const TextStyle(
+                                fontSize: 12,
+                                color: Color.fromARGB(255, 64, 64, 64)),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "${widget.docInfo["mobile"]}",
+                            style: const TextStyle(
+                                 fontSize: 12,
+                                color: Color.fromARGB(255, 64, 64, 64)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: IconButton(
+                        icon: const Icon(Icons.edit,
+                            size: 20, color: Color(0xff8AC995)),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  scrollable: true,
+                                  title: Center(
+                                      child: Text(
+                                          "${widget.docInfo["doc_name"]}")),
+                                  content: SizedBox(
+                                    height: 150,
+                                    child: Form(
+                                      key: _form1Key,
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          const Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              "Mobile Number*",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                1.1,
+                                            height: 45,
+                                            child: TextFormField(
+                                              keyboardType: TextInputType.number,
+                                              inputFormatters: [
+                                                 FilteringTextInputFormatter
+                                                                        .allow(
+                                                                      RegExp(
+                                                                          "[A-Za-z0-9]"),
+                                                                    ),
+                                                FilteringTextInputFormatter.deny(
+                                                  RegExp(r'^\d{12,}$'),
+                                                ),
+                                              ],
+                                              validator: (value) {
+                                                if (value!.isEmpty) {
+                                                  return "Mobile Number is required";
+                                                }
+                                                if (value.length < 11 
+                                                    ) {
+                                                  return "Mobile Number should be  11  digits";
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: InkWell(
+                                                    child: Container(
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color:
+                                                            const Color.fromARGB(
+                                                                255,
+                                                                170,
+                                                                172,
+                                                                170),
+                                                      ),
+                                                      child: const Center(
+                                                          child: Text("Cancel",
+                                                              style: TextStyle(
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                              ))),
+                                                    ),
+                                                    onTap: () {
+                                                      // Navigator.pop(context);
+                                                      // doctorMobileNumberController
+                                                      //     .text = widget
+                                                      //         .docInfo[
+                                                      //     widget.index]["mobile"];
+                                                    }),
+                                              ),
+                                              const SizedBox(
+                                                width: 15,
+                                              ),
+                                              Expanded(
+                                                child: InkWell(
+                                                    child: Container(
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color:
+                                                            const Color.fromARGB(
+                                                                255, 44, 114, 66),
+                                                      ),
+                                                      child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
+                                                          child: Text("Update",
+                                                              style: TextStyle(
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                              ))),
+                                                    ),
+                                                    onTap: () async {
+                                                      // if (_form1Key.currentState!
+                                                      //     .validate()) {
+                                                      //   setState(() {
+                                                      //     isMobileUpdate = true;
+                                                      //   });
+                                                      //   bool result =
+                                                      //       await InternetConnectionChecker()
+                                                      //           .hasConnection;
+                                                      //   if (result == true) {
+                                                      //     Map<String, dynamic>
+                                                      //         responsData =
+                                                      //         await EDSRRepositories().getMobileNumberUpdation(
+                                                      //             dmpathData!
+                                                      //                 .submitUrl,
+                                                      //             cid!,
+                                                      //             userInfo!
+                                                      //                 .userId,
+                                                      //             userPassword,
+                                                      //             widget.docInfo[
+                                                      //                     widget
+                                                      //                         .index]
+                                                      //                 ["doc_id"],
+                                                      //             doctorType!,
+                                                      //             doctorMobileNumberController
+                                                      //                 .text,
+                                                      //             widget.docInfo[
+                                                      //                     widget
+                                                      //                         .index]
+                                                      //                 [
+                                                      //                 "area_id"]);
+                                                      //     if (responsData
+                                                      //         .isNotEmpty) {
+                                                      //       if (responsData[
+                                                      //               "status"] ==
+                                                      //           "Success") {
+                                                      //         widget.docInfo[widget
+                                                      //                     .index]
+                                                      //                 ["mobile"] =
+                                                      //             doctorMobileNumberController
+                                                      //                 .text;
+                                                      //         setState(() {
+                                                      //           isMobileUpdate =
+                                                      //               false;
+                                                      //         });
+                                                      //         AllServices()
+                                                      //             .toastMessage(
+                                                      //                 responsData[
+                                                      //                     "ret_str"],
+                                                      //                 Colors
+                                                      //                     .green,
+                                                      //                 Colors
+                                                      //                     .white,
+                                                      //                 14);
+          
+                                                      //         if (!mounted) {
+                                                      //           return;
+                                                      //         }
+                                                      //         Navigator.pop(
+                                                      //             context);
+                                                      //       } else {
+                                                      //         setState(() {
+                                                      //           isMobileUpdate =
+                                                      //               false;
+                                                      //         });
+                                                      //         AllServices()
+                                                      //             .toastMessage(
+                                                      //                 responsData[
+                                                      //                     "ret_str"],
+                                                      //                 Colors.red,
+                                                      //                 Colors
+                                                      //                     .white,
+                                                      //                 14);
+                                                      //       }
+                                                      //     } else {
+                                                      //       setState(() {
+                                                      //         isMobileUpdate =
+                                                      //             false;
+                                                      //       });
+                                                      //     }
+                                                      //   } else {
+                                                      //     setState(() {
+                                                      //       isMobileUpdate =
+                                                      //           false;
+                                                      //     });
+                                                      //     AllServices()
+                                                      //         .toastMessage(
+                                                      //             interNetErrorMsg,
+                                                      //             Colors.red,
+                                                      //             Colors.white,
+                                                      //             16);
+                                                      //   }
+                                                      // }
+                                                    }),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
                       ),
                     )
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              isLoading == false
-                  ? SizedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: InkWell(
-                                child: Container(
-                                  height: 55,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: const Border(
-                                        top: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        bottom: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        left: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                        right: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 44, 114, 66),
-                                          width: 2,
-                                        ),
-                                      )),
-                                  child: const Center(
-                                      child: Text("Cancel",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 44, 114, 66),
-                                          ))),
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
+                SizedBox(
+                  height: wholeHeight / 25.309,
+                ),
+                SizedBox(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "e-CME Type*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: InkWell(
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Container(
+                                       width: MediaQuery.of(context).size.width / 1.1,
+                                         height: 45,
+                                    decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+                                    ),
+                                    child:   DropdownButtonHideUnderline(
+                                              child: DropdownButton2(
+                                                isExpanded: true,
+                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                                  hint: const Text(
+                                                    '  Select e-CME Type',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  items: eCMETypeList.map((String item) {
+                                                    return DropdownMenuItem(
+                                                      value: item, 
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 8),
+                                                        child: Text(
+                                                          item,
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  value: selectedECMEType,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      selectedECMEType = value; 
+                                                    });
+                                                  },
+                                                  
+                                                 
+                                                  
+                                                buttonHeight: 50,
+                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
+                                                itemHeight: 40,
+                                                dropdownMaxHeight: 252,
+                                                searchController: brandSelectedController,
+                                                searchInnerWidgetHeight: 50,
+                                                searchInnerWidget: Container(
+                                                  height: 50,
+                                                  padding: const EdgeInsets.only(
+                                                    top: 8,
+                                                    bottom: 4,
+                                                    right: 8,
+                                                    left: 8,
+                                                  ),
+                                                  child: TextFormField(
+                                                    expands: true,
+                                                    maxLines: null,
+                                                    controller: brandSelectedController,
+                                                    decoration: InputDecoration(
+                                                      fillColor: Colors.transparent,
+                                                      filled: true,
+                                                      isDense: true,
+                                                      contentPadding: const EdgeInsets.symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 8,
+                                                      ),
+                                                      hintText: '  Search e-CME Type...',
+                                                      hintStyle: const TextStyle(fontSize: 14),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                searchMatchFn: (item, searchValue) {
+                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                                },
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    brandSelectedController.clear();
+                                                  }
+                                                },
+                                                
+                                              ),
+                                            )
+                                                                                    
+                                
+                                ),
+                                  const SizedBox(
+                                height: 10,
+                              ),
+                               const Text(
+                                "Meeting Date*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                    
+                                    
+                                      controller: initialValue(selectedExpiredDateString), 
+                                      textAlign: TextAlign.left, 
+                                      suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
+                                      textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 82, 179, 98),), 
+                                      onChanged: (String value) {
+                                        setState(() {});
+                                        selectedExpiredDateString  = value;
+                                      },
+          
+                                      onTap: () {
+                                         pickDate();
+                                        },
+                                      focusNode: AlwaysDisabledFocusNode(), 
+                                      hinText: "",
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                height: 10,
+                                  ) ,
+                             const Text(
+                                "Doctor Category*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Container(
+                                       width: MediaQuery.of(context).size.width / 1.1,
+                                         height: 45,
+                                    decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+                                    ),
+                                    child:   DropdownButtonHideUnderline(
+                                              child: DropdownButton2(
+                                                isExpanded: true,
+                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                                  hint: const Text(
+                                                    ' Select Doctor Category',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  items: ["Institution","KOL Hub or GP Area","Society"].map((String item) {
+                                                    return DropdownMenuItem(
+                                                      value: item, 
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 8),
+                                                        child: Text(
+                                                          item,
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  value: selcetDoctorCategory,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      selcetDoctorCategory = value; 
+                                                    });
+                                                  },
+                                                buttonHeight: 50,
+                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
+                                                itemHeight: 40,
+                                                dropdownMaxHeight: 252,
+                                                searchController: brandSelectedController,
+                                                searchInnerWidgetHeight: 50,
+                                                searchInnerWidget: Container(
+                                                  height: 50,
+                                                  padding: const EdgeInsets.only(
+                                                    top: 8,
+                                                    bottom: 4,
+                                                    right: 8,
+                                                    left: 8,
+                                                  ),
+                                                  child: TextFormField(
+                                                    expands: true,
+                                                    maxLines: null,
+                                                    controller: brandSelectedController,
+                                                    decoration: InputDecoration(
+                                                      fillColor: Colors.transparent,
+                                                      filled: true,
+                                                      isDense: true,
+                                                      contentPadding: const EdgeInsets.symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 8,
+                                                      ),
+                                                      hintText: '  Search e-CME Type...',
+                                                      hintStyle: const TextStyle(fontSize: 14),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                searchMatchFn: (item, searchValue) {
+                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                                },
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    brandSelectedController.clear();
+                                                  }
+                                                },
+                                                
+                                              ),
+                                            )
+                                                                                    
+                                
+                               ),
+                               selcetDoctorCategory=="Institution"? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                 const SizedBox(height: 10,),
+                                  const Text(
+                                "Institution Name*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                             hinText: '----Enter Institution Name----',
+                                              controller: institutionController,
+                                              textAlign: TextAlign.left, 
+                                              textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                              focusNode: AlwaysDisabledFocusNode(),
+                                            ),
+                                 
+                                  ),
+                                  const SizedBox(
+                                height: 10,
+                              ),
+                                  const Text(
+                                "Department*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                      hinText: '----Enter Department---',
+                                      controller: departmentController,
+                                      textAlign: TextAlign.left, 
+                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                    ),
+                                 
+                                ),
+                                ],
+                               ): const SizedBox(),
+                               const SizedBox(height: 10,),
+                                const Text(
+                                "Meeting venue*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                              hinText: '----Enter Meeting Venue----',
+                                              controller: meetingVenueController,
+                                              textAlign: TextAlign.left, 
+                                              textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                              focusNode: AlwaysDisabledFocusNode(),
+                                            ),
+                                 
+                                  ),
+                                  const SizedBox(
+                                height: 10,
+                              ),
+                                  const Text(
+                                "Meeting Topic*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                      hinText: '----Enter Meeting Topic----',
+                                      controller: meetingProbaleSpeakerController,
+                                      textAlign: TextAlign.left, 
+                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                    ),
+                                 
+                                ),
+                              SizedBox(
+                                height: wholeHeight / 75.927,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Brand",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    width: wholeWidth / 1.45,
+                                  ),
+                                  brandAddWidget(wholeHeight, wholeWidth, context)
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              dynamicRowsListForBrand.isNotEmpty
+                                  ? brandDetailsWidget(wholeWidth, wholeHeight)
+                                  : const SizedBox(),
+                                 const SizedBox(height: 10,),
+                            
+                              const SizedBox(
+                                height: 10,
+                              ),
+                                  const Text(
+                                "Probable Speaker Name",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                     hinText: '----Enter Speaker Name----',
+                                      controller: probaleSpeakerController,
+                                      textAlign: TextAlign.left, 
+                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                height: 10,
+                              ),
+          
+                                  const Text(
+                                "Probable Speaker Designation",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                       hinText: '----Enter Speaker Designation----',
+                                      controller: probaleSpeakerInstituteController,
+                                      textAlign: TextAlign.left, 
+                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                height: 10,
+                              ),
+          
+                              Row(
+                               children: [
+                                        
+                                        SizedBox(
+                                          width:MediaQuery.of(context).size.width /2.15 ,
+                                          child:const Text("Total numbers of participants*",
+                                                style: TextStyle(
+                                                fontSize: 15,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                                fontWeight: FontWeight.w600)
+                                                      ),
+                                          
+                                        ),
+                                         SizedBox(
+                                          width:MediaQuery.of(context).size.width / 9 ,
+                                          child:const Text(":"),
+                                          
+                                        ),
+                                        SizedBox(
+                                          height: 45,
+                                           width:MediaQuery.of(context).size.width / 3,
+                                           child:TextFormField(
+                                            controller: totalNumberOfParticiController,
+                                            textAlign: TextAlign.right,
+                                            style:const TextStyle(fontSize: 14),
+                                            inputFormatters: [
+                                                FilteringTextInputFormatter.digitsOnly
+                                              ],
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                borderSide:
+                                                    const BorderSide(color: Colors.white),
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                          )
+                                     
+                                         ),
+                                      
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    Row(
+                                      children: [
+                                        
+                                        SizedBox(
+                                          width:MediaQuery.of(context).size.width /2.15 ,
+                                          child:const Text("Total budget*",
+                                                style: TextStyle(
+                                                fontSize: 15,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                                fontWeight: FontWeight.w600)
+                                                      ),
+                                          
+                                        ),
+                                         SizedBox(
+                                          width:MediaQuery.of(context).size.width / 9 ,
+                                          child:const Text(":"),
+                                          
+                                        ),
+                                        SizedBox(
+                                          height: 45,
+                                           width:MediaQuery.of(context).size.width / 3,
+                                           child: TextFormField(
+                                            readOnly: true,
+                                              textAlign: TextAlign.right,
+                                              style:const TextStyle(fontSize: 14),
+                                            controller: totalBudgetController,
+                                            decoration: InputDecoration(
+                                              
+                                              border: OutlineInputBorder(
+                                                borderSide:
+                                                    const BorderSide(color: Colors.white),
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                          )
+                                    
+                                    ),
+                                        
+              
+                                      ],
+                                    ),
+          
+                           
+                                   const SizedBox(height: 10,),
+          
+                                const  Text(
+                                "Budget breakdown*",
+                                style: TextStyle(
+                                   fontSize: 15,
+                                   color: Color.fromARGB(255, 0, 0, 0),
+                                   fontWeight: FontWeight.w600),
+                              ),
+                              Column(
+                                children: [
+                                  BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,
+                                        onChanged: (value ) {  
+                                            totalBudget();
+                                            setState(() {
+                                            });
+                                        },
+                                        validator: (value){
+                                          if(value ==null || value.isEmpty){
+                                            return "No Hall rent amount found";
+          
+                                          }
+                                          return null;
+                                         }
+                                        ),
+                                  BudgetBreakDownRowWidget(rowNumber: "2.", reason:"Food Expense", controller: foodExpansesController, 
+                                           onChanged: (value ) {  
+                                            totalBudget();
+                                            setState(() {
+                                            });
+                                            },
+                                            validator: (value){
+                                              if(value ==null || value.isEmpty){
+                                            return "No Food Expense amount found";
+          
+                                          }
+                                          return null;
+                                         }
+                                          ),
+                                  BudgetBreakDownRowWidget(rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
+                                         onChanged: (value ) {  
+                                            totalBudget();
+                                            setState(() { 
+                                            });
+                                          },
+                                          validator: (value){
+                                              if(value ==null || value.isEmpty){
+                                            return "Cost per Amount not found";
+          
+                                          }
+                                          return null;
+                                         }
+                                        ),
+                                  BudgetBreakDownRowWidget(rowNumber: "4.", reason:"Speaker Gift or Souvenir) ", controller: giftController, 
+                                      onChanged: (value ) {  
+                                            totalBudget();
+                                            setState(() {
+                                            });
+          
+                                           },
+                                           validator: (value){
+                                              if(value ==null || value.isEmpty){
+                                                return "Cost for gift amount not found";
+                                              }
+                                              return null;
+                                         }
+                                      ),
+                                  BudgetBreakDownRowWidget(rowNumber: "5.", reason:"Stationnaires or Others", controller: othersController, 
+                                       onChanged: (value ) {  
+                                            totalBudget();
+                                            setState(() {
+                                            });
+                                        },
+                                         validator: (value){
+                                              if(value ==null || value.isEmpty){
+                                                return "Cost for Stationnaires amount not found";
+                                              }
+                                              return null;
+                                         }
+                                      ),
+                                 
+                                ],
+                              ),
+                              
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              
+                              
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                isLoading == false
+                    ? SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: InkWell(
                                   child: Container(
                                     height: 55,
-                                    //width: 160,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: const Color.fromARGB(
-                                          255, 44, 114, 66),
-                                    ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: const Border(
+                                          top: BorderSide(
+                                            color:
+                                                Color.fromARGB(255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                          bottom: BorderSide(
+                                            color:
+                                                Color.fromARGB(255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                          left: BorderSide(
+                                            color:
+                                                Color.fromARGB(255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                          right: BorderSide(
+                                            color:
+                                                Color.fromARGB(255, 44, 114, 66),
+                                            width: 2,
+                                          ),
+                                        )),
                                     child: const Center(
-                                        child: Text("Preview",
+                                        child: Text("Cancel",
                                             style: TextStyle(
                                               color: Color.fromARGB(
-                                                  255, 255, 255, 255),
+                                                  255, 44, 114, 66),
                                             ))),
                                   ),
-                                  onTap: () async {
-
-                                    // getbrandString() != ""
-                                    //     ? widget.docInfo[widget.index]
-                                    //                 ["area_id"] !=
-                                    //             ""
-                                    //         ? widget.docInfo[widget.index]
-                                    //                     ["doc_id"] !=
-                                    //                 ""
-                                    //             ? widget.docInfo[widget.index]
-                                    //                         ["doc_name"] !=
-                                    //                     ""
-                                    //                 ? initialCategory != null
-                                    //                     ? initialCategory !=
-                                    //                             null
-                                    //                         ? purposeId != ""
-                                    //                             ? subPurposeId !=
-                                    //                                     ""
-                                    //                                 ? addDescriptionController.text !=
-                                    //                                         ""
-                                    //                                     ? rxFromDate !=
-                                    //                                             ""
-                                    //                                         ? rxToDate != ""
-                                    //                                             ? initialPaySchdedule != null
-                                    //                                                 ? dsrFromdate != ""
-                                    //                                                     ? dsrTodate != ""
-                                    //                                                         ? noOfPatientController.text .toString().trim().isNotEmpty
-                                    //                                                             ? initialIssueMode != null
-                                    //                                                                 ? isCheck == true
-                                    //                                                                     ? issueToController.text.toString().trim().isNotEmpty
-                                    //                                                                         ? readyForPreviewMethod()
-                                    //                                                                         : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                    //                                                                     : readyForPreviewMethod()
-                                    //                                                                 : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
-                                    //                                                             : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
-                                    //                                                         : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
-                                    //                      0                               : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
-                                    //                                                 : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
-                                    //                                             : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
-                                    //                                         : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
-                                    //                                     : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
-                                    //                                 : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
-                                    //                             : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
-                                    //                         : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                    //                     : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                    //                 : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
-                                    //             : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
-                                    //         : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
-                                    //     : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
-                                  }),
-                            ),
-                          ],
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                    child: Container(
+                                      height: 55,
+                                      //width: 160,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: const Color.fromARGB(
+                                            255, 44, 114, 66),
+                                      ),
+                                      child: const Center(
+                                          child: Text("Preview",
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 255, 255, 255),
+                                              ))),
+                                    ),
+                                    onTap: () async {
+                                      if(_form1Key.currentState!.validate()){
+                                        print("ami validate");
+          
+                                      }
+                                      
+          
+          
+          
+                                      // getbrandString() != ""
+                                      //     ? widget.docInfo[widget.index]
+                                      //                 ["area_id"] !=
+                                      //             ""
+                                      //         ? widget.docInfo[widget.index]
+                                      //                     ["doc_id"] !=
+                                      //                 ""
+                                      //             ? widget.docInfo[widget.index]
+                                      //                         ["doc_name"] !=
+                                      //                     ""
+                                      //                 ? initialCategory != null
+                                      //                     ? initialCategory !=
+                                      //                             null
+                                      //                         ? purposeId != ""
+                                      //                             ? subPurposeId !=
+                                      //                                     ""
+                                      //                                 ? addDescriptionController.text !=
+                                      //                                         ""
+                                      //                                     ? rxFromDate !=
+                                      //                                             ""
+                                      //                                         ? rxToDate != ""
+                                      //                                             ? initialPaySchdedule != null
+                                      //                                                 ? dsrFromdate != ""
+                                      //                                                     ? dsrTodate != ""
+                                      //                                                         ? noOfPatientController.text .toString().trim().isNotEmpty
+                                      //                                                             ? initialIssueMode != null
+                                      //                                                                 ? isCheck == true
+                                      //                                                                     ? issueToController.text.toString().trim().isNotEmpty
+                                      //                                                                         ? readyForPreviewMethod()
+                                      //                                                                         : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
+                                      //                                                                     : readyForPreviewMethod()
+                                      //                                                                 : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
+                                      //                                                             : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
+                                      //                                                         : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
+                                      //                      0                               : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
+                                      //                                                 : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
+                                      //                                             : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
+                                      //                                         : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
+                                      //                                     : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
+                                      //                                 : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
+                                      //                             : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
+                                      //                         : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                      //                     : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
+                                      //                 : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
+                                      //             : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
+                                      //         : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
+                                      //     : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
+                                    }),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  : const CircularProgressIndicator()
-            ],
+                      )
+                    : const CircularProgressIndicator()
+              ],
+            ),
           ),
         ),
       ),
@@ -1857,8 +1859,8 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     final newDate = await showDatePicker(
       context: context,
       initialDate:selectedExpiredDate,
-      firstDate: DateTime(DateTime.now().year - 100),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate:  DateTime(DateTime.now().year + 100),
       builder: (context, child) {
         return Theme(
           data: ThemeData.light().copyWith(

@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BudgetBreakDownRowWidget extends StatelessWidget {
   String rowNumber;
   String reason;
   TextEditingController controller;
   void Function(String)? onChanged;
+  String? Function(String?)? validator;
 
    BudgetBreakDownRowWidget({
     super.key,
     required this.rowNumber,
     required this.reason,
     required this.controller,
-    required this.onChanged
+    required this.onChanged,
+    required this.validator
     });
 
   @override
@@ -39,10 +42,14 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                         height: 45,
                                          width:MediaQuery.of(context).size.width / 3,
                                         child: TextFormField(
+                                          inputFormatters: [
+                                             FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
+                                          ],
                                           textAlign: TextAlign.right,
                                           style:const TextStyle(fontSize: 14, color: Colors.black),
                                           controller: controller,
                                           decoration: InputDecoration(
+                                           // helperStyle: const TextStyle(),
                                             border: OutlineInputBorder(
                                               borderSide:
                                                   const BorderSide(
@@ -52,6 +59,8 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                             ),
                                           ),
                                           onChanged:  onChanged,
+                                          validator: validator,
+                                          
                                   
                                      ),
                                   

@@ -214,27 +214,29 @@ class _EachBtachItemWidgetState extends State<EachBtachItemWidget> {
                         
                             
                              },)) :Expanded(child: ConfirmButtonWidget(buttonHeight: 50, fontColor: Colors.white, buttonName: "Add", fontSize: 16, 
-                         onTapFuction: () {
-                          if(batchcontroller.text!="" && qtyController.text !=""){
-                           final item= BatchWiseItemListModel(batchId:batchcontroller.text , expiredDateTime: selectedExpiredDate, expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
-                            widget.batchWiseItemSaved=item;
-                            widget.callbackFunction(widget.batchWiseItemSaved!);
-                            Navigator.pop(context);
-                          }
-                          else if(batchcontroller.text=="" ||  qtyController.text ==""){
-                            if(batchcontroller.text==""){
-                              AllServices().toastMessageForSubmitData("Please enter batch id ", Colors.red, Colors.white, 15);
-                            }
-                            else{
-                              AllServices().toastMessageForSubmitData("Please enter unit quantity ", Colors.red, Colors.white, 15);
-                            }
-                          }
-                          else{
-                            AllServices().toastMessageForSubmitData("Please fill up all information", Colors.red, Colors.white, 15);
-                          }
-                        
-                            
-                             },))
+                                        onTapFuction: () {
+                                          if(batchcontroller.text!="" && qtyController.text !=""){
+                                          final item= BatchWiseItemListModel(batchId:batchcontroller.text , expiredDateTime: selectedExpiredDate, expiredDate: selectedExpiredDateString, unitQty: qtyController.text);
+                                            widget.batchWiseItemSaved=item;
+                                            widget.callbackFunction(widget.batchWiseItemSaved!);
+                                            Navigator.pop(context);
+                                          }
+                                          else if(batchcontroller.text=="" ||  qtyController.text ==""){
+                                            if(batchcontroller.text==""){
+                                              AllServices().toastMessageForSubmitData("Please enter batch id ", Colors.red, Colors.white, 15);
+                                            }
+                                            else{
+                                              AllServices().toastMessageForSubmitData("Please enter unit quantity ", Colors.red, Colors.white, 15);
+                                            }
+                                          }
+                                          else{
+                                            AllServices().toastMessageForSubmitData("Please fill up all information", Colors.red, Colors.white, 15);
+                                          }
+                                        
+                                            
+                                            },
+                             
+                             ))
                          
                            
                           ],

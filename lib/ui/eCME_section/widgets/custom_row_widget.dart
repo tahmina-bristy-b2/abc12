@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class BudgetBreakDownRowWidget extends StatelessWidget {
+  String routingName;
   String rowNumber;
   String reason;
   TextEditingController controller;
@@ -10,6 +11,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
 
    BudgetBreakDownRowWidget({
     super.key,
+    required this.routingName,
     required this.rowNumber,
     required this.reason,
     required this.controller,
@@ -39,17 +41,19 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                         
                                       ),
                                       SizedBox(
-                                        height: 45,
+                                        height: 50,
                                          width:MediaQuery.of(context).size.width / 3,
                                         child: TextFormField(
-                                          inputFormatters: [
+                                          readOnly:rowNumber=="3"? true:false ,
+                                          inputFormatters:routingName=="participants"? [
+                                             FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                          ]:[
                                              FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
                                           ],
                                           textAlign: TextAlign.right,
                                           style:const TextStyle(fontSize: 14, color: Colors.black),
                                           controller: controller,
                                           decoration: InputDecoration(
-                                           // helperStyle: const TextStyle(),
                                             border: OutlineInputBorder(
                                               borderSide:
                                                   const BorderSide(

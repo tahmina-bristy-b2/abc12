@@ -40,13 +40,10 @@ class _ExpiredIteminputShowDialogScreenState extends State<ExpiredIteminputShowD
     selectedExpiredDateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
     if(widget.expiredItemSubmitModel!=null){
       for (var element in widget.expiredItemSubmitModel!.batchWiseItem) {
-           batchWiseItemSaved.add(element);
-         
+           batchWiseItemSaved.add(element);  
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

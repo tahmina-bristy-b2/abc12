@@ -51,6 +51,11 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController othersController = TextEditingController();
   TextEditingController institutionController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
+  TextEditingController rxObjectiveperDayController = TextEditingController();
+  TextEditingController internDoctorController = TextEditingController();
+  TextEditingController dmfDoctorController = TextEditingController();
+  TextEditingController nursesController = TextEditingController();
+  TextEditingController doctorParticipantCount = TextEditingController();
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
   
@@ -79,6 +84,8 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   bool isLoading = false;
   bool isAPC = false;
   bool isCheck = false;
+  double totalBudget=0.0;
+  int noIfparticipants=0;
   final RegExp phoneRegex = RegExp(r'^\d{13}$');
   bool isMobileUpdate = false;
   List<String> eCMETypeList=[];
@@ -144,13 +151,37 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     return uniqueBrandMap.values.toList();
   }
 
-
   //============================ total budget =========================
-   double totalBudget(){
-    double totalBudget= double.parse(hallRentController.text.toString()==""?"0.0":hallRentController.text.toString())+double.parse(foodExpansesController.text.toString()==""?"0.0":foodExpansesController.text.toString())+ double.parse(costperDoctorController.text.toString()==""?"0.0":costperDoctorController.text.toString())+double.parse(giftController.text.toString()==""?"0.0":giftController.text.toString())+double.parse(othersController.text.toString()==""?"0.0":othersController.text.toString()); 
+   double getTotalBudget(){
+    totalBudget=0;
+    totalBudget = double.parse(hallRentController.text.toString()==""?"0.0":hallRentController.text.toString())+double.parse(foodExpansesController.text.toString()==""?"0.0":foodExpansesController.text.toString())+ double.parse(costperDoctorController.text.toString()==""?"0.0":costperDoctorController.text.toString())+double.parse(giftController.text.toString()==""?"0.0":giftController.text.toString())+double.parse(othersController.text.toString()==""?"0.0":othersController.text.toString()); 
     totalBudgetController.text=totalBudget.toStringAsFixed(2);
-    print(totalBudget);
+    getCostPerDoctor();
     return totalBudget;
+   }
+
+    //============================ total Numbers of participants =========================
+   int totalParticipants(){
+    noIfparticipants= int.parse(hallRentController.text.toString()==""?
+    "0":hallRentController.text.toString())+
+    int.parse(doctorParticipantCount.text.toString()==""?"0":doctorParticipantCount.text.toString())+
+     int.parse(internDoctorController.text.toString()==""?"0":internDoctorController.text.toString())+
+     int.parse(dmfDoctorController.text.toString()==""?"0":dmfDoctorController.text.toString())+
+     int.parse(nursesController.text.toString()==""?"0":nursesController.text.toString()); 
+     getCostPerDoctor();
+    // if(getCostPerDoctor()<450000)
+     return noIfparticipants;
+   }
+
+   //============================== Cost per doctor ======================================
+   double getCostPerDoctor(){
+    if(totalBudget>0.0){
+      double costPerDoctor= totalBudget/noIfparticipants;
+      costperDoctorController.text= costPerDoctor.toStringAsFixed(2);
+
+      return costPerDoctor;
+    }
+    return 0.0 ;
    }
 
   @override
@@ -904,13 +935,13 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   const SizedBox(
                                 height: 10,
                               ),
-          
+
                               Row(
                                children: [
                                         
                                         SizedBox(
                                           width:MediaQuery.of(context).size.width /2.15 ,
-                                          child:const Text("Total numbers of participants*",
+                                          child:const Text("Rx Objective per day*",
                                                 style: TextStyle(
                                                 fontSize: 15,
                                                 color: Color.fromARGB(255, 0, 0, 0),
@@ -927,7 +958,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                           height: 45,
                                            width:MediaQuery.of(context).size.width / 3,
                                            child:TextFormField(
-                                            controller: totalNumberOfParticiController,
+                                            controller: rxObjectiveperDayController,
                                             textAlign: TextAlign.right,
                                             style:const TextStyle(fontSize: 14),
                                             inputFormatters: [
@@ -947,7 +978,87 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       ],
                                     ),
                                     const SizedBox(height: 10,),
-                                    Row(
+                                  selectedECMEType=="Clinical Meeting" ? Row(
+                                    children: [
+                                        
+                                        SizedBox(
+                                          width:MediaQuery.of(context).size.width /2.15 ,
+                                          child:const Text("Total numbers of participants",
+                                                style: TextStyle(
+                                                fontSize: 15,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                                fontWeight: FontWeight.w600)
+                                                      ),
+                                          
+                                        ),
+                                         SizedBox(
+                                          width:MediaQuery.of(context).size.width / 9 ,
+                                          child:const Text(":"),
+                                          
+                                        ),
+                                         Align(
+                                          alignment: Alignment.centerRight,
+                                          child: SizedBox(
+                                            width:MediaQuery.of(context).size.width / 3 ,
+                                            child: Text(totalParticipants().toString()))
+                                          ),
+                                      
+                                      
+                                      ],
+                                    ):const SizedBox(),
+                                    
+                             selectedECMEType=="Clinical Meeting" ?  Column(
+                                children: [
+                                  BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors ", controller: doctorParticipantCount,
+                                        onChanged: (value ) {  
+                                           totalParticipants();
+                                            setState(() {
+                                            });
+                                        },
+                                         validator: null,
+                                          routingName: 'participants',
+                                        ),
+                                  BudgetBreakDownRowWidget(routingName: 'participants',
+                                    rowNumber: "2.", reason:"Intern Doctors", controller: internDoctorController, 
+                                           onChanged: (value ) {  
+                                            totalParticipants();
+                                            setState(() {
+                                            });
+                                            },
+                                            validator: null,
+                                          ),
+                                  BudgetBreakDownRowWidget(routingName: 'participants',
+                                    rowNumber: "3.", reason:"DMF doctors ", controller: dmfDoctorController, 
+                                         onChanged: (value ) {  
+                                            totalParticipants();
+                                            setState(() { 
+                                            });
+                                          },
+                                           validator: null,
+                                     
+                                        ),
+                                  BudgetBreakDownRowWidget(routingName: 'participants',
+                                    rowNumber: "4.", reason:"Nurses ", controller: nursesController, 
+                                      onChanged: (value ) {  
+                                           totalParticipants();
+                                            setState(() {
+                                            });
+          
+                                           },
+                                            validator: null,
+                                       
+                                      ),
+                                 
+                                 
+                                ],
+                              ) :const SizedBox(),
+                              
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                                  
+                              ( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )?     Row(
                                       children: [
                                         
                                         SizedBox(
@@ -987,95 +1098,110 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                         
               
                                       ],
-                                    ),
+                                    ):const SizedBox(),
           
                            
-                                   const SizedBox(height: 10,),
+                                    SizedBox(height:( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )? 10:0),
           
-                                const  Text(
+                            ( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )?    const  Text(
                                 "Budget breakdown*",
                                 style: TextStyle(
                                    fontSize: 15,
                                    color: Color.fromARGB(255, 0, 0, 0),
                                    fontWeight: FontWeight.w600),
-                              ),
-                              Column(
+                              ) :const SizedBox(),
+                            ( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )?  Column(
                                 children: [
-                                  BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,
+                                  BudgetBreakDownRowWidget(
+                                    routingName: 'budget',
+                                    rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,
                                         onChanged: (value ) {  
-                                            totalBudget();
+                                            getTotalBudget();
                                             setState(() {
                                             });
                                         },
-                                        validator: (value){
-                                          if(value ==null || value.isEmpty){
-                                            return "No Hall rent amount found";
+                                         validator: null,
+                                        // validator: (value){
+                                        //   if(value ==null || value.isEmpty){
+                                        //     return "No amount found";
           
-                                          }
-                                          return null;
-                                         }
+                                        //   }
+                                        //   return null;
+                                        //  }
                                         ),
-                                  BudgetBreakDownRowWidget(rowNumber: "2.", reason:"Food Expense", controller: foodExpansesController, 
+                                  BudgetBreakDownRowWidget(
+                                       routingName: 'budget',
+                                    rowNumber: "2.", reason:"Food Expense", controller: foodExpansesController, 
                                            onChanged: (value ) {  
-                                            totalBudget();
+                                            getTotalBudget();
                                             setState(() {
                                             });
                                             },
-                                            validator: (value){
-                                              if(value ==null || value.isEmpty){
-                                            return "No Food Expense amount found";
+                                             validator: null,
+                                        //     validator: (value){
+                                        //       if(value ==null || value.isEmpty){
+                                        //     return "No amount found";
           
-                                          }
-                                          return null;
-                                         }
+                                        //   }
+                                        //   return null;
+                                        //  }
                                           ),
-                                  BudgetBreakDownRowWidget(rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
+                                  BudgetBreakDownRowWidget(
+                                       routingName: 'budget',
+                                    rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
                                          onChanged: (value ) {  
-                                            totalBudget();
+                                            getTotalBudget();
                                             setState(() { 
                                             });
                                           },
-                                          validator: (value){
-                                              if(value ==null || value.isEmpty){
-                                            return "Cost per Amount not found";
+                                           validator: null,
+                                        //   validator: (value){
+                                        //       if(value ==null || value.isEmpty){
+                                        //     return "No amount found";
           
-                                          }
-                                          return null;
-                                         }
+                                        //   }
+                                        //   return null;
+                                        //  }
                                         ),
-                                  BudgetBreakDownRowWidget(rowNumber: "4.", reason:"Speaker Gift or Souvenir) ", controller: giftController, 
+                                  BudgetBreakDownRowWidget(
+                                       routingName: 'budget',
+                                    rowNumber: "4.", reason:"Speaker Gift or Souvenir) ", controller: giftController, 
                                       onChanged: (value ) {  
-                                            totalBudget();
+                                            getTotalBudget();
                                             setState(() {
                                             });
           
                                            },
-                                           validator: (value){
-                                              if(value ==null || value.isEmpty){
-                                                return "Cost for gift amount not found";
-                                              }
-                                              return null;
-                                         }
+                                            validator: null,
+                                        //    validator: (value){
+                                        //       if(value ==null || value.isEmpty){
+                                        //         return "No amount found";
+                                        //       }
+                                        //       return null;
+                                        //  }
                                       ),
-                                  BudgetBreakDownRowWidget(rowNumber: "5.", reason:"Stationnaires or Others", controller: othersController, 
+                                  BudgetBreakDownRowWidget(
+                                       routingName: 'budget',
+                                    rowNumber: "5.", reason:"Stationnaires or Others", controller: othersController, 
                                        onChanged: (value ) {  
-                                            totalBudget();
+                                            getTotalBudget();
                                             setState(() {
                                             });
                                         },
-                                         validator: (value){
-                                              if(value ==null || value.isEmpty){
-                                                return "Cost for Stationnaires amount not found";
-                                              }
-                                              return null;
-                                         }
+                                         validator: null,
+                                        //  validator: (value){
+                                        //       if(value ==null || value.isEmpty){
+                                        //         return "No amount found";
+                                        //       }
+                                        //       return null;
+                                        //  }
                                       ),
                                  
                                 ],
-                              ),
+                              ) :const SizedBox(),
                               
-                              const SizedBox(
-                                height: 10,
+                               SizedBox(
+                                height:( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )? 10 :0,
                               ),
                               
                               
@@ -1158,7 +1284,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                     ),
                                     onTap: () async {
                                       if(_form1Key.currentState!.validate()){
-                                        print("ami validate");
+                                        //print("ami validate");
           
                                       }
                                       

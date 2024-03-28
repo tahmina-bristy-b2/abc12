@@ -56,6 +56,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController dmfDoctorController = TextEditingController();
   TextEditingController nursesController = TextEditingController();
   TextEditingController doctorParticipantCount = TextEditingController();
+  TextEditingController eCMEAmountForRMPController = TextEditingController();
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
   
@@ -859,12 +860,12 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                               SizedBox(
                                 height: wholeHeight / 75.927,
                               ),
-                              Row(
+                            (selectedECMEType=="RMP Meeting" || selectedECMEType=="Clinical Meeting")?   Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "Brand",
-                                    style: TextStyle(
+                                   Text(
+                                    selectedECMEType=="RMP Meeting"?    "Brand" :"e-CME Amount",
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
@@ -872,20 +873,35 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   SizedBox(
                                     width: wholeWidth / 1.45,
                                   ),
-                                  brandAddWidget(wholeHeight, wholeWidth, context)
+                               selectedECMEType=="RMP Meeting"?   brandAddWidget(wholeHeight, wholeWidth, context): const SizedBox()
                                 ],
-                              ),
-                              const SizedBox(
+                              ) :const SizedBox(),
+                             selectedECMEType=="Clinical Meeting"? const SizedBox(
+                                height: 6,
+                              ) :const SizedBox(),
+                             selectedECMEType=="Clinical Meeting"?   SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                     hinText: '----Enter e-CME Amount ----',
+                                      controller: eCMEAmountForRMPController,
+                                      textAlign: TextAlign.left, 
+                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                    ),
+                                  ) :const SizedBox(),
+                                  const SizedBox(
                                 height: 10,
                               ),
-                              dynamicRowsListForBrand.isNotEmpty
+                             (selectedECMEType=="RMP Meeting" && dynamicRowsListForBrand.isNotEmpty)
                                   ? brandDetailsWidget(wholeWidth, wholeHeight)
                                   : const SizedBox(),
                                  const SizedBox(height: 10,),
                             
-                              const SizedBox(
+                            (selectedECMEType=="RMP Meeting" && dynamicRowsListForBrand.isNotEmpty)
+                                  ?    const SizedBox(
                                 height: 10,
-                              ),
+                              ) :const SizedBox(),
                                   const Text(
                                 "Probable Speaker Name",
                                 style: TextStyle(
@@ -1121,13 +1137,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             });
                                         },
                                          validator: null,
-                                        // validator: (value){
-                                        //   if(value ==null || value.isEmpty){
-                                        //     return "No amount found";
-          
-                                        //   }
-                                        //   return null;
-                                        //  }
+                                       
                                         ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
@@ -1138,13 +1148,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             });
                                             },
                                              validator: null,
-                                        //     validator: (value){
-                                        //       if(value ==null || value.isEmpty){
-                                        //     return "No amount found";
-          
-                                        //   }
-                                        //   return null;
-                                        //  }
+                                       
                                           ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
@@ -1155,13 +1159,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             });
                                           },
                                            validator: null,
-                                        //   validator: (value){
-                                        //       if(value ==null || value.isEmpty){
-                                        //     return "No amount found";
-          
-                                        //   }
-                                        //   return null;
-                                        //  }
+                                       
                                         ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
@@ -1172,13 +1170,8 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             });
           
                                            },
-                                            validator: null,
-                                        //    validator: (value){
-                                        //       if(value ==null || value.isEmpty){
-                                        //         return "No amount found";
-                                        //       }
-                                        //       return null;
-                                        //  }
+                                           validator: null,
+                                      
                                       ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
@@ -1189,12 +1182,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             });
                                         },
                                          validator: null,
-                                        //  validator: (value){
-                                        //       if(value ==null || value.isEmpty){
-                                        //         return "No amount found";
-                                        //       }
-                                        //       return null;
-                                        //  }
+                                        
                                       ),
                                  
                                 ],
@@ -1391,7 +1379,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                               height: wholeHeight / 25.309,
                                               child: const Center(
                                                 child: Text(
-                                                  "e-CME",
+                                                  "Sales Qty",
                                                   style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white,
@@ -1482,11 +1470,11 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                           child: Text(
                                                             finalBrandListAftrRemoveDuplication[
                                                                             index]
-                                                                        [1] ==
+                                                                        [2] ==
                                                                     ""
                                                                 ? "0"
                                                                 : finalBrandListAftrRemoveDuplication[
-                                                                    index][1],
+                                                                    index][2],
                                                             style:
                                                                 const TextStyle(
                                                               fontSize: 12,
@@ -1738,7 +1726,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              "e-CME*",
+                                                              "Sales Qty*",
                                                               style: TextStyle(
                                                                   fontWeight:
                                                                       FontWeight

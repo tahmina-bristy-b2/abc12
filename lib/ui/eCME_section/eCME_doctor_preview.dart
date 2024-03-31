@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ECMEDoctorPreviewScreen extends StatefulWidget {
-   Map<String, dynamic> previewData;
+ 
   ECMESubmitDataModel eCMESubmitDataModel;
   ECMEDoctorPreviewScreen({super.key,
    required this.eCMESubmitDataModel,
-   required this.previewData
+
    
    });
 
@@ -23,7 +23,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   int totalRxperDay = 0;
   int totalEmrX = 0;
   int total4pRX = 0;
-  double totalAmount = 0;
+  int totalAmount = 0;
 
   @override
   void initState() {
@@ -78,14 +78,15 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Doctor')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 7),
                         child: Text(' ${widget.eCMESubmitDataModel.docName}'),
@@ -95,14 +96,14 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Doctor Id')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Doctor Id',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(widget.eCMESubmitDataModel.docId == null
                           ? ""
                           : '  ${widget.eCMESubmitDataModel.docId}'),
@@ -111,14 +112,14 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Degree')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Degree',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(widget.eCMESubmitDataModel.degree== null
                           ? ""
                           : ' ${widget.eCMESubmitDataModel.degree}'),
@@ -127,14 +128,14 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Speciality')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Speciality',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(widget.eCMESubmitDataModel.speciality== null
                           ? ""
                           : ' ${widget.eCMESubmitDataModel.speciality}'),
@@ -143,14 +144,14 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Mobile')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Mobile',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(widget.eCMESubmitDataModel.mobile== null
                           ? "0"
                           : '  ${widget.eCMESubmitDataModel.mobile}'),
@@ -159,163 +160,308 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Purpose')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('E-CME Type',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(widget.eCMESubmitDataModel.mobile == null
                           ? ""
-                          : '  ${widget.previewData["purposeName"]}'),
+                          : '  ${widget.eCMESubmitDataModel.eCMEType}'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Purpose Sub')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Meeting Date',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["Sub_purpose_Name"] == null
+                      flex: 5,
+                      child: Text(widget.eCMESubmitDataModel.meetingDate == null
                           ? ""
-                          : '  ${widget.previewData["Sub_purpose_Name"]}'),
+                          : '  ${widget.eCMESubmitDataModel.meetingDate}'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Doctor Type')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Doctor Category',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
-                      child: Text('  ${widget.previewData["dsr_type"]}'),
+                      flex: 5,
+                      child: Text('  ${widget.eCMESubmitDataModel.doctorCategory }'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Description')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Institute Name',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
-                      child: Text('  ${widget.previewData["Descripton"]}'),
+                      flex: 5,
+                      child: Text('  ${widget.eCMESubmitDataModel.institureName}'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Rx Duration')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Department',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(
-                          '  ${widget.previewData["RX_Duration_from_Name"]}  To  ${widget.previewData["RX_Duration_to_name"]}'),
+                          '  ${widget.eCMESubmitDataModel.departament}'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('DSR Schedule')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Meeting vanue',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["DSR_Schedule"] == null
+                      flex: 5,
+                      child: Text(widget.eCMESubmitDataModel.meetingVanue==null
                           ? ""
-                          : '  ${widget.previewData["DSR_Schedule"]}'),
+                          : '  ${widget.eCMESubmitDataModel.meetingVanue}'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('DSR Duration')),
+                    const Expanded(flex: 5, child: Text('Meeting Topic')),
                     const Text(':'),
                     Expanded(
-                      flex: 8,
-                      child: Text(
-                          ' ${widget.previewData["DSR_Duration_from_name"]}  To  ${widget.previewData["DSR_Duration_to_name"]}'),
+                      flex: 5,
+                      child: Text(" ${widget.eCMESubmitDataModel.meetingTopic}"
+                         ,style: const TextStyle(fontWeight: FontWeight.w500),),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('No. of Patient')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Probable Speaker Name',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child:
-                          Text('  ${widget.previewData["Number_of_Patient"].toString().trim()}'),
+                          Text('  ${widget.eCMESubmitDataModel.speakerName}'),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 3, child: Text('Issue Mode')),
-                    const Text(':'),
+                    const Expanded(flex: 5, child: Text('Rx Objectives per day',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
-                      flex: 8,
-                      child: Text(widget.previewData["Issue_Mode"] == null
+                      flex: 5,
+                      child: Text(widget.eCMESubmitDataModel.rxPerDay==null
                           ? ""
-                          : '  ${widget.previewData["Issue_Mode"]}'),
+                          : '  ${widget.eCMESubmitDataModel.rxPerDay}'),
                     ),
                   ],
                 ),
               ),
-              (widget.previewData["Issue_Mode"] == "APC" ||
-                      widget.previewData["Issue_Mode"] == "CT" ||
-                      widget.previewData["Issue_Mode"] == "CC")
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+               Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 3, child: Text('Issue To')),
-                          const Text(':'),
+                          const Expanded(flex: 5, child: Text('Total Numbers of participants',style: TextStyle(fontWeight: FontWeight.w500),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
-                            flex: 8,
-                            child: Text(widget.previewData["Issue_To"] == null
+                            flex: 5,
+                            child: Text(widget.eCMESubmitDataModel.numberOfParticipant == null
                                 ? ""
-                                : ' ${widget.previewData["Issue_To"]}'),
+                                : ' ${widget.eCMESubmitDataModel.numberOfParticipant}'),
                           ),
                         ],
                       ),
-                    )
-                  : const SizedBox(),
-              Padding(
+                    ) ,
+                Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('1.  Doctors',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.doctorsCount,style: TextStyle(fontSize: 12)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('2.  Intern Doctors',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                           flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.internDoctor,style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('3.  DMF Doctor',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.dMFDoctors,style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('3.  Nurses',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.nurses,style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                     Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('Total Budget',style: TextStyle(fontWeight: FontWeight.w500),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 5,
+                            child: Text(widget.eCMESubmitDataModel.numberOfParticipant == null
+                                ? ""
+                                : ' ${widget.eCMESubmitDataModel.numberOfParticipant}'),
+                          ),
+                        ],
+                      ),
+                    ) ,
+                Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('1.  Hall rent',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10, 
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.hallRentAmount,style: const TextStyle(fontSize: 12)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('2.  Food Expense',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.internDoctor,style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.dMFDoctors,style: const TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('3.  Nurses',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.nurses,style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                
+            widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?     Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -328,8 +474,8 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ),
-              Padding(
+              ):const SizedBox(),
+             widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?   Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -350,70 +496,39 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                         const Color.fromARGB(255, 98, 158, 219),
                                   ),
                                   child: Row(
-                                    children: [
-                                      const Expanded(
-                                          child: Text(
-                                        'Name',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 253, 253, 253),
-                                            fontSize: 12),
-                                      )),
+                                    children:const [
+                                       Expanded(
+                                         flex: 2,
+                                         child: Text(
+                                                                               'Name',
+                                                                               style: TextStyle(
+                                           color: Color.fromARGB(
+                                               255, 253, 253, 253),
+                                           fontSize: 12),
+                                                                             ),
+                                       ),
                                       Expanded(
                                         flex: 3,
                                           child: Center(
                                         child: Text(
-                                          widget.previewData["dsr_type"] ==
-                                                   "DOCTOR"
-                                                                  ? "Seen RX Objective/Per Day*"
-                                                                  : "Business Objective Per Month(Qty)*",
-                                          style: const TextStyle(
+                                          "Sales Qty",
+                                          style:  TextStyle(
                                               color: Color.fromARGB(
                                                   255, 253, 253, 253),
                                               fontSize: 12),
                                         ),
                                       )),
-                                      // const Expanded(
-                                      //     child: Center(
-                                      //   child: Text(
-                                      //     "EMR RX",
-                                      //     style: TextStyle(
-                                      //         color: Color.fromARGB(
-                                      //             255, 253, 253, 253),
-                                      //         fontSize: 12),
-                                      //   ),
-                                      // )),
-                                      // const Expanded(
-                                      //     child: Center(
-                                      //   child: Text(
-                                      //     "4P RX",
-                                      //     style: TextStyle(
-                                      //         color: Color.fromARGB(
-                                      //             255, 253, 253, 253),
-                                      //         fontSize: 12),
-                                      //   ),
-                                      // )),
-                                      const Expanded(
-                                          child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "DSR",
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 253, 253, 253),
-                                              fontSize: 12),
-                                        ),
-                                      )),
+                                      
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 5),
-                                SizedBox(
+                              const SizedBox(height: 5),
+                              widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?  SizedBox(
                                   height:
-                                      widget.previewData["Brand"].length * 25.0,
+                                      widget.eCMESubmitDataModel.brandList.length * 25.0,
                                   child: ListView.builder(
                                       itemCount:
-                                          widget.previewData["Brand"].length,
+                                          widget.eCMESubmitDataModel.brandList.length,
                                       itemBuilder: (itemBuilder, index2) {
                                         return Container(
                                           height: 25,
@@ -426,59 +541,32 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                                 ? Colors.grey[300]
                                                 : Colors.white,
                                           ),
+                                        
                                           child: Row(
-                                            children: [
-                                              Expanded(
-                                                  child: Text(
-                                                widget.previewData["Brand"]
+                                    children: [
+                                       Expanded(
+                                         flex: 2,
+                                         child: Text(widget.eCMESubmitDataModel.brandList
                                                     [index2][0],
-                                                style: const TextStyle(
-                                                    fontSize: 12),
-                                              )),
-                                              Expanded(
-                                                flex: 3,
-                                                  child: Center(
-                                                child: Text(
-                                                  widget.previewData["Brand"]
-                                                      [index2][1],
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              )),
-                                              // Expanded(
-                                              //     child: Center(
-                                              //   child: Text(
-                                              //     widget.previewData["Brand"]
-                                              //         [index2][3],
-                                              //     style: const TextStyle(
-                                              //         fontSize: 12),
-                                              //   ),
-                                              // )),
-                                              // Expanded(
-                                              //     child: Center(
-                                              //   child: Text(
-                                              //     widget.previewData["Brand"]
-                                              //         [index2][4],
-                                              //     style: const TextStyle(
-                                              //         fontSize: 12),
-                                              //   ),
-                                              // )),
-                                              Expanded(
-                                                  child: Align(
-                                                alignment: Alignment.topRight,
-                                                child: Text(
-                                                  widget.previewData["Brand"]
-                                                      [index2][2],
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              )),
-                                              const SizedBox(width: 5),
-                                            ],
-                                          ),
+                                                                               style:const TextStyle(
+                                           color: Colors.black,
+                                           fontSize: 12),
+                                                                             ),
+                                       ),
+                                      Expanded(
+                                        flex: 3,
+                                          child: Center(
+                                        child: Text(
+                                         widget.eCMESubmitDataModel.brandList
+                                                         [index2][1],
+                                        ),
+                                      )),
+                                      
+                                    ],
+                                  ),
                                         );
                                       }),
-                                ),
+                                ):const SizedBox(),
                                 const SizedBox(height: 5),
                                 Container(
                                   padding: const EdgeInsets.all(5),
@@ -489,6 +577,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                   child: Row(
                                     children: [
                                       const Expanded(
+                                        flex: 2,
                                           child: Text(
                                         "Total",
                                         style: TextStyle(
@@ -496,45 +585,22 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                                 255, 255, 255, 255),
                                             fontSize: 12),
                                       )),
+                                      // Expanded(
+                                      //   flex: 3,
+                                      //   child: Text(
+                                      //     totalRxperDay.toString(),
+                                      //     style: const TextStyle(
+                                      //         color: Color.fromARGB(
+                                      //             255, 254, 254, 254),
+                                      //         fontSize: 13),
+                                      //   ),
+                                      // ),
+                                     
                                       Expanded(
                                         flex: 3,
                                         child: Center(
                                           child: Text(
-                                            totalRxperDay.toString(),
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 254, 254, 254),
-                                                fontSize: 13),
-                                          ),
-                                        ),
-                                      ),
-                                      // Expanded(
-                                      //   child: Center(
-                                      //     child: Text(
-                                      //       totalEmrX.toString(),
-                                      //       style: const TextStyle(
-                                      //           color: Color.fromARGB(
-                                      //               255, 254, 254, 254),
-                                      //           fontSize: 13),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // Expanded(
-                                      //   child: Center(
-                                      //     child: Text(
-                                      //       total4pRX.toString(),
-                                      //       style: const TextStyle(
-                                      //           color: Color.fromARGB(
-                                      //               255, 254, 254, 254),
-                                      //           fontSize: 13),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            totalAmount.toStringAsFixed(2),
+                                            totalAmount.toString(),
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
@@ -553,7 +619,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ),
+              ): const SizedBox(),
               const SizedBox(
                 height: 25,
               ),
@@ -589,7 +655,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                             bool result =
                                 await InternetConnectionChecker().hasConnection;
                             if (result == true) {
-                              eDsrSubmit();
+                             // eDsrSubmit();
                             } else {
                               setState(() {
                                 isPreviewLoading = true;
@@ -627,52 +693,52 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   }
 
   //=============================================== get Territory Based Doctor Button (Api call)================================
-  eDsrSubmit() async {
-    Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
-      widget.previewData["submit_url"],
-      widget.previewData["cid"],
-      widget.previewData["userId"],
-      widget.previewData["password"],
-      "123",
-      widget.previewData["brandString"],
-      widget.previewData["area_id"],
-      widget.previewData["doc_id"],
-      widget.previewData["doc_name"],
-      "",
-      widget.previewData["latitude"],
-      widget.previewData["longitude"],
-      widget.previewData["dsr_type"],
-      widget.previewData["Category"],
-      widget.previewData["purposeId"],
-      widget.previewData["Sub_purpose"],
-      widget.previewData["Descripton"],
-      widget.previewData["RX_Duration_from"],
-      widget.previewData["RX_Duration_to"],
-      widget.previewData["Number_of_Patient"],
-      widget.previewData["DSR_Duration_from"],
-      widget.previewData["DSR_Duration_to"],
-      widget.previewData["DSR_Schedule"],
-      "0",
-      widget.previewData["Issue_Mode"],
-      "",
-      "0",
-      widget.previewData["Issue_To"],
-    );
-    if (data["status"] == "Success") {
-      setState(() {
-        isPreviewLoading = false;
-      });
-      AllServices()
-          .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
-      if (!mounted) return;
-      Navigator.pop(context);
-      Navigator.pop(context);
-    } else {
-      setState(() {
-        isPreviewLoading = false;
-      });
-      AllServices()
-          .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
-    }
-  }
+  // eDsrSubmit() async {
+  //   Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
+  //     widget.previewData["submit_url"],
+  //     widget.previewData["cid"],
+  //     widget.previewData["userId"],
+  //     widget.previewData["password"],
+  //     "123",
+  //     widget.previewData["brandString"],
+  //     widget.previewData["area_id"],
+  //     widget.previewData["doc_id"],
+  //     widget.previewData["doc_name"],
+  //     "",
+  //     widget.previewData["latitude"],
+  //     widget.previewData["longitude"],
+  //     widget.previewData["dsr_type"],
+  //     widget.previewData["Category"],
+  //     widget.previewData["purposeId"],
+  //     widget.previewData["Sub_purpose"],
+  //     widget.previewData["Descripton"],
+  //     widget.previewData["RX_Duration_from"],
+  //     widget.previewData["RX_Duration_to"],
+  //     widget.previewData["Number_of_Patient"],
+  //     widget.previewData["DSR_Duration_from"],
+  //     widget.previewData["DSR_Duration_to"],
+  //     widget.previewData["DSR_Schedule"],
+  //     "0",
+  //     widget.previewData["Issue_Mode"],
+  //     "",
+  //     "0",
+  //     widget.previewData["Issue_To"],
+  //   );
+  //   if (data["status"] == "Success") {
+  //     setState(() {
+  //       isPreviewLoading = false;
+  //     });
+  //     AllServices()
+  //         .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
+  //     if (!mounted) return;
+  //     Navigator.pop(context);
+  //     Navigator.pop(context);
+  //   } else {
+  //     setState(() {
+  //       isPreviewLoading = false;
+  //     });
+  //     AllServices()
+  //         .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
+  //   }
+  // }
 }

@@ -28,7 +28,7 @@ class ECMESubmitDataModel {
   String internDoctor;
   String dMFDoctors;
   String nurses;
-  List<String> brandList;
+  List<List<dynamic>> brandList;
   String speakerName;
   String speakerdegree;
   String speakerInstitute;

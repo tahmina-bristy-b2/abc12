@@ -25,6 +25,9 @@ class DataProviders {
       String version) async {
             late http.Response response;
     try {
+      print('$loginUrl?cid=$cid&user_id=$userId&user_pass=$password&device_id=$deviceId&device_brand=$deviceBrand&device_model=$deviceModel'
+            '_$version');
+      
       response = await http.get(
         Uri.parse(
             '$loginUrl?cid=$cid&user_id=$userId&user_pass=$password&device_id=$deviceId&device_brand=$deviceBrand&device_model=$deviceModel'

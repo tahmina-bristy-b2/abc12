@@ -10,6 +10,7 @@ import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -645,10 +646,9 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                    
-                                    
                                       controller: initialValue(selectedExpiredDateString), 
                                       textAlign: TextAlign.left, 
+                                      keyboardType: TextInputType.text,
                                       suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
                                       textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 82, 179, 98),), 
                                       onChanged: (String value) {
@@ -782,6 +782,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                              hinText: '----Enter Institution Name----',
                                               controller: institutionController,
                                               textAlign: TextAlign.left, 
+                                              keyboardType: TextInputType.text,
                                               textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                               focusNode: AlwaysDisabledFocusNode(),
                                             ),
@@ -807,6 +808,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       hinText: '----Enter Department---',
                                       controller: departmentController,
                                       textAlign: TextAlign.left, 
+                                      keyboardType: TextInputType.text,
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
                                     ),
@@ -832,6 +834,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                               hinText: '----Enter Meeting Venue----',
                                               controller: meetingVenueController,
                                               textAlign: TextAlign.left, 
+                                              keyboardType: TextInputType.text,
                                               textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                               focusNode: AlwaysDisabledFocusNode(),
                                             ),
@@ -857,6 +860,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       hinText: '----Enter Meeting Topic----',
                                       controller: meetingProbaleSpeakerController,
                                       textAlign: TextAlign.left, 
+                                      keyboardType: TextInputType.text,
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
                                     ),
@@ -893,6 +897,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       textAlign: TextAlign.left, 
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ) :const SizedBox(),
                                   const SizedBox(
@@ -924,6 +929,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                      hinText: '----Enter Speaker Name----',
                                       controller: probaleSpeakerController,
                                       textAlign: TextAlign.left, 
+                                      keyboardType: TextInputType.text,
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
                                     ),
@@ -949,6 +955,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                        hinText: '----Enter Speaker Designation----',
                                       controller:probaleSpeakerDesignationController,
                                       textAlign: TextAlign.left, 
+                                      keyboardType: TextInputType.text,
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
                                     ),
@@ -982,6 +989,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             controller: rxObjectiveperDayController,
                                             textAlign: TextAlign.right,
                                             style:const TextStyle(fontSize: 14),
+                                            keyboardType: TextInputType.number,
                                             inputFormatters: [
                                                 FilteringTextInputFormatter.digitsOnly
                                               ],

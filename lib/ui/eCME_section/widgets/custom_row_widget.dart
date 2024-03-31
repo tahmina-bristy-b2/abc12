@@ -53,6 +53,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                           textAlign: TextAlign.right,
                                           style:const TextStyle(fontSize: 14, color: Colors.black),
                                           controller: controller,
+                                          keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                             border: OutlineInputBorder(
                                               borderSide:

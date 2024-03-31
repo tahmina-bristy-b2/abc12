@@ -44,7 +44,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                         height: 50,
                                          width:MediaQuery.of(context).size.width / 3,
                                         child: TextFormField(
-                                          readOnly:rowNumber=="3"? true:false ,
+                                          readOnly:(rowNumber=="3" || reason=="Cost per doctor ")? true:false ,
                                           inputFormatters:routingName=="participants"? [
                                              FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                                           ]:[

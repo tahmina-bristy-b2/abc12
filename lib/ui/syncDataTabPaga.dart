@@ -576,13 +576,11 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                         const Spacer(),
                         SizedBox(
                           width: screenWidth / 2.5,
-                          // height: screenHeight / 10,
                           child: Text(
                             loginPageVersionName,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black.withOpacity(.5),
-                              // color: Color.fromARGB(255, 129, 188, 236),
                             ),
                           ),
                         ),
@@ -616,6 +614,12 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         ExpiredItemListDataModel? expiredItemsData = await ExpiredRepositoryRepo()
                                           .syncExpiredItems("all",dmpathData!.syncUrl, cid,
                                               userId, userPassword);
+    ECMESavedDataModel? ecmeSavedData=await ECMERepositry().getECMESettingsData(dmpathData!.submitUrl,
+                                        cid,
+                                        userInfo!.userId,
+                                        userPassword,
+                                        "All")   ;                                   
+    
     if (itemList.isNotEmpty &&
         clientList.isNotEmpty &&
         dcrGiftList.isNotEmpty &&
@@ -623,7 +627,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         ppmList.isNotEmpty &&
         rxItemList.isNotEmpty &&
         doctorList.isNotEmpty &&
-        (eDsRData == null || eDsRData != null)&& (expiredItemsData != null || expiredItemsData==null ) ){
+        (eDsRData == null || eDsRData != null)&& (expiredItemsData != null || expiredItemsData==null )  && (ecmeSavedData==null || ecmeSavedData !=null)){
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

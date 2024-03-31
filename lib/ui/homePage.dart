@@ -1,5 +1,6 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -10,7 +11,6 @@ import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
-import 'package:MREPORTING/ui/eCME_section/eCME_doctor_List_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/e_cme_doctor_list_new.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
@@ -1715,14 +1715,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                               .getSyncSavedData('dcrListData');
                                             if (regionListData != null) {
                                               if (dcrList.isNotEmpty) {
-                                            if (!mounted) return;
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) => ECMEDoctorList(
-                                                    dcrDataList: dcrList),
-                                              ),
-                                            );
+                                               ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                                if(eCMEDataModelData!=null){
+                                                  if (!mounted) return;
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) => ECMEDoctorList(
+                                                          dcrDataList: dcrList),
+                                                    ),
+                                                  );
+
+                                                }
+                                                else{
+                                                    AllServices().toastMessage(
+                                                      'e_CME Sync First ',
+                                                      Colors.red,
+                                                      Colors.white,
+                                                      16);
+
+                                                }
+
+
                                           } else {
                                             AllServices().toastMessage(
                                                 'Doctor List Empty!',

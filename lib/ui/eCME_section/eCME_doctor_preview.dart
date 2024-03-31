@@ -1,3 +1,4 @@
+import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -5,8 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ECMEDoctorPreviewScreen extends StatefulWidget {
-  Map<String, dynamic> previewData;
-  ECMEDoctorPreviewScreen({super.key, required this.previewData});
+   Map<String, dynamic> previewData;
+  ECMESubmitDataModel eCMESubmitDataModel;
+  ECMEDoctorPreviewScreen({super.key,
+   required this.eCMESubmitDataModel,
+   required this.previewData
+   
+   });
 
   @override
   State<ECMEDoctorPreviewScreen> createState() => _ECMEDoctorPreviewScreenState();
@@ -82,7 +88,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                       flex: 8,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 7),
-                        child: Text(' ${widget.previewData["doc_name"]}'),
+                        child: Text(' ${widget.eCMESubmitDataModel.docName}'),
                       ),
                     ),
                   ],
@@ -97,9 +103,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text(widget.previewData["doc_id"] == null
+                      child: Text(widget.eCMESubmitDataModel.docId == null
                           ? ""
-                          : '  ${widget.previewData["doc_id"]}'),
+                          : '  ${widget.eCMESubmitDataModel.docId}'),
                     ),
                   ],
                 ),
@@ -113,9 +119,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text(widget.previewData["degree"] == null
+                      child: Text(widget.eCMESubmitDataModel.degree== null
                           ? ""
-                          : ' ${widget.previewData["degree"]}'),
+                          : ' ${widget.eCMESubmitDataModel.degree}'),
                     ),
                   ],
                 ),
@@ -129,9 +135,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text(widget.previewData["specialty"] == null
+                      child: Text(widget.eCMESubmitDataModel.speciality== null
                           ? ""
-                          : ' ${widget.previewData["specialty"]}'),
+                          : ' ${widget.eCMESubmitDataModel.speciality}'),
                     ),
                   ],
                 ),
@@ -145,9 +151,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text(widget.previewData["mobile"] == null
+                      child: Text(widget.eCMESubmitDataModel.mobile== null
                           ? "0"
-                          : '  ${widget.previewData["mobile"]}'),
+                          : '  ${widget.eCMESubmitDataModel.mobile}'),
                     ),
                   ],
                 ),
@@ -161,7 +167,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child: Text(widget.previewData["purposeName"] == null
+                      child: Text(widget.eCMESubmitDataModel.mobile == null
                           ? ""
                           : '  ${widget.previewData["purposeName"]}'),
                     ),

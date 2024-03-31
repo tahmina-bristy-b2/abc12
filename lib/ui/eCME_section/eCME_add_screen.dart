@@ -1,11 +1,13 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
+
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/ui/eCME_section/eCME_doctor_preview.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,9 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController nursesController = TextEditingController();
   TextEditingController doctorParticipantCount = TextEditingController();
   TextEditingController eCMEAmountForRMPController = TextEditingController();
+  TextEditingController probaleSpeakerDesignationController = TextEditingController();
+  TextEditingController probaleSpeakerDegreeController = TextEditingController();
+  //TextEditingController probaleSpeakerInstituteController = TextEditingController();
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
   
@@ -942,7 +947,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
                                        hinText: '----Enter Speaker Designation----',
-                                      controller: probaleSpeakerInstituteController,
+                                      controller:probaleSpeakerDesignationController,
                                       textAlign: TextAlign.left, 
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
@@ -994,7 +999,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       ],
                                     ),
                                     const SizedBox(height: 10,),
-                                  selectedECMEType=="Clinical Meeting" ? Row(
+                                 Row(
                                     children: [
                                         
                                         SizedBox(
@@ -1016,14 +1021,14 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                           alignment: Alignment.centerRight,
                                           child: SizedBox(
                                             width:MediaQuery.of(context).size.width / 3 ,
-                                            child: Text(totalParticipants().toString()))
+                                            child: Text(totalParticipants().toString(),style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
                                           ),
                                       
                                       
                                       ],
-                                    ):const SizedBox(),
+                                    ),
                                     
-                             selectedECMEType=="Clinical Meeting" ?  Column(
+                         Column(
                                 children: [
                                   BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors ", controller: doctorParticipantCount,
                                         onChanged: (value ) {  
@@ -1067,14 +1072,14 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                  
                                  
                                 ],
-                              ) :const SizedBox(),
+                              ) ,
                               
                               const SizedBox(
                                 height: 10,
                               ),
 
                                   
-                              ( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )?     Row(
+                              ( totalParticipants()>0 )?     Row(
                                       children: [
                                         
                                         SizedBox(
@@ -1117,16 +1122,16 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                     ):const SizedBox(),
           
                            
-                                    SizedBox(height:( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )? 10:0),
+                                    SizedBox(height:(  totalParticipants()>0 )? 10:0),
           
-                            ( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )?    const  Text(
+                            ( totalParticipants()>0 )? const Text(
                                 "Budget breakdown*",
                                 style: TextStyle(
                                    fontSize: 15,
                                    color: Color.fromARGB(255, 0, 0, 0),
                                    fontWeight: FontWeight.w600),
                               ) :const SizedBox(),
-                            ( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )?  Column(
+                            (   totalParticipants()>0 )?  Column(
                                 children: [
                                   BudgetBreakDownRowWidget(
                                     routingName: 'budget',
@@ -1271,10 +1276,14 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                               ))),
                                     ),
                                     onTap: () async {
-                                      if(_form1Key.currentState!.validate()){
-                                        //print("ami validate");
+                                   //   Navigator.push(context, MaterialPageRoute(builder: ))
+
+
+
+                                      // if(_form1Key.currentState!.validate()){
+                                      //   //print("ami validate");
           
-                                      }
+                                      // }
                                       
           
           
@@ -1914,53 +1923,62 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     setState(() {
       isLoading = true;
     });
+    final ECMESubmitDataModel ecmeSubmitDataModel = ECMESubmitDataModel(
+      cid: widget.docInfo["cid"], 
+      address:  widget.docInfo["address"], 
+       areaId:  widget.docInfo["area_id"], 
+       brandList: [], 
+       brandString: brandString, 
+       costLunchDinner: "",
+        costPerDoctor: costperDoctorController.text, 
+        degree: widget.docInfo["degree"],  
+        docId: widget.docInfo["doc_id"], 
+        docName: widget.docInfo["doc_name"], 
+        giftcose: giftController.text,
+         hallRentAmount: hallRentController.text, 
+         lattitute: latitude.toString(), 
+         longitude: longitude.toString(),
+          meetingDate: meetingDateController.text,
+          meetingTopic: meetingTopicController.text, 
+          meetingVanue: meetingVenueController.text, 
+          mobile:widget.docInfo["mobile"], 
+          eCMEType: selectedECMEType!,
+           doctorCategory: selcetDoctorCategory!, 
+           institureName: institutionController.text,
+            departament: departmentController.text, 
+            eCMEAmount: eCMEController.text, 
+            rxPerDay: rxPerDayController.text,
+             totalNumbeParticiapnts: totalNumberOfParticiController.text, 
+             doctorsCount: doctorParticipantCount.text, 
+             internDoctor: internDoctorController.text, 
+             dMFDoctors: dmfDoctorController.text, 
+             nurses: nursesController.text, 
+             mornigEeveningTotalCost: '', 
+             numberOfParticipant: noIfparticipants.toString(), 
+             speakerInstitute: probaleSpeakerInstituteController.text,
+              others: '',
+               password: password!, 
+               speakerName: meetingProbaleSpeakerController.text, 
+               speakerdegree: probaleSpeakerDegreeController.text, 
+               speciality: widget.docInfo["specialty"], 
+               stationaries: stationnairesController.text, 
+               totalBudget: totalBudgetController.text, 
+               userId: "userId"
+               );
 
-    Map<String, dynamic> readyForPreviewData = {
-    //   "submit_url": dmpathData!.submitUrl,
-    //   "cid": cid!,
-    //   "userId": userInfo!.userId,
-    //   "password": password,
-    //   "brandString": brandString,
-    //   "area_id": widget.docInfo[widget.index]["area_id"],
-    //   "doc_id": widget.docInfo[widget.index]["doc_id"],
-    //   "latitude": latitude.toString(),
-    //   "longitude": longitude.toString(),
-    //   "doc_name": widget.docInfo[widget.index]["doc_name"],
-    //   "degree": widget.docInfo[widget.index]["degree"],
-    //   "specialty": widget.docInfo[widget.index]["specialty"],
-    //   "address": widget.docInfo[widget.index]["address"],
-    //   "mobile": widget.docInfo[widget.index]["mobile"],
-    //   // "Category": initialCategory,
-    //   // "purposeName": initialPurpose,
-    //   "purposeId": purposeId,
-    //   "Sub_purpose_Name": initialSubPurpose,
-    //   "Sub_purpose": subPurposeId,
-    //   "Descripton": addDescriptionController.text,
-    //   "RX_Duration_from_Name": initialRxDurationMonthList,
-    //   "RX_Duration_from": rxFromDate,
-    //   "RX_Duration_to": rxToDate,
-    //   "RX_Duration_to_name": initialRxDurationMonthListTo,
-    //   "DSR_Schedule": initialPaySchdedule,
-    //   "DSR_Duration_from_name": initialdsrDurationMonthList,
-    //   "DSR_Duration_from": dsrFromdate,
-    //   "DSR_Duration_to": dsrTodate,
-    //   "DSR_Duration_to_name": initialdsrDurationMonthListTo,
-    // //  "Number_of_Patient": noOfPatientController.text,
-    //   "Issue_Mode": initialIssueMode,
-    //   "Issue_To": issueToController.text,
-      "Brand": finalBrandListAftrRemoveDuplication,
-    //   "dsr_type": doctorType
-    };
 
-    if (readyForPreviewData.isNotEmpty) {
+    
+
+    if (ecmeSubmitDataModel!=null) {
       setState(() {
         isLoading = false;
       });
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => PreviewEDSRADDScreen(
-            previewData: readyForPreviewData,
+          builder: (_) => ECMEDoctorPreviewScreen(
+            previewData: {}, eCMESubmitDataModel: ecmeSubmitDataModel,
+            
           ),
         ),
       );

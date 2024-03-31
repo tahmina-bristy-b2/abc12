@@ -14,9 +14,20 @@ class ECMESubmitDataModel {
   String speciality;
   String address;
   String mobile;
+  String eCMEType;
   String meetingDate;
   String meetingVanue;
   String meetingTopic;
+  String doctorCategory;
+  String institureName;
+  String departament;
+  String eCMEAmount;
+  String rxPerDay;
+  String totalNumbeParticiapnts;
+  String doctorsCount;
+  String internDoctor;
+  String dMFDoctors;
+  String nurses;
   List<String> brandList;
   String speakerName;
   String speakerdegree;
@@ -31,6 +42,7 @@ class ECMESubmitDataModel {
   String giftcose;
   String others;
 
+  
   ECMESubmitDataModel({
     required this.cid,
     required this.address,
@@ -50,6 +62,17 @@ class ECMESubmitDataModel {
     required this.meetingTopic,
     required this.meetingVanue,
     required this.mobile,
+    required this.eCMEType,
+    required this.doctorCategory,
+    required this.institureName,
+    required this.departament,
+    required this.eCMEAmount,
+    required this.rxPerDay,
+    required this.totalNumbeParticiapnts, 
+    required this.doctorsCount,
+    required this.internDoctor,
+    required this.dMFDoctors,
+    required this.nurses,
     required this.mornigEeveningTotalCost,
     required this.numberOfParticipant,
     required this.speakerInstitute,

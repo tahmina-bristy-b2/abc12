@@ -1,5 +1,6 @@
 import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -585,16 +586,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                                 255, 255, 255, 255),
                                             fontSize: 12),
                                       )),
-                                      // Expanded(
-                                      //   flex: 3,
-                                      //   child: Text(
-                                      //     totalRxperDay.toString(),
-                                      //     style: const TextStyle(
-                                      //         color: Color.fromARGB(
-                                      //             255, 254, 254, 254),
-                                      //         fontSize: 13),
-                                      //   ),
-                                      // ),
+                                     
                                      
                                       Expanded(
                                         flex: 3,
@@ -655,7 +647,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                             bool result =
                                 await InternetConnectionChecker().hasConnection;
                             if (result == true) {
-                             // eDsrSubmit();
+                              eDsrSubmit();
                             } else {
                               setState(() {
                                 isPreviewLoading = true;
@@ -693,52 +685,26 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   }
 
   //=============================================== get Territory Based Doctor Button (Api call)================================
-  // eDsrSubmit() async {
-  //   Map<String, dynamic> data = await EDSRRepositories().submitEDSR(
-  //     widget.previewData["submit_url"],
-  //     widget.previewData["cid"],
-  //     widget.previewData["userId"],
-  //     widget.previewData["password"],
-  //     "123",
-  //     widget.previewData["brandString"],
-  //     widget.previewData["area_id"],
-  //     widget.previewData["doc_id"],
-  //     widget.previewData["doc_name"],
-  //     "",
-  //     widget.previewData["latitude"],
-  //     widget.previewData["longitude"],
-  //     widget.previewData["dsr_type"],
-  //     widget.previewData["Category"],
-  //     widget.previewData["purposeId"],
-  //     widget.previewData["Sub_purpose"],
-  //     widget.previewData["Descripton"],
-  //     widget.previewData["RX_Duration_from"],
-  //     widget.previewData["RX_Duration_to"],
-  //     widget.previewData["Number_of_Patient"],
-  //     widget.previewData["DSR_Duration_from"],
-  //     widget.previewData["DSR_Duration_to"],
-  //     widget.previewData["DSR_Schedule"],
-  //     "0",
-  //     widget.previewData["Issue_Mode"],
-  //     "",
-  //     "0",
-  //     widget.previewData["Issue_To"],
-  //   );
-  //   if (data["status"] == "Success") {
-  //     setState(() {
-  //       isPreviewLoading = false;
-  //     });
-  //     AllServices()
-  //         .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
-  //     if (!mounted) return;
-  //     Navigator.pop(context);
-  //     Navigator.pop(context);
-  //   } else {
-  //     setState(() {
-  //       isPreviewLoading = false;
-  //     });
-  //     AllServices()
-  //         .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
-  //   }
-  // }
+  eDsrSubmit() async {
+    ECMESubmitDataModel ecmeSubmitDataModel= widget.eCMESubmitDataModel;
+    String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=1234&synccode=123&brandString=AGGRA|AGGRA|3300&areaId=DEMO&docId=DEMOBRTR003&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=0&longitude=0&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&mornigEeveningTotalCost=5000&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&costLunchDinner=6500&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&others=9000&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}";
+    print("submt =$submitUrl");
+    Map<String, dynamic> data = await ECMERepositry().eCMESubmitURL(submitUrl);
+    if (data["status"] == "Success") {
+      setState(() {
+        isPreviewLoading = false;
+      });
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
+      if (!mounted) return;
+      Navigator.pop(context);
+      Navigator.pop(context);
+    } else {
+      setState(() {
+        isPreviewLoading = false;
+      });
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
+    }
+  }
 }

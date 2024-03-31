@@ -65,6 +65,22 @@ class ECMERepositry{
     return submitInfo;
   }
 
+  //=========================================== Territory Based Doctor ==========================================
+  Future<Map<String, dynamic>> eCMESubmitURL(
+      String submitUrl) async {
+    Map<String, dynamic> submitInfo = {};
+    try {
+      http.Response response = await ECMEDataProviders().submitECMEData(submitUrl);
+
+      submitInfo = json.decode(response.body);
+      return submitInfo;
+    } catch (e) {
+      print('get Doctor: $e');
+    }
+    return submitInfo;
+  }
+
+
 
 
 }

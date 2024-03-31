@@ -49,4 +49,25 @@ class ECMEDataProviders{
 
     return response;
   }
+
+
+
+  //=========================================== E-CME Settings api=====================================================
+  Future<http.Response> submitECMEData(
+    String submitUrl
+  ) async {
+    final http.Response response;
+
+    // print(
+    //     "submit==${ECMEApis().submitApi(eDsrSettingsUrl, cid, userId, userPass)}");
+    response = await http.get(
+      Uri.parse(
+          submitUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    return response;
+  }
 }

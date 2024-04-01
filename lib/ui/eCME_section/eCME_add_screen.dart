@@ -1,7 +1,6 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
-
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -39,6 +38,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController meetingTopicController = TextEditingController();
   TextEditingController brandSelectedController = TextEditingController();
   TextEditingController rxPerDayController = TextEditingController();
+  TextEditingController eCMEAmountCOntroller = TextEditingController();
   TextEditingController eCMEController = TextEditingController();
   TextEditingController meetingProbaleSpeakerNameController = TextEditingController();
   TextEditingController probaleSpeakerInstituteController = TextEditingController();
@@ -130,10 +130,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
           if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
             if (brandString == "") {
               brandString +=
-                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}|${finalBrandListAftrRemoveDuplication[i][3]}|${finalBrandListAftrRemoveDuplication[i][4]}";
+                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}";
             } else {
               brandString +=
-                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][1]}|${finalBrandListAftrRemoveDuplication[i][2]}|${finalBrandListAftrRemoveDuplication[i][3]}|${finalBrandListAftrRemoveDuplication[i][4]}";
+                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}";
             }
           }
         }
@@ -191,7 +191,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   void dispose() {
     meetingDateController.dispose();
     rxPerDayController.dispose();
-    eCMEController.dispose();
+    eCMEAmountCOntroller.dispose();
     brandSelectedController.clear();
     super.dispose();
   }
@@ -704,6 +704,11 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                   }).toList(),
                                                   value: selcetDoctorCategory,
                                                   onChanged: (value) {
+                                                    if(value!="Institution"){
+                                                      institutionController.clear();
+                                                      departmentController.clear();
+
+                                                    }
                                                     setState(() {
                                                       selcetDoctorCategory = value; 
                                                     });
@@ -864,7 +869,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                               SizedBox(
                                 height: wholeHeight / 75.927,
                               ),
-                            (selectedECMEType=="RMP Meeting" || selectedECMEType=="Clinical Meeting")?   Row(
+                            (selectedECMEType!=null)?   Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                    Text(
@@ -880,15 +885,15 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                selectedECMEType=="RMP Meeting"?   brandAddWidget(wholeHeight, wholeWidth, context): const SizedBox()
                                 ],
                               ) :const SizedBox(),
-                             selectedECMEType=="Clinical Meeting"? const SizedBox(
+                             selectedECMEType!="RMP Meeting"?  const SizedBox(
                                 height: 6,
                               ) :const SizedBox(),
-                             selectedECMEType=="Clinical Meeting"?   SizedBox(
+                             selectedECMEType!="RMP Meeting"?   SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
                                      hinText: '----Enter e-CME Amount ----',
-                                      controller: eCMEAmountForRMPController,
+                                      controller: eCMEAmountCOntroller,
                                       textAlign: TextAlign.left, 
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
@@ -1183,7 +1188,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
-                                    rowNumber: "5.", reason:"Stationnaires or Others", controller: othersController, 
+                                    rowNumber: "5.", reason:"Stationnaires or Others", controller: stationnairesController, 
                                        onChanged: (value ) {  
                                             getTotalBudget();
                                             setState(() {
@@ -1279,33 +1284,170 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                               ))),
                                     ),
                                     onTap: () async {
-                                      
-                                      if(selectedECMEType!=null){
-                                        if(selectedExpiredDateString!=""){
-                                           if(selcetDoctorCategory!=null){
-                                             if(institutionController.text !=""){
-                                              if(departmentController.text!=""){
+                                          if(selectedECMEType!=null){
+                                            if(selectedECMEType!="RMP Meeting"){
+                                             if(selectedExpiredDateString!=""){
+                                              if(selcetDoctorCategory!=null){
                                                 if(rxObjectiveperDayController.text !=""){
                                                     if(meetingVenueController.text!=""){
                                                       if(meetingTopicController.text!=""){
                                                         if(meetingProbaleSpeakerNameController.text!=""){
                                                             if(probaleSpeakerDesignationController.text!=""){ 
-                                                              
-                                                                if(doctorParticipantCount!=""){
-                                                                  if(totalBudget!=""){
-                                                                    readyForPreviewMethod();
-                                                                  }
-                                                                  else{
-                                                                    AllServices().toastMessage("Please fill up the budget breakdown ", Colors.red, Colors.white, 16);
-                                                                  }
-                                                  
+                                                                 if(eCMEAmountCOntroller.text!=""){
+                                                                  if(doctorParticipantCount.text!=""){
+                                                                   if(hallRentController.text!=""){
+                                                                    if(foodExpansesController.text!=""){
+                                                                      if(giftController.text!=""){
+                                                                        if(stationnairesController.text!=""){
+                                                                          if(selcetDoctorCategory=="Institution"){
+                                                                            if(institutionController.text !=""){
+                                                                             if(institutionController.text !=""){
+                                                                               readyForPreviewMethod();
+                                                                              }
+                                                                              else{
+                                                                                AllServices().toastMessage("Please add department ", Colors.red, Colors.white, 16);
+                                                                              }
 
+                                                                            }
+                                                                            else{
+                                                                              AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
+                                                                            }
+
+                                                                          }
+                                                                          else{
+                                                                         
+                                                                              readyForPreviewMethod();
+                                                                          }
+                                                                        }
+                                                                        else{
+                                                                          AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                                                        }
+
+                                                                      }
+                                                                      else{
+                                                                        AllServices().toastMessage("Please add sepeaker gift expense  ", Colors.red, Colors.white, 16);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
+                                                                    }
+
+                                                                    }
+                                                                    else{
+                                                                      AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
+                                                                    }
                                                                 }
                                                                 else{
-                                                                  AllServices().toastMessage("Please Enter participant doctors ", Colors.red, Colors.white, 16);
+                                                                  AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
+
                                                                 }
+
+                                                                 }
+                                                                 else{
+                                                                  AllServices().toastMessage("Please enter e-CME anmount", Colors.red, Colors.white, 16);
+                                                                 }
+                                                            }
+                                                            else{
+                                                              AllServices().toastMessage("Please Enter probable speaker designation ", Colors.red, Colors.white, 16);
+                                                            }
                                                   
 
+                                                        }
+                                                        else{
+                                                          AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
+                                                        }
+                                                  
+
+                                                      }
+                                                      else{
+                                                        AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
+                                                      }
+                                                  
+
+                                                  }
+                                                  else{
+                                                    AllServices().toastMessage("Please Enter meeting vanue ", Colors.red, Colors.white, 16);
+                                                  }
+
+                                                }
+                                                else{
+                                                   AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
+
+                                                }
+                                             
+
+                                            }
+                                            else{
+                                              AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
+                                            }
+
+                                      }
+                                      else{
+                                         AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
+                                      }
+
+                                    }
+                                      else{
+                                         if(selectedExpiredDateString!=""){
+                                              if(selcetDoctorCategory!=null){
+                                                if(rxObjectiveperDayController.text !=""){
+                                                    if(meetingVenueController.text!=""){
+                                                      if(meetingTopicController.text!=""){
+                                                        if(meetingProbaleSpeakerNameController.text!=""){
+                                                            if(probaleSpeakerDesignationController.text!=""){ 
+                                                                 if(doctorParticipantCount.text!=""){
+                                                                   if(hallRentController.text!=""){
+                                                                    if(foodExpansesController.text!=""){
+                                                                      if(giftController.text!=""){
+                                                                        if(stationnairesController.text!=""){
+                                                                          if(getbrandString() !=""){
+                                                                            if(selcetDoctorCategory=="Institution"){
+                                                                            if(institutionController.text !=""){
+                                                                             if(departmentController.text !=""){
+                                                                               readyForPreviewMethod();
+                                                                              }
+                                                                              else{
+                                                                                AllServices().toastMessage("Please add department ", Colors.red, Colors.white, 16);
+                                                                              }
+
+                                                                            }
+                                                                            else{
+                                                                              AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
+                                                                            }
+
+                                                                          }
+                                                                          else{
+                                                                         
+                                                                              readyForPreviewMethod();
+                                                                          }
+
+                                                                          }
+                                                                          else{
+                                                                          AllServices().toastMessage("Please add brand ", Colors.red, Colors.white, 16);
+                                                                        }
+                                                                        }
+                                                                        else{
+                                                                          AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                                                        }
+
+                                                                      }
+                                                                      else{
+                                                                        AllServices().toastMessage("Please add sepeaker gift expense  ", Colors.red, Colors.white, 16);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
+                                                                    }
+
+                                                                    }
+                                                                    else{
+                                                                      AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
+                                                                    }
+                                                                }
+                                                                else{
+                                                                  AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
+
+                                                                }
                                                               
 
                                                             }
@@ -1336,18 +1478,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                    AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
 
                                                 }
-
-                                              }
-                                              else{
-                                                AllServices().toastMessage("Please Enter department ", Colors.red, Colors.white, 16);
-                                              }
-                                               
-
-                                             }
-                                             else{
-                                               AllServices().toastMessage("Please Enter institution name ", Colors.red, Colors.white, 16);
-
-                                             }
+                                             
 
                                             }
                                             else{
@@ -1358,62 +1489,16 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       else{
                                          AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
                                       }
-
                                       }
+
+                                            
+
+                                   }
                                       else{
                                          AllServices().toastMessage("Please Select eCME Type First", Colors.red, Colors.white, 16);
                                       }
                                         
                                   
-          
-          
-                                      // getbrandString() != ""
-                                      //     ? widget.docInfo[widget.index]
-                                      //                 ["area_id"] !=
-                                      //             ""
-                                      //         ? widget.docInfo[widget.index]
-                                      //                     ["doc_id"] !=
-                                      //                 ""
-                                      //             ? widget.docInfo[widget.index]
-                                      //                         ["doc_name"] !=
-                                      //                     ""
-                                      //                 ? initialCategory != null
-                                      //                     ? initialCategory !=
-                                      //                             null
-                                      //                         ? purposeId != ""
-                                      //                             ? subPurposeId !=
-                                      //                                     ""
-                                      //                                 ? addDescriptionController.text !=
-                                      //                                         ""
-                                      //                                     ? rxFromDate !=
-                                      //                                             ""
-                                      //                                         ? rxToDate != ""
-                                      //                                             ? initialPaySchdedule != null
-                                      //                                                 ? dsrFromdate != ""
-                                      //                                                     ? dsrTodate != ""
-                                      //                                                         ? noOfPatientController.text .toString().trim().isNotEmpty
-                                      //                                                             ? initialIssueMode != null
-                                      //                                                                 ? isCheck == true
-                                      //                                                                     ? issueToController.text.toString().trim().isNotEmpty
-                                      //                                                                         ? readyForPreviewMethod()
-                                      //                                                                         : AllServices().toastMessage("Enter Issue To First", Colors.red, Colors.white, 16)
-                                      //                                                                     : readyForPreviewMethod()
-                                      //                                                                 : AllServices().toastMessage("Select Issue Mode First", Colors.red, Colors.white, 16)
-                                      //                                                             : AllServices().toastMessage("Enter The No of Patient First", Colors.red, Colors.white, 16)
-                                      //                                                         : AllServices().toastMessage("Select DSR Duration To First", Colors.red, Colors.white, 16)
-                                      //                      0                               : AllServices().toastMessage("Select DSR Duration From First", Colors.red, Colors.white, 16)
-                                      //                                                 : AllServices().toastMessage("Select DSR Schdule First", Colors.red, Colors.white, 16)
-                                      //                                             : AllServices().toastMessage("Select Rx Duration To First", Colors.red, Colors.white, 16)
-                                      //                                         : AllServices().toastMessage("Select Rx Duration From First", Colors.red, Colors.white, 16)
-                                      //                                     : AllServices().toastMessage("Enter Description First", Colors.red, Colors.white, 16)
-                                      //                                 : AllServices().toastMessage("Select Sub-Purpose First", Colors.red, Colors.white, 16)
-                                      //                             : AllServices().toastMessage("Select Purpose First", Colors.red, Colors.white, 16)
-                                      //                         : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                      //                     : AllServices().toastMessage("Select Category First", Colors.red, Colors.white, 16)
-                                      //                 : AllServices().toastMessage("Doctor Doctor ID Missing", Colors.red, Colors.white, 16)
-                                      //             : AllServices().toastMessage("Doctor Name ID Missing", Colors.red, Colors.white, 16)
-                                      //         : AllServices().toastMessage("Doctor Area ID Missing", Colors.red, Colors.white, 16)
-                                      //     : AllServices().toastMessage("Please Select Brand First", Colors.red, Colors.white, 16);
                                     }),
                               ),
                             ],
@@ -1997,18 +2082,20 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
       isLoading = true;
     });
     final ECMESubmitDataModel ecmeSubmitDataModel = ECMESubmitDataModel(
-              cid: cid!, 
+              cid: cid!,
+              userId:userInfo!.userId,
+              password: password!,  
               address:  widget.docInfo["address"], 
               areaId:  widget.docInfo["area_id"], 
               brandList: finalBrandListAftrRemoveDuplication, 
-              brandString: brandString, 
-              costLunchDinner: "",
+              brandString: getbrandString(), 
               costPerDoctor: costperDoctorController.text, 
               degree: widget.docInfo["degree"],  
               docId: widget.docInfo["doc_id"], 
               docName: widget.docInfo["doc_name"], 
               giftcose: giftController.text,
-              hallRentAmount: hallRentController.text, 
+              hallRentAmount: hallRentController.text,
+              foodExpense: foodExpansesController.text, 
               lattitute: latitude.toString(), 
               longitude: longitude.toString(),
               meetingDate: selectedExpiredDateString,
@@ -2019,28 +2106,22 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
               doctorCategory: selcetDoctorCategory!, 
               institureName: institutionController.text,
               departament: departmentController.text, 
-              eCMEAmount: eCMEController.text, 
+              eCMEAmount: eCMEAmountCOntroller.text, 
               rxPerDay: rxObjectiveperDayController.text,
-              totalNumbeParticiapnts: totalNumberOfParticiController.text, 
               doctorsCount: doctorParticipantCount.text, 
               internDoctor: internDoctorController.text, 
               dMFDoctors: dmfDoctorController.text, 
               nurses: nursesController.text, 
-              mornigEeveningTotalCost: '', 
               numberOfParticipant: noIfparticipants.toString(), 
               speakerInstitute: probaleSpeakerInstituteController.text,
               others: '',
-              password: password!, 
               speakerName: meetingProbaleSpeakerNameController.text, 
               speakerdegree: probaleSpeakerDegreeController.text, 
               speciality: widget.docInfo["specialty"], 
               stationaries: stationnairesController.text, 
               totalBudget: totalBudgetController.text, 
-              userId:userInfo!.userId
+              
             );
-
-
-    
 
     if (ecmeSubmitDataModel!=null) {
       setState(() {

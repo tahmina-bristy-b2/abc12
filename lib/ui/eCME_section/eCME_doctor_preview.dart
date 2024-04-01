@@ -21,49 +21,7 @@ class ECMEDoctorPreviewScreen extends StatefulWidget {
 
 class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   bool isPreviewLoading = false;
-  int totalRxperDay = 0;
-  int totalEmrX = 0;
-  int total4pRX = 0;
   int totalAmount = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // totalAmount = dynamicTotalCalculation(
-    //   totalAmount,
-    //   2,
-    // );
-    // totalRxperDay = dynamicCalculation(
-    //   totalRxperDay,
-    //   1,
-    // );
-    // totalEmrX = dynamicCalculation(
-    //   totalEmrX,
-    //   3,
-    // );
-    // total4pRX = dynamicCalculation(
-    //   total4pRX,
-    //   4,
-    // );
-  }
-
-  // //=======================
-  // int dynamicCalculation(int purposeTotal, int index) {
-  //   purposeTotal = 0;
-  //   widget.previewData["Brand"].forEach((element) {
-  //     purposeTotal = purposeTotal + double.parse(element[index]).toInt();
-  //   });
-  //   return purposeTotal;
-  // }
-
-  // double dynamicTotalCalculation(double purposeTotal, int index) {
-  //   purposeTotal = 0;
-  //   widget.previewData["Brand"].forEach((element) {
-  //     purposeTotal = purposeTotal + double.parse(element[index]);
-  //   });
-  //   return purposeTotal;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +164,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                   ],
                 ),
               ),
-          widget.eCMESubmitDataModel.doctorCategory==""  ?  Padding(
+          widget.eCMESubmitDataModel.doctorCategory=="Institution"  ?  Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -219,8 +177,8 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ) : SizedBox(),
-              Padding(
+              ) : const SizedBox(),
+            widget.eCMESubmitDataModel.doctorCategory=="Institution" ?  Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -234,7 +192,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ),
+              ) :const SizedBox(),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
@@ -313,7 +271,15 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                         ],
                       ),
                     ) ,
-                Padding(
+                    Container(
+                       decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 237, 246, 246),
+                        ),
+                        child:  Column( 
+                          mainAxisAlignment: MainAxisAlignment.center, 
+                          crossAxisAlignment: CrossAxisAlignment.center ,
+                          children: [
+                          Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,7 +290,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                             flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.doctorsCount,style: TextStyle(fontSize: 12)),
+                              child: Text(widget.eCMESubmitDataModel.doctorsCount,style: const TextStyle(fontSize: 12)),
                             ),
                           ),
                         ],
@@ -340,7 +306,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                            flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.internDoctor,style: TextStyle(fontSize: 12),),
+                              child: Text(widget.eCMESubmitDataModel.internDoctor,style: const TextStyle(fontSize: 12),),
                             ),
                           ),
                         ],
@@ -351,88 +317,6 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Expanded(flex: 5, child: Text('3.  DMF Doctor',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.dMFDoctors,style: TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('3.  Nurses',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.nurses,style: TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                     Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('Total Budget',style: TextStyle(fontWeight: FontWeight.w500),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 5,
-                            child: Text(widget.eCMESubmitDataModel.numberOfParticipant == null
-                                ? ""
-                                : ' ${widget.eCMESubmitDataModel.numberOfParticipant}'),
-                          ),
-                        ],
-                      ),
-                    ) ,
-                Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('1.  Hall rent',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10, 
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.hallRentAmount,style: const TextStyle(fontSize: 12)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('2.  Food Expense',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.internDoctor,style: TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
                           const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,
@@ -455,11 +339,126 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                             flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.nurses,style: TextStyle(fontSize: 12),),
+                              child: Text(widget.eCMESubmitDataModel.nurses,style: const TextStyle(fontSize: 12),),
                             ),
                           ),
                         ],
                       ),
+                    ),
+
+                        ],),
+                     ),
+                 
+                     Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('Total Budget',style: TextStyle(fontWeight: FontWeight.w500),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 5,
+                            child: Text(widget.eCMESubmitDataModel.totalBudget == null
+                                ? ""
+                                : ' ৳${widget.eCMESubmitDataModel.totalBudget}'),
+                          ),
+                        ],
+                      ),
+                    ) ,
+
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),color:Color.fromARGB(255, 237, 246, 246),
+                        ),
+                        child:Column(
+                          children: [
+                            Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('1.  Hall rent',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10, 
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.hallRentAmount==""?"৳00":' ৳${widget.eCMESubmitDataModel.hallRentAmount}',style: const TextStyle(fontSize: 12)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('2.  Food Expense',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.foodExpense==""?"৳00":' ৳${widget.eCMESubmitDataModel.foodExpense}',style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.costPerDoctor==""?"৳00":' ৳${widget.eCMESubmitDataModel.costPerDoctor}',style: const TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('4.  Speaker Gift or Souvenir',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.nurses==""?"৳00": ' ৳${widget.eCMESubmitDataModel.giftcose}',style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('5.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
+                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(widget.eCMESubmitDataModel.nurses==""?"৳00": ' ৳${widget.eCMESubmitDataModel.stationaries}',style: TextStyle(fontSize: 12),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                
+
+                          ],
+                        ) ,
                     ),
                 
             widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?     Padding(

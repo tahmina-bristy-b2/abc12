@@ -282,231 +282,231 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                         icon: const Icon(Icons.edit,
                             size: 20, color: Color(0xff8AC995)),
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  scrollable: true,
-                                  title: Center(
-                                      child: Text(
-                                          "${widget.docInfo["doc_name"]}")),
-                                  content: SizedBox(
-                                    height: 150,
-                                    child: Form(
-                                      key: _form1Key,
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          const Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              "Mobile Number*",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.1,
-                                            height: 45,
-                                            child: TextFormField(
-                                              keyboardType: TextInputType.number,
-                                              inputFormatters: [
-                                                 FilteringTextInputFormatter
-                                                                        .allow(
-                                                                      RegExp(
-                                                                          "[A-Za-z0-9]"),
-                                                                    ),
-                                                FilteringTextInputFormatter.deny(
-                                                  RegExp(r'^\d{12,}$'),
-                                                ),
-                                              ],
-                                              validator: (value) {
-                                                if (value!.isEmpty) {
-                                                  return "Mobile Number is required";
-                                                }
-                                                if (value.length < 11 
-                                                    ) {
-                                                  return "Mobile Number should be  11  digits";
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: InkWell(
-                                                    child: Container(
-                                                      height: 40,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
-                                                        color:
-                                                            const Color.fromARGB(
-                                                                255,
-                                                                170,
-                                                                172,
-                                                                170),
-                                                      ),
-                                                      child: const Center(
-                                                          child: Text("Cancel",
-                                                              style: TextStyle(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                              ))),
-                                                    ),
-                                                    onTap: () {
-                                                      // Navigator.pop(context);
-                                                      // doctorMobileNumberController
-                                                      //     .text = widget
-                                                      //         .docInfo[
-                                                      //     widget.index]["mobile"];
-                                                    }),
-                                              ),
-                                              const SizedBox(
-                                                width: 15,
-                                              ),
-                                              Expanded(
-                                                child: InkWell(
-                                                    child: Container(
-                                                      height: 40,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
-                                                        color:
-                                                            const Color.fromARGB(
-                                                                255, 44, 114, 66),
-                                                      ),
-                                                      child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
-                                                          child: Text("Update",
-                                                              style: TextStyle(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                              ))),
-                                                    ),
-                                                    onTap: () async {
-                                                      // if (_form1Key.currentState!
-                                                      //     .validate()) {
-                                                      //   setState(() {
-                                                      //     isMobileUpdate = true;
-                                                      //   });
-                                                      //   bool result =
-                                                      //       await InternetConnectionChecker()
-                                                      //           .hasConnection;
-                                                      //   if (result == true) {
-                                                      //     Map<String, dynamic>
-                                                      //         responsData =
-                                                      //         await EDSRRepositories().getMobileNumberUpdation(
-                                                      //             dmpathData!
-                                                      //                 .submitUrl,
-                                                      //             cid!,
-                                                      //             userInfo!
-                                                      //                 .userId,
-                                                      //             userPassword,
-                                                      //             widget.docInfo[
-                                                      //                     widget
-                                                      //                         .index]
-                                                      //                 ["doc_id"],
-                                                      //             doctorType!,
-                                                      //             doctorMobileNumberController
-                                                      //                 .text,
-                                                      //             widget.docInfo[
-                                                      //                     widget
-                                                      //                         .index]
-                                                      //                 [
-                                                      //                 "area_id"]);
-                                                      //     if (responsData
-                                                      //         .isNotEmpty) {
-                                                      //       if (responsData[
-                                                      //               "status"] ==
-                                                      //           "Success") {
-                                                      //         widget.docInfo[widget
-                                                      //                     .index]
-                                                      //                 ["mobile"] =
-                                                      //             doctorMobileNumberController
-                                                      //                 .text;
-                                                      //         setState(() {
-                                                      //           isMobileUpdate =
-                                                      //               false;
-                                                      //         });
-                                                      //         AllServices()
-                                                      //             .toastMessage(
-                                                      //                 responsData[
-                                                      //                     "ret_str"],
-                                                      //                 Colors
-                                                      //                     .green,
-                                                      //                 Colors
-                                                      //                     .white,
-                                                      //                 14);
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (BuildContext context) {
+                          //       return AlertDialog(
+                          //         scrollable: true,
+                          //         title: Center(
+                          //             child: Text(
+                          //                 "${widget.docInfo["doc_name"]}")),
+                          //         content: SizedBox(
+                          //           height: 150,
+                          //           child: Form(
+                          //             key: _form1Key,
+                          //             child: Column(
+                          //               children: [
+                          //                 const SizedBox(
+                          //                   height: 15,
+                          //                 ),
+                          //                 const Align(
+                          //                   alignment: Alignment.centerLeft,
+                          //                   child: Text(
+                          //                     "Mobile Number*",
+                          //                     style: TextStyle(
+                          //                         fontWeight: FontWeight.w500),
+                          //                   ),
+                          //                 ),
+                          //                 const SizedBox(
+                          //                   height: 5,
+                          //                 ),
+                          //                 SizedBox(
+                          //                   width: MediaQuery.of(context)
+                          //                           .size
+                          //                           .width /
+                          //                       1.1,
+                          //                   height: 45,
+                          //                   child: TextFormField(
+                          //                     keyboardType: TextInputType.number,
+                          //                     inputFormatters: [
+                          //                        FilteringTextInputFormatter
+                          //                                               .allow(
+                          //                                             RegExp(
+                          //                                                 "[A-Za-z0-9]"),
+                          //                                           ),
+                          //                       FilteringTextInputFormatter.deny(
+                          //                         RegExp(r'^\d{12,}$'),
+                          //                       ),
+                          //                     ],
+                          //                     validator: (value) {
+                          //                       if (value!.isEmpty) {
+                          //                         return "Mobile Number is required";
+                          //                       }
+                          //                       if (value.length < 11 
+                          //                           ) {
+                          //                         return "Mobile Number should be  11  digits";
+                          //                       }
+                          //                     },
+                          //                   ),
+                          //                 ),
+                          //                 const SizedBox(
+                          //                   height: 20,
+                          //                 ),
+                          //                 Row(
+                          //                   children: [
+                          //                     Expanded(
+                          //                       child: InkWell(
+                          //                           child: Container(
+                          //                             height: 40,
+                          //                             decoration: BoxDecoration(
+                          //                               borderRadius:
+                          //                                   BorderRadius.circular(
+                          //                                       10),
+                          //                               color:
+                          //                                   const Color.fromARGB(
+                          //                                       255,
+                          //                                       170,
+                          //                                       172,
+                          //                                       170),
+                          //                             ),
+                          //                             child: const Center(
+                          //                                 child: Text("Cancel",
+                          //                                     style: TextStyle(
+                          //                                       color: Color
+                          //                                           .fromARGB(
+                          //                                               255,
+                          //                                               255,
+                          //                                               255,
+                          //                                               255),
+                          //                                     ))),
+                          //                           ),
+                          //                           onTap: () {
+                          //                             // Navigator.pop(context);
+                          //                             // doctorMobileNumberController
+                          //                             //     .text = widget
+                          //                             //         .docInfo[
+                          //                             //     widget.index]["mobile"];
+                          //                           }),
+                          //                     ),
+                          //                     const SizedBox(
+                          //                       width: 15,
+                          //                     ),
+                          //                     Expanded(
+                          //                       child: InkWell(
+                          //                           child: Container(
+                          //                             height: 40,
+                          //                             decoration: BoxDecoration(
+                          //                               borderRadius:
+                          //                                   BorderRadius.circular(
+                          //                                       10),
+                          //                               color:
+                          //                                   const Color.fromARGB(
+                          //                                       255, 44, 114, 66),
+                          //                             ),
+                          //                             child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
+                          //                                 child: Text("Update",
+                          //                                     style: TextStyle(
+                          //                                       color: Color
+                          //                                           .fromARGB(
+                          //                                               255,
+                          //                                               255,
+                          //                                               255,
+                          //                                               255),
+                          //                                     ))),
+                          //                           ),
+                          //                           onTap: () async {
+                          //                             // if (_form1Key.currentState!
+                          //                             //     .validate()) {
+                          //                             //   setState(() {
+                          //                             //     isMobileUpdate = true;
+                          //                             //   });
+                          //                             //   bool result =
+                          //                             //       await InternetConnectionChecker()
+                          //                             //           .hasConnection;
+                          //                             //   if (result == true) {
+                          //                             //     Map<String, dynamic>
+                          //                             //         responsData =
+                          //                             //         await EDSRRepositories().getMobileNumberUpdation(
+                          //                             //             dmpathData!
+                          //                             //                 .submitUrl,
+                          //                             //             cid!,
+                          //                             //             userInfo!
+                          //                             //                 .userId,
+                          //                             //             userPassword,
+                          //                             //             widget.docInfo[
+                          //                             //                     widget
+                          //                             //                         .index]
+                          //                             //                 ["doc_id"],
+                          //                             //             doctorType!,
+                          //                             //             doctorMobileNumberController
+                          //                             //                 .text,
+                          //                             //             widget.docInfo[
+                          //                             //                     widget
+                          //                             //                         .index]
+                          //                             //                 [
+                          //                             //                 "area_id"]);
+                          //                             //     if (responsData
+                          //                             //         .isNotEmpty) {
+                          //                             //       if (responsData[
+                          //                             //               "status"] ==
+                          //                             //           "Success") {
+                          //                             //         widget.docInfo[widget
+                          //                             //                     .index]
+                          //                             //                 ["mobile"] =
+                          //                             //             doctorMobileNumberController
+                          //                             //                 .text;
+                          //                             //         setState(() {
+                          //                             //           isMobileUpdate =
+                          //                             //               false;
+                          //                             //         });
+                          //                             //         AllServices()
+                          //                             //             .toastMessage(
+                          //                             //                 responsData[
+                          //                             //                     "ret_str"],
+                          //                             //                 Colors
+                          //                             //                     .green,
+                          //                             //                 Colors
+                          //                             //                     .white,
+                          //                             //                 14);
           
-                                                      //         if (!mounted) {
-                                                      //           return;
-                                                      //         }
-                                                      //         Navigator.pop(
-                                                      //             context);
-                                                      //       } else {
-                                                      //         setState(() {
-                                                      //           isMobileUpdate =
-                                                      //               false;
-                                                      //         });
-                                                      //         AllServices()
-                                                      //             .toastMessage(
-                                                      //                 responsData[
-                                                      //                     "ret_str"],
-                                                      //                 Colors.red,
-                                                      //                 Colors
-                                                      //                     .white,
-                                                      //                 14);
-                                                      //       }
-                                                      //     } else {
-                                                      //       setState(() {
-                                                      //         isMobileUpdate =
-                                                      //             false;
-                                                      //       });
-                                                      //     }
-                                                      //   } else {
-                                                      //     setState(() {
-                                                      //       isMobileUpdate =
-                                                      //           false;
-                                                      //     });
-                                                      //     AllServices()
-                                                      //         .toastMessage(
-                                                      //             interNetErrorMsg,
-                                                      //             Colors.red,
-                                                      //             Colors.white,
-                                                      //             16);
-                                                      //   }
-                                                      // }
-                                                    }),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              });
+                          //                             //         if (!mounted) {
+                          //                             //           return;
+                          //                             //         }
+                          //                             //         Navigator.pop(
+                          //                             //             context);
+                          //                             //       } else {
+                          //                             //         setState(() {
+                          //                             //           isMobileUpdate =
+                          //                             //               false;
+                          //                             //         });
+                          //                             //         AllServices()
+                          //                             //             .toastMessage(
+                          //                             //                 responsData[
+                          //                             //                     "ret_str"],
+                          //                             //                 Colors.red,
+                          //                             //                 Colors
+                          //                             //                     .white,
+                          //                             //                 14);
+                          //                             //       }
+                          //                             //     } else {
+                          //                             //       setState(() {
+                          //                             //         isMobileUpdate =
+                          //                             //             false;
+                          //                             //       });
+                          //                             //     }
+                          //                             //   } else {
+                          //                             //     setState(() {
+                          //                             //       isMobileUpdate =
+                          //                             //           false;
+                          //                             //     });
+                          //                             //     AllServices()
+                          //                             //         .toastMessage(
+                          //                             //             interNetErrorMsg,
+                          //                             //             Colors.red,
+                          //                             //             Colors.white,
+                          //                             //             16);
+                          //                             //   }
+                          //                             // }
+                          //                           }),
+                          //                     ),
+                          //                   ],
+                          //                 )
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       );
+                          //     });
                         },
                       ),
                     )
@@ -568,6 +568,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                   }).toList(),
                                                   value: selectedECMEType,
                                                   onChanged: (value) {
+                                                    eCMEAmountCOntroller.clear();
                                                     setState(() {
                                                       selectedECMEType = value; 
                                                     });
@@ -869,7 +870,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                               SizedBox(
                                 height: wholeHeight / 75.927,
                               ),
-                            (selectedECMEType!=null)?   Row(
+                            Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                    Text(
@@ -884,7 +885,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   ),
                                selectedECMEType=="RMP Meeting"?   brandAddWidget(wholeHeight, wholeWidth, context): const SizedBox()
                                 ],
-                              ) :const SizedBox(),
+                              ), 
                              selectedECMEType!="RMP Meeting"?  const SizedBox(
                                 height: 6,
                               ) :const SizedBox(),
@@ -2116,7 +2117,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
               speakerInstitute: probaleSpeakerInstituteController.text,
               others: '',
               speakerName: meetingProbaleSpeakerNameController.text, 
-              speakerdegree: probaleSpeakerDegreeController.text, 
+              speakerDesignation: probaleSpeakerDesignationController.text, 
               speciality: widget.docInfo["specialty"], 
               stationaries: stationnairesController.text, 
               totalBudget: totalBudgetController.text, 

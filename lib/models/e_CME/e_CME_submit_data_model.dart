@@ -29,7 +29,7 @@ class ECMESubmitDataModel {
   String nurses;
   List<List<dynamic>> brandList;
   String speakerName;
-  String speakerdegree;
+  String speakerDesignation;
   String speakerInstitute;
   String numberOfParticipant;
   String totalBudget;
@@ -75,7 +75,7 @@ class ECMESubmitDataModel {
     required this.others,
    
     required this.speakerName,
-    required this.speakerdegree,
+    required this.speakerDesignation,
     required this.speciality,
     required this.hallRentAmount,
     required this.foodExpense,

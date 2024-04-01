@@ -206,7 +206,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                   ],
                 ),
               ),
-              Padding(
+          widget.eCMESubmitDataModel.doctorCategory==""  ?  Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -219,7 +219,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ),
+              ) : SizedBox(),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                 child: Row(

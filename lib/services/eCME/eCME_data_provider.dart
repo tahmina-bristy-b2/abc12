@@ -70,4 +70,45 @@ class ECMEDataProviders{
 
     return response;
   }
+
+
+  //=============================== eCME Approval Section =================================
+  Future<http.Response> getECMEFFList(
+    String fmListUrl,
+    String cid,
+    String userId,
+    String userPass,
+  ) async {
+    final http.Response response;
+    print("daata =${ECMEApis.getEcmeFFList(fmListUrl, cid, userId, userPass)}");
+
+    response = await http.get(
+      Uri.parse(ECMEApis.getEcmeFFList(fmListUrl, cid, userId, userPass)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
+
+  //===================== eCME details for approval =======================================
+  Future<http.Response> getECMEApprovalDetails(
+    String fmListUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String submitedBy,
+    String territoryId,
+    String levelDepth,
+  ) async {
+    final http.Response response;
+    response = await http.get(
+      Uri.parse(ECMEApis.eCMEDetailsApi(fmListUrl, cid, userId, userPass,
+          submitedBy, territoryId, levelDepth)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
 }

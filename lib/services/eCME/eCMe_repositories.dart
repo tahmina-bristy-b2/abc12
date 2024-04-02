@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_approval_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_ff_list_data_model_approval.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCME_data_provider.dart';
 import 'package:MREPORTING/services/eCME/eCME_services.dart';
@@ -56,7 +58,6 @@ class ECMERepositry{
     try {
       http.Response response = await ECMEDataProviders().terroBasedDoctor(
           doctorUrl, cid, userId, userPass, regionId, areaId, terroId, dsrType);
-
       submitInfo = json.decode(response.body);
       return submitInfo;
     } catch (e) {
@@ -71,13 +72,84 @@ class ECMERepositry{
     Map<String, dynamic> submitInfo = {};
     try {
       http.Response response = await ECMEDataProviders().submitECMEData(submitUrl);
-
       submitInfo = json.decode(response.body);
       return submitInfo;
     } catch (e) {
       print('get Doctor: $e');
     }
     return submitInfo;
+  }
+
+
+ // ========================================= get Ff List For e-CME approval=============================================
+   Future<ECMEffListDataModel?> getECMEFFListData(
+      String fmListUrl, String cid, String userId, String userPass) async {
+    ECMEffListDataModel? eCMEFFlistData;
+    try {
+      http.Response response = await ECMEDataProviders()
+          .getECMEFFList(fmListUrl, cid, userId, userPass);
+      var resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          eCMEFFlistData = eCMEFFListModelFromJson(response.body);
+          print("data =${response.body}");
+          return eCMEFFlistData;
+        } else {
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return eCMEFFlistData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+    return eCMEFFlistData;
+  }
+
+
+//=================================== eCME Details Data Get for Approval =========================================
+  Future<EcmeApprovalDetailsDataModel?> getDsrDetailsData(
+    String fmListUrl,
+    String cid,
+    String userId,
+    String userPass,
+    String submitedBy,
+    String territoryId,
+    String levelDepth,
+  ) async {
+    EcmeApprovalDetailsDataModel? dsrDetailsData;
+    try {
+      http.Response response = await ECMEDataProviders().getECMEApprovalDetails(fmListUrl,
+          cid, userId, userPass, submitedBy, territoryId, levelDepth);
+      var resData = json.decode(response.body);
+      print(resData["res_data"]["status"]);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          dsrDetailsData = ecmeApprovalDetailsDataModelFromJson(response.body);
+          return dsrDetailsData;
+        } else {
+          AllServices().toastMessage(
+              resData["res_data"]["ret_str"], Colors.red, Colors.white, 14);
+          return dsrDetailsData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+
+    return dsrDetailsData;
   }
 
 

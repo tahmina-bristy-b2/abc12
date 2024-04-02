@@ -162,6 +162,7 @@ class EDSRDataProvider {
     String userPass,
   ) async {
     final http.Response response;
+    print("FFList =${EDSRApis.eDSRfmListApi(fmListUrl, cid, userId, userPass)}");
 
     response = await http.get(
       Uri.parse(EDSRApis.eDSRfmListApi(fmListUrl, cid, userId, userPass)),

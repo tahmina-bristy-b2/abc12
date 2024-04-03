@@ -146,7 +146,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Approval eDSR'),
+          title: const Text('Approval e-CME'),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -219,7 +219,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 7),
-                        child: Text(' ${dsrDetails!.resData.dataList[index].doctorName}'),
+                        child: Text('  ${dsrDetails!.resData.dataList[index].doctorName}'),
                       ),
                     ),
                   ],
@@ -248,7 +248,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text(' ${dsrDetails!.resData.dataList[index].degree}'),
+                      child: Text('  ${dsrDetails!.resData.dataList[index].degree}'),
                     ),
                   ],
                 ),
@@ -262,7 +262,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text(' ${dsrDetails!.resData.dataList[index].specialty}'),
+                      child: Text('  ${dsrDetails!.resData.dataList[index].specialty}'),
                     ),
                   ],
                 ),
@@ -277,7 +277,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text( '  ${dsrDetails!.resData.dataList[index].ecmeType }'),
+                      child: Text( '   ${dsrDetails!.resData.dataList[index].ecmeType }'),
                     ),
                   ],
                 ),
@@ -291,7 +291,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                      const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text(' ${dsrDetails!.resData.dataList[index].ecmeAmount}',
+                      child: Text('  ${dsrDetails!.resData.dataList[index].ecmeAmount}',
                           ),
                     ),
                   ],
@@ -307,7 +307,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     Expanded(
                       flex: 5,
                       child: Text(
-                         '  ${dsrDetails!.resData.dataList[index].meetingDate}'
+                         '   ${dsrDetails!.resData.dataList[index].meetingDate}'
                           ),
                     ),
                   ],
@@ -322,7 +322,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text('  ${dsrDetails!.resData.dataList[index].doctorsCategory }'),
+                      child: Text('   ${dsrDetails!.resData.dataList[index].doctorsCategory }'),
                     ),
                   ],
                 ),
@@ -336,7 +336,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text('  ${dsrDetails!.resData.dataList[index].institutionName}'),
+                      child: Text('   ${dsrDetails!.resData.dataList[index].institutionName}'),
                     ),
                   ],
                 ),
@@ -351,7 +351,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     Expanded(
                       flex: 5,
                       child: Text(
-                          '  ${dsrDetails!.resData.dataList[index].department}'),
+                          '   ${dsrDetails!.resData.dataList[index].department}'),
                     ),
                   ],
                 ),
@@ -361,11 +361,11 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 5, child: Text('Meeting vanue',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Expanded(flex: 5, child: Text('Meeting venue',style: TextStyle(fontWeight: FontWeight.w500),)),
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text( '  ${dsrDetails!.resData.dataList[index].meetingVenue}'),
+                      child: Text( '   ${dsrDetails!.resData.dataList[index].meetingVenue}'),
                     ),
                   ],
                 ),
@@ -379,7 +379,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 5,
-                      child: Text(" ${dsrDetails!.resData.dataList[index].meetingTopic}"
+                      child: Text("   ${dsrDetails!.resData.dataList[index].meetingTopic}"
                          ,),
                     ),
                   ],
@@ -395,7 +395,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     Expanded(
                       flex: 5,
                       child:
-                          Text('  ${dsrDetails!.resData.dataList[index].probableSpeakerName}'),
+                          Text('   ${dsrDetails!.resData.dataList[index].probableSpeakerName}'),
                     ),
                   ],
                 ),
@@ -410,7 +410,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     Expanded(
                       flex: 5,
                       child:
-                          Text('  ${dsrDetails!.resData.dataList[index].department}'),
+                          Text('   ${dsrDetails!.resData.dataList[index].department}'),
                     ),
                   ],
                 ),
@@ -426,7 +426,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       flex: 5,
                       child: Text(dsrDetails!.resData.dataList[index].rxPerDay==null
                           ? ""
-                          : '  ${dsrDetails!.resData.dataList[index].rxPerDay}'),
+                          : '   ${dsrDetails!.resData.dataList[index].rxPerDay}'),
                     ),
                   ],
                 ),
@@ -442,13 +442,13 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       flex: 5,
                       child: Text(dsrDetails!.resData.dataList[index].step==null
                           ? ""
-                          : '  ${dsrDetails!.resData.dataList[index].step}'),
+                          : '   ${dsrDetails!.resData.dataList[index].step}',style: const TextStyle(color: Colors.green,fontWeight: FontWeight.bold),),
                     ),
                   ],
                 ),
               ),
                Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5),
+                      padding: const EdgeInsets.only(top: 10, bottom: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -458,7 +458,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                             flex: 5,
                             child: Text(dsrDetails!.resData.dataList[index].totalNumbersOfParticipants == null
                                 ? ""
-                                : ' ${dsrDetails!.resData.dataList[index].totalNumbersOfParticipants}'),
+                                : '   ${dsrDetails!.resData.dataList[index].totalNumbersOfParticipants}',style: const TextStyle(fontWeight: FontWeight.bold)),
                           ),
                         ],
                       ),
@@ -476,8 +476,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 5, child: Text('1.  Doctors',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          const Expanded(flex: 10, child: Text('1.  Doctors',style: TextStyle(fontSize: 12),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,
                             child: Padding(
@@ -492,8 +492,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 5, child: Text('2.  Intern Doctors',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          const Expanded(flex: 10, child: Text('2.  Intern Doctors',style: TextStyle(fontSize: 12),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                            flex: 10,
                             child: Padding(
@@ -508,8 +508,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 5, child: Text('3.  DMF Doctor',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          const Expanded(flex: 10, child: Text('3.  DMF Doctor',style: TextStyle(fontSize: 12),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,
                             child: Padding(
@@ -525,8 +525,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 5, child: Text('3.  Nurses',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          const Expanded(flex: 10, child: Text('3.  Nurses',style: TextStyle(fontSize: 12),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,
                             child: Padding(
@@ -542,7 +542,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                      ),
                  
                      Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5),
+                      padding: const EdgeInsets.only(top: 10, bottom: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -550,7 +550,37 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                           const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 5,
-                            child: Text("  ${dsrDetails!.resData.dataList[index].totalBudget}" 
+                            child: Text("  ৳${dsrDetails!.resData.dataList[index].totalBudget}" ,style: const TextStyle(fontWeight: FontWeight.bold)
+                              ),
+                          ),
+                        ],
+                      ),
+                    ) ,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2, bottom: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('Cost per doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 5,
+                            child: Text("  ৳${dsrDetails!.resData.dataList[index].costPerDoctor}" ,style: const TextStyle(fontWeight: FontWeight.bold)
+                              ),
+                          ),
+                        ],
+                      ),
+                    ) ,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2, bottom: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:const [
+                           Expanded(flex: 5, child: Text('Budget Breakdown',style: TextStyle(fontWeight: FontWeight.w500),)),
+                           Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 5,
+                            child: Text("  " ,style: const TextStyle(fontWeight: FontWeight.bold)
                               ),
                           ),
                         ],
@@ -567,8 +597,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 5, child: Text('1.  Hall rent',style: TextStyle(fontSize: 12),)),
-                          const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                          const Expanded(flex: 10, child: Text('1.  Hall rent',style: TextStyle(fontSize: 12),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10, 
                             child: Padding(
@@ -583,8 +613,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Expanded(flex: 5, child: Text('2.  Food Expense',style: TextStyle(fontSize: 12),)),
-                            const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                            const Expanded(flex: 10, child: Text('2.  Food Expense',style: TextStyle(fontSize: 12),)),
+                            const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                             Expanded(
                               flex: 10,
                               child: Padding(
@@ -594,30 +624,31 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                             ),
                           ],
                         ),
-                      ),Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Expanded(flex: 5, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
-                            const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
-                            Expanded(
-                              flex: 10,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text('  ৳${dsrDetails!.resData.dataList[index].costPerDoctor}',style: const TextStyle(fontSize: 12),),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       const Expanded(flex: 5, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
+                      //       const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                      //       Expanded(
+                      //         flex: 10,
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.only(left: 10),
+                      //           child: Text('  ৳${dsrDetails!.resData.dataList[index].costPerDoctor}',style: const TextStyle(fontSize: 12),),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Expanded(flex: 5, child: Text('4.  Speaker Gift or Souvenir',style: TextStyle(fontSize: 12),)),
-                            const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                            const Expanded(flex: 10, child: Text('3.  Speaker Gift or Souvenir',style: TextStyle(fontSize: 12),)),
+                            const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                             Expanded(
                               flex: 10,
                               child: Padding(
@@ -633,8 +664,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Expanded(flex: 5, child: Text('5.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
-                            const Text('-',style: TextStyle(fontWeight: FontWeight.w500)),
+                            const Expanded(flex: 10, child: Text('4.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
+                            const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                             Expanded(
                               flex: 10,
                               child: Padding(
@@ -650,7 +681,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                           ],
                         ) ,
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 5,),
                 
             dsrDetails!.resData.dataList[index].ecmeType=="RMP MEETING"?     Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),

@@ -157,10 +157,15 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
 
   //============================ total budget =========================
    double getTotalBudget(){
-    totalBudget=0;
-    totalBudget = double.parse(hallRentController.text.toString()==""?"0.0":hallRentController.text.toString())+double.parse(foodExpansesController.text.toString()==""?"0.0":foodExpansesController.text.toString())+ double.parse(costperDoctorController.text.toString()==""?"0.0":costperDoctorController.text.toString())+double.parse(giftController.text.toString()==""?"0.0":giftController.text.toString())+double.parse(othersController.text.toString()==""?"0.0":othersController.text.toString()); 
-    totalBudgetController.text=totalBudget.toStringAsFixed(2);
+    double hall=double.parse(hallRentController.text==""?"0.0":hallRentController.text.toString());
+    double food=double.parse(foodExpansesController.text==""?"0.0":foodExpansesController.text.toString());
+    double gift=double.parse(giftController.text==""?"0.0":giftController.text.toString());
+    double others=double.parse(othersController.text==""?"0.0":othersController.text.toString());
+    double costperDoctir =(double.parse(costperDoctorController.text==""?"0.0":costperDoctorController.text.toString()));
+    totalBudget=hall+food+gift+others+costperDoctir;
+    totalBudgetController.text=totalBudget.toStringAsFixed(1);
     getCostPerDoctor();
+    print("total Budgte =${totalBudget}");
     return totalBudget;
    }
 
@@ -172,19 +177,22 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
      int.parse(dmfDoctorController.text.toString()==""?"0":dmfDoctorController.text.toString())+
      int.parse(nursesController.text.toString()==""?"0":nursesController.text.toString()); 
      getCostPerDoctor();
-    // if(getCostPerDoctor()<450000)
      return noIfparticipants;
    }
 
    //============================== Cost per doctor ======================================
    double getCostPerDoctor(){
-    if(totalBudget>0.0){
+    if(double.parse(totalBudgetController.text.toString()==""?"0.0":totalBudgetController.text.toString())>0.0){
       double costPerDoctor= totalBudget/noIfparticipants;
-      costperDoctorController.text= costPerDoctor.toStringAsFixed(2);
-
+      costperDoctorController.text= costPerDoctor.toStringAsFixed(1);
+      // print("cost per doctor =$costperDoctorController");
       return costPerDoctor;
     }
-    return 0.0 ;
+    else{
+      return 0.0;
+    }
+
+    
    }
 
   @override

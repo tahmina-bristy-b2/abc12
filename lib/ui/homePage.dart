@@ -1067,22 +1067,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                           //  List dcrList = await AllServices()
                                           //     .getSyncSavedData('dcrListData');
                                           //     if (dcrList.isNotEmpty) {
@@ -1693,8 +1677,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
                       ///****************************************** Sync Data************************************************///
-                (userInfo!.edsrFlag == false &&
-                        userInfo!.edsrApprovalFlag == false)
+                (userInfo!.ecmeAddFlag == false &&
+                        userInfo!.ecmeApproveFlag == false)
                     ? const SizedBox.shrink()
                     : Container(
                         color: const Color(0xFFDDEBF7),
@@ -1707,16 +1691,25 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                userInfo!.edsrFlag!
+                                userInfo!.ecmeAddFlag==true
                                     ? Expanded(
                                         child: CustomBuildButton(
                                           icon: Icons.add,
                                           onClick: () async {
-                                             List dcrList = await AllServices()
+                                            List dcrList = await AllServices()
                                               .getSyncSavedData('dcrListData');
                                           
-                                                  if (dcrList.isNotEmpty) {
-                                                  ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                            if (userInfo!.areaPage) {
+                                            if (!mounted) return;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => AreaPage(
+                                                        screenName: 'e-CME',
+                                                      )),
+                                            );
+                                          } else if (dcrList.isNotEmpty) {
+                                              ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
                                                     if(eCMEDataModelData!=null){
                                                       if (!mounted) return;
                                                       Navigator.push(
@@ -1736,13 +1729,62 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           16);
 
                                                     }
-                                              } else {
-                                                AllServices().toastMessage(
-                                                    'Doctor List Empty!',
-                                                    Colors.red,
-                                                    Colors.white,
-                                                    16);
-                                              }
+
+
+                                          } else {
+                                            AllServices().toastMessage(
+                                                'Doctor List Empty!',
+                                                Colors.red,
+                                                Colors.white,
+                                                16);
+                                          }
+
+
+
+
+
+
+
+
+                                             
+                                              //     if (dcrList.isNotEmpty) {
+                                              //     ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                              //       if(eCMEDataModelData!=null){
+                                              //         if (!mounted) return;
+                                              //         Navigator.push(
+                                              //           context,
+                                              //           MaterialPageRoute(
+                                              //             builder: (_) => ECMEDoctorList(
+                                              //                 dcrDataList: dcrList),
+                                              //           ),
+                                              //         );
+
+                                              //       }
+                                              //       else{
+                                              //           AllServices().toastMessage(
+                                              //             'e_CME Sync First ',
+                                              //             Colors.red,
+                                              //             Colors.white,
+                                              //             16);
+
+                                              //       }
+                                              // } else {
+                                              //   AllServices().toastMessage(
+                                              //       'Doctor List Empty!',
+                                              //       Colors.red,
+                                              //       Colors.white,
+                                              //       16);
+                                              // }
+
+
+
+
+
+
+
+
+
+
                                               
                                            
                                           },
@@ -1753,7 +1795,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       )
                                     : const SizedBox.shrink(),
                                
-                                    Expanded(
+                                  userInfo!.ecmeApproveFlag==true?  Expanded(
                                         child: CustomBuildButton(
                                           icon: Icons.note_alt,
                                           onClick: () async {
@@ -1783,7 +1825,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           sizeWidth: screenWidth,
                                           inputColor: Colors.white,
                                         ),
-                                      )
+                                      ):const SizedBox()
                                    
                               ],
                             ),

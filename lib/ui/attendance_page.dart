@@ -308,13 +308,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                         Colors.white,
                                         16.0);
                                   }
-                                  // } else {
-                                  //   AllServices().toastMessage(
-                                  //       'End Time has been Submitted for Today',
-                                  //       Colors.red,
-                                  //       Colors.white,
-                                  //       16.0);
-                                  // }
+                                 
                                 },
                                 child: const Text(
                                   "Day End",

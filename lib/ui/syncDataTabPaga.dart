@@ -499,7 +499,8 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                   sizeWidth: screenWidth,
                                 ),
                               ) :const SizedBox(),
-                        Expanded(
+                       userInfo!.ecmeAddFlag==true
+                        ?  Expanded(
                           child: syncCustomBuildButton(
                             onClick: () async {
                               setState(() {
@@ -540,7 +541,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                             title: 'e-CME',
                             sizeWidth: screenWidth,
                           ),
-                        ),
+                        ):const SizedBox(),
                            
                       ],
                     ) ,

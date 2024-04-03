@@ -1,4 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -9,6 +10,8 @@ import 'package:MREPORTING/ui/rx_target_section/rx_target_client_screen.dart';
 import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'eCME_section/e_cme_doctor_list_new.dart';
 
 class AreaPage extends StatefulWidget {
   String screenName;
@@ -151,10 +154,9 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-                                     // print("chemistLIs===$chemistList");
 
                               if (chemistList.isNotEmpty) {
-                                // response = true;
+                              
                                 setState1(() {
                                   _isLoading = false;
                                 });
@@ -185,9 +187,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-
                               if (doctorList.isNotEmpty) {
-                                // response = true;
                                 setState1(() {
                                   _isLoading = false;
                                 });
@@ -210,9 +210,50 @@ class _AreaPageState extends State<AreaPage> {
                                     16);
                               }
                             }
+                             else if (widget.screenName == 'e-CME') {
+                              List chemistList = await Repositories()
+                                  .areaBaseDoctorRepo(
+                                      dmpathData!.syncUrl,
+                                      cid,
+                                      userInfo!.userId,
+                                      userPassword,
+                                      snapshot.data![index]['area_id']);
+                              if (chemistList.isNotEmpty) {
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+                                ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                                    if(eCMEDataModelData!=null){
+                                                      if (!mounted) return;
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) => ECMEDoctorList(
+                                                              dcrDataList: chemistList),
+                                                        ),
+                                                      );
+
+                                                    }
+                                                    else{
+                                                        AllServices().toastMessage(
+                                                          'e_CME Data Sync First ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);}
+                               } else {
+                                setState1(() {
+                                  _isLoading = false;
+                                });
+                                AllServices().toastMessage(
+                                    'Doctor Loading failed!',
+                                    Colors.red,
+                                    Colors.white,
+                                    16);
+                              }
+                            }
                           },
                           child: Card(
-                            // color: Colors.blue.withOpacity(.03),
+                       
                             elevation: 2,
                             child: SizedBox(
                                 height: 40,

@@ -2197,7 +2197,7 @@ int totalParticipants() {
               areaId:  widget.docInfo["area_id"], 
               brandList: finalBrandListAftrRemoveDuplication, 
               brandString: getbrandString(), 
-              costPerDoctor: costperDoctorController.text, 
+              costPerDoctor: getCostPerDoctor().toStringAsFixed(2), 
               degree: widget.docInfo["degree"],  
               docId: widget.docInfo["doc_id"], 
               docName: widget.docInfo["doc_name"], 
@@ -2227,7 +2227,7 @@ int totalParticipants() {
               speakerDesignation: probaleSpeakerDesignationController.text, 
               speciality: widget.docInfo["specialty"], 
               stationaries: stationnairesController.text, 
-              totalBudget: totalBudgetController.text, 
+              totalBudget: totalBudget.toStringAsFixed(2) 
               
             );
 

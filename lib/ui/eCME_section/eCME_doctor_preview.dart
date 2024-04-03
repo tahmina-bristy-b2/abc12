@@ -414,6 +414,34 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                         ],
                       ),
                     ) ,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(flex: 5, child: Text('Cost per doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
+                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 5,
+                            child: Text( '   ৳${widget.eCMESubmitDataModel.costPerDoctor}',style: const TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                        ],
+                      ),
+                    ) ,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:const [
+                           Expanded(flex: 5, child: Text('Budget Breakdown',style: TextStyle(fontWeight: FontWeight.w500),)),
+                           Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          Expanded(
+                            flex: 5,
+                            child: Text('',style:  TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                        ],
+                      ),
+                    ) ,
 
                     Container(
                       decoration: BoxDecoration(
@@ -453,29 +481,30 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                           ),
                         ],
                       ),
-                    ),Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(widget.eCMESubmitDataModel.costPerDoctor==""?"৳00":' ৳${widget.eCMESubmitDataModel.costPerDoctor}',style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       const Expanded(flex: 10, child: Text('3.  Cost per Doctor',style: TextStyle(fontSize: 12),)),
+                    //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                    //       Expanded(
+                    //         flex: 10,
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.only(left: 10),
+                    //           child: Text(widget.eCMESubmitDataModel.costPerDoctor==""?"৳00":' ৳${widget.eCMESubmitDataModel.costPerDoctor}',style: const TextStyle(fontSize: 12),),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 10, child: Text('4.  Speaker Gift or Souvenir',style: TextStyle(fontSize: 12),)),
+                          const Expanded(flex: 10, child: Text('3.  Speaker Gift or Souvenir',style: TextStyle(fontSize: 12),)),
                           const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,
@@ -492,7 +521,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 10, child: Text('5.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
+                          const Expanded(flex: 10, child: Text('4.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
                           const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,

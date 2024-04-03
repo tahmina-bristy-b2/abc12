@@ -645,16 +645,13 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                 setState(() {
                                   isPressed = true;
                                 });
-                                // if (dropdownValue != null) {
+                            
                                 String approvedEdsrParams =
                                     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
                                 approvedOrRejectedDsr(
                                     approvedEdsrParams, index);
 
-                                // } else {
-                                //   rsmCashError = true;
-                                //   setState(() {});
-                                // }
+                               
                               },
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -679,7 +676,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             backgroundColor: isPressed
                                 ? Colors.grey
                                 : const Color.fromARGB(255, 44, 114, 66),
-                            // backgroundColor: Colors.blue[700],
+                           
                             fixedSize: const Size(150, 30)),
                         child: const Text('Approve'),
                       ),
@@ -703,16 +700,10 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     setState(() {
                                       isPressed = true;
                                     });
-                                    // if (dropdownValue != null) {
                                     String approvedEdsrParams =
                                         "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
                                     approvedOrRejectedDsr(
                                         approvedEdsrParams, index);
-
-                                    // } else {
-                                    //   rsmCashError = true;
-                                    //   setState(() {});
-                                    // }
                                   },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -780,8 +771,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: const Color.fromARGB(255, 98, 158, 219),
-                        // color: const Color.fromARGB(255, 138, 201, 149),
-                        // color: Colors.blue[700],
+                        
                       ),
                       child: Row(
                         children: [
@@ -794,12 +784,7 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             flex: 3,
                               child: Center(
                             child: Text(
-                              // dsrDetails!.resData.dataList[index].dsrType ==
-                              //         'DCC'
-                              //     ? 'Monthly Avg. Sales'
-                              //     : 'Rx/Day',
-
-
+                            
                              dsrDetails!.resData.dataList[index].dsrType ==   "DOCTOR"
                                                                   ? "Seen RX Objective/Per Day*"
                                                                   : "Business Objective Per Month(Qty)*",
@@ -807,46 +792,18 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                   color: Colors.white, fontSize: 12),
                             ),
                           )),
-                          // const Expanded(
-                          //     child: Center(
-                          //   child: Text(
-                          //     'EMRX',
-                          //     style:
-                          //         TextStyle(color: Colors.white, fontSize: 12),
-                          //   ),
-                          // )),
-                          // const Expanded(
-                          //     child: Center(
-                          //   child: Text(
-                          //     '4P RX',
-                          //     style:
-                          //         TextStyle(color: Colors.white, fontSize: 12),
-                          //   ),
-                          // )),
+                         
                           const Expanded(
                               child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
                               "DSR",
-                              // dsrDetails!.resData.dataList[index].dsrType ==
-                              //         'DCC'
-                              //     ? 'Monthly Avg. Sales'
-                              //     : 'Amount',
+                            
                               style:
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           )),
-                          // const Expanded(
-                          //   child: Center(
-                          //     child: Text(
-                          //       'Action',
-                          //       style: TextStyle(
-                          //           color: Colors
-                          //               .black,
-                          //           fontSize: 12),
-                          //     ),
-                          //   ),
-                          // ),
+                         
                         ],
                       ),
                     ),

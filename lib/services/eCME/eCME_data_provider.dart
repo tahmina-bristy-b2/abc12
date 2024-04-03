@@ -102,9 +102,30 @@ class ECMEDataProviders{
     String levelDepth,
   ) async {
     final http.Response response;
+    print("eCMe Details ${ECMEApis.eCMEDetailsApi(fmListUrl, cid, userId, userPass,
+          submitedBy, territoryId, levelDepth)}");
     response = await http.get(
       Uri.parse(ECMEApis.eCMEDetailsApi(fmListUrl, cid, userId, userPass,
           submitedBy, territoryId, levelDepth)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
+
+
+  //================================= eCME Approved or reject ===============================
+  Future<http.Response> approvedECMEDP(String sl,
+         String approveEDSRUrl, String cid, String userId,
+          String userPass, String approvedEdsrParams) async {
+    final http.Response response;
+    print("approved reject api =${ECMEApis.eCMEApproved(sl,
+          approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)}");
+
+    response = await http.get(
+      Uri.parse(ECMEApis.eCMEApproved(sl,
+          approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

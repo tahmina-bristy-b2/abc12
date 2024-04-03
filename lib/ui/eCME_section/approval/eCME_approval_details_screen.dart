@@ -90,12 +90,13 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
   }
 
 
-   void approvedOrRejectedDsr(String approvedEdsrParams, int index) async {
+   void approvedOrRejectedDsr(String sl,String approvedEdsrParams, int index) async {
     bool result = await InternetConnectionChecker().hasConnection;
 
     if (result) {
       Map<String, dynamic> approvedResponse =
-          await EDSRRepositories().approvedOrRejectedDsr(
+          await ECMERepositry().approvedOrRejectedDsr(
+        sl,
         dmpathData!.syncUrl,
         widget.cid,
         userInfo!.userId,
@@ -127,10 +128,10 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
 
 
  String getTotal(List<EcmeBrandListDataModel> brandList){
-   int totalAmount = 0;
-    brandList.forEach((element) {
+    int totalAmount = 0;
+    for (var element in brandList) {
       totalAmount = totalAmount + int.parse(element.salesQty);
-    });
+    }
     print("total $totalAmount");
     return totalAmount.toString();
 
@@ -287,7 +288,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                    const  Expanded(flex: 5, child: Text('E-CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
-                     Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
                       child: Text(' ${dsrDetails!.resData.dataList[index].ecmeAmount}',
@@ -430,6 +431,22 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 5, child: Text('Status',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child: Text(dsrDetails!.resData.dataList[index].step==null
+                          ? ""
+                          : '  ${dsrDetails!.resData.dataList[index].step}'),
+                    ),
+                  ],
+                ),
+              ),
                Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 5),
                       child: Row(
@@ -465,7 +482,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                             flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(dsrDetails!.resData.dataList[index].doctorsCount,style: const TextStyle(fontSize: 12)),
+                              child: Text(' ${dsrDetails!.resData.dataList[index].doctorsCount}',style: const TextStyle(fontSize: 12)),
                             ),
                           ),
                         ],
@@ -481,7 +498,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                            flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(dsrDetails!.resData.dataList[index].internDoctors,style: const TextStyle(fontSize: 12),),
+                              child: Text("  ${dsrDetails!.resData.dataList[index].internDoctors}",style: const TextStyle(fontSize: 12),),
                             ),
                           ),
                         ],
@@ -497,7 +514,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                             flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(dsrDetails!.resData.dataList[index].dmfDoctors,style: const TextStyle(fontSize: 12),),
+                              child: Text("  ${dsrDetails!.resData.dataList[index].dmfDoctors}",style: const TextStyle(fontSize: 12),),
                             ),
                           ),
                         ],
@@ -514,7 +531,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                             flex: 10,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(dsrDetails!.resData.dataList[index].nurses,style: const TextStyle(fontSize: 12),),
+                              child: Text("  ${dsrDetails!.resData.dataList[index].nurses}",style: const TextStyle(fontSize: 12),),
                             ),
                           ),
                         ],
@@ -533,7 +550,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                           const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 5,
-                            child: Text(dsrDetails!.resData.dataList[index].totalBudget 
+                            child: Text("  ${dsrDetails!.resData.dataList[index].totalBudget}" 
                               ),
                           ),
                         ],
@@ -556,7 +573,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                             flex: 10, 
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(' ৳${dsrDetails!.resData.dataList[index].hallRent}',style: const TextStyle(fontSize: 12)),
+                              child: Text('  ৳${dsrDetails!.resData.dataList[index].hallRent}',style: const TextStyle(fontSize: 12)),
                             ),
                           ),
                         ],
@@ -572,7 +589,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                               flex: 10,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text(' ৳${dsrDetails!.resData.dataList[index].foodExpense}',style: const TextStyle(fontSize: 12),),
+                                child: Text('  ৳${dsrDetails!.resData.dataList[index].foodExpense}',style: const TextStyle(fontSize: 12),),
                               ),
                             ),
                           ],
@@ -588,7 +605,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                               flex: 10,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text(' ৳${dsrDetails!.resData.dataList[index].costPerDoctor}',style: const TextStyle(fontSize: 12),),
+                                child: Text('  ৳${dsrDetails!.resData.dataList[index].costPerDoctor}',style: const TextStyle(fontSize: 12),),
                               ),
                             ),
                           ],
@@ -605,7 +622,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                               flex: 10,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text(' ৳${dsrDetails!.resData.dataList[index].giftsSouvenirs}',style: const TextStyle(fontSize: 12),),
+                                child: Text('  ৳${dsrDetails!.resData.dataList[index].giftsSouvenirs}',style: const TextStyle(fontSize: 12),),
                               ),
                             ),
                           ],
@@ -622,7 +639,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                               flex: 10,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text(' ৳${dsrDetails!.resData.dataList[index].stationnaires}',style: const TextStyle(fontSize: 12),),
+                                child: Text('  ৳${dsrDetails!.resData.dataList[index].stationnaires}',style: const TextStyle(fontSize: 12),),
                               ),
                             ),
                           ],
@@ -803,16 +820,12 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                 setState(() {
                                   isPressed = true;
                                 });
-                                // if (dropdownValue != null) {
-                                String approvedEdsrParams =
-                                    "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
-                                approvedOrRejectedDsr(
-                                    approvedEdsrParams, index);
+                           
+                                // String approvedEdsrParams =
+                                //     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
+                                approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                   "Rejected", index);
 
-                                // } else {
-                                //   rsmCashError = true;
-                                //   setState(() {});
-                                // }
                               },
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -828,16 +841,16 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                 setState(() {
                                   isPressed = true;
                                 });
-                                String approvedEdsrParams =
-                                    "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
-                                approvedOrRejectedDsr(
-                                    approvedEdsrParams, index);
+                                // String approvedEdsrParams =
+                                //     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
+                                approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                    "Approved", index);
                               },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: isPressed
                                 ? Colors.grey
                                 : const Color.fromARGB(255, 44, 114, 66),
-                            // backgroundColor: Colors.blue[700],
+                     
                             fixedSize: const Size(150, 30)),
                         child: const Text('Approve'),
                       ),
@@ -861,16 +874,12 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                     setState(() {
                                       isPressed = true;
                                     });
-                                    // if (dropdownValue != null) {
-                                    String approvedEdsrParams =
-                                        "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
-                                    approvedOrRejectedDsr(
-                                        approvedEdsrParams, index);
+                                   
+                                    // String approvedEdsrParams =
+                                    //     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
+                                    approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                        "Rejected", index);
 
-                                    // } else {
-                                    //   rsmCashError = true;
-                                    //   setState(() {});
-                                    // }
                                   },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -886,10 +895,10 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                     setState(() {
                                       isPressed = true;
                                     });
-                                    String approvedEdsrParams =
-                                        "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
-                                    approvedOrRejectedDsr(
-                                        approvedEdsrParams, index);
+                                    // String approvedEdsrParams =
+                                    //     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
+                                    approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                        "Approved", index);
                                   },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: isPressed

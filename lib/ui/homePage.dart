@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     AllServices().getLatLong();
-      getAttenadce();
+    getAttenadce();
     if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
       regionListData =
           Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
@@ -1714,46 +1714,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                           onClick: () async {
                                              List dcrList = await AllServices()
                                               .getSyncSavedData('dcrListData');
-                                            if (regionListData != null) {
-                                              if (dcrList.isNotEmpty) {
-                                               ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                                if(eCMEDataModelData!=null){
-                                                  if (!mounted) return;
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (_) => ECMEDoctorList(
-                                                          dcrDataList: dcrList),
-                                                    ),
-                                                  );
+                                          
+                                                  if (dcrList.isNotEmpty) {
+                                                  ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                                    if(eCMEDataModelData!=null){
+                                                      if (!mounted) return;
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) => ECMEDoctorList(
+                                                              dcrDataList: dcrList),
+                                                        ),
+                                                      );
 
-                                                }
-                                                else{
-                                                    AllServices().toastMessage(
-                                                      'e_CME Sync First ',
-                                                      Colors.red,
-                                                      Colors.white,
-                                                      16);
+                                                    }
+                                                    else{
+                                                        AllServices().toastMessage(
+                                                          'e_CME Sync First ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);
 
-                                                }
-
-
-                                          } else {
-                                            AllServices().toastMessage(
-                                                'Doctor List Empty!',
-                                                Colors.red,
-                                                Colors.white,
-                                                16);
-                                          }
+                                                    }
+                                              } else {
+                                                AllServices().toastMessage(
+                                                    'Doctor List Empty!',
+                                                    Colors.red,
+                                                    Colors.white,
+                                                    16);
+                                              }
                                               
-                                            } else {
-                                              AllServices().toastMessage(
-                                                  "e_CME data not found, Sync first...",
-                                                  Colors.red,
-                                                  Colors.white,
-                                                  16);
-                                              setState(() {});
-                                            }
+                                           
                                           },
                                           title: 'Add e-CME',
                                           sizeWidth: screenWidth,
@@ -1761,8 +1752,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                       )
                                     : const SizedBox.shrink(),
-                                // userInfo!.edsrApprovalFlag!
-                                //     ? 
+                               
                                     Expanded(
                                         child: CustomBuildButton(
                                           icon: Icons.note_alt,
@@ -1794,7 +1784,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           inputColor: Colors.white,
                                         ),
                                       )
-                                    // : const SizedBox.shrink(),
+                                   
                               ],
                             ),
                           ],

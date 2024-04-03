@@ -57,9 +57,6 @@ class ECMEDataProviders{
     String submitUrl
   ) async {
     final http.Response response;
-
-    // print(
-    //     "submit==${ECMEApis().submitApi(eDsrSettingsUrl, cid, userId, userPass)}");
     response = await http.get(
       Uri.parse(
           submitUrl),
@@ -81,7 +78,6 @@ class ECMEDataProviders{
   ) async {
     final http.Response response;
     print("daata =${ECMEApis.getEcmeFFList(fmListUrl, cid, userId, userPass)}");
-
     response = await http.get(
       Uri.parse(ECMEApis.getEcmeFFList(fmListUrl, cid, userId, userPass)),
       headers: <String, String>{
@@ -122,7 +118,6 @@ class ECMEDataProviders{
     final http.Response response;
     print("approved reject api =${ECMEApis.eCMEApproved(sl,
           approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)}");
-
     response = await http.get(
       Uri.parse(ECMEApis.eCMEApproved(sl,
           approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)),

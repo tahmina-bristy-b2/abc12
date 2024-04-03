@@ -226,7 +226,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -240,7 +240,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -254,7 +254,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -269,7 +269,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
               ),
             
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -283,7 +283,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
              dsrDetails!.resData.dataList[index].ecmeType!="RMP MEETING"?  Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -298,7 +298,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ):const SizedBox(),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -314,7 +314,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -328,7 +328,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
           dsrDetails!.resData.dataList[index].doctorsCategory=="Institution"  ?  Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -342,7 +342,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ) : const SizedBox(),
             dsrDetails!.resData.dataList[index].doctorsCategory=="Institution" ?  Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -357,7 +357,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ) :const SizedBox(),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -371,11 +371,11 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 5, child: Text('Meeting Topic')),
+                    const Expanded(flex: 5, child: Text('Meeting Topic',style: TextStyle(fontWeight: FontWeight.w500),)),
                     const Text(':'),
                     Expanded(
                       flex: 5,
@@ -386,7 +386,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -401,7 +401,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
                Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -416,7 +416,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -432,7 +432,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -448,7 +448,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
                Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5),
+                      padding: const EdgeInsets.only(top: 10, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

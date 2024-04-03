@@ -1739,53 +1739,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 16);
                                           }
 
-
-
-
-
-
-
-
-                                             
-                                              //     if (dcrList.isNotEmpty) {
-                                              //     ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                              //       if(eCMEDataModelData!=null){
-                                              //         if (!mounted) return;
-                                              //         Navigator.push(
-                                              //           context,
-                                              //           MaterialPageRoute(
-                                              //             builder: (_) => ECMEDoctorList(
-                                              //                 dcrDataList: dcrList),
-                                              //           ),
-                                              //         );
-
-                                              //       }
-                                              //       else{
-                                              //           AllServices().toastMessage(
-                                              //             'e_CME Sync First ',
-                                              //             Colors.red,
-                                              //             Colors.white,
-                                              //             16);
-
-                                              //       }
-                                              // } else {
-                                              //   AllServices().toastMessage(
-                                              //       'Doctor List Empty!',
-                                              //       Colors.red,
-                                              //       Colors.white,
-                                              //       16);
-                                              // }
-
-
-
-
-
-
-
-
-
-
-                                              
+   
                                            
                                           },
                                           title: 'Add e-CME',

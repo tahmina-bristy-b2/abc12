@@ -128,7 +128,7 @@ class ECMERepositry{
       http.Response response = await ECMEDataProviders().getECMEApprovalDetails(fmListUrl,
           cid, userId, userPass, submitedBy, territoryId, levelDepth);
       var resData = json.decode(response.body);
-      print(resData["res_data"]["status"]);
+     // print("details=== ${resData}");
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
           dsrDetailsData = ecmeApprovalDetailsDataModelFromJson(response.body);

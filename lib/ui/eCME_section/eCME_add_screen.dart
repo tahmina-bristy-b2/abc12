@@ -89,11 +89,13 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   bool isLoading = false;
   bool isAPC = false;
   bool isCheck = false;
-  double totalBudget=0.0;
-  int noIfparticipants=0;
+  
   final RegExp phoneRegex = RegExp(r'^\d{13}$');
   bool isMobileUpdate = false;
   List<String> eCMETypeList=[];
+  double totalBudget=0.0;
+  int noIfparticipants=0;
+  double costPerDoctor=0.0;
 
   @override
   void initState() {
@@ -156,36 +158,38 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   }
 
   //============================ total budget =========================
-   double getTotalBudget(){
-    double hall=double.parse(hallRentController.text==""?"0.0":hallRentController.text.toString());
-    double food=double.parse(foodExpansesController.text==""?"0.0":foodExpansesController.text.toString());
-    double gift=double.parse(giftController.text==""?"0.0":giftController.text.toString());
-    double others=double.parse(othersController.text==""?"0.0":othersController.text.toString());
-    double costperDoctir =(double.parse(costperDoctorController.text==""?"0.0":costperDoctorController.text.toString()));
-    totalBudget=hall+food+gift+others+costperDoctir;
-    totalBudgetController.text=totalBudget.toStringAsFixed(1);
-    getCostPerDoctor();
-    print("total Budgte =${totalBudget}");
-    return totalBudget;
-   }
+double getTotalBudget() {
+  double hall = double.tryParse(hallRentController.text) ?? 0.0;
+  double food = double.tryParse(foodExpansesController.text) ?? 0.0;
+  double gift = double.tryParse(giftController.text) ?? 0.0;
+  double others = double.tryParse(stationnairesController.text) ?? 0.0;
+ // print("no of particpant =${toat}")
+  // double costPerDoctor = double.tryParse(costperDoctorController.text) ?? 0.0;
 
-    //============================ total Numbers of participants =========================
-   int totalParticipants(){
-    noIfparticipants= 
-    int.parse(doctorParticipantCount.text.toString()==""?"0":doctorParticipantCount.text.toString())+
-     int.parse(internDoctorController.text.toString()==""?"0":internDoctorController.text.toString())+
-     int.parse(dmfDoctorController.text.toString()==""?"0":dmfDoctorController.text.toString())+
-     int.parse(nursesController.text.toString()==""?"0":nursesController.text.toString()); 
-     getCostPerDoctor();
-     return noIfparticipants;
-   }
+  // double totalCostPerDoc = costPerDoctor * noIfparticipants;
 
+  totalBudget = hall + food + gift + others ;
+  totalBudgetController.text = totalBudget.toStringAsFixed(2);
+  getCostPerDoctor();
+
+  return totalBudget;
+}
+
+//============================ total Numbers of participants =========================
+int totalParticipants() {
+  noIfparticipants = 
+    (int.tryParse(doctorParticipantCount.text) ?? 0) +
+    (int.tryParse(internDoctorController.text) ?? 0) +
+    (int.tryParse(dmfDoctorController.text) ?? 0) +
+    (int.tryParse(nursesController.text) ?? 0); 
+  getCostPerDoctor();
+  return noIfparticipants;
+}
    //============================== Cost per doctor ======================================
    double getCostPerDoctor(){
     if(double.parse(totalBudgetController.text.toString()==""?"0.0":totalBudgetController.text.toString())>0.0){
       double costPerDoctor= totalBudget/noIfparticipants;
-      costperDoctorController.text= costPerDoctor.toStringAsFixed(1);
-      // print("cost per doctor =$costperDoctorController");
+      //costperDoctorController.text= costPerDoctor.toStringAsFixed(1);
       return costPerDoctor;
     }
     else{
@@ -653,7 +657,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       textAlign: TextAlign.left, 
                                       keyboardType: TextInputType.text,
                                       suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
-                                      textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 82, 179, 98),), 
+                                      textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 41, 90, 50),), 
                                       onChanged: (String value) {
                                         setState(() {});
                                         selectedExpiredDateString  = value;
@@ -882,14 +886,14 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                    Text(
-                                    selectedECMEType=="RMP Meeting"?    "Brand" :"e-CME Amount",
+                                    selectedECMEType=="RMP Meeting"?  "Brand*" :"e-CME Amount*",
                                     style: const TextStyle(
                                         fontSize: 15,
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
-                                    width: wholeWidth / 1.45,
+                                    width:selectedECMEType=="RMP Meeting"?  wholeWidth / 1.45:0,
                                   ),
                                selectedECMEType=="RMP Meeting"?   brandAddWidget(wholeHeight, wholeWidth, context): const SizedBox()
                                 ],
@@ -922,7 +926,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 height: 10,
                               ) :const SizedBox(),
                                   const Text(
-                                "Probable Speaker Name",
+                                "Probable Speaker Name*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -948,7 +952,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                               ),
           
                                   const Text(
-                                "Probable Speaker Designation",
+                                "Probable Speaker Designation*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -1047,7 +1051,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                     
                          Column(
                                 children: [
-                                  BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors ", controller: doctorParticipantCount,
+                                  BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors*", controller: doctorParticipantCount,
                                         onChanged: (value ) {  
                                            totalParticipants();
                                             setState(() {
@@ -1095,9 +1099,44 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 height: 10,
                               ),
 
+                              // const SizedBox(height: 10,),
+                              //   ( totalParticipants()>0 )?   Row(
+                              //       children: [
+                                        
+                              //           SizedBox(
+                              //             width:MediaQuery.of(context).size.width /2.15 ,
+                              //             child:const Text("Cost per doctor",
+                              //                   style: TextStyle(
+                              //                   fontSize: 15,
+                              //                   color: Color.fromARGB(255, 0, 0, 0),
+                              //                   fontWeight: FontWeight.w600)
+                              //                         ),
+                                          
+                              //           ),
+                              //            SizedBox(
+                              //             width:MediaQuery.of(context).size.width / 9 ,
+                              //             child:const Text(":"),
+                                          
+                              //           ),
+                              //            Align(
+                              //             alignment: Alignment.centerRight,
+                              //             child: SizedBox(
+                              //               width:MediaQuery.of(context).size.width / 3 ,
+                              //               child: Text(getCostPerDoctor().toString(),style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
+                              //             ),
+                                      
+                                      
+                              //         ],
+                              //       )
+                              //       :const SizedBox(),
+                                   
+                              const SizedBox(
+                                height: 10,
+                              ),
                                   
-                              ( totalParticipants()>0 )?     Row(
-                                      children: [
+                              ( totalParticipants()>0 )? 
+                              Row(
+                                    children: [
                                         
                                         SizedBox(
                                           width:MediaQuery.of(context).size.width /2.15 ,
@@ -1114,29 +1153,89 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                           child:const Text(":"),
                                           
                                         ),
-                                        SizedBox(
-                                          height: 45,
-                                           width:MediaQuery.of(context).size.width / 3,
-                                           child: TextFormField(
-                                            readOnly: true,
-                                              textAlign: TextAlign.right,
-                                              style:const TextStyle(fontSize: 14),
-                                            controller: totalBudgetController,
-                                            decoration: InputDecoration(
+                                         Align(
+                                          alignment: Alignment.centerRight,
+                                          child: SizedBox(
+                                            width:MediaQuery.of(context).size.width / 3 ,
+                                            child: Text("৳${totalBudget.toStringAsFixed(2)}",style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
+                                          ),
+                                      
+                                      
+                                      ],
+                                    ) 
+                                //  Row(
+                                //       children: [
+                                        
+                                //         SizedBox(
+                                //           width:MediaQuery.of(context).size.width /2.15 ,
+                                //           child:const Text("Total budget*",
+                                //                 style: TextStyle(
+                                //                 fontSize: 15,
+                                //                 color: Color.fromARGB(255, 0, 0, 0),
+                                //                 fontWeight: FontWeight.w600)
+                                //                       ),
+                                          
+                                //         ),
+                                //          SizedBox(
+                                //           width:MediaQuery.of(context).size.width / 9 ,
+                                //           child:const Text(":"),
+                                          
+                                //         ),
+                                //         SizedBox(
+                                //           height: 45,
+                                //            width:MediaQuery.of(context).size.width / 3,
+                                //            child: TextFormField(
+                                //             readOnly: true,
+                                //               textAlign: TextAlign.right,
+                                //               style:const TextStyle(fontSize: 14),
+                                //             controller: totalBudgetController,
+                                //             decoration: InputDecoration(
                                               
-                                              border: OutlineInputBorder(
-                                                borderSide:
-                                                    const BorderSide(color: Colors.white),
-                                                borderRadius: BorderRadius.circular(10.0),
-                                              ),
-                                            ),
-                                          )
+                                //               border: OutlineInputBorder(
+                                //                 borderSide:
+                                //                     const BorderSide(color: Colors.white),
+                                //                 borderRadius: BorderRadius.circular(10.0),
+                                //               ),
+                                //             ),
+                                //           )
                                     
-                                    ),
+                                //     ),
                                         
               
+                                //       ],
+                                //     )
+                                    
+                                    :const SizedBox(),
+                                    const SizedBox(height: 10,),
+                                ( totalParticipants()>0 )?   Row(
+                                    children: [
+                                        
+                                        SizedBox(
+                                          width:MediaQuery.of(context).size.width /2.15 ,
+                                          child:const Text("Cost per doctor",
+                                                style: TextStyle(
+                                                fontSize: 15,
+                                                color: Color.fromARGB(255, 0, 0, 0),
+                                                fontWeight: FontWeight.w600)
+                                                      ),
+                                          
+                                        ),
+                                         SizedBox(
+                                          width:MediaQuery.of(context).size.width / 9 ,
+                                          child:const Text(":"),
+                                          
+                                        ),
+                                         Align(
+                                          alignment: Alignment.centerRight,
+                                          child: SizedBox(
+                                            width:MediaQuery.of(context).size.width / 3 ,
+                                            child: Text("৳${getCostPerDoctor().toStringAsFixed(2)}",style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
+                                          ),
+                                      
+                                      
                                       ],
-                                    ):const SizedBox(),
+                                    )
+                                    :const SizedBox(),
           
                            
                                     SizedBox(height:(  totalParticipants()>0 )? 10:0),
@@ -1152,7 +1251,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 children: [
                                   BudgetBreakDownRowWidget(
                                     routingName: 'budget',
-                                    rowNumber: "1.", reason:"Hall rent ", controller: hallRentController,
+                                    rowNumber: "1.", reason:"Hall rent*", controller: hallRentController,
                                         onChanged: (value ) {  
                                             getTotalBudget();
                                             setState(() {
@@ -1163,7 +1262,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                         ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
-                                    rowNumber: "2.", reason:"Food Expense", controller: foodExpansesController, 
+                                    rowNumber: "2.", reason:"Food Expense*", controller: foodExpansesController, 
                                            onChanged: (value ) {  
                                             getTotalBudget();
                                             setState(() {
@@ -1172,20 +1271,20 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                              validator: null,
                                        
                                           ),
-                                  BudgetBreakDownRowWidget(
-                                       routingName: 'budget',
-                                    rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
-                                         onChanged: (value ) {  
-                                            getTotalBudget();
-                                            setState(() { 
-                                            });
-                                          },
-                                           validator: null,
+                                  // BudgetBreakDownRowWidget(
+                                  //      routingName: 'budget',
+                                  //   rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
+                                  //        onChanged: (value ) {  
+                                  //           getTotalBudget();
+                                  //           setState(() { 
+                                  //           });
+                                  //         },
+                                  //          validator: null,
                                        
-                                        ),
+                                  //       ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
-                                    rowNumber: "4.", reason:"Speaker Gift or Souvenir) ", controller: giftController, 
+                                    rowNumber: "3.", reason:"Speaker Gift or Souvenir)*", controller: giftController, 
                                       onChanged: (value ) {  
                                             getTotalBudget();
                                             setState(() {
@@ -1197,7 +1296,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
-                                    rowNumber: "5.", reason:"Stationnaires or Others", controller: stationnairesController, 
+                                    rowNumber: "4.", reason:"Stationnaires or Others*", controller: stationnairesController, 
                                        onChanged: (value ) {  
                                             getTotalBudget();
                                             setState(() {

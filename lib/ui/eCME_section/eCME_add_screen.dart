@@ -187,7 +187,7 @@ int totalParticipants() {
 }
    //============================== Cost per doctor ======================================
    double getCostPerDoctor(){
-    if(double.parse(totalBudgetController.text.toString()==""?"0.0":totalBudgetController.text.toString())>0.0){
+    if(totalBudget>0.0){
       double costPerDoctor= totalBudget/noIfparticipants;
       //costperDoctorController.text= costPerDoctor.toStringAsFixed(1);
       return costPerDoctor;

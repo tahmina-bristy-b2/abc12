@@ -1284,7 +1284,7 @@ int totalParticipants() {
                                   //       ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
-                                    rowNumber: "3.", reason:"Speaker Gift or Souvenir)*", controller: giftController, 
+                                    rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
                                       onChanged: (value ) {  
                                             getTotalBudget();
                                             setState(() {

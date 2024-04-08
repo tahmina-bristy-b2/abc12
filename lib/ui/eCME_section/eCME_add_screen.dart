@@ -39,7 +39,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController brandSelectedController = TextEditingController();
   TextEditingController rxPerDayController = TextEditingController();
   TextEditingController eCMEAmountCOntroller = TextEditingController();
-  TextEditingController eCMEController = TextEditingController();
+  TextEditingController salesQtyController = TextEditingController();
   TextEditingController meetingProbaleSpeakerNameController = TextEditingController();
   TextEditingController probaleSpeakerInstituteController = TextEditingController();
   TextEditingController totalNumberOfParticiController = TextEditingController();
@@ -58,7 +58,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController dmfDoctorController = TextEditingController();
   TextEditingController nursesController = TextEditingController();
   TextEditingController doctorParticipantCount = TextEditingController();
+  TextEditingController skfAttenaceController = TextEditingController();
+  TextEditingController othersParticipantsController = TextEditingController();
   TextEditingController eCMEAmountForRMPController = TextEditingController();
+  TextEditingController eCMESplitAmountController = TextEditingController();
   TextEditingController probaleSpeakerDesignationController = TextEditingController();
   TextEditingController probaleSpeakerDegreeController = TextEditingController();
   ECMESavedDataModel? eCMESettingsData;
@@ -69,6 +72,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   String? initialBrand;
   String? selectedECMEType;
   String? selcetDoctorCategory;
+  String? selectedDepartment;
  
 
   String? cid;
@@ -89,6 +93,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   bool isLoading = false;
   bool isAPC = false;
   bool isCheck = false;
+  double splitedAmount=0.0;
   
   final RegExp phoneRegex = RegExp(r'^\d{13}$');
   bool isMobileUpdate = false;
@@ -163,15 +168,9 @@ double getTotalBudget() {
   double food = double.tryParse(foodExpansesController.text) ?? 0.0;
   double gift = double.tryParse(giftController.text) ?? 0.0;
   double others = double.tryParse(stationnairesController.text) ?? 0.0;
- // print("no of particpant =${toat}")
-  // double costPerDoctor = double.tryParse(costperDoctorController.text) ?? 0.0;
-
-  // double totalCostPerDoc = costPerDoctor * noIfparticipants;
-
   totalBudget = hall + food + gift + others ;
   totalBudgetController.text = totalBudget.toStringAsFixed(2);
   getCostPerDoctor();
-
   return totalBudget;
 }
 
@@ -181,22 +180,31 @@ int totalParticipants() {
     (int.tryParse(doctorParticipantCount.text) ?? 0) +
     (int.tryParse(internDoctorController.text) ?? 0) +
     (int.tryParse(dmfDoctorController.text) ?? 0) +
-    (int.tryParse(nursesController.text) ?? 0); 
+    (int.tryParse(nursesController.text) ?? 0)+ (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersController.text) ?? 0); 
   getCostPerDoctor();
+  setState(() {
+    
+  });
   return noIfparticipants;
 }
    //============================== Cost per doctor ======================================
    double getCostPerDoctor(){
     if(totalBudget>0.0){
       double costPerDoctor= totalBudget/noIfparticipants;
-      //costperDoctorController.text= costPerDoctor.toStringAsFixed(1);
       return costPerDoctor;
     }
     else{
       return 0.0;
     }
+   }
 
-    
+  double getECMEAmontSplit(){
+    splitedAmount=0;
+    int listNum= finalBrandListAftrRemoveDuplication.length;
+    double? eCMEAmount= double.tryParse(eCMEAmountCOntroller.text)??0.0 ;
+    splitedAmount=(eCMEAmount/listNum);
+    print("splited data =$splitedAmount");
+    return splitedAmount;
    }
 
   @override
@@ -814,19 +822,116 @@ int totalParticipants() {
                               const SizedBox(
                                 height: 6,
                               ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                      hinText: '----Enter Department---',
-                                      controller: departmentController,
-                                      textAlign: TextAlign.left, 
-                                      keyboardType: TextInputType.text,
-                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                      focusNode: AlwaysDisabledFocusNode(),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Container(
+                                       width: MediaQuery.of(context).size.width / 1.1,
+                                         height: 45,
+                                    decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
                                     ),
+                                    child:   DropdownButtonHideUnderline(
+                                              child: DropdownButton2(
+                                                isExpanded: true,
+                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                                  hint: const Text(
+                                                    '  ----Select Department Name---- ',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  items: ["A","B","C","D","E"].map((String item) {
+                                                    return DropdownMenuItem(
+                                                      value: item, 
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 8),
+                                                        child: Text(
+                                                          item,
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  value: selectedDepartment,
+                                                  onChanged: (value) {
+                                                    selectedDepartment=value;
+                                                    setState(() {
+                                                      
+                                                    });
+                                                    // if(value!="Institution"){
+                                                    //   institutionController.clear();
+                                                    //   departmentController.clear();
+
+                                                    // }
+                                                    // setState(() {
+                                                    //   selcetDoctorCategory = value; 
+                                                    // });
+                                                  },
+                                                buttonHeight: 50,
+                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
+                                                itemHeight: 40,
+                                                dropdownMaxHeight: 252,
+                                                searchController: departmentController,
+                                                searchInnerWidgetHeight: 50,
+                                                searchInnerWidget: Container(
+                                                  height: 50,
+                                                  padding: const EdgeInsets.only(
+                                                    top: 8,
+                                                    bottom: 4,
+                                                    right: 8,
+                                                    left: 8,
+                                                  ),
+                                                  child: TextFormField(
+                                                    expands: true,
+                                                    maxLines: null,
+                                                    controller: departmentController,
+                                                    decoration: InputDecoration(
+                                                      fillColor: Colors.transparent,
+                                                      filled: true,
+                                                      isDense: true,
+                                                      contentPadding: const EdgeInsets.symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 8,
+                                                      ),
+                                                      hintText: '  Search Department Name...',
+                                                      hintStyle: const TextStyle(fontSize: 14),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                searchMatchFn: (item, searchValue) {
+                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                                },
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    departmentController.clear();
+                                                  }
+                                                },
+                                                
+                                              ),
+                                            )
+                                                                                    
+                                
+                               ),
+                              // SizedBox(
+                              //     width: MediaQuery.of(context).size.width / 1.1,
+                              //     height: 45,
+                              //     child: CustomtextFormFiledWidget(
+                              //         hinText: '----Enter Department---',
+                              //         controller: departmentController,
+                              //         textAlign: TextAlign.left, 
+                              //         keyboardType: TextInputType.text,
+                              //         textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                              //         focusNode: AlwaysDisabledFocusNode(),
+                              //       ),
                                  
-                                ),
+                              //   ),
                                 ],
                                ): const SizedBox(),
                                const SizedBox(height: 10,),
@@ -882,51 +987,9 @@ int totalParticipants() {
                               SizedBox(
                                 height: wholeHeight / 75.927,
                               ),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                   Text(
-                                    selectedECMEType=="RMP Meeting"?  "Brand*" :"e-CME Amount*",
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    width:selectedECMEType=="RMP Meeting"?  wholeWidth / 1.45:0,
-                                  ),
-                               selectedECMEType=="RMP Meeting"?   brandAddWidget(wholeHeight, wholeWidth, context): const SizedBox()
-                                ],
-                              ), 
-                             selectedECMEType!="RMP Meeting"?  const SizedBox(
-                                height: 6,
-                              ) :const SizedBox(),
-                             selectedECMEType!="RMP Meeting"?   SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter e-CME Amount ----',
-                                      controller: eCMEAmountCOntroller,
-                                      textAlign: TextAlign.left, 
-                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                      focusNode: AlwaysDisabledFocusNode(),
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ) :const SizedBox(),
-                                  const SizedBox(
-                                height: 10,
-                              ),
-                             (selectedECMEType=="RMP Meeting" && dynamicRowsListForBrand.isNotEmpty)
-                                  ? brandDetailsWidget(wholeWidth, wholeHeight)
-                                  : const SizedBox(),
-                                 const SizedBox(height: 10,),
                             
-                            (selectedECMEType=="RMP Meeting" && dynamicRowsListForBrand.isNotEmpty)
-                                  ?    const SizedBox(
-                                height: 10,
-                              ) :const SizedBox(),
                                   const Text(
-                                "Probable Speaker Name*",
+                                "Probable Speaker Name & Designation*",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -947,81 +1010,68 @@ int totalParticipants() {
                                       focusNode: AlwaysDisabledFocusNode(),
                                     ),
                                   ),
-                                  const SizedBox(
-                                height: 10,
+                               SizedBox(
+                                height:  selectedECMEType!="RMP Meeting"?  10 :0,
                               ),
-          
-                                  const Text(
-                                "Probable Speaker Designation*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
+
+
+                               
+                             selectedECMEType!="RMP Meeting"?  const SizedBox(
                                 height: 6,
-                              ),
-                              SizedBox(
+                              ) :const SizedBox(),
+                                Text(
+                                  selectedECMEType!="RMP Meeting"?  "e_CME Amount *" :"",
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                             selectedECMEType!="RMP Meeting"?   SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                       hinText: '----Enter Speaker Designation----',
-                                      controller:probaleSpeakerDesignationController,
+                                     hinText: '----Enter e-CME Amount ----',
+                                      controller: eCMEAmountCOntroller,
                                       textAlign: TextAlign.left, 
-                                      keyboardType: TextInputType.text,
                                       textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
                                       focusNode: AlwaysDisabledFocusNode(),
+                                      keyboardType: TextInputType.number,
                                     ),
-                                  ),
+                                  ) :const SizedBox(),
                                   const SizedBox(
                                 height: 10,
                               ),
-
                               Row(
-                               children: [
-                                        
-                                        SizedBox(
-                                          width:MediaQuery.of(context).size.width /2.15 ,
-                                          child:const Text("Rx Objective per day*",
-                                                style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                                fontWeight: FontWeight.w600)
-                                                      ),
-                                          
-                                        ),
-                                         SizedBox(
-                                          width:MediaQuery.of(context).size.width / 9 ,
-                                          child:const Text(":"),
-                                          
-                                        ),
-                                        SizedBox(
-                                          height: 45,
-                                           width:MediaQuery.of(context).size.width / 3,
-                                           child:TextFormField(
-                                            controller: rxObjectiveperDayController,
-                                            textAlign: TextAlign.right,
-                                            style:const TextStyle(fontSize: 14),
-                                            keyboardType: TextInputType.number,
-                                            inputFormatters: [
-                                                FilteringTextInputFormatter.digitsOnly
-                                              ],
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderSide:
-                                                    const BorderSide(color: Colors.white),
-                                                borderRadius: BorderRadius.circular(10.0),
-                                              ),
-                                            ),
-                                          )
-                                     
-                                         ),
-                                      
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10,),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                 const  Text(
+                                    "Brand*",
+                                    style:  TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    width:  wholeWidth / 1.45,
+                                  ),
+                                  brandAddWidget( wholeHeight, wholeWidth, context)
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                             (dynamicRowsListForBrand.isNotEmpty)
+                                  ? brandDetailsWidget(wholeWidth, wholeHeight)
+                                  : const SizedBox(),
+                                 const SizedBox(height: 10,),
+                            
+                            (selectedECMEType=="RMP Meeting" && dynamicRowsListForBrand.isNotEmpty)
+                                  ?    const SizedBox(
+                                height: 10,
+                              ) :const SizedBox(),
+          
                                  Row(
-                                    children: [
+                                     children: [
                                         
                                         SizedBox(
                                           width:MediaQuery.of(context).size.width /2.15 ,
@@ -1061,7 +1111,7 @@ int totalParticipants() {
                                           routingName: 'participants',
                                         ),
                                   BudgetBreakDownRowWidget(routingName: 'participants',
-                                    rowNumber: "2.", reason:"Intern Doctors", controller: internDoctorController, 
+                                    rowNumber: "2.", reason:"Intern Doctors*", controller: internDoctorController, 
                                            onChanged: (value ) {  
                                             totalParticipants();
                                             setState(() {
@@ -1070,7 +1120,7 @@ int totalParticipants() {
                                             validator: null,
                                           ),
                                   BudgetBreakDownRowWidget(routingName: 'participants',
-                                    rowNumber: "3.", reason:"DMF doctors ", controller: dmfDoctorController, 
+                                    rowNumber: "3.", reason:"DMF/RMP doctors* ", controller: dmfDoctorController, 
                                          onChanged: (value ) {  
                                             totalParticipants();
                                             setState(() { 
@@ -1080,7 +1130,7 @@ int totalParticipants() {
                                      
                                         ),
                                   BudgetBreakDownRowWidget(routingName: 'participants',
-                                    rowNumber: "4.", reason:"Nurses ", controller: nursesController, 
+                                    rowNumber: "4.", reason:"Nurses/Staff* ", controller: nursesController, 
                                       onChanged: (value ) {  
                                            totalParticipants();
                                             setState(() {
@@ -1090,6 +1140,28 @@ int totalParticipants() {
                                             validator: null,
                                        
                                       ),
+                                  BudgetBreakDownRowWidget(routingName: 'participants',
+                                        rowNumber: "5.", reason:"SKF Attendance*", controller: skfAttenaceController, 
+                                          onChanged: (value ) {  
+                                              totalParticipants();
+                                                setState(() {
+                                                });
+              
+                                              },
+                                                validator: null,
+                                          
+                                          ),
+                                BudgetBreakDownRowWidget(routingName: 'participants',
+                                        rowNumber: "6.", reason:"Others", controller: othersParticipantsController, 
+                                          onChanged: (value ) {  
+                                              totalParticipants();
+                                                setState(() {
+                                                });
+              
+                                              },
+                                                validator: null,
+                                          
+                                          ),
                                  
                                  
                                 ],
@@ -1099,37 +1171,6 @@ int totalParticipants() {
                                 height: 10,
                               ),
 
-                              // const SizedBox(height: 10,),
-                              //   ( totalParticipants()>0 )?   Row(
-                              //       children: [
-                                        
-                              //           SizedBox(
-                              //             width:MediaQuery.of(context).size.width /2.15 ,
-                              //             child:const Text("Cost per doctor",
-                              //                   style: TextStyle(
-                              //                   fontSize: 15,
-                              //                   color: Color.fromARGB(255, 0, 0, 0),
-                              //                   fontWeight: FontWeight.w600)
-                              //                         ),
-                                          
-                              //           ),
-                              //            SizedBox(
-                              //             width:MediaQuery.of(context).size.width / 9 ,
-                              //             child:const Text(":"),
-                                          
-                              //           ),
-                              //            Align(
-                              //             alignment: Alignment.centerRight,
-                              //             child: SizedBox(
-                              //               width:MediaQuery.of(context).size.width / 3 ,
-                              //               child: Text(getCostPerDoctor().toString(),style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
-                              //             ),
-                                      
-                                      
-                              //         ],
-                              //       )
-                              //       :const SizedBox(),
-                                   
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1396,7 +1437,7 @@ int totalParticipants() {
                                             if(selectedECMEType!="RMP Meeting"){
                                              if(selectedExpiredDateString!=""){
                                               if(selcetDoctorCategory!=null){
-                                                if(rxObjectiveperDayController.text !=""){
+                                                // if(rxObjectiveperDayController.text !=""){
                                                     if(meetingVenueController.text!=""){
                                                       if(meetingTopicController.text!=""){
                                                         if(meetingProbaleSpeakerNameController.text!=""){
@@ -1477,11 +1518,11 @@ int totalParticipants() {
                                                     AllServices().toastMessage("Please Enter meeting vanue ", Colors.red, Colors.white, 16);
                                                   }
 
-                                                }
-                                                else{
-                                                   AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
+                                                // }
+                                                // else{
+                                                //    AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
 
-                                                }
+                                                // }
                                              
 
                                             }
@@ -1498,7 +1539,7 @@ int totalParticipants() {
                                       else{
                                          if(selectedExpiredDateString!=""){
                                               if(selcetDoctorCategory!=null){
-                                                if(rxObjectiveperDayController.text !=""){
+                                                // if(rxObjectiveperDayController.text !=""){
                                                     if(meetingVenueController.text!=""){
                                                       if(meetingTopicController.text!=""){
                                                         if(meetingProbaleSpeakerNameController.text!=""){
@@ -1581,11 +1622,11 @@ int totalParticipants() {
                                                     AllServices().toastMessage("Please Enter meeting vanue ", Colors.red, Colors.white, 16);
                                                   }
 
-                                                }
-                                                else{
-                                                   AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
+                                                // }
+                                                // else{
+                                                //    AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
 
-                                                }
+                                                // }
                                              
 
                                             }
@@ -1622,7 +1663,7 @@ int totalParticipants() {
     );
   }
 
-  Column brandDetailsWidget(double wholeWidth, double wholeHeight) {
+  Column brandDetailsWidget( double wholeWidth, double wholeHeight) {
     return Column(
                                   children: [
                                     Container(
@@ -1656,7 +1697,25 @@ int totalParticipants() {
                                               left: 5,
                                             ),
                                             child: SizedBox(
-                                              width: wholeWidth / 2,
+                                              width: wholeWidth / 4,
+                                              height: wholeHeight / 25.309,
+                                              child: const Center(
+                                                child: Text(
+                                                  "e_CME Amount",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.white,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 5,
+                                            ),
+                                            child: SizedBox(
+                                              width: wholeWidth / 4,
                                               height: wholeHeight / 25.309,
                                               child: const Center(
                                                 child: Text(
@@ -1744,7 +1803,30 @@ int totalParticipants() {
                                                         left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width: wholeWidth / 2,
+                                                        width: wholeWidth / 4,
+                                                        height: wholeHeight /
+                                                            25.309,
+                                                        child: Center(
+                                                          child: Text(
+                                                            getECMEAmontSplit().toStringAsFixed(2),
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                      ),
+                                                      child: SizedBox(
+                                                        width: wholeWidth / 4,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(
@@ -1819,7 +1901,6 @@ int totalParticipants() {
   Container brandAddWidget(double wholeHeight, double wholeWidth, BuildContext context) {
     return Container(
                                 height: wholeHeight / 18.98,
-                               
                                 width: wholeWidth / 9.8,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -1828,6 +1909,7 @@ int totalParticipants() {
                                 child: Center(
                                   child: IconButton(
                                       onPressed: () {
+                                       // getECMEAmontSplit();
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -1841,23 +1923,8 @@ int totalParticipants() {
                                                 title: const Text(
                                                     "Brand Details"),
                                                 content: Container(
-                                        //           decoration: BoxDecoration(
-                                        //   boxShadow:const [
-                                        //     BoxShadow(
-                                        //       color :Colors.white ,
-                                        //       spreadRadius : 2,
-                                        //       blurStyle :BlurStyle.outer,
-                                        //       blurRadius: 1,
-                                        //     ),
-                                        //   ],
-                                          
-                                        //  // borderRadius: BorderRadius.circular(40),
-                                        //   color: Colors.white ,
-                                          
-                                        // ),
-
                                                   child: SizedBox(
-                                                    height: 220,
+                                                    height: 320,
                                                     child:
                                                         SingleChildScrollView(
                                                       child: Column(
@@ -1998,22 +2065,75 @@ int totalParticipants() {
                                                               ),
                                                             ],
                                                           ),
+                                                          // const SizedBox(
+                                                          //   // 
+                                                          //   height: 15,
+                                                          // ),
+                                                          
+                                                          // const  Align(
+                                                          //   alignment: Alignment
+                                                          //       .centerLeft,
+                                                          //   child: Text(
+                                                          //     "Amount",
+                                                          //     style:  TextStyle(
+                                                          //         fontWeight:
+                                                          //             FontWeight
+                                                          //                 .w600),
+                                                          //   ),
+                                                          // ) ,
+                                                          // const SizedBox(
+                                                          //   height: 5,
+                                                          // ),
+                                                          // SizedBox(
+                                                          //     width: MediaQuery.of(
+                                                          //                 context)
+                                                          //             .size
+                                                          //             .width /
+                                                          //         1.1,
+                                                          //     height: 45,
+                                                          //     child:
+                                                          //         TextFormField(
+                                                          //       inputFormatters: [
+                                                          //         FilteringTextInputFormatter
+                                                          //             .allow(RegExp(
+                                                          //                 r'[0-9]')), 
+                                                          //       ],
+                                                          //       keyboardType:
+                                                          //           TextInputType
+                                                          //               .number,
+                                                          //       controller:
+                                                          //         eCMESplitAmountController,
+                                                          //       decoration:
+                                                          //           InputDecoration(
+                                                          //         border:
+                                                          //             OutlineInputBorder(
+                                                          //           borderSide:
+                                                          //               const BorderSide(
+                                                          //                   color:
+                                                          //                       Colors.white),
+                                                          //           borderRadius:
+                                                          //               BorderRadius.circular(
+                                                          //                   5.0),
+                                                          //         ),
+                                                          //       ),
+                                                          //     )),
                                                           
                                                       
                                                           const SizedBox(
                                                             height: 15,
                                                           ),
-                                                          const Align(
+                                                          
+                                                            Align(
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              "Sales Qty*",
-                                                              style: TextStyle(
+                                                             selectedECMEType=="RMP Meeting"? "Sales Qty*" :"Rx objective per day",
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600),
                                                             ),
-                                                          ),
+                                                          ) ,
                                                           const SizedBox(
                                                             height: 5,
                                                           ),
@@ -2035,7 +2155,7 @@ int totalParticipants() {
                                                                     TextInputType
                                                                         .number,
                                                                 controller:
-                                                                    eCMEController,
+                                                                  selectedECMEType=="RMP Meeting"?  salesQtyController : rxPerDayController,
                                                                 decoration:
                                                                     InputDecoration(
                                                                   border:
@@ -2083,7 +2203,7 @@ int totalParticipants() {
                                                                           null;
                                                                       rxPerDayController
                                                                           .clear();
-                                                                      eCMEController
+                                                                      salesQtyController
                                                                           .clear();
                                                                       Navigator.pop(
                                                                           context);
@@ -2116,16 +2236,17 @@ int totalParticipants() {
                                                                               ))),
                                                                     ),
                                                                     onTap: () {
+                                                                     // getECMEAmontSplit();
                                                                       if (initialBrand !=
                                                                           null) 
                                                                           
                                                                     {
                                                 
-                                                                        if(eCMEController.text!=""){
+                                                                        if( selectedECMEType=="RMP Meeting"? salesQtyController.text!="": rxPerDayController.text!=""){
                                                                              dynamicRowsListForBrand.add([
                                                                               initialBrand,
-                                                                              rxPerDayController.text == "" ? "0" : rxPerDayController.text,
-                                                                              eCMEController.text == "" ? "0" : eCMEController.text,
+                                                                             eCMEAmountCOntroller.text==""?"0": eCMEAmountCOntroller.text,
+                                                                              selectedECMEType=="RMP Meeting"? (salesQtyController.text == "" ? "0" : salesQtyController.text) :(rxPerDayController.text == "" ? "0" : rxPerDayController.text),
                                                                               "0",
                                                                               "0"
                                                                              
@@ -2138,14 +2259,15 @@ int totalParticipants() {
                                                                             setState(() {
                                                                               initialBrand = null;
                                                                               rxPerDayController.clear();
-                                                                              eCMEController.clear();
+                                                                              salesQtyController.clear();
+                                                                              eCMESplitAmountController.clear();
                                                                              
                                                                             });
                                                 
                                                                        }
                                                                         else {
                                                                             AllServices().toastMessage(
-                                                                                "Please Enter e_CME Amount  ",
+                                                                              selectedECMEType=="RMP Meeting"?  "Please Enter e_CME Amount  " :"Please Enter Rx objective per day",
                                                                                 Colors.red,
                                                                                 Colors.white,
                                                                                 16);

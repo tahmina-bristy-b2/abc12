@@ -73,6 +73,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   String? selectedECMEType;
   String? selcetDoctorCategory;
   String? selectedDepartment;
+  String? selectedPayMode;
  
 
   String? cid;
@@ -105,14 +106,15 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   @override
   void initState() {
     super.initState();
+     eCMEAmountCOntroller.addListener((){
+            setState(() {
+                    });
+        });
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
     eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
-
     allSettingsDataGet(eCMESettingsData);
-    print("c_CME type List===$eCMETypeList");
-
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
       cid = prefs.getString("CID") ?? '';
@@ -180,7 +182,7 @@ int totalParticipants() {
     (int.tryParse(doctorParticipantCount.text) ?? 0) +
     (int.tryParse(internDoctorController.text) ?? 0) +
     (int.tryParse(dmfDoctorController.text) ?? 0) +
-    (int.tryParse(nursesController.text) ?? 0)+ (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersController.text) ?? 0); 
+    (int.tryParse(nursesController.text) ?? 0)+ (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersParticipantsController.text) ?? 0); 
   getCostPerDoctor();
   setState(() {
     
@@ -591,6 +593,9 @@ int totalParticipants() {
                                                     eCMEAmountCOntroller.clear();
                                                     setState(() {
                                                       selectedECMEType = value; 
+                                                      finalBrandListAftrRemoveDuplication.clear();
+                                                      eCMEAmountCOntroller.clear();
+                                                      dynamicRowsListForBrand.clear();
                                                     });
                                                   },
                                                   
@@ -1019,29 +1024,29 @@ int totalParticipants() {
                              selectedECMEType!="RMP Meeting"?  const SizedBox(
                                 height: 6,
                               ) :const SizedBox(),
-                                Text(
-                                  selectedECMEType!="RMP Meeting"?  "e_CME Amount *" :"",
-                                    style: const TextStyle(
+                                const Text(
+                                  "e_CME Amount *" ,
+                                    style: TextStyle(
                                         fontSize: 15,
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
                                   ),
-                             selectedECMEType!="RMP Meeting"?   SizedBox(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
                                      hinText: '----Enter e-CME Amount ----',
                                       controller: eCMEAmountCOntroller,
                                       textAlign: TextAlign.left, 
-                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
                                       focusNode: AlwaysDisabledFocusNode(),
                                       keyboardType: TextInputType.number,
                                     ),
-                                  ) :const SizedBox(),
+                                  ) ,
                                   const SizedBox(
                                 height: 10,
                               ),
-                              Row(
+                        eCMEAmountCOntroller.text.isNotEmpty?     Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                  const  Text(
@@ -1056,23 +1061,22 @@ int totalParticipants() {
                                   ),
                                   brandAddWidget( wholeHeight, wholeWidth, context)
                                 ],
-                              ),
+                              ):const SizedBox(),
                               const SizedBox(
                                 height: 10,
                               ),
-                             (dynamicRowsListForBrand.isNotEmpty)
+                             (dynamicRowsListForBrand.isNotEmpty && eCMEAmountCOntroller.text.isNotEmpty)
                                   ? brandDetailsWidget(wholeWidth, wholeHeight)
                                   : const SizedBox(),
                                  const SizedBox(height: 10,),
                             
-                            (selectedECMEType=="RMP Meeting" && dynamicRowsListForBrand.isNotEmpty)
+                            (dynamicRowsListForBrand.isNotEmpty)
                                   ?    const SizedBox(
                                 height: 10,
                               ) :const SizedBox(),
           
                                  Row(
-                                     children: [
-                                        
+                                     children: [ 
                                         SizedBox(
                                           width:MediaQuery.of(context).size.width /2.15 ,
                                           child:const Text("Total numbers of participants",
@@ -1204,48 +1208,7 @@ int totalParticipants() {
                                       
                                       ],
                                     ) 
-                                //  Row(
-                                //       children: [
-                                        
-                                //         SizedBox(
-                                //           width:MediaQuery.of(context).size.width /2.15 ,
-                                //           child:const Text("Total budget*",
-                                //                 style: TextStyle(
-                                //                 fontSize: 15,
-                                //                 color: Color.fromARGB(255, 0, 0, 0),
-                                //                 fontWeight: FontWeight.w600)
-                                //                       ),
-                                          
-                                //         ),
-                                //          SizedBox(
-                                //           width:MediaQuery.of(context).size.width / 9 ,
-                                //           child:const Text(":"),
-                                          
-                                //         ),
-                                //         SizedBox(
-                                //           height: 45,
-                                //            width:MediaQuery.of(context).size.width / 3,
-                                //            child: TextFormField(
-                                //             readOnly: true,
-                                //               textAlign: TextAlign.right,
-                                //               style:const TextStyle(fontSize: 14),
-                                //             controller: totalBudgetController,
-                                //             decoration: InputDecoration(
-                                              
-                                //               border: OutlineInputBorder(
-                                //                 borderSide:
-                                //                     const BorderSide(color: Colors.white),
-                                //                 borderRadius: BorderRadius.circular(10.0),
-                                //               ),
-                                //             ),
-                                //           )
-                                    
-                                //     ),
-                                        
-              
-                                //       ],
-                                //     )
-                                    
+                              
                                     :const SizedBox(),
                                     const SizedBox(height: 10,),
                                 ( totalParticipants()>0 )?   Row(
@@ -1312,17 +1275,6 @@ int totalParticipants() {
                                              validator: null,
                                        
                                           ),
-                                  // BudgetBreakDownRowWidget(
-                                  //      routingName: 'budget',
-                                  //   rowNumber: "3.", reason:"Cost per doctor ", controller: costperDoctorController, 
-                                  //        onChanged: (value ) {  
-                                  //           getTotalBudget();
-                                  //           setState(() { 
-                                  //           });
-                                  //         },
-                                  //          validator: null,
-                                       
-                                  //       ),
                                   BudgetBreakDownRowWidget(
                                        routingName: 'budget',
                                     rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
@@ -1350,8 +1302,110 @@ int totalParticipants() {
                                 ],
                               ) :const SizedBox(),
                               
-                               SizedBox(
-                                height:( selectedECMEType=="Clinical Meeting" && totalParticipants()>0 )? 10 :0,
+                               const SizedBox(
+                                height: 10 ,
+                              ),
+                              const Text(
+                                  "Pay Mode *" ,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const SizedBox(
+                                height: 6 ,
+                              ),
+                              Container(
+                                       width: MediaQuery.of(context).size.width / 1.1,
+                                         height: 45,
+                                    decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+                                    ),
+                                    child:   DropdownButtonHideUnderline(
+                                              child: DropdownButton2(
+                                                isExpanded: true,
+                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
+                                                  hint: const Text(
+                                                    '  Select Pay Mode',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  items: ['Bill','Bill b'].map((String item) {
+                                                    return DropdownMenuItem(
+                                                      value: item, 
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 8),
+                                                        child: Text(
+                                                          item,
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  value: selectedPayMode,
+                                                  onChanged: (value) {
+                                                  
+                                                    setState(() {
+                                                      selectedPayMode=value;
+                                                    });
+                                                  },
+                                                  
+                                                 
+                                                  
+                                                buttonHeight: 50,
+                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
+                                                itemHeight: 40,
+                                                dropdownMaxHeight: 252,
+                                                searchController: brandSelectedController,
+                                                searchInnerWidgetHeight: 50,
+                                                searchInnerWidget: Container(
+                                                  height: 50,
+                                                  padding: const EdgeInsets.only(
+                                                    top: 8,
+                                                    bottom: 4,
+                                                    right: 8,
+                                                    left: 8,
+                                                  ),
+                                                  child: TextFormField(
+                                                    expands: true,
+                                                    maxLines: null,
+                                                    controller: brandSelectedController,
+                                                    decoration: InputDecoration(
+                                                      fillColor: Colors.transparent,
+                                                      filled: true,
+                                                      isDense: true,
+                                                      contentPadding: const EdgeInsets.symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 8,
+                                                      ),
+                                                      hintText: '  Search e-CME Type...',
+                                                      hintStyle: const TextStyle(fontSize: 14),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                searchMatchFn: (item, searchValue) {
+                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                                },
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    brandSelectedController.clear();
+                                                  }
+                                                },
+                                                
+                                              ),
+                                            )
+                                                                                    
+                                
+                                ),
+                                  const SizedBox(
+                                height: 10,
                               ),
                               
                               
@@ -1717,10 +1771,10 @@ int totalParticipants() {
                                             child: SizedBox(
                                               width: wholeWidth / 4,
                                               height: wholeHeight / 25.309,
-                                              child: const Center(
+                                              child:  Center(
                                                 child: Text(
-                                                  "Sales Qty",
-                                                  style: TextStyle(
+                                                selectedECMEType=="RMP Meeting"?   "Sales Qty":"Rx objective per day",
+                                                  style:const TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white,
                                                       ),
@@ -1922,377 +1976,363 @@ int totalParticipants() {
                                                 scrollable: true,
                                                 title: const Text(
                                                     "Brand Details"),
-                                                content: Container(
-                                                  child: SizedBox(
-                                                    height: 320,
-                                                    child:
-                                                        SingleChildScrollView(
-                                                      child: Column(
-                                                        children: [
-                                                          const Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "Brand*",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
+                                                content: SizedBox(
+                                                  height: 220,
+                                                  child:
+                                                      SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        const Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            "Brand*",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              StatefulBuilder(
-                                                                builder: (context,
-                                                                    setState2) {
-                                                                  return DropdownButtonHideUnderline(
-                                                                    child:
-                                                                        DropdownButton2(
-                                                                      isExpanded:
-                                                                          true,
-                                                                      iconEnabledColor:
-                                                                          const Color(
-                                                                              0xff8AC995),
-                                                                      hint:
-                                                                          Text(
-                                                                        'Select Brand',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          color:
-                                                                              Theme.of(context).hintColor,
-                                                                        ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            StatefulBuilder(
+                                                              builder: (context,
+                                                                  setState2) {
+                                                                return DropdownButtonHideUnderline(
+                                                                  child:
+                                                                      DropdownButton2(
+                                                                    isExpanded:
+                                                                        true,
+                                                                    iconEnabledColor:
+                                                                        const Color(
+                                                                            0xff8AC995),
+                                                                    hint:
+                                                                        Text(
+                                                                      'Select Brand',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        color:
+                                                                            Theme.of(context).hintColor,
                                                                       ),
-                                                                      items: eBrandList!
-                                                                          .map((item) => DropdownMenuItem<String>(
-                                                                                value: item,
-                                                                                child: Text(
-                                                                                  item,
-                                                                                  style: const TextStyle(
-                                                                                    fontSize: 14,
-                                                                                  ),
+                                                                    ),
+                                                                    items: eBrandList!
+                                                                        .map((item) => DropdownMenuItem<String>(
+                                                                              value: item,
+                                                                              child: Text(
+                                                                                item,
+                                                                                style: const TextStyle(
+                                                                                  fontSize: 14,
                                                                                 ),
-                                                                              ))
-                                                                          .toList(),
-                                                                      value:
-                                                                          initialBrand,
-                                                                      onChanged:
-                                                                          (value) {
-                                                                        setState2(
-                                                                            () {
-                                                                          initialBrand =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      buttonHeight:
+                                                                              ),
+                                                                            ))
+                                                                        .toList(),
+                                                                    value:
+                                                                        initialBrand,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      setState2(
+                                                                          () {
+                                                                        initialBrand =
+                                                                            value;
+                                                                      });
+                                                                    },
+                                                                    buttonHeight:
+                                                                        50,
+                                                                    buttonWidth:
+                                                                        MediaQuery.of(context).size.width /
+                                                                            1.5,
+                                                                    itemHeight:
+                                                                        40,
+                                                                    dropdownMaxHeight:
+                                                                        252,
+                                                                    searchController:
+                                                                        brandSelectedController,
+                                                                    searchInnerWidgetHeight:
+                                                                        50,
+                                                                    searchInnerWidget:
+                                                                        Container(
+                                                                      height:
                                                                           50,
-                                                                      buttonWidth:
-                                                                          MediaQuery.of(context).size.width /
-                                                                              1.5,
-                                                                      itemHeight:
-                                                                          40,
-                                                                      dropdownMaxHeight:
-                                                                          252,
-                                                                      searchController:
-                                                                          brandSelectedController,
-                                                                      searchInnerWidgetHeight:
-                                                                          50,
-                                                                      searchInnerWidget:
-                                                                          Container(
-                                                                        height:
-                                                                            50,
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                          top:
-                                                                              8,
-                                                                          bottom:
-                                                                              4,
-                                                                          right:
-                                                                              8,
-                                                                          left:
-                                                                              8,
-                                                                        ),
-                                                                        child:
-                                                                            TextFormField(
-                                                                          expands:
+                                                                      padding:
+                                                                          const EdgeInsets.only(
+                                                                        top:
+                                                                            8,
+                                                                        bottom:
+                                                                            4,
+                                                                        right:
+                                                                            8,
+                                                                        left:
+                                                                            8,
+                                                                      ),
+                                                                      child:
+                                                                          TextFormField(
+                                                                        expands:
+                                                                            true,
+                                                                        maxLines:
+                                                                            null,
+                                                                        controller:
+                                                                            brandSelectedController,
+                                                                        decoration:
+                                                                            InputDecoration(
+                                                                          isDense:
                                                                               true,
-                                                                          maxLines:
-                                                                              null,
-                                                                          controller:
-                                                                              brandSelectedController,
-                                                                          decoration:
-                                                                              InputDecoration(
-                                                                            isDense:
-                                                                                true,
-                                                                            contentPadding:
-                                                                                const EdgeInsets.symmetric(
-                                                                              horizontal: 6,
-                                                                              vertical: 8,
-                                                                            ),
-                                                                            hintText:
-                                                                                'Search Brand here...',
-                                                                            hintStyle:
-                                                                                const TextStyle(fontSize: 14),
-                                                                            border:
-                                                                                OutlineInputBorder(
-                                                                              borderRadius: BorderRadius.circular(8),
-                                                                            ),
+                                                                          contentPadding:
+                                                                              const EdgeInsets.symmetric(
+                                                                            horizontal: 6,
+                                                                            vertical: 8,
+                                                                          ),
+                                                                          hintText:
+                                                                              'Search Brand here...',
+                                                                          hintStyle:
+                                                                              const TextStyle(fontSize: 14),
+                                                                          border:
+                                                                              OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(8),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      searchMatchFn:
-                                                                          (item,
-                                                                              searchValue) {
-                                                                        return (item
-                                                                            .value
-                                                                            .toString()
-                                                                            .startsWith(searchValue.toUpperCase()));
-                                                                      },
-                                                                      onMenuStateChange:
-                                                                          (isOpen) {
-                                                                        if (!isOpen) {
-                                                                          brandSelectedController
-                                                                              .clear();
-                                                                        }
-                                                                      },
                                                                     ),
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          // const SizedBox(
-                                                          //   // 
-                                                          //   height: 15,
-                                                          // ),
-                                                          
-                                                          // const  Align(
-                                                          //   alignment: Alignment
-                                                          //       .centerLeft,
-                                                          //   child: Text(
-                                                          //     "Amount",
-                                                          //     style:  TextStyle(
-                                                          //         fontWeight:
-                                                          //             FontWeight
-                                                          //                 .w600),
-                                                          //   ),
-                                                          // ) ,
-                                                          // const SizedBox(
-                                                          //   height: 5,
-                                                          // ),
-                                                          // SizedBox(
-                                                          //     width: MediaQuery.of(
-                                                          //                 context)
-                                                          //             .size
-                                                          //             .width /
-                                                          //         1.1,
-                                                          //     height: 45,
-                                                          //     child:
-                                                          //         TextFormField(
-                                                          //       inputFormatters: [
-                                                          //         FilteringTextInputFormatter
-                                                          //             .allow(RegExp(
-                                                          //                 r'[0-9]')), 
-                                                          //       ],
-                                                          //       keyboardType:
-                                                          //           TextInputType
-                                                          //               .number,
-                                                          //       controller:
-                                                          //         eCMESplitAmountController,
-                                                          //       decoration:
-                                                          //           InputDecoration(
-                                                          //         border:
-                                                          //             OutlineInputBorder(
-                                                          //           borderSide:
-                                                          //               const BorderSide(
-                                                          //                   color:
-                                                          //                       Colors.white),
-                                                          //           borderRadius:
-                                                          //               BorderRadius.circular(
-                                                          //                   5.0),
-                                                          //         ),
-                                                          //       ),
-                                                          //     )),
-                                                          
-                                                      
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          
-                                                            Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                             selectedECMEType=="RMP Meeting"? "Sales Qty*" :"Rx objective per day",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ) ,
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.1,
-                                                              height: 45,
-                                                              child:
-                                                                  TextFormField(
-                                                                inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(RegExp(
-                                                                          r'[0-9]')), 
-                                                                ],
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                  selectedECMEType=="RMP Meeting"?  salesQtyController : rxPerDayController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                            color:
-                                                                                Colors.white),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: InkWell(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          40,
-                                                                      
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: const Color.fromARGB(
-                                                                            255,
-                                                                            170,
-                                                                            172,
-                                                                            170),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Text("Cancel",
-                                                                              style: TextStyle(
-                                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                              ))),
-                                                                    ),
-                                                                    onTap: () {
-                                                                      initialBrand =
-                                                                          null;
-                                                                      rxPerDayController
-                                                                          .clear();
-                                                                      salesQtyController
-                                                                          .clear();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    }),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Expanded(
-                                                                child: InkWell(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          40,
-                                                                   
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: const Color.fromARGB(
-                                                                            255,
-                                                                            44,
-                                                                            114,
-                                                                            66),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Text("Add",
-                                                                              style: TextStyle(
-                                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                              ))),
-                                                                    ),
-                                                                    onTap: () {
-                                                                     // getECMEAmontSplit();
-                                                                      if (initialBrand !=
-                                                                          null) 
-                                                                          
-                                                                    {
-                                                
-                                                                        if( selectedECMEType=="RMP Meeting"? salesQtyController.text!="": rxPerDayController.text!=""){
-                                                                             dynamicRowsListForBrand.add([
-                                                                              initialBrand,
-                                                                             eCMEAmountCOntroller.text==""?"0": eCMEAmountCOntroller.text,
-                                                                              selectedECMEType=="RMP Meeting"? (salesQtyController.text == "" ? "0" : salesQtyController.text) :(rxPerDayController.text == "" ? "0" : rxPerDayController.text),
-                                                                              "0",
-                                                                              "0"
-                                                                             
-                                                                            ]);
-                                                
-                                                                            finalBrandListAftrRemoveDuplication =
-                                                                                removeDuplicationForBrand(dynamicRowsListForBrand);
-                                                
-                                                                            Navigator.pop(context);
-                                                                            setState(() {
-                                                                              initialBrand = null;
-                                                                              rxPerDayController.clear();
-                                                                              salesQtyController.clear();
-                                                                              eCMESplitAmountController.clear();
-                                                                             
-                                                                            });
-                                                
-                                                                       }
-                                                                        else {
-                                                                            AllServices().toastMessage(
-                                                                              selectedECMEType=="RMP Meeting"?  "Please Enter e_CME Amount  " :"Please Enter Rx objective per day",
-                                                                                Colors.red,
-                                                                                Colors.white,
-                                                                                16);
-                                                                             }
-                                                
-                                                
-                                                                         
-                                                                           
-                                                                   } 
-                                                                          
-                                                                          
-                                                                    
-                                                                       else {
-                                                                        AllServices().toastMessage(
-                                                                            "Please Select Brand First",
-                                                                            Colors.red,
-                                                                            Colors.white,
-                                                                            16);
+                                                                    searchMatchFn:
+                                                                        (item,
+                                                                            searchValue) {
+                                                                      return (item
+                                                                          .value
+                                                                          .toString()
+                                                                          .startsWith(searchValue.toUpperCase()));
+                                                                    },
+                                                                    onMenuStateChange:
+                                                                        (isOpen) {
+                                                                      if (!isOpen) {
+                                                                        brandSelectedController
+                                                                            .clear();
                                                                       }
-                                                                    }),
+                                                                    },
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        // const SizedBox(
+                                                        //   // 
+                                                        //   height: 15,
+                                                        // ),
+                                                        
+                                                        // const  Align(
+                                                        //   alignment: Alignment
+                                                        //       .centerLeft,
+                                                        //   child: Text(
+                                                        //     "Amount",
+                                                        //     style:  TextStyle(
+                                                        //         fontWeight:
+                                                        //             FontWeight
+                                                        //                 .w600),
+                                                        //   ),
+                                                        // ) ,
+                                                        // const SizedBox(
+                                                        //   height: 5,
+                                                        // ),
+                                                        // SizedBox(
+                                                        //     width: MediaQuery.of(
+                                                        //                 context)
+                                                        //             .size
+                                                        //             .width /
+                                                        //         1.1,
+                                                        //     height: 45,
+                                                        //     child:
+                                                        //         TextFormField(
+                                                        //       inputFormatters: [
+                                                        //         FilteringTextInputFormatter
+                                                        //             .allow(RegExp(
+                                                        //                 r'[0-9]')), 
+                                                        //       ],
+                                                        //       keyboardType:
+                                                        //           TextInputType
+                                                        //               .number,
+                                                        //       controller:
+                                                        //         eCMESplitAmountController,
+                                                        //       decoration:
+                                                        //           InputDecoration(
+                                                        //         border:
+                                                        //             OutlineInputBorder(
+                                                        //           borderSide:
+                                                        //               const BorderSide(
+                                                        //                   color:
+                                                        //                       Colors.white),
+                                                        //           borderRadius:
+                                                        //               BorderRadius.circular(
+                                                        //                   5.0),
+                                                        //         ),
+                                                        //       ),
+                                                        //     )),
+                                                        
+                                                    
+                                                        const SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        
+                                                          Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                           selectedECMEType=="RMP Meeting"? "Sales Qty*" :"Rx objective per day",
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ) ,
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.1,
+                                                            height: 45,
+                                                            child:
+                                                                TextFormField(
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter
+                                                                    .allow(RegExp(
+                                                                        r'[0-9]')), 
+                                                              ],
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              controller:
+                                                                selectedECMEType=="RMP Meeting"?  salesQtyController : rxPerDayController,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                          color:
+                                                                              Colors.white),
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          5.0),
+                                                                ),
                                                               ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
+                                                            )),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        40,
+                                                                    
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(10),
+                                                                      color: const Color.fromARGB(
+                                                                          255,
+                                                                          170,
+                                                                          172,
+                                                                          170),
+                                                                    ),
+                                                                    child: const Center(
+                                                                        child: Text("Cancel",
+                                                                            style: TextStyle(
+                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                            ))),
+                                                                  ),
+                                                                  onTap: () {
+                                                                    initialBrand =
+                                                                        null;
+                                                                    rxPerDayController
+                                                                        .clear();
+                                                                    salesQtyController
+                                                                        .clear();
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  }),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 15,
+                                                            ),
+                                                            Expanded(
+                                                              child: InkWell(
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        40,
+                                                                 
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(10),
+                                                                      color: const Color.fromARGB(
+                                                                          255,
+                                                                          44,
+                                                                          114,
+                                                                          66),
+                                                                    ),
+                                                                    child: const Center(
+                                                                        child: Text("Add",
+                                                                            style: TextStyle(
+                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                            ))),
+                                                                  ),
+                                                                  onTap: () {
+                                                                    if (initialBrand !=
+                                                                        null)    
+                                                                    {
+                                                                      if( selectedECMEType=="RMP Meeting"? salesQtyController.text!="": rxPerDayController.text!=""){
+                                                                           dynamicRowsListForBrand.add([
+                                                                            initialBrand,
+                                                                           eCMEAmountCOntroller.text==""?"0": eCMEAmountCOntroller.text,
+                                                                            selectedECMEType=="RMP Meeting"? (salesQtyController.text == "" ? "0" : salesQtyController.text) :(rxPerDayController.text == "" ? "0" : rxPerDayController.text),
+                                                                            "0",
+                                                                            "0"
+                                                                           
+                                                                          ]);
+                                                                          finalBrandListAftrRemoveDuplication =
+                                                                              removeDuplicationForBrand(dynamicRowsListForBrand);
+                                                                          Navigator.pop(context);
+                                                                          setState(() {
+                                                                            initialBrand = null;
+                                                                            rxPerDayController.clear();
+                                                                            salesQtyController.clear();
+                                                                            eCMESplitAmountController.clear();
+                                                                          });
+                                                
+                                                                     }
+                                                                      else {
+                                                                          AllServices().toastMessage(
+                                                                            selectedECMEType=="RMP Meeting"?  "Please Enter e_CME Amount  " :"Please Enter Rx objective per day",
+                                                                              Colors.red,
+                                                                              Colors.white,
+                                                                              16);
+                                                                           }    
+                                                                         
+                                                                   } 
+                                                                     else {
+                                                                      AllServices().toastMessage(
+                                                                          "Please Select Brand First",
+                                                                          Colors.red,
+                                                                          Colors.white,
+                                                                          16);
+                                                                    }
+                                                                  }),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
                                                     ),
                                                   ),
                                                 ),

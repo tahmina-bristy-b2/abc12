@@ -5,15 +5,15 @@ class ECMESubmitDataModel {
   String userId;
   String password;
   String brandString;
-  String areaId;
-  String docId;
+ //String areaId;
+ // String docId;
   String lattitute;
   String longitude;
-  String docName;
-  String degree;
-  String speciality;
-  String address;
-  String mobile;
+  String docListString;
+  //String degree;
+ // String speciality;
+ // String address;
+ // String mobile;
   String eCMEType;
   String meetingDate;
   String meetingVanue;
@@ -45,19 +45,19 @@ class ECMESubmitDataModel {
     required this.cid,
     required this.userId,
      required this.password,
-    required this.address,
-    required this.areaId,
+    // required this.address,
+    // required this.areaId,
     required this.brandList,
     required this.brandString,
-    required this.degree,
-    required this.docId,
-    required this.docName,
+    // required this.degree,
+   // required this.docId,
+    required this.docListString,
     required this.lattitute,
     required this.longitude,
     required this.meetingDate,
     required this.meetingTopic,
     required this.meetingVanue,
-    required this.mobile,
+   // required this.mobile,
     required this.eCMEType,
     required this.doctorCategory,
     required this.institureName,
@@ -76,7 +76,7 @@ class ECMESubmitDataModel {
    
     required this.speakerName,
     required this.speakerDesignation,
-    required this.speciality,
+  //  required this.speciality,
     required this.hallRentAmount,
     required this.foodExpense,
     

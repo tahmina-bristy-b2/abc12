@@ -16,7 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEAddScreen extends StatefulWidget {
-  Map docInfo;
+  List docInfo;
 
   ECMEAddScreen(
       {super.key,
@@ -244,58 +244,40 @@ int totalParticipants() {
                 SizedBox(
                   height: wholeHeight / 75.927,
                 ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                  padding:  EdgeInsets.only(left: 6),
+                    child: Text(
+                                    "Selected Doctors*",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                  ),
+                ),
+                              const SizedBox(
+                                height: 6,
+                              ),
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6),
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 1,
-                            color:const Color(0xff8AC995)
-                          ),
-                          borderRadius: BorderRadius.circular(50)
-                          
-                        ),
-                        child: const Icon(Icons.person, size: 50, color: Color(0xff8AC995))),
-                    ),
-                    SizedBox(
-                      width: wholeWidth / 39.272,
-                    ),
+                    
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${widget.docInfo["doc_name"]}|${widget.docInfo["degree"]}|${widget.docInfo["specialty"]}",
-                            style: const TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "${widget.docInfo["address"]}|$territoryid",
-                            style: const TextStyle(
-                                fontSize: 12,
-                                color: Color.fromARGB(255, 64, 64, 64)),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "${widget.docInfo["mobile"]}",
-                            style: const TextStyle(
-                                 fontSize: 12,
-                                color: Color.fromARGB(255, 64, 64, 64)),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: SizedBox(
+                          height: widget.docInfo.length*20,
+                          width: 150,
+                          child: ListView.builder(itemCount: widget.docInfo.length,
+                            itemBuilder: (context,index){
+                               return Padding(
+                                 padding: const EdgeInsets.only(top: 4),
+                                 child: Text( "${index+1}. ${widget.docInfo[index]["doc_name"]}|${widget.docInfo[index]["degree"]}|${widget.docInfo[index]["specialty"]}",style: const TextStyle(fontSize: 13),),
+                               );
+                            }),
+                        
+                        ),
                       ),
                     ),
                     Padding(
@@ -304,6 +286,7 @@ int totalParticipants() {
                         icon: const Icon(Icons.edit,
                             size: 20, color: Color(0xff8AC995)),
                         onPressed: () {
+                          Navigator.pop(context);
                           // showDialog(
                           //     context: context,
                           //     builder: (BuildContext context) {
@@ -534,8 +517,8 @@ int totalParticipants() {
                     )
                   ],
                 ),
-                SizedBox(
-                  height: wholeHeight / 25.309,
+                const SizedBox(
+                  height: 10
                 ),
                 SizedBox(
                   child: Row(
@@ -1015,15 +998,15 @@ int totalParticipants() {
                                       focusNode: AlwaysDisabledFocusNode(),
                                     ),
                                   ),
-                               SizedBox(
-                                height:  selectedECMEType!="RMP Meeting"?  10 :0,
+                              const SizedBox(
+                                height:  10,
                               ),
 
 
                                
-                             selectedECMEType!="RMP Meeting"?  const SizedBox(
+                            const SizedBox(
                                 height: 6,
-                              ) :const SizedBox(),
+                              ),
                                 const Text(
                                   "e_CME Amount *" ,
                                     style: TextStyle(
@@ -2355,14 +2338,14 @@ int totalParticipants() {
               cid: cid!,
               userId:userInfo!.userId,
               password: password!,  
-              address:  widget.docInfo["address"], 
-              areaId:  widget.docInfo["area_id"], 
+              // address:  widget.docInfo["address"], 
+              // areaId:  widget.docInfo["area_id"], 
               brandList: finalBrandListAftrRemoveDuplication, 
               brandString: getbrandString(), 
               costPerDoctor: getCostPerDoctor().toStringAsFixed(2), 
-              degree: widget.docInfo["degree"],  
-              docId: widget.docInfo["doc_id"], 
-              docName: widget.docInfo["doc_name"], 
+              // degree: widget.docInfo["degree"],  
+              // docId: widget.docInfo["doc_id"], 
+              docListString: "" ,
               giftcose: giftController.text,
               hallRentAmount: hallRentController.text,
               foodExpense: foodExpansesController.text, 
@@ -2371,7 +2354,7 @@ int totalParticipants() {
               meetingDate: selectedExpiredDateString,
               meetingTopic: meetingTopicController.text, 
               meetingVanue: meetingVenueController.text, 
-              mobile:widget.docInfo["mobile"]??"", 
+              // mobile:widget.docInfo["mobile"]??"", 
               eCMEType: selectedECMEType!,
               doctorCategory: selcetDoctorCategory!, 
               institureName: institutionController.text,
@@ -2387,7 +2370,7 @@ int totalParticipants() {
               others: '',
               speakerName: meetingProbaleSpeakerNameController.text, 
               speakerDesignation: probaleSpeakerDesignationController.text, 
-              speciality: widget.docInfo["specialty"], 
+              // speciality: widget.docInfo["specialty"], 
               stationaries: stationnairesController.text, 
               totalBudget: totalBudget.toStringAsFixed(2) 
               
@@ -2397,15 +2380,16 @@ int totalParticipants() {
       setState(() {
         isLoading = false;
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ECMEDoctorPreviewScreen(
-           eCMESubmitDataModel: ecmeSubmitDataModel,
+      //==================== will work
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (_) => ECMEDoctorPreviewScreen(
+      //      eCMESubmitDataModel: ecmeSubmitDataModel,
             
-          ),
-        ),
-      );
+      //     ),
+      //   ),
+      // );
     }
   }
       initialValue(String val) {

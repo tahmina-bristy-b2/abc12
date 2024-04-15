@@ -16,8 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMETypeSelection extends StatefulWidget {
   final Map<String, dynamic> callbackData;
-  Function(Map<String, dynamic>) callbackFuc;
-  ECMETypeSelection({required this.callbackData, required this.callbackFuc});
+  Function(Map<String, dynamic>) callbackFuction;
+  ECMETypeSelection({required this.callbackData, required this.callbackFuction});
 
   @override
   State<ECMETypeSelection> createState() => _ECMETypeSelectionState();
@@ -35,7 +35,6 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
   List<RxDcrDataModel> doctroList = [];
   List<ECMERegionList>? regionListData;
   List<String>? eCMEType;
-
   TextEditingController doctorController = TextEditingController();
   TextEditingController adressController = TextEditingController();
 
@@ -459,17 +458,15 @@ class _ECMETypeSelectionState extends State<ECMETypeSelection> {
       for (var disco in result) {
         box?.add(disco);
       }
-    //  widget.callbackData["dsr_Type"] = initialDoctorType;
+   
       widget.callbackData["eCMERegion"] = initialRegion;
       widget.callbackData["eCMEArea"] = initialDocroeArea;
       widget.callbackData["eCMETerritory"] = initialTerritory;
-      widget.callbackFuc(widget.callbackData);
-
+      widget.callbackFuction(widget.callbackData);
       var pref = await SharedPreferences.getInstance();
       pref.setString("eCMERegion", regionID);
       pref.setString("eCMEArea", areaID);
       pref.setString("eCMETerritory", terrorID);
-     // pref.setString("DoctorType", initialDoctorType!);
     } else {
       setState(() {
         isLoading = false;

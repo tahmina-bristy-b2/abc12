@@ -8,20 +8,60 @@ class ECMEServices{
     eCMEDavedDataBox.put("eCMESavedDataSync", eCMESavedDataModel);
   }
 
+  //************************************* This method works for ECME Doctor seraching *******************************/
+  List<DocListECMEModel> doctorSearch(String enteredKeyword, List<DocListECMEModel> serachedData) {
+     List<DocListECMEModel>  results = [];
+    if (enteredKeyword.isEmpty || enteredKeyword == "") {
+      results = serachedData;
+    } else {
+      var starts = serachedData
+          .where((s) =>
+              s.docName
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s.areaName
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s.areaId
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()) ||
+              s.address
+                  .toLowerCase()
+                  .startsWith(enteredKeyword.toLowerCase()))
+          .toList();
 
-  // List<dynamic>  getItemList(String brandName,List<dynamic>  givenDoctor,){
-  // List<dynamic> machingDoctorList=[];
-  // String brandId="";
-  //   for(var item in givenDoctor ){
-  //               if(item[]==brandName){
-  //                 brandId=item.brandId;
-  //       }
-  //   }
-  //  for (var brand in brandList) {
-  //    machingItem.addAll(brand.itemList
-  //     .where((item) => item.brandId.toLowerCase().contains(brandId.toLowerCase())));
-  //  }
-  //  return machingItem;
+      var contains = serachedData
+          .where((s) =>
+              (s.docName
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s.docName
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())) ||
+              (s.areaName
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s.areaName
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())) ||
+              (s.areaId
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s.areaId
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())) ||
+              (s.address
+                      .toLowerCase()
+                      .contains(enteredKeyword.toLowerCase()) &&
+                  !s.address
+                      .toLowerCase()
+                      .startsWith(enteredKeyword.toLowerCase())))
+          .toList()
+        ..sort((a, b) =>
+            a.docName.toLowerCase().compareTo(b.docName.toLowerCase()));
 
-  // }
+      results = [...starts, ...contains];
+    }
+    return results;
+  }
 }

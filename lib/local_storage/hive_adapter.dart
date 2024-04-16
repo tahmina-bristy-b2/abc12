@@ -37,9 +37,8 @@ class HiveAdapter {
     //======================= eCME Saved Data Apter=========================
     Hive.registerAdapter(ECMESavedDataModelAdapter());
     Hive.registerAdapter(ECMEBrandListAdapter());
-    Hive.registerAdapter(ECMERegionListAdapter());
-    Hive.registerAdapter(ECMEAreaListAdapter());
-    Hive.registerAdapter(ECMETerritoryListAdapter());
+    Hive.registerAdapter(DocListECMEModelAdapter());
+   
 
 
 

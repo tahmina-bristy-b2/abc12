@@ -3,8 +3,8 @@ class ECMEApis{
     String cid,
     String userId,
     String userPass,)=>
-   // "http://10.168.27.183:8000/skf_api/api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
-    "${eDsrSettingsUrl}api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
+    "http://10.168.27.183:8000/skf_api/api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
+    //"${eDsrSettingsUrl}api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
 
 
     String getECMEAddDoctorApi(String doctorUrl, String cid, String userId, String userPass,

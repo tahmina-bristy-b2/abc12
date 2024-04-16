@@ -1,13 +1,18 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/eCME/eCME_services.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEClientScreen extends StatefulWidget {
-  const ECMEClientScreen({super.key});
+   List<DocListECMEModel> docList;
+   ECMEClientScreen({
+    super.key,required this.docList
+    });
 
   @override
   State<ECMEClientScreen> createState() => _ECMEClientScreenState();
@@ -19,7 +24,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
 
   TextEditingController searchController = TextEditingController();
   List foundUsers = [];
-  List result = [];
+   List<DocListECMEModel> result = [];
   String? cid;
   String? userId;
   String? password;
@@ -31,23 +36,18 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
     "dsr_Type": "",
   };
   Map<String,bool> doctorSelectionMap={};
-  List doctInfo=[];
+  List<DocListECMEModel> doctInfo=[];
   bool isConfirm=false;
 
 
   @override
   void initState() {
-    if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
-      regionListData =
-          Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
+    if(widget.docList!=null){
+      result=widget.docList;
     }
-    
-
-    box = Hive.box("doctorList");
-    result = box!.toMap().values.toList();
     if(result.isNotEmpty){
       for (var element in result) {
-        doctorSelectionMap[element["doc_id"]]=false;
+        doctorSelectionMap[element.docId]=false;
       }}
     
     SharedPreferences.getInstance().then((prefs) {
@@ -89,7 +89,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
               padding: const EdgeInsets.all(6.0),
               child: Row(
                 children: [
-                  box!.isNotEmpty
+                widget.docList!=null
                       ? Expanded(
                           flex: 5,
                         child: SizedBox(
@@ -107,20 +107,16 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                   ),
                                   child: TextFormField(
                                     onChanged: (value) {
-                                                result = box!.toMap().values.toList();
-                                                result = AllServices().doctorSearch(
+                                                result = ECMEServices().doctorSearch(
                                                     value,
-                                                    result,
-                                                    'doc_name',
-                                                    'area_name',
-                                                    'area_id',
-                                                    'address');
+                                                    widget.docList,
+                                                    );
                                                 setState(() {});
                                               },
                                     controller: searchController,
                                     decoration: InputDecoration(
                                       hintText:" Search doctor.....",
-                                      hintStyle: TextStyle(fontSize: 14
+                                      hintStyle: const TextStyle(fontSize: 14
                                       
                                       ),
                                       filled: true,
@@ -130,18 +126,13 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                               searchController.text == ''
                                           ? const Icon(Icons.search,color: Colors.grey,)
                                           : IconButton(
-                                                              onPressed: () {
+                                                   onPressed: () {
                                                           searchController.clear();
-                                                          result = box!.toMap().values.toList();
-
                                                           setState(() {
-                                                            result = AllServices().doctorSearch(
+                                                            result = ECMEServices().doctorSearch(
                                                                 '',
-                                                                result,
-                                                                'doc_name',
-                                                                'area_name',
-                                                                'area_id',
-                                                                'address');
+                                                                widget.docList,
+                                                                );
                                                           });
                                                         },
                                               icon: const Icon(
@@ -150,163 +141,25 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                               
                                               ),
                                             ),
-                  ),
-                ),
-              ),
-          ),
-        ],
-      ),
-    ))
-                      
-                      
-                      //  Expanded(
-                      //     flex: 4,
-                      //     child: TextField(
-                      //       controller: searchController,
-                      //       onChanged: (value) {
-                      //         result = box!.toMap().values.toList();
-                      //         result = AllServices().doctorSearch(
-                      //             value,
-                      //             result,
-                      //             'doc_name',
-                      //             'area_name',
-                      //             'area_id',
-                      //             'address');
-                      //         setState(() {});
-                      //       },
-                      //       decoration: InputDecoration(
-                      //         border: const OutlineInputBorder(),
-                      //         labelText: 'Search Doctor/Client.....',
-                      //         suffixIcon: searchController.text.isEmpty &&
-                      //                 searchController.text == ''
-                      //             ? const Icon(Icons.search)
-                      //             : IconButton(
-                      //                 onPressed: () {
-                      //                   searchController.clear();
-                      //                   result = box!.toMap().values.toList();
-
-                      //                   setState(() {
-                      //                     result = AllServices().doctorSearch(
-                      //                         '',
-                      //                         result,
-                      //                         'doc_name',
-                      //                         'area_name',
-                      //                         'area_id',
-                      //                         'address');
-                      //                   });
-                      //                 },
-                      //                 icon: const Icon(
-                      //                   Icons.clear,
-                      //                   color: Colors.black,
-                      //                 ),
-                      //               ),
-                      //       ),
-                      //     ),
-                      //   )
-
-
-
-
+                                  ),
+                                ),
+                              ),
+                          ),
+                        ],
+                      ),
+                     ))
                       : const SizedBox(),
-                  box!.isNotEmpty
+                     widget.docList!=null
                       ? const SizedBox(
                           width: 10,
                         )
                       : const SizedBox(),
-                  //******************************************************eCME doctor Selection******************************************* */
-                  // Expanded(
-                  //     child: InkWell(
-                  //   onTap: () async {
-                  //     // await showDialog(
-                  //     //     context: context,
-                  //     //     builder: (BuildContext context) {
-                  //     //       return ECMETypeSelection(
-                  //     //           callbackData: mapData,
-                  //     //           callbackFuc: (value) {
-                  //     //             region = value["Region"];
-                  //     //             area = value["Area"];
-                  //     //             territory = value["Territory"];
-                  //     //             dSRType = value["dsr_Type"];
-                  //     //             setState(() {});
-                  //     //           });
-                  //     //     });
-                  //     // setState(() {
-                  //     //   box = Hive.box("doctorList");
-                  //     //   result = box!.toMap().values.toList();
-                  //     // });
-                  //   },
-                  //   child: Container(
-                  //       height: 50,
-                  //      // width: ,
-                  //       decoration: BoxDecoration(
-                  //           border: Border.all(
-                  //             color: Colors.teal,
-                  //           ),
-                  //           borderRadius: BorderRadius.circular(8)),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           box!.isEmpty
-                  //               ? const Text(
-                  //                   "Add Doctor ",
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: Color.fromARGB(255, 54, 110, 63),
-                  //                       fontWeight: FontWeight.bold),
-                  //                 )
-                  //               : const SizedBox(),
-                  //           const Icon(Icons.add_box_sharp,
-                  //               color: Color.fromARGB(255, 138, 201, 149),
-                  //               size: 40),
-                  //         ],
-                  //       )),
-                  // ))
+                 
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8,right: 8,bottom: 8),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        " $region ",
-                        style: const TextStyle(
-                          color: Colors.black,
-                            fontWeight: FontWeight.w700, fontSize: 15),
-                      ),
-                    ],
-                  )),
-                  Expanded(
-                      child: Column(
-                    children: [
-                      Text(" $area ",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 15,color: Colors.black,)),
-                    ],
-                  )),
-                  Expanded(
-                      child: Column(
-                    children: [
-                    
-                      territory == null
-                          ? const Text(
-                              " ",
-                            )
-                          : Text(
-                              " $territory ",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 15,color: Colors.black,),
-                            ),
-                    ],
-                  )),
-                ],
-              ),
-            ),
-            Expanded(
+           
+          widget.docList!=null?  Expanded(
               child: ListView.builder(
                   itemCount: result.length,
                   itemBuilder: (context, index) {
@@ -316,7 +169,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                         height: 50,
                         decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color:doctorSelectionMap[result[index]["doc_id"]]==true?
+                                color:doctorSelectionMap[result[index].docId]==true?
                                 const Color.fromARGB(255, 243, 251, 245)
                                 
                                 :Colors.white
@@ -334,25 +187,29 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      result[index]["doc_name"],
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
+                                    Flexible(
+                                      child: Text(
+                                        result[index].docName,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 4,),
-                                    Text(
-                                      "${result[index]["area_name"]}  (${result[index]["area_id"]}),",style: const TextStyle(fontSize: 11,color: Colors.black54),
+                                    Flexible(
+                                      child: Text(
+                                        "${result[index].areaName}  (${result[index].areaId}),",style: const TextStyle(fontSize: 11,color: Colors.black54),
+                                      ),
                                     ),
                                    
                                   ],
                                 ),
                               ),
                              ),
-                             value:doctorSelectionMap[result[index]["doc_id"]] , 
+                             value:doctorSelectionMap[result[index].docId] , 
                              onChanged: (bool? value){
-                                doctorSelectionMap[result[index]["doc_id"]]=value!;
+                                doctorSelectionMap[result[index].docId]=value!;
                                 setState(() {  
                                 });
 
@@ -364,7 +221,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
 
                   
                   }),
-            )
+            ):const SizedBox()
           ],
         ),
         
@@ -376,14 +233,13 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
               doctorSelectionMap.forEach((key1, value1) {
                 if(value1==true){
                   for (var element2 in result) {   
-                   if(key1==element2["doc_id"]){
+                   if(key1==element2.docId){
                     doctInfo.add(element2);  
                    }
                   }
                 }   
               });
-             
-                 Navigator.push(
+              Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => ECMEAddScreen(

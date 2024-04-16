@@ -16,7 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEAddScreen extends StatefulWidget {
-  List docInfo;
+  List<DocListECMEModel> docInfo;
 
   ECMEAddScreen(
       {super.key,
@@ -71,24 +71,15 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
   String? initialBrand;
   String? selectedECMEType;
+  List<String> docCategoryList=[];
   String? selcetDoctorCategory;
   String? selectedDepartment;
+  List<String> payModeList=[];
   String? selectedPayMode;
- 
-
+  String brandString='';
   String? cid;
   String? password;
-
-  String categoryId = "";
-  String purposeId = "";
-  String subPurposeId = "";
-  String? doctorType;
-  String dsrFromdate = '';
-  String dsrTodate = '';
-  String rxFromDate = '';
-  String rxToDate = '';
-  String brandString = '';
-  String territoryid = '';
+ 
   double latitude = 0.0;
   double longitude = 0.0;
   bool isLoading = false;
@@ -113,13 +104,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
-    eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
     allSettingsDataGet(eCMESettingsData);
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
       cid = prefs.getString("CID") ?? '';
-      doctorType = prefs.getString("DoctorType") ?? '';
-      territoryid = prefs.getString("Territory") ?? '';
       latitude = prefs.getDouble("latitude") ?? 0.0;
       longitude = prefs.getDouble("longitude") ?? 0.0;
     });
@@ -128,9 +116,13 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   //===============================All Settings Data get Method============================
   allSettingsDataGet(ECMESavedDataModel? eDSRsettingsData) {
     eBrandList = eDSRsettingsData!.eCMEBrandList.map((e) => e.brandName).toList();  
+    eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
+    payModeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payModeList;
+    docCategoryList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.docCategoryList;
   }
 
   //=============================== get brand String ===============================
+ //will work
   String getbrandString() {
     brandString = '';
     for (var element1 in eCMESettingsData!.eCMEBrandList) {
@@ -205,7 +197,6 @@ int totalParticipants() {
     int listNum= finalBrandListAftrRemoveDuplication.length;
     double? eCMEAmount= double.tryParse(eCMEAmountCOntroller.text)??0.0 ;
     splitedAmount=(eCMEAmount/listNum);
-    print("splited data =$splitedAmount");
     return splitedAmount;
    }
 
@@ -273,7 +264,7 @@ int totalParticipants() {
                             itemBuilder: (context,index){
                                return Padding(
                                  padding: const EdgeInsets.only(top: 4),
-                                 child: Text( "${index+1}. ${widget.docInfo[index]["doc_name"]}|${widget.docInfo[index]["degree"]}|${widget.docInfo[index]["specialty"]}",style: const TextStyle(fontSize: 13),),
+                                 child: Text( "${index+1}. ${widget.docInfo[index].docName}|${widget.docInfo[index].degree}|${widget.docInfo[index].specialty}",style: const TextStyle(fontSize: 13),),
                                );
                             }),
                         
@@ -287,231 +278,7 @@ int totalParticipants() {
                             size: 20, color: Color(0xff8AC995)),
                         onPressed: () {
                           Navigator.pop(context);
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (BuildContext context) {
-                          //       return AlertDialog(
-                          //         scrollable: true,
-                          //         title: Center(
-                          //             child: Text(
-                          //                 "${widget.docInfo["doc_name"]}")),
-                          //         content: SizedBox(
-                          //           height: 150,
-                          //           child: Form(
-                          //             key: _form1Key,
-                          //             child: Column(
-                          //               children: [
-                          //                 const SizedBox(
-                          //                   height: 15,
-                          //                 ),
-                          //                 const Align(
-                          //                   alignment: Alignment.centerLeft,
-                          //                   child: Text(
-                          //                     "Mobile Number*",
-                          //                     style: TextStyle(
-                          //                         fontWeight: FontWeight.w500),
-                          //                   ),
-                          //                 ),
-                          //                 const SizedBox(
-                          //                   height: 5,
-                          //                 ),
-                          //                 SizedBox(
-                          //                   width: MediaQuery.of(context)
-                          //                           .size
-                          //                           .width /
-                          //                       1.1,
-                          //                   height: 45,
-                          //                   child: TextFormField(
-                          //                     keyboardType: TextInputType.number,
-                          //                     inputFormatters: [
-                          //                        FilteringTextInputFormatter
-                          //                                               .allow(
-                          //                                             RegExp(
-                          //                                                 "[A-Za-z0-9]"),
-                          //                                           ),
-                          //                       FilteringTextInputFormatter.deny(
-                          //                         RegExp(r'^\d{12,}$'),
-                          //                       ),
-                          //                     ],
-                          //                     validator: (value) {
-                          //                       if (value!.isEmpty) {
-                          //                         return "Mobile Number is required";
-                          //                       }
-                          //                       if (value.length < 11 
-                          //                           ) {
-                          //                         return "Mobile Number should be  11  digits";
-                          //                       }
-                          //                     },
-                          //                   ),
-                          //                 ),
-                          //                 const SizedBox(
-                          //                   height: 20,
-                          //                 ),
-                          //                 Row(
-                          //                   children: [
-                          //                     Expanded(
-                          //                       child: InkWell(
-                          //                           child: Container(
-                          //                             height: 40,
-                          //                             decoration: BoxDecoration(
-                          //                               borderRadius:
-                          //                                   BorderRadius.circular(
-                          //                                       10),
-                          //                               color:
-                          //                                   const Color.fromARGB(
-                          //                                       255,
-                          //                                       170,
-                          //                                       172,
-                          //                                       170),
-                          //                             ),
-                          //                             child: const Center(
-                          //                                 child: Text("Cancel",
-                          //                                     style: TextStyle(
-                          //                                       color: Color
-                          //                                           .fromARGB(
-                          //                                               255,
-                          //                                               255,
-                          //                                               255,
-                          //                                               255),
-                          //                                     ))),
-                          //                           ),
-                          //                           onTap: () {
-                          //                             // Navigator.pop(context);
-                          //                             // doctorMobileNumberController
-                          //                             //     .text = widget
-                          //                             //         .docInfo[
-                          //                             //     widget.index]["mobile"];
-                          //                           }),
-                          //                     ),
-                          //                     const SizedBox(
-                          //                       width: 15,
-                          //                     ),
-                          //                     Expanded(
-                          //                       child: InkWell(
-                          //                           child: Container(
-                          //                             height: 40,
-                          //                             decoration: BoxDecoration(
-                          //                               borderRadius:
-                          //                                   BorderRadius.circular(
-                          //                                       10),
-                          //                               color:
-                          //                                   const Color.fromARGB(
-                          //                                       255, 44, 114, 66),
-                          //                             ),
-                          //                             child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
-                          //                                 child: Text("Update",
-                          //                                     style: TextStyle(
-                          //                                       color: Color
-                          //                                           .fromARGB(
-                          //                                               255,
-                          //                                               255,
-                          //                                               255,
-                          //                                               255),
-                          //                                     ))),
-                          //                           ),
-                          //                           onTap: () async {
-                          //                             // if (_form1Key.currentState!
-                          //                             //     .validate()) {
-                          //                             //   setState(() {
-                          //                             //     isMobileUpdate = true;
-                          //                             //   });
-                          //                             //   bool result =
-                          //                             //       await InternetConnectionChecker()
-                          //                             //           .hasConnection;
-                          //                             //   if (result == true) {
-                          //                             //     Map<String, dynamic>
-                          //                             //         responsData =
-                          //                             //         await EDSRRepositories().getMobileNumberUpdation(
-                          //                             //             dmpathData!
-                          //                             //                 .submitUrl,
-                          //                             //             cid!,
-                          //                             //             userInfo!
-                          //                             //                 .userId,
-                          //                             //             userPassword,
-                          //                             //             widget.docInfo[
-                          //                             //                     widget
-                          //                             //                         .index]
-                          //                             //                 ["doc_id"],
-                          //                             //             doctorType!,
-                          //                             //             doctorMobileNumberController
-                          //                             //                 .text,
-                          //                             //             widget.docInfo[
-                          //                             //                     widget
-                          //                             //                         .index]
-                          //                             //                 [
-                          //                             //                 "area_id"]);
-                          //                             //     if (responsData
-                          //                             //         .isNotEmpty) {
-                          //                             //       if (responsData[
-                          //                             //               "status"] ==
-                          //                             //           "Success") {
-                          //                             //         widget.docInfo[widget
-                          //                             //                     .index]
-                          //                             //                 ["mobile"] =
-                          //                             //             doctorMobileNumberController
-                          //                             //                 .text;
-                          //                             //         setState(() {
-                          //                             //           isMobileUpdate =
-                          //                             //               false;
-                          //                             //         });
-                          //                             //         AllServices()
-                          //                             //             .toastMessage(
-                          //                             //                 responsData[
-                          //                             //                     "ret_str"],
-                          //                             //                 Colors
-                          //                             //                     .green,
-                          //                             //                 Colors
-                          //                             //                     .white,
-                          //                             //                 14);
-          
-                          //                             //         if (!mounted) {
-                          //                             //           return;
-                          //                             //         }
-                          //                             //         Navigator.pop(
-                          //                             //             context);
-                          //                             //       } else {
-                          //                             //         setState(() {
-                          //                             //           isMobileUpdate =
-                          //                             //               false;
-                          //                             //         });
-                          //                             //         AllServices()
-                          //                             //             .toastMessage(
-                          //                             //                 responsData[
-                          //                             //                     "ret_str"],
-                          //                             //                 Colors.red,
-                          //                             //                 Colors
-                          //                             //                     .white,
-                          //                             //                 14);
-                          //                             //       }
-                          //                             //     } else {
-                          //                             //       setState(() {
-                          //                             //         isMobileUpdate =
-                          //                             //             false;
-                          //                             //       });
-                          //                             //     }
-                          //                             //   } else {
-                          //                             //     setState(() {
-                          //                             //       isMobileUpdate =
-                          //                             //           false;
-                          //                             //     });
-                          //                             //     AllServices()
-                          //                             //         .toastMessage(
-                          //                             //             interNetErrorMsg,
-                          //                             //             Colors.red,
-                          //                             //             Colors.white,
-                          //                             //             16);
-                          //                             //   }
-                          //                             // }
-                          //                           }),
-                          //                     ),
-                          //                   ],
-                          //                 )
-                          //               ],
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       );
-                          //     });
+                        
                         },
                       ),
                     )
@@ -696,7 +463,7 @@ int totalParticipants() {
                                                       fontSize: 14,
                                                     ),
                                                   ),
-                                                  items: ["Institution","KOL Hub or GP Area","Society"].map((String item) {
+                                                  items: docCategoryList.map((String item) {
                                                     return DropdownMenuItem(
                                                       value: item, 
                                                       child: Padding(
@@ -850,14 +617,7 @@ int totalParticipants() {
                                                     setState(() {
                                                       
                                                     });
-                                                    // if(value!="Institution"){
-                                                    //   institutionController.clear();
-                                                    //   departmentController.clear();
-
-                                                    // }
-                                                    // setState(() {
-                                                    //   selcetDoctorCategory = value; 
-                                                    // });
+                                                 
                                                   },
                                                 buttonHeight: 50,
                                                 buttonWidth: MediaQuery.of(context).size.width / 1.5,
@@ -907,19 +667,7 @@ int totalParticipants() {
                                                                                     
                                 
                                ),
-                              // SizedBox(
-                              //     width: MediaQuery.of(context).size.width / 1.1,
-                              //     height: 45,
-                              //     child: CustomtextFormFiledWidget(
-                              //         hinText: '----Enter Department---',
-                              //         controller: departmentController,
-                              //         textAlign: TextAlign.left, 
-                              //         keyboardType: TextInputType.text,
-                              //         textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                              //         focusNode: AlwaysDisabledFocusNode(),
-                              //       ),
-                                 
-                              //   ),
+                             
                                 ],
                                ): const SizedBox(),
                                const SizedBox(height: 10,),
@@ -1219,7 +967,6 @@ int totalParticipants() {
                                             child: Text("৳${getCostPerDoctor().toStringAsFixed(2)}",style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
                                           ),
                                       
-                                      
                                       ],
                                     )
                                     :const SizedBox(),
@@ -1314,7 +1061,7 @@ int totalParticipants() {
                                                       fontSize: 14,
                                                     ),
                                                   ),
-                                                  items: ['Bill','Bill b'].map((String item) {
+                                                  items:payModeList.map((String item) {
                                                     return DropdownMenuItem(
                                                       value: item, 
                                                       child: Padding(
@@ -1335,10 +1082,7 @@ int totalParticipants() {
                                                     setState(() {
                                                       selectedPayMode=value;
                                                     });
-                                                  },
-                                                  
-                                                 
-                                                  
+                                                  },  
                                                 buttonHeight: 50,
                                                 buttonWidth: MediaQuery.of(context).size.width / 1.5,
                                                 itemHeight: 40,
@@ -1456,7 +1200,6 @@ int totalParticipants() {
                                 child: InkWell(
                                     child: Container(
                                       height: 55,
-                                      //width: 160,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: const Color.fromARGB(
@@ -1470,98 +1213,50 @@ int totalParticipants() {
                                               ))),
                                     ),
                                     onTap: () async {
-                                          if(selectedECMEType!=null){
-                                            if(finalBrandListAftrRemoveDuplication.isNotEmpty){
-                                             if(selectedExpiredDateString!=""){
-                                              if(selcetDoctorCategory!=null){
-                                                    if(meetingVenueController.text!=""){
-                                                      if(meetingTopicController.text!=""){
-                                                        if(meetingProbaleSpeakerNameController.text!=""){
-                                                                 if(eCMEAmountCOntroller.text!=""){
-                                                                  if(doctorParticipantCount.text!=""){
-                                                                   if(hallRentController.text!=""){
-                                                                    if(foodExpansesController.text!=""){
-                                                                      if(giftController.text!=""){
-                                                                        
-                                                                        // if(stationnairesController.text!=""){
-                                                                        //   if(selcetDoctorCategory=="Institution"){
-                                                                        //     if(institutionController.text !=""){
-                                                                        //      if(institutionController.text !=""){
-                                                                        //        readyForPreviewMethod();
-                                                                        //       }
-                                                                        //       else{
-                                                                        //         AllServices().toastMessage("Please add department ", Colors.red, Colors.white, 16);
-                                                                        //       }
-                                                                        //     }
-                                                                        //     else{
-                                                                        //       AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
-                                                                        //     }
-
-                                                                        //   }
-                                                                        //   else{
-                                                                         
-                                                                        //       readyForPreviewMethod();
-                                                                        //   }
-                                                                        // }
-                                                                        // else{
-                                                                        //   AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
-                                                                        // }
-
-                                                                      }
-                                                                      else{
-                                                                        AllServices().toastMessage("Please add sepeaker gift expense  ", Colors.red, Colors.white, 16);
-                                                                      }
-                                                                    }
-                                                                    else{
-                                                                      AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
-                                                                    }
-
-                                                                    }
-                                                                    else{
-                                                                      AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
-                                                                    }
-                                                                }
-                                                                else{
-                                                                  AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
-
-                                                                }
-
-                                                                 }
-                                                                 else{
-                                                                  AllServices().toastMessage("Please enter e-CME anmount", Colors.red, Colors.white, 16);
-                                                                 }
-
-                                                          }
-                                                        else{
-                                                          AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
-                                                        }
-                                                      }
-                                                      else{
-                                                        AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
-                                                      }
-                                                  }
-                                                  else{
-                                                    AllServices().toastMessage("Please Enter meeting vanue ", Colors.red, Colors.white, 16);
-                                                  }
-                                            }
-                                            else{
+                                      if (selectedECMEType == null) {
+                                              AllServices().toastMessage("Please Select eCME Type First", Colors.red, Colors.white, 16);
+                                            } else if (selectedExpiredDateString == "") {
+                                              AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
+                                            } else if (selcetDoctorCategory == null) {
                                               AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
+                                            } else if (meetingVenueController.text == "") {
+                                              AllServices().toastMessage("Please Enter meeting venue ", Colors.red, Colors.white, 16);
+                                            } else if (meetingTopicController.text == "") {
+                                              AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
+                                            } else if (meetingProbaleSpeakerNameController.text == "") {
+                                              AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
+                                            } else if (eCMEAmountCOntroller.text == "") {
+                                              AllServices().toastMessage("Please enter e-CME amount", Colors.red, Colors.white, 16);
+                                            } else if (finalBrandListAftrRemoveDuplication.isEmpty) {
+                                              AllServices().toastMessage("Please add brand", Colors.red, Colors.white, 16);
+                                            } else if (doctorParticipantCount.text == "") {
+                                              AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
+                                            } else if (internDoctorController.text.isEmpty) {
+                                              AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
+                                            } else if (dmfDoctorController.text.isEmpty) {
+                                              AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
+                                            } else if (nursesController.text.isEmpty) {
+                                              AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
+                                            } else if (skfAttenaceController.text.isEmpty) {
+                                              AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
+                                            } else if (hallRentController.text == "") {
+                                              AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
+                                            } else if (foodExpansesController.text == "") {
+                                              AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
+                                            } else if (giftController.text == "") {
+                                              AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
+                                            } else if (stationnairesController.text == "") {
+                                              AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                            } else if (selectedPayMode == null) {
+                                              AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
+                                            } else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
+                                              AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
+                                            }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
+                                              AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);
                                             }
-
-                                        }
-                                        else{
-                                          AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
-                                        }
-
-                                       }
-                                       else{
-                                         AllServices().toastMessage("Please Select Brand ", Colors.red, Colors.white, 16);
-                                      }
-                                      }
-                                      else{
-                                         AllServices().toastMessage("Please Select eCME Type First", Colors.red, Colors.white, 16);
-                                      }
-                                        
+                                             else {
+                                              readyForPreviewMethod();
+                                            }
                                   
                                     }),
                               ),
@@ -1979,59 +1674,7 @@ int totalParticipants() {
                                                             ),
                                                           ],
                                                         ),
-                                                        // const SizedBox(
-                                                        //   // 
-                                                        //   height: 15,
-                                                        // ),
-                                                        
-                                                        // const  Align(
-                                                        //   alignment: Alignment
-                                                        //       .centerLeft,
-                                                        //   child: Text(
-                                                        //     "Amount",
-                                                        //     style:  TextStyle(
-                                                        //         fontWeight:
-                                                        //             FontWeight
-                                                        //                 .w600),
-                                                        //   ),
-                                                        // ) ,
-                                                        // const SizedBox(
-                                                        //   height: 5,
-                                                        // ),
-                                                        // SizedBox(
-                                                        //     width: MediaQuery.of(
-                                                        //                 context)
-                                                        //             .size
-                                                        //             .width /
-                                                        //         1.1,
-                                                        //     height: 45,
-                                                        //     child:
-                                                        //         TextFormField(
-                                                        //       inputFormatters: [
-                                                        //         FilteringTextInputFormatter
-                                                        //             .allow(RegExp(
-                                                        //                 r'[0-9]')), 
-                                                        //       ],
-                                                        //       keyboardType:
-                                                        //           TextInputType
-                                                        //               .number,
-                                                        //       controller:
-                                                        //         eCMESplitAmountController,
-                                                        //       decoration:
-                                                        //           InputDecoration(
-                                                        //         border:
-                                                        //             OutlineInputBorder(
-                                                        //           borderSide:
-                                                        //               const BorderSide(
-                                                        //                   color:
-                                                        //                       Colors.white),
-                                                        //           borderRadius:
-                                                        //               BorderRadius.circular(
-                                                        //                   5.0),
-                                                        //         ),
-                                                        //       ),
-                                                        //     )),
-                                                        
+                                                      
                                                     
                                                         const SizedBox(
                                                           height: 15,
@@ -2215,41 +1858,40 @@ int totalParticipants() {
     final ECMESubmitDataModel ecmeSubmitDataModel = ECMESubmitDataModel(
               cid: cid!,
               userId:userInfo!.userId,
-              password: password!,  
-              // address:  widget.docInfo["address"], 
-              // areaId:  widget.docInfo["area_id"], 
+              password: password!,
+              lattitute: latitude.toString(), 
+              longitude: longitude.toString(),
+              docList: widget.docInfo, 
+              docListString: "" , 
               brandList: finalBrandListAftrRemoveDuplication, 
               brandString: getbrandString(), 
               costPerDoctor: getCostPerDoctor().toStringAsFixed(2), 
-              // degree: widget.docInfo["degree"],  
-              // docId: widget.docInfo["doc_id"], 
-              docListString: "" ,
-              giftcose: giftController.text,
-              hallRentAmount: hallRentController.text,
-              foodExpense: foodExpansesController.text, 
-              lattitute: latitude.toString(), 
-              longitude: longitude.toString(),
+             
               meetingDate: selectedExpiredDateString,
               meetingTopic: meetingTopicController.text, 
               meetingVanue: meetingVenueController.text, 
-              // mobile:widget.docInfo["mobile"]??"", 
               eCMEType: selectedECMEType!,
-              doctorCategory: selcetDoctorCategory!, 
-              institureName: institutionController.text,
-              departament: departmentController.text, 
+              doctorCategory: selcetDoctorCategory!,
+              institutionName:selcetDoctorCategory=="Institution"? institutionController.text:"", 
+              departament:selcetDoctorCategory=="Institution"? departmentController.text:"", 
               eCMEAmount: eCMEAmountCOntroller.text, 
-              rxPerDay: rxObjectiveperDayController.text,
+
               doctorsCount: doctorParticipantCount.text, 
               internDoctor: internDoctorController.text, 
               dMFDoctors: dmfDoctorController.text, 
               nurses: nursesController.text, 
+              skfAttendance: skfAttenaceController.text,
+              othersParticipants: othersParticipantsController.text,
               numberOfParticipant: noIfparticipants.toString(), 
-              speakerInstitute: probaleSpeakerInstituteController.text,
-              others: '',
-              speakerName: meetingProbaleSpeakerNameController.text, 
-              speakerDesignation: probaleSpeakerDesignationController.text, 
-              // speciality: widget.docInfo["specialty"], 
+
+              speakerName: meetingProbaleSpeakerNameController.text,
+
               stationaries: stationnairesController.text, 
+              hallRentAmount: hallRentController.text,
+              foodExpense: foodExpansesController.text,
+              giftCost: giftController.text,
+              payMode: selectedPayMode!,
+              
               totalBudget: totalBudget.toStringAsFixed(2) 
               
             );
@@ -2258,16 +1900,15 @@ int totalParticipants() {
       setState(() {
         isLoading = false;
       });
-      //==================== will work
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (_) => ECMEDoctorPreviewScreen(
-      //      eCMESubmitDataModel: ecmeSubmitDataModel,
-            
-      //     ),
-      //   ),
-      // );
+     
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ECMEDoctorPreviewScreen(
+           eCMESubmitDataModel: ecmeSubmitDataModel, 
+          ),
+        ),
+      );
     }
   }
       initialValue(String val) {

@@ -1,6 +1,7 @@
 class ExpiredApi{
    static syncExpiredItemsApi(
-          String syncUrl, String cid, String userId, String userpass) =>'${syncUrl}api_exp_item/item_list?cid=$cid&user_id=$userId&user_pass=$userpass';
+          String syncUrl, String cid, String userId, String userpass) =>
+          '${syncUrl}api_exp_item/item_list?cid=$cid&user_id=$userId&user_pass=$userpass';
       
   // static syncExpiredItemsApi(
   //         String syncUrl, String cid, String userId, String userpass) =>

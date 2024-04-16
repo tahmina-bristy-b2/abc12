@@ -20,14 +20,16 @@ class ECMESavedDataModelAdapter extends TypeAdapter<ECMESavedDataModel> {
       status: fields[0] as String,
       eCMEBrandList: (fields[1] as List).cast<ECMEBrandList>(),
       eCMETypeList: (fields[2] as List).cast<String>(),
-      eCMERegionList: (fields[3] as List).cast<ECMERegionList>(),
+      eCMEdocList: (fields[3] as List).cast<DocListECMEModel>(),
+      docCategoryList: (fields[5] as List).cast<String>(),
+      payModeList: (fields[4] as List).cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ECMESavedDataModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.status)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class ECMESavedDataModelAdapter extends TypeAdapter<ECMESavedDataModel> {
       ..writeByte(2)
       ..write(obj.eCMETypeList)
       ..writeByte(3)
-      ..write(obj.eCMERegionList);
+      ..write(obj.eCMEdocList)
+      ..writeByte(4)
+      ..write(obj.payModeList)
+      ..writeByte(5)
+      ..write(obj.docCategoryList);
   }
 
   @override
@@ -86,73 +92,51 @@ class ECMEBrandListAdapter extends TypeAdapter<ECMEBrandList> {
           typeId == other.typeId;
 }
 
-class ECMERegionListAdapter extends TypeAdapter<ECMERegionList> {
+class DocListECMEModelAdapter extends TypeAdapter<DocListECMEModel> {
   @override
   final int typeId = 97;
 
   @override
-  ECMERegionList read(BinaryReader reader) {
+  DocListECMEModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ECMERegionList(
-      regionId: fields[0] as String,
-      regionName: fields[1] as String,
-      eCMEAreaList: (fields[2] as List).cast<ECMEAreaList>(),
+    return DocListECMEModel(
+      docId: fields[0] as String,
+      docName: fields[1] as String,
+      areaId: fields[2] as String,
+      areaName: fields[3] as String,
+      address: fields[4] as String,
+      thirdPartyId: fields[5] as String,
+      degree: fields[6] as String,
+      specialty: fields[7] as String,
+      mobile: fields[8] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ECMERegionList obj) {
+  void write(BinaryWriter writer, DocListECMEModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(9)
       ..writeByte(0)
-      ..write(obj.regionId)
+      ..write(obj.docId)
       ..writeByte(1)
-      ..write(obj.regionName)
+      ..write(obj.docName)
       ..writeByte(2)
-      ..write(obj.eCMEAreaList);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ECMERegionListAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class ECMEAreaListAdapter extends TypeAdapter<ECMEAreaList> {
-  @override
-  final int typeId = 98;
-
-  @override
-  ECMEAreaList read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return ECMEAreaList(
-      areaId: fields[0] as String,
-      areaName: fields[1] as String,
-      eCMEterritoryList: (fields[2] as List).cast<ECMETerritoryList>(),
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, ECMEAreaList obj) {
-    writer
-      ..writeByte(3)
-      ..writeByte(0)
       ..write(obj.areaId)
-      ..writeByte(1)
+      ..writeByte(3)
       ..write(obj.areaName)
-      ..writeByte(2)
-      ..write(obj.eCMEterritoryList);
+      ..writeByte(4)
+      ..write(obj.address)
+      ..writeByte(5)
+      ..write(obj.thirdPartyId)
+      ..writeByte(6)
+      ..write(obj.degree)
+      ..writeByte(7)
+      ..write(obj.specialty)
+      ..writeByte(8)
+      ..write(obj.mobile);
   }
 
   @override
@@ -161,44 +145,7 @@ class ECMEAreaListAdapter extends TypeAdapter<ECMEAreaList> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ECMEAreaListAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class ECMETerritoryListAdapter extends TypeAdapter<ECMETerritoryList> {
-  @override
-  final int typeId = 99;
-
-  @override
-  ECMETerritoryList read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return ECMETerritoryList(
-      territoryId: fields[0] as String,
-      territoryName: fields[1] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, ECMETerritoryList obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.territoryId)
-      ..writeByte(1)
-      ..write(obj.territoryName);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ECMETerritoryListAdapter &&
+      other is DocListECMEModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

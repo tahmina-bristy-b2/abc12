@@ -17,33 +17,38 @@ class ECMESavedDataModel extends HiveObject {
   @HiveField(2)
   List<String> eCMETypeList;
   @HiveField(3)
-  List<ECMERegionList> eCMERegionList;
-  
+  final List<DocListECMEModel> eCMEdocList;
+  @HiveField(4)
+  final List<String> payModeList;
+  @HiveField(5)
+  final List<String> docCategoryList;
 
   ECMESavedDataModel({
     required this.status,
     required this.eCMEBrandList,
     required this.eCMETypeList,
-    required this.eCMERegionList,
-
+    required this.eCMEdocList,
+    required this.docCategoryList,
+    required this.payModeList
   });
-
   factory ECMESavedDataModel.fromJson(Map<String, dynamic> json) => ECMESavedDataModel(
         status: json["status"] ?? "",
         eCMEBrandList: List<ECMEBrandList>.from(
             json["brand_list"].map((x) => ECMEBrandList.fromJson(x)) ?? []),
         eCMETypeList:
             List<String>.from(json["ecme_typeList"].map((x) => x) ?? []),
-        eCMERegionList: List<ECMERegionList>.from(
-            json["region_list"].map((x) => ECMERegionList.fromJson(x)) ?? []),
-       
+        eCMEdocList: List<DocListECMEModel>.from(json["doc_list"].map((x) => DocListECMEModel.fromJson(x))),
+        payModeList: List<String>.from(json["payModeList"].map((x) => x)),
+        docCategoryList: List<String>.from(json["doc_category_list"].map((x) => x)),   
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "brand_list": List<dynamic>.from(eCMEBrandList.map((x) => x.toJson())),
         "ecme_typeList": List<dynamic>.from(eCMETypeList.map((x) => x)),
-        "region_list": List<dynamic>.from(eCMERegionList.map((x) => x.toJson())),
+        "doc_list": List<dynamic>.from(eCMEdocList.map((x) => x.toJson())),
+        "payModeList": List<dynamic>.from(payModeList.map((x) => x)),
+        "doc_category_list": List<dynamic>.from(docCategoryList.map((x) => x)),  
       };
 }
 
@@ -71,85 +76,60 @@ class ECMEBrandList {
       };
 }
 
-@HiveType(typeId: 97)
-class ECMERegionList {
+ @HiveType(typeId: 97)
+class DocListECMEModel {
   @HiveField(0)
-  final String regionId;
-  @HiveField(1)
-  final String regionName;
-  @HiveField(2)
-  final List<ECMEAreaList> eCMEAreaList;
+    final String docId;
+    @HiveField(1)
+    final String docName;
+    @HiveField(2)
+    final String areaId;
+    @HiveField(3)
+    final String areaName;
+    @HiveField(4)
+    final String address;
+    @HiveField(5)
+    final String thirdPartyId;
+    @HiveField(6)
+    final String degree;
+    @HiveField(7)
+    final String specialty;
+    @HiveField(8)
+    final String mobile;
 
-  ECMERegionList({
-    required this.regionId,
-    required this.regionName,
-    required this.eCMEAreaList,
-  });
+    DocListECMEModel({
+        required this.docId,
+        required this.docName,
+        required this.areaId,
+        required this.areaName,
+        required this.address,
+        required this.thirdPartyId,
+        required this.degree,
+        required this.specialty,
+        required this.mobile,
+    });
 
-  factory ECMERegionList.fromJson(Map<String, dynamic> json) => ECMERegionList(
-        regionId: json["region_id"] ?? "",
-        regionName: json["region_name"] ?? "",
-        eCMEAreaList: List<ECMEAreaList>.from(
-            json["area_list"].map((x) => ECMEAreaList.fromJson(x)) ?? []),
-      );
+    factory DocListECMEModel.fromJson(Map<String, dynamic> json) => DocListECMEModel(
+        docId: json["doc_id"],
+        docName: json["doc_name"],
+        areaId: json["area_id"],
+        areaName: json["area_name"],
+        address: json["address"],
+        thirdPartyId: json["third_party_id"],
+        degree: json["degree"],
+        specialty: json["specialty"],
+        mobile: json["mobile"],
+    );
 
-  Map<String, dynamic> toJson() => {
-        "region_id": regionId,
-        "region_name": regionName,
-        "area_list": List<dynamic>.from(eCMEAreaList.map((x) => x.toJson())),
-      };
-}
-
-@HiveType(typeId: 98)
-class ECMEAreaList {
-  @HiveField(0)
-  final String areaId;
-  @HiveField(1)
-  final String areaName;
-  @HiveField(2)
-  final List<ECMETerritoryList> eCMEterritoryList;
-
-  ECMEAreaList({
-    required this.areaId,
-    required this.areaName,
-    required this.eCMEterritoryList,
-  });
-
-  factory ECMEAreaList.fromJson(Map<String, dynamic> json) => ECMEAreaList(
-        areaId: json["area_id"] ?? "",
-        areaName: json["area_name"] ?? "",
-        eCMEterritoryList: List<ECMETerritoryList>.from(
-            json["territory_list"].map((x) => ECMETerritoryList.fromJson(x)) ?? []),
-      );
-
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
+        "doc_id": docId,
+        "doc_name": docName,
         "area_id": areaId,
         "area_name": areaName,
-        "territory_list":
-            List<dynamic>.from(eCMEterritoryList.map((x) => x.toJson())),
-      };
+        "address": address,
+        "third_party_id": thirdPartyId,
+        "degree": degree,
+        "specialty": specialty,
+        "mobile": mobile,
+    };
 }
-
-@HiveType(typeId: 99)
-class ECMETerritoryList {
-  @HiveField(0)
-  final String territoryId;
-  @HiveField(1)
-  final String territoryName;
-
-  ECMETerritoryList({
-    required this.territoryId,
-    required this.territoryName,
-  });
-
-  factory ECMETerritoryList.fromJson(Map<String, dynamic> json) => ECMETerritoryList(
-        territoryId: json["territory_id"] ?? "",
-        territoryName: json["territory_name"] ?? "",
-      );
-
-  Map<String, dynamic> toJson() => {
-        "territory_id": territoryId,
-        "territory_name": territoryName,
-      };
-}
-

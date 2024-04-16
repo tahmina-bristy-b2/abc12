@@ -1698,13 +1698,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                           icon: Icons.add,
                                           onClick: () async {
                                             ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                                    if(eCMEDataModelData!=null){
+                                            List<DocListECMEModel> _docList= eCMEDataModelData!.eCMEdocList;
+                                                    if(eCMEDataModelData!=null && _docList.isNotEmpty){
                                                       if (!mounted) return;
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (_) => ECMEClientScreen(
-                                                              // dcrDataList: dcrList
+                                                            docList: _docList,
+                                                              
                                                               ),
                                                         ),
                                                       );

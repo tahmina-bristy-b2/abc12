@@ -7,8 +7,8 @@ class ECMESubmitDataModel {
   String userId;
   String password;
   String brandString;
+  String areaId;
   List<DocListECMEModel> docList;
- // String docListString;
   String lattitute;
   String longitude;
   String docListString;
@@ -20,28 +20,22 @@ class ECMESubmitDataModel {
   String institutionName;
   String departament;
   String eCMEAmount;
-
+  String splitdECMEAmount;
   String doctorsCount;
   String internDoctor;
   String dMFDoctors;
   String nurses;
   String skfAttendance;
   String othersParticipants;
-
-
   List<List<dynamic>> brandList;
   String speakerName;
- // String speakerDesignation;
- // String speakerInstitute;
   String numberOfParticipant;
   String costPerDoctor;
   String totalBudget;
-
   String hallRentAmount;
   String stationaries;
   String giftCost;
   String foodExpense;
-
   String payMode;
 
   
@@ -51,6 +45,7 @@ class ECMESubmitDataModel {
     required this.password,
     required this.brandList,
     required this.brandString,
+    required this.areaId,
     required this.docList,
     required this.docListString,
     required this.lattitute,
@@ -63,19 +58,15 @@ class ECMESubmitDataModel {
     required this.institutionName,
     required this.departament,
     required this.eCMEAmount,
-    //required this.rxPerDay,
+    required this.splitdECMEAmount,
     required this.doctorsCount,
     required this.internDoctor,
     required this.dMFDoctors,
     required this.nurses,
     required this.skfAttendance,
     required this.othersParticipants,
-
     required this.numberOfParticipant,
-   // required this.speakerInstitute,
-    
     required this.speakerName,
-    //required this.speakerDesignation,
     required this.hallRentAmount,
     required this.foodExpense,
     required this.totalBudget,

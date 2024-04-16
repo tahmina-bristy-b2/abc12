@@ -23,13 +23,14 @@ class ECMESavedDataModelAdapter extends TypeAdapter<ECMESavedDataModel> {
       eCMEdocList: (fields[3] as List).cast<DocListECMEModel>(),
       docCategoryList: (fields[5] as List).cast<String>(),
       payModeList: (fields[4] as List).cast<String>(),
+      supAreaId: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ECMESavedDataModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.status)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class ECMESavedDataModelAdapter extends TypeAdapter<ECMESavedDataModel> {
       ..writeByte(4)
       ..write(obj.payModeList)
       ..writeByte(5)
-      ..write(obj.docCategoryList);
+      ..write(obj.docCategoryList)
+      ..writeByte(6)
+      ..write(obj.supAreaId);
   }
 
   @override

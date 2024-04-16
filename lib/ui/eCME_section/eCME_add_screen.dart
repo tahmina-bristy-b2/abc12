@@ -86,6 +86,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   bool isAPC = false;
   bool isCheck = false;
   double splitedAmount=0.0;
+  String areaId="";
   
   final RegExp phoneRegex = RegExp(r'^\d{13}$');
   bool isMobileUpdate = false;
@@ -119,10 +120,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
     payModeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payModeList;
     docCategoryList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.docCategoryList;
+    areaId=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.supAreaId ;
   }
 
   //=============================== get brand String ===============================
- //will work
   String getbrandString() {
     brandString = '';
     for (var element1 in eCMESettingsData!.eCMEBrandList) {
@@ -131,10 +132,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
           if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
             if (brandString == "") {
               brandString +=
-                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}";
+                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
             } else {
               brandString +=
-                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}";
+                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
             }
           }
         }
@@ -144,6 +145,20 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     }
     setState(() {});
     return brandString;
+  }
+ String getDoctString(){
+    String docListString="";
+    for (var element1 in widget.docInfo) {
+            if (docListString == "") {
+              docListString +=
+                  "${element1.docId}|${element1.docName}";
+            } else {
+              docListString +=
+                  "||${element1.docId}|${element1.docName}";
+            }
+     }
+     print("docString =$docListString");
+     return docListString;
   }
 
   //=============================== Unique brand List ===============================
@@ -1862,9 +1877,10 @@ int totalParticipants() {
               lattitute: latitude.toString(), 
               longitude: longitude.toString(),
               docList: widget.docInfo, 
-              docListString: "" , 
+              docListString: getDoctString() , 
               brandList: finalBrandListAftrRemoveDuplication, 
               brandString: getbrandString(), 
+              areaId: areaId,
               costPerDoctor: getCostPerDoctor().toStringAsFixed(2), 
              
               meetingDate: selectedExpiredDateString,
@@ -1873,9 +1889,9 @@ int totalParticipants() {
               eCMEType: selectedECMEType!,
               doctorCategory: selcetDoctorCategory!,
               institutionName:selcetDoctorCategory=="Institution"? institutionController.text:"", 
-              departament:selcetDoctorCategory=="Institution"? departmentController.text:"", 
+              departament:selcetDoctorCategory=="Institution"? selectedDepartment!:"", 
               eCMEAmount: eCMEAmountCOntroller.text, 
-
+              splitdECMEAmount: splitedAmount.toStringAsFixed(2),
               doctorsCount: doctorParticipantCount.text, 
               internDoctor: internDoctorController.text, 
               dMFDoctors: dmfDoctorController.text, 
@@ -1891,7 +1907,7 @@ int totalParticipants() {
               foodExpense: foodExpansesController.text,
               giftCost: giftController.text,
               payMode: selectedPayMode!,
-              
+
               totalBudget: totalBudget.toStringAsFixed(2) 
               
             );

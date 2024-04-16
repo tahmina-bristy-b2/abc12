@@ -23,6 +23,8 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   DmPathDataModel? dmpathData;
   bool isPreviewLoading = false;
   int totalAmount = 0;
+  double totalECMEAmout=0.0;
+  
   @override
   void initState() { 
     super.initState();
@@ -33,10 +35,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
 
   int dynamicTotalCalculation() {
     totalAmount = 0;
-    widget.eCMESubmitDataModel.brandList.forEach((element) {
+    for (var element in widget.eCMESubmitDataModel.brandList) {
       totalAmount = totalAmount + int.parse(element[2]);
-    });
-    print("total $totalAmount");
+    }
     return totalAmount;
   }
   
@@ -54,25 +55,26 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
+                
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                     Expanded(flex: 5, child: Text('Selected Doctors',style: TextStyle(fontWeight: FontWeight.w500),)),
+                     Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Text(''),
+                    ),
+                  ],
+                ),
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
-
-                // child: Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     const Expanded(flex: 5, child: Text('Doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
-                //     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                //     Expanded(
-                //       flex: 5,
-                //       child: Padding(
-                //         padding: const EdgeInsets.only(left: 7),
-                //         child: Text(' ${widget.eCMESubmitDataModel.docName}'),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-
-              child:  Row(
+                 child:  Row(
                   children: [
                     Expanded(
                       child: Padding(
@@ -105,70 +107,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Expanded(flex: 5, child: Text('Doctor Id',style: TextStyle(fontWeight: FontWeight.w500),)),
-              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-              //       Expanded(
-              //         flex: 5,
-              //         child: Text(widget.eCMESubmitDataModel.docId == null
-              //             ? ""
-              //             : '  ${widget.eCMESubmitDataModel.docId}'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Expanded(flex: 5, child: Text('Degree',style: TextStyle(fontWeight: FontWeight.w500),)),
-              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-              //       Expanded(
-              //         flex: 5,
-              //         child: Text(widget.eCMESubmitDataModel.degree== null
-              //             ? ""
-              //             : '   ${widget.eCMESubmitDataModel.degree}'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Expanded(flex: 5, child: Text('Speciality',style: TextStyle(fontWeight: FontWeight.w500),)),
-              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-              //       Expanded(
-              //         flex: 5,
-              //         child: Text(widget.eCMESubmitDataModel.speciality== null
-              //             ? ""
-              //             : '   ${widget.eCMESubmitDataModel.speciality}'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Expanded(flex: 5, child: Text('Mobile',style: TextStyle(fontWeight: FontWeight.w500),)),
-              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-              //       Expanded(
-              //         flex: 5,
-              //         child: Text(widget.eCMESubmitDataModel.mobile== null
-              //             ? "0"
-              //             : '  ${widget.eCMESubmitDataModel.mobile}'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+             
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
@@ -185,7 +124,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                   ],
                 ),
               ),
-             widget.eCMESubmitDataModel.eCMEType!="RMP Meeting"?  Padding(
+            Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,7 +139,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ):const SizedBox(),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
@@ -296,7 +235,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(flex: 5, child: Text('Probable Speaker Name',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Expanded(flex: 5, child: Text('Probable Speaker Name & Designation',style: TextStyle(fontWeight: FontWeight.w500),)),
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
@@ -306,38 +245,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                   ],
                 ),
               ),
-               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Probable Speaker Department',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child:
-                          Text('  ${widget.eCMESubmitDataModel.departament}'),
-                    ),
-                  ],
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Expanded(flex: 5, child: Text('Rx Objectives per day',style: TextStyle(fontWeight: FontWeight.w500),)),
-              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-              //       Expanded(
-              //         flex: 5,
-              //         child: Text(widget.eCMESubmitDataModel.rxPerDay==null
-              //             ? ""
-              //             : '  ${widget.eCMESubmitDataModel.rxPerDay}'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-               Padding(
+              Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -467,7 +375,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                      ),
                  
                      Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 8),
+                      padding: const EdgeInsets.only(top: 8, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -483,11 +391,11 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                       ),
                     ) ,
                     Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 8),
+                    padding: const EdgeInsets.only(top: 6, bottom:5 ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(flex: 5, child: Text('Cost per doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
+                          const Expanded(flex: 5, child: Text('Cost Per doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
                           const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 5,
@@ -574,7 +482,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Expanded(flex: 10, child: Text('4.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
+                          const Text(' :',style: TextStyle(fontWeight: FontWeight.w500)),
                           Expanded(
                             flex: 10,
                             child: Padding(
@@ -590,22 +498,37 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                           ],
                         ) ,
                     ),
+                     Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 5, child: Text('e_CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Text('  ${widget.eCMESubmitDataModel.eCMEAmount}'),
+                    ),
+                  ],
+                ),
+              ),
                 
-            widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?     Padding(
+              Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
-                    Expanded(flex: 3, child: Text('Brand Details',style: TextStyle(fontWeight: FontWeight.bold),)),
-                    Text(''),
+                    Expanded(flex: 5, child: Text('Brand Details',style: TextStyle(fontWeight: FontWeight.bold),)),
+                    Text('',),
                     Expanded(
-                      flex: 8,
+                      flex: 5,
                       child: Text(':'),
                     ),
                   ],
                 ),
-              ):const SizedBox(),
-             widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?   Padding(
+              ),
+              Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -626,8 +549,8 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                         const Color.fromARGB(255, 98, 158, 219),
                                   ),
                                   child: Row(
-                                    children:const [
-                                       Expanded(
+                                    children: [
+                                     const  Expanded(
                                          flex: 2,
                                          child: Text(
                                                                                'Name',
@@ -637,12 +560,22 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                            fontSize: 12),
                                                                              ),
                                        ),
+                                     const  Expanded(
+                                        flex: 3,
+                                          child: Center(
+                                        child: Text("e_CME Amount",
+                                          style:  TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 253, 253, 253),
+                                              fontSize: 12),
+                                        ),
+                                      )),
                                       Expanded(
                                         flex: 3,
                                           child: Center(
-                                        child: Text(
-                                          "Sales Qty",
-                                          style:  TextStyle(
+                                        child: Text(widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"? 
+                                          "Sales Qty":"Rx Objective Per Day",
+                                          style:const  TextStyle(
                                               color: Color.fromARGB(
                                                   255, 253, 253, 253),
                                               fontSize: 12),
@@ -653,7 +586,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                   ),
                                 ),
                               const SizedBox(height: 5),
-                              widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"?  SizedBox(
+                           SizedBox(
                                   height:
                                       widget.eCMESubmitDataModel.brandList.length * 25.0,
                                   child: ListView.builder(
@@ -683,12 +616,19 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                            fontSize: 12),
                                                                              ),
                                        ),
+                                       Expanded(
+                                        flex: 3,
+                                          child: Center(
+                                        child: Text(
+                                         widget.eCMESubmitDataModel.splitdECMEAmount,style: const TextStyle(fontSize: 12),
+                                        ),
+                                      )),
                                       Expanded(
                                         flex: 3,
                                           child: Center(
                                         child: Text(
                                          widget.eCMESubmitDataModel.brandList
-                                                         [index2][2],
+                                                         [index2][2],style: const TextStyle(fontSize: 12),
                                         ),
                                       )),
                                       
@@ -696,7 +636,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                   ),
                                         );
                                       }),
-                                ):const SizedBox(),
+                                ),
                                 const SizedBox(height: 5),
                                 Container(
                                   padding: const EdgeInsets.all(5),
@@ -713,8 +653,20 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                         style: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 255, 255, 255),
-                                            fontSize: 12),
+                                            fontSize: 13,),
                                       )),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Center(
+                                          child: Text(
+                                            widget.eCMESubmitDataModel.eCMEAmount,
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 254, 254, 254),
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                      ),
                                      
                                      
                                       Expanded(
@@ -725,7 +677,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),
-                                                fontSize: 13),
+                                                fontSize: 12),
                                           ),
                                         ),
                                       ),
@@ -740,7 +692,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     ),
                   ],
                 ),
-              ): const SizedBox(),
+              ),
               const SizedBox(
                 height: 25,
               ),
@@ -776,7 +728,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                             bool result =
                                 await InternetConnectionChecker().hasConnection;
                             if (result == true) {
-                            //  eDsrSubmit();
+                              eDsrSubmit();
                             } else {
                               setState(() {
                                 isPreviewLoading = true;
@@ -814,27 +766,28 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   }
 
   //=============================================== get Territory Based Doctor Button (Api call)================================
-  // eDsrSubmit() async {
-  //   ECMESubmitDataModel ecmeSubmitDataModel= widget.eCMESubmitDataModel;
-  //    String submitUrl= "${dmpathData!.submitUrl}api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.eCMEType== "RMP Meeting" ? ecmeSubmitDataModel.brandString:""}&areaId=${ecmeSubmitDataModel.areaId}&docId=${ecmeSubmitDataModel.docId}&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&probable_speaker_designation=${ecmeSubmitDataModel.speakerDesignation}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&foodexpenses=${ecmeSubmitDataModel.foodExpense}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&institutionName=${ecmeSubmitDataModel.institureName}&departament=${ecmeSubmitDataModel.departament}";
-  //  // String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.eCMEType== "RMP Meeting" ? ecmeSubmitDataModel.brandString:""}&areaId=${ecmeSubmitDataModel.areaId}&docId=${ecmeSubmitDataModel.docId}&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&probable_speaker_designation=${ecmeSubmitDataModel.speakerDesignation}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&foodexpenses=${ecmeSubmitDataModel.foodExpense}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&institutionName=${ecmeSubmitDataModel.institureName}&departament=${ecmeSubmitDataModel.departament}";
-  //   print("submt =$submitUrl");
-  //   Map<String, dynamic> data = await ECMERepositry().eCMESubmitURL(submitUrl);
-  //   if (data["status"] == "Success") {
-  //     setState(() {
-  //       isPreviewLoading = false;
-  //     });
-  //     AllServices()
-  //         .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
-  //     if (!mounted) return;
-  //     Navigator.pop(context);
-  //     Navigator.pop(context);
-  //   } else {
-  //     setState(() {
-  //       isPreviewLoading = false;
-  //     });
-  //     AllServices()
-  //         .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
-  //   }
-  // }
+  eDsrSubmit() async {
+    ECMESubmitDataModel ecmeSubmitDataModel= widget.eCMESubmitDataModel;
+    String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.brandString}0&areaId=${ecmeSubmitDataModel.areaId}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerInstitute=${ecmeSubmitDataModel.institutionName}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftCost}&others=${ecmeSubmitDataModel.othersParticipants}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&doctor_str=${ecmeSubmitDataModel.docListString}&pay_mode=${ecmeSubmitDataModel.payMode}&skf_attendance=${ecmeSubmitDataModel.skfAttendance}&others_participants=${ecmeSubmitDataModel.othersParticipants}&food_expense=${ecmeSubmitDataModel.foodExpense}";
+    // String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.eCMEType== "RMP Meeting" ? ecmeSubmitDataModel.brandString:""}&areaId=${ecmeSubmitDataModel.areaId}&docId=${ecmeSubmitDataModel.docId}&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&probable_speaker_designation=${ecmeSubmitDataModel.speakerDesignation}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&foodexpenses=${ecmeSubmitDataModel.foodExpense}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&institutionName=${ecmeSubmitDataModel.institureName}&departament=${ecmeSubmitDataModel.departament}";
+    print("submt =$submitUrl");
+    Map<String, dynamic> data = await ECMERepositry().eCMESubmitURL(submitUrl);
+    if (data["status"] == "Success") {
+      setState(() {
+        isPreviewLoading = false;
+      });
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
+      if (!mounted) return;
+      Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    } else {
+      setState(() {
+        isPreviewLoading = false;
+      });
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
+    }
+  }
 }

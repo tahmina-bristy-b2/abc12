@@ -22,6 +22,8 @@ class ECMESavedDataModel extends HiveObject {
   final List<String> payModeList;
   @HiveField(5)
   final List<String> docCategoryList;
+  @HiveField(6)
+  final String supAreaId;
 
   ECMESavedDataModel({
     required this.status,
@@ -29,7 +31,8 @@ class ECMESavedDataModel extends HiveObject {
     required this.eCMETypeList,
     required this.eCMEdocList,
     required this.docCategoryList,
-    required this.payModeList
+    required this.payModeList,
+    required this.supAreaId,
   });
   factory ECMESavedDataModel.fromJson(Map<String, dynamic> json) => ECMESavedDataModel(
         status: json["status"] ?? "",
@@ -40,6 +43,7 @@ class ECMESavedDataModel extends HiveObject {
         eCMEdocList: List<DocListECMEModel>.from(json["doc_list"].map((x) => DocListECMEModel.fromJson(x))),
         payModeList: List<String>.from(json["payModeList"].map((x) => x)),
         docCategoryList: List<String>.from(json["doc_category_list"].map((x) => x)),   
+        supAreaId: json["sup_area_id"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,7 +52,8 @@ class ECMESavedDataModel extends HiveObject {
         "ecme_typeList": List<dynamic>.from(eCMETypeList.map((x) => x)),
         "doc_list": List<dynamic>.from(eCMEdocList.map((x) => x.toJson())),
         "payModeList": List<dynamic>.from(payModeList.map((x) => x)),
-        "doc_category_list": List<dynamic>.from(docCategoryList.map((x) => x)),  
+        "doc_category_list": List<dynamic>.from(docCategoryList.map((x) => x)), 
+        "sup_area_id": supAreaId, 
       };
 }
 

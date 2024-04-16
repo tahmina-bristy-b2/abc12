@@ -1471,43 +1471,41 @@ int totalParticipants() {
                                     ),
                                     onTap: () async {
                                           if(selectedECMEType!=null){
-                                            if(selectedECMEType!="RMP Meeting"){
+                                            if(finalBrandListAftrRemoveDuplication.isNotEmpty){
                                              if(selectedExpiredDateString!=""){
                                               if(selcetDoctorCategory!=null){
-                                                // if(rxObjectiveperDayController.text !=""){
                                                     if(meetingVenueController.text!=""){
                                                       if(meetingTopicController.text!=""){
                                                         if(meetingProbaleSpeakerNameController.text!=""){
-                                                            if(probaleSpeakerDesignationController.text!=""){ 
                                                                  if(eCMEAmountCOntroller.text!=""){
                                                                   if(doctorParticipantCount.text!=""){
                                                                    if(hallRentController.text!=""){
                                                                     if(foodExpansesController.text!=""){
                                                                       if(giftController.text!=""){
-                                                                        if(stationnairesController.text!=""){
-                                                                          if(selcetDoctorCategory=="Institution"){
-                                                                            if(institutionController.text !=""){
-                                                                             if(institutionController.text !=""){
-                                                                               readyForPreviewMethod();
-                                                                              }
-                                                                              else{
-                                                                                AllServices().toastMessage("Please add department ", Colors.red, Colors.white, 16);
-                                                                              }
+                                                                        
+                                                                        // if(stationnairesController.text!=""){
+                                                                        //   if(selcetDoctorCategory=="Institution"){
+                                                                        //     if(institutionController.text !=""){
+                                                                        //      if(institutionController.text !=""){
+                                                                        //        readyForPreviewMethod();
+                                                                        //       }
+                                                                        //       else{
+                                                                        //         AllServices().toastMessage("Please add department ", Colors.red, Colors.white, 16);
+                                                                        //       }
+                                                                        //     }
+                                                                        //     else{
+                                                                        //       AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
+                                                                        //     }
 
-                                                                            }
-                                                                            else{
-                                                                              AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
-                                                                            }
-
-                                                                          }
-                                                                          else{
+                                                                        //   }
+                                                                        //   else{
                                                                          
-                                                                              readyForPreviewMethod();
-                                                                          }
-                                                                        }
-                                                                        else{
-                                                                          AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
-                                                                        }
+                                                                        //       readyForPreviewMethod();
+                                                                        //   }
+                                                                        // }
+                                                                        // else{
+                                                                        //   AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                                                        // }
 
                                                                       }
                                                                       else{
@@ -1532,154 +1530,34 @@ int totalParticipants() {
                                                                  else{
                                                                   AllServices().toastMessage("Please enter e-CME anmount", Colors.red, Colors.white, 16);
                                                                  }
-                                                            }
-                                                            else{
-                                                              AllServices().toastMessage("Please Enter probable speaker designation ", Colors.red, Colors.white, 16);
-                                                            }
-                                                  
 
-                                                        }
+                                                          }
                                                         else{
                                                           AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
                                                         }
-                                                  
-
                                                       }
                                                       else{
                                                         AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
                                                       }
-                                                  
-
                                                   }
                                                   else{
                                                     AllServices().toastMessage("Please Enter meeting vanue ", Colors.red, Colors.white, 16);
                                                   }
-
-                                                // }
-                                                // else{
-                                                //    AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
-
-                                                // }
-                                             
-
                                             }
                                             else{
                                               AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
                                             }
 
-                                      }
-                                      else{
-                                         AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
-                                      }
+                                        }
+                                        else{
+                                          AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
+                                        }
 
-                                    }
-                                      else{
-                                         if(selectedExpiredDateString!=""){
-                                              if(selcetDoctorCategory!=null){
-                                                // if(rxObjectiveperDayController.text !=""){
-                                                    if(meetingVenueController.text!=""){
-                                                      if(meetingTopicController.text!=""){
-                                                        if(meetingProbaleSpeakerNameController.text!=""){
-                                                            if(probaleSpeakerDesignationController.text!=""){ 
-                                                                 if(doctorParticipantCount.text!=""){
-                                                                   if(hallRentController.text!=""){
-                                                                    if(foodExpansesController.text!=""){
-                                                                      if(giftController.text!=""){
-                                                                        if(stationnairesController.text!=""){
-                                                                          if(getbrandString() !=""){
-                                                                            if(selcetDoctorCategory=="Institution"){
-                                                                            if(institutionController.text !=""){
-                                                                             if(departmentController.text !=""){
-                                                                               readyForPreviewMethod();
-                                                                              }
-                                                                              else{
-                                                                                AllServices().toastMessage("Please add department ", Colors.red, Colors.white, 16);
-                                                                              }
-
-                                                                            }
-                                                                            else{
-                                                                              AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
-                                                                            }
-
-                                                                          }
-                                                                          else{
-                                                                         
-                                                                              readyForPreviewMethod();
-                                                                          }
-
-                                                                          }
-                                                                          else{
-                                                                          AllServices().toastMessage("Please add brand ", Colors.red, Colors.white, 16);
-                                                                        }
-                                                                        }
-                                                                        else{
-                                                                          AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
-                                                                        }
-
-                                                                      }
-                                                                      else{
-                                                                        AllServices().toastMessage("Please add sepeaker gift expense  ", Colors.red, Colors.white, 16);
-                                                                      }
-                                                                    }
-                                                                    else{
-                                                                      AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
-                                                                    }
-
-                                                                    }
-                                                                    else{
-                                                                      AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
-                                                                    }
-                                                                }
-                                                                else{
-                                                                  AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
-
-                                                                }
-                                                              
-
-                                                            }
-                                                            else{
-                                                              AllServices().toastMessage("Please Enter probable speaker designation ", Colors.red, Colors.white, 16);
-                                                            }
-                                                  
-
-                                                        }
-                                                        else{
-                                                          AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
-                                                        }
-                                                  
-
-                                                      }
-                                                      else{
-                                                        AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
-                                                      }
-                                                  
-
-                                                  }
-                                                  else{
-                                                    AllServices().toastMessage("Please Enter meeting vanue ", Colors.red, Colors.white, 16);
-                                                  }
-
-                                                // }
-                                                // else{
-                                                //    AllServices().toastMessage("Please Enter Rx Objective per day ", Colors.red, Colors.white, 16);
-
-                                                // }
-                                             
-
-                                            }
-                                            else{
-                                              AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
-                                            }
-
-                                      }
-                                      else{
-                                         AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
+                                       }
+                                       else{
+                                         AllServices().toastMessage("Please Select Brand ", Colors.red, Colors.white, 16);
                                       }
                                       }
-
-                                            
-
-                                   }
                                       else{
                                          AllServices().toastMessage("Please Select eCME Type First", Colors.red, Colors.white, 16);
                                       }

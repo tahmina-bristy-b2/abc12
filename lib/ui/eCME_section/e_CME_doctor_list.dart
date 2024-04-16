@@ -120,6 +120,9 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                     controller: searchController,
                                     decoration: InputDecoration(
                                       hintText:" Search doctor.....",
+                                      hintStyle: TextStyle(fontSize: 14
+                                      
+                                      ),
                                       filled: true,
                                       fillColor: Colors.transparent,
                                       border: InputBorder.none,
@@ -335,7 +338,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                       result[index]["doc_name"],
                                       style: const TextStyle(
                                         color: Colors.black,
-                                        // fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                       ),
                                     ),

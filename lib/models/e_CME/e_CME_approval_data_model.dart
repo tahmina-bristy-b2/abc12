@@ -1,8 +1,4 @@
-// To parse this JSON data, do
-//
-//     final ecmeApprovalDetailsDataModel = ecmeApprovalDetailsDataModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 EcmeApprovalDetailsDataModel ecmeApprovalDetailsDataModelFromJson(String str) => EcmeApprovalDetailsDataModel.fromJson(json.decode(str));
@@ -34,7 +30,7 @@ class EcmeResDataModel {
     });
 
     factory EcmeResDataModel.fromJson(Map<String, dynamic> json) => EcmeResDataModel(
-        status: json["status"],
+        status: json["status"]??"",
         dataList: List<ECMEApprovalDataList>.from(json["data_list"].map((x) => ECMEApprovalDataList.fromJson(x))),
     );
 
@@ -45,15 +41,17 @@ class EcmeResDataModel {
 }
 
 class ECMEApprovalDataList {
-     final String ecmeAmount;
-    final DateTime meetingDate;
+  final String skfAttendance;
+    final String othersParticipants;
+    final String payMode;
+    final String ecmeAmount;
+    final String meetingDate;
     final String ecmeDoctorCategory;
     final String institutionName;
     final String department;
     final String meetingVenue;
     final String meetingTopic;
     final String probableSpeakerName;
-    final String probableSpeakerDesignation;
     final String totalNumbersOfParticipants;
     final String totalBudget;
     final String hallRent;
@@ -69,17 +67,15 @@ class ECMEApprovalDataList {
     final String ecmeType;
     final String submitDate;
     final String sl;
-    final String doctorId;
-    final String doctorName;
-    final String degree;
-    final String specialty;
-    final String doctorsCategory;
-    final String docMobile;
     final String step;
     final String rxPerDay;
-     List<EcmeBrandListDataModel> brandList;
+    final List<EcmeBrandListDataModel> brandList;
+    final List<EcmeAprovalDoctorListDataModel> doctorList;
 
-    ECMEApprovalDataList({
+    ECMEApprovalDataList(
+    {   required  this.skfAttendance,
+        required this.othersParticipants,
+        required this.payMode,
         required this.ecmeAmount,
         required this.meetingDate,
         required this.ecmeDoctorCategory,
@@ -88,7 +84,6 @@ class ECMEApprovalDataList {
         required this.meetingVenue,
         required this.meetingTopic,
         required this.probableSpeakerName,
-        required this.probableSpeakerDesignation,
         required this.totalNumbersOfParticipants,
         required this.totalBudget,
         required this.hallRent,
@@ -104,63 +99,58 @@ class ECMEApprovalDataList {
         required this.ecmeType,
         required this.submitDate,
         required this.sl,
-        required this.doctorId,
-        required this.doctorName,
-        required this.degree,
-        required this.specialty,
-        required this.doctorsCategory,
-        required this.docMobile,
         required this.step,
         required this.rxPerDay,
         required this.brandList,
+        required this.doctorList,
     });
 
     factory ECMEApprovalDataList.fromJson(Map<String, dynamic> json) => ECMEApprovalDataList(
-        ecmeAmount: json["ecme_amount"],
-        meetingDate: DateTime.parse(json["meeting_date"]),
-        ecmeDoctorCategory: json["ecme_doctor_category"],
-        institutionName: json["institution_name"],
-        department: json["department"],
-        meetingVenue: json["meeting_venue"],
-        meetingTopic: json["meeting_topic"],
-        probableSpeakerName: json["probable_speaker_name"],
-        probableSpeakerDesignation: json["probable_speaker_designation"],
-        totalNumbersOfParticipants: json["total_numbers_of_participants"],
-        totalBudget: json["total_budget"],
-        hallRent: json["hall_rent"],
-        costPerDoctor: json["cost_per_doctor"],
-        foodExpense: json["food_expense"],
-        stationnaires: json["stationnaires"],
-        giftsSouvenirs: json["gifts_souvenirs"],
-        doctorsCount: json["doctors_count"],
-        internDoctors: json["intern_doctors"],
-        dmfDoctors: json["dmf_doctors"],
-        nurses: json["nurses"],
-        lastAction: json["last_action"],
-        ecmeType: json["ecme_type"],
-        submitDate: json["submit_date"],
-        sl: json["sl"],
-        doctorId: json["doctor_id"],
-        doctorName: json["doctor_name"],
-        degree: json["degree"],
-        specialty: json["specialty"],
-        doctorsCategory: json["doctors_category"],
-        docMobile: json["doc_mobile"],
-        step: json["step"],
-        rxPerDay: json["rx_per_day"],
+        skfAttendance: '',
+        payMode: '',
+        othersParticipants: '', 
+        ecmeAmount: json["ecme_amount"]??"",
+        meetingDate: json["meeting_date"]??"",
+        ecmeDoctorCategory: json["ecme_doctor_category"]??"",
+        institutionName: json["institution_name"]??"",
+        department: json["department"]??"",
+        meetingVenue: json["meeting_venue"]??"",
+        meetingTopic: json["meeting_topic"]??"",
+        probableSpeakerName: json["probable_speaker_name"]??"",
+        totalNumbersOfParticipants: json["total_numbers_of_participants"]??"",
+        totalBudget: json["total_budget"]??"",
+        hallRent: json["hall_rent"]??"",
+        costPerDoctor: json["cost_per_doctor"]??"",
+        foodExpense: json["food_expense"]??"",
+        stationnaires: json["stationnaires"]??"",
+        giftsSouvenirs: json["gifts_souvenirs"]??"",
+        doctorsCount: json["doctors_count"]??"",
+        internDoctors: json["intern_doctors"]??"",
+        dmfDoctors: json["dmf_doctors"]??"",
+        nurses: json["nurses"]??"",
+        lastAction: json["last_action"]??"",
+        ecmeType: json["ecme_type"]??"",
+        submitDate: json["submit_date"]??"",
+        sl: json["sl"]??"",
+        step: json["step"]??"",
+        rxPerDay: json["rx_per_day"]??"",
         brandList: List<EcmeBrandListDataModel>.from(json["brand_list"].map((x) => EcmeBrandListDataModel.fromJson(x))),
+        doctorList:List<EcmeAprovalDoctorListDataModel>.from(json["doctor_list"].map((x) => EcmeAprovalDoctorListDataModel.fromJson(x))), 
+      
     );
 
     Map<String, dynamic> toJson() => {
+        "skf_attendance":skfAttendance,
+        "others_participants":othersParticipants,
+        "pay_mode":payMode,
         "ecme_amount": ecmeAmount,
-        "meeting_date": "${meetingDate.year.toString().padLeft(4, '0')}-${meetingDate.month.toString().padLeft(2, '0')}-${meetingDate.day.toString().padLeft(2, '0')}",
+        "meeting_date": meetingDate,
         "ecme_doctor_category": ecmeDoctorCategory,
         "institution_name": institutionName,
         "department": department,
         "meeting_venue": meetingVenue,
         "meeting_topic": meetingTopic,
         "probable_speaker_name": probableSpeakerName,
-        "probable_speaker_designation": probableSpeakerDesignation,
         "total_numbers_of_participants": totalNumbersOfParticipants,
         "total_budget": totalBudget,
         "hall_rent": hallRent,
@@ -172,19 +162,14 @@ class ECMEApprovalDataList {
         "intern_doctors": internDoctors,
         "dmf_doctors": dmfDoctors,
         "nurses": nurses,
-        "last_action": lastAction,
         "ecme_type": ecmeType,
         "submit_date": submitDate,
         "sl": sl,
-        "doctor_id": doctorId,
-        "doctor_name": doctorName,
-        "degree": degree,
-        "specialty": specialty,
-        "doctors_category": doctorsCategory,
-        "doc_mobile": docMobile,
+        "last_action": lastAction,
         "step": step,
         "rx_per_day":rxPerDay,
         "brand_list": List<dynamic>.from(brandList.map((x) => x.toJson())),
+        "doctor_list": List<dynamic>.from(doctorList.map((x) => x.toJson())),
     };
 }
 
@@ -193,25 +178,59 @@ class EcmeBrandListDataModel {
     final String brandId;
     final String brandName;
     final String salesQty;
+    final String amount;
 
     EcmeBrandListDataModel({
         required this.rowId,
         required this.brandId,
         required this.brandName,
         required this.salesQty,
+        required this.amount
     });
 
     factory EcmeBrandListDataModel.fromJson(Map<String, dynamic> json) => EcmeBrandListDataModel(
-        rowId: json["row_id"],
-        brandId: json["brand_id"],
-        brandName: json["brand_name"],
-        salesQty: json["sales_qty"],
+        rowId: json["row_id"]??"",
+        brandId: json["brand_id"]??"",
+        brandName: json["brand_name"]??"",
+        salesQty: json["qty"]??"",
+        amount:  json["amount"]??"0.0"
     );
 
     Map<String, dynamic> toJson() => {
         "row_id": rowId,
         "brand_id": brandId,
         "brand_name": brandName,
-        "sales_qty": salesQty,
+        "qty": salesQty,
+        "amount":amount
+    };
+}
+
+
+
+class EcmeAprovalDoctorListDataModel {
+    final String rowId;
+    final String doctorId;
+    final String doctorName;
+  
+
+    EcmeAprovalDoctorListDataModel({
+        required this.rowId,
+        required this.doctorId,
+        required this.doctorName,
+        
+    });
+
+    factory EcmeAprovalDoctorListDataModel.fromJson(Map<String, dynamic> json) => EcmeAprovalDoctorListDataModel(
+        rowId: json["row_id"]??"",
+        doctorId: json["doctor_id"]??"",
+        doctorName: json["doctor_name"]??"",
+       
+    );
+
+    Map<String, dynamic> toJson() => {
+        "row_id": rowId,
+        "doctor_id": doctorId,
+        "doctor_name": doctorName,
+      
     };
 }

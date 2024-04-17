@@ -210,47 +210,47 @@ class _AreaPageState extends State<AreaPage> {
                                     16);
                               }
                             }
-                             else if (widget.screenName == 'e-CME') {
-                              List chemistList = await Repositories()
-                                  .areaBaseDoctorRepo(
-                                      dmpathData!.syncUrl,
-                                      cid,
-                                      userInfo!.userId,
-                                      userPassword,
-                                      snapshot.data![index]['area_id']);
-                              if (chemistList.isNotEmpty) {
-                                setState1(() {
-                                  _isLoading = false;
-                                });
-                                ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                                    if(eCMEDataModelData!=null){
-                                                      if (!mounted) return;
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (_) => ECMEDoctorList(
-                                                              dcrDataList: chemistList),
-                                                        ),
-                                                      );
+                            //  else if (widget.screenName == 'e-CME') {
+                            //   List chemistList = await Repositories()
+                            //       .areaBaseDoctorRepo(
+                            //           dmpathData!.syncUrl,
+                            //           cid,
+                            //           userInfo!.userId,
+                            //           userPassword,
+                            //           snapshot.data![index]['area_id']);
+                            //   if (chemistList.isNotEmpty) {
+                            //     setState1(() {
+                            //       _isLoading = false;
+                            //     });
+                            //     ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                            //                         if(eCMEDataModelData!=null){
+                            //                           if (!mounted) return;
+                            //                           Navigator.push(
+                            //                             context,
+                            //                             MaterialPageRoute(
+                            //                               builder: (_) => ECMEDoctorList(
+                            //                                   dcrDataList: chemistList),
+                            //                             ),
+                            //                           );
 
-                                                    }
-                                                    else{
-                                                        AllServices().toastMessage(
-                                                          'e_CME Data Sync First ',
-                                                          Colors.red,
-                                                          Colors.white,
-                                                          16);}
-                               } else {
-                                setState1(() {
-                                  _isLoading = false;
-                                });
-                                AllServices().toastMessage(
-                                    'Doctor Loading failed!',
-                                    Colors.red,
-                                    Colors.white,
-                                    16);
-                              }
-                            }
+                            //                         }
+                            //                         else{
+                            //                             AllServices().toastMessage(
+                            //                               'e_CME Data Sync First ',
+                            //                               Colors.red,
+                            //                               Colors.white,
+                            //                               16);}
+                            //    } else {
+                            //     setState1(() {
+                            //       _isLoading = false;
+                            //     });
+                            //     AllServices().toastMessage(
+                            //         'Doctor Loading failed!',
+                            //         Colors.red,
+                            //         Colors.white,
+                            //         16);
+                            //   }
+                            // }
                           },
                           child: Card(
                        

@@ -7,9 +7,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_doctor_preview.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -286,17 +284,26 @@ int totalParticipants() {
                         ),
                       ),
                     ),
-                    Padding(
+                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: IconButton(
                         icon: const Icon(Icons.edit,
                             size: 20, color: Color(0xff8AC995)),
                         onPressed: () {
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (_) => ECMEDoctorPreviewScreen(
+                          //       eCMESubmitDataModel: ecmeSubmitDataModel, 
+                          //       ),
+                          //     ),
+                          //   );
                           Navigator.pop(context);
                         
                         },
                       ),
                     )
+                    
                   ],
                 ),
                 const SizedBox(
@@ -777,6 +784,9 @@ int totalParticipants() {
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
                                   ),
+                                  const SizedBox(
+                                height: 6,
+                              ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
@@ -1882,7 +1892,6 @@ int totalParticipants() {
               brandString: getbrandString(), 
               areaId: areaId,
               costPerDoctor: getCostPerDoctor().toStringAsFixed(2), 
-             
               meetingDate: selectedExpiredDateString,
               meetingTopic: meetingTopicController.text, 
               meetingVanue: meetingVenueController.text, 
@@ -1899,15 +1908,12 @@ int totalParticipants() {
               skfAttendance: skfAttenaceController.text,
               othersParticipants: othersParticipantsController.text,
               numberOfParticipant: noIfparticipants.toString(), 
-
               speakerName: meetingProbaleSpeakerNameController.text,
-
               stationaries: stationnairesController.text, 
               hallRentAmount: hallRentController.text,
               foodExpense: foodExpansesController.text,
               giftCost: giftController.text,
               payMode: selectedPayMode!,
-
               totalBudget: totalBudget.toStringAsFixed(2) 
               
             );

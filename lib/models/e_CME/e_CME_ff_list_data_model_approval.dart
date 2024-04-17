@@ -27,23 +27,17 @@ class ECMEffListDataModel {
 class ECMEResData {
   final String status;
   final List<EcmeFFListModel>? dataList;
-  // final String budget;
-  // final String expense;
   final String levelDepth;
 
   ECMEResData(
       {required this.status,
       required this.dataList,
-      // required this.budget,
-      // required this.expense,
       required this.levelDepth});
 
   factory ECMEResData.fromJson(Map<String, dynamic> json) => ECMEResData(
         status: json["status"],
         dataList: List<EcmeFFListModel>.from(
             json["data_list"].map((x) => EcmeFFListModel.fromJson(x))),
-        // budget: json["budget"],
-        // expense: json["expense"],
         levelDepth: json["level_depth_no"] ?? '1',
       );
 
@@ -52,31 +46,29 @@ class ECMEResData {
         "data_list": dataList == null
             ? []
             : List<dynamic>.from(dataList!.map((x) => x.toJson())),
-        // "budget": budget,
-        // "expense": expense,
         "level_depth_no": levelDepth
       };
 }
 
 class EcmeFFListModel {
   final String submitBy;
-  final String territoryId;
+  final String areaId;
   final String dueCount;
   EcmeFFListModel({
     required this.submitBy,
-    required this.territoryId,
+    required this.areaId,
     required this.dueCount, 
   });
 
   factory EcmeFFListModel.fromJson(Map<String, dynamic> json) => EcmeFFListModel(
         submitBy: json["submit_by"],
-        territoryId: json["territory_id"],
+        areaId: json["area_id"],
         dueCount: json["due_count"],    
       );
 
   Map<String, dynamic> toJson() => {
         "submit_by": submitBy,
-        "territory_id": territoryId,
+        "area_id": areaId,
         "due_count": dueCount,
         
       };

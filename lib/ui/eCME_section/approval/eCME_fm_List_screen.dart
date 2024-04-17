@@ -103,7 +103,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                     style: TextStyle(color: Colors.black))),
                             SizedBox(
                                 width: 100,
-                                child: Text('Territory',
+                                child: Text('Area Id',
                                     style: TextStyle(color: Colors.black))),
                             SizedBox(
                                 width: 60,
@@ -156,7 +156,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                           submittedBy: eCMEDataModel!.resData
                                               .dataList![index].submitBy,
                                           territoryId: eCMEDataModel!.resData
-                                              .dataList![index].territoryId,
+                                              .dataList![index].areaId,
                                           calledBackAction: (value) {
                                             getEdsrFm();
                                           }),
@@ -172,7 +172,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                     SizedBox(
                                         width: 100,
                                         child: Text(eCMEDataModel!.resData
-                                            .dataList![index].territoryId)),
+                                            .dataList![index].areaId)),
                                     SizedBox(
                                         width: 60,
                                         child: Center(

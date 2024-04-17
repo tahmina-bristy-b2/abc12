@@ -14,7 +14,6 @@ class _TargetAchievementState extends State<TargetAchievement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text('Achievement'),
         centerTitle: true,
@@ -25,7 +24,6 @@ class _TargetAchievementState extends State<TargetAchievement> {
         child: Column(
           children: [
             Expanded(
-              // flex: 8,
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: widget.tarAchievementList.length,

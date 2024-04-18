@@ -238,17 +238,17 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: IconButton(
-                        icon: const Icon(Icons.edit,
-                            size: 20, color: Color(0xff8AC995)),
-                        onPressed: () {
-                          Navigator.pop(context);
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 10),
+                    //   child: IconButton(
+                    //     icon: const Icon(Icons.edit,
+                    //         size: 20, color: Color(0xff8AC995)),
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
                         
-                        },
-                      ),
-                    )
+                    //     },
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -402,6 +402,36 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       flex: 5,
                       child:
                           Text('  ${dsrDetails!.resData.dataList[index].probableSpeakerName}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 5, child: Text('Pay Mode',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Text('  ${dsrDetails!.resData.dataList[index].payMode}'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 5, child: Text('Pay To',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Text('  ${dsrDetails!.resData.dataList[index].payTo}'),
                     ),
                   ],
                 ),
@@ -865,7 +895,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                         flex: 3,
                                         child: Center(
                                           child: Text(
-                                            getTotalSalesQty(dsrDetails!.resData.dataList[index].brandList).toString(),
+                                            "${getTotalSalesQty(dsrDetails!.resData.dataList[index].brandList)}",
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 254, 254, 254),

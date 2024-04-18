@@ -137,7 +137,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                     const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
                     Expanded(
                       flex: 5,
-                      child: Text("$eCMEAmount"
+                      child: Text( "  $eCMEAmount"
                           ),
                     ),
                   ],
@@ -244,6 +244,36 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                       flex: 5,
                       child:
                           Text('  ${widget.eCMESubmitDataModel.speakerName}'),
+                    ),
+                  ],
+                ),
+              ),
+               Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 5, child: Text('Pay Mode',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Text('  ${widget.eCMESubmitDataModel.payMode}'),
+                    ),
+                  ],
+                ),
+              ),
+               Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(flex: 5, child: Text('Pay to',style: TextStyle(fontWeight: FontWeight.w500),)),
+                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+                    Expanded(
+                      flex: 5,
+                      child:
+                          Text('  ${widget.eCMESubmitDataModel.payTo}'),
                     ),
                   ],
                 ),
@@ -501,7 +531,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                           ],
                         ) ,
                     ),
-                     Padding(
+              Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -772,7 +802,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   eDsrSubmit() async {
     ECMESubmitDataModel ecmeSubmitDataModel= widget.eCMESubmitDataModel;
     print("submt =${ecmeSubmitDataModel.areaId}");
-    String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.brandString}0&areaId=${ecmeSubmitDataModel.areaId}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerInstitute=${ecmeSubmitDataModel.institutionName}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftCost}&others=${ecmeSubmitDataModel.othersParticipants}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&doctor_str=${ecmeSubmitDataModel.docListString}&pay_mode=${ecmeSubmitDataModel.payMode}&skf_attendance=${ecmeSubmitDataModel.skfAttendance}&others_participants=${ecmeSubmitDataModel.othersParticipants}&food_expense=${ecmeSubmitDataModel.foodExpense}&departament=${ecmeSubmitDataModel.departament}";
+    String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.brandString}0&areaId=${ecmeSubmitDataModel.areaId}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerInstitute=${ecmeSubmitDataModel.institutionName}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftCost}&others=${ecmeSubmitDataModel.othersParticipants}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&doctor_str=${ecmeSubmitDataModel.docListString}&pay_mode=${ecmeSubmitDataModel.payMode}&skf_attendance=${ecmeSubmitDataModel.skfAttendance}&others_participants=${ecmeSubmitDataModel.othersParticipants}&food_expense=${ecmeSubmitDataModel.foodExpense}&departament=${ecmeSubmitDataModel.departament}&pay_to=${ecmeSubmitDataModel.payTo}";
     // String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.eCMEType== "RMP Meeting" ? ecmeSubmitDataModel.brandString:""}&areaId=${ecmeSubmitDataModel.areaId}&docId=${ecmeSubmitDataModel.docId}&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&probable_speaker_designation=${ecmeSubmitDataModel.speakerDesignation}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&foodexpenses=${ecmeSubmitDataModel.foodExpense}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&institutionName=${ecmeSubmitDataModel.institureName}&departament=${ecmeSubmitDataModel.departament}";
     print("submt =$submitUrl");
     Map<String, dynamic> data = await ECMERepositry().eCMESubmitURL(submitUrl);

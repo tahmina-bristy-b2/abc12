@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-
 EcmeApprovalDetailsDataModel ecmeApprovalDetailsDataModelFromJson(String str) => EcmeApprovalDetailsDataModel.fromJson(json.decode(str));
 String ecmeApprovalDetailsDataModelToJson(EcmeApprovalDetailsDataModel data) => json.encode(data.toJson());
 
@@ -44,6 +43,7 @@ class ECMEApprovalDataList {
   final String skfAttendance;
     final String othersParticipants;
     final String payMode;
+    final String payTo;
     final String ecmeAmount;
     final String meetingDate;
     final String ecmeDoctorCategory;
@@ -76,6 +76,7 @@ class ECMEApprovalDataList {
     {   required  this.skfAttendance,
         required this.othersParticipants,
         required this.payMode,
+        required this.payTo,
         required this.ecmeAmount,
         required this.meetingDate,
         required this.ecmeDoctorCategory,
@@ -106,9 +107,10 @@ class ECMEApprovalDataList {
     });
 
     factory ECMEApprovalDataList.fromJson(Map<String, dynamic> json) => ECMEApprovalDataList(
-        skfAttendance: '',
-        payMode: '',
-        othersParticipants: '', 
+        skfAttendance: json["skf_attendance"]??"",
+        payMode: json["pay_mode"]??"",
+        payTo: json["pay_to"]??"",
+        othersParticipants: json["others_participants"]??"",
         ecmeAmount: json["ecme_amount"]??"",
         meetingDate: json["meeting_date"]??"",
         ecmeDoctorCategory: json["ecme_doctor_category"]??"",
@@ -143,6 +145,7 @@ class ECMEApprovalDataList {
         "skf_attendance":skfAttendance,
         "others_participants":othersParticipants,
         "pay_mode":payMode,
+        "pay_to":payTo,
         "ecme_amount": ecmeAmount,
         "meeting_date": meetingDate,
         "ecme_doctor_category": ecmeDoctorCategory,

@@ -37,6 +37,7 @@ class ECMESubmitDataModel {
   String giftCost;
   String foodExpense;
   String payMode;
+  String payTo;
 
   
   ECMESubmitDataModel({
@@ -73,7 +74,8 @@ class ECMESubmitDataModel {
     required this.giftCost,
     required this.stationaries,
     required this.costPerDoctor,
-    required this.payMode
+    required this.payMode,
+    required this.payTo
   
   });
 }

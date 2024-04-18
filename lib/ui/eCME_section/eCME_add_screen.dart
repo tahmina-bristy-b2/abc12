@@ -62,6 +62,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController eCMESplitAmountController = TextEditingController();
   TextEditingController probaleSpeakerDesignationController = TextEditingController();
   TextEditingController probaleSpeakerDegreeController = TextEditingController();
+  TextEditingController payToController = TextEditingController();
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
   
@@ -284,25 +285,18 @@ int totalParticipants() {
                         ),
                       ),
                     ),
-                     Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: IconButton(
-                        icon: const Icon(Icons.edit,
-                            size: 20, color: Color(0xff8AC995)),
-                        onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (_) => ECMEDoctorPreviewScreen(
-                          //       eCMESubmitDataModel: ecmeSubmitDataModel, 
-                          //       ),
-                          //     ),
-                          //   );
-                          Navigator.pop(context);
+                    //  Padding(
+                    //   padding: const EdgeInsets.only(right: 10),
+                    //   child: IconButton(
+                    //     icon: const Icon(Icons.edit,
+                    //         size: 20, color: Color(0xff8AC995)),
+                    //     onPressed: () {
+                          
+                    //       Navigator.pop(context);
                         
-                        },
-                      ),
-                    )
+                    //     },
+                    //   ),
+                    // )
                     
                   ],
                 ),
@@ -1156,6 +1150,35 @@ int totalParticipants() {
                                                                                     
                                 
                                 ),
+                                 SizedBox(
+                                height: wholeHeight / 75.927,
+                              ),
+                            
+                                  const Text(
+                                "Pay to*",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                     hinText: '----Enter pay reciever name----',
+                                      controller: payToController,
+                                      textAlign: TextAlign.left, 
+                                      keyboardType: TextInputType.text,
+                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                    ),
+                                  ),
+
+
+
                                   const SizedBox(
                                 height: 10,
                               ),
@@ -1274,7 +1297,10 @@ int totalParticipants() {
                                               AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
                                             } else if (selectedPayMode == null) {
                                               AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
-                                            } else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
+                                            } else if (payToController.text == "") {
+                                              AllServices().toastMessage("Please enter pay reciever name ", Colors.red, Colors.white, 16);
+                                            }
+                                             else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
                                               AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
                                             }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
                                               AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);
@@ -1914,8 +1940,8 @@ int totalParticipants() {
               foodExpense: foodExpansesController.text,
               giftCost: giftController.text,
               payMode: selectedPayMode!,
+              payTo:  payToController.text,
               totalBudget: totalBudget.toStringAsFixed(2) 
-              
             );
 
     if (ecmeSubmitDataModel!=null) {

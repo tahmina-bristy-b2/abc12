@@ -154,7 +154,7 @@ class ECMERepositry{
 
 
 //============================================= Approved or Reject =======================================================================
-  Future<Map<String, dynamic>> approvedOrRejectedDsr(
+  Future<Map<String, dynamic>> approvedOrRejectedECME(
       String sl,
          String approveEDSRUrl, String cid, String userId,
           String userPass, String approvedEdsrParams) async {

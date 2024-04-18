@@ -87,12 +87,12 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
   }
 
 
-   void approvedOrRejectedDsr(String sl,String approvedEdsrParams, int index) async {
+   void approvedOrRejectedECME(String sl,String approvedEdsrParams, int index) async {
     bool result = await InternetConnectionChecker().hasConnection;
 
     if (result) {
       Map<String, dynamic> approvedResponse =
-          await ECMERepositry().approvedOrRejectedDsr(
+          await ECMERepositry().approvedOrRejectedECME(
         sl,
         dmpathData!.syncUrl,
         widget.cid,
@@ -285,22 +285,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                   ],
                 ),
               ),
-            Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('E-CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(dsrDetails!.resData.dataList[index].ecmeAmount == null
-                          ? ""
-                          : '  ${dsrDetails!.resData.dataList[index].ecmeAmount}'),
-                    ),
-                  ],
-                ),
-              ),
+            
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
@@ -938,7 +923,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                   isPressed = true;
                                 });
                            
-                                approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                approvedOrRejectedECME(dsrDetails!.resData.dataList[index].sl,
                                    "Rejected", index);
 
                               },
@@ -957,7 +942,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                   isPressed = true;
                                 });
                                 
-                                approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                approvedOrRejectedECME(dsrDetails!.resData.dataList[index].sl,
                                     "Approved", index);
                               },
                         style: ElevatedButton.styleFrom(
@@ -986,7 +971,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                     setState(() {
                                       isPressed = true;
                                     });
-                                    approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                    approvedOrRejectedECME(dsrDetails!.resData.dataList[index].sl,
                                         "Rejected", index);
 
                                   },
@@ -1006,7 +991,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                     });
                                     // String approvedEdsrParams =
                                     //     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
-                                    approvedOrRejectedDsr(dsrDetails!.resData.dataList[index].sl,
+                                    approvedOrRejectedECME(dsrDetails!.resData.dataList[index].sl,
                                         "Approved", index);
                                   },
                             style: ElevatedButton.styleFrom(

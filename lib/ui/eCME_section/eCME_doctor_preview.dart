@@ -128,21 +128,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                   ],
                 ),
               ),
-            Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('E-CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text( "  $eCMEAmount"
-                          ),
-                    ),
-                  ],
-                ),
-              ),
+            
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(

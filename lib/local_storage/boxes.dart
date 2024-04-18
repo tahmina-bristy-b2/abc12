@@ -67,5 +67,6 @@ class Boxes {
     Boxes.chemistRxTargetToSave().clear();
     Boxes.getExpiredItemSubmitItems().clear();
     Boxes.getExpiredDatedIItems().clear();
+    Boxes.geteCMEsetData().clear();
   }
 }

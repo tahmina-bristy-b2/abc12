@@ -1698,18 +1698,29 @@ class _MyHomePageState extends State<MyHomePage> {
                                           icon: Icons.add,
                                           onClick: () async {
                                             ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                            List<DocListECMEModel> _docList= eCMEDataModelData!.eCMEdocList;
-                                                    if(eCMEDataModelData!=null && _docList.isNotEmpty){
-                                                      if (!mounted) return;
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (_) => ECMEClientScreen(
-                                                            docList: _docList,
-                                                              
-                                                              ),
-                                                        ),
-                                                      );
+                                            if(eCMEDataModelData!=null ){
+                                                      List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
+                                                      if(_docList.isNotEmpty)
+                                                      {
+                                                        if (!mounted) return;
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) => ECMEClientScreen(
+                                                                docList: _docList,
+                                                                  
+                                                                  ),
+                                                            ),
+                                                          );
+                                                      }else{
+                                                        AllServices().toastMessage(
+                                                          'No e-CME doctor found ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);
+
+
+                                                      }
 
                                                     }
                                                     else{

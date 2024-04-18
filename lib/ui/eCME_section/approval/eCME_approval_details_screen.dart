@@ -956,11 +956,9 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                     ],
                   )
                 : (dsrDetails!.resData.dataList[index].lastAction ==
-                                'Approved' &&
-                            dsrDetails!.resData.dataList[index].step == 'RSM' &&
-                            widget.levelDepth == '1') ||
-                        (dsrDetails!.resData.dataList[index].lastAction ==
-                                'Submitted')
+                                'Submitted' &&
+                            dsrDetails!.resData.dataList[index].step == 'FM' &&
+                            widget.levelDepth == '1') 
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

@@ -155,7 +155,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                               eCMEDataModel!.resData.levelDepth,
                                           submittedBy: eCMEDataModel!.resData
                                               .dataList![index].submitBy,
-                                          territoryId: eCMEDataModel!.resData
+                                          areaId: eCMEDataModel!.resData
                                               .dataList![index].areaId,
                                           calledBackAction: (value) {
                                             getEdsrFm();

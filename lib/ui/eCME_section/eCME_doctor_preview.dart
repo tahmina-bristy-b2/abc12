@@ -34,8 +34,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
     dmpathData = Boxes.getDmpath().get('dmPathData');
     dynamicTotalCalculation();
   }
-
-
+  
   int dynamicTotalCalculation() {
     totalAmount = 0;
     eCMEAmount = double.parse(widget.eCMESubmitDataModel.eCMEAmount).toStringAsFixed(2);

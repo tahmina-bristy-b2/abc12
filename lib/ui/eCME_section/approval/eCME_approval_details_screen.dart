@@ -1,4 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_approval_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
@@ -16,13 +17,13 @@ class EcmeApprovalScreen extends StatefulWidget {
       required this.cid,
       required this.userPass,
       required this.submittedBy,
-      required this.territoryId,
+      required this.areaId,
       required this.levelDepth,
       required this.calledBackAction});
   final String cid;
   final String userPass;
   final String submittedBy;
-  final String territoryId;
+  final String areaId;
   final String levelDepth;
   final Function calledBackAction;
   @override
@@ -35,6 +36,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
   EcmeApprovalDetailsDataModel? dsrDetails;
+  ECMESavedDataModel? ecmeSavedDataModel;
 
   String levelDepth = '1';
   bool isLoading = true;
@@ -1006,7 +1008,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                         child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              '----------- Approval pending from RSM/FM -----------',
+                              '----------- Approval pending from RSM/NSM -----------',
                               style: TextStyle(color: Colors.red, fontSize: 16),
                             )),
                       ),
@@ -1164,9 +1166,8 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
           userInfo!.userId,
           widget.userPass,
           widget.submittedBy,
-          widget.territoryId,
+          widget.areaId,
           widget.levelDepth);
-          print("data =$dsrDetails");
 
       if (dsrDetails != null) {
         for (var element in dsrDetails!.resData.dataList) {
@@ -1190,33 +1191,6 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
     }
   }
 
-  // void brandAmountUpdate(String brandAmountUpdateParams, int index, int index2,
-  //     String rowId, setState_2) async {
-  //   setState_2(() {
-  //     isUpdate[rowId] = true;
-  //   });
-  //   Map<String, dynamic> updateResponse =
-  //       await EDSRRepositories().brandAmountUpdate(
-  //     dmpathData!.syncUrl,
-  //     widget.cid,
-  //     userInfo!.userId,
-  //     widget.userPass,
-  //     brandAmountUpdateParams,
-  //   );
-
-  //   if (updateResponse.isNotEmpty) {
-  //     dsrDetails!.resData.dataList[index].brandList[index2].salesQty = controller[
-  //             dsrDetails!.resData.dataList[index].brandList[index2].rowId]!
-  //         .text;
-  //     setState_2(() {
-  //       isUpdate[rowId] = false;
-  //     });
-  //   } else {
-  //     setState_2(() {
-  //       isUpdate[rowId] = false;
-  //     });
-  //   }
-  // }
 
  
 }

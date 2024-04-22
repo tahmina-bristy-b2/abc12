@@ -1,7 +1,6 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
+
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCME_services.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +31,9 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
   String? territory;
   String? area;
   String dSRType = "";
-  Map<String, dynamic> mapData = {
-    "dsr_Type": "",
-  };
   Map<String,bool> doctorSelectionMap={};
   List<DocListECMEModel> doctInfo=[];
   bool isConfirm=false;
-
 
   @override
   void initState() {

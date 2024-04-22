@@ -1,5 +1,4 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -11,7 +10,6 @@ import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'eCME_section/e_cme_doctor_list_new.dart';
 
 class AreaPage extends StatefulWidget {
   String screenName;

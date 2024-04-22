@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomtextFormFiledWidget extends StatelessWidget {
  TextEditingController controller;
@@ -41,6 +42,7 @@ class CustomtextFormFiledWidget extends StatelessWidget {
                                     style:textStyle,
                                     textAlign:textAlign,
                                     keyboardType: hinText=="----Enter e-CME Amount ----"? TextInputType.number: TextInputType.text,
+                                      inputFormatters: hinText=="----Enter e-CME Amount ----"? [FilteringTextInputFormatter.allow(RegExp("[0-9]"))]:[],
                                     decoration: InputDecoration(
                                       hintText: hinText,
                                        border: InputBorder.none,

@@ -64,4 +64,68 @@ class ECMEServices{
     }
     return results;
   }
+
+
+  //================================ Get Doctor String ============================
+  String getDoctString(List<DocListECMEModel> docInfo){
+    String docListString="";
+    for (var element1 in docInfo) {
+            if (docListString == "") {
+              docListString +=
+                  "${element1.docId}|${element1.docName}";
+            } else {
+              docListString +=
+                  "||${element1.docId}|${element1.docName}";
+            }
+     }
+     return docListString;
+  }
+  
+  //=================================== Unique brand List =================================
+  List<List<dynamic>> removeDuplicationForBrand(
+      List<List<dynamic>> actualBrandList) {
+    Map<String, List<dynamic>> uniqueBrandMap = {};
+    for (var subList in actualBrandList) {
+      uniqueBrandMap[subList[0]] = subList;
+    }
+    return uniqueBrandMap.values.toList();
+  }
+
+   //============================== Cost per doctor ======================================
+   double getCostPerDoctor(double totalBudget,int noIfparticipants){
+    if(totalBudget>0.0){
+      double costPerDoctor= totalBudget/noIfparticipants;
+      return costPerDoctor;
+    }
+    else{
+      return 0.0;
+    }
+   }
+
+
+   
+  //=============================== get brand String ===============================
+  String getbrandString(ECMESavedDataModel? eCMESettingsData,List<List<dynamic>> finalBrandListAftrRemoveDuplication,double splitedAmount) {
+   String brandString = '';
+    for (var element1 in eCMESettingsData!.eCMEBrandList) {
+      if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
+        for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
+          if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
+            if (brandString == "") {
+              brandString +=
+                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
+            } else {
+              brandString +=
+                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
+            }
+          }
+        }
+      } else {
+        brandString = "";
+      }
+    }
+    return brandString;
+  }
+
+
 }

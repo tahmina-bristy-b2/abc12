@@ -120,15 +120,14 @@ class ECMERepositry{
     String userId,
     String userPass,
     String submitedBy,
-    String territoryId,
+    String areaId,
     String levelDepth,
   ) async {
     EcmeApprovalDetailsDataModel? dsrDetailsData;
     try {
       http.Response response = await ECMEDataProviders().getECMEApprovalDetails(fmListUrl,
-          cid, userId, userPass, submitedBy, territoryId, levelDepth);
+          cid, userId, userPass, submitedBy,areaId,levelDepth);
       var resData = json.decode(response.body);
-     // print("details=== ${resData}");
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
           dsrDetailsData = ecmeApprovalDetailsDataModelFromJson(response.body);

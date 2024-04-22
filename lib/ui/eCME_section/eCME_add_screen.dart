@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/eCME/eCME_services.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_doctor_preview.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
@@ -63,9 +64,9 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController probaleSpeakerDesignationController = TextEditingController();
   TextEditingController probaleSpeakerDegreeController = TextEditingController();
   TextEditingController payToController = TextEditingController();
+
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
-  
   List<List<dynamic>> dynamicRowsListForBrand = [];
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
   String? initialBrand;
@@ -78,12 +79,9 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   String brandString='';
   String? cid;
   String? password;
- 
   double latitude = 0.0;
   double longitude = 0.0;
   bool isLoading = false;
-  bool isAPC = false;
-  bool isCheck = false;
   double splitedAmount=0.0;
   String areaId="";
   
@@ -123,52 +121,55 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   }
 
   //=============================== get brand String ===============================
-  String getbrandString() {
-    brandString = '';
-    for (var element1 in eCMESettingsData!.eCMEBrandList) {
-      if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
-        for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
-          if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
-            if (brandString == "") {
-              brandString +=
-                  "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
-            } else {
-              brandString +=
-                  "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
-            }
-          }
-        }
-      } else {
-        brandString = "";
-      }
-    }
-    setState(() {});
-    return brandString;
-  }
- String getDoctString(){
-    String docListString="";
-    for (var element1 in widget.docInfo) {
-            if (docListString == "") {
-              docListString +=
-                  "${element1.docId}|${element1.docName}";
-            } else {
-              docListString +=
-                  "||${element1.docId}|${element1.docName}";
-            }
-     }
-     print("docString =$docListString");
-     return docListString;
-  }
+  // String getbrandString() {
+  //   brandString = '';
+  //   for (var element1 in eCMESettingsData!.eCMEBrandList) {
+  //     if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
+  //       for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
+  //         if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
+  //           if (brandString == "") {
+  //             brandString +=
+  //                 "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
+  //           } else {
+  //             brandString +=
+  //                 "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
+  //           }
+  //         }
+  //       }
+  //     } else {
+  //       brandString = "";
+  //     }
+  //   }
+  //   setState(() {});
+  //   return brandString;
+  // }
+
+
+
+//  String getDoctString(){
+//     String docListString="";
+//     for (var element1 in widget.docInfo) {
+//             if (docListString == "") {
+//               docListString +=
+//                   "${element1.docId}|${element1.docName}";
+//             } else {
+//               docListString +=
+//                   "||${element1.docId}|${element1.docName}";
+//             }
+//      }
+//      print("docString =$docListString");
+//      return docListString;
+//   }
 
   //=============================== Unique brand List ===============================
-  List<List<dynamic>> removeDuplicationForBrand(
-      List<List<dynamic>> actualBrandList) {
-    Map<String, List<dynamic>> uniqueBrandMap = {};
-    for (var subList in actualBrandList) {
-      uniqueBrandMap[subList[0]] = subList;
-    }
-    return uniqueBrandMap.values.toList();
-  }
+  // List<List<dynamic>> removeDuplicationForBrand(
+  //     List<List<dynamic>> actualBrandList) {
+  //   Map<String, List<dynamic>> uniqueBrandMap = {};
+  //   for (var subList in actualBrandList) {
+  //     uniqueBrandMap[subList[0]] = subList;
+  //   }
+  //   return uniqueBrandMap.values.toList();
+  // }
 
   //============================ total budget =========================
 double getTotalBudget() {
@@ -216,7 +217,40 @@ int totalParticipants() {
 
   @override
   void dispose() {
-    meetingDateController.dispose();
+    // meetingDateController.dispose();
+    // meetingVenueController.dispose();
+    // meetingTopicController.dispose();
+    // meetingTopicController.dispose();
+    // brandSelectedController.dispose();
+    // eCMEAmountCOntroller.dispose();
+    // //rxPerDayController.dispose();
+    // eCMEAmountCOntroller.dispose();
+    // salesQtyController.dispose();
+    // meetingProbaleSpeakerNameController.dispose();
+    // probaleSpeakerInstituteController.dispose();
+    // totalNumberOfParticiController.dispose();
+    // totalBudgetController.dispose();
+    // hallRentController.dispose();
+    // hallRentController.dispose();
+    // foodExpansesController.dispose();
+    // costperDoctorController.dispose();
+    // lunchDinnerController.dispose();
+    // stationnairesController.dispose();
+    // giftController.dispose();
+    // othersController.dispose();
+    // institutionController.dispose();
+    // departmentController.dispose();
+    // rxObjectiveperDayController.dispose();
+    // internDoctorController.dispose();
+    // nursesController.dispose();
+    // doctorParticipantCount.dispose();
+    // skfAttenaceController.dispose();
+    // othersParticipantsController.dispose();
+    // eCMEAmountForRMPController.dispose();
+    // eCMESplitAmountController.dispose();
+    // probaleSpeakerDesignationController.dispose();
+    // probaleSpeakerDegreeController.dispose();
+    payToController.dispose();
     rxPerDayController.dispose();
     eCMEAmountCOntroller.dispose();
     brandSelectedController.clear();
@@ -785,7 +819,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter e-CME Amount ----',
+                                     hinText: '----Enter e-CME Amount ----',  // if you change it,you have to chn the inputformatter too.
                                       controller: eCMEAmountCOntroller,
                                       textAlign: TextAlign.left, 
                                       textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
@@ -1857,7 +1891,8 @@ int totalParticipants() {
                                                                            
                                                                           ]);
                                                                           finalBrandListAftrRemoveDuplication =
-                                                                              removeDuplicationForBrand(dynamicRowsListForBrand);
+                                                                            ECMEServices().removeDuplicationForBrand(dynamicRowsListForBrand);
+                                                                            print("unique brand List  ====$finalBrandListAftrRemoveDuplication");
                                                                           Navigator.pop(context);
                                                                           setState(() {
                                                                             initialBrand = null;
@@ -1913,9 +1948,9 @@ int totalParticipants() {
               lattitute: latitude.toString(), 
               longitude: longitude.toString(),
               docList: widget.docInfo, 
-              docListString: getDoctString() , 
+              docListString:ECMEServices().getDoctString(widget.docInfo) , 
               brandList: finalBrandListAftrRemoveDuplication, 
-              brandString: getbrandString(), 
+              brandString:ECMEServices().getbrandString(eCMESettingsData!,finalBrandListAftrRemoveDuplication,splitedAmount), 
               areaId: areaId,
               costPerDoctor: getCostPerDoctor().toStringAsFixed(2), 
               meetingDate: selectedExpiredDateString,

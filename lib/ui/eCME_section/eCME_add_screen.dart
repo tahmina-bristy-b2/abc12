@@ -120,57 +120,6 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     areaId=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.supAreaId ;
   }
 
-  //=============================== get brand String ===============================
-  // String getbrandString() {
-  //   brandString = '';
-  //   for (var element1 in eCMESettingsData!.eCMEBrandList) {
-  //     if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
-  //       for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
-  //         if (element1.brandName == finalBrandListAftrRemoveDuplication[i][0]) {
-  //           if (brandString == "") {
-  //             brandString +=
-  //                 "${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
-  //           } else {
-  //             brandString +=
-  //                 "||${element1.brandId}|${element1.brandName}|${finalBrandListAftrRemoveDuplication[i][2]}|${splitedAmount.toStringAsFixed(2)}";
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       brandString = "";
-  //     }
-  //   }
-  //   setState(() {});
-  //   return brandString;
-  // }
-
-
-
-//  String getDoctString(){
-//     String docListString="";
-//     for (var element1 in widget.docInfo) {
-//             if (docListString == "") {
-//               docListString +=
-//                   "${element1.docId}|${element1.docName}";
-//             } else {
-//               docListString +=
-//                   "||${element1.docId}|${element1.docName}";
-//             }
-//      }
-//      print("docString =$docListString");
-//      return docListString;
-//   }
-
-  //=============================== Unique brand List ===============================
-  // List<List<dynamic>> removeDuplicationForBrand(
-  //     List<List<dynamic>> actualBrandList) {
-  //   Map<String, List<dynamic>> uniqueBrandMap = {};
-  //   for (var subList in actualBrandList) {
-  //     uniqueBrandMap[subList[0]] = subList;
-  //   }
-  //   return uniqueBrandMap.values.toList();
-  // }
-
   //============================ total budget =========================
 double getTotalBudget() {
   double hall = double.tryParse(hallRentController.text) ?? 0.0;

@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AttendanceScreen extends StatefulWidget {
   // String startTime;
   // String endTime;
- String userPassword;
+  String userPassword;
   // final Function callbackFunction;
 
    AttendanceScreen({Key? key,required this.userPassword}) : super(key: key);
@@ -41,7 +41,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   String deviceId = '';
   String isStartred="";
   bool sameDate =true;
-   bool isLoading=true;
+  bool isLoading=true;
 
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;

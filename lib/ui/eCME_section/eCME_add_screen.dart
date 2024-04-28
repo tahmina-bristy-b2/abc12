@@ -96,7 +96,10 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   void initState() {
     super.initState();
      eCMEAmountCOntroller.addListener((){
+      
+    //  print("ei je dataa chage");
             setState(() {
+               print("ei je dataa chage");
                     });
         });
     userInfo = Boxes.getLoginData().get('userInfo');
@@ -128,8 +131,45 @@ double getTotalBudget() {
   double others = double.tryParse(stationnairesController.text) ?? 0.0;
   totalBudget = hall + food + gift + others ;
   totalBudgetController.text = totalBudget.toStringAsFixed(2);
+  //double eCMEAmount = double.tryParse(eCMESplitAmountController.text) ?? 0.0;
+  totalBudget = hall + food + gift + others ;
+  getMessage();
+  
   getCostPerDoctor();
   return totalBudget;
+}
+
+getMessage(){
+  double eCMEAmount = double.tryParse(eCMEAmountCOntroller.text) ?? 0.0;
+  if(totalBudget>eCMEAmount){
+    if (totalBudget > eCMEAmount) {
+      showDialog(
+        context: context,
+        barrierDismissible: false, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: const Text("Warning",style: TextStyle(color: Colors.red)),
+            content: const Text(
+              "Your total budget has crossed the e-CME amount.\nPlease reduce you budget first.",style: TextStyle(fontSize: 13),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+              
+            ],
+          );
+        },
+      );
+    }
+    //AllServices().toastMessage("Your total Budget is crossing the e-CME amount \n Please reduce you budget first", Colors.red, Colors.white, 16);
+  }
 }
 
 //============================ total Numbers of participants =========================
@@ -166,39 +206,6 @@ int totalParticipants() {
 
   @override
   void dispose() {
-    // meetingDateController.dispose();
-    // meetingVenueController.dispose();
-    // meetingTopicController.dispose();
-    // meetingTopicController.dispose();
-    // brandSelectedController.dispose();
-    // eCMEAmountCOntroller.dispose();
-    // //rxPerDayController.dispose();
-    // eCMEAmountCOntroller.dispose();
-    // salesQtyController.dispose();
-    // meetingProbaleSpeakerNameController.dispose();
-    // probaleSpeakerInstituteController.dispose();
-    // totalNumberOfParticiController.dispose();
-    // totalBudgetController.dispose();
-    // hallRentController.dispose();
-    // hallRentController.dispose();
-    // foodExpansesController.dispose();
-    // costperDoctorController.dispose();
-    // lunchDinnerController.dispose();
-    // stationnairesController.dispose();
-    // giftController.dispose();
-    // othersController.dispose();
-    // institutionController.dispose();
-    // departmentController.dispose();
-    // rxObjectiveperDayController.dispose();
-    // internDoctorController.dispose();
-    // nursesController.dispose();
-    // doctorParticipantCount.dispose();
-    // skfAttenaceController.dispose();
-    // othersParticipantsController.dispose();
-    // eCMEAmountForRMPController.dispose();
-    // eCMESplitAmountController.dispose();
-    // probaleSpeakerDesignationController.dispose();
-    // probaleSpeakerDegreeController.dispose();
     payToController.dispose();
     rxPerDayController.dispose();
     eCMEAmountCOntroller.dispose();
@@ -345,6 +352,11 @@ int totalParticipants() {
                                                       finalBrandListAftrRemoveDuplication.clear();
                                                       eCMEAmountCOntroller.clear();
                                                       dynamicRowsListForBrand.clear();
+                                                      hallRentController.clear();
+                                                      foodExpansesController.clear();
+                                                      giftController.clear();
+                                                      stationnairesController.clear();
+                                                      totalBudget=0;
                                                     });
                                                   },
                                                   
@@ -754,17 +766,17 @@ int totalParticipants() {
                             const SizedBox(
                                 height: 6,
                               ),
-                                const Text(
+                            selectedECMEType!=null?    const Text(
                                   "e_CME Amount *" ,
                                     style: TextStyle(
                                         fontSize: 15,
                                         color: Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.w600),
-                                  ),
-                                  const SizedBox(
-                                height: 6,
+                                  ):const SizedBox(),
+                                   SizedBox(
+                                height:  selectedECMEType!=null?   6:0,
                               ),
-                                SizedBox(
+                                selectedECMEType!=null?    SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
@@ -775,11 +787,11 @@ int totalParticipants() {
                                       focusNode: AlwaysDisabledFocusNode(),
                                       keyboardType: TextInputType.number,
                                     ),
-                                  ) ,
-                                  const SizedBox(
-                                height: 10,
+                                  ) : const SizedBox(),
+                                   SizedBox(
+                                height:  selectedECMEType!=null?   10:0,
                               ),
-                        eCMEAmountCOntroller.text.isNotEmpty?     Row(
+                     ( selectedECMEType!=null &&  eCMEAmountCOntroller.text.isNotEmpty)?     Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                  const  Text(
@@ -912,7 +924,7 @@ int totalParticipants() {
                                 height: 10,
                               ),
                                   
-                              ( totalParticipants()>0 )? 
+                              ( totalParticipants()>0 && eCMEAmountCOntroller.text.isNotEmpty&& selectedECMEType!=null )? 
                               Row(
                                     children: [
                                         
@@ -944,7 +956,7 @@ int totalParticipants() {
                               
                                     :const SizedBox(),
                                     const SizedBox(height: 10,),
-                                ( totalParticipants()>0 )?   Row(
+                                ( totalParticipants()>0 && eCMEAmountCOntroller.text.isNotEmpty&& selectedECMEType!=null )?   Row(
                                     children: [
                                         
                                         SizedBox(
@@ -976,14 +988,14 @@ int totalParticipants() {
                            
                                     SizedBox(height:(  totalParticipants()>0 )? 10:0),
           
-                            ( totalParticipants()>0 )? const Text(
+                            ( totalParticipants()>0 && eCMEAmountCOntroller.text.isNotEmpty && selectedECMEType!=null )? const Text(
                                 "Budget breakdown*",
                                 style: TextStyle(
                                    fontSize: 15,
                                    color: Color.fromARGB(255, 0, 0, 0),
                                    fontWeight: FontWeight.w600),
                               ) :const SizedBox(),
-                            (   totalParticipants()>0 )?  Column(
+                            (   totalParticipants()>0&& eCMEAmountCOntroller.text.isNotEmpty )?  Column(
                                 children: [
                                   BudgetBreakDownRowWidget(
                                     routingName: 'budget',
@@ -1244,6 +1256,7 @@ int totalParticipants() {
                                               ))),
                                     ),
                                     onTap: () async {
+                                      double eCME= double.tryParse(eCMEAmountCOntroller.text)??0.0;
                                       if (selectedECMEType == null) {
                                               AllServices().toastMessage("Please Select eCME Type First", Colors.red, Colors.white, 16);
                                             } else if (selectedExpiredDateString == "") {
@@ -1287,6 +1300,8 @@ int totalParticipants() {
                                               AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
                                             }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
                                               AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);
+                                            }else if (totalBudget>eCME) {
+                                              AllServices().toastMessage("Please reduce your budget ", Colors.red, Colors.white, 16);
                                             }
                                              else {
                                               readyForPreviewMethod();

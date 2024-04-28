@@ -454,14 +454,17 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 const Spacer(),
                 SizedBox(
-                  width: screenWidth / 2.7,
+                  width: screenWidth / 2.6,
                   // height: screenHeight / 10,
-                  child: Text(
-                    loginPageVersionName,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black.withOpacity(.5),
-                      // color: Color.fromARGB(255, 129, 188, 236),
+                  child:const Align(
+                    alignment: Alignment.centerRight,
+                    child:  Text(
+                      loginPageVersionName,
+                      style: TextStyle(
+                        fontSize: 16,
+                       // color: Colors.black.withOpacity(.5),
+                         color: Color.fromARGB(255, 129, 188, 236),
+                      ),
                     ),
                   ),
                 ),
@@ -472,7 +475,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        title: const Text('MREPORTING $appVersion'),
+        title: const Text('MREPORTING $appVersion'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,

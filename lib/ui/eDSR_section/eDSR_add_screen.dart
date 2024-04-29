@@ -35,8 +35,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   TextEditingController issueToController = TextEditingController(text: "");
   TextEditingController rxPerDayController = TextEditingController();
   TextEditingController dSrController = TextEditingController();
-  // TextEditingController emrRXController = TextEditingController();
-  // TextEditingController p4RXController = TextEditingController();
   TextEditingController doctorMobileNumberController = TextEditingController();
   final brandSelectedController = TextEditingController();
 

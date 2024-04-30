@@ -11,11 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEClientScreen extends StatefulWidget {
    List<DocListECMEModel> docList;
-   List doctorCategory;
+   List eCMEType;
    ECMEClientScreen({
       super.key,
       required this.docList,
-      required this.doctorCategory
+      required this.eCMEType
     });
 
   @override
@@ -40,15 +40,16 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
   List<DocListECMEModel> doctInfo=[];
   bool isConfirm=false;
   bool isDocListShow=false;
+  String eCmeType="";
 
   @override
   void initState() {
     super.initState();
-    for (var eachType in widget.doctorCategory) {
+    for (var eachType in widget.eCMEType) {
       doctorSelectionMap[eachType]=false;
       print(" $eachType");
     }
-    addShowDialogForVeryFirstTime(widget.doctorCategory,context);
+    addShowDialogForVeryFirstTime(widget.eCMEType,context);
     if(widget.docList!=null){
       result=widget.docList;
     }
@@ -141,6 +142,10 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
                                     doctorSelectionMap[key] = false;
                                   }
                                   doctorSelectionMap[doctorType[index]] = true;
+                                  if(doctorSelectionMap[doctorType[index]] == true){
+                                    eCmeType=doctorType[index];
+
+                                  }
                                 });
                               },
                             ),
@@ -161,6 +166,7 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
                             fontSize: 16,
                             onTapFuction: () {
                               Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             borderColor: const Color.fromARGB(255, 82, 179, 98),
                           ),
@@ -179,14 +185,14 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) => ECMEAddScreen(
-                                                docInfo: doctInfo
+                                                   docInfo: doctInfo, eCMEType: eCmeType,
                                                   )));
                               }
                               else{
                                 setState(() {
-                                   isDocListShow=true;
-                                  
+                                   isDocListShow=true;  
                                 });
+                                
                                 Navigator.pop(context);
                               }
                             },
@@ -205,8 +211,7 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
       setState(() {
         
       });
-      // Handle any post-modal actions
-      // setState(() {});
+      
     });
   });
 }
@@ -389,7 +394,7 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
                         context,
                         MaterialPageRoute(
                             builder: (_) => ECMEAddScreen(
-                              docInfo: doctInfo
+                              docInfo: doctInfo, eCMEType: eCmeType,
                                 )));
 
                },

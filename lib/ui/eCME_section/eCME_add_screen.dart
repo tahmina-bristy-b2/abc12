@@ -16,10 +16,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEAddScreen extends StatefulWidget {
   List<DocListECMEModel> docInfo;
+  String eCMEType;
 
   ECMEAddScreen(
       {super.key,
       required this.docInfo,
+      required this.eCMEType
       });
 
   @override
@@ -70,7 +72,6 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   List<List<dynamic>> dynamicRowsListForBrand = [];
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
   String? initialBrand;
-  String? selectedECMEType;
   List<String> docCategoryList=[];
   String? selcetDoctorCategory;
   String? selectedDepartment;
@@ -96,12 +97,8 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   void initState() {
     super.initState();
      eCMEAmountCOntroller.addListener((){
-      
-    //  print("ei je dataa chage");
-            setState(() {
-               print("ei je dataa chage");
-                    });
-        });
+      setState(() {});
+    });
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
@@ -167,7 +164,7 @@ getMessage(){
         },
       );
     }
-    //AllServices().toastMessage("Your total Budget is crossing the e-CME amount \n Please reduce you budget first", Colors.red, Colors.white, 16);
+
   }
 }
 
@@ -274,18 +271,7 @@ int totalParticipants() {
                         ),
                       ),
                     ),
-                    //  Padding(
-                    //   padding: const EdgeInsets.only(right: 10),
-                    //   child: IconButton(
-                    //     icon: const Icon(Icons.edit,
-                    //         size: 20, color: Color(0xff8AC995)),
-                    //     onPressed: () {
-                          
-                    //       Navigator.pop(context);
-                        
-                    //     },
-                    //   ),
-                    // )
+                 
                     
                   ],
                 ),
@@ -302,113 +288,6 @@ int totalParticipants() {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                "e-CME Type*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Container(
-                                       width: MediaQuery.of(context).size.width / 1.1,
-                                         height: 45,
-                                    decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
-                                    ),
-                                    child:   DropdownButtonHideUnderline(
-                                              child: DropdownButton2(
-                                                isExpanded: true,
-                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
-                                                  hint: const Text(
-                                                    '  Select e-CME Type',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                  items: eCMETypeList.map((String item) {
-                                                    return DropdownMenuItem(
-                                                      value: item, 
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 8),
-                                                        child: Text(
-                                                          item,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  value: selectedECMEType,
-                                                  onChanged: (value) {
-                                                    eCMEAmountCOntroller.clear();
-                                                    setState(() {
-                                                      selectedECMEType = value; 
-                                                      finalBrandListAftrRemoveDuplication.clear();
-                                                      eCMEAmountCOntroller.clear();
-                                                      dynamicRowsListForBrand.clear();
-                                                      hallRentController.clear();
-                                                      foodExpansesController.clear();
-                                                      giftController.clear();
-                                                      stationnairesController.clear();
-                                                      totalBudget=0;
-                                                    });
-                                                  },
-                                                  
-                                                 
-                                                  
-                                                buttonHeight: 50,
-                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
-                                                itemHeight: 40,
-                                                dropdownMaxHeight: 252,
-                                                searchController: brandSelectedController,
-                                                searchInnerWidgetHeight: 50,
-                                                searchInnerWidget: Container(
-                                                  height: 50,
-                                                  padding: const EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 4,
-                                                    right: 8,
-                                                    left: 8,
-                                                  ),
-                                                  child: TextFormField(
-                                                    expands: true,
-                                                    maxLines: null,
-                                                    controller: brandSelectedController,
-                                                    decoration: InputDecoration(
-                                                      fillColor: Colors.transparent,
-                                                      filled: true,
-                                                      isDense: true,
-                                                      contentPadding: const EdgeInsets.symmetric(
-                                                        horizontal: 6,
-                                                        vertical: 8,
-                                                      ),
-                                                      hintText: '  Search e-CME Type...',
-                                                      hintStyle: const TextStyle(fontSize: 14),
-                                                      border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                searchMatchFn: (item, searchValue) {
-                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
-                                                },
-                                                onMenuStateChange: (isOpen) {
-                                                  if (!isOpen) {
-                                                    brandSelectedController.clear();
-                                                  }
-                                                },
-                                                
-                                              ),
-                                            )
-                                                                                    
-                                
-                                ),
                                   const SizedBox(
                                 height: 10,
                               ),
@@ -765,7 +644,7 @@ int totalParticipants() {
                             const SizedBox(
                                 height: 6,
                               ),
-                            selectedECMEType!=null?    const Text(
+                            widget.eCMEType!=null?    const Text(
                                   "e_CME Amount *" ,
                                     style: TextStyle(
                                         fontSize: 15,
@@ -773,9 +652,9 @@ int totalParticipants() {
                                         fontWeight: FontWeight.w600),
                                   ):const SizedBox(),
                                    SizedBox(
-                                height:  selectedECMEType!=null?   6:0,
+                                height:  widget.eCMEType!=null?   6:0,
                               ),
-                                selectedECMEType!=null?    SizedBox(
+                                widget.eCMEType!=null?    SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
@@ -788,9 +667,9 @@ int totalParticipants() {
                                     ),
                                   ) : const SizedBox(),
                                    SizedBox(
-                                height:  selectedECMEType!=null?   10:0,
+                                height:  widget.eCMEType!=null?   10:0,
                               ),
-                     ( selectedECMEType!=null )?     Row(
+                     ( widget.eCMEType!=null )?     Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                  const  Text(
@@ -955,7 +834,7 @@ int totalParticipants() {
                               
                                     :const SizedBox(),
                                     const SizedBox(height: 10,),
-                                ( totalParticipants()>0 && eCMEAmountCOntroller.text.isNotEmpty&& selectedECMEType!=null )?   Row(
+                                ( totalParticipants()>0  )?   Row(
                                     children: [
                                         
                                         SizedBox(
@@ -1256,9 +1135,7 @@ int totalParticipants() {
                                     ),
                                     onTap: () async {
                                       double eCME= double.tryParse(eCMEAmountCOntroller.text)??0.0;
-                                      if (selectedECMEType == null) {
-                                              AllServices().toastMessage("Please Select eCME Type First", Colors.red, Colors.white, 16);
-                                            } else if (selectedExpiredDateString == "") {
+                                       if (selectedExpiredDateString == "") {
                                               AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
                                             } else if (selcetDoctorCategory == null) {
                                               AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
@@ -1376,7 +1253,7 @@ int totalParticipants() {
                                               height: wholeHeight / 25.309,
                                               child:  Center(
                                                 child: Text(
-                                                selectedECMEType=="RMP Meeting"?   "Sales Qty":"Rx objective per day",
+                                                widget.eCMEType=="RMP Meeting"?   "Sales Qty":"Rx objective per day",
                                                   style:const TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white,
@@ -1731,7 +1608,7 @@ int totalParticipants() {
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
-                                                           selectedECMEType=="RMP Meeting"? "Sales Qty*" :"Rx objective per day",
+                                                           widget.eCMEType=="RMP Meeting"? "Sales Qty*" :"Rx objective per day",
                                                             style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -1759,7 +1636,7 @@ int totalParticipants() {
                                                                   TextInputType
                                                                       .number,
                                                               controller:
-                                                                selectedECMEType=="RMP Meeting"?  salesQtyController : rxPerDayController,
+                                                                widget.eCMEType=="RMP Meeting"?  salesQtyController : rxPerDayController,
                                                               decoration:
                                                                   InputDecoration(
                                                                 border:
@@ -1843,11 +1720,11 @@ int totalParticipants() {
                                                                     if (initialBrand !=
                                                                         null)    
                                                                     {
-                                                                      if( selectedECMEType=="RMP Meeting"? salesQtyController.text!="": rxPerDayController.text!=""){
+                                                                      if( widget.eCMEType=="RMP Meeting"? salesQtyController.text!="": rxPerDayController.text!=""){
                                                                            dynamicRowsListForBrand.add([
                                                                             initialBrand,
                                                                            eCMEAmountCOntroller.text==""?"0": eCMEAmountCOntroller.text,
-                                                                            selectedECMEType=="RMP Meeting"? (salesQtyController.text == "" ? "0" : salesQtyController.text) :(rxPerDayController.text == "" ? "0" : rxPerDayController.text),
+                                                                            widget.eCMEType=="RMP Meeting"? (salesQtyController.text == "" ? "0" : salesQtyController.text) :(rxPerDayController.text == "" ? "0" : rxPerDayController.text),
                                                                             "0",
                                                                             "0"
                                                                            
@@ -1866,7 +1743,7 @@ int totalParticipants() {
                                                                      }
                                                                       else {
                                                                           AllServices().toastMessage(
-                                                                            selectedECMEType=="RMP Meeting"?  "Please Enter e_CME Amount  " :"Please Enter Rx objective per day",
+                                                                            widget.eCMEType=="RMP Meeting"?  "Please Enter e_CME Amount  " :"Please Enter Rx objective per day",
                                                                               Colors.red,
                                                                               Colors.white,
                                                                               16);
@@ -1918,7 +1795,7 @@ int totalParticipants() {
               meetingDate: selectedExpiredDateString,
               meetingTopic: meetingTopicController.text, 
               meetingVanue: meetingVenueController.text, 
-              eCMEType: selectedECMEType!,
+              eCMEType: widget.eCMEType,
               doctorCategory: selcetDoctorCategory!,
               institutionName:selcetDoctorCategory=="Institution"? institutionController.text:"", 
               departament:selcetDoctorCategory=="Institution"? selectedDepartment!:"", 

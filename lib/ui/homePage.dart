@@ -1709,7 +1709,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             context,
                                                             MaterialPageRoute(
                                                               builder: (_) => ECMEClientScreen(
-                                                                docList: _docList, doctorCategory: doctorType,
+                                                                docList: _docList, eCMEType: doctorType,
                                                                 
                                                                   
                                                                   ),

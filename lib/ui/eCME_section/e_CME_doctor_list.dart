@@ -2,6 +2,8 @@
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/services/eCME/eCME_services.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/cancel-button.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/widget/confirm_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,8 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEClientScreen extends StatefulWidget {
    List<DocListECMEModel> docList;
+   List doctorCategory;
    ECMEClientScreen({
-    super.key,required this.docList
+      super.key,
+      required this.docList,
+      required this.doctorCategory
     });
 
   @override
@@ -34,9 +39,16 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
   Map<String,bool> doctorSelectionMap={};
   List<DocListECMEModel> doctInfo=[];
   bool isConfirm=false;
+  bool isDocListShow=false;
 
   @override
   void initState() {
+    super.initState();
+    for (var eachType in widget.doctorCategory) {
+      doctorSelectionMap[eachType]=false;
+      print(" $eachType");
+    }
+    addShowDialogForVeryFirstTime(widget.doctorCategory,context);
     if(widget.docList!=null){
       result=widget.docList;
     }
@@ -44,7 +56,8 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       for (var element in result) {
         doctorSelectionMap[element.docId]=false;
       }}
-    
+
+   
     SharedPreferences.getInstance().then((prefs) {
       cid = prefs.getString("CID")!;
       userId = prefs.getString("USER_ID");
@@ -54,10 +67,149 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       territory = prefs.getString("Territory") ?? "";
       setState(() {});
     });
-
-    super.initState();
+  print("data save ");
+    
+    
   }
-
+  void refreshData() {
+    setState(() {
+      
+    });
+  }
+void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
+  Map<String, bool> doctorSelectionMap = {};
+  WidgetsBinding.instance!.addPostFrameCallback((_) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      isDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState2) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height/1.8, 
+              child: Column(
+                children: [
+                 const Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 10),
+                    child:  Text(
+                      "Select e-CME Type",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                    ),
+                    height: doctorType.length * 50,
+                    child: ListView.builder(
+                      itemCount: doctorType.length,
+                      itemBuilder: (context, index) {
+                        doctorSelectionMap.putIfAbsent(doctorType[index], () => false);
+                        return Theme(
+                          data: ThemeData(unselectedWidgetColor: Colors.grey),
+                          child: SizedBox(
+                            height: 45,
+                            child: CheckboxListTile(
+                              checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              activeColor: const Color.fromARGB(255, 138, 201, 149),
+                              title: Padding(
+                                padding: const EdgeInsets.fromLTRB(2, 2, 4, 2),
+                                child: ListTile(
+                                  title: Text(
+                                    doctorType[index],
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              value: doctorSelectionMap[doctorType[index]],
+                              onChanged: (bool? value) {
+                                setState2(() {
+                                  for (var key in doctorSelectionMap.keys) {
+                                    doctorSelectionMap[key] = false;
+                                  }
+                                  doctorSelectionMap[doctorType[index]] = true;
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CancelButtonWidget(
+                            buttonHeight: 60,
+                            fontColor: const Color.fromARGB(255, 82, 179, 98),
+                            buttonName: "Cancel",
+                            fontSize: 16,
+                            onTapFuction: () {
+                              Navigator.pop(context);
+                            },
+                            borderColor: const Color.fromARGB(255, 82, 179, 98),
+                          ),
+                        ),
+                        const SizedBox(width: 10,),
+                        Expanded(
+                          child: ConfirmButtonWidget(
+                            buttonHeight: 60,
+                            fontColor: Colors.white,
+                            buttonName: "OK",
+                            fontSize: 16,
+                            onTapFuction: () {
+                              if((doctorSelectionMap["Intern Reception"]==true)||(doctorSelectionMap["Society"]==true) ){
+                                doctInfo=[];
+                                Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => ECMEAddScreen(
+                                                docInfo: doctInfo
+                                                  )));
+                              }
+                              else{
+                                setState(() {
+                                   isDocListShow=true;
+                                  
+                                });
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    ).then((value) {
+      setState(() {
+        
+      });
+      // Handle any post-modal actions
+      // setState(() {});
+    });
+  });
+}
   @override
   void dispose() {
     searchController.dispose();
@@ -84,7 +236,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
               padding: const EdgeInsets.all(6.0),
               child: Row(
                 children: [
-                widget.docList!=null
+               ( widget.docList!=null &&  isDocListShow==true)
                       ? Expanded(
                           flex: 5,
                         child: SizedBox(
@@ -154,7 +306,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
               ),
             ),
            
-          widget.docList!=null?  Expanded(
+             ( widget.docList!=null &&  isDocListShow==true)?Expanded(
               child: ListView.builder(
                   itemCount: result.length,
                   itemBuilder: (context, index) {
@@ -213,7 +365,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                         ),
                       ),
                     );
-
                   
                   }),
             ):const SizedBox()

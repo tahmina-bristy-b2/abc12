@@ -131,7 +131,6 @@ double getTotalBudget() {
   double others = double.tryParse(stationnairesController.text) ?? 0.0;
   totalBudget = hall + food + gift + others ;
   totalBudgetController.text = totalBudget.toStringAsFixed(2);
-  //double eCMEAmount = double.tryParse(eCMESplitAmountController.text) ?? 0.0;
   totalBudget = hall + food + gift + others ;
   getMessage();
   
@@ -791,7 +790,7 @@ int totalParticipants() {
                                    SizedBox(
                                 height:  selectedECMEType!=null?   10:0,
                               ),
-                     ( selectedECMEType!=null &&  eCMEAmountCOntroller.text.isNotEmpty)?     Row(
+                     ( selectedECMEType!=null )?     Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                  const  Text(
@@ -810,7 +809,7 @@ int totalParticipants() {
                               const SizedBox(
                                 height: 10,
                               ),
-                             (dynamicRowsListForBrand.isNotEmpty && eCMEAmountCOntroller.text.isNotEmpty)
+                             (dynamicRowsListForBrand.isNotEmpty )
                                   ? brandDetailsWidget(wholeWidth, wholeHeight)
                                   : const SizedBox(),
                                  const SizedBox(height: 10,),
@@ -924,7 +923,7 @@ int totalParticipants() {
                                 height: 10,
                               ),
                                   
-                              ( totalParticipants()>0 && eCMEAmountCOntroller.text.isNotEmpty&& selectedECMEType!=null )? 
+                              ( totalParticipants()>0 )? 
                               Row(
                                     children: [
                                         
@@ -988,7 +987,7 @@ int totalParticipants() {
                            
                                     SizedBox(height:(  totalParticipants()>0 )? 10:0),
           
-                            ( totalParticipants()>0 && eCMEAmountCOntroller.text.isNotEmpty && selectedECMEType!=null )? const Text(
+                            ( totalParticipants()>0 )? const Text(
                                 "Budget breakdown*",
                                 style: TextStyle(
                                    fontSize: 15,
@@ -1295,8 +1294,7 @@ int totalParticipants() {
                                               AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
                                             } else if (payToController.text == "") {
                                               AllServices().toastMessage("Please enter pay reciever name ", Colors.red, Colors.white, 16);
-                                            }
-                                             else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
+                                            }else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
                                               AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
                                             }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
                                               AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);

@@ -1701,14 +1701,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
                                             if(eCMEDataModelData!=null ){
                                                       List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
-                                                      if(_docList.isNotEmpty)
+                                                      List doctorType =eCMEDataModelData.eCMETypeList;
+                                                      if(_docList.isNotEmpty && doctorType.isNotEmpty )
                                                       {
                                                         if (!mounted) return;
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
                                                               builder: (_) => ECMEClientScreen(
-                                                                docList: _docList,
+                                                                docList: _docList, doctorCategory: doctorType,
+                                                                
                                                                   
                                                                   ),
                                                             ),

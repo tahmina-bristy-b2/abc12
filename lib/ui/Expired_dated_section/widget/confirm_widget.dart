@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-
-
 class ConfirmButtonWidget extends StatelessWidget {
   double buttonHeight;
   String buttonName;

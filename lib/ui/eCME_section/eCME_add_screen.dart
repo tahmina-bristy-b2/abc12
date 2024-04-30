@@ -129,6 +129,8 @@ double getTotalBudget() {
   totalBudget = hall + food + gift + others ;
   totalBudgetController.text = totalBudget.toStringAsFixed(2);
   totalBudget = hall + food + gift + others ;
+  eCMEAmountCOntroller.text=totalBudget.toString();
+
   getMessage();
   
   getCostPerDoctor();
@@ -235,7 +237,7 @@ int totalParticipants() {
                 SizedBox(
                   height: wholeHeight / 75.927,
                 ),
-                const Align(
+               (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox(): const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                   padding:  EdgeInsets.only(left: 6),
@@ -248,12 +250,11 @@ int totalParticipants() {
                                   ),
                   ),
                 ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                Row(
-                  children: [
-                    
+               SizedBox(
+                   height:(widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?0 : 6,
+                   ),
+             (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox() :  Row(
+                  children: [  
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
@@ -275,8 +276,8 @@ int totalParticipants() {
                     
                   ],
                 ),
-                const SizedBox(
-                  height: 10
+                 SizedBox(
+                  height:(widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")? 10:0
                 ),
                 SizedBox(
                   child: Row(
@@ -640,64 +641,8 @@ int totalParticipants() {
                               ),
 
 
-                               
-                            const SizedBox(
-                                height: 6,
-                              ),
-                            widget.eCMEType!=null?    const Text(
-                                  "e_CME Amount *" ,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ):const SizedBox(),
-                                   SizedBox(
-                                height:  widget.eCMEType!=null?   6:0,
-                              ),
-                                widget.eCMEType!=null?    SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter e-CME Amount ----',  // if you change it,you have to chn the inputformatter too.
-                                      controller: eCMEAmountCOntroller,
-                                      textAlign: TextAlign.left, 
-                                      textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
-                                      focusNode: AlwaysDisabledFocusNode(),
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ) : const SizedBox(),
-                                   SizedBox(
-                                height:  widget.eCMEType!=null?   10:0,
-                              ),
-                     ( widget.eCMEType!=null )?     Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                 const  Text(
-                                    "Brand*",
-                                    style:  TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    width:  wholeWidth / 1.45,
-                                  ),
-                                  brandAddWidget( wholeHeight, wholeWidth, context)
-                                ],
-                              ):const SizedBox(),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                             (dynamicRowsListForBrand.isNotEmpty )
-                                  ? brandDetailsWidget(wholeWidth, wholeHeight)
-                                  : const SizedBox(),
-                                 const SizedBox(height: 10,),
+                              
                             
-                            (dynamicRowsListForBrand.isNotEmpty)
-                                  ?    const SizedBox(
-                                height: 10,
-                              ) :const SizedBox(),
-          
                                  Row(
                                      children: [ 
                                         SizedBox(
@@ -873,7 +818,7 @@ int totalParticipants() {
                                    color: Color.fromARGB(255, 0, 0, 0),
                                    fontWeight: FontWeight.w600),
                               ) :const SizedBox(),
-                            (   totalParticipants()>0&& eCMEAmountCOntroller.text.isNotEmpty )?  Column(
+                            (   totalParticipants()>0)?  Column(
                                 children: [
                                   BudgetBreakDownRowWidget(
                                     routingName: 'budget',
@@ -927,6 +872,60 @@ int totalParticipants() {
                                const SizedBox(
                                 height: 10 ,
                               ),
+                              widget.eCMEType!=null?    const Text(
+                                  "e_CME Amount *" ,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ):const SizedBox(),
+                                   SizedBox(
+                                height:  widget.eCMEType!=null?   6:0,
+                              ),
+                                widget.eCMEType!=null?    SizedBox(
+                                  width: MediaQuery.of(context).size.width / 1.1,
+                                  height: 45,
+                                  child: CustomtextFormFiledWidget(
+                                     hinText: '----Enter e-CME Amount ----',  // if you change it,you have to chn the inputformatter too.
+                                      controller: eCMEAmountCOntroller,
+                                      textAlign: TextAlign.left, 
+                                      textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
+                                      focusNode: AlwaysDisabledFocusNode(),
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                  ) : const SizedBox(),
+                                   SizedBox(
+                                height:  widget.eCMEType!=null?   10:0,
+                              ),
+                     ( widget.eCMEType!=null )?     Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                 const  Text(
+                                    "Brand*",
+                                    style:  TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    width:  wholeWidth / 1.45,
+                                  ),
+                                  brandAddWidget( wholeHeight, wholeWidth, context)
+                                ],
+                              ):const SizedBox(),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                             (dynamicRowsListForBrand.isNotEmpty )
+                                  ? brandDetailsWidget(wholeWidth, wholeHeight)
+                                  : const SizedBox(),
+                                 const SizedBox(height: 10,),
+                            
+                            (dynamicRowsListForBrand.isNotEmpty)
+                                  ?    const SizedBox(
+                                height: 10,
+                              ) :const SizedBox(),
+          
                               const Text(
                                   "Pay Mode *" ,
                                     style: TextStyle(

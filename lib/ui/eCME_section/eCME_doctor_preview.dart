@@ -59,7 +59,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
           child: Column(
             children: [
                 
-              Padding(
+        ((widget.eCMESubmitDataModel.eCMEType== "Intern Reception")|| (widget.eCMESubmitDataModel.eCMEType== "Society") )?const SizedBox()  :Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +75,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                 ),
               ),
 
-              Padding(
+           ( (widget.eCMESubmitDataModel.eCMEType== "Intern Reception")|| (widget.eCMESubmitDataModel.eCMEType== "Society") )?const SizedBox()  :   Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                  child:  Row(
                   children: [
@@ -798,6 +798,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16);
       if (!mounted) return;
+      Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);

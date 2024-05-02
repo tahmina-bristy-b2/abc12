@@ -12,6 +12,7 @@ import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eCME_section/approval/eCME_fm_List_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/e_CME_doctor_list.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
@@ -1698,98 +1699,55 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: CustomBuildButton(
                                           icon: Icons.add,
                                           onClick: () async {
-                                            ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                            if(eCMEDataModelData!=null ){
-                                                      List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
-                                                      List doctorType =eCMEDataModelData.eCMETypeList;
-                                                      if(_docList.isNotEmpty && doctorType.isNotEmpty )
-                                                      {
-                                                        if (!mounted) return;
-                                                          Navigator.push(
+                                            Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                              builder: (_) => ECMEClientScreen(
-                                                                docList: _docList, eCMEType: doctorType,
-                                                                
-                                                                  
-                                                                  ),
+                                                              builder: (_) => PdfPage()
                                                             ),
                                                           );
-                                                      }else{
-                                                        AllServices().toastMessage(
-                                                          'No e-CME doctor found ',
-                                                          Colors.red,
-                                                          Colors.white,
-                                                          16);
 
-
-                                                      }
-
-                                                    }
-                                                    else{
-                                                        AllServices().toastMessage(
-                                                          'e_CME Sync First ',
-                                                          Colors.red,
-                                                          Colors.white,
-                                                          16);
-
-                                                    }
+                                           
 
 
 
+                                            // ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                            // if(eCMEDataModelData!=null ){
+                                            //           List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
+                                            //           List doctorType =eCMEDataModelData.eCMETypeList;
+                                            //           if(_docList.isNotEmpty && doctorType.isNotEmpty )
+                                            //           {
+                                            //             if (!mounted) return;
+                                            //               Navigator.push(
+                                            //                 context,
+                                            //                 MaterialPageRoute(
+                                            //                   builder: (_) => ECMEClientScreen(
+                                            //                     docList: _docList, eCMEType: doctorType,
+                                                                
+                                                                  
+                                            //                       ),
+                                            //                 ),
+                                            //               );
+                                            //           }else{
+                                            //             AllServices().toastMessage(
+                                            //               'No e-CME doctor found ',
+                                            //               Colors.red,
+                                            //               Colors.white,
+                                            //               16);
 
 
+                                            //           }
+
+                                            //         }
+                                            //         else{
+                                            //             AllServices().toastMessage(
+                                            //               'e_CME Sync First ',
+                                            //               Colors.red,
+                                            //               Colors.white,
+                                            //               16);
+
+                                            //         }
 
 
-
-
-
-
-
-                                          //   List dcrList = await AllServices()
-                                          //     .getSyncSavedData('dcrListData');
-                                          
-                                          //   if (userInfo!.areaPage) {
-                                          //   if (!mounted) return;
-                                          //   Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (_) => AreaPage(
-                                          //               screenName: 'e-CME',
-                                          //             )),
-                                          //   );
-                                          // } else if (dcrList.isNotEmpty) {
-                                          //     ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                          //           if(eCMEDataModelData!=null){
-                                          //             if (!mounted) return;
-                                          //             Navigator.push(
-                                          //               context,
-                                          //               MaterialPageRoute(
-                                          //                 builder: (_) => ECMEDoctorList(
-                                          //                     dcrDataList: dcrList),
-                                          //               ),
-                                          //             );
-
-                                          //           }
-                                          //           else{
-                                          //               AllServices().toastMessage(
-                                          //                 'e_CME Sync First ',
-                                          //                 Colors.red,
-                                          //                 Colors.white,
-                                          //                 16);
-
-                                          //           }
-
-
-                                          // } else {
-                                          //   AllServices().toastMessage(
-                                          //       'Doctor List Empty!',
-                                          //       Colors.red,
-                                          //       Colors.white,
-                                          //       16);
-                                          // }
-
-   
                                            
                                           },
                                           title: 'Add e-CME',

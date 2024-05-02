@@ -37,7 +37,17 @@ class _PdfPageState extends State<PdfPage> {
       appBar: AppBar(
         title: const Text("Flutter PDF"),
       ),
+      // body:Column(
+      //   children: [
+      //     ElevatedButton(onPressed:(){
+      //       createPDFAndPrint(context);
+      //     } , child: const Text("print"))
+      //   ],
+        
+      // )
       body: PdfPreview(
+        allowSharing: true,
+        allowPrinting: true,
         maxPageWidth: 700,
         actions: acitons,
         onPrinted: showPrintedToast,
@@ -47,3 +57,6 @@ class _PdfPageState extends State<PdfPage> {
     );
   }
 }
+
+
+

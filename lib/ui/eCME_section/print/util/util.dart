@@ -13,28 +13,26 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
   // final footerImage = pw.MemoryImage(
   //     (await rootBundle.load('assets/images/footer.png')).buffer.asUint8List());
   final font = await rootBundle.load('assets/Montserrat-Regular.ttf');
-  final ttf = pw.Font.ttf(font);
 
   //final pageTheme = await _myPageTheme(format);
   List<List<String>> tableData = [
     ['Expense Particulars ', 'Expense amount(Taka)', 'Remarks'],
-    ['Morning/Evenning Refreshment', '', ''],
-    ['Lunch/Dinner/Snacks', '', ''],
-    ['Stationaries(Pen,Photocopies etc)', '', ''],
-    ['Gifts or souvenir', '', ''],
-    ['Miscellaneous(Banner,Sound etc)', '', ''],
+    ['1. Morning/Evenning Refreshment', '', ''],
+    ['2. Lunch/Dinner/Snacks', '', ''],
+    ['3. Stationaries(Pen,Photocopies etc)', '', ''],
+    ['4. Gifts or souvenir', '', ''],
+    ['5. Miscellaneous(Banner,Sound etc)', '', ''],
    
-     ['', '', ''],
-     ['Total :', '', ''],
-     ['In words :', '', ''],
+     ['TOTAL :', '', ''],
+     ['IN WORDS :', '', ''],
   ];
 
   List<List<String>> secondTable = [
     ['', 'Amount'],
     ['Advance Recieved (MI Number:......, Date:.......)[If approprite]', '' ],
+    ["Total Expense",""],
     ['Amount Payable by/Refundable to the Company(TK)', ''],
     ['In words :', '', ],
-   
     
   ];
 
@@ -43,22 +41,27 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
     //  pageTheme: pageTheme,
       header: (final context) => pw.Column(
         children: [
-          pw.Center(child: pw.Text("SK+F",style:const pw.TextStyle(fontSize: 24,color: PdfColors.blue ))),
-         
-          pw.Center(child: pw.Text("Eskayef Pharmaceuticals Limited",style:const pw.TextStyle(fontSize: 20 ))),
-          pw.SizedBox(height: 3)
+          pw.Center(child: pw.Text("SK+F",style: pw.TextStyle(fontSize: 21,color: PdfColors.blue,fontWeight:pw.FontWeight.bold ))),
+          pw.Center(child: pw.Text("Eskayef Pharmaceuticals Limited",style: pw.TextStyle(fontSize: 18,fontWeight: pw.FontWeight.bold ))),
+          pw.SizedBox(height: 8),
+          pw.Center(child: pw.Text("Top sheet on",style:const pw.TextStyle(fontSize: 9 ))),
+          pw.Center(child: pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.center,
+            children: [
+            pw.Text("Clinical / RMP / PGO / Intern Reception Meeting Expense bill ",style: pw.TextStyle(fontSize: 10,fontWeight: pw.FontWeight.bold)),
+            pw.Text("(Please specify by tick mark)",style:const pw.TextStyle(fontSize: 8))
+          ])),
+          pw.SizedBox(height: 2),
+          pw.Container(height: 0.5,color: PdfColors.black),
+          pw.SizedBox(height: 10)
         ]
-        //   alignment: pw.Alignment.topLeft,
-        //  // logoImage,
-        //   fit: pw.BoxFit.contain,
-        //   width: 180
+       
           
           ),
-      // footer: (final context) =>
-      //     pw.Image(footerImage, fit: pw.BoxFit.scaleDown),
+      
       build: (final context) => [
         pw.Container(
-          padding: const pw.EdgeInsets.only(left: 5, bottom: 8),
+          padding: const pw.EdgeInsets.only( bottom: 6),
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.center,
             mainAxisAlignment: pw.MainAxisAlignment.start,
@@ -66,14 +69,14 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
               pw.Row(children: [
                 pw.Expanded(flex: 2,
                 child: pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text("BILL SUBMISSION DATE :",style:const pw.TextStyle(fontSize: 9))
+                child: pw.Text("BILL SUBMISSION DATE :",style: pw.TextStyle(fontSize: 8,fontWeight: pw.FontWeight.bold))
                 )),
                 pw.Expanded(flex: 2,
                 child: pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text("ID NUMBER OF ASM/RSM:",style:const pw.TextStyle(fontSize: 9))
+                child: pw.Text("ID NUMBER OF ASM/RSM:",style: pw.TextStyle(fontSize: 8,fontWeight: pw.FontWeight.bold))
                 )),
               ]),
-              pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+              pw.Padding(padding: const pw.EdgeInsets.only(top: 10)),
               expenseTableRowWidget("NAME & TERR.CODE OF AM/FM ", ""),
               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("NAME & REGION OF ASM/RSM  ", ""),
@@ -95,17 +98,17 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
           ),
         ),
     
-        pw.SizedBox(height: 4),
+        pw.SizedBox(height: 2),
         pw.Table.fromTextArray(
           context: context,
           data: tableData,
-          headerStyle: pw.TextStyle(font: ttf, fontWeight: pw.FontWeight.bold,fontSize: 9),
-          cellStyle: pw.TextStyle(font: ttf,fontSize: 7),
+          headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8),
+          cellStyle: pw.TextStyle(fontSize: 6,fontWeight:pw.FontWeight.bold),
           border: pw.TableBorder.all(width: 0.5),
           headerDecoration: const pw.BoxDecoration(
-            color: PdfColors.grey300,
+            color: PdfColors.grey100
           ),
-          cellHeight: 9,
+          cellHeight: 8,
           headerHeight: 12,
           cellAlignments: {
             0: pw.Alignment.centerLeft,
@@ -113,18 +116,18 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
             2: pw.Alignment.center,
           },
         ),
-        pw.SizedBox(height: 3),
+        pw.SizedBox(height: 8),
         pw.Table.fromTextArray(
           context: context,
           data: secondTable,
-          headerStyle: pw.TextStyle(font: ttf, fontWeight: pw.FontWeight.bold,fontSize: 9),
-          cellStyle: pw.TextStyle(font: ttf,fontSize: 7),
+          headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8,),
+          cellStyle: pw.TextStyle(fontSize: 6,fontWeight:pw.FontWeight.bold),
           border: pw.TableBorder.all(width: 0.5),
           headerDecoration: const pw.BoxDecoration(
-            color: PdfColors.grey300,
+            color: PdfColors.grey100,
           ),
-          cellHeight: 9,
-          headerHeight: 12,
+          cellHeight: 6,
+          headerHeight: 10,
           cellAlignments: {
             0: pw.Alignment.centerLeft,
             1: pw.Alignment.centerRight,
@@ -132,7 +135,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
           },
         ),
 
-        pw.SizedBox(height: 35),
+        pw.SizedBox(height: 40),
         
         pw.Container(
           height: 14,
@@ -150,12 +153,11 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
             ]
           )
         ),
-        pw.SizedBox(height: 30),
+        pw.SizedBox(height: 40),
         pw.Container(
           height: 14,
           child: pw.Row(
             children:[
-            
               signatureWIdget("Recommended by","AGM,Medical Affairs",),
               pw.SizedBox(width: 10,),
               signatureWIdget("Approved By","HOS/GM Sales",),
@@ -163,7 +165,6 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
               signatureWIdget("Approved By","GM Marketing",),
               pw.SizedBox(width: 10,),
               signatureWIdget("Approved By","Additional Director\nMarketing & Sales",),
-               
             ]
           )
         ),
@@ -178,10 +179,10 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
               pw.Row(children: [
                 pw.Expanded(flex: 2,
                 child: pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text("Finance & Administration Department ",style: pw.TextStyle(fontWeight:pw.FontWeight.bold,fontSize: 10))
+                child: pw.Text("Finance & Administration Department",style: pw.TextStyle(fontWeight:pw.FontWeight.bold,fontSize: 9))
                 )),
                 pw.SizedBox(child: pw.Text(":")),
-                 pw.Expanded(flex: 2,
+                 pw.Expanded(flex: 3,
                 child: pw.Text("")),
               ]),
               
@@ -198,29 +199,31 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
                 flex: 2,
                 child: pw.Column(
                     children: [
-                      pw.Container(color:PdfColors.black,height: 1,width: 100),
-                      pw.Expanded(child: pw.Text("Checked by",style:const pw.TextStyle(fontSize: 9))),
+                      pw.Container(color:PdfColors.black,height: 0.6,),
+                      pw.Expanded(child: pw.Text("Checked by",style:const pw.TextStyle(fontSize: 8))),
                     
 
                     ],
                   ),
               ),
+              pw.SizedBox(width: 15),
                pw.Expanded(
                 flex: 2,
                 child: pw.Column(
                     children: [
-                      pw.Container(color:PdfColors.black,height: 1,width: 100),
-                      pw.Expanded(child: pw.Text("verified By",style:const pw.TextStyle(fontSize: 9))),
+                      pw.Container(color:PdfColors.black,height: 0.6),
+                      pw.Expanded(child: pw.Text("Verified By",style:const pw.TextStyle(fontSize: 8))),
                       
                     ],
                   ),
               ),
+              pw.SizedBox(width: 15),
                pw.Expanded(
                 flex: 4,
                 child: pw.Column(
                     children: [
-                      pw.Container(color:PdfColors.black,height: 1,width: 200),
-                      pw.Expanded(child: pw.Text("Approved for Payment",style:const pw.TextStyle(fontSize: 9))),
+                      pw.Container(color:PdfColors.black,height: 0.6),
+                      pw.Expanded(child: pw.Text("Approved for Payment",style:const pw.TextStyle(fontSize: 8))),
                      
 
                     ],
@@ -230,7 +233,27 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
                
             ]
           )
-        )
+        ),
+        pw.SizedBox(height:8 ),
+        pw.Column(
+           mainAxisAlignment: pw.MainAxisAlignment.center,
+           crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+         
+          pw.Container(color:PdfColors.black,height: 1),
+          pw.SizedBox(height: 1),
+          pw.Align(alignment: pw.Alignment.centerLeft,child:pw.Text("Note: Each Clinical /RMP /PGD / Intern Reception Meeting Expense bill MUST be submitted with :",style: pw.TextStyle(fontSize: 6,fontWeight:pw.FontWeight.bold),),)
+          ,pw.SizedBox(height: 1),
+          pw.Container(color:PdfColors.black,height: 1),
+          
+          pw.Padding(padding:const pw.EdgeInsets.only(left: 15),child: pw.Text("1. Copy of duty signed Approval letter (in the oofice format)",style: pw.TextStyle(fontSize: 5,fontWeight:pw.FontWeight.bold)), ),
+          pw.SizedBox(height: 1),
+          pw.Padding(padding:const pw.EdgeInsets.only(left: 15),child: pw.Text("2. Meeting feedback report by relevant MSO and cross signed by relevant A/FM and Regional Head",style: pw.TextStyle(fontSize: 5,fontWeight:pw.FontWeight.bold)), ),
+          pw.SizedBox(height: 1),
+          pw.Padding(padding:const pw.EdgeInsets.only(left: 15),child: pw.Text("3. List of Doctors who have attended the meeting (name,degree,chamber address, mobile number,email ID,)",style: pw.TextStyle(fontSize: 5,fontWeight:pw.FontWeight.bold)), ),
+         
+          pw.Container(color:PdfColors.black,height: 1),
+        ])
       ],
     ),
   );
@@ -241,42 +264,23 @@ pw.Expanded signatureWIdget(String title,String designation) {
   return pw.Expanded(
               child: pw.Column(
                   children: [
-                    pw.Container(color:PdfColors.black,height: 1),
+                    pw.Container(color:PdfColors.black,height: 0.6),
                     pw.SizedBox(height: 2),
                     pw.Expanded(child: pw.Text(title,style:const pw.TextStyle(fontSize: 5))),
-                  
-                    pw.Expanded(child: pw.Text(designation,style:const pw.TextStyle(fontSize: 7))),
+                    pw.Expanded(child: pw.Text(designation,style:const pw.TextStyle(fontSize: 6))),
 
                   ],
                 ),
             );
 }
 
-// Future<pw.PageTheme> _myPageTheme(PdfPageFormat format) async {
-//   final logoImage = pw.MemoryImage(
-//       (await rootBundle.load('assets/images/watermark.png')).buffer.asUint8List());
-//   return pw.PageTheme(
-//       margin: const pw.EdgeInsets.symmetric(
-//           horizontal: 1 * PdfPageFormat.cm, vertical: 0.5 * PdfPageFormat.cm),
-//       textDirection: pw.TextDirection.ltr,
-//       orientation: pw.PageOrientation.portrait,
-//       buildBackground: (final context) => pw.FullPage(
-//           ignoreMargins: true,
-//           child: pw.Watermark(
-//               angle: 20,
-//               child: pw.Opacity(
-//                   opacity: 0.3,
-//                   child: pw.Image(
-//                       alignment: pw.Alignment.center,
-//                       logoImage,
-//                       fit: pw.BoxFit.cover)))));
-// }
+
 
 pw.Row expenseTableRowWidget(String title, String value) {
   return pw.Row(children: [
                 pw.Expanded(flex: 2,
                 child: pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text(title,style:const pw.TextStyle(fontSize: 9))
+                child: pw.Text(title,style: pw.TextStyle(fontSize: 8,fontWeight: pw.FontWeight.bold))
                 )),
                 pw.SizedBox(child: pw.Text(":")),
                  pw.Expanded(flex: 3,
@@ -321,7 +325,7 @@ void showPrintedToast(final BuildContext context) async {
   try {
     final result = await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async {
-        return generatePdf(format); // Call your function to generate the PDF
+        return generatePdf(format); 
       },
     );
     if (result) {
@@ -340,6 +344,19 @@ void showPrintedToast(final BuildContext context) async {
     );
   }
 }
+
+// void createPDFAndPrint(final BuildContext context) async{
+//   final doc= pw.Document();
+//   doc.addPage(
+//     pw.Page(
+//       pageFormat: PdfPageFormat.a4,
+//       build:(pw.Context context){
+//         return pw.Center(child: pw.Text("heloo"));
+//       }
+//     )
+//   );
+//   await Printing.layoutPdf(onLayout:( PdfPageFormat format) async=>await doc.save());
+// }
 
 void showSharedToast(final BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(

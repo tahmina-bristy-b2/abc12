@@ -801,7 +801,8 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.pop(context);
+      
+      
     } else {
       setState(() {
         isPreviewLoading = false;

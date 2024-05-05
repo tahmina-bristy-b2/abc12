@@ -29,22 +29,14 @@ class _PdfPageState extends State<PdfPage> {
   Widget build(BuildContext context) {
     pw.RichText.debug = true;
     final acitons = <PdfPreviewAction>[
-      // if (!kIsWeb)
-      //   const PdfPreviewAction(icon: Icon(Icons.save), onPressed: saveAsFile)
+     
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter PDF"),
       ),
-      // body:Column(
-      //   children: [
-      //     ElevatedButton(onPressed:(){
-      //       createPDFAndPrint(context);
-      //     } , child: const Text("print"))
-      //   ],
-        
-      // )
+     
       body: PdfPreview(
         allowSharing: true,
         allowPrinting: true,

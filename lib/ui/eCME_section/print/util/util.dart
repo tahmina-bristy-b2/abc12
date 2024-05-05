@@ -9,12 +9,8 @@ import 'package:printing/printing.dart';
 Future<Uint8List> generatePdf(final PdfPageFormat format) async {
   final doc = pw.Document(title: 'Flutter School');
   // final logoImage = pw.MemoryImage(
-  //     (await rootBundle.load('assets/images/pigeon.png')).buffer.asUint8List());
-  // final footerImage = pw.MemoryImage(
-  //     (await rootBundle.load('assets/images/footer.png')).buffer.asUint8List());
+  
   final font = await rootBundle.load('assets/Montserrat-Regular.ttf');
-
-  //final pageTheme = await _myPageTheme(format);
   List<List<String>> tableData = [
     ['Expense Particulars ', 'Expense amount(Taka)', 'Remarks'],
     ['1. Morning/Evenning Refreshment', '', ''],
@@ -38,7 +34,6 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
 
   doc.addPage(
     pw.MultiPage(
-    //  pageTheme: pageTheme,
       header: (final context) => pw.Column(
         children: [
           pw.Center(child: pw.Text("SK+F",style: pw.TextStyle(fontSize: 21,color: PdfColors.blue,fontWeight:pw.FontWeight.bold ))),
@@ -289,28 +284,17 @@ pw.Row expenseTableRowWidget(String title, String value) {
 
 }
 
-// Future<void> saveAsFile(final BuildContext context, final LayoutCallback build,
-//     final PdfPageFormat pageFormat) async {
-//   final bytes = await build(pageFormat);
-//   final appDocDir = await getApplicationDocumentsDirectory();
-//   final appDocPath = appDocDir.path;
-//   final file = File('$appDocPath/document.pdf');
-//   print("save as file ${file.path}.......");
-//   await file.writeAsBytes(bytes);
-//   await OpenFile.open(file.path);
-// }
+
 Future<void> saveAsFile(
   final BuildContext context,
   final LayoutCallback build,
   final PdfPageFormat pageFormat,
-  final String filePath, // Add a parameter for the file path
+  final String filePath,
 ) async {
   try {
     final bytes = await build(pageFormat);
     final file = File(filePath);
     await file.writeAsBytes(bytes);
-    print("File saved at: ${file.path}");
-    // You might want to show a message to the user indicating successful saving
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("PDF saved at: ${file.path}")),
     );
@@ -344,19 +328,6 @@ void showPrintedToast(final BuildContext context) async {
     );
   }
 }
-
-// void createPDFAndPrint(final BuildContext context) async{
-//   final doc= pw.Document();
-//   doc.addPage(
-//     pw.Page(
-//       pageFormat: PdfPageFormat.a4,
-//       build:(pw.Context context){
-//         return pw.Center(child: pw.Text("heloo"));
-//       }
-//     )
-//   );
-//   await Printing.layoutPdf(onLayout:( PdfPageFormat format) async=>await doc.save());
-// }
 
 void showSharedToast(final BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(

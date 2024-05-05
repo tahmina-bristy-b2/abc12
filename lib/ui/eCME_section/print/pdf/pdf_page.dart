@@ -1,10 +1,13 @@
+import 'package:MREPORTING/models/e_CME/e_CME_approval_data_model.dart';
 import 'package:MREPORTING/ui/eCME_section/print/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfPage extends StatefulWidget {
-  const PdfPage({Key? key}) : super(key: key);
+  EcmeBrandListDataModel? eCMEApprovalData;
+   PdfPage({super.key,required this.eCMEApprovalData}) ;
 
   @override
   State<PdfPage> createState() => _PdfPageState();
@@ -12,6 +15,7 @@ class PdfPage extends StatefulWidget {
 
 class _PdfPageState extends State<PdfPage> {
   PrintingInfo? printingInfo;
+  
   @override
   void initState() {
     super.initState();
@@ -28,6 +32,7 @@ class _PdfPageState extends State<PdfPage> {
   @override
   Widget build(BuildContext context) {
     pw.RichText.debug = true;
+    
     final acitons = <PdfPreviewAction>[
      
     ];
@@ -36,15 +41,15 @@ class _PdfPageState extends State<PdfPage> {
       appBar: AppBar(
         title: const Text("Flutter PDF"),
       ),
-     
       body: PdfPreview(
         allowSharing: true,
         allowPrinting: true,
         maxPageWidth: 700,
+
         actions: acitons,
-        onPrinted: showPrintedToast,
+        onPrinted: (BuildContext context) => showPrintedToast(context,widget.eCMEApprovalData!) ,
         onShared: showSharedToast,
-        build: generatePdf,
+        build: (PdfPageFormat format) => generatePdf(format,widget.eCMEApprovalData!),
       ),
     );
   }

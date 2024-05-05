@@ -240,17 +240,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 10),
-                    //   child: IconButton(
-                    //     icon: const Icon(Icons.edit,
-                    //         size: 20, color: Color(0xff8AC995)),
-                    //     onPressed: () {
-                    //       Navigator.pop(context);
-                        
-                    //     },
-                    //   ),
-                    // )
+                   
                   ],
                 ),
               ),
@@ -989,8 +979,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                                     setState(() {
                                       isPressed = true;
                                     });
-                                    // String approvedEdsrParams =
-                                    //     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Approved";
+                                    
                                     approvedOrRejectedECME(dsrDetails!.resData.dataList[index].sl,
                                         "Approved", index);
                                   },

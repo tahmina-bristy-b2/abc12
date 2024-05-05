@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:MREPORTING/models/e_CME/e_CME_approval_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
@@ -6,7 +7,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 
-Future<Uint8List> generatePdf(final PdfPageFormat format) async {
+Future<Uint8List> generatePdf(final PdfPageFormat format, EcmeBrandListDataModel eCMEApprovalData) async {
+
   final doc = pw.Document(title: 'Flutter School');
   // final logoImage = pw.MemoryImage(
   
@@ -110,6 +112,11 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
             1: pw.Alignment.centerRight,
             2: pw.Alignment.center,
           },
+          columnWidths: {
+            0: const pw.FlexColumnWidth(2),
+            1: const pw.FlexColumnWidth(1), 
+            2:const pw.FlexColumnWidth(2), 
+          },
         ),
         pw.SizedBox(height: 8),
         pw.Table.fromTextArray(
@@ -185,7 +192,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format) async {
             ],
           ),
         ),
-         pw.SizedBox(height: 30),
+         pw.SizedBox(height: 20),
         pw.Container(
           height: 15,
           child: pw.Row(
@@ -305,11 +312,11 @@ Future<void> saveAsFile(
     );
   }
 }
-void showPrintedToast(final BuildContext context) async {
+void showPrintedToast(final BuildContext context,EcmeBrandListDataModel eCMEApprovalData) async {
   try {
     final result = await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async {
-        return generatePdf(format); 
+        return generatePdf(format,eCMEApprovalData); 
       },
     );
     if (result) {

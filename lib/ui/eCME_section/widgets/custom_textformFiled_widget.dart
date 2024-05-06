@@ -37,15 +37,17 @@ class CustomtextFormFiledWidget extends StatelessWidget {
                             
                                     autofocus:false,
                                     controller: controller,
-                                    focusNode:hinText==""? focusNode:null,
-                                    readOnly:hinText==""?true:false ,
+                                    focusNode:(hinText==""|| hinText=="----Enter e-CME Amount ----")? focusNode:null,
+                                    readOnly:(hinText==""|| hinText=="----Enter e-CME Amount ----")?true:false ,
                                     style:textStyle,
                                     textAlign:textAlign,
+                                    
                                     keyboardType: hinText=="----Enter e-CME Amount ----"? TextInputType.number: TextInputType.text,
                                       inputFormatters: hinText=="----Enter e-CME Amount ----"? [FilteringTextInputFormatter.allow(RegExp("[0-9]"))]:[],
                                     decoration: InputDecoration(
                                       hintText: hinText,
                                        border: InputBorder.none,
+                                       
                                       filled: true,
                                       fillColor: Colors.transparent,
                                       suffixIcon: suffixIcon,

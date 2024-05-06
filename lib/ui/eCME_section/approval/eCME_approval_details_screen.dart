@@ -202,7 +202,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
         child: Column(
           children: [
 
-             Padding(
+            ((dsrDetails!.resData.dataList[index].ecmeType== "Intern Reception")|| (dsrDetails!.resData.dataList[index].ecmeType== "Society") )?const SizedBox()  :   Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,7 +218,7 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                 ),
               ),
 
-              Padding(
+             ((dsrDetails!.resData.dataList[index].ecmeType== "Intern Reception")|| (dsrDetails!.resData.dataList[index].ecmeType== "Society") )?const SizedBox()  :   Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
                  child:  Row(
                   children: [

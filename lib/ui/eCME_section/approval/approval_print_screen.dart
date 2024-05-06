@@ -1018,7 +1018,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                 backgroundColor: isPressed
                                     ? Colors.grey
                                     : const Color.fromARGB(255, 44, 114, 66),
-                                 fixedSize: const Size(310, 30)
+                                 fixedSize: const Size(350, 40)
                                  ),
                             child: const Text('Print/PDF'),
                           ),

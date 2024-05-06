@@ -176,7 +176,7 @@ int totalParticipants() {
     (int.tryParse(doctorParticipantCount.text) ?? 0) +
     (int.tryParse(internDoctorController.text) ?? 0) +
     (int.tryParse(dmfDoctorController.text) ?? 0) +
-    (int.tryParse(nursesController.text) ?? 0)+ (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersParticipantsController.text) ?? 0); 
+    (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersParticipantsController.text) ?? 0); 
   getCostPerDoctor();
   setState(() {
     

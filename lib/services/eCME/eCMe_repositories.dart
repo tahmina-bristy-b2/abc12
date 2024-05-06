@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_approval_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_ff_list_data_model_approval.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCME_data_provider.dart';
@@ -187,6 +188,43 @@ class ECMERepositry{
     }
 
     return resData;
+  }
+
+
+  //=================================== eCME Approval Print =========================================
+  Future<ApprovedPrintDataModel?> getECMEPrintDetails(
+     String approveEDSRUrl, String cid, String userId,
+          String userPass, String fromDate,String toDate
+  ) async {
+    ApprovedPrintDataModel? approvedPrintData;
+    try {
+      http.Response response = await ECMEDataProviders().getECMEApprovedPrint(approveEDSRUrl, cid, userId, userPass, fromDate, toDate);
+      var resData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (resData["res_data"]["status"] == "Success") {
+          print("data ==${resData["res_data"]["status"]}");
+          if(resData["res_data"]["data_list"].isNotEmpty){
+            approvedPrintData = approvedPrintDataModelFromJson(response.body);
+            return approvedPrintData;
+          }
+          
+        } else {
+          AllServices().toastMessage(
+              resData["res_data"]["Massage"].toString(), Colors.red, const Color.fromARGB(255, 9, 7, 7), 14);
+          return approvedPrintData;
+        }
+      } else {
+        AllServices().toastMessage(
+            "System Unable to reach the Server,\n StatusCode: ${response.statusCode}",
+            Colors.red,
+            Colors.white,
+            14);
+      }
+    } catch (e) {
+      AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
+    }
+
+    return approvedPrintData;
   }
 
 

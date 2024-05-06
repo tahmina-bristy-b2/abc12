@@ -127,4 +127,25 @@ class ECMEDataProviders{
     );
     return response;
   }
+
+  //=====================  approval print =======================================
+  Future<http.Response> getECMEApprovedPrint(
+    String approveEDSRUrl, String cid, String userId,
+          String userPass, String fromDate,String toDate
+  ) async {
+    final http.Response response;
+    print("eCMe print data ${ECMEApis.eCMEApprovedPrint(approveEDSRUrl, cid, userId, userPass, fromDate, toDate)}");
+    response = await http.get(
+      Uri.parse(ECMEApis.eCMEApprovedPrint(approveEDSRUrl, cid, userId, userPass, fromDate, toDate)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
+
+
+
+
+
 }

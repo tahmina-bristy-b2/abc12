@@ -80,7 +80,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format, EcmeBrandListDataModel
               pw.Padding(padding: const pw.EdgeInsets.only(top:2)),
               expenseTableRowWidget("ESKAYEF PERSONS ATTENDED", ""),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("ESKAYEF PERSONS ATTENDED", ""),
+               expenseTableRowWidget("PARTICIPATING DOCTORS BELONG TO", ""),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING VENUE", ""),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),

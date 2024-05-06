@@ -67,6 +67,7 @@ class ECMEPrintRetData {
 
 class DataListPrint {
     final String skfAttendance;
+    final String fmIdName;
     final String othersParticipants;
     final String payMode;
     final String payTo;
@@ -96,9 +97,12 @@ class DataListPrint {
     final String step;
     final List<BrandListPrint> brandList;
     final List<DoctorListPrint> doctorList;
+    final String remindedBrand;
+    final String totalBudgetInWords;
 
     DataListPrint({
         required this.skfAttendance,
+        required this.fmIdName,
         required this.othersParticipants,
         required this.payMode,
         required this.payTo,
@@ -128,10 +132,13 @@ class DataListPrint {
         required this.step,
         required this.brandList,
         required this.doctorList,
+        required this.remindedBrand,
+        required this.totalBudgetInWords,
     });
 
     factory DataListPrint.fromJson(Map<String, dynamic> json) => DataListPrint(
         skfAttendance: json["skf_attendance"]??"",
+        fmIdName: json["fm_id_name_area"]??"",
         othersParticipants: json["others_participants"]??"",
         payMode: json["pay_mode"]??"",
         payTo: json["pay_to"]??"",
@@ -161,10 +168,13 @@ class DataListPrint {
         step: json["step"]??"",
         brandList: List<BrandListPrint>.from(json["brand_list"].map((x) => BrandListPrint.fromJson(x))),
         doctorList: List<DoctorListPrint>.from(json["doctor_list"].map((x) => DoctorListPrint.fromJson(x))),
+        remindedBrand:json["reminded_brand"]??"" ,
+        totalBudgetInWords: json["total_budget_in_words"]??""    
     );
 
     Map<String, dynamic> toJson() => {
         "skf_attendance": skfAttendance,
+        "fm_id_name_area":fmIdName,
         "others_participants": othersParticipants,
         "pay_mode": payMode,
         "pay_to": payTo,
@@ -194,6 +204,8 @@ class DataListPrint {
         "step": step,
         "brand_list": List<dynamic>.from(brandList.map((x) => x.toJson())),
         "doctor_list": List<dynamic>.from(doctorList.map((x) => x.toJson())),
+        "reminded_brand":remindedBrand,
+        "total_budget_in_words":totalBudgetInWords
     };
 }
 

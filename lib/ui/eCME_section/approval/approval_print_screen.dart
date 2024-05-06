@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -1002,9 +1003,15 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                         children: [
                         
                           ElevatedButton(
-                            onPressed: isPressed
-                                ? () {}
-                                : () {
+                            onPressed: (){
+                              Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) =>  PdfPage(
+                                                                wholeData: approvedPrintDetails!,
+                                                                dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
+                                                            ),
+                                                          );
                                     
                                   },
                             style: ElevatedButton.styleFrom(
@@ -1018,15 +1025,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                         ],
                       ),
                    
-                    //  const Padding(
-                    //     padding: EdgeInsets.all(15.0),
-                    //     child: Align(
-                    //         alignment: Alignment.center,
-                    //         child: Text(
-                    //           '----------- Approval pending from RSM/NSM -----------',
-                    //           style: TextStyle(color: Colors.red, fontSize: 16),
-                    //         )),
-                    //   ),
+                   
             const SizedBox(
               height: 10,
             ),

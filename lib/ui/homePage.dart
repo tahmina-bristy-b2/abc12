@@ -1725,53 +1725,48 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: CustomBuildButton(
                                           icon: Icons.add,
                                           onClick: () async {
-                                            Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (_) =>  PdfPage(eCMEApprovalData: null,)
-                                                            ),
-                                                          );
+                                            
 
                                            
 
 
 
-                                            // ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                            // if(eCMEDataModelData!=null ){
-                                            //           List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
-                                            //           List doctorType =eCMEDataModelData.eCMETypeList;
-                                            //           if(_docList.isNotEmpty && doctorType.isNotEmpty )
-                                            //           {
-                                            //             if (!mounted) return;
-                                            //               Navigator.push(
-                                            //                 context,
-                                            //                 MaterialPageRoute(
-                                            //                   builder: (_) => ECMEClientScreen(
-                                            //                     docList: _docList, eCMEType: doctorType,
+                                            ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                            if(eCMEDataModelData!=null ){
+                                                      List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
+                                                      List doctorType =eCMEDataModelData.eCMETypeList;
+                                                      if(_docList.isNotEmpty && doctorType.isNotEmpty )
+                                                      {
+                                                        if (!mounted) return;
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) => ECMEClientScreen(
+                                                                docList: _docList, eCMEType: doctorType,
                                                                 
                                                                   
-                                            //                       ),
-                                            //                 ),
-                                            //               );
-                                            //           }else{
-                                            //             AllServices().toastMessage(
-                                            //               'No e-CME doctor found ',
-                                            //               Colors.red,
-                                            //               Colors.white,
-                                            //               16);
+                                                                  ),
+                                                            ),
+                                                          );
+                                                      }else{
+                                                        AllServices().toastMessage(
+                                                          'No e-CME doctor found ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);
 
 
-                                            //           }
+                                                      }
 
-                                            //         }
-                                            //         else{
-                                            //             AllServices().toastMessage(
-                                            //               'e_CME Sync First ',
-                                            //               Colors.red,
-                                            //               Colors.white,
-                                            //               16);
+                                                    }
+                                                    else{
+                                                        AllServices().toastMessage(
+                                                          'e_CME Sync First ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);
 
-                                            //         }
+                                                    }
 
 
                                            

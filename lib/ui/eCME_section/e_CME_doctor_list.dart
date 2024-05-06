@@ -95,7 +95,7 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
         return StatefulBuilder(
           builder: (context, setState2) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height/1.8, 
+              height: (doctorType.length * 50)+105, 
               child: Column(
                 children: [
                  const Padding(
@@ -155,50 +155,53 @@ void addShowDialogForVeryFirstTime(List doctorType, BuildContext context)async {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CancelButtonWidget(
-                            buttonHeight: 60,
-                            fontColor: const Color.fromARGB(255, 82, 179, 98),
-                            buttonName: "Cancel",
-                            fontSize: 16,
-                            onTapFuction: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            borderColor: const Color.fromARGB(255, 82, 179, 98),
-                          ),
-                        ),
-                        const SizedBox(width: 10,),
-                        Expanded(
-                          child: ConfirmButtonWidget(
-                            buttonHeight: 60,
-                            fontColor: Colors.white,
-                            buttonName: "OK",
-                            fontSize: 16,
-                            onTapFuction: () {
-                              if((doctorSelectionMap["Intern Reception"]==true)||(doctorSelectionMap["Society"]==true) ){
-                                doctInfo=[];
-                                Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => ECMEAddScreen(
-                                                   docInfo: doctInfo, eCMEType: eCmeType,
-                                                  )));
-                              }
-                              else{
-                                setState(() {
-                                   isDocListShow=true;  
-                                });
-                                
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                    child: SizedBox(
+                      height: 50,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CancelButtonWidget(
+                              buttonHeight: 50,
+                              fontColor: const Color.fromARGB(255, 82, 179, 98),
+                              buttonName: "Cancel",
+                              fontSize: 16,
+                              onTapFuction: () {
                                 Navigator.pop(context);
-                              }
-                            },
+                                Navigator.pop(context);
+                              },
+                              borderColor: const Color.fromARGB(255, 82, 179, 98),
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 10,),
+                          Expanded(
+                            child: ConfirmButtonWidget(
+                              buttonHeight: 50,
+                              fontColor: Colors.white,
+                              buttonName: "OK",
+                              fontSize: 16,
+                              onTapFuction: () {
+                                if((doctorSelectionMap["Intern Reception"]==true)||(doctorSelectionMap["Society"]==true) ){
+                                  doctInfo=[];
+                                  Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => ECMEAddScreen(
+                                                     docInfo: doctInfo, eCMEType: eCmeType,
+                                                    )));
+                                }
+                                else{
+                                  setState(() {
+                                     isDocListShow=true;  
+                                  });
+                                  
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

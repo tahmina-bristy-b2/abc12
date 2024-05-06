@@ -13,7 +13,6 @@ import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/eCME_section/approval/approval_print_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/approval/eCME_fm_List_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/e_CME_doctor_list.dart';
-import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
@@ -1725,11 +1724,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: CustomBuildButton(
                                           icon: Icons.add,
                                           onClick: () async {
-                                            
-
-                                           
-
-
 
                                             ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
                                             if(eCMEDataModelData!=null ){

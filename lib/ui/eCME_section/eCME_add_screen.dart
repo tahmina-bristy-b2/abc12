@@ -5,7 +5,10 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCME_services.dart';
+import 'package:MREPORTING/ui/Appraisal/apparaisal_self_assesment_history.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_doctor_preview.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/add_title_row_widget.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/custom_dropdown_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -203,22 +206,14 @@ int totalParticipants() {
                 SizedBox(
                   height: wholeHeight / 75.927,
                 ),
-               (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox(): const Align(
+               (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox():  Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                  padding:  EdgeInsets.only(left: 6),
-                    child: Text(
-                                    "Selected Doctors*",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ),
+                  padding: const EdgeInsets.only(left: 6),
+                    child: AddTitleRowWidget(context: context, title: "Selected Doctors*"),
                   ),
                 ),
-               SizedBox(
-                   height:(widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?0 : 6,
-                   ),
+              
              (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox() :  Row(
                   children: [  
                     Expanded(
@@ -259,16 +254,7 @@ int totalParticipants() {
                                 height: 10,
                               ),
                      //=============================== Meeting Date ====================================
-                               const Text(
-                                "Meeting Date*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
+                              AddTitleRowWidget(context: context, title: "Meeting Date*"),
                               SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
@@ -281,9 +267,7 @@ int totalParticipants() {
                                       onChanged: (String value) {
                                         setState(() {});
                                         selectedExpiredDateString  = value;
-
                                       },
-          
                                       onTap: () {
                                          pickDate();
                                         },
@@ -295,122 +279,38 @@ int totalParticipants() {
                                 height: 10,
                                   ) ,
                      //=============================== Doctor Category ====================================
-                             const Text(
-                                "Doctor Category*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Container(
-                                       width: MediaQuery.of(context).size.width / 1.1,
-                                         height: 45,
-                                    decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
-                                    ),
-                                    child:   DropdownButtonHideUnderline(
-                                              child: DropdownButton2(
-                                                isExpanded: true,
-                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
-                                                  hint: const Text(
-                                                    ' Select Doctor Category',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                  items: docCategoryList.map((String item) {
-                                                    return DropdownMenuItem(
-                                                      value: item, 
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 8),
-                                                        child: Text(
-                                                          item,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  value: selcetDoctorCategory,
-                                                  onChanged: (value) {
-                                                    if(value!="Institution"){
+                               AddTitleRowWidget(context: context, title: "Doctor Category*"),
+                               CustomDropdownWidget(
+                                context: context,
+                                dropdownHint:  ' Select Doctor Category',
+                                dropdownList: docCategoryList, 
+                                dropdownController: brandSelectedController, 
+                                dropdownOnchanged: (value) { 
+                                                  if(value!="Institution"){
                                                       institutionController.clear();
                                                       departmentController.clear();
+                                                      selectedDepartment=null;
 
                                                     }
                                                     setState(() {
                                                       selcetDoctorCategory = value; 
                                                     });
-                                                  },
-                                                buttonHeight: 50,
-                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
-                                                itemHeight: 40,
-                                                dropdownMaxHeight: 252,
-                                                searchController: brandSelectedController,
-                                                searchInnerWidgetHeight: 50,
-                                                searchInnerWidget: Container(
-                                                  height: 50,
-                                                  padding: const EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 4,
-                                                    right: 8,
-                                                    left: 8,
-                                                  ),
-                                                  child: TextFormField(
-                                                    expands: true,
-                                                    maxLines: null,
-                                                    controller: brandSelectedController,
-                                                    decoration: InputDecoration(
-                                                      fillColor: Colors.transparent,
-                                                      filled: true,
-                                                      isDense: true,
-                                                      contentPadding: const EdgeInsets.symmetric(
-                                                        horizontal: 6,
-                                                        vertical: 8,
-                                                      ),
-                                                      hintText: '  Search e-CME Type...',
-                                                      hintStyle: const TextStyle(fontSize: 14),
-                                                      border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                searchMatchFn: (item, searchValue) {
-                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
                                                 },
-                                                onMenuStateChange: (isOpen) {
-                                                  if (!isOpen) {
-                                                    brandSelectedController.clear();
-                                                  }
-                                                },
-                                                
-                                              ),
-                                            )
-                                                                                    
-                                
-                               ),
+                                selectedValue: selcetDoctorCategory, 
+                                textformFiledHint:  ' Select Doctor Category',
+                                onMenuStateChangeforClear: (isOpen) {
+                                                if (!isOpen) {
+                                                  departmentController.clear();
+                                                }
+                                              },
+                                ),
                      //================================== Institution ===========================
                                selcetDoctorCategory=="Institution"? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                  const SizedBox(height: 10,),
-                                  const Text(
-                                "Institution Name*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              SizedBox(
+                                 AddTitleRowWidget(context: context, title: "Institution Name*"),
+                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
@@ -427,121 +327,30 @@ int totalParticipants() {
                                    height: 10,
                                  ),
                     //================================== Department ===========================
-                                  const Text(
-                                "Department*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                            Container(
-                                       width: MediaQuery.of(context).size.width / 1.1,
-                                         height: 45,
-                                    decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
-                                    ),
-                                    child:   DropdownButtonHideUnderline(
-                                              child: DropdownButton2(
-                                                isExpanded: true,
-                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
-                                                  hint: const Text(
-                                                    '  ----Select Department Name---- ',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                  items: docDepartmentList.map((String item) {
-                                                    return DropdownMenuItem(
-                                                      value: item, 
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 8),
-                                                        child: Text(
-                                                          item,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  value: selectedDepartment,
-                                                  onChanged: (value) {
+                              AddTitleRowWidget(context: context, title: "Department*"),
+                              CustomDropdownWidget(
+                                context: context,
+                                dropdownHint:  '  ----Select Department Name---- ',
+                                dropdownList: docDepartmentList, 
+                                dropdownController: departmentController, 
+                                dropdownOnchanged: (value) { 
+                                                  setState(() {
                                                     selectedDepartment=value;
-                                                    setState(() {
-                                                      
-                                                    });
-                                                 
-                                                  },
-                                                buttonHeight: 50,
-                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
-                                                itemHeight: 40,
-                                                dropdownMaxHeight: 252,
-                                                searchController: departmentController,
-                                                searchInnerWidgetHeight: 50,
-                                                searchInnerWidget: Container(
-                                                  height: 50,
-                                                  padding: const EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 4,
-                                                    right: 8,
-                                                    left: 8,
-                                                  ),
-                                                  child: TextFormField(
-                                                    expands: true,
-                                                    maxLines: null,
-                                                    controller: departmentController,
-                                                    decoration: InputDecoration(
-                                                      fillColor: Colors.transparent,
-                                                      filled: true,
-                                                      isDense: true,
-                                                      contentPadding: const EdgeInsets.symmetric(
-                                                        horizontal: 6,
-                                                        vertical: 8,
-                                                      ),
-                                                      hintText: '  Search Department Name...',
-                                                      hintStyle: const TextStyle(fontSize: 14),
-                                                      border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                searchMatchFn: (item, searchValue) {
-                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
+                                                  });
                                                 },
-                                                onMenuStateChange: (isOpen) {
-                                                  if (!isOpen) {
-                                                    departmentController.clear();
-                                                  }
-                                                },
-                                                
-                                              ),
-                                            )
-                                                                                    
-                                
-                               ),
-                             
+                                selectedValue: selectedDepartment, 
+                                textformFiledHint: '  Search Department Name...',
+                                onMenuStateChangeforClear: (isOpen) {
+                                                if (!isOpen) {
+                                                  departmentController.clear();
+                                                }
+                                              },
+                                ),
                                 ],
                                ): const SizedBox(),
                                const SizedBox(height: 10,),
                      //================================== Meeting Venue ===========================
-                                const Text(
-                                "Meeting venue*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
+                              AddTitleRowWidget(context: context, title: "Meeting venue*"),
                               SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
@@ -555,20 +364,11 @@ int totalParticipants() {
                                             ),
                                  
                                   ),
-                                  const SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                     //================================== Meeting Topic ===========================
-                                  const Text(
-                                "Meeting Topic*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
+                              AddTitleRowWidget(context: context, title: "Meeting Topic*"),
                               SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
@@ -586,17 +386,8 @@ int totalParticipants() {
                                 height: wholeHeight / 75.927,
                               ),
                      //================================== Probable Speaker Name & Designation ===========================
-                             const Text(
-                                "Probable Speaker Name & Designation*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              SizedBox(
+                             AddTitleRowWidget(context: context, title: "Probable Speaker Name & Designation*"),
+                             SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
@@ -613,239 +404,27 @@ int totalParticipants() {
                               ),
                              
                     //================================== Participats Section ===========================
-                               Row(
-                                     children: [ 
-                                        SizedBox(
-                                          width:MediaQuery.of(context).size.width /2.15 ,
-                                          child:const Text("Total numbers of participants",
-                                                style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                                fontWeight: FontWeight.w600)
-                                                      ),
-                                          
-                                        ),
-                                         SizedBox(
-                                          width:MediaQuery.of(context).size.width / 9 ,
-                                          child:const Text(":"),
-                                          
-                                        ),
-                                         Align(
-                                          alignment: Alignment.centerRight,
-                                          child: SizedBox(
-                                            width:MediaQuery.of(context).size.width / 3 ,
-                                            child: Text(totalParticipants().toString(),style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
-                                          ),
-                                      
-                                      ],
-                                    ),
-                               Column(
-                                children: [
-                                  BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors*", controller: doctorParticipantCount,
-                                        onChanged: (value ) {  
-                                           totalParticipants();
-                                            setState(() {
-                                            });
-                                        },
-                                         validator: null,
-                                          routingName: 'participants',
-                                        ),
-                                  BudgetBreakDownRowWidget(routingName: 'participants',
-                                    rowNumber: "2.", reason:"Intern Doctors*", controller: internDoctorController, 
-                                           onChanged: (value ) {  
-                                            totalParticipants();
-                                            setState(() {
-                                            });
-                                            },
-                                            validator: null,
-                                          ),
-                                  BudgetBreakDownRowWidget(routingName: 'participants',
-                                    rowNumber: "3.", reason:"DMF/RMP doctors* ", controller: dmfDoctorController, 
-                                         onChanged: (value ) {  
-                                            totalParticipants();
-                                            setState(() { 
-                                            });
-                                          },
-                                           validator: null,
-                                     
-                                        ),
-                                  BudgetBreakDownRowWidget(routingName: 'participants',
-                                    rowNumber: "4.", reason:"Nurses/Staff* ", controller: nursesController, 
-                                      onChanged: (value ) {  
-                                           totalParticipants();
-                                            setState(() {
-                                            });
-          
-                                           },
-                                            validator: null,
-                                       
-                                      ),
-                                  BudgetBreakDownRowWidget(routingName: 'participants',
-                                        rowNumber: "5.", reason:"SKF Attendance*", controller: skfAttenaceController, 
-                                          onChanged: (value ) {  
-                                              totalParticipants();
-                                                setState(() {
-                                                });
-              
-                                              },
-                                                validator: null,
-                                          
-                                          ),
-                                BudgetBreakDownRowWidget(routingName: 'participants',
-                                        rowNumber: "6.", reason:"Others", controller: othersParticipantsController, 
-                                          onChanged: (value ) {  
-                                              totalParticipants();
-                                                setState(() {
-                                                });
-              
-                                              },
-                                                validator: null,
-                                          
-                                          ),
-                                 
-                                 
-                                ],
-                              ) ,
-                              
-                              const SizedBox(
+                             titleRowWidget(context ,"Total numbers of participants",totalParticipants().toString()),
+                             participatingBreakdownWidget() , 
+                             const SizedBox(
                                 height: 20,
                               ),
                     //================================== Budget Section ===========================
                                   
                               ( totalParticipants()>0 )? 
-                              Row(
-                                    children: [
-                                        
-                                        SizedBox(
-                                          width:MediaQuery.of(context).size.width /2.15 ,
-                                          child:const Text("Total budget*",
-                                                style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                                fontWeight: FontWeight.w600)
-                                                      ),
-                                          
-                                        ),
-                                         SizedBox(
-                                          width:MediaQuery.of(context).size.width / 9 ,
-                                          child:const Text(":"),
-                                          
-                                        ),
-                                         Align(
-                                          alignment: Alignment.centerRight,
-                                          child: SizedBox(
-                                            width:MediaQuery.of(context).size.width / 3 ,
-                                            child: Text("৳${totalBudget.toStringAsFixed(2)}",style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
-                                          ),
-                                      
-                                      
-                                      ],
-                                    ) 
-                              
+                               titleRowWidget(context,"Total budget*","৳${totalBudget.toStringAsFixed(2)}") 
                                     :const SizedBox(),
-                                    const SizedBox(height: 10,),
-                                ( totalParticipants()>0  )?   Row(
-                                    children: [
-                                        
-                                        SizedBox(
-                                          width:MediaQuery.of(context).size.width /2.15 ,
-                                          child:const Text("Cost per doctor",
-                                                style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                                fontWeight: FontWeight.w600)
-                                                      ),
-                                          
-                                        ),
-                                         SizedBox(
-                                          width:MediaQuery.of(context).size.width / 9 ,
-                                          child:const Text(":"),
-                                          
-                                        ),
-                                         Align(
-                                          alignment: Alignment.centerRight,
-                                          child: SizedBox(
-                                            width:MediaQuery.of(context).size.width / 3 ,
-                                            child: Text("৳${getCostPerDoctor().toStringAsFixed(2)}",style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
-                                          ),
-                                      
-                                      ],
-                                    )
-                                    :const SizedBox(),
+                                ( totalParticipants()>0  )? titleRowWidget(context,"Cost per doctor","৳${getCostPerDoctor().toStringAsFixed(2)}") 
+                                   :const SizedBox(),   
           
-                           
-                                    SizedBox(height:(  totalParticipants()>0 )? 10:0),
-          
-                            ( totalParticipants()>0 )? const Text(
-                                "Budget breakdown*",
-                                style: TextStyle(
-                                   fontSize: 15,
-                                   color: Color.fromARGB(255, 0, 0, 0),
-                                   fontWeight: FontWeight.w600),
-                              ) :const SizedBox(),
-                            (   totalParticipants()>0)?  Column(
-                                children: [
-                                  BudgetBreakDownRowWidget(
-                                    routingName: 'budget',
-                                    rowNumber: "1.", reason:"Hall rent*", controller: hallRentController,
-                                        onChanged: (value ) {  
-                                            getTotalBudget();
-                                            setState(() {
-                                            });
-                                        },
-                                         validator: null,
-                                       
-                                        ),
-                                  BudgetBreakDownRowWidget(
-                                       routingName: 'budget',
-                                    rowNumber: "2.", reason:"Food Expense*", controller: foodExpansesController, 
-                                           onChanged: (value ) {  
-                                            getTotalBudget();
-                                            setState(() {
-                                            });
-                                            },
-                                             validator: null,
-                                       
-                                          ),
-                                  BudgetBreakDownRowWidget(
-                                       routingName: 'budget',
-                                    rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
-                                      onChanged: (value ) {  
-                                            getTotalBudget();
-                                            setState(() {
-                                            });
-          
-                                           },
-                                           validator: null,
-                                      
-                                      ),
-                                  BudgetBreakDownRowWidget(
-                                       routingName: 'budget',
-                                    rowNumber: "4.", reason:"Stationnaires or Others*", controller: stationnairesController, 
-                                       onChanged: (value ) {  
-                                            getTotalBudget();
-                                            setState(() {
-                                            });
-                                        },
-                                         validator: null, 
-                                      ),
-                                ],
-                              ) :const SizedBox(),
-                              
-                               const SizedBox(
-                                height: 10 ,
+                            ( totalParticipants()>0 )? AddTitleRowWidget(context: context, title: "Budget breakdown*")
+                              :const SizedBox(),
+                            (   totalParticipants()>0)?  budgetBreakdownWidget() :const SizedBox(),
+                            const SizedBox(
+                                height: 15,
                               ),
                     //=================================== eCME Amount================================
-                              widget.eCMEType!=null? const Text(
-                                  "e_CME Amount *" ,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ):const SizedBox(),
-                                   SizedBox(
-                                    height:  widget.eCMEType!=null?   6:0,
-                                  ),
+                              widget.eCMEType!=null? AddTitleRowWidget(context: context, title: "e_CME Amount *"):const SizedBox(),
                                 widget.eCMEType!=null? SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
@@ -858,24 +437,19 @@ int totalParticipants() {
                                       keyboardType: TextInputType.number,
                                     ),
                                   ) : const SizedBox(),
-                                   SizedBox(
+
+                                  SizedBox(
                                       height:  widget.eCMEType!=null? 10:0,
-                                    ),
+                                  ),
                     //====================================== Brand section ===================================
-                                    (widget.eCMEType!=null )? Row(
+                                  (widget.eCMEType!=null )? Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                          const  Text(
-                                              "Brand*",
-                                              style:  TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color.fromARGB(255, 0, 0, 0),
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            SizedBox(
+                                           AddTitleRowWidget(context: context, title:  "Brand*",) ,
+                                           SizedBox(
                                               width:  wholeWidth / 1.45,
                                             ),
-                                            brandAddWidget( wholeHeight, wholeWidth, context)
+                                           brandAddWidget( wholeHeight, wholeWidth, context)
                                           ],
                                         ):const SizedBox(),
                                         const SizedBox(
@@ -892,113 +466,30 @@ int totalParticipants() {
                                         ) :const SizedBox(),
 
                     //================================= Pay Mode ==================================
-                                        const Text(
-                                            "Pay Mode *" ,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color.fromARGB(255, 0, 0, 0),
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            const SizedBox(
-                                          height: 6 ,
-                                        ),
-                              Container(
-                                       width: MediaQuery.of(context).size.width / 1.1,
-                                         height: 45,
-                                    decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 230, 244, 243),
+                                  AddTitleRowWidget(context: context, title: "Pay Mode *"),
+                                  CustomDropdownWidget(
+                                    context: context,
+                                    dropdownHint:  '  Select Pay Mode',
+                                    dropdownList: payModeList, 
+                                    dropdownController: brandSelectedController, 
+                                    dropdownOnchanged: (value) { 
+                                                      setState(() {
+                                                        selectedPayMode=value;
+                                                      });
+                                                    },
+                                    selectedValue: selectedPayMode, 
+                                    textformFiledHint: '  Search e-CME Type...', 
+                                    onMenuStateChangeforClear: (isOpen) {
+                                                    if (!isOpen) {
+                                                      brandSelectedController.clear();
+                                                    }
+                                                  },
                                     ),
-                                    child:   DropdownButtonHideUnderline(
-                                              child: DropdownButton2(
-                                                isExpanded: true,
-                                                  iconEnabledColor: const Color.fromARGB(255, 82, 179, 98),
-                                                  hint: const Text(
-                                                    '  Select Pay Mode',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                  items:payModeList.map((String item) {
-                                                    return DropdownMenuItem(
-                                                      value: item, 
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 8),
-                                                        child: Text(
-                                                          item,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  value: selectedPayMode,
-                                                  onChanged: (value) { 
-                                                    setState(() {
-                                                      selectedPayMode=value;
-                                                    });
-                                                  },  
-                                                buttonHeight: 50,
-                                                buttonWidth: MediaQuery.of(context).size.width / 1.5,
-                                                itemHeight: 40,
-                                                dropdownMaxHeight: 252,
-                                                searchController: brandSelectedController,
-                                                searchInnerWidgetHeight: 50,
-                                                searchInnerWidget: Container(
-                                                  height: 50,
-                                                  padding: const EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 4,
-                                                    right: 8,
-                                                    left: 8,
-                                                  ),
-                                                  child: TextFormField(
-                                                    expands: true,
-                                                    maxLines: null,
-                                                    controller: brandSelectedController,
-                                                    decoration: InputDecoration(
-                                                      fillColor: Colors.transparent,
-                                                      filled: true,
-                                                      isDense: true,
-                                                      contentPadding: const EdgeInsets.symmetric(
-                                                        horizontal: 6,
-                                                        vertical: 8,
-                                                      ),
-                                                      hintText: '  Search e-CME Type...',
-                                                      hintStyle: const TextStyle(fontSize: 14),
-                                                      border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                searchMatchFn: (item, searchValue) {
-                                                  return (item.value.toString().toUpperCase().startsWith(searchValue.toUpperCase()));
-                                                },
-                                                onMenuStateChange: (isOpen) {
-                                                  if (!isOpen) {
-                                                    brandSelectedController.clear();
-                                                  }
-                                                },
-                                                
-                                              ),
-                                            )
-                                    ),
-                                    SizedBox(
+                                   SizedBox(
                                       height: wholeHeight / 75.927,
                                     ),
-                          //============================== Pay to ===================================
-                                     const Text(
-                                      "Pay to*",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
+                    //============================== Pay to ===================================
+                                    AddTitleRowWidget(context: context, title: "Pay to*",),
                                     SizedBox(
                                         width: MediaQuery.of(context).size.width / 1.1,
                                         height: 45,
@@ -1035,6 +526,156 @@ int totalParticipants() {
     );
   }
 
+  Padding titleRowWidget(BuildContext context ,String title,String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row( 
+        children: [
+           SizedBox(
+               width:MediaQuery.of(context).size.width /2.15 ,
+                 child: Text(title,
+                 style:const TextStyle(
+                   fontSize: 15, 
+                   color: Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.w600)
+                  ),
+                ),
+             SizedBox(
+                width:MediaQuery.of(context).size.width / 9 ,
+                child:const Text(":"),
+              ),
+            Align(
+              alignment: Alignment.centerRight,
+               child: SizedBox(
+                width:MediaQuery.of(context).size.width / 3 ,
+                 child: Text(value,style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
+              ),
+            ],
+        ),
+    );
+  }
+//========================================== Budget =================================
+  Column budgetBreakdownWidget() {
+             return Column(
+                              children: [
+                                BudgetBreakDownRowWidget(
+                                  routingName: 'budget',
+                                  rowNumber: "1.", reason:"Hall rent*", controller: hallRentController,
+                                      onChanged: (value ) {  
+                                          getTotalBudget();
+                                          setState(() {
+                                          });
+                                      },
+                                       validator: null,
+                                     
+                                      ),
+                                BudgetBreakDownRowWidget(
+                                     routingName: 'budget',
+                                  rowNumber: "2.", reason:"Food Expense*", controller: foodExpansesController, 
+                                         onChanged: (value ) {  
+                                          getTotalBudget();
+                                          setState(() {
+                                          });
+                                          },
+                                           validator: null,
+                                     
+                                        ),
+                                BudgetBreakDownRowWidget(
+                                     routingName: 'budget',
+                                  rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
+                                    onChanged: (value ) {  
+                                          getTotalBudget();
+                                          setState(() {
+                                          });
+        
+                                         },
+                                         validator: null,
+                                    
+                                    ),
+                                BudgetBreakDownRowWidget(
+                                     routingName: 'budget',
+                                  rowNumber: "4.", reason:"Stationnaires or Others*", controller: stationnairesController, 
+                                     onChanged: (value ) {  
+                                          getTotalBudget();
+                                          setState(() {
+                                          });
+                                      },
+                                       validator: null, 
+                                    ),
+                              ],
+                            );
+  }
+ //============================================================== Participates =======================================
+  Column participatingBreakdownWidget() {
+               return Column(
+                              children: [
+                                BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors*", controller: doctorParticipantCount,
+                                      onChanged: (value ) {  
+                                         totalParticipants();
+                                          setState(() {
+                                          });
+                                      },
+                                       validator: null,
+                                        routingName: 'participants',
+                                      ),
+                                BudgetBreakDownRowWidget(routingName: 'participants',
+                                  rowNumber: "2.", reason:"Intern Doctors*", controller: internDoctorController, 
+                                         onChanged: (value ) {  
+                                          totalParticipants();
+                                          setState(() {
+                                          });
+                                          },
+                                          validator: null,
+                                        ),
+                                BudgetBreakDownRowWidget(routingName: 'participants',
+                                  rowNumber: "3.", reason:"DMF/RMP doctors* ", controller: dmfDoctorController, 
+                                       onChanged: (value ) {  
+                                          totalParticipants();
+                                          setState(() { 
+                                          });
+                                        },
+                                         validator: null,
+                                   
+                                      ),
+                                BudgetBreakDownRowWidget(routingName: 'participants',
+                                  rowNumber: "4.", reason:"Nurses/Staff* ", controller: nursesController, 
+                                    onChanged: (value ) {  
+                                         totalParticipants();
+                                          setState(() {
+                                          });
+        
+                                         },
+                                          validator: null,
+                                     
+                                    ),
+                                BudgetBreakDownRowWidget(routingName: 'participants',
+                                      rowNumber: "5.", reason:"SKF Attendance*", controller: skfAttenaceController, 
+                                        onChanged: (value ) {  
+                                            totalParticipants();
+                                              setState(() {
+                                              });
+            
+                                            },
+                                              validator: null,
+                                        
+                                        ),
+                              BudgetBreakDownRowWidget(routingName: 'participants',
+                                      rowNumber: "6.", reason:"Others", controller: othersParticipantsController, 
+                                        onChanged: (value ) {  
+                                            totalParticipants();
+                                              setState(() {
+                                              });
+            
+                                            },
+                                              validator: null,
+                                        ),
+                               
+                              ],
+                            );
+  }
+
+ 
+ //============================================================== Buttons widget =======================================
   SizedBox buttonRowWidget(BuildContext context) {
     return SizedBox(
                       child: Padding(

@@ -73,6 +73,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
   String? initialBrand;
   List<String> docCategoryList=[];
+   List<String>  docDepartmentList=[];
   String? selcetDoctorCategory;
   String? selectedDepartment;
   List<String> payModeList=[];
@@ -117,6 +118,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
     payModeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payModeList;
     docCategoryList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.docCategoryList;
+    docDepartmentList=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.departmentList;
     areaId=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.supAreaId ;
   }
 
@@ -486,7 +488,7 @@ int totalParticipants() {
                                                       fontSize: 14,
                                                     ),
                                                   ),
-                                                  items: ["A","B","C","D","E"].map((String item) {
+                                                  items: docDepartmentList.map((String item) {
                                                     return DropdownMenuItem(
                                                       value: item, 
                                                       child: Padding(

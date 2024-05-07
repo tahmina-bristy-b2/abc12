@@ -15,10 +15,10 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEAddScreen extends StatefulWidget {
-  List<DocListECMEModel> docInfo;
-  String eCMEType;
+ final List<DocListECMEModel> docInfo;
+ final String eCMEType;
 
-  ECMEAddScreen(
+ const ECMEAddScreen(
       {super.key,
       required this.docInfo,
       required this.eCMEType
@@ -29,9 +29,9 @@ class ECMEAddScreen extends StatefulWidget {
 }
 
 class _ECMEAddScreenState extends State<ECMEAddScreen> {
+  final GlobalKey<FormState> _form1Key = GlobalKey();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
-  final GlobalKey<FormState> _form1Key = GlobalKey();
   DateTime selectedExpiredDate=DateTime.now();
   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
   TextEditingController meetingDateController = TextEditingController();
@@ -132,44 +132,8 @@ double getTotalBudget() {
   totalBudgetController.text = totalBudget.toStringAsFixed(2);
   totalBudget = hall + food + gift + others ;
   eCMEAmountCOntroller.text=totalBudget.toString();
-
-  getMessage();
-  
   getCostPerDoctor();
   return totalBudget;
-}
-
-getMessage(){
-  double eCMEAmount = double.tryParse(eCMEAmountCOntroller.text) ?? 0.0;
-  if(totalBudget>eCMEAmount){
-    if (totalBudget > eCMEAmount) {
-      showDialog(
-        context: context,
-        barrierDismissible: false, 
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            title: const Text("Warning",style: TextStyle(color: Colors.red)),
-            content: const Text(
-              "Your total budget has crossed the e-CME amount.\nPlease reduce you budget first.",style: TextStyle(fontSize: 13),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"),
-              ),
-              
-            ],
-          );
-        },
-      );
-    }
-
-  }
 }
 
 //============================ total Numbers of participants =========================
@@ -195,7 +159,6 @@ int totalParticipants() {
       return 0.0;
     }
    }
-
   double getECMEAmontSplit(){
     splitedAmount=0;
     int listNum= finalBrandListAftrRemoveDuplication.length;
@@ -203,6 +166,7 @@ int totalParticipants() {
     splitedAmount=(eCMEAmount/listNum);
     return splitedAmount;
    }
+
 
   @override
   void dispose() {
@@ -294,6 +258,7 @@ int totalParticipants() {
                                   const SizedBox(
                                 height: 10,
                               ),
+                     //=============================== Meeting Date ====================================
                                const Text(
                                 "Meeting Date*",
                                 style: TextStyle(
@@ -329,6 +294,7 @@ int totalParticipants() {
                                   const SizedBox(
                                 height: 10,
                                   ) ,
+                     //=============================== Doctor Category ====================================
                              const Text(
                                 "Doctor Category*",
                                 style: TextStyle(
@@ -429,6 +395,7 @@ int totalParticipants() {
                                                                                     
                                 
                                ),
+                     //================================== Institution ===========================
                                selcetDoctorCategory=="Institution"? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -457,8 +424,9 @@ int totalParticipants() {
                                  
                                   ),
                                   const SizedBox(
-                                height: 10,
-                              ),
+                                   height: 10,
+                                 ),
+                    //================================== Department ===========================
                                   const Text(
                                 "Department*",
                                 style: TextStyle(
@@ -472,7 +440,7 @@ int totalParticipants() {
                               const SizedBox(
                                 height: 6,
                               ),
-                              Container(
+                            Container(
                                        width: MediaQuery.of(context).size.width / 1.1,
                                          height: 45,
                                     decoration: BoxDecoration(
@@ -563,6 +531,7 @@ int totalParticipants() {
                                 ],
                                ): const SizedBox(),
                                const SizedBox(height: 10,),
+                     //================================== Meeting Venue ===========================
                                 const Text(
                                 "Meeting venue*",
                                 style: TextStyle(
@@ -589,6 +558,7 @@ int totalParticipants() {
                                   const SizedBox(
                                 height: 10,
                               ),
+                    //================================== Meeting Topic ===========================
                                   const Text(
                                 "Meeting Topic*",
                                 style: TextStyle(
@@ -615,8 +585,8 @@ int totalParticipants() {
                               SizedBox(
                                 height: wholeHeight / 75.927,
                               ),
-                            
-                                  const Text(
+                     //================================== Probable Speaker Name & Designation ===========================
+                             const Text(
                                 "Probable Speaker Name & Designation*",
                                 style: TextStyle(
                                     fontSize: 15,
@@ -641,11 +611,9 @@ int totalParticipants() {
                               const SizedBox(
                                 height:  10,
                               ),
-
-
-                              
-                            
-                                 Row(
+                             
+                    //================================== Participats Section ===========================
+                               Row(
                                      children: [ 
                                         SizedBox(
                                           width:MediaQuery.of(context).size.width /2.15 ,
@@ -669,11 +637,9 @@ int totalParticipants() {
                                             child: Text(totalParticipants().toString(),style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),))
                                           ),
                                       
-                                      
                                       ],
                                     ),
-                                    
-                         Column(
+                               Column(
                                 children: [
                                   BudgetBreakDownRowWidget(rowNumber: "1.", reason:"Doctors*", controller: doctorParticipantCount,
                                         onChanged: (value ) {  
@@ -742,12 +708,9 @@ int totalParticipants() {
                               ) ,
                               
                               const SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
-
-                              const SizedBox(
-                                height: 10,
-                              ),
+                    //================================== Budget Section ===========================
                                   
                               ( totalParticipants()>0 )? 
                               Row(
@@ -864,17 +827,16 @@ int totalParticipants() {
                                             setState(() {
                                             });
                                         },
-                                         validator: null,
-                                        
+                                         validator: null, 
                                       ),
-                                 
                                 ],
                               ) :const SizedBox(),
                               
                                const SizedBox(
                                 height: 10 ,
                               ),
-                              widget.eCMEType!=null?    const Text(
+                    //=================================== eCME Amount================================
+                              widget.eCMEType!=null? const Text(
                                   "e_CME Amount *" ,
                                     style: TextStyle(
                                         fontSize: 15,
@@ -882,13 +844,13 @@ int totalParticipants() {
                                         fontWeight: FontWeight.w600),
                                   ):const SizedBox(),
                                    SizedBox(
-                                height:  widget.eCMEType!=null?   6:0,
-                              ),
-                                widget.eCMEType!=null?    SizedBox(
+                                    height:  widget.eCMEType!=null?   6:0,
+                                  ),
+                                widget.eCMEType!=null? SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter e-CME Amount ----',  // if you change it,you have to chn the inputformatter too.
+                                     hinText: '----Enter e-CME Amount ----',  // if you change it,you have to change it in inputformatter+readOnly too.
                                       controller: eCMEAmountCOntroller,
                                       textAlign: TextAlign.left, 
                                       textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
@@ -897,47 +859,49 @@ int totalParticipants() {
                                     ),
                                   ) : const SizedBox(),
                                    SizedBox(
-                                height:  widget.eCMEType!=null?   10:0,
-                              ),
-                     ( widget.eCMEType!=null )?     Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                 const  Text(
-                                    "Brand*",
-                                    style:  TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    width:  wholeWidth / 1.45,
-                                  ),
-                                  brandAddWidget( wholeHeight, wholeWidth, context)
-                                ],
-                              ):const SizedBox(),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                             (dynamicRowsListForBrand.isNotEmpty )
-                                  ? brandDetailsWidget(wholeWidth, wholeHeight)
-                                  : const SizedBox(),
-                                 const SizedBox(height: 10,),
-                            
-                            (dynamicRowsListForBrand.isNotEmpty)
-                                  ?    const SizedBox(
-                                height: 10,
-                              ) :const SizedBox(),
-          
-                              const Text(
-                                  "Pay Mode *" ,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  const SizedBox(
-                                height: 6 ,
-                              ),
+                                      height:  widget.eCMEType!=null? 10:0,
+                                    ),
+                    //====================================== Brand section ===================================
+                                    (widget.eCMEType!=null )? Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                          const  Text(
+                                              "Brand*",
+                                              style:  TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color.fromARGB(255, 0, 0, 0),
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            SizedBox(
+                                              width:  wholeWidth / 1.45,
+                                            ),
+                                            brandAddWidget( wholeHeight, wholeWidth, context)
+                                          ],
+                                        ):const SizedBox(),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                      (dynamicRowsListForBrand.isNotEmpty )
+                                            ? brandDetailsWidget(wholeWidth, wholeHeight)
+                                            : const SizedBox(),
+                                          const SizedBox(height: 10,),
+                                      
+                                      (dynamicRowsListForBrand.isNotEmpty)
+                                            ?    const SizedBox(
+                                          height: 10,
+                                        ) :const SizedBox(),
+
+                    //================================= Pay Mode ==================================
+                                        const Text(
+                                            "Pay Mode *" ,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color.fromARGB(255, 0, 0, 0),
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            const SizedBox(
+                                          height: 6 ,
+                                        ),
                               Container(
                                        width: MediaQuery.of(context).size.width / 1.1,
                                          height: 45,
@@ -970,8 +934,7 @@ int totalParticipants() {
                                                     );
                                                   }).toList(),
                                                   value: selectedPayMode,
-                                                  onChanged: (value) {
-                                                  
+                                                  onChanged: (value) { 
                                                     setState(() {
                                                       selectedPayMode=value;
                                                     });
@@ -1021,43 +984,36 @@ int totalParticipants() {
                                                 
                                               ),
                                             )
-                                                                                    
-                                
-                                ),
-                                 SizedBox(
-                                height: wholeHeight / 75.927,
-                              ),
-                            
-                                  const Text(
-                                "Pay to*",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter pay reciever name----',
-                                      controller: payToController,
-                                      textAlign: TextAlign.left, 
-                                      keyboardType: TextInputType.text,
-                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                      focusNode: AlwaysDisabledFocusNode(),
                                     ),
-                                  ),
-
-
-
-                                  const SizedBox(
-                                height: 10,
-                              ),
-                              
-                              
+                                    SizedBox(
+                                      height: wholeHeight / 75.927,
+                                    ),
+                          //============================== Pay to ===================================
+                                     const Text(
+                                      "Pay to*",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.width / 1.1,
+                                        height: 45,
+                                        child: CustomtextFormFiledWidget(
+                                          hinText: '----Enter pay reciever name----',
+                                            controller: payToController,
+                                            textAlign: TextAlign.left, 
+                                            keyboardType: TextInputType.text,
+                                            textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                            focusNode: AlwaysDisabledFocusNode(),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                             ],
                           ),
                         ),
@@ -1069,126 +1025,7 @@ int totalParticipants() {
                   height: 15,
                 ),
                 isLoading == false
-                    ? SizedBox(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: const Border(
-                                          top: BorderSide(
-                                            color:
-                                                Color.fromARGB(255, 44, 114, 66),
-                                            width: 2,
-                                          ),
-                                          bottom: BorderSide(
-                                            color:
-                                                Color.fromARGB(255, 44, 114, 66),
-                                            width: 2,
-                                          ),
-                                          left: BorderSide(
-                                            color:
-                                                Color.fromARGB(255, 44, 114, 66),
-                                            width: 2,
-                                          ),
-                                          right: BorderSide(
-                                            color:
-                                                Color.fromARGB(255, 44, 114, 66),
-                                            width: 2,
-                                          ),
-                                        )),
-                                    child: const Center(
-                                        child: Text("Cancel",
-                                            style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 44, 114, 66),
-                                            ))),
-                                  ),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                    child: Container(
-                                      height: 55,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: const Color.fromARGB(
-                                            255, 44, 114, 66),
-                                      ),
-                                      child: const Center(
-                                          child: Text("Preview",
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                              ))),
-                                    ),
-                                    onTap: () async {
-                                      double eCME= double.tryParse(eCMEAmountCOntroller.text)??0.0;
-                                       if (selectedExpiredDateString == "") {
-                                              AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
-                                            } else if (selcetDoctorCategory == null) {
-                                              AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
-                                            } else if (meetingVenueController.text == "") {
-                                              AllServices().toastMessage("Please Enter meeting venue ", Colors.red, Colors.white, 16);
-                                            } else if (meetingTopicController.text == "") {
-                                              AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
-                                            } else if (meetingProbaleSpeakerNameController.text == "") {
-                                              AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
-                                            } else if (eCMEAmountCOntroller.text == "") {
-                                              AllServices().toastMessage("Please enter e-CME amount", Colors.red, Colors.white, 16);
-                                            } else if (finalBrandListAftrRemoveDuplication.isEmpty) {
-                                              AllServices().toastMessage("Please add brand", Colors.red, Colors.white, 16);
-                                            } else if (doctorParticipantCount.text == "") {
-                                              AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
-                                            } else if (internDoctorController.text.isEmpty) {
-                                              AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
-                                            } else if (dmfDoctorController.text.isEmpty) {
-                                              AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
-                                            } else if (nursesController.text.isEmpty) {
-                                              AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
-                                            } else if (skfAttenaceController.text.isEmpty) {
-                                              AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
-                                            } else if (hallRentController.text == "") {
-                                              AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
-                                            } else if (foodExpansesController.text == "") {
-                                              AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
-                                            } else if (giftController.text == "") {
-                                              AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
-                                            } else if (stationnairesController.text == "") {
-                                              AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
-                                            } else if (selectedPayMode == null) {
-                                              AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
-                                            } else if (payToController.text == "") {
-                                              AllServices().toastMessage("Please enter pay reciever name ", Colors.red, Colors.white, 16);
-                                            }else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
-                                              AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
-                                            }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
-                                              AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);
-                                            }else if (totalBudget>eCME) {
-                                              AllServices().toastMessage("Please reduce your budget ", Colors.red, Colors.white, 16);
-                                            }
-                                             else {
-                                              readyForPreviewMethod();
-                                            }
-                                  
-                                    }),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                    ? buttonRowWidget(context)
                     : const CircularProgressIndicator()
               ],
             ),
@@ -1196,6 +1033,129 @@ int totalParticipants() {
         ),
       ),
     );
+  }
+
+  SizedBox buttonRowWidget(BuildContext context) {
+    return SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                child: Container(
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: const Border(
+                                        top: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 44, 114, 66),
+                                          width: 2,
+                                        ),
+                                        bottom: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 44, 114, 66),
+                                          width: 2,
+                                        ),
+                                        left: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 44, 114, 66),
+                                          width: 2,
+                                        ),
+                                        right: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 44, 114, 66),
+                                          width: 2,
+                                        ),
+                                      )),
+                                  child: const Center(
+                                      child: Text("Cancel",
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 44, 114, 66),
+                                          ))),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                  child: Container(
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color.fromARGB(
+                                          255, 44, 114, 66),
+                                    ),
+                                    child: const Center(
+                                        child: Text("Preview",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                            ))),
+                                  ),
+                                  onTap: () async {
+                                    double eCME= double.tryParse(eCMEAmountCOntroller.text)??0.0;
+                                     if (selectedExpiredDateString == "") {
+                                            AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
+                                          } else if (selcetDoctorCategory == null) {
+                                            AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
+                                          } else if (meetingVenueController.text == "") {
+                                            AllServices().toastMessage("Please Enter meeting venue ", Colors.red, Colors.white, 16);
+                                          } else if (meetingTopicController.text == "") {
+                                            AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
+                                          } else if (meetingProbaleSpeakerNameController.text == "") {
+                                            AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
+                                          } else if (eCMEAmountCOntroller.text == "") {
+                                            AllServices().toastMessage("Please enter e-CME amount", Colors.red, Colors.white, 16);
+                                          } else if (finalBrandListAftrRemoveDuplication.isEmpty) {
+                                            AllServices().toastMessage("Please add brand", Colors.red, Colors.white, 16);
+                                          } else if (doctorParticipantCount.text == "") {
+                                            AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
+                                          } else if (internDoctorController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
+                                          } else if (dmfDoctorController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
+                                          } else if (nursesController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
+                                          } else if (skfAttenaceController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
+                                          } else if (hallRentController.text == "") {
+                                            AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
+                                          } else if (foodExpansesController.text == "") {
+                                            AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
+                                          } else if (giftController.text == "") {
+                                            AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
+                                          } else if (stationnairesController.text == "") {
+                                            AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                          } else if (selectedPayMode == null) {
+                                            AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
+                                          } else if (payToController.text == "") {
+                                            AllServices().toastMessage("Please enter pay reciever name ", Colors.red, Colors.white, 16);
+                                          }else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
+                                            AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
+                                          }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
+                                            AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);
+                                          }else if (totalBudget>eCME) {
+                                            AllServices().toastMessage("Please reduce your budget ", Colors.red, Colors.white, 16);
+                                          }
+                                           else {
+                                            readyForPreviewMethod();
+                                          }
+                                
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
   }
 
   Column brandDetailsWidget( double wholeWidth, double wholeHeight) {

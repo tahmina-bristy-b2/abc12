@@ -5,7 +5,10 @@ import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/brand_details_show_widget.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/button_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/preview_row_widget.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -345,224 +348,32 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                   ],
                 ),
               ),
-               Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('SL No',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(approvedPrintDetails!.resData.dataListPrint[index].sl == null
-                          ? ""
-                          : '  ${approvedPrintDetails!.resData.dataListPrint[index].sl}',style: const TextStyle(fontWeight: FontWeight.bold),),
-                    ),
-                  ],
-                ),
-              ),
-             
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('E-CME Type',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(approvedPrintDetails!.resData.dataListPrint[index].ecmeType == null
-                          ? ""
-                          : '  ${approvedPrintDetails!.resData.dataListPrint[index].ecmeType}'),
-                    ),
-                  ],
-                ),
-              ),
-            
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Meeting Date',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(approvedPrintDetails!.resData.dataListPrint[index].meetingDate == null
-                          ? ""
-                          : '  ${approvedPrintDetails!.resData.dataListPrint[index].meetingDate}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Doctor Category',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text('  ${approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory }'),
-                    ),
-                  ],
-                ),
-              ),
-         approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution"  ?  Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Institute Name',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text('  ${approvedPrintDetails!.resData.dataListPrint[index].institutionName}'),
-                    ),
-                  ],
-                ),
-              ) : const SizedBox(),
-            approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution" ?  Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Department',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(
-                          '  ${approvedPrintDetails!.resData.dataListPrint[index].department}'),
-                    ),
-                  ],
-                ),
-              ) :const SizedBox(),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Meeting Venue',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(approvedPrintDetails!.resData.dataListPrint[index].meetingVenue==null
-                          ? ""
-                          : '  ${approvedPrintDetails!.resData.dataListPrint[index].meetingVenue}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Meeting Topic',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':'),
-                    Expanded(
-                      flex: 5,
-                      child: Text(" ${approvedPrintDetails!.resData.dataListPrint[index].meetingTopic}"
-                         ,),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Probable Speaker Name & Designation',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child:
-                          Text('  ${approvedPrintDetails!.resData.dataListPrint[index].probableSpeakerName}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Pay Mode',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child:
-                          Text('  ${approvedPrintDetails!.resData.dataListPrint[index].payMode}'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Pay To',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child:
-                          Text('  ${approvedPrintDetails!.resData.dataListPrint[index].payTo}'),
-                    ),
-                  ],
-                ),
-              ),
-                Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Status',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(approvedPrintDetails!.resData.dataListPrint[index].step==null
-                          ? ""
-                          : '   ${approvedPrintDetails!.resData.dataListPrint[index].step}',style: const TextStyle(color: Colors.green,fontWeight: FontWeight.bold),),
-                    ),
-                  ],
-                ),
-              ), 
-               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('Last Action',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child: Text(approvedPrintDetails!.resData.dataListPrint[index].lastAction==null
-                          ? ""
-                          : '   ${approvedPrintDetails!.resData.dataListPrint[index].lastAction}',style: const TextStyle(color: Colors.green,fontWeight: FontWeight.bold),),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('Total Numbers of participants',style: TextStyle(fontWeight: FontWeight.w500),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 5,
-                            child: Text(approvedPrintDetails!.resData.dataListPrint[index].totalNumbersOfParticipants == null
-                                ? ""
-                                : '   ${approvedPrintDetails!.resData.dataListPrint[index].totalNumbersOfParticipants}',style: const TextStyle(fontWeight: FontWeight.bold),),
-                          ),
-                        ],
-                      ),
-                    ) ,
-                    Container(
+
+               RowForCMEPreview(title: 'SL No', value: approvedPrintDetails!.resData.dataListPrint[index].sl, isBold: true,),
+               RowForCMEPreview(title: 'E-CME Type', value: approvedPrintDetails!.resData.dataListPrint[index].ecmeType ,isBold: false,),
+               RowForCMEPreview(title: 'Meeting Date', value: approvedPrintDetails!.resData.dataListPrint[index].meetingDate,isBold: false,), 
+               RowForCMEPreview(title: 'Doctor Category', value: approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory,isBold: false,), 
+
+
+         approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution"  ?RowForCMEPreview(title: 'Institute Name', value: approvedPrintDetails!.resData.dataListPrint[index].institutionName,isBold: false,) 
+          
+               : const SizedBox(),
+            approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution" ?  
+            RowForCMEPreview(title: "Department", value: approvedPrintDetails!.resData.dataListPrint[index].department,isBold: false,)
+              :const SizedBox(),
+
+                RowForCMEPreview(title: 'Meeting Venue', value: approvedPrintDetails!.resData.dataListPrint[index].meetingVenue,isBold: false,),
+                RowForCMEPreview(title: 'Meeting Topic', value: approvedPrintDetails!.resData.dataListPrint[index].meetingTopic,isBold: false,),
+                RowForCMEPreview(title: 'Probable Speaker Name & Designation', value: approvedPrintDetails!.resData.dataListPrint[index].probableSpeakerName,isBold: false,),
+                RowForCMEPreview(title: 'Pay Mode', value: approvedPrintDetails!.resData.dataListPrint[index].payMode,isBold: false,),
+                RowForCMEPreview(title: 'Pay To', value: approvedPrintDetails!.resData.dataListPrint[index].payTo,isBold: false,),
+                RowForCMEPreview(title: 'Status', value: approvedPrintDetails!.resData.dataListPrint[index].step,isBold: true,fontColor:Colors.green ,),
+                RowForCMEPreview(title: 'Last Action', value: approvedPrintDetails!.resData.dataListPrint[index].lastAction,isBold: true,fontColor:Colors.green ,),
+                RowForCMEPreview(title: 'Total Numbers of participants', value: approvedPrintDetails!.resData.dataListPrint[index].totalNumbersOfParticipants,isBold: true,),
+
+
+
+                Container(
                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 237, 246, 246),
                         ),
@@ -570,155 +381,20 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                           mainAxisAlignment: MainAxisAlignment.center, 
                           crossAxisAlignment: CrossAxisAlignment.center ,
                           children: [
-                          Padding(
-                      padding: const EdgeInsets.only(top: 1, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('1.  Doctors',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].doctorsCount,style: const TextStyle(fontSize: 12)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('2.  Intern Doctors',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                           flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].internDoctors,style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('3.  DMF Doctor',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].dmfDoctors,style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('3.  Nurses',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].nurses,style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('4.  SKF Attendance',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].skfAttendance,style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('6.  Others',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].othersParticipants,style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                        ],),
+                            PreviewBreakdownRowWidget(title:'1.  Doctors' ,value:approvedPrintDetails!.resData.dataListPrint[index].doctorsCount ,),
+                            PreviewBreakdownRowWidget(title:'2.  Intern Doctors' ,value:approvedPrintDetails!.resData.dataListPrint[index].internDoctors ,),
+                            PreviewBreakdownRowWidget(title:'3.  DMF Doctor' ,value:approvedPrintDetails!.resData.dataListPrint[index].dmfDoctors ,),
+                            PreviewBreakdownRowWidget(title:'3.  Nurses' ,value:approvedPrintDetails!.resData.dataListPrint[index].nurses ,),
+                            PreviewBreakdownRowWidget(title:'4.  SKF Attendance' ,value:approvedPrintDetails!.resData.dataListPrint[index].skfAttendance ,),
+                            PreviewBreakdownRowWidget(title:'6.  Others' ,value:approvedPrintDetails!.resData.dataListPrint[index].othersParticipants ,),
+                          ],),
                      ),
-                 
-                     Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('Total Budget',style: TextStyle(fontWeight: FontWeight.w500),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 5,
-                            child: Text(approvedPrintDetails!.resData.dataListPrint[index].totalBudget == null
-                                ? ""
-                                : '   ৳${approvedPrintDetails!.resData.dataListPrint[index].totalBudget}',style: const TextStyle(fontWeight: FontWeight.bold),),
-                          ),
-                        ],
-                      ),
-                    ) ,
-                    Padding(
-                    padding: const EdgeInsets.only(top: 6, bottom:5 ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 5, child: Text('Cost Per doctor',style: TextStyle(fontWeight: FontWeight.w500),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 5,
-                            child: Text( '   ৳${approvedPrintDetails!.resData.dataListPrint[index].costPerDoctor}',style: const TextStyle(fontWeight: FontWeight.bold),),
-                          ),
-                        ],
-                      ),
-                    ) ,
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:const [
-                           Expanded(flex: 5, child: Text('Budget Breakdown',style: TextStyle(fontWeight: FontWeight.w500),)),
-                           Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 5,
-                            child: Text('',style:  TextStyle(fontWeight: FontWeight.bold),),
-                          ),
-                        ],
-                      ),
-                    ) ,
+
+
+                    RowForCMEPreview(title: 'Total Budget', value: approvedPrintDetails!.resData.dataListPrint[index].totalBudget,isBold: true,),
+                    RowForCMEPreview(title: 'Cost Per doctor', value: approvedPrintDetails!.resData.dataListPrint[index].costPerDoctor,isBold: true,),
+                    const RowForCMEPreview(title: 'Budget Breakdown', value: '',isBold: true,),
+
 
                     Container(
                       decoration: BoxDecoration(
@@ -726,304 +402,301 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                         ),
                         child:Column(
                           children: [
-                            Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('1.  Hall rent',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10, 
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].hallRent==""?"৳00":' ৳${approvedPrintDetails!.resData.dataListPrint[index].hallRent}',style: const TextStyle(fontSize: 12)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('2.  Food Expense',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].foodExpense==""?"৳00":' ৳${approvedPrintDetails!.resData.dataListPrint[index].foodExpense}',style: TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                   
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('3.  Speaker Gift or Souvenir',style: TextStyle(fontSize: 12),)),
-                          const Text(':',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].giftsSouvenirs==""?"৳00": ' ৳${approvedPrintDetails!.resData.dataListPrint[index].giftsSouvenirs}',style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 5,left: 15,right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(flex: 10, child: Text('4.  Stationnaires or others',style: TextStyle(fontSize: 12),)),
-                          const Text(' :',style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            flex: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(approvedPrintDetails!.resData.dataListPrint[index].stationnaires==""?"৳00": ' ৳${approvedPrintDetails!.resData.dataListPrint[index].stationnaires}',style: const TextStyle(fontSize: 12),),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                
+                             PreviewBreakdownRowWidget(title:'1.  Hall rent' ,value:approvedPrintDetails!.resData.dataListPrint[index].hallRent ,),
+                             PreviewBreakdownRowWidget(title:'2.  Food Expense' ,value:approvedPrintDetails!.resData.dataListPrint[index].foodExpense ,),
+                             PreviewBreakdownRowWidget(title:'3.  Speaker Gift or Souvenir' ,value:approvedPrintDetails!.resData.dataListPrint[index].giftsSouvenirs ,),
+                             PreviewBreakdownRowWidget(title:'4.  Stationnaires or others' ,value:approvedPrintDetails!.resData.dataListPrint[index].stationnaires ,),
 
                           ],
                         ) ,
                     ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(flex: 5, child: Text('e_CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
-                    const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-                    Expanded(
-                      flex: 5,
-                      child:
-                          Text(' ${getDouble(approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount)}'),
-                    ),
-                  ],
-                ),
-              ),
-                
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Expanded(flex: 5, child: Text('Brand Details',style: TextStyle(fontWeight: FontWeight.bold),)),
-                    Text('',),
-                    Expanded(
-                      flex: 5,
-                      child: Text(':'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: StatefulBuilder(
-                        builder: (context, setState_2) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 35,
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color:
-                                        const Color.fromARGB(255, 98, 158, 219),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                     const  Expanded(
-                                         flex: 2,
-                                         child: Text(
-                                                                               'Name',
-                                                                               style: TextStyle(
-                                           color: Color.fromARGB(
-                                               255, 253, 253, 253),
-                                           fontSize: 12),
-                                                                             ),
-                                       ),
-                                     const  Expanded(
-                                        flex: 3,
-                                          child: Center(
-                                        child: Text("e_CME Amount",
-                                          style:  TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 253, 253, 253),
-                                              fontSize: 12),
-                                        ),
-                                      )),
-                                      Expanded(
-                                        flex: 3,
-                                          child: Center(
-                                        child: Text(approvedPrintDetails!.resData.dataListPrint[index].ecmeType=="RMP Meeting"? 
-                                          "Sales Qty":"Rx Objective Per Day",
-                                          style:const  TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 253, 253, 253),
-                                              fontSize: 12),
-                                        ),
-                                      )),
-                                      
-                                    ],
-                                  ),
-                                ),
-                              const SizedBox(height: 5),
-                           SizedBox(
-                                  height:
-                                      approvedPrintDetails!.resData.dataListPrint[index].brandList.length * 25.0,
-                                  child: ListView.builder(
-                                      itemCount:
-                                          approvedPrintDetails!.resData.dataListPrint[index].brandList.length,
-                                      itemBuilder: (itemBuilder, index2) {
-                                        return Container(
-                                          height: 25,
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5, left: 5),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: index2 % 2 == 0
-                                                ? Colors.grey[300]
-                                                : Colors.white,
-                                          ),
-                                        
-                                          child: Row(
-                                    children: [
-                                       Expanded(
-                                         flex: 2,
-                                         child: Text(approvedPrintDetails!.resData.dataListPrint[index].brandList
-                                                    [index2].brandName,
-                                                                               style:const TextStyle(
-                                           color: Colors.black,
-                                           fontSize: 12),
-                                                                             ),
-                                       ),
-                                       Expanded(
-                                        flex: 3,
-                                          child: Center(
-                                        child: Text(
-                                         approvedPrintDetails!.resData.dataListPrint[index].brandList[index2].amount,style: const TextStyle(fontSize: 12),
-                                        ),
-                                      )),
-                                      Expanded(
-                                        flex: 3,
-                                          child: Center(
-                                        child: Text(
-                                         approvedPrintDetails!.resData.dataListPrint[index].brandList[index2].qty,style: const TextStyle(fontSize: 12),
-                                        ),
-                                      )),
-                                      
-                                    ],
-                                  ),
-                                        );
-                                      }),
-                                ),
-                                const SizedBox(height: 5),
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: const Color.fromARGB(
-                                          255, 98, 158, 219)),
-                                  child: Row(
-                                    children: [
-                                      const Expanded(
-                                        flex: 2,
-                                          child: Text(
-                                        "Total",
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontSize: 13,),
-                                      )),
-                                      Expanded(
-                                        flex: 3,
-                                        child: Center(
-                                          child: Text(
-                                            approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount,
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 254, 254, 254),
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ),
-                                     
-                                     
-                                      Expanded(
-                                        flex: 3,
-                                        child: Center(
-                                          child: Text(
-                                            "${getTotalSalesQty(approvedPrintDetails!.resData.dataListPrint[index].brandList)}",
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 254, 254, 254),
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+
+
+                    RowForCMEPreview(title: 'e_CME Amount', value: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount,isBold: true,),
+                     const RowForCMEPreview(title: 'Brand Details', value: '',isBold: false,),
+                     BrandDetailsShowWidget(
+                              routeName:"Print" ,
+                              paddingTopValue: 5, 
+                              paddingbottomValue: 5, 
+                              containerHeight: 35, 
+                              eCMeTYpe: approvedPrintDetails!.resData.dataListPrint[index].ecmeType, 
+                              eCMESubmitDataModel: approvedPrintDetails!.resData.dataListPrint[index].brandList, 
+                              eCMEAmount:  approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount,
+                              splitedECMEamount:approvedPrintDetails!.resData.dataListPrint[index].brandList.first.amount,
+                              totalAmount: "${getTotalSalesQty(approvedPrintDetails!.resData.dataListPrint[index].brandList)}",
+                              rxOrSalesTile: approvedPrintDetails!.resData.dataListPrint[index].ecmeType=="RMP Meeting"? "Sales Qty":"Rx Objective Per Day",
+                           ),
+                      const SizedBox(
+                        height: 15,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ), 
 
 
-                   Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                        
-                          ElevatedButton(
-                            onPressed: (){
-                              Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (_) =>  PdfPage(
-                                                                wholeData: approvedPrintDetails!,
-                                                                dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
-                                                            ),
-                                                          );
+
+                      ButtonRowWidget(
+                          buttonheight: 40, 
+                          buttonwidth: 140, 
+                          firstButtonTitle: "Edit", 
+                          firstButtonColor: const Color(0xffD9873D),
+                          firstButtonAction: () {
+                             
+                            },
+                          secondButtonTitle: " Print/PDF", 
+                          secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
+                          secondButtonAction: () async {
+                             if(context.mounted){
+                                Navigator.push(
+                                    context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>  PdfPage(
+                                          wholeData: approvedPrintDetails!,
+                                          dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
+                                          ),
+                                    );
+                              }
                                     
-                                  },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: isPressed
-                                    ? Colors.grey
-                                    : const Color.fromARGB(255, 44, 114, 66),
-                                 fixedSize: const Size(350, 40)
-                                 ),
-                            child: const Text('Print/PDF'),
-                          ),
-                        ],
-                      ),
+                                  }, 
+                          isRowShow: false
+                        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       const Expanded(flex: 5, child: Text('e_CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
+              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
+              //       Expanded(
+              //         flex: 5,
+              //         child:
+              //             Text(' ${getDouble(approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount)}'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+                
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: const [
+              //       Expanded(flex: 5, child: Text('Brand Details',style: TextStyle(fontWeight: FontWeight.bold),)),
+              //       Text('',),
+              //       Expanded(
+              //         flex: 5,
+              //         child: Text(':'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 5, bottom: 5),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Expanded(
+              //         child: StatefulBuilder(
+              //           builder: (context, setState_2) {
+              //             return Padding(
+              //               padding: const EdgeInsets.only(left: 0),
+              //               child: Column(
+              //                 children: [
+              //                   Container(
+              //                     height: 35,
+              //                     padding: const EdgeInsets.all(5),
+              //                     decoration: BoxDecoration(
+              //                       borderRadius: BorderRadius.circular(5),
+              //                       color:
+              //                           const Color.fromARGB(255, 98, 158, 219),
+              //                     ),
+              //                     child: Row(
+              //                       children: [
+              //                        const  Expanded(
+              //                            flex: 2,
+              //                            child: Text(
+              //                                                                  'Name',
+              //                                                                  style: TextStyle(
+              //                              color: Color.fromARGB(
+              //                                  255, 253, 253, 253),
+              //                              fontSize: 12),
+              //                                                                ),
+              //                          ),
+              //                        const  Expanded(
+              //                           flex: 3,
+              //                             child: Center(
+              //                           child: Text("e_CME Amount",
+              //                             style:  TextStyle(
+              //                                 color: Color.fromARGB(
+              //                                     255, 253, 253, 253),
+              //                                 fontSize: 12),
+              //                           ),
+              //                         )),
+              //                         Expanded(
+              //                           flex: 3,
+              //                             child: Center(
+              //                           child: Text(approvedPrintDetails!.resData.dataListPrint[index].ecmeType=="RMP Meeting"? 
+              //                             "Sales Qty":"Rx Objective Per Day",
+              //                             style:const  TextStyle(
+              //                                 color: Color.fromARGB(
+              //                                     255, 253, 253, 253),
+              //                                 fontSize: 12),
+              //                           ),
+              //                         )),
+                                      
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 const SizedBox(height: 5),
+              //              SizedBox(
+              //                     height:
+              //                         approvedPrintDetails!.resData.dataListPrint[index].brandList.length * 25.0,
+              //                     child: ListView.builder(
+              //                         itemCount:
+              //                             approvedPrintDetails!.resData.dataListPrint[index].brandList.length,
+              //                         itemBuilder: (itemBuilder, index2) {
+              //                           return Container(
+              //                             height: 25,
+              //                             padding: const EdgeInsets.only(
+              //                                 top: 5, bottom: 5, left: 5),
+              //                             decoration: BoxDecoration(
+              //                               borderRadius:
+              //                                   BorderRadius.circular(5),
+              //                               color: index2 % 2 == 0
+              //                                   ? Colors.grey[300]
+              //                                   : Colors.white,
+              //                             ),
+                                        
+              //                             child: Row(
+              //                       children: [
+              //                          Expanded(
+              //                            flex: 2,
+              //                            child: Text(approvedPrintDetails!.resData.dataListPrint[index].brandList
+              //                                       [index2].brandName,
+              //                                                                  style:const TextStyle(
+              //                              color: Colors.black,
+              //                              fontSize: 12),
+              //                                                                ),
+              //                          ),
+              //                          Expanded(
+              //                           flex: 3,
+              //                             child: Center(
+              //                           child: Text(
+              //                            approvedPrintDetails!.resData.dataListPrint[index].brandList[index2].amount,style: const TextStyle(fontSize: 12),
+              //                           ),
+              //                         )),
+              //                         Expanded(
+              //                           flex: 3,
+              //                             child: Center(
+              //                           child: Text(
+              //                            approvedPrintDetails!.resData.dataListPrint[index].brandList[index2].qty,style: const TextStyle(fontSize: 12),
+              //                           ),
+              //                         )),
+                                      
+              //                       ],
+              //                     ),
+              //                           );
+              //                         }),
+              //                   ),
+              //                   const SizedBox(height: 5),
+              //                   Container(
+              //                     padding: const EdgeInsets.all(5),
+              //                     decoration: BoxDecoration(
+              //                         borderRadius: BorderRadius.circular(5),
+              //                         color: const Color.fromARGB(
+              //                             255, 98, 158, 219)),
+              //                     child: Row(
+              //                       children: [
+              //                         const Expanded(
+              //                           flex: 2,
+              //                             child: Text(
+              //                           "Total",
+              //                           style: TextStyle(
+              //                               color: Color.fromARGB(
+              //                                   255, 255, 255, 255),
+              //                               fontSize: 13,),
+              //                         )),
+              //                         Expanded(
+              //                           flex: 3,
+              //                           child: Center(
+              //                             child: Text(
+              //                               approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount,
+              //                               style: const TextStyle(
+              //                                   color: Color.fromARGB(
+              //                                       255, 254, 254, 254),
+              //                                   fontSize: 12),
+              //                             ),
+              //                           ),
+              //                         ),
+                                     
+                                     
+              //                         Expanded(
+              //                           flex: 3,
+              //                           child: Center(
+              //                             child: Text(
+              //                               "${getTotalSalesQty(approvedPrintDetails!.resData.dataListPrint[index].brandList)}",
+              //                               style: const TextStyle(
+              //                                   color: Color.fromARGB(
+              //                                       255, 254, 254, 254),
+              //                                   fontSize: 12),
+              //                             ),
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //             );
+              //           },
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ), 
+,
+
+                  //  Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //       children: [
+                        
+                  //         ElevatedButton(
+                  //           onPressed: (){
+                  //             Navigator.push(
+                  //                  context,
+                  //                   MaterialPageRoute(
+                  //                      builder: (_) =>  PdfPage(
+                  //                        wholeData: approvedPrintDetails!,
+                  //                        dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
+                  //                        ),
+                  //                 );
+                                    
+                  //                 },
+                  //           style: ElevatedButton.styleFrom(
+                  //               backgroundColor: isPressed
+                  //                   ? Colors.grey
+                  //                   : const Color.fromARGB(255, 44, 114, 66),
+                  //                fixedSize: const Size(350, 40)
+                  //                ),
+                  //           child: const Text('Print/PDF'),
+                  //         ),
+                  //       ],
+                  //     ),
                    
                    
             const SizedBox(

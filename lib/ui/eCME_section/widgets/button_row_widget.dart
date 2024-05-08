@@ -33,7 +33,7 @@ class ButtonRowWidget extends StatelessWidget {
                             onPressed: firstButtonAction,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: firstButtonColor,
-                                fixedSize:  Size(buttonheight, buttonwidth)),
+                                fixedSize:  Size( buttonwidth,buttonheight,)),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children:  [
@@ -53,7 +53,7 @@ class ButtonRowWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           secondButtonColor,
-                                      fixedSize:  Size(buttonheight, buttonwidth)),
+                                      fixedSize:  Size( buttonwidth,buttonheight,)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:  [

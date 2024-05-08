@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ECMEDoctorPreviewScreen extends StatefulWidget {
- final ECMESubmitDataModel eCMESubmitDataModel;
- const ECMEDoctorPreviewScreen({
+  ECMESubmitDataModel eCMESubmitDataModel;
+  ECMEDoctorPreviewScreen({
      super.key,
      required this.eCMESubmitDataModel,
    });
@@ -29,14 +29,24 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   double totalECMEAmout=0.0;
   String eCMEAmount="";
 
+  
+  
   @override
   void initState() { 
     super.initState();
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    totalAmount =ECMEServices().dynamicTotalCalculation(widget.eCMESubmitDataModel)["total_amount"];
-    eCMEAmount =ECMEServices().dynamicTotalCalculation(widget.eCMESubmitDataModel)["eCME_amount"];
+    dynamicTotalCalculation();
   }
   
+   dynamicTotalCalculation() {
+    totalAmount =ECMEServices().dynamicTotalCalculation(widget.eCMESubmitDataModel)["total_amount"];
+    eCMEAmount =ECMEServices().dynamicTotalCalculation(widget.eCMESubmitDataModel)["eCME_amount"];
+    setState(() {
+      
+    });
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,21 +138,25 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                      RowForCMEPreview(title: 'e_CME Amount', value: eCMEAmount,isBold: true,),
                      const RowForCMEPreview(title: 'Brand Details', value: '',isBold: false,),
                      BrandDetailsShowWidget(
+                              routeName:"Preview" ,
                               paddingTopValue: 5, 
                               paddingbottomValue: 5, 
                               containerHeight: 35, 
                               eCMeTYpe: widget.eCMESubmitDataModel.eCMEType, 
-                              eCMESubmitDataModel: widget.eCMESubmitDataModel, 
+                              eCMESubmitDataModel: widget.eCMESubmitDataModel.brandList, 
                               eCMEAmount: eCMEAmount, 
-                              totalAmount: totalAmount.toString()
+                              totalAmount: totalAmount.toString(), 
+                              rxOrSalesTile:widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"? 
+                                                  "Sales Qty":"Rx Objective Per Day", 
+                              splitedECMEamount: widget.eCMESubmitDataModel.splitdECMEAmount,
                            ),
                       const SizedBox(
                         height: 25,
                       ),
                       
                       ButtonRowWidget(
-                          buttonheight: 160, 
-                          buttonwidth: 40, 
+                            buttonheight: 40, 
+                          buttonwidth: 140, 
                           firstButtonTitle: "Edit", 
                           firstButtonColor: const Color(0xffD9873D),
                           firstButtonAction: () {
@@ -180,7 +194,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
     ECMESubmitDataModel ecmeSubmitDataModel= widget.eCMESubmitDataModel;
     String submitUrl= "${dmpathData!.submitUrl}api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.brandString}0&areaId=${ecmeSubmitDataModel.areaId}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerInstitute=${ecmeSubmitDataModel.institutionName}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftCost}&others=${ecmeSubmitDataModel.othersParticipants}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&doctor_str=${ecmeSubmitDataModel.docListString}&pay_mode=${ecmeSubmitDataModel.payMode}&skf_attendance=${ecmeSubmitDataModel.skfAttendance}&others_participants=${ecmeSubmitDataModel.othersParticipants}&food_expense=${ecmeSubmitDataModel.foodExpense}&departament=${ecmeSubmitDataModel.departament}&pay_to=${ecmeSubmitDataModel.payTo}&institutionName=${ecmeSubmitDataModel.institutionName}";
     // String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.eCMEType== "RMP Meeting" ? ecmeSubmitDataModel.brandString:""}&areaId=${ecmeSubmitDataModel.areaId}&docId=${ecmeSubmitDataModel.docId}&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&probable_speaker_designation=${ecmeSubmitDataModel.speakerDesignation}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&foodexpenses=${ecmeSubmitDataModel.foodExpense}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&institutionName=${ecmeSubmitDataModel.institureName}&departament=${ecmeSubmitDataModel.departament}";
-    print("submt =$submitUrl");
+   print("submt =$submitUrl");
     Map<String, dynamic> data = await ECMERepositry().eCMESubmitURL(submitUrl);
     if (data["status"] == "Success") {
       setState(() {
@@ -200,6 +214,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pop(context);
+
          } 
       
     } else {

@@ -7,12 +7,16 @@ class BrandDetailsShowWidget extends StatelessWidget {
   final double paddingbottomValue;
   final double containerHeight;
   final String eCMeTYpe;
-  final ECMESubmitDataModel eCMESubmitDataModel;
+  var eCMESubmitDataModel;
   final String eCMEAmount;
+  final String splitedECMEamount;
   final String totalAmount;
+  final String rxOrSalesTile;
+  final String routeName;
 
 
-  const BrandDetailsShowWidget({
+
+   BrandDetailsShowWidget({
     Key? key,
     required this.paddingTopValue,
     required this.paddingbottomValue,
@@ -20,7 +24,10 @@ class BrandDetailsShowWidget extends StatelessWidget {
     required this.eCMeTYpe,
     required this.eCMESubmitDataModel,
     required this.totalAmount,
-    required this.eCMEAmount
+    required this.eCMEAmount,
+    required this.splitedECMEamount,
+    required this.rxOrSalesTile,
+    required this.routeName
   }) : super(key: key);
 
   @override
@@ -67,8 +74,8 @@ class BrandDetailsShowWidget extends StatelessWidget {
                                               Expanded(
                                                 flex: 3,
                                                   child: Center(
-                                                child: Text(eCMESubmitDataModel.eCMEType=="RMP Meeting"? 
-                                                  "Sales Qty":"Rx Objective Per Day",
+                                                child: Text(
+                                                  rxOrSalesTile,
                                                   style:const  TextStyle(
                                                       color: Color.fromARGB(
                                                           255, 253, 253, 253),
@@ -82,11 +89,27 @@ class BrandDetailsShowWidget extends StatelessWidget {
                                       const SizedBox(height: 5),
                                   SizedBox(
                                           height:
-                                              eCMESubmitDataModel.brandList.length * 25.0,
+                                              eCMESubmitDataModel.length * 25.0,
                                           child: ListView.builder(
                                               itemCount:
-                                                  eCMESubmitDataModel.brandList.length,
+                                                  eCMESubmitDataModel.length,
                                               itemBuilder: (itemBuilder, index2) {
+                                                String eCMeAmountL= "";
+                                                String salesQty='';
+                                                String brandName='';
+
+                                                if(routeName=="Preview"){
+                                                  eCMeAmountL=eCMEAmount;
+                                                  salesQty=eCMESubmitDataModel[index2][2];
+                                                  brandName=eCMESubmitDataModel[index2][0];
+                                                }
+                                                else if(routeName=="Print"){
+                                                  eCMeAmountL=eCMEAmount;
+                                                  salesQty=eCMESubmitDataModel[index2].qty;
+                                                  brandName=eCMESubmitDataModel[index2].brandName;
+
+                                                }
+
                                                 return Container(
                                                   height: 25,
                                                   padding: const EdgeInsets.only(
@@ -103,8 +126,7 @@ class BrandDetailsShowWidget extends StatelessWidget {
                                             children: [
                                               Expanded(
                                                 flex: 2,
-                                                child: Text(eCMESubmitDataModel.brandList
-                                                            [index2][0],
+                                                child: Text(brandName,
                                                                                       style:const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12),
@@ -114,15 +136,14 @@ class BrandDetailsShowWidget extends StatelessWidget {
                                                 flex: 3,
                                                   child: Center(
                                                 child: Text(
-                                                eCMESubmitDataModel.splitdECMEAmount,style: const TextStyle(fontSize: 12),
+                                                splitedECMEamount,style: const TextStyle(fontSize: 12),
                                                 ),
                                               )),
                                               Expanded(
                                                 flex: 3,
                                                   child: Center(
                                                 child: Text(
-                                                eCMESubmitDataModel.brandList
-                                                                [index2][2],style: const TextStyle(fontSize: 12),
+                                                salesQty,style: const TextStyle(fontSize: 12),
                                                 ),
                                               )),
                                               

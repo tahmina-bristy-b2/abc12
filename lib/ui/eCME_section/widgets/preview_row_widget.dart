@@ -3,11 +3,13 @@ class RowForCMEPreview extends StatelessWidget {
 
  final String title ;
  final String value;
+ final Color fontColor;
  final bool isBold;
   const RowForCMEPreview({
      super.key,
      required this.title,
      required this.value,
+     this.fontColor=Colors.black,
      required this.isBold
     });
 

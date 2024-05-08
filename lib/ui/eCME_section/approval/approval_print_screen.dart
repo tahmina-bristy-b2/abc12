@@ -334,7 +334,6 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                           width: 150,
                           child: ListView.builder(itemCount: approvedPrintDetails!.resData.dataListPrint[index].doctorList.length,
                             itemBuilder: (context,index2){
-                             
                                return Padding(
                                  padding: const EdgeInsets.only(top: 4),
                                  child: Text( "${index2+1}. ${approvedPrintDetails!.resData.dataListPrint[index].doctorList[index2].doctorName}|${approvedPrintDetails!.resData.dataListPrint[index].doctorList[index2].doctorId}",style: const TextStyle(fontSize: 13),),
@@ -355,12 +354,11 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                RowForCMEPreview(title: 'Doctor Category', value: approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory,isBold: false,), 
 
 
-         approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution"  ?RowForCMEPreview(title: 'Institute Name', value: approvedPrintDetails!.resData.dataListPrint[index].institutionName,isBold: false,) 
+               approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution"  ?RowForCMEPreview(title: 'Institute Name', value: approvedPrintDetails!.resData.dataListPrint[index].institutionName,isBold: false,) 
           
                : const SizedBox(),
-            approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution" ?  
-            RowForCMEPreview(title: "Department", value: approvedPrintDetails!.resData.dataListPrint[index].department,isBold: false,)
-              :const SizedBox(),
+               approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution" ?  
+                RowForCMEPreview(title: "Department", value: approvedPrintDetails!.resData.dataListPrint[index].department,isBold: false,) :const SizedBox(),
 
                 RowForCMEPreview(title: 'Meeting Venue', value: approvedPrintDetails!.resData.dataListPrint[index].meetingVenue,isBold: false,),
                 RowForCMEPreview(title: 'Meeting Topic', value: approvedPrintDetails!.resData.dataListPrint[index].meetingTopic,isBold: false,),
@@ -370,8 +368,6 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                 RowForCMEPreview(title: 'Status', value: approvedPrintDetails!.resData.dataListPrint[index].step,isBold: true,fontColor:Colors.green ,),
                 RowForCMEPreview(title: 'Last Action', value: approvedPrintDetails!.resData.dataListPrint[index].lastAction,isBold: true,fontColor:Colors.green ,),
                 RowForCMEPreview(title: 'Total Numbers of participants', value: approvedPrintDetails!.resData.dataListPrint[index].totalNumbersOfParticipants,isBold: true,),
-
-
 
                 Container(
                        decoration: BoxDecoration(
@@ -411,7 +407,6 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                         ) ,
                     ),
 
-
                     RowForCMEPreview(title: 'e_CME Amount', value: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount,isBold: true,),
                      const RowForCMEPreview(title: 'Brand Details', value: '',isBold: false,),
                      BrandDetailsShowWidget(
@@ -429,8 +424,6 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-
-
 
                       ButtonRowWidget(
                           buttonheight: 40, 
@@ -456,248 +449,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                     
                                   }, 
                           isRowShow: false
-                        )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       const Expanded(flex: 5, child: Text('e_CME Amount',style: TextStyle(fontWeight: FontWeight.w500),)),
-              //       const Text(':',style: TextStyle(fontWeight: FontWeight.w500),),
-              //       Expanded(
-              //         flex: 5,
-              //         child:
-              //             Text(' ${getDouble(approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount)}'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-                
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 10, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: const [
-              //       Expanded(flex: 5, child: Text('Brand Details',style: TextStyle(fontWeight: FontWeight.bold),)),
-              //       Text('',),
-              //       Expanded(
-              //         flex: 5,
-              //         child: Text(':'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 5, bottom: 5),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Expanded(
-              //         child: StatefulBuilder(
-              //           builder: (context, setState_2) {
-              //             return Padding(
-              //               padding: const EdgeInsets.only(left: 0),
-              //               child: Column(
-              //                 children: [
-              //                   Container(
-              //                     height: 35,
-              //                     padding: const EdgeInsets.all(5),
-              //                     decoration: BoxDecoration(
-              //                       borderRadius: BorderRadius.circular(5),
-              //                       color:
-              //                           const Color.fromARGB(255, 98, 158, 219),
-              //                     ),
-              //                     child: Row(
-              //                       children: [
-              //                        const  Expanded(
-              //                            flex: 2,
-              //                            child: Text(
-              //                                                                  'Name',
-              //                                                                  style: TextStyle(
-              //                              color: Color.fromARGB(
-              //                                  255, 253, 253, 253),
-              //                              fontSize: 12),
-              //                                                                ),
-              //                          ),
-              //                        const  Expanded(
-              //                           flex: 3,
-              //                             child: Center(
-              //                           child: Text("e_CME Amount",
-              //                             style:  TextStyle(
-              //                                 color: Color.fromARGB(
-              //                                     255, 253, 253, 253),
-              //                                 fontSize: 12),
-              //                           ),
-              //                         )),
-              //                         Expanded(
-              //                           flex: 3,
-              //                             child: Center(
-              //                           child: Text(approvedPrintDetails!.resData.dataListPrint[index].ecmeType=="RMP Meeting"? 
-              //                             "Sales Qty":"Rx Objective Per Day",
-              //                             style:const  TextStyle(
-              //                                 color: Color.fromARGB(
-              //                                     255, 253, 253, 253),
-              //                                 fontSize: 12),
-              //                           ),
-              //                         )),
-                                      
-              //                       ],
-              //                     ),
-              //                   ),
-              //                 const SizedBox(height: 5),
-              //              SizedBox(
-              //                     height:
-              //                         approvedPrintDetails!.resData.dataListPrint[index].brandList.length * 25.0,
-              //                     child: ListView.builder(
-              //                         itemCount:
-              //                             approvedPrintDetails!.resData.dataListPrint[index].brandList.length,
-              //                         itemBuilder: (itemBuilder, index2) {
-              //                           return Container(
-              //                             height: 25,
-              //                             padding: const EdgeInsets.only(
-              //                                 top: 5, bottom: 5, left: 5),
-              //                             decoration: BoxDecoration(
-              //                               borderRadius:
-              //                                   BorderRadius.circular(5),
-              //                               color: index2 % 2 == 0
-              //                                   ? Colors.grey[300]
-              //                                   : Colors.white,
-              //                             ),
-                                        
-              //                             child: Row(
-              //                       children: [
-              //                          Expanded(
-              //                            flex: 2,
-              //                            child: Text(approvedPrintDetails!.resData.dataListPrint[index].brandList
-              //                                       [index2].brandName,
-              //                                                                  style:const TextStyle(
-              //                              color: Colors.black,
-              //                              fontSize: 12),
-              //                                                                ),
-              //                          ),
-              //                          Expanded(
-              //                           flex: 3,
-              //                             child: Center(
-              //                           child: Text(
-              //                            approvedPrintDetails!.resData.dataListPrint[index].brandList[index2].amount,style: const TextStyle(fontSize: 12),
-              //                           ),
-              //                         )),
-              //                         Expanded(
-              //                           flex: 3,
-              //                             child: Center(
-              //                           child: Text(
-              //                            approvedPrintDetails!.resData.dataListPrint[index].brandList[index2].qty,style: const TextStyle(fontSize: 12),
-              //                           ),
-              //                         )),
-                                      
-              //                       ],
-              //                     ),
-              //                           );
-              //                         }),
-              //                   ),
-              //                   const SizedBox(height: 5),
-              //                   Container(
-              //                     padding: const EdgeInsets.all(5),
-              //                     decoration: BoxDecoration(
-              //                         borderRadius: BorderRadius.circular(5),
-              //                         color: const Color.fromARGB(
-              //                             255, 98, 158, 219)),
-              //                     child: Row(
-              //                       children: [
-              //                         const Expanded(
-              //                           flex: 2,
-              //                             child: Text(
-              //                           "Total",
-              //                           style: TextStyle(
-              //                               color: Color.fromARGB(
-              //                                   255, 255, 255, 255),
-              //                               fontSize: 13,),
-              //                         )),
-              //                         Expanded(
-              //                           flex: 3,
-              //                           child: Center(
-              //                             child: Text(
-              //                               approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount,
-              //                               style: const TextStyle(
-              //                                   color: Color.fromARGB(
-              //                                       255, 254, 254, 254),
-              //                                   fontSize: 12),
-              //                             ),
-              //                           ),
-              //                         ),
-                                     
-                                     
-              //                         Expanded(
-              //                           flex: 3,
-              //                           child: Center(
-              //                             child: Text(
-              //                               "${getTotalSalesQty(approvedPrintDetails!.resData.dataListPrint[index].brandList)}",
-              //                               style: const TextStyle(
-              //                                   color: Color.fromARGB(
-              //                                       255, 254, 254, 254),
-              //                                   fontSize: 12),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             );
-              //           },
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ), 
-,
-
-                  //  Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //       children: [
-                        
-                  //         ElevatedButton(
-                  //           onPressed: (){
-                  //             Navigator.push(
-                  //                  context,
-                  //                   MaterialPageRoute(
-                  //                      builder: (_) =>  PdfPage(
-                  //                        wholeData: approvedPrintDetails!,
-                  //                        dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
-                  //                        ),
-                  //                 );
-                                    
-                  //                 },
-                  //           style: ElevatedButton.styleFrom(
-                  //               backgroundColor: isPressed
-                  //                   ? Colors.grey
-                  //                   : const Color.fromARGB(255, 44, 114, 66),
-                  //                fixedSize: const Size(350, 40)
-                  //                ),
-                  //           child: const Text('Print/PDF'),
-                  //         ),
-                  //       ],
-                  //     ),
-                   
+                        ),
                    
             const SizedBox(
               height: 10,

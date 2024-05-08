@@ -1,5 +1,6 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 
 class ECMEServices{
    //====================================== Load eDSR Data Settings Info=====================================
@@ -125,6 +126,20 @@ class ECMEServices{
       }
     }
     return brandString;
+  }
+
+
+
+  Map<String,dynamic> dynamicTotalCalculation( ECMESubmitDataModel eCMESubmitDataModel ) {
+   int totalAmount = 0;
+   String eCMEAmount = double.parse(eCMESubmitDataModel.eCMEAmount).toStringAsFixed(2);
+    for (var element in eCMESubmitDataModel.brandList) {
+      totalAmount = totalAmount + int.parse(element[2]);
+    }
+    return {
+      "total_amount":totalAmount,
+      "eCME_amount":eCMEAmount
+    };
   }
 
 

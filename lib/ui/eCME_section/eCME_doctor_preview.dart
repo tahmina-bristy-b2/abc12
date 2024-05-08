@@ -2,18 +2,20 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/eCME/eCME_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/brand_details_show_widget.dart';
+import 'package:MREPORTING/ui/eCME_section/widgets/button_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/preview_row_widget.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ECMEDoctorPreviewScreen extends StatefulWidget {
-  ECMESubmitDataModel eCMESubmitDataModel;
-  ECMEDoctorPreviewScreen({super.key,
-   required this.eCMESubmitDataModel,
-
-   
+ final ECMESubmitDataModel eCMESubmitDataModel;
+ const ECMEDoctorPreviewScreen({
+     super.key,
+     required this.eCMESubmitDataModel,
    });
 
   @override
@@ -27,25 +29,14 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
   double totalECMEAmout=0.0;
   String eCMEAmount="";
 
-  
-  
   @override
   void initState() { 
     super.initState();
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    dynamicTotalCalculation();
+    totalAmount =ECMEServices().dynamicTotalCalculation(widget.eCMESubmitDataModel)["total_amount"];
+    eCMEAmount =ECMEServices().dynamicTotalCalculation(widget.eCMESubmitDataModel)["eCME_amount"];
   }
   
-  int dynamicTotalCalculation() {
-    totalAmount = 0;
-    eCMEAmount = double.parse(widget.eCMESubmitDataModel.eCMEAmount).toStringAsFixed(2);
-    for (var element in widget.eCMESubmitDataModel.brandList) {
-      totalAmount = totalAmount + int.parse(element[2]);
-    }
-    return totalAmount;
-  }
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,8 +88,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                       RowForCMEPreview(title: 'Pay Mode', value: widget.eCMESubmitDataModel.payMode,isBold: false, ),
                       RowForCMEPreview(title: 'Pay to', value: widget.eCMESubmitDataModel.payTo,isBold: false,),
                       RowForCMEPreview(title: 'Total Numbers of participants', value: widget.eCMESubmitDataModel.numberOfParticipant,isBold: false,),
-                      
-              
+                     
                     Container(
                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),color:const Color.fromARGB(255, 237, 246, 246),
@@ -115,7 +105,6 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                             PreviewBreakdownRowWidget(title:'6.  Others' ,value:widget.eCMESubmitDataModel.othersParticipants ,),
                           ],),
                      ),
-                     
 
                     RowForCMEPreview(title: 'Total Budget', value: widget.eCMESubmitDataModel.totalBudget,isBold: true,),
                     RowForCMEPreview(title: 'Cost Per doctor', value: widget.eCMESubmitDataModel.costPerDoctor,isBold: true,),
@@ -138,200 +127,30 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
 
                      RowForCMEPreview(title: 'e_CME Amount', value: eCMEAmount,isBold: true,),
                      const RowForCMEPreview(title: 'Brand Details', value: '',isBold: false,),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: StatefulBuilder(
-                                builder: (context, setState_2) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          height: 35,
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color:
-                                                const Color.fromARGB(255, 98, 158, 219),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                            const  Expanded(
-                                                flex: 2,
-                                                child: Text( 'Name',
-                                                                                      style: TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 253, 253, 253),
-                                                  fontSize: 12),
-                                                                                    ),
-                                              ),
-                                            const  Expanded(
-                                                flex: 3,
-                                                  child: Center(
-                                                child: Text("e_CME Amount",
-                                                  style:  TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 253, 253, 253),
-                                                      fontSize: 12),
-                                                ),
-                                              )),
-                                              Expanded(
-                                                flex: 3,
-                                                  child: Center(
-                                                child: Text(widget.eCMESubmitDataModel.eCMEType=="RMP Meeting"? 
-                                                  "Sales Qty":"Rx Objective Per Day",
-                                                  style:const  TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 253, 253, 253),
-                                                      fontSize: 12),
-                                                ),
-                                              )),
-                                              
-                                            ],
-                                          ),
-                                        ),
-                                      const SizedBox(height: 5),
-                                  SizedBox(
-                                          height:
-                                              widget.eCMESubmitDataModel.brandList.length * 25.0,
-                                          child: ListView.builder(
-                                              itemCount:
-                                                  widget.eCMESubmitDataModel.brandList.length,
-                                              itemBuilder: (itemBuilder, index2) {
-                                                return Container(
-                                                  height: 25,
-                                                  padding: const EdgeInsets.only(
-                                                      top: 5, bottom: 5, left: 5),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(5),
-                                                    color: index2 % 2 == 0
-                                                        ? Colors.grey[300]
-                                                        : Colors.white,
-                                                  ),
-                                                
-                                                  child: Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(widget.eCMESubmitDataModel.brandList
-                                                            [index2][0],
-                                                                                      style:const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12),
-                                                                                    ),
-                                              ),
-                                              Expanded(
-                                                flex: 3,
-                                                  child: Center(
-                                                child: Text(
-                                                widget.eCMESubmitDataModel.splitdECMEAmount,style: const TextStyle(fontSize: 12),
-                                                ),
-                                              )),
-                                              Expanded(
-                                                flex: 3,
-                                                  child: Center(
-                                                child: Text(
-                                                widget.eCMESubmitDataModel.brandList
-                                                                [index2][2],style: const TextStyle(fontSize: 12),
-                                                ),
-                                              )),
-                                              
-                                            ],
-                                          ),
-                                                );
-                                              }),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Container(
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: const Color.fromARGB(
-                                                  255, 98, 158, 219)),
-                                          child: Row(
-                                            children: [
-                                              const Expanded(
-                                                flex: 2,
-                                                  child: Text(
-                                                "Total",
-                                                style: TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 255, 255, 255),
-                                                    fontSize: 13,),
-                                              )),
-                                              Expanded(
-                                                flex: 3,
-                                                child: Center(
-                                                  child: Text(
-                                                    eCMEAmount,
-                                                    style: const TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 254, 254, 254),
-                                                        fontSize: 12),
-                                                  ),
-                                                ),
-                                              ),
-                                            
-                                            
-                                              Expanded(
-                                                flex: 3,
-                                                child: Center(
-                                                  child: Text(
-                                                    totalAmount.toString(),
-                                                    style: const TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 254, 254, 254),
-                                                        fontSize: 12),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                     BrandDetailsShowWidget(
+                              paddingTopValue: 5, 
+                              paddingbottomValue: 5, 
+                              containerHeight: 35, 
+                              eCMeTYpe: widget.eCMESubmitDataModel.eCMEType, 
+                              eCMESubmitDataModel: widget.eCMESubmitDataModel, 
+                              eCMEAmount: eCMEAmount, 
+                              totalAmount: totalAmount.toString()
+                           ),
                       const SizedBox(
                         height: 25,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
+                      
+                      ButtonRowWidget(
+                          buttonheight: 160, 
+                          buttonwidth: 40, 
+                          firstButtonTitle: "Edit", 
+                          firstButtonColor: const Color(0xffD9873D),
+                          firstButtonAction: () {
                               Navigator.pop(context);
                             },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffD9873D),
-                                fixedSize: const Size(160, 40)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Icon(Icons.edit, size: 18),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text('Edit',
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 241, 240, 240))),
-                              ],
-                            ),
-                          ),
-                          isPreviewLoading == false
-                              ? ElevatedButton(
-                                  onPressed: () async {
+                          secondButtonTitle: "Submit", 
+                          secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
+                          secondButtonAction: () async {
                                     setState(() {
                                       isPreviewLoading = true;
                                     });
@@ -346,28 +165,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                       AllServices().toastMessage(interNetErrorMsg,
                                           Colors.red, Colors.white, 16);
                                     }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          const Color.fromARGB(255, 44, 114, 66),
-                                      fixedSize: const Size(160, 40)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Icon(Icons.cloud_done, size: 18),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text('Submit',
-                                          style: TextStyle(
-                                              color:
-                                                  Color.fromARGB(255, 241, 240, 240))),
-                                    ],
-                                  ),
-                                )
-                              : const Center(child: CircularProgressIndicator()),
-                        ],
-                      ),
+                                  }, 
+                          isRowShow: isPreviewLoading
+                        )
             ],
           ),
         ),
@@ -380,7 +180,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
     ECMESubmitDataModel ecmeSubmitDataModel= widget.eCMESubmitDataModel;
     String submitUrl= "${dmpathData!.submitUrl}api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.brandString}0&areaId=${ecmeSubmitDataModel.areaId}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerInstitute=${ecmeSubmitDataModel.institutionName}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftCost}&others=${ecmeSubmitDataModel.othersParticipants}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&doctor_str=${ecmeSubmitDataModel.docListString}&pay_mode=${ecmeSubmitDataModel.payMode}&skf_attendance=${ecmeSubmitDataModel.skfAttendance}&others_participants=${ecmeSubmitDataModel.othersParticipants}&food_expense=${ecmeSubmitDataModel.foodExpense}&departament=${ecmeSubmitDataModel.departament}&pay_to=${ecmeSubmitDataModel.payTo}&institutionName=${ecmeSubmitDataModel.institutionName}";
     // String submitUrl= "http://10.168.27.183:8000/skf_api/api_eCME_submit/data_submit?cid=${ecmeSubmitDataModel.cid}&userId=${ecmeSubmitDataModel.userId}&password=${ecmeSubmitDataModel.password}&synccode=123&brandString=${ecmeSubmitDataModel.eCMEType== "RMP Meeting" ? ecmeSubmitDataModel.brandString:""}&areaId=${ecmeSubmitDataModel.areaId}&docId=${ecmeSubmitDataModel.docId}&doctor_name=${ecmeSubmitDataModel.docName}&doctor_category=${ecmeSubmitDataModel.doctorCategory}&latitude=${ecmeSubmitDataModel.lattitute}&longitude=${ecmeSubmitDataModel.longitude}&eCMEType=${ecmeSubmitDataModel.eCMEType}&meetingDate=${ecmeSubmitDataModel.meetingDate}&meetingVanue=${ecmeSubmitDataModel.meetingVanue}&meetingTopic=${ecmeSubmitDataModel.meetingTopic}&speakerName=${ecmeSubmitDataModel.speakerName}&speakerdegree=${ecmeSubmitDataModel.degree}&speakerInstitute=${ecmeSubmitDataModel.institureName}&probable_speaker_designation=${ecmeSubmitDataModel.speakerDesignation}&totalNumbeParticiapnts=${ecmeSubmitDataModel.numberOfParticipant}&totalBudget=${ecmeSubmitDataModel.totalBudget}&hallRentAmount=${ecmeSubmitDataModel.hallRentAmount}&costPerDoctor=${ecmeSubmitDataModel.costPerDoctor}&foodexpenses=${ecmeSubmitDataModel.foodExpense}&stationaries=${ecmeSubmitDataModel.stationaries}&giftcose=${ecmeSubmitDataModel.giftcose}&doctorsCount=${ecmeSubmitDataModel.doctorsCount}&internDoctor=${ecmeSubmitDataModel.internDoctor}&dMFDoctors=${ecmeSubmitDataModel.dMFDoctors}&nurses=${ecmeSubmitDataModel.nurses}&rxPerDay=${ecmeSubmitDataModel.rxPerDay}&eCMEAmount=${ecmeSubmitDataModel.eCMEAmount}&institutionName=${ecmeSubmitDataModel.institureName}&departament=${ecmeSubmitDataModel.departament}";
-   print("submt =$submitUrl");
+    print("submt =$submitUrl");
     Map<String, dynamic> data = await ECMERepositry().eCMESubmitURL(submitUrl);
     if (data["status"] == "Success") {
       setState(() {
@@ -400,10 +200,7 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pop(context);
-
-         }
-      
-      
+         } 
       
     } else {
       setState(() {

@@ -1,6 +1,7 @@
 
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,12 +16,14 @@ import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 
 class BillEditScreen extends StatefulWidget {
+    final ApprovedPrintDataModel wholeData;
   final DataListPrint previousDataModel;
   final List<DoctorListPrint> docInfo;
   final String eCMEType;
 
   const BillEditScreen({
     Key? key,
+    required this.wholeData,
     required this.previousDataModel,
     required this.docInfo,
     required this.eCMEType,
@@ -1078,7 +1081,20 @@ int totalParticipants() {
                                           ))),
                                 ),
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  // Navigator.pop(context);
+                                  if(context.mounted){
+                                Navigator.push(
+                                    context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>  BillfeedbackPrint(
+                                                dataListPrint:widget.previousDataModel, 
+                                                wholeData: widget.wholeData,
+                                             )
+                                          ),
+                                    );
+                              }
+
+                                 // BillfeedbackScreen
                                 },
                               ),
                             ),

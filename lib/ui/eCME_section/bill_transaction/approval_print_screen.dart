@@ -431,7 +431,8 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                         builder: (_) =>  BillEditScreen(
                                                             previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
                                                            docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
-                                                           eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount
+                                                           eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount, 
+                                                           wholeData: approvedPrintDetails!,
                                                         )
                                           ),
                                     );

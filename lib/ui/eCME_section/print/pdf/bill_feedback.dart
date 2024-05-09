@@ -1,24 +1,25 @@
 
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
+import 'package:MREPORTING/ui/eCME_section/print/util/feedback_utils.dart';
 import 'package:MREPORTING/ui/eCME_section/print/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-class PdfPage extends StatefulWidget {
+class BillfeedbackPrint extends StatefulWidget {
 ApprovedPrintDataModel wholeData;
   DataListPrint dataListPrint;
-   PdfPage({
+   BillfeedbackPrint({
      super.key,
      required this.wholeData,
      required this.dataListPrint}) ;
 
   @override
-  State<PdfPage> createState() => _PdfPageState();
+  State<BillfeedbackPrint> createState() => _BillfeedbackPrintState();
 }
 
-class _PdfPageState extends State<PdfPage> {
+class _BillfeedbackPrintState extends State<BillfeedbackPrint> {
   PrintingInfo? printingInfo;
   
   @override
@@ -44,7 +45,7 @@ class _PdfPageState extends State<PdfPage> {
 
     return   Scaffold(
       appBar: AppBar(
-        title:  Text('Bill Expense PDF(${widget.dataListPrint.sl})',style:const TextStyle(fontSize: 16),),
+        title:  Text('Feedback Letter(${widget.dataListPrint.sl})',style:const TextStyle(fontSize: 16),),
       ),
       body: PdfPreview(
         allowSharing: true,
@@ -52,9 +53,9 @@ class _PdfPageState extends State<PdfPage> {
         maxPageWidth: 700,
 
         actions: acitons,
-        onPrinted: (BuildContext context) => showPrintedToast(context,widget.wholeData, widget.dataListPrint) ,
-        onShared: (BuildContext context) => showSharedToast(context,widget.wholeData, widget.dataListPrint) ,
-        build: (PdfPageFormat format) => generatePdf(format,widget.wholeData,widget.dataListPrint),
+        onPrinted: (BuildContext context) =>BillFeedbackUtils().showPrintedToast(context,widget.wholeData, widget.dataListPrint) ,
+        onShared: (BuildContext context) =>BillFeedbackUtils(). showSharedToast(context,widget.wholeData, widget.dataListPrint) ,
+        build: (PdfPageFormat format) =>BillFeedbackUtils(). generatePdf(format,widget.wholeData,widget.dataListPrint),
       ),
     );
   }

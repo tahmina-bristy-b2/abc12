@@ -41,6 +41,6 @@ class ECMEApis{
     static String eCMEApprovedPrint(
        String approveEDSRUrl, String cid, String userId,
           String userPass, String fromDate,String toDate)=>
-       //  "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
-           "${approveEDSRUrl}api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
+         "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
+          // "${approveEDSRUrl}api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
 }

@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class TextFormFieldCustomOrderInput extends StatelessWidget {
-  String hintText;
-  Color borderColor;
-  TextAlign textAlign;
-  bool readOnly;
+  final String hintText;
+  final Color borderColor;
+  final TextAlign textAlign;
+  final bool readOnly;
   final TextEditingController controller;
   final void Function(dynamic) validator; 
   final void Function() afterClickingDone; 
 
-   TextFormFieldCustomOrderInput({super.key,required this.hintText, required this.borderColor,required this.readOnly,
-   required this.textAlign,
-   required this.controller,required this.validator,required this.afterClickingDone});
+  const TextFormFieldCustomOrderInput({
+      super.key,required this.hintText, 
+      required this.borderColor,
+      required this.readOnly,
+      required this.textAlign,
+      required this.controller,
+      required this.validator,
+      required this.afterClickingDone
+    });
 
   @override
   Widget build(BuildContext context) {

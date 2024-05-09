@@ -2,6 +2,7 @@
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1083,7 +1084,7 @@ int totalParticipants() {
                                 onTap: () {
                                   // Navigator.pop(context);
                                   if(context.mounted){
-                                Navigator.push(
+                                    Navigator.push(
                                     context,
                                       MaterialPageRoute(
                                         builder: (_) =>  BillfeedbackPrint(
@@ -1092,7 +1093,7 @@ int totalParticipants() {
                                              )
                                           ),
                                     );
-                              }
+                                   }
 
                                  // BillfeedbackScreen
                                 },
@@ -1118,6 +1119,19 @@ int totalParticipants() {
                                             ))),
                                   ),
                                   onTap: () async {
+                                    if(context.mounted){
+                                    Navigator.push(
+                                    context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>  ProposalBillPdfScreen(
+                                                dataListPrint:widget.previousDataModel, 
+                                                wholeData: widget.wholeData,
+                                             )
+                                          ),
+                                    );
+                                   }
+
+                                    
                                     // double eCME= double.tryParse(eCMEAmountCOntroller.text)??0.0;
                                     //  if (selectedExpiredDateString == "") {
                                     //         AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);

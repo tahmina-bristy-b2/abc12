@@ -6,41 +6,43 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
-
+class ProposalBillPrintUtil{
+  
 Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataModel wholeData, DataListPrint dataListPrint) async {
 
   final doc = pw.Document(title: 'Bill Expense(${dataListPrint.sl})');
   final  logoUint8List = pw.MemoryImage(
       (await rootBundle.load('assets/images/comp_logo1.png')).buffer.asUint8List());
- 
-  // final logoImage = pw.MemoryImage(
-  
-  final font = await rootBundle.load('assets/Montserrat-Regular.ttf');
+
+  //final font = await rootBundle.load('assets/Montserrat-Regular.ttf');
   List<List<String>> tableData = [
-    ['Expense Particulars ', 'Expense amount(Taka)', 'Remarks'],
-    ['1. Hall Rent', dataListPrint.hallRent.toString(), ''],
-    ['2. Food Expense', dataListPrint.foodExpense.toString(), ''],
-    ['3. Speaker Gift or Souvenir', dataListPrint.giftsSouvenirs.toString(), ''],
-    ['4. Stationaries or Others (Pen,Photocopies etc)', dataListPrint.stationnaires.toString(), ''],
+    ['Expense Particulars ', 'Expense amount(Taka)', ],
+    ['1. Hall Rent', dataListPrint.hallRent.toString(), ],
+    ['2. Food Expense', dataListPrint.foodExpense.toString(), ],
+    ['3. Speaker Gift or Souvenir', dataListPrint.giftsSouvenirs.toString(), ],
+    ['4. Stationaries or Others (Pen,Photocopies etc)', dataListPrint.stationnaires.toString(), ],
 
-     ['TOTAL :', dataListPrint.totalBudget.toString(), ''],
-     ['IN WORDS :', dataListPrint.totalBudgetInWords, ''],
+     ['TOTAL :', dataListPrint.totalBudget.toString(), ],
+     ['IN WORDS :', dataListPrint.totalBudgetInWords, ],
+  ];
+   List<List<String>> secondTable = [
+    ['Participates ', 'Amount', ],
+    ['1. Doctors', dataListPrint.doctorsCount.toString(), ],
+    ['2. Intern Doctors', dataListPrint.internDoctors.toString(), ],
+    ['3. DMF/RMP Doctors', dataListPrint.dmfDoctors.toString(), ],
+    ['4. Nurses/Staff', dataListPrint.stationnaires.toString(), ],
+    ['4. SKF Attenadance', dataListPrint.skfAttendance.toString(), ],
+    ['5. Others', dataListPrint.othersParticipants.toString(), ],
+
+     ['TOTAL :', dataListPrint.totalNumbersOfParticipants.toString(), ],
+     ['IN WORDS :', "", ],
   ];
 
-  List<List<String>> secondTable = [
-    ['', 'Amount'],
-    ['Advance Recieved (MI Number:......, Date:.......)[If approprite]', '' ],
-    ["Total Expense",""],
-    ['Amount Payable by/Refundable to the Company(TK)', ''],
-    ['In words :', '', ],
-    
-  ];
 
   doc.addPage(
     pw.MultiPage(
-      header: (final context) => pw.Column(
-        children: [
-          pw.Center(
+      build: (final context) => [
+        pw.Center(
              child: pw.Center(
             child: pw.Container(
               child: pw.Image(logoUint8List),
@@ -52,7 +54,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           ),
           pw.Center(child: pw.Text("Eskayef Pharmaceuticals Limited",style: pw.TextStyle(fontSize: 18,fontWeight: pw.FontWeight.bold ))),
           pw.SizedBox(height: 8),
-          pw.Center(child: pw.Text("Top sheet on",style:const pw.TextStyle(fontSize: 9 ))),
+          pw.Center(child: pw.Text("Proposal bill on",style: pw.TextStyle(fontSize: 10,fontWeight:pw.FontWeight.bold ))),
           pw.Center(child: pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.center,
             children: [
@@ -61,13 +63,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           ])),
           pw.SizedBox(height: 2),
           pw.Container(height: 0.5,color: PdfColors.black),
-          pw.SizedBox(height: 10)
-        ]
-       
-          
-          ),
-      
-      build: (final context) => [
+          pw.SizedBox(height: 10),
         pw.Container(
           padding: const pw.EdgeInsets.only( bottom: 6),
           child: pw.Column(
@@ -81,39 +77,50 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                 )),
                 pw.Expanded(flex: 2,
                 child: pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text("ID NUMBER OF ASM/RSM:   ${wholeData.resData.rsmId.toUpperCase()}",style: pw.TextStyle(fontSize: 8,fontWeight: pw.FontWeight.bold))
+                child: pw.Text(" ",style: pw.TextStyle(fontSize: 8,fontWeight: pw.FontWeight.bold))
                 )),
               ]),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 10)),
               expenseTableRowWidget("SL NO", dataListPrint.sl),
               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-              expenseTableRowWidget("NAME & TERR.CODE OF AM/FM ", "${dataListPrint.fmIdName}"),
-              pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("NAME & REGION OF ASM/RSM  ", "${wholeData.resData.rsmName}(${wholeData.resData.supLevelIds.toUpperCase()})"),
-              pw.Padding(padding: const pw.EdgeInsets.only(top:2)),
-              expenseTableRowWidget("ESKAYEF PERSONS ATTENDED", dataListPrint.skfAttendance),
+              expenseTableRowWidget("NAME & TERR.CODE OF AM/FM ", dataListPrint.fmIdName),
+              expenseTableRowWidget("e-CME AMOUNT", dataListPrint.ecmeAmount),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("PARTICIPATING DOCTORS BELONG TO", dataListPrint.doctorList.length.toString()),
+               expenseTableRowWidget("MEETING DATE", dataListPrint.meetingDate.toString()),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING VENUE", dataListPrint.meetingVenue),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("MEETING DATE", dataListPrint.meetingDate),
-               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("TOTAL NO. OF PARTICIPATING DOCTORS", dataListPrint.doctorsCount),
-               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING TOPIC", dataListPrint.meetingTopic),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("INSTITUTION NAME", dataListPrint.institutionName),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("DEPARTMENT", dataListPrint.meetingTopic),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("SPEAKER NAME DESIGNATION", dataListPrint.probableSpeakerName),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("PAY MODE", dataListPrint.payMode),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("PAY TO", dataListPrint.payTo),
+               
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("NAME OF REMINDED BRANDS", dataListPrint.remindedBrand),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("TOTAL BUDGET", dataListPrint.totalBudget),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("COST PER DOCTOR", dataListPrint.costPerDoctor),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               
             ],
           ),
         ),
+        expenseTableRowWidget("PARTICIPATING BREAKDOWN", ""),
     
         pw.SizedBox(height: 2),
         pw.Table.fromTextArray(
           context: context,
           data: tableData,
           headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8),
-          cellStyle: pw.TextStyle(fontSize: 6.5,),
+          cellStyle: const pw.TextStyle(fontSize: 6.5,),
           border: pw.TableBorder.all(width: 0.5),
           headerDecoration: const pw.BoxDecoration(
             color: PdfColors.grey100
@@ -123,12 +130,10 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           cellAlignments: {
             0: pw.Alignment.centerLeft,
             1: pw.Alignment.centerRight,
-            2: pw.Alignment.center,
           },
           columnWidths: {
             0: const pw.FlexColumnWidth(2),
             1: const pw.FlexColumnWidth(1), 
-            2:const pw.FlexColumnWidth(2), 
           },
         ),
         pw.SizedBox(height: 8),
@@ -150,105 +155,51 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           },
         ),
 
-        pw.SizedBox(height: 30),
         
-        pw.Container(
-          height: 14,
-          child: pw.Row(
-            children:[
-              signatureWIdget("Signed by","MSO",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Signed by","Area/Field Manager",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Endorsed by","Regional Head",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Checked by","Zonal Head",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Checked by","Dpt. of Medical Affairs",),     
-            ]
-          )
-        ),
-        pw.SizedBox(height: 40),
-        pw.Container(
-          height: 14,
-          child: pw.Row(
-            children:[
-              signatureWIdget("Recommended by","AGM,Medical Affairs",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Approved By","HOS/GM Sales",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Approved By","GM Marketing",),
-              pw.SizedBox(width: 10,),
-              signatureWIdget("Approved By","Additional Director\nMarketing & Sales",),
-            ]
-          )
-        ),
-       pw.SizedBox(height: 10),
-        pw.Container(
-          padding: const pw.EdgeInsets.only(left: 5, bottom: 8),
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.center,
-            mainAxisAlignment: pw.MainAxisAlignment.start,
-            children: [
-              pw.Padding(padding: const pw.EdgeInsets.only(top: 7)),
-              pw.Row(children: [
-                pw.Expanded(flex: 2,
-                child: pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text("Finance & Administration Department",style: pw.TextStyle(fontWeight:pw.FontWeight.bold,fontSize: 9))
-                )),
-                pw.SizedBox(child: pw.Text(":")),
-                 pw.Expanded(flex: 3,
-                child: pw.Text("")),
-              ]),
-              
-            
-            ],
-          ),
-        ),
          pw.SizedBox(height: 20),
-        pw.Container(
-          height: 15,
-          child: pw.Row(
-            children:[
-              pw.Expanded(
-                flex: 2,
-                child: pw.Column(
-                    children: [
-                      pw.Container(color:PdfColors.black,height: 0.6,),
-                      pw.Expanded(child: pw.Text("Checked by",style:const pw.TextStyle(fontSize: 8))),
+        // pw.Container(
+        //   height: 15,
+        //   child: pw.Row(
+        //     children:[
+        //       pw.Expanded(
+        //         flex: 2,
+        //         child: pw.Column(
+        //             children: [
+        //               pw.Container(color:PdfColors.black,height: 0.6,),
+        //               pw.Expanded(child: pw.Text("Checked by",style:const pw.TextStyle(fontSize: 8))),
                     
 
-                    ],
-                  ),
-              ),
-              pw.SizedBox(width: 15),
-               pw.Expanded(
-                flex: 2,
-                child: pw.Column(
-                    children: [
-                      pw.Container(color:PdfColors.black,height: 0.6),
-                      pw.Expanded(child: pw.Text("Verified By",style:const pw.TextStyle(fontSize: 8))),
+        //             ],
+        //           ),
+        //       ),
+        //       pw.SizedBox(width: 15),
+        //        pw.Expanded(
+        //         flex: 2,
+        //         child: pw.Column(
+        //             children: [
+        //               pw.Container(color:PdfColors.black,height: 0.6),
+        //               pw.Expanded(child: pw.Text("Verified By",style:const pw.TextStyle(fontSize: 8))),
                       
-                    ],
-                  ),
-              ),
-              pw.SizedBox(width: 15),
-               pw.Expanded(
-                flex: 4,
-                child: pw.Column(
-                    children: [
-                      pw.Container(color:PdfColors.black,height: 0.6),
-                      pw.Expanded(child: pw.Text("Approved for Payment",style:const pw.TextStyle(fontSize: 8))),
+        //             ],
+        //           ),
+        //       ),
+        //       pw.SizedBox(width: 15),
+        //        pw.Expanded(
+        //         flex: 4,
+        //         child: pw.Column(
+        //             children: [
+        //               pw.Container(color:PdfColors.black,height: 0.6),
+        //               pw.Expanded(child: pw.Text("Approved for Payment",style:const pw.TextStyle(fontSize: 8))),
                      
 
-                    ],
-                  ),
-              ),
+        //             ],
+        //           ),
+        //       ),
                
                
-            ]
-          )
-        ),
+        //     ]
+        //   )
+        // ),
         pw.SizedBox(height:8 ),
         pw.Column(
            mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -266,9 +217,8 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           pw.Padding(padding:const pw.EdgeInsets.only(left: 15),child: pw.Text("2. Meeting feedback report by relevant MSO and cross signed by relevant A/FM and Regional Head",style: pw.TextStyle(fontSize: 6,fontWeight:pw.FontWeight.bold)), ),
           pw.SizedBox(height: 1),
           pw.Padding(padding:const pw.EdgeInsets.only(left: 15),child: pw.Text("3. List of Doctors who have attended the meeting (name,degree,chamber address, mobile number,email ID,)",style: pw.TextStyle(fontSize: 6,fontWeight:pw.FontWeight.bold)), ),
-          pw.SizedBox(height: 1),
+           pw.SizedBox(height: 1),
           pw.Container(color:PdfColors.black,height: 1),
-          
         ])
       ],
     ),
@@ -357,4 +307,6 @@ void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeDa
 void showSharedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint) {
   ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(content: Text("Bill Expense(${dataListPrint.sl}) shared successfully done")));
+}
+
 }

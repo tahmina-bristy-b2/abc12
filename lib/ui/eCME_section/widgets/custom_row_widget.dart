@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class BudgetBreakDownRowWidget extends StatelessWidget {
-  String routingName;
-  String rowNumber;
-  String reason;
-  TextEditingController controller;
-  void Function(String)? onChanged;
-  String? Function(String?)? validator;
+ final bool isBillEdit;
+ final String routingName;
+ final String rowNumber;
+ final String reason;
+ final TextEditingController controller;
+ final TextEditingController? controllerForBillEdit;
+ final void Function(String)? onChanged;
+ final String? Function(String?)? validator;
 
-   BudgetBreakDownRowWidget({
+  const  BudgetBreakDownRowWidget({
     super.key,
+     this.isBillEdit=false,
     required this.routingName,
     required this.rowNumber,
     required this.reason,
     required this.controller,
+    this.controllerForBillEdit,
     required this.onChanged,
     required this.validator
     });
@@ -26,23 +30,58 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
       child: Row(
                                     children: [
                                       SizedBox(
-                                        width:MediaQuery.of(context).size.width / 9 ,
-                                        child: Text(rowNumber),
+                                        width: isBillEdit==false?  MediaQuery.of(context).size.width /  9 : MediaQuery.of(context).size.width /  11,
+                                        child: Text(rowNumber,),
     
                                       ),
                                       SizedBox(
-                                        width:MediaQuery.of(context).size.width / 3 ,
-                                        child: Text(reason),
+                                        width: isBillEdit==false?   MediaQuery.of(context).size.width / 3 : MediaQuery.of(context).size.width / 4.7,
+                                        child: Text(reason,  style:   isBillEdit==true? const TextStyle(fontSize:13, color: Colors.black):null),
                                         
                                       ),
                                        SizedBox(
-                                        width:MediaQuery.of(context).size.width / 9 ,
+                                        width: isBillEdit==false?    MediaQuery.of(context).size.width / 9 :MediaQuery.of(context).size.width / 11 ,
                                         child:const Text(":"),
                                         
                                       ),
+                                      
+                                       isBillEdit==false? const SizedBox(): SizedBox(
+                                        height: 50,
+                                        width: isBillEdit==false?   MediaQuery.of(context).size.width / 3 : MediaQuery.of(context).size.width / 4,
+                                        child: Container(
+                                          color:const Color.fromARGB(255, 230, 244, 243),
+                                          child: TextFormField(
+                                            readOnly:(rowNumber=="3" || reason=="Cost per doctor ")? true:false ,
+                                            inputFormatters:routingName=="participants"? [
+                                               FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                            ]:[
+                                               FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
+                                            ],
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(fontSize:isBillEdit==true?13: 14, color: Colors.black),
+                                            controller:isBillEdit==true?controllerForBillEdit: controller,
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                borderSide:
+                                                    const BorderSide(
+                                                      color: Colors.teal
+                                                      ),
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            onChanged:  onChanged,
+                                            validator: validator,
+                                            
+                                                                          
+                                         ),
+                                        ),
+                                  
+                                      ),
+                                      isBillEdit==false? const SizedBox(): const SizedBox(width: 5,),
                                       SizedBox(
                                         height: 50,
-                                         width:MediaQuery.of(context).size.width / 3,
+                                        width: isBillEdit==false?   MediaQuery.of(context).size.width / 3 : MediaQuery.of(context).size.width / 4.1,
                                         child: TextFormField(
                                           readOnly:(rowNumber=="3" || reason=="Cost per doctor ")? true:false ,
                                           inputFormatters:routingName=="participants"? [
@@ -51,7 +90,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                              FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
                                           ],
                                           textAlign: TextAlign.right,
-                                          style:const TextStyle(fontSize: 14, color: Colors.black),
+                                          style: TextStyle(fontSize:isBillEdit==true?13: 14, color: Colors.black),
                                           controller: controller,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
@@ -65,15 +104,13 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                           ),
                                           onChanged:  onChanged,
                                           validator: validator,
-                                          
-                                  
                                      ),
-                                  
-                                  ),
+                                    ),
+                                
                                       
     
-                                    ],
-                                  ),
+                                ],
+                ),
     );
   }
 }

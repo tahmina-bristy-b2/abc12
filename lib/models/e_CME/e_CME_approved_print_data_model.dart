@@ -99,6 +99,7 @@ class DataListPrint {
     final List<DoctorListPrint> doctorList;
     final String remindedBrand;
     final String totalBudgetInWords;
+    // FeedbackFormatDictData? feedbackFormatdatamModel;
 
     DataListPrint({
         required this.skfAttendance,
@@ -134,6 +135,7 @@ class DataListPrint {
         required this.doctorList,
         required this.remindedBrand,
         required this.totalBudgetInWords,
+        // this.feedbackFormatdatamModel,
     });
 
     factory DataListPrint.fromJson(Map<String, dynamic> json) => DataListPrint(
@@ -169,7 +171,8 @@ class DataListPrint {
         brandList: List<BrandListPrint>.from(json["brand_list"].map((x) => BrandListPrint.fromJson(x))),
         doctorList: List<DoctorListPrint>.from(json["doctor_list"].map((x) => DoctorListPrint.fromJson(x))),
         remindedBrand:json["reminded_brand"]??"" ,
-        totalBudgetInWords: json["total_budget_in_words"]??""    
+        totalBudgetInWords: json["total_budget_in_words"]??"",
+       // feedbackFormatdatamModel:json["feedback_fromat_dict_data"].map((x) => FeedbackFormatDictData.fromJson(x)) ??{}  
     );
 
     Map<String, dynamic> toJson() => {
@@ -205,7 +208,8 @@ class DataListPrint {
         "brand_list": List<dynamic>.from(brandList.map((x) => x.toJson())),
         "doctor_list": List<dynamic>.from(doctorList.map((x) => x.toJson())),
         "reminded_brand":remindedBrand,
-        "total_budget_in_words":totalBudgetInWords
+        "total_budget_in_words":totalBudgetInWords,
+       // "feedback_fromat_dict_data":feedbackFormatdatamModel
     };
 }
 
@@ -262,5 +266,42 @@ class DoctorListPrint {
         "row_id": rowId,
         "doctor_id": doctorId,
         "doctor_name": doctorName,
+    };
+}
+
+
+class FeedbackFormatDictData {
+    final String sl;
+    final String date;
+    final String to;
+    final String from;
+    final String copy;
+    final String subject;
+
+    FeedbackFormatDictData({
+        required this.sl,
+        required this.date,
+        required this.to,
+        required this.from,
+        required this.copy,
+        required this.subject,
+    });
+
+    factory FeedbackFormatDictData.fromJson(Map<String, dynamic> json) => FeedbackFormatDictData(
+        sl: json["sl"]??"",
+        date: json["date"]??"",
+        to: json["to"]??"",
+        from: json["from"]??"",
+        copy: json["copy"]??"",
+        subject: json["subject"]??"",
+    );
+
+    Map<String, dynamic> toJson() => {
+        "sl": sl,
+        "date": date,
+        "to": to,
+        "from": from,
+        "copy": copy,
+        "subject": subject,
     };
 }

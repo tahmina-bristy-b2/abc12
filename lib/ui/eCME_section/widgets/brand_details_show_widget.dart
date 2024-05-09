@@ -1,7 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
-
 class BrandDetailsShowWidget extends StatelessWidget {
   final double paddingTopValue;
   final double paddingbottomValue;
@@ -13,8 +11,6 @@ class BrandDetailsShowWidget extends StatelessWidget {
   final String totalAmount;
   final String rxOrSalesTile;
   final String routeName;
-
-
 
    BrandDetailsShowWidget({
     Key? key,
@@ -33,7 +29,7 @@ class BrandDetailsShowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5),
+                        padding:  EdgeInsets.only(top: paddingTopValue, bottom: paddingbottomValue),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

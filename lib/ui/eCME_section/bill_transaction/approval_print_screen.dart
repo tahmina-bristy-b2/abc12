@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING/ui/eCME_section/bill_transaction/bill_edit_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/brand_details_show_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/button_row_widget.dart';
@@ -15,15 +16,13 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'eCME_approval_details_screen.dart';
+import '../approval/eCME_approval_details_screen.dart';
 
 class ApprovedPrintScreen extends StatefulWidget {
   String cid;
   String userPass;
 
   ApprovedPrintScreen({super.key, required this.cid,required this.userPass});
-
-  
 
   @override
   _ApprovedPrintScreenState createState() => _ApprovedPrintScreenState(); 
@@ -285,8 +284,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
       key: listKey,
       initialItemCount: approvedPrintDetails!.resData.dataListPrint.length,
       itemBuilder: (itemBuilder, index, animation) {
-        
-        for (var element in approvedPrintDetails!.resData.dataListPrint[index].brandList) {
+         for (var element in approvedPrintDetails!.resData.dataListPrint[index].brandList) {
           controller[element.rowId] =
               TextEditingController(text: element.qty);
           isUpdate[element.rowId] = false;
@@ -353,13 +351,10 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                RowForCMEPreview(title: 'Meeting Date', value: approvedPrintDetails!.resData.dataListPrint[index].meetingDate,isBold: false,), 
                RowForCMEPreview(title: 'Doctor Category', value: approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory,isBold: false,), 
 
-
-               approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution"  ?RowForCMEPreview(title: 'Institute Name', value: approvedPrintDetails!.resData.dataListPrint[index].institutionName,isBold: false,) 
-          
+               approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution"  ?RowForCMEPreview(title: 'Institute Name', value: approvedPrintDetails!.resData.dataListPrint[index].institutionName,isBold: false,)
                : const SizedBox(),
                approvedPrintDetails!.resData.dataListPrint[index].ecmeDoctorCategory=="Institution" ?  
                 RowForCMEPreview(title: "Department", value: approvedPrintDetails!.resData.dataListPrint[index].department,isBold: false,) :const SizedBox(),
-
                 RowForCMEPreview(title: 'Meeting Venue', value: approvedPrintDetails!.resData.dataListPrint[index].meetingVenue,isBold: false,),
                 RowForCMEPreview(title: 'Meeting Topic', value: approvedPrintDetails!.resData.dataListPrint[index].meetingTopic,isBold: false,),
                 RowForCMEPreview(title: 'Probable Speaker Name & Designation', value: approvedPrintDetails!.resData.dataListPrint[index].probableSpeakerName,isBold: false,),
@@ -386,11 +381,9 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                           ],),
                      ),
 
-
                     RowForCMEPreview(title: 'Total Budget', value: approvedPrintDetails!.resData.dataListPrint[index].totalBudget,isBold: true,),
                     RowForCMEPreview(title: 'Cost Per doctor', value: approvedPrintDetails!.resData.dataListPrint[index].costPerDoctor,isBold: true,),
                     const RowForCMEPreview(title: 'Budget Breakdown', value: '',isBold: true,),
-
 
                     Container(
                       decoration: BoxDecoration(
@@ -430,9 +423,21 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                           buttonwidth: 140, 
                           firstButtonTitle: "Edit", 
                           firstButtonColor: const Color(0xffD9873D),
-                          firstButtonAction: () {
-                             
-                            },
+                          firstButtonAction: () { 
+                            if(context.mounted){
+                                Navigator.push(
+                                    context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>  BillEditScreen(
+                                                            previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
+                                                           docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
+                                                           eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount
+                                                        )
+                                          ),
+                                    );
+                              }
+
+                          },
                           secondButtonTitle: " Print/PDF", 
                           secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
                           secondButtonAction: () async {
@@ -447,7 +452,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                     );
                               }
                                     
-                                  }, 
+                           }, 
                           isRowShow: false
                         ),
                    

@@ -10,6 +10,7 @@ class ButtonRowWidget extends StatelessWidget {
   final Color secondButtonColor;
   final void Function() secondButtonAction;
   final bool isRowShow;
+  final bool isEditButtonHide;
 
   const ButtonRowWidget({
     Key? key,
@@ -21,7 +22,8 @@ class ButtonRowWidget extends StatelessWidget {
     required this.secondButtonTitle,
     required this.secondButtonColor,
     required this.secondButtonAction,
-    required this.isRowShow
+    required this.isRowShow,
+    this.isEditButtonHide=false
   }) : super(key: key);
 
   @override
@@ -29,7 +31,7 @@ class ButtonRowWidget extends StatelessWidget {
     return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
+                        isEditButtonHide==false?  ElevatedButton(
                             onPressed: firstButtonAction,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: firstButtonColor,
@@ -46,14 +48,16 @@ class ButtonRowWidget extends StatelessWidget {
                                         color: Color.fromARGB(255, 241, 240, 240))),
                               ],
                             ),
-                          ),
+                          ):const SizedBox(),
                           isRowShow == false
-                              ? ElevatedButton(
+                              ? 
+                              
+                              ElevatedButton(
                                   onPressed: secondButtonAction,
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           secondButtonColor,
-                                      fixedSize:  Size( buttonwidth,buttonheight,)),
+                                      fixedSize:  Size(isEditButtonHide==false? buttonwidth:buttonwidth*2.1,buttonheight,)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:  [

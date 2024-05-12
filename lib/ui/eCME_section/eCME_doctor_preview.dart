@@ -155,9 +155,10 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                       ),
                       
                       ButtonRowWidget(
-                            buttonheight: 40, 
+                          buttonheight: 40, 
                           buttonwidth: 140, 
                           firstButtonTitle: "Edit", 
+                          isEditButtonHide: false,
                           firstButtonColor: const Color(0xffD9873D),
                           firstButtonAction: () {
                               Navigator.pop(context);

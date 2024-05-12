@@ -7,7 +7,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 class BillFeedbackUtils{
-Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataModel wholeData, DataListPrint dataListPrint) async {
+Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataModel wholeData, DataListPrint dataListPrint,Map<String,dynamic> printOthersData) async {
   final doc = pw.Document(title: 'Feedback Letter(${dataListPrint.sl})');
   final  logoUint8List = pw.MemoryImage(
       (await rootBundle.load('assets/images/comp_logo1.png')).buffer.asUint8List());
@@ -171,11 +171,11 @@ Future<void> saveAsFile(
   }
 }
 
-void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint) async {
+void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint,Map<String,dynamic> printOthersData) async {
   try {
     final result = await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async {
-        return generatePdf(format,wholeData,dataListPrint); 
+        return generatePdf(format,wholeData,dataListPrint,printOthersData); 
       },
     );
     if (result) {
@@ -195,7 +195,7 @@ void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeDa
   }
 }
 
-void showSharedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint) {
+void showSharedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint,Map<String,dynamic> printOthersData) {
   ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(content: Text("Feedback Letter(${dataListPrint.sl}) shared successfully done")));
 }

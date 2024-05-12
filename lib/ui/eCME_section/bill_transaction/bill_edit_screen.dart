@@ -4,6 +4,7 @@ import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,11 @@ import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 
 class BillEditScreen extends StatefulWidget {
-    final ApprovedPrintDataModel wholeData;
+  final ApprovedPrintDataModel wholeData;
   final DataListPrint previousDataModel;
   final List<DoctorListPrint> docInfo;
   final String eCMEType;
+  final Function calledBackAction;
 
   const BillEditScreen({
     Key? key,
@@ -31,6 +33,7 @@ class BillEditScreen extends StatefulWidget {
     required this.previousDataModel,
     required this.docInfo,
     required this.eCMEType,
+    required this.calledBackAction
   }) : super(key: key);
 
   @override
@@ -93,6 +96,7 @@ class _BillEditScreenState extends State<BillEditScreen> {
   List<String>? eBrandList = [];
   List<List<dynamic>> dynamicRowsListForBrand = [];
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
+  Map<String,dynamic> proposalBill={};
   String? initialBrand;
   List<String> docCategoryList=[];
    List<String>  docDepartmentList=[];
@@ -115,6 +119,8 @@ class _BillEditScreenState extends State<BillEditScreen> {
   double totalBudget=0.0;
   int noIfparticipants=0;
   double costPerDoctor=0.0;
+
+  bool isPrint=false;
 
   @override
   void initState() {
@@ -259,485 +265,502 @@ int totalParticipants() {
      TextEditingController meetingDateController = TextEditingController(text:widget.previousDataModel.meetingDate.toString() );
 
 
-    return  Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: const Color(0xff8AC995),
-        title: const Text(
-          "Bill Edit  ",
+    return  WillPopScope(
+      onWillPop: () async {
+        widget.calledBackAction("data");
+        return true;
+        
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color(0xff8AC995),
+          title: const Text(
+            "Bill Edit  ",
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        reverse: false,
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction, 
-            key:_form1Key,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: wholeHeight / 75.927,
-                ),
-               (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox():  Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                    child: AddTitleRowWidget(context: context, title: "Selected Doctors*"),
+        body: SingleChildScrollView(
+          reverse: false,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction, 
+              key:_form1Key,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: wholeHeight / 75.927,
                   ),
-                ),
-              
-             (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox() :  Row(
-                  children: [  
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: SizedBox(
-                          height: widget.docInfo.length*20,
-                          width: 150,
-                          child: ListView.builder(itemCount: widget.docInfo.length,
-                            itemBuilder: (context,index){
-                               return Padding(
-                                 padding: const EdgeInsets.only(top: 4),
-                                 child: Text( "${index+1}. ${widget.docInfo[index].doctorName}|${widget.docInfo[index].doctorId}",style: const TextStyle(fontSize: 13),),
-                               );
-                            }),
-                        
-                        ),
-                      ),
+                 (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox():  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                      child: AddTitleRowWidget(context: context, title: "Selected Doctors*"),
                     ),
-                 
-                    
-                  ],
-                ),
-                 SizedBox(
-                  height:(widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")? 10:0
-                ),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                                  const SizedBox(
-                                height: 10,
-                              ),
-                     //=============================== Meeting Date ====================================
-                              AddTitleRowWidget(context: context, title: "Meeting Date*"),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                      readonly:true,  // for edit screen 
-                                      controller: meetingDateController,
-                                      textAlign: TextAlign.left, 
-                                      keyboardType: TextInputType.text,
-                                      suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
-                                      textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 41, 90, 50),), 
-                                      onChanged: null,
-                                      focusNode: AlwaysDisabledFocusNode(), 
-                                      hinText: "",
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                height: 10,
-                                  ) ,
-                     //=============================== Doctor Category ====================================
-                               AddTitleRowWidget(context: context, title: "Doctor Category*"),
-                               CustomDropdownWidget(
-                                context: context,
-                                dropdownHint:  ' Select Doctor Category',
-                                dropdownList: docCategoryList, 
-                                dropdownController: brandSelectedController, 
-                                dropdownOnchanged: null,
-                                selectedValue: selcetDoctorCategory, 
-                                textformFiledHint:  ' Select Doctor Category',
-                                onMenuStateChangeforClear: null
-                                ),
-                     //================================== Institution ===========================
-                               selcetDoctorCategory=="Institution"? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                 const SizedBox(height: 10,),
-                                 AddTitleRowWidget(context: context, title: "Institution Name*"),
-                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                              readonly:true,
-                                              hinText: '----Enter Institution Name----',
-                                              controller: institutionController,
-                                              textAlign: TextAlign.left, 
-                                              keyboardType: TextInputType.text,
-                                              textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                              focusNode: AlwaysDisabledFocusNode(),
-                                            ),
-                                 
-                                  ),
-                                  const SizedBox(
-                                   height: 10,
-                                 ),
-                    //================================== Department ===========================
-                              AddTitleRowWidget(context: context, title: "Department*"),
-                              CustomDropdownWidget(
-                                context: context,
-                                dropdownHint:  '  ----Select Department Name---- ',
-                                dropdownList: docDepartmentList, 
-                                dropdownController: departmentController, 
-                                dropdownOnchanged: null,
-                                selectedValue: selectedDepartment, 
-                                textformFiledHint: '  Search Department Name...',
-                                onMenuStateChangeforClear: null,
-                                ),
-                                ],
-                               ): const SizedBox(),
-                               const SizedBox(height: 10,),
-                     //================================== Meeting Venue ===========================
-                              AddTitleRowWidget(context: context, title: "Meeting venue*"),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                              readonly:true, // for edit screen 
-                                              hinText: '----Enter Meeting Venue----',
-                                              controller: meetingVenueController,
-                                              textAlign: TextAlign.left, 
-                                              keyboardType: TextInputType.text,
-                                              textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                              focusNode: AlwaysDisabledFocusNode(),
-                                            ),
-                                 
-                                  ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                    //================================== Meeting Topic ===========================
-                              AddTitleRowWidget(context: context, title: "Meeting Topic*"),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                      readonly:true,  // for edit screen 
-                                      hinText: '----Enter Meeting Topic----',
-                                      controller: meetingTopicController,
-                                      textAlign: TextAlign.left, 
-                                      keyboardType: TextInputType.text,
-                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                      focusNode: AlwaysDisabledFocusNode(),
-                                    ),
-                                 
-                                ),
-                              SizedBox(
-                                height: wholeHeight / 75.927,
-                              ),
-                     //================================== Probable Speaker Name & Designation ===========================
-                             AddTitleRowWidget(context: context, title: "Probable Speaker Name & Designation*"),
-                             SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                      readonly:true,  // for edit screen 
-                                      hinText: '----Enter Speaker Name----',
-                                      controller: meetingProbaleSpeakerNameController,
-                                      textAlign: TextAlign.left, 
-                                      keyboardType: TextInputType.text,
-                                      textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                      focusNode: AlwaysDisabledFocusNode(),
-                                    ),
-                                  ),
-                              const SizedBox(
-                                height:  10,
-                              ),
-                   
-                    //================================== Participats Section ===========================
-                             titleRowWidget(context ,"Total numbers of participants",  widget.previousDataModel.totalNumbersOfParticipants.toString(),totalParticipants().toString()),  
-                             titleBarWidget(context),
-                             Column(
-                              children: [
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:doctorPrevController,
-                                  isBillEdit :true,  // for edit screen 
-                                  rowNumber: "1.", 
-                                  reason:"Doctors*", 
-                                  controller: doctorParticipantCount,
-                                  onChanged: (value ) {  
-                                         totalParticipants();
-                                          setState(() {
-                                          });
-                                      },
-                                  validator: null,
-                                  routingName: 'participants',
-                                ),
-
-                                BudgetBreakDownRowWidget(
-                                  isBillEdit :true,  // for edit screen 
-                                  controllerForBillEdit:internPrevController,
-                                  routingName: 'participants',
-                                  rowNumber: "2.", reason:"Intern Doctors*",
-                                  controller: internDoctorController, 
-                                  onChanged: (value ) {  
-                                          totalParticipants();
-                                          setState(() {
-                                          });
-                                          },
-                                  validator: null,
-                                 ),
-                                 
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:dmfdoctorPrevController,
-                                  isBillEdit :true,  // for edit screen 
-                                  routingName: 'participants',
-                                  rowNumber: "3.", 
-                                  reason:"DMF/RMP doctors* ", 
-                                  controller: dmfDoctorController,
-                                  onChanged: (value ) {  
-                                          totalParticipants();
-                                          setState(() { 
-                                          });
-                                        },
-                                  validator: null,
-                                ),
-
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:nursesPrevController,
-                                  isBillEdit :true, // for edit screen 
-                                  routingName: 'participants',
-                                  rowNumber: "4.", 
-                                  reason:"Nurses/Staff* ", 
-                                  controller: nursesController,
-                                  onChanged: (value ) {  
-                                         totalParticipants();
-                                          setState(() {
-                                          });
-        
-                                         },
-                                   validator: null,
-                                     
-                                ),
-
-                              BudgetBreakDownRowWidget(
-                                  controllerForBillEdit: skfAttenancePrevController,
-                                  isBillEdit :true, // for edit screen 
-                                  routingName: 'participants',
-                                  rowNumber: "5.", 
-                                  reason:"SKF Attendance*", 
-                                  controller: skfAttenaceController,
-                                  onChanged: (value ) {  
-                                            totalParticipants();
-                                              setState(() {
-                                              });
-            
-                                            },
-                                              validator: null,
-                                        
-                              ),
-
-                              BudgetBreakDownRowWidget(
-                                controllerForBillEdit: othersPrevController,
-                                isBillEdit :true,  // for edit screen 
-                                routingName: 'participants', 
-                                rowNumber: "6.", 
-                                reason:"Others", 
-                                controller: othersParticipantsController,
-                                onChanged: (value ) {  
-                                            totalParticipants();
-                                              setState(() {
-                                              });
-            
-                                            },
-                                validator: null,
-                              ),
-
-                               
-                              ],
-                            ),
-                             const SizedBox(
-                                height: 20,
-                              ),
+                  ),
+                
+               (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox() :  Row(
+                    children: [  
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: SizedBox(
+                            height: widget.docInfo.length*20,
+                            width: 150,
+                            child: ListView.builder(itemCount: widget.docInfo.length,
+                              itemBuilder: (context,index){
+                                 return Padding(
+                                   padding: const EdgeInsets.only(top: 4),
+                                   child: Text( "${index+1}. ${widget.docInfo[index].doctorName}|${widget.docInfo[index].doctorId}",style: const TextStyle(fontSize: 13),),
+                                 );
+                              }),
                           
-                    //================================== Budget Section ===========================
-
-                            titleRowWidget(context,"Total budget*","৳${widget.previousDataModel.totalBudget}","৳${totalBudget.toStringAsFixed(2)}") ,  
-                            titleRowWidget(context,"Cost per doctor","৳${widget.previousDataModel.costPerDoctor}","৳${costPerDoctor.toStringAsFixed(2)}") ,
-                            AddTitleRowWidget(context: context, title: "Budget breakdown*"),
-                            titleBarWidget(context),
-                            Column(
-                              children: [
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:hallrentPreController,
-                                  isBillEdit :true, // for edit screen 
-                                  routingName: 'budget',
-                                  rowNumber: "1.", 
-                                  reason:"Hall rent*", 
-                                  controller: hallRentController,
-                                      onChanged: (value ) {  
-                                          getTotalBudget();
-                                          setState(() {
-                                          });
-                                      },
-                                       validator: null,
-                                     
-                                      ),
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:foodPreController,
-                                  isBillEdit :true,  // for edit screen 
-                                  routingName: 'budget',
-                                  rowNumber: "2.", 
-                                  reason:"Food Expense*", 
-                                  controller: foodExpansesController, 
-                                  onChanged: (value ) {  
-                                          getTotalBudget();
-                                          setState(() {
-                                          });
-                                          },
-                                 validator: null,
-                                     
-                                ),
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:giftPrevController,
-                                  isBillEdit :true,  // for edit screen 
-                                  routingName: 'budget',
-                                  rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
-                                    onChanged: (value ) {  
-                                          getTotalBudget();
-                                          setState(() {
-                                          });
-        
-                                         },
-                                         validator: null,
-                                    
-                                    ),
-                                BudgetBreakDownRowWidget(
-                                  controllerForBillEdit:stationariesPrevController,
-                                  isBillEdit :true,   // for edit screen 
-                                  routingName: 'budget',
-                                  rowNumber: "4.", 
-                                  reason:"Stationnaires or Others*", 
-                                  controller: stationnairesController, 
-                                  onChanged: (value ) {  
-                                          getTotalBudget();
-                                          setState(() {
-                                          });
-                                      },
-                                  validator: null, 
-                                ),
-                              ],
-                            ) ,
-                            const SizedBox(
-                                height: 15,
-                              ),
-                    //=================================== eCME Amount================================
-                              widget.eCMEType!=null? AddTitleRowWidget(context: context, title: "e_CME Amount *"):const SizedBox(),
-                                widget.eCMEType!=null? 
-                                      SizedBox(
-                                         width: MediaQuery.of(context).size.width /1.1,
-                                        child: Row(children: [
-                                          const Text("Prev :  ",style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.green),),
-                                          SizedBox(
-                                          width: MediaQuery.of(context).size.width /3,
-                                          height: 45,
-                                          child: CustomtextFormFiledWidget(
-                                            hinText: '----Enter e-CME Amount ----',   
-                                              // if you change it,you have to change it in inputformatter+readOnly too.
-                                              controller: eCMEPrevController,
-                                              textAlign: TextAlign.left, 
-                                              textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
-                                              focusNode: AlwaysDisabledFocusNode(),
-                                              keyboardType: TextInputType.number,
-                                            ),
-                                          ),
-                                          const Text("  Edit :  ",style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 241, 184, 13)),),
-                                          SizedBox(
-                                          width: MediaQuery.of(context).size.width /2.8,
-                                          height: 45,
-                                          child: CustomtextFormFiledWidget(
-                                            hinText: '----Enter e-CME Amount ----',   
-                                              // if you change it,you have to change it in inputformatter+readOnly too.
-                                              controller: eCMEAmountCOntroller,
-                                              textAlign: TextAlign.left, 
-                                              textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
-                                              focusNode: AlwaysDisabledFocusNode(),
-                                              keyboardType: TextInputType.number,
-                                            ),
-                                          )
-                                        ],),
-                                      )
-                                   : const SizedBox(),
-
-                                  SizedBox(
-                                      height:  widget.eCMEType!=null? 10:0,
-                                  ),
-                    //====================================== Brand section ===================================
-                                  (widget.eCMEType!=null )? Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                           AddTitleRowWidget(context: context, title:  "Brand*",) ,
-                                           SizedBox(
-                                              width:  wholeWidth / 1.45,
-                                            ),
-                                          ],
-                                        ):const SizedBox(),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                       brandDetailsWidget(wholeWidth, wholeHeight),
-                                       const SizedBox(height: 10,),  
-                                       const SizedBox(
-                                          height: 10,
-                                        ) ,
-
-                    //================================= Pay Mode ==================================
-                                  AddTitleRowWidget(context: context, title: "Pay Mode *"),
-                                  CustomDropdownWidget(
-                                    context: context,
-                                    dropdownHint:  '  Select Pay Mode',
-                                    dropdownList: payModeList, 
-                                    dropdownController: brandSelectedController, 
-                                    dropdownOnchanged: null,
-                                    selectedValue: selectedPayMode, 
-                                    textformFiledHint: '  Search e-CME Type...', 
-                                    onMenuStateChangeforClear: null
-                                    ),
-                                   SizedBox(
-                                      height: wholeHeight / 75.927,
-                                    ),
-                    //============================== Pay to ===================================
-                                    AddTitleRowWidget(context: context, title: "Pay to*",),
-                                    SizedBox(
-                                        width: MediaQuery.of(context).size.width / 1.1,
-                                        height: 45,
-                                        child: CustomtextFormFiledWidget(
-                                            readonly:true,  // for edit screen 
-                                            hinText: '----Enter pay reciever name----',
-                                            controller: payToController,
-                                            textAlign: TextAlign.left, 
-                                            keyboardType: TextInputType.text,
-                                            textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                            focusNode: AlwaysDisabledFocusNode(),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                            ],
                           ),
                         ),
-                      )
+                      ),
+                   
+                      
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                isLoading == false
-                    ? buttonRowWidget(context)
-                    : const CircularProgressIndicator()
-              ],
+                   SizedBox(
+                    height:(widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")? 10:0
+                  ),
+                  SizedBox(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                    const SizedBox(
+                                  height: 10,
+                                ),
+                       //=============================== Meeting Date ====================================
+                                AddTitleRowWidget(context: context, title: "Meeting Date*"),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                        readonly:true,  // for edit screen 
+                                        controller: meetingDateController,
+                                        textAlign: TextAlign.left, 
+                                        keyboardType: TextInputType.text,
+                                        suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
+                                        textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 41, 90, 50),), 
+                                        onChanged: null,
+                                        focusNode: AlwaysDisabledFocusNode(), 
+                                        hinText: "",
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                  height: 10,
+                                    ) ,
+                       //=============================== Doctor Category ====================================
+                                 AddTitleRowWidget(context: context, title: "Doctor Category*"),
+                                 CustomDropdownWidget(
+                                  context: context,
+                                  dropdownHint:  ' Select Doctor Category',
+                                  dropdownList: docCategoryList, 
+                                  dropdownController: brandSelectedController, 
+                                  dropdownOnchanged: null,
+                                  selectedValue: selcetDoctorCategory, 
+                                  textformFiledHint:  ' Select Doctor Category',
+                                  onMenuStateChangeforClear: null
+                                  ),
+                       //================================== Institution ===========================
+                                 selcetDoctorCategory=="Institution"? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                   const SizedBox(height: 10,),
+                                   AddTitleRowWidget(context: context, title: "Institution Name*"),
+                                   SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                                readonly:true,
+                                                hinText: '----Enter Institution Name----',
+                                                controller: institutionController,
+                                                textAlign: TextAlign.left, 
+                                                keyboardType: TextInputType.text,
+                                                textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                                focusNode: AlwaysDisabledFocusNode(),
+                                              ),
+                                   
+                                    ),
+                                    const SizedBox(
+                                     height: 10,
+                                   ),
+                      //================================== Department ===========================
+                                AddTitleRowWidget(context: context, title: "Department*"),
+                                CustomDropdownWidget(
+                                  context: context,
+                                  dropdownHint:  '  ----Select Department Name---- ',
+                                  dropdownList: docDepartmentList, 
+                                  dropdownController: departmentController, 
+                                  dropdownOnchanged: null,
+                                  selectedValue: selectedDepartment, 
+                                  textformFiledHint: '  Search Department Name...',
+                                  onMenuStateChangeforClear: null,
+                                  ),
+                                  ],
+                                 ): const SizedBox(),
+                                 const SizedBox(height: 10,),
+                       //================================== Meeting Venue ===========================
+                                AddTitleRowWidget(context: context, title: "Meeting venue*"),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                                readonly:true, // for edit screen 
+                                                hinText: '----Enter Meeting Venue----',
+                                                controller: meetingVenueController,
+                                                textAlign: TextAlign.left, 
+                                                keyboardType: TextInputType.text,
+                                                textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                                focusNode: AlwaysDisabledFocusNode(),
+                                              ),
+                                   
+                                    ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                      //================================== Meeting Topic ===========================
+                                AddTitleRowWidget(context: context, title: "Meeting Topic*"),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                        readonly:true,  // for edit screen 
+                                        hinText: '----Enter Meeting Topic----',
+                                        controller: meetingTopicController,
+                                        textAlign: TextAlign.left, 
+                                        keyboardType: TextInputType.text,
+                                        textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                        focusNode: AlwaysDisabledFocusNode(),
+                                      ),
+                                   
+                                  ),
+                                SizedBox(
+                                  height: wholeHeight / 75.927,
+                                ),
+                       //================================== Probable Speaker Name & Designation ===========================
+                               AddTitleRowWidget(context: context, title: "Probable Speaker Name & Designation*"),
+                               SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                        readonly:true,  // for edit screen 
+                                        hinText: '----Enter Speaker Name----',
+                                        controller: meetingProbaleSpeakerNameController,
+                                        textAlign: TextAlign.left, 
+                                        keyboardType: TextInputType.text,
+                                        textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                        focusNode: AlwaysDisabledFocusNode(),
+                                      ),
+                                    ),
+                                const SizedBox(
+                                  height:  10,
+                                ),
+                     
+                      //================================== Participats Section ===========================
+                               titleRowWidget(context ,"Total numbers of participants",  widget.previousDataModel.totalNumbersOfParticipants.toString(),totalParticipants().toString()),  
+                               titleBarWidget(context),
+                               Column(
+                                children: [
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:doctorPrevController,
+                                    isBillEdit :true,  // for edit screen 
+                                    rowNumber: "1.", 
+                                    reason:"Doctors*", 
+                                    controller: doctorParticipantCount,
+                                    onChanged: (value ) {  
+                                           totalParticipants();
+                                            setState(() {
+                                            });
+                                        },
+                                    validator: null,
+                                    routingName: 'participants',
+                                  ),
+    
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    isBillEdit :true,  // for edit screen 
+                                    controllerForBillEdit:internPrevController,
+                                    routingName: 'participants',
+                                    rowNumber: "2.", reason:"Intern Doctors*",
+                                    controller: internDoctorController, 
+                                    onChanged: (value ) {  
+                                            totalParticipants();
+                                            setState(() {
+                                            });
+                                            },
+                                    validator: null,
+                                   ),
+                                   
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:dmfdoctorPrevController,
+                                    isBillEdit :true,  // for edit screen 
+                                    routingName: 'participants',
+                                    rowNumber: "3.", 
+                                    reason:"DMF/RMP doctors* ", 
+                                    controller: dmfDoctorController,
+                                    onChanged: (value ) {  
+                                            totalParticipants();
+                                            setState(() { 
+                                            });
+                                          },
+                                    validator: null,
+                                  ),
+    
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:nursesPrevController,
+                                    isBillEdit :true, // for edit screen 
+                                    routingName: 'participants',
+                                    rowNumber: "4.", 
+                                    reason:"Nurses/Staff* ", 
+                                    controller: nursesController,
+                                    onChanged: (value ) {  
+                                           totalParticipants();
+                                            setState(() {
+                                            });
+          
+                                           },
+                                     validator: null,
+                                       
+                                  ),
+    
+                                BudgetBreakDownRowWidget(
+                                  isprint: isPrint,
+                                    controllerForBillEdit: skfAttenancePrevController,
+                                    isBillEdit :true, // for edit screen 
+                                    routingName: 'participants',
+                                    rowNumber: "5.", 
+                                    reason:"SKF Attendance*", 
+                                    controller: skfAttenaceController,
+                                    onChanged: (value ) {  
+                                              totalParticipants();
+                                                setState(() {
+                                                });
+              
+                                              },
+                                                validator: null,
+                                          
+                                ),
+    
+                                BudgetBreakDownRowWidget(
+                                  isprint: isPrint,
+                                  controllerForBillEdit: othersPrevController,
+                                  isBillEdit :true,  // for edit screen 
+                                  routingName: 'participants', 
+                                  rowNumber: "6.", 
+                                  reason:"Others", 
+                                  controller: othersParticipantsController,
+                                  onChanged: (value ) {  
+                                              totalParticipants();
+                                                setState(() {
+                                                });
+              
+                                              },
+                                  validator: null,
+                                ),
+    
+                                 
+                                ],
+                              ),
+                               const SizedBox(
+                                  height: 20,
+                                ),
+                            
+                      //================================== Budget Section ===========================
+    
+                              titleRowWidget(context,"Total budget*","৳${widget.previousDataModel.totalBudget}","৳${totalBudget.toStringAsFixed(2)}") ,  
+                              titleRowWidget(context,"Cost per doctor","৳${widget.previousDataModel.costPerDoctor}","৳${costPerDoctor.toStringAsFixed(2)}") ,
+                              AddTitleRowWidget(context: context, title: "Budget breakdown*"),
+                              titleBarWidget(context),
+                              Column(
+                                children: [
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:hallrentPreController,
+                                    isBillEdit :true, // for edit screen 
+                                    routingName: 'budget',
+                                    rowNumber: "1.", 
+                                    reason:"Hall rent*", 
+                                    controller: hallRentController,
+                                        onChanged: (value ) {  
+                                            getTotalBudget();
+                                            setState(() {
+                                            });
+                                        },
+                                         validator: null,
+                                       
+                                  ),
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:foodPreController,
+                                    isBillEdit :true,  // for edit screen 
+                                    routingName: 'budget',
+                                    rowNumber: "2.", 
+                                    reason:"Food Expense*", 
+                                    controller: foodExpansesController, 
+                                    onChanged: (value ) {  
+                                            getTotalBudget();
+                                            setState(() {
+                                            });
+                                            },
+                                   validator: null,
+                                       
+                                  ),
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:giftPrevController,
+                                    isBillEdit :true,  // for edit screen 
+                                    routingName: 'budget',
+                                    rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
+                                      onChanged: (value ) {  
+                                            getTotalBudget();
+                                            setState(() {
+                                            });
+          
+                                           },
+                                           validator: null,
+                                      
+                                      ),
+                                  BudgetBreakDownRowWidget(
+                                    isprint: isPrint,
+                                    controllerForBillEdit:stationariesPrevController,
+                                    isBillEdit :true,   // for edit screen 
+                                    routingName: 'budget',
+                                    rowNumber: "4.", 
+                                    reason:"Stationnaires or Others*", 
+                                    controller: stationnairesController, 
+                                    onChanged: (value ) {  
+                                            getTotalBudget();
+                                            setState(() {
+                                            });
+                                        },
+                                    validator: null, 
+                                  ),
+                                ],
+                              ) ,
+                              const SizedBox(
+                                  height: 15,
+                                ),
+                      //=================================== eCME Amount================================
+                                widget.eCMEType!=null? AddTitleRowWidget(context: context, title: "e_CME Amount *"):const SizedBox(),
+                                  widget.eCMEType!=null? 
+                                        SizedBox(
+                                           width: MediaQuery.of(context).size.width /1.1,
+                                          child: Row(children: [
+                                            const Text("Prev :  ",style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.green),),
+                                            SizedBox(
+                                            width: MediaQuery.of(context).size.width /3,
+                                            height: 45,
+                                            child: CustomtextFormFiledWidget(
+                                              hinText: '----Enter e-CME Amount ----',   
+                                                // if you change it,you have to change it in inputformatter+readOnly too.
+                                                controller: eCMEPrevController,
+                                                textAlign: TextAlign.left, 
+                                                textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
+                                                focusNode: AlwaysDisabledFocusNode(),
+                                                keyboardType: TextInputType.number,
+                                              ),
+                                            ),
+                                            const Text("  Edit :  ",style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 241, 184, 13)),),
+                                            SizedBox(
+                                            width: MediaQuery.of(context).size.width /2.8,
+                                            height: 45,
+                                            child: CustomtextFormFiledWidget(
+                                              hinText: '----Enter e-CME Amount ----',   
+                                                // if you change it,you have to change it in inputformatter+readOnly too.
+                                                controller: eCMEAmountCOntroller,
+                                                textAlign: TextAlign.left, 
+                                                textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
+                                                focusNode: AlwaysDisabledFocusNode(),
+                                                keyboardType: TextInputType.number,
+                                              ),
+                                            )
+                                          ],),
+                                        )
+                                     : const SizedBox(),
+    
+                                    SizedBox(
+                                        height:  widget.eCMEType!=null? 10:0,
+                                    ),
+                      //====================================== Brand section ===================================
+                                    (widget.eCMEType!=null )? Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                             AddTitleRowWidget(context: context, title:  "Brand*",) ,
+                                             SizedBox(
+                                                width:  wholeWidth / 1.45,
+                                              ),
+                                            ],
+                                          ):const SizedBox(),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                         brandDetailsWidget(wholeWidth, wholeHeight),
+                                         const SizedBox(height: 10,),  
+                                         const SizedBox(
+                                            height: 10,
+                                          ) ,
+    
+                      //================================= Pay Mode ==================================
+                                    AddTitleRowWidget(context: context, title: "Pay Mode *"),
+                                    CustomDropdownWidget(
+                                      context: context,
+                                      dropdownHint:  '  Select Pay Mode',
+                                      dropdownList: payModeList, 
+                                      dropdownController: brandSelectedController, 
+                                      dropdownOnchanged: null,
+                                      selectedValue: selectedPayMode, 
+                                      textformFiledHint: '  Search e-CME Type...', 
+                                      onMenuStateChangeforClear: null
+                                      ),
+                                     SizedBox(
+                                        height: wholeHeight / 75.927,
+                                      ),
+                      //============================== Pay to ===================================
+                                      AddTitleRowWidget(context: context, title: "Pay to*",),
+                                      SizedBox(
+                                          width: MediaQuery.of(context).size.width / 1.1,
+                                          height: 45,
+                                          child: CustomtextFormFiledWidget(
+                                              readonly:true,  // for edit screen 
+                                              hinText: '----Enter pay reciever name----',
+                                              controller: payToController,
+                                              textAlign: TextAlign.left, 
+                                              keyboardType: TextInputType.text,
+                                              textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                              focusNode: AlwaysDisabledFocusNode(),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  isLoading == false
+                      ? isPrint==true ?printButton(context): buttonRowWidget(context)
+                      : const CircularProgressIndicator()
+                ],
+              ),
             ),
           ),
         ),
@@ -1169,32 +1192,22 @@ int totalParticipants() {
                                                   255, 255, 255, 255),
                                             ))),
                                   ),
-                                  onTap: () async {
-                                            if (doctorParticipantCount.text == "") {
-                                            AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
-                                          } else if (internDoctorController.text.isEmpty) {
-                                            AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
-                                          } else if (dmfDoctorController.text.isEmpty) {
-                                            AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
-                                          } else if (nursesController.text.isEmpty) {
-                                            AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
-                                          } else if (skfAttenaceController.text.isEmpty) {
-                                            AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
-                                          } else if (hallRentController.text == "") {
-                                            AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
-                                          } else if (foodExpansesController.text == "") {
-                                            AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
-                                          } else if (giftController.text == "") {
-                                            AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
-                                          } else if (stationnairesController.text == "") {
-                                            AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
-                                          }
-                                          else {
-                                            setState(() {
-                                              isPreviewLoading=true;
-                                            });
-                                           eCMEBillUpdate();
-                                          }
+                                  onTap: ()  {
+                                    print("Proposal Bill =$proposalBill");
+
+                                    if(context.mounted){
+                                    Navigator.push(
+                                        context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>  ProposalBillPdfScreen(
+                                              wholeData: widget.wholeData,
+                                              dataListPrint:widget.previousDataModel,
+                                              editedData: proposalBill
+                                            
+                                            )
+                                          ),
+                                        );
+                                  }     
                                 
                                   }),
                             ),
@@ -1212,12 +1225,33 @@ int totalParticipants() {
 
 
   eCMEBillUpdate() async {
-    String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=${cid}&userId=${userId}&password=${password}&sl=${widget.previousDataModel.sl}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget}&brand_split_amount=${splitedAmount}&total_numbers_of_participants=${totalNumberOfParticiController}&cost_per_doctor=${costPerDoctor}";
-   print("submt =$updateUrlString");
+    String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=${cid}&userId=${userId}&password=${password}&sl=${widget.previousDataModel.sl.toString()}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget.toStringAsFixed(2)}&brand_split_amount=${splitedAmount.toStringAsFixed(2)}&total_numbers_of_participants=${noIfparticipants}&cost_per_doctor=${costPerDoctor.toStringAsFixed(2)}";
+    print("submt =$updateUrlString");
     Map<String, dynamic> data = await ECMERepositry().eCMEBillUpdate(updateUrlString);
+     proposalBill={
+                                      "hall_rent": hallRentController.text.toString(),
+                                      "food_expense": foodExpansesController.text.toString(),
+                                      "gift": giftController.text.toString(),
+                                      "stationaries": stationnairesController.text.toString(),
+                                      "total_budget": totalBudget.toStringAsFixed(2),
+
+                                      "doctor_count":doctorParticipantCount.text.toString(),
+                                      "intern_doctor":internDoctorController.text.toString(),
+                                      "dMF_count":dmfDoctorController.text.toString(),
+                                      "nurses_count":dmfDoctorController.text.toString(),
+                                      "skf_attendance_count":skfAttenaceController.text.toString(),
+                                      "others_count":othersParticipantsController.text.toString(),
+
+                                      "no_of_particpates":noIfparticipants.toString(),
+                                      "cost_per_doctor":costPerDoctor.toStringAsFixed(2),
+                                      "eCme_amount":eCMEAmountCOntroller.text.toString(),
+                                      "eCme_amount_splited":splitedAmount.toStringAsFixed(2),
+                                    };
+                                    
     if (data["status"] == "Success") {
       setState(() {
         isPreviewLoading = false;
+        isPrint=true;
       });
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16); 
@@ -1225,9 +1259,13 @@ int totalParticipants() {
     } else {
       setState(() {
         isPreviewLoading = false;
+         isPrint=false;
       });
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
     }
   }
 }
+
+
+

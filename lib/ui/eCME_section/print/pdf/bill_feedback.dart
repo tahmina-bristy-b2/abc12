@@ -8,12 +8,16 @@ import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class BillfeedbackPrint extends StatefulWidget {
-ApprovedPrintDataModel wholeData;
-  DataListPrint dataListPrint;
-   BillfeedbackPrint({
+ final ApprovedPrintDataModel wholeData;
+ final DataListPrint dataListPrint;
+ final Map<String,dynamic> editedData;
+
+ const  BillfeedbackPrint({
      super.key,
      required this.wholeData,
-     required this.dataListPrint}) ;
+     required this.dataListPrint,
+     required this.editedData
+    }) ;
 
   @override
   State<BillfeedbackPrint> createState() => _BillfeedbackPrintState();
@@ -53,9 +57,9 @@ class _BillfeedbackPrintState extends State<BillfeedbackPrint> {
         maxPageWidth: 700,
 
         actions: acitons,
-        onPrinted: (BuildContext context) =>BillFeedbackUtils().showPrintedToast(context,widget.wholeData, widget.dataListPrint) ,
-        onShared: (BuildContext context) =>BillFeedbackUtils(). showSharedToast(context,widget.wholeData, widget.dataListPrint) ,
-        build: (PdfPageFormat format) =>BillFeedbackUtils(). generatePdf(format,widget.wholeData,widget.dataListPrint),
+        onPrinted: (BuildContext context) =>BillFeedbackUtils().showPrintedToast(context,widget.wholeData, widget.dataListPrint,widget.editedData) ,
+        onShared: (BuildContext context) =>BillFeedbackUtils(). showSharedToast(context,widget.wholeData, widget.dataListPrint,widget.editedData) ,
+        build: (PdfPageFormat format) =>BillFeedbackUtils(). generatePdf(format,widget.wholeData,widget.dataListPrint,widget.editedData),
       ),
     );
   }

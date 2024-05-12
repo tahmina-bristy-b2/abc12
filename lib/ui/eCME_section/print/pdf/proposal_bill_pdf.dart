@@ -9,10 +9,13 @@ import 'package:pdf/widgets.dart' as pw;
 class ProposalBillPdfScreen extends StatefulWidget {
 ApprovedPrintDataModel wholeData;
 DataListPrint dataListPrint;
+final Map<String,dynamic> editedData;
 ProposalBillPdfScreen({
      super.key,
      required this.wholeData,
-     required this.dataListPrint}) ;
+     required this.dataListPrint,
+     required this.editedData
+     }) ;
 
   @override
   State<ProposalBillPdfScreen> createState() => _ProposalBillPdfScreenState();
@@ -50,9 +53,9 @@ class _ProposalBillPdfScreenState extends State<ProposalBillPdfScreen> {
         allowPrinting: true,
         maxPageWidth: 700,
         actions: acitons,
-        onPrinted: (BuildContext context) =>ProposalBillPrintUtil().showPrintedToast(context,widget.wholeData, widget.dataListPrint) ,
-        onShared: (BuildContext context) =>ProposalBillPrintUtil().showSharedToast(context,widget.wholeData, widget.dataListPrint) ,
-        build: (PdfPageFormat format) =>ProposalBillPrintUtil().generatePdf(format,widget.wholeData,widget.dataListPrint),
+        onPrinted: (BuildContext context) =>ProposalBillPrintUtil().showPrintedToast(context,widget.wholeData, widget.dataListPrint,widget.editedData) ,
+        onShared: (BuildContext context) =>ProposalBillPrintUtil().showSharedToast(context,widget.wholeData, widget.dataListPrint,widget.editedData) ,
+        build: (PdfPageFormat format) =>ProposalBillPrintUtil().generatePdf(format,widget.wholeData,widget.dataListPrint,widget.editedData),
       ),
     );
   }

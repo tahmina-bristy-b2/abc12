@@ -10,17 +10,19 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
  final TextEditingController? controllerForBillEdit;
  final void Function(String)? onChanged;
  final String? Function(String?)? validator;
+  final bool? isprint;
 
   const  BudgetBreakDownRowWidget({
-    super.key,
-     this.isBillEdit=false,
-    required this.routingName,
-    required this.rowNumber,
-    required this.reason,
-    required this.controller,
-    this.controllerForBillEdit,
-    required this.onChanged,
-    required this.validator
+      super.key,
+      this.isBillEdit=false,
+      required this.routingName,
+      required this.rowNumber,
+      required this.reason,
+      required this.controller,
+      this.controllerForBillEdit,
+      required this.onChanged,
+      required this.validator,
+      this.isprint=false
     });
 
   @override
@@ -83,7 +85,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                         height: 50,
                                         width: isBillEdit==false?   MediaQuery.of(context).size.width / 3 : MediaQuery.of(context).size.width / 4.1,
                                         child: TextFormField(
-                                          readOnly:(rowNumber=="3" || reason=="Cost per doctor ")? true:false ,
+                                          readOnly:(rowNumber=="3" || reason=="Cost per doctor "|| isprint==true)? true:false ,
                                           inputFormatters:routingName=="participants"? [
                                              FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                                           ]:[

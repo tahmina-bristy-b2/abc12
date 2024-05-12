@@ -418,44 +418,51 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                         height: 15,
                       ),
 
-                      ButtonRowWidget(
-                          buttonheight: 40, 
-                          buttonwidth: 140, 
-                          firstButtonTitle: "Edit", 
-                          firstButtonColor: const Color(0xffD9873D),
-                          firstButtonAction: () { 
-                            if(context.mounted){
-                                Navigator.push(
-                                    context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>  BillEditScreen(
+                      Center(
+                        child: ButtonRowWidget(
+                          isEditButtonHide:!approvedPrintDetails!.resData.dataListPrint[index].isBillEdit,
+                            buttonheight: 40, 
+                            buttonwidth: 140, 
+                            firstButtonTitle: "Edit", 
+                            firstButtonColor: const Color(0xffD9873D),
+                            firstButtonAction: () { 
+                              if(context.mounted){
+                                  Navigator.push(
+                                      context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>  BillEditScreen(
                                                             previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
-                                                           docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
-                                                           eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount, 
-                                                           wholeData: approvedPrintDetails!,
-                                                        )
-                                          ),
-                                    );
-                              }
-
-                          },
-                          secondButtonTitle: " Print/PDF", 
-                          secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
-                          secondButtonAction: () async {
-                             if(context.mounted){
-                                Navigator.push(
-                                    context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>  PdfPage(
-                                          wholeData: approvedPrintDetails!,
-                                          dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
-                                          ),
-                                    );
-                              }
-                                    
-                           }, 
-                          isRowShow: false
-                        ),
+                                                             docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
+                                                             eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount, 
+                                                             wholeData: approvedPrintDetails!,
+                                                             calledBackAction: (value){
+                                                              getDsrDetailsData();
+                      
+                                                             },
+                                                          )
+                                            ),
+                                      );
+                                }
+                      
+                            },
+                            secondButtonTitle: " Print/PDF", 
+                            secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
+                            secondButtonAction: () async {
+                               if(context.mounted){
+                                  Navigator.push(
+                                      context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>  PdfPage(
+                                            wholeData: approvedPrintDetails!,
+                                            dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
+                                            ),
+                                      );
+                                }
+                                      
+                             }, 
+                            isRowShow: false
+                          ),
+                      ),
                    
             const SizedBox(
               height: 10,

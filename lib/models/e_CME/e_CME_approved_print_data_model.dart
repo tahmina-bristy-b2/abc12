@@ -100,6 +100,7 @@ class DataListPrint {
     final String remindedBrand;
     final String totalBudgetInWords;
     final FeedbackFormatDictData feedbackFormatDictData;
+    final bool isBillEdit;
 
 
     DataListPrint({
@@ -137,6 +138,7 @@ class DataListPrint {
         required this.remindedBrand,
         required this.totalBudgetInWords,
         required this.feedbackFormatDictData,
+        required this.isBillEdit
     });
 
     factory DataListPrint.fromJson(Map<String, dynamic> json) => DataListPrint(
@@ -174,6 +176,8 @@ class DataListPrint {
         remindedBrand:json["reminded_brand"]??"" ,
         totalBudgetInWords: json["total_budget_in_words"]??"",
         feedbackFormatDictData: FeedbackFormatDictData.fromJson(json["feedback_format_dict_data"]),
+        isBillEdit: json["is_bill_edit"],
+        
     );
 
     Map<String, dynamic> toJson() => {
@@ -210,7 +214,8 @@ class DataListPrint {
         "doctor_list": List<dynamic>.from(doctorList.map((x) => x.toJson())),
         "reminded_brand":remindedBrand,
         "total_budget_in_words":totalBudgetInWords,
-        "feedback_format_dict_data":feedbackFormatDictData
+        "feedback_format_dict_data":feedbackFormatDictData,
+        "is_bill_edit":isBillEdit
     };
 }
 

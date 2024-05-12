@@ -7,6 +7,7 @@ class DcrDataProviders {
   //################################ Sync DCR  Data########################
   Future<http.Response> syncDcrDP(
       String syncUrl, String cid, String userId, String userpass) async {
+        print("doctor List ${DcrApis.syncDcrApi(syncUrl, cid, userId, userpass)}");
     final response = await http.get(
       Uri.parse(DcrApis.syncDcrApi(syncUrl, cid, userId, userpass)),
     );

@@ -7,7 +7,6 @@ import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -36,8 +35,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
   TextEditingController issueToController = TextEditingController(text: "");
   TextEditingController rxPerDayController = TextEditingController();
   TextEditingController dSrController = TextEditingController();
-  // TextEditingController emrRXController = TextEditingController();
-  // TextEditingController p4RXController = TextEditingController();
   TextEditingController doctorMobileNumberController = TextEditingController();
   final brandSelectedController = TextEditingController();
 

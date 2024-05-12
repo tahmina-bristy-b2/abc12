@@ -4,6 +4,7 @@ import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/order/order_apis.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/order/order_services.dart';
+import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_add_screen.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING/ui/order_sections/approved_page.dart';
 import 'package:flutter/material.dart';
@@ -369,6 +370,53 @@ class _NewOrderPageState extends State<NewOrderPage> {
           reportLastOrderShowWidget(),
           reportLastInvoiceShowWidget(),
           approvedShowWidget(),
+          
+         userLoginInfo!.expiredFlag==true? Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ElevatedButton(
+              onPressed: (){
+               
+                
+              //   setState(() {
+              //   _counter = OrderServices().incrementCounter(_counter);
+              // });
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => ExpiredDatedAddScreen(
+                        
+                             draftOrderItem: [],
+                            // deliveryDate: '',
+                            // deliveryTime: '',
+                            // paymentMethod: '',
+                            outStanding:
+                                widget.outStanding,
+                            clientName: widget.clientName,
+                            clientId: widget.clientId,
+                            marketName: widget.marketName,
+                            // note: '',
+                          )));
+              setState(() {});
+
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color.fromARGB(255, 27, 43, 23),
+                backgroundColor: const Color.fromARGB(223, 146, 212, 157),
+                fixedSize: const Size(20, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text(
+                "Track Expired",
+                style: TextStyle(fontSize: 16),
+              ),
+            )): const SizedBox()
+  
+  
+          
+
           // widget.os_details_flag == true
           //     ? Padding(
           //         padding: const EdgeInsets.all(8.0),

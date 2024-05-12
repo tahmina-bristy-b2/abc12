@@ -10,6 +10,7 @@ import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class AreaPage extends StatefulWidget {
   String screenName;
   AreaPage({
@@ -151,10 +152,9 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-                                     // print("chemistLIs===$chemistList");
 
                               if (chemistList.isNotEmpty) {
-                                // response = true;
+                              
                                 setState1(() {
                                   _isLoading = false;
                                 });
@@ -185,9 +185,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-
                               if (doctorList.isNotEmpty) {
-                                // response = true;
                                 setState1(() {
                                   _isLoading = false;
                                 });
@@ -210,9 +208,50 @@ class _AreaPageState extends State<AreaPage> {
                                     16);
                               }
                             }
+                            //  else if (widget.screenName == 'e-CME') {
+                            //   List chemistList = await Repositories()
+                            //       .areaBaseDoctorRepo(
+                            //           dmpathData!.syncUrl,
+                            //           cid,
+                            //           userInfo!.userId,
+                            //           userPassword,
+                            //           snapshot.data![index]['area_id']);
+                            //   if (chemistList.isNotEmpty) {
+                            //     setState1(() {
+                            //       _isLoading = false;
+                            //     });
+                            //     ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                            //                         if(eCMEDataModelData!=null){
+                            //                           if (!mounted) return;
+                            //                           Navigator.push(
+                            //                             context,
+                            //                             MaterialPageRoute(
+                            //                               builder: (_) => ECMEDoctorList(
+                            //                                   dcrDataList: chemistList),
+                            //                             ),
+                            //                           );
+
+                            //                         }
+                            //                         else{
+                            //                             AllServices().toastMessage(
+                            //                               'e_CME Data Sync First ',
+                            //                               Colors.red,
+                            //                               Colors.white,
+                            //                               16);}
+                            //    } else {
+                            //     setState1(() {
+                            //       _isLoading = false;
+                            //     });
+                            //     AllServices().toastMessage(
+                            //         'Doctor Loading failed!',
+                            //         Colors.red,
+                            //         Colors.white,
+                            //         16);
+                            //   }
+                            // }
                           },
                           child: Card(
-                            // color: Colors.blue.withOpacity(.03),
+                       
                             elevation: 2,
                             child: SizedBox(
                                 height: 40,

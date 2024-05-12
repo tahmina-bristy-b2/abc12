@@ -2,11 +2,15 @@
 
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/services/eDSR/eDSR_services.dart';
+import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
 import 'package:MREPORTING/services/order/order_repositories.dart';
 import 'package:MREPORTING/services/rx/rx_repositories.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -47,7 +51,6 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
   @override
   void initState() {
     super.initState();
-    // get user and dmPath data from hive
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     userId = userInfo!.userId;
@@ -447,6 +450,101 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                     userInfo!.expiredFlag==true?   Expanded(
+                                child: syncCustomBuildButton(
+                                  onClick: () async {
+                                    setState(() {
+                                      syncMsg = 'Expired data synchronizing... ';
+                                      _loading = true;
+                                    });
+                                    bool result =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (result == true) {
+                                      ExpiredItemListDataModel? doctorList = await ExpiredRepositoryRepo()
+                                          .syncExpiredItems("",dmpathData!.syncUrl, cid,
+                                              userId, userPassword);
+                                      if (ExpiredItemListDataModel!=null) {
+                                        // AllServices().toastMessage(
+                                        //     'Sync Expired data Done.',
+                                        //     Colors.teal,
+                                        //     Colors.white,
+                                        //     16);
+                                        setState(() {
+                                          _loading = false;
+                                        });
+                                      } else {
+                                        // AllServices().toastMessage(
+                                        //     'Didn\'t sync Dcr Data',
+                                        //     Colors.red,
+                                        //     Colors.white,
+                                        //     16);
+
+                                        setState(() {
+                                          _loading = false;
+                                        });
+                                      }
+                                    } else {
+                                      AllServices().toastMessage(
+                                          interNetErrorMsg,
+                                          Colors.red,
+                                          Colors.white,
+                                          16);
+                                    }
+                                  },
+                                  color: Colors.white,
+                                  title: 'Expired\nDated Items',
+                                  sizeWidth: screenWidth,
+                                ),
+                              ) :const SizedBox(),
+                       userInfo!.ecmeAddFlag==true
+                        ?  Expanded(
+                          child: syncCustomBuildButton(
+                            onClick: () async {
+                              setState(() {
+                                syncMsg = 'e-CME data synchronizing... ';
+                                _loading = true;
+                              });
+                              bool result = await InternetConnectionChecker()
+                                  .hasConnection;
+                              if (result == true) {
+                                ECMESavedDataModel? body = await ECMERepositry()
+                                    .getECMESettingsData(
+                                        dmpathData!.submitUrl,
+                                        cid,
+                                        userInfo!.userId,
+                                        userPassword,
+                                        "");
+
+                                if (body != null) {
+                                  AllServices().toastMessage(
+                                      'Sync e-CME data Done.',
+                                      Colors.teal,
+                                      Colors.white,
+                                      16);
+                                  setState(() {
+                                    _loading = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _loading = false;
+                                  });
+                                }
+                              } else {
+                                AllServices().toastMessage(interNetErrorMsg,
+                                    Colors.red, Colors.white, 16);
+                              }
+                            },
+                            color: Colors.white,
+                            title: 'e-CME',
+                            sizeWidth: screenWidth,
+                          ),
+                        ):const SizedBox(),
+                           
+                      ],
+                    ) ,
                     const SizedBox(
                       height: 20,
                     ),
@@ -479,13 +577,11 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                         const Spacer(),
                         SizedBox(
                           width: screenWidth / 2.5,
-                          // height: screenHeight / 10,
                           child: Text(
                             loginPageVersionName,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black.withOpacity(.5),
-                              // color: Color.fromARGB(255, 129, 188, 236),
                             ),
                           ),
                         ),
@@ -516,6 +612,15 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
     EdsrDataModel? eDsRData = await EDSRServices().geteDSRDataSettingsInfo(
         dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "all");
+        ExpiredItemListDataModel? expiredItemsData = await ExpiredRepositoryRepo()
+                                          .syncExpiredItems("all",dmpathData!.syncUrl, cid,
+                                              userId, userPassword);
+    ECMESavedDataModel? ecmeSavedData=await ECMERepositry().getECMESettingsData(dmpathData!.submitUrl,
+                                        cid,
+                                        userInfo!.userId,
+                                        userPassword,
+                                        "All")   ;                                   
+    
     if (itemList.isNotEmpty &&
         clientList.isNotEmpty &&
         dcrGiftList.isNotEmpty &&
@@ -523,7 +628,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         ppmList.isNotEmpty &&
         rxItemList.isNotEmpty &&
         doctorList.isNotEmpty &&
-        (eDsRData == null || eDsRData != null)) {
+        (eDsRData == null || eDsRData != null)&& (expiredItemsData != null || expiredItemsData==null )  && (ecmeSavedData==null || ecmeSavedData !=null)){
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

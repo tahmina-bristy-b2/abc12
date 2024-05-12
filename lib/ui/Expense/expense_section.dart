@@ -126,12 +126,16 @@ class _ExpensePageState extends State<ExpensePage> {
                                 userPass);
                             if (!mounted) return;
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const AttendanceScreen(),
-                              ),
-                            );
+                          //  SharedPreferences pref=   await SharedPreferences.getInstance();
+                                     if(!mounted)return;
+                                       Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                     AttendanceScreen(
+                                                      userPassword: userPass
+
+                                                     )));
                           },
                           title: "Attendance & \nMeter Reading",
                           sizeWidth: MediaQuery.of(context).size.width,

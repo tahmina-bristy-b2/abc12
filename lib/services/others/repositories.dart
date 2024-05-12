@@ -488,4 +488,34 @@ class Repositories {
     }
     return userDepotList;
   }
+
+
+
+  //=============Get Attendance Repositories====================================
+
+  Future<Map<String, dynamic>> attendanceGetRepo(
+     String attendaceurl,String cid,String userid,String userPass,) async {
+    Map<String, dynamic> jsonData = {};
+
+    try {
+      http.Response response = await DataProviders().getAttenadance(attendaceurl, cid, userid, userPass);
+      jsonData = json.decode(response.body);
+
+      String status = jsonData['status'];
+
+      if (status == 'Success') {
+        var startTime = jsonData["start_time"];
+        var endTime = jsonData["end_time"];
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('startTime', startTime);
+        await prefs.setString('endTime', endTime);
+
+        return jsonData;
+      }
+    } on Exception catch (_) {
+      throw Exception("Error on server");
+    }
+    return jsonData;
+  }
 }

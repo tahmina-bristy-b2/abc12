@@ -54,7 +54,11 @@ class UserLoginModel extends HiveObject {
       this.appraisalFlag,
       this.appraisalApprovalFlag,
       this.censusDocFlag,
-      this.censusClFlag
+      this.censusClFlag,
+      this.attendanceFlag,
+      this.expiredFlag,
+      this.ecmeAddFlag,
+      this.ecmeApproveFlag
       });
   @HiveField(0)
   final String status;
@@ -136,6 +140,14 @@ class UserLoginModel extends HiveObject {
   final bool? censusDocFlag;
   @HiveField(40)
   final bool? censusClFlag;
+  @HiveField(41)
+  final bool? attendanceFlag;
+  @HiveField(42)
+  final bool? expiredFlag;
+  @HiveField(43)
+  final bool? ecmeAddFlag;
+  @HiveField(44)
+  final bool? ecmeApproveFlag ;
   factory UserLoginModel.buildEmpty() => UserLoginModel(
       status: '',
       userId: '',
@@ -176,7 +188,12 @@ class UserLoginModel extends HiveObject {
       appraisalFlag: false,
       appraisalApprovalFlag: false,
       censusDocFlag: false,
-      censusClFlag: false
+      censusClFlag: false,
+      attendanceFlag : false,
+      expiredFlag : false,
+      ecmeAddFlag: false,
+      ecmeApproveFlag: false
+
       );
   factory UserLoginModel.fromJson(Map<String, dynamic> json) => UserLoginModel(
       status: json["status"],
@@ -220,6 +237,11 @@ class UserLoginModel extends HiveObject {
       appraisalApprovalFlag: json["appraisal_approve_flag"] ?? false,
       censusDocFlag: json["census_doc_flag"] ?? false,
       censusClFlag: json["census_cl_flag"] ?? false,
+      attendanceFlag: json["attendance_flag"] ?? false,
+      expiredFlag: json["expired_flag"] ?? false,
+      ecmeAddFlag:  json["ecme_add_flag"] ?? false,
+      ecmeApproveFlag:  json["ecme_approve_flag"] ?? false,
+
       );
 
   Map<String, dynamic> toJson() => {
@@ -257,5 +279,9 @@ class UserLoginModel extends HiveObject {
         "notice_flag": noticeFlag,
         "doc_flag": docFlag,
         "doc_edit_flag": docEditFlag,
+        "attendance_flag": attendanceFlag,
+        "expired_flag": expiredFlag,
+        "ecme_add_flag":ecmeAddFlag,
+        "ecme_approve_flag":ecmeApproveFlag
       };
 }

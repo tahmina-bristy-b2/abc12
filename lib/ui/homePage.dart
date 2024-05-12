@@ -1,17 +1,18 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/apiCall.dart';
 import 'package:MREPORTING/services/others/repositories.dart';
-import 'package:MREPORTING/ui/Appraisal/apparaisal_self_assesment_history.dart';
-import 'package:MREPORTING/ui/Appraisal/appraisal_screen.dart';
 import 'package:MREPORTING/ui/Appraisal/appraisal_employee_page.dart';
 import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart';
-
 import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
 import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
+import 'package:MREPORTING/ui/eCME_section/approval/approval_print_screen.dart';
+import 'package:MREPORTING/ui/eCME_section/approval/eCME_fm_List_screen.dart';
+import 'package:MREPORTING/ui/eCME_section/e_CME_doctor_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
 import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
 import 'package:MREPORTING/ui/promo_page.dart';
@@ -34,6 +35,7 @@ import 'package:MREPORTING/ui/order_sections/order_report_page.dart';
 import 'package:MREPORTING/ui/Rx/rx_report_page.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/link.dart';
 import 'package:MREPORTING/ui/reset_password.dart';
 import 'package:MREPORTING/ui/syncDataTabPaga.dart';
@@ -71,13 +73,14 @@ class _MyHomePageState extends State<MyHomePage> {
   double screenHeight = 0.0;
   double screenWidth = 0.0;
 
-  String? startTime;
+  String startTime="";
 
   String deviceId = "";
 
-  String? endTime;
+  String endTime="";
   var prefix;
   var prefix2;
+  bool isLoading=false;
 
   @override
   void initState() {
@@ -86,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     AllServices().getLatLong();
+    getAttenadce();
     if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
       regionListData =
           Boxes.geteDSRsetData().get("eDSRSettingsData")!.regionList;
@@ -97,32 +101,55 @@ class _MyHomePageState extends State<MyHomePage> {
           cid = prefs.getString("CID")!;
           userId = prefs.getString("USER_ID") ?? widget.userId;
           userPassword = prefs.getString("PASSWORD") ?? widget.userPassword;
-          startTime = prefs.getString("startTime") ?? '';
-          endTime = prefs.getString("endTime") ?? '';
-
+          // startTime = prefs.getString("startTime") ?? '';
+          // endTime = prefs.getString("endTime") ?? '';
           timer_track_url = prefs.getString("timer_track_url") ?? '';
 
           deviceId = prefs.getString("deviceId") ?? '';
 
-          var parts = startTime?.split(' ');
-          prefix = parts![0].trim();
-          String dt = DateTime.now().toString();
-          var parts2 = dt.split(' ');
-          prefix2 = parts2[0].trim();
+          // var parts = startTime?.split(' ');
+          // prefix = parts![0].trim();
+          // String dt = DateTime.now().toString();
+          // var parts2 = dt.split(' ');
+          // prefix2 = parts2[0].trim();
+          
         });
+        // setState(() {
+        //   int space = startTime!.indexOf(" ");
+        //   String removeSpace =
+        //       startTime!.substring(space + 1, startTime!.length);
+        //   startTime = removeSpace.replaceAll("'", '');
+        //   int space1 = endTime!.indexOf(" ");
+        //   String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
+        //   endTime = removeSpace1.replaceAll("'", '');
 
-        setState(() {
-          int space = startTime!.indexOf(" ");
-          String removeSpace =
-              startTime!.substring(space + 1, startTime!.length);
-          startTime = removeSpace.replaceAll("'", '');
-          int space1 = endTime!.indexOf(" ");
-          String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
-          endTime = removeSpace1.replaceAll("'", '');
-        });
+        // });
       });
     });
+
+    // if(startTime!=""){
+    //   setState(() {
+    //       int space = startTime!.indexOf(" ");
+    //       String removeSpace =
+    //           startTime!.substring(space + 1, startTime!.length);
+    //       startTime = removeSpace.replaceAll("'", '');
+    //       int space1 = endTime!.indexOf(" ");
+    //       String removeSpace1 = endTime!.substring(space1 + 1, endTime!.length);
+    //       endTime = removeSpace1.replaceAll("'", '');
+
+    //     });
+    // }
   }
+  String getDateTime(String? givenDate){
+    DateTime targetDateTime = DateTime.parse(givenDate!);
+          DateTime now = DateTime.now();
+          print(now);
+          bool sameDate = targetDateTime.year == now.year &&
+          targetDateTime.month == now.month &&
+          targetDateTime.day == now.day;       
+          return sameDate?DateFormat.Hm().format(targetDateTime) :"00:00";
+  }
+
 
   // getLoc() {
   //   String location = "";
@@ -313,6 +340,78 @@ class _MyHomePageState extends State<MyHomePage> {
                             userPassword: userPassword,
                           ))),
             ),
+
+
+
+      (userInfo!.ecmeAddFlag==true||userInfo!.ecmeApproveFlag==true)?  ListTile(
+              leading: const Icon(Icons.calendar_month_outlined,
+                  color: Colors.blueAccent),
+              title: const Text(
+                'Approved e-CME',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 15, 53, 85),
+                ),
+              ),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => ApprovedPrintScreen(
+                                      cid: cid,
+                                      userPass: userPassword,
+                                    ))),
+            ):const SizedBox(),
+
+
+
+            // ListTile(
+            //   leading:
+            //       const Icon(Icons.dataset_sharp, color: Colors.blueAccent),
+            //   title: const Text(
+            //     'Expired Dated',
+            //     style: TextStyle(
+            //       fontSize: 14,
+            //       fontWeight: FontWeight.w500,
+            //       color: Color.fromARGB(255, 15, 53, 85),
+            //     ),
+            //   ),
+            //   onTap: ()async {
+            //     List customerList = await AllServices()
+            //                               .getSyncSavedData('data');
+
+            //                           if (userInfo!.areaPage == false) {
+            //                             if (!mounted) return;
+
+            //                             Navigator.push(
+            //                                 context,
+            //                                 MaterialPageRoute(
+            //                                     builder: (_) =>
+            //                                         CustomerListExpiredScreen(
+            //                                           data: customerList,
+            //                                         )));
+            //                           } else {
+            //                             if (!mounted) return;
+
+            //                             Navigator.push(
+            //                               context,
+            //                               MaterialPageRoute(
+            //                                   builder: (_) => AreaPage(
+            //                                         screenName: 'order',
+            //                                       )),
+            //                             );
+            //                           }
+
+
+            //   } 
+            //   // Navigator.push(
+            //   //     context,
+            //   //     MaterialPageRoute(
+            //   //         builder: (_) => CustomerListExpiredScreen(
+            //   //               cid: cid,
+            //   //               userPassword: userPassword, data: [],
+            //   //             ))),
+            // ),
             // const SizedBox(height: 10),
             // ListTile(
             //   leading: const Icon(Icons.note_add, color: Colors.blueAccent),
@@ -381,14 +480,17 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 const Spacer(),
                 SizedBox(
-                  width: screenWidth / 2.7,
+                  width: screenWidth / 2.6,
                   // height: screenHeight / 10,
-                  child: Text(
-                    loginPageVersionName,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black.withOpacity(.5),
-                      // color: Color.fromARGB(255, 129, 188, 236),
+                  child:const Align(
+                    alignment: Alignment.centerRight,
+                    child:  Text(
+                      loginPageVersionName,
+                      style: TextStyle(
+                        fontSize: 16,
+                       // color: Colors.black.withOpacity(.5),
+                         color: Color.fromARGB(255, 129, 188, 236),
+                      ),
                     ),
                   ),
                 ),
@@ -399,7 +501,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        title: const Text('MREPORTING $appVersion'),
+        title: const Text('MREPORTING $appVersion'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
@@ -487,7 +589,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             )),
                       ),
-                      userInfo!.othersFlag
+                      userInfo!.attendanceFlag==true
                           ? Expanded(
                               flex: 3,
                               child: Padding(
@@ -498,29 +600,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     GestureDetector(
                                       onTap: (() {
+                                    // SharedPreferences pref=   await SharedPreferences.getInstance();
+                                     if(!mounted)return;
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const AttendanceScreen()));
+                                                     AttendanceScreen(
+                                                       userPassword: widget.userPassword,
+
+                                                     )));
                                       }),
                                       child: FittedBox(
                                         child: prefix != prefix2
-                                            ? const Text(
+                                            ?  Text(
                                                 '[Attendance]'
                                                 '\n'
                                                 'Start: '
-                                                " "
+                                                "$startTime"
                                                 '\n'
                                                 "End: "
-                                                " ",
-                                                style: TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 15, 53, 85),
+                                                "${endTime} ",
+                                                style: const TextStyle(
+                                                  color: Color.fromARGB(255, 70, 102, 128),
                                                   fontSize: 18,
                                                 ),
                                               )
                                             : Text(
+                                               
                                                 '[Attendance]' '\n' 'Start: ' +
                                                     startTime.toString() +
                                                     '\n' +
@@ -988,22 +1095,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                           //  List dcrList = await AllServices()
                                           //     .getSyncSavedData('dcrListData');
                                           //     if (dcrList.isNotEmpty) {
@@ -1074,8 +1165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                    
 
                 ///*******************************************Expense and Attendance  section ***********************************///
-                userInfo!.othersFlag
-                    ? Container(
+                 Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 6.80,
                         width: MediaQuery.of(context).size.width,
@@ -1083,7 +1173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             Row(
                               children: [
-                                Expanded(
+                              userInfo!.othersFlag?  Expanded(
                                   child: CustomBuildButton(
                                     icon: Icons.add,
                                     onClick: () {
@@ -1097,31 +1187,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                     sizeWidth: screenWidth,
                                     inputColor: Colors.white,
                                   ),
-                                ),
-                                // const SizedBox(
-                                //   width: 5,
-                                // ),
-                                Expanded(
+                                ):const SizedBox(),
+                               
+                              userInfo!.attendanceFlag==true?  Expanded(
                                   child: CustomBuildButton(
-                                    onClick: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AttendanceScreen()));
+                                    onClick: () async{
+                                     if(!mounted)return;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                     AttendanceScreen(
+                                                      userPassword: widget.userPassword,
+                                                      // callbackFunction: (value){
+                                                      //   getAttenadce();
+                                                       
+                                                      // }, endTime: '', startTime: '',userPassword: widget.userPassword,
+
+                                                     )));
                                     },
                                     icon: Icons.assignment_turned_in_sharp,
                                     title: 'Attendance',
                                     sizeWidth: screenWidth,
                                     inputColor: Colors.white,
                                   ),
-                                ),
+                                ):const SizedBox(),
                               ],
                             ),
                           ],
                         ),
-                      )
-                    : Container(),
+                      ),
+                  
                 userInfo!.othersFlag
                     ? const SizedBox(
                         height: 10,
@@ -1605,6 +1701,114 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
+
+
+
+                      ///****************************************** Sync Data************************************************///
+                (userInfo!.ecmeAddFlag == false &&
+                        userInfo!.ecmeApproveFlag == false)
+                    ? const SizedBox.shrink()
+                    : Container(
+                        color: const Color(0xFFDDEBF7),
+                        height: screenHeight / 6.8,
+                        width: screenWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                userInfo!.ecmeAddFlag==true
+                                    ? Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.add,
+                                          onClick: () async {
+
+                                            ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
+                                            if(eCMEDataModelData!=null ){
+                                                      List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
+                                                      List doctorType =eCMEDataModelData.eCMETypeList;
+                                                      if(_docList.isNotEmpty && doctorType.isNotEmpty )
+                                                      {
+                                                        if (!mounted) return;
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) => ECMEClientScreen(
+                                                                docList: _docList, eCMEType: doctorType,
+                                                                
+                                                                  
+                                                                  ),
+                                                            ),
+                                                          );
+                                                      }else{
+                                                        AllServices().toastMessage(
+                                                          'No e-CME doctor found ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);
+
+
+                                                      }
+
+                                                    }
+                                                    else{
+                                                        AllServices().toastMessage(
+                                                          'e_CME Sync First ',
+                                                          Colors.red,
+                                                          Colors.white,
+                                                          16);
+
+                                                    }
+
+
+                                           
+                                          },
+                                          title: 'Add e-CME',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                               
+                                  userInfo!.ecmeApproveFlag==true?  Expanded(
+                                        child: CustomBuildButton(
+                                          icon: Icons.note_alt,
+                                          onClick: () async {
+                                            bool result =
+                                                await InternetConnectionChecker()
+                                                    .hasConnection;
+                                            if (result == true) {
+                                              if (!mounted) return;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => EcmeFFListApproval(
+                                                    cid: cid,
+                                                    userPass: userPassword,
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              AllServices().toastMessage(
+                                                  interNetErrorMsg,
+                                                  Colors.yellow,
+                                                  Colors.black,
+                                                  16);
+                                            }
+                                          },
+                                          title: 'e-CME Approval',
+                                          sizeWidth: screenWidth,
+                                          inputColor: Colors.white,
+                                        ),
+                                      ):const SizedBox()
+                                   
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                 //================================ Appraisal Scetion=====================
 
                 (userInfo!.appraisalFlag == false &&
@@ -1740,6 +1944,64 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  getAttenadce()async{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                     setState(() {
+                                    isLoading=true;
+                                     
+                                   });
+                                 Map<String, dynamic> result =
+                                          await Repositories().attendanceGetRepo(
+                                              dmpathData!.syncUrl,
+                                              prefs.getString("CID")!,
+                                              userInfo!.userId,
+                                              widget.userPassword,
+                                              );
+                                              
+                                      if (result["status"] == "Success") {
+
+                                        startTime=result["start_time"].toString();
+                                        endTime=result["end_time"].toString();
+                                         setState(() {
+                                            int space = startTime.indexOf(" ");
+                                            String removeSpace =
+                                                startTime.substring(space + 1, startTime.length);
+                                            startTime = removeSpace.replaceAll("'", '');
+                                            int space1 = endTime.indexOf(" ");
+                                            String removeSpace1 = endTime.substring(space1 + 1, endTime.length);
+                                            endTime = removeSpace1.replaceAll("'", '');
+                                            isLoading=false;
+
+                                          });
+                                      
+                                      }
+                                      else {
+                                        setState(() {
+                                          isLoading=false;
+                                        });
+                                      AllServices().toastMessage(
+                                         result["ret_str"].toString(),
+                                          Colors.red,
+                                          Colors.white,
+                                          16.0);
+                                    }
+                                  
+  }
+
+
+  Color getColorForIndex(int index) {
+    // Your logic for assigning colors based on the index
+    // Adjust this logic as needed
+    List<Color> colors = [
+      Color(0xffFED93E),
+      Colors.blue,
+      Colors.red,
+    ];
+
+    return colors[index % colors.length];
+  }
+}
+
   // // Draft Item order section.......................
 
   // Future orderOpenBox() async {
@@ -1789,4 +2051,4 @@ class _MyHomePageState extends State<MyHomePage> {
   //   // }
   //   return "Null";
   // }
-}
+//}

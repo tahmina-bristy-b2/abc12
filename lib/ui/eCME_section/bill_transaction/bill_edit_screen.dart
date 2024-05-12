@@ -232,7 +232,7 @@ int totalParticipants() {
    }
   double getECMEAmontSplit(){
     splitedAmount=0;
-    int listNum= finalBrandListAftrRemoveDuplication.length;
+    int listNum= widget.previousDataModel.brandList.length;
     double? eCMEAmount= double.tryParse(eCMEAmountCOntroller.text)??0.0 ;
     splitedAmount=(eCMEAmount/listNum);
     return splitedAmount;
@@ -683,15 +683,11 @@ int totalParticipants() {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                      (dynamicRowsListForBrand.isNotEmpty )
-                                            ? brandDetailsWidget(wholeWidth, wholeHeight)
-                                            : const SizedBox(),
-                                          const SizedBox(height: 10,),
-                                      
-                                      (dynamicRowsListForBrand.isNotEmpty)
-                                            ?    const SizedBox(
+                                       brandDetailsWidget(wholeWidth, wholeHeight),
+                                       const SizedBox(height: 10,),  
+                                       const SizedBox(
                                           height: 10,
-                                        ) :const SizedBox(),
+                                        ) ,
 
                     //================================= Pay Mode ==================================
                                   AddTitleRowWidget(context: context, title: "Pay Mode *"),
@@ -857,7 +853,7 @@ int totalParticipants() {
                                               height: wholeHeight / 25.309,
                                               child: const Center(
                                                 child: Text(
-                                                  "e_CME Amount",
+                                                  "e_CME (Prev)",
                                                   style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white,
@@ -873,10 +869,10 @@ int totalParticipants() {
                                             child: SizedBox(
                                               width: wholeWidth / 4,
                                               height: wholeHeight / 25.309,
-                                              child:  Center(
+                                              child: const Center(
                                                 child: Text(
-                                                widget.eCMEType=="RMP Meeting"?   "Sales Qty":"Rx objective per day",
-                                                  style:const TextStyle(
+                                                  "e_CME (Edit)",
+                                                  style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white,
                                                       ),
@@ -891,10 +887,10 @@ int totalParticipants() {
                                             child: SizedBox(
                                               width: wholeWidth / 7,
                                               height: wholeHeight / 25.309,
-                                              child: const Center(
+                                              child:  Center(
                                                 child: Text(
-                                                  "Action",
-                                                  style: TextStyle(
+                                                widget.eCMEType=="RMP Meeting"?   "Sales Qty":"Rx objective per day",
+                                                  style:const TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white,
                                                       ),
@@ -902,20 +898,37 @@ int totalParticipants() {
                                               ),
                                             ),
                                           ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(
+                                          //     left: 5,
+                                          //   ),
+                                          //   child: SizedBox(
+                                          //     width: wholeWidth / 7,
+                                          //     height: wholeHeight / 25.309,
+                                          //     child: const Center(
+                                          //       child: Text(
+                                          //         "Action",
+                                          //         style: TextStyle(
+                                          //             fontSize: 12,
+                                          //             color: Colors.white,
+                                          //             ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     ),
                                     SizedBox(
                                       height:
-                                          finalBrandListAftrRemoveDuplication
+                                          widget.previousDataModel.brandList
                                                   .length *
                                               30,
                                       width: wholeWidth / 1.073,
                                       
                                       child: ListView.builder(
                                           itemCount:
-                                              finalBrandListAftrRemoveDuplication
-                                                  .length,
+                                              widget.previousDataModel.brandList.length,
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.only(left: 4,right: 4),
@@ -937,8 +950,7 @@ int totalParticipants() {
                                                         padding: const EdgeInsets.only(left: 2),
                                                         child: Center(
                                                           child: Text(
-                                                            finalBrandListAftrRemoveDuplication[
-                                                                index][0],
+                                                            widget.previousDataModel.brandList[index].brandName,
                                                             style:
                                                                 const TextStyle(
                                                               fontSize: 12,
@@ -948,6 +960,29 @@ int totalParticipants() {
                                                                       0,
                                                                       0,
                                                                       0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                      ),
+                                                      child: SizedBox(
+                                                        width: wholeWidth / 4,
+                                                        height: wholeHeight /
+                                                            25.309,
+                                                        child: Center(
+                                                          child: Text(
+                                                            widget.previousDataModel.brandList[index].amount,
+                                                              style:  const TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0),
                                                             ),
                                                           ),
                                                         ),
@@ -982,18 +1017,12 @@ int totalParticipants() {
                                                         left: 5,
                                                       ),
                                                       child: SizedBox(
-                                                        width: wholeWidth / 4,
+                                                        width: wholeWidth / 7,
                                                         height: wholeHeight /
                                                             25.309,
                                                         child: Center(
                                                           child: Text(
-                                                            finalBrandListAftrRemoveDuplication[
-                                                                            index]
-                                                                        [2] ==
-                                                                    ""
-                                                                ? "0"
-                                                                : finalBrandListAftrRemoveDuplication[
-                                                                    index][2],
+                                                            widget.previousDataModel.brandList[index].qty,
                                                             style:
                                                                 const TextStyle(
                                                               fontSize: 12,
@@ -1006,41 +1035,6 @@ int totalParticipants() {
                                                       ),
                                                     ),
                                                     
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                      ),
-                                                      child: SizedBox(
-                                                        width: wholeWidth / 7,
-                                                        height: wholeHeight /
-                                                            25.309,
-                                                            
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(bottom: 10,top: 0),
-                                                          child: Center(
-                                                            child: IconButton(
-                                                              icon: const Icon(
-                                                                Icons
-                                                                    .delete_forever,
-                                                                color: Colors.red,
-                                                                size: 20,
-                                                              ),
-                                                              onPressed: () {
-                                                                dynamicRowsListForBrand
-                                                                    .removeAt(
-                                                                        index);
-                                                                finalBrandListAftrRemoveDuplication
-                                                                    .removeAt(
-                                                                        index);
-                                                                                                      
-                                                                setState(() {});
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -1092,23 +1086,24 @@ int totalParticipants() {
                                   child: const Center(
                                       child: Text("Cancel",
                                           style: TextStyle(
+                                            fontWeight: FontWeight.bold,
                                             color: Color.fromARGB(
                                                 255, 44, 114, 66),
                                           ))),
                                 ),
                                 onTap: () {
-                                  // Navigator.pop(context);
-                                  if(context.mounted){
-                                    Navigator.push(
-                                    context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>  BillfeedbackPrint(
-                                                dataListPrint:widget.previousDataModel, 
-                                                wholeData: widget.wholeData,
-                                             )
-                                          ),
-                                    );
-                                   }
+                                   Navigator.pop(context);
+                                  // if(context.mounted){
+                                  //   Navigator.push(
+                                  //   context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (_) =>  BillfeedbackPrint(
+                                  //               dataListPrint:widget.previousDataModel, 
+                                  //               wholeData: widget.wholeData,
+                                  //            )
+                                  //         ),
+                                  //   );
+                                  //  }
 
                                  // BillfeedbackScreen
                                 },
@@ -1127,8 +1122,9 @@ int totalParticipants() {
                                           255, 44, 114, 66),
                                     ),
                                     child: const Center(
-                                        child: Text("Preview",
+                                        child: Text("Update",
                                             style: TextStyle(
+                                              fontWeight: FontWeight.bold,
                                               color: Color.fromARGB(
                                                   255, 255, 255, 255),
                                             ))),

@@ -331,7 +331,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                      readonly:true,
+                                      readonly:true,  // for edit screen 
                                       controller: meetingDateController,
                                       textAlign: TextAlign.left, 
                                       keyboardType: TextInputType.text,
@@ -355,11 +355,7 @@ int totalParticipants() {
                                 dropdownOnchanged: null,
                                 selectedValue: selcetDoctorCategory, 
                                 textformFiledHint:  ' Select Doctor Category',
-                                onMenuStateChangeforClear: (isOpen) {
-                                                if (!isOpen) {
-                                                  departmentController.clear();
-                                                }
-                                              },
+                                onMenuStateChangeforClear: null
                                 ),
                      //================================== Institution ===========================
                                selcetDoctorCategory=="Institution"? Column(
@@ -387,7 +383,6 @@ int totalParticipants() {
                     //================================== Department ===========================
                               AddTitleRowWidget(context: context, title: "Department*"),
                               CustomDropdownWidget(
-                                
                                 context: context,
                                 dropdownHint:  '  ----Select Department Name---- ',
                                 dropdownList: docDepartmentList, 
@@ -395,11 +390,7 @@ int totalParticipants() {
                                 dropdownOnchanged: null,
                                 selectedValue: selectedDepartment, 
                                 textformFiledHint: '  Search Department Name...',
-                                onMenuStateChangeforClear: (isOpen) {
-                                                if (!isOpen) {
-                                                  departmentController.clear();
-                                                }
-                                              },
+                                onMenuStateChangeforClear: null,
                                 ),
                                 ],
                                ): const SizedBox(),
@@ -410,7 +401,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                              readonly:true,
+                                              readonly:true, // for edit screen 
                                               hinText: '----Enter Meeting Venue----',
                                               controller: meetingVenueController,
                                               textAlign: TextAlign.left, 
@@ -448,7 +439,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                      readonly:true,
+                                      readonly:true,  // for edit screen 
                                       hinText: '----Enter Speaker Name----',
                                       controller: meetingProbaleSpeakerNameController,
                                       textAlign: TextAlign.left, 
@@ -462,13 +453,13 @@ int totalParticipants() {
                               ),
                    
                     //================================== Participats Section ===========================
-                             titleRowWidget(context ,"Total numbers of participants",  widget.previousDataModel.totalNumbersOfParticipants.toString(),totalParticipants().toStringAsFixed(2)),  
+                             titleRowWidget(context ,"Total numbers of participants",  widget.previousDataModel.totalNumbersOfParticipants.toString(),totalParticipants().toString()),  
                              titleBarWidget(context),
                              Column(
                               children: [
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:doctorPrevController,
-                                  isBillEdit :true,
+                                  isBillEdit :true,  // for edit screen 
                                   rowNumber: "1.", 
                                   reason:"Doctors*", 
                                   controller: doctorParticipantCount,
@@ -482,7 +473,7 @@ int totalParticipants() {
                                 ),
 
                                 BudgetBreakDownRowWidget(
-                                  isBillEdit :true,
+                                  isBillEdit :true,  // for edit screen 
                                   controllerForBillEdit:internPrevController,
                                   routingName: 'participants',
                                   rowNumber: "2.", reason:"Intern Doctors*",
@@ -497,7 +488,7 @@ int totalParticipants() {
                                  
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:dmfdoctorPrevController,
-                                  isBillEdit :true,
+                                  isBillEdit :true,  // for edit screen 
                                   routingName: 'participants',
                                   rowNumber: "3.", 
                                   reason:"DMF/RMP doctors* ", 
@@ -512,7 +503,7 @@ int totalParticipants() {
 
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:nursesPrevController,
-                                  isBillEdit :true,
+                                  isBillEdit :true, // for edit screen 
                                   routingName: 'participants',
                                   rowNumber: "4.", 
                                   reason:"Nurses/Staff* ", 
@@ -529,7 +520,7 @@ int totalParticipants() {
 
                               BudgetBreakDownRowWidget(
                                   controllerForBillEdit: skfAttenancePrevController,
-                                  isBillEdit :true,
+                                  isBillEdit :true, // for edit screen 
                                   routingName: 'participants',
                                   rowNumber: "5.", 
                                   reason:"SKF Attendance*", 
@@ -546,7 +537,7 @@ int totalParticipants() {
 
                               BudgetBreakDownRowWidget(
                                 controllerForBillEdit: othersPrevController,
-                                isBillEdit :true,
+                                isBillEdit :true,  // for edit screen 
                                 routingName: 'participants', 
                                 rowNumber: "6.", 
                                 reason:"Others", 
@@ -577,7 +568,7 @@ int totalParticipants() {
                               children: [
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:hallrentPreController,
-                                  isBillEdit :true,
+                                  isBillEdit :true, // for edit screen 
                                   routingName: 'budget',
                                   rowNumber: "1.", 
                                   reason:"Hall rent*", 
@@ -592,7 +583,7 @@ int totalParticipants() {
                                       ),
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:foodPreController,
-                                  isBillEdit :true,
+                                  isBillEdit :true,  // for edit screen 
                                   routingName: 'budget',
                                   rowNumber: "2.", 
                                   reason:"Food Expense*", 
@@ -607,7 +598,7 @@ int totalParticipants() {
                                 ),
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:giftPrevController,
-                                  isBillEdit :true,
+                                  isBillEdit :true,  // for edit screen 
                                   routingName: 'budget',
                                   rowNumber: "3.", reason:"Speaker Gift or Souvenir*", controller: giftController, 
                                     onChanged: (value ) {  
@@ -621,7 +612,7 @@ int totalParticipants() {
                                     ),
                                 BudgetBreakDownRowWidget(
                                   controllerForBillEdit:stationariesPrevController,
-                                  isBillEdit :true,
+                                  isBillEdit :true,   // for edit screen 
                                   routingName: 'budget',
                                   rowNumber: "4.", 
                                   reason:"Stationnaires or Others*", 
@@ -640,19 +631,41 @@ int totalParticipants() {
                               ),
                     //=================================== eCME Amount================================
                               widget.eCMEType!=null? AddTitleRowWidget(context: context, title: "e_CME Amount *"):const SizedBox(),
-                                widget.eCMEType!=null? SizedBox(
-                                  width: MediaQuery.of(context).size.width /1.1,
-                                  height: 45,
-                                  child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter e-CME Amount ----',   
-                                      // if you change it,you have to change it in inputformatter+readOnly too.
-                                      controller: eCMEPrevController,
-                                      textAlign: TextAlign.left, 
-                                      textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
-                                      focusNode: AlwaysDisabledFocusNode(),
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ) : const SizedBox(),
+                                widget.eCMEType!=null? 
+                                      SizedBox(
+                                         width: MediaQuery.of(context).size.width /1.1,
+                                        child: Row(children: [
+                                          const Text("Prev :  ",style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.green),),
+                                          SizedBox(
+                                          width: MediaQuery.of(context).size.width /3,
+                                          height: 45,
+                                          child: CustomtextFormFiledWidget(
+                                            hinText: '----Enter e-CME Amount ----',   
+                                              // if you change it,you have to change it in inputformatter+readOnly too.
+                                              controller: eCMEPrevController,
+                                              textAlign: TextAlign.left, 
+                                              textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
+                                              focusNode: AlwaysDisabledFocusNode(),
+                                              keyboardType: TextInputType.number,
+                                            ),
+                                          ),
+                                          const Text("  Edit :  ",style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 241, 184, 13)),),
+                                          SizedBox(
+                                          width: MediaQuery.of(context).size.width /2.8,
+                                          height: 45,
+                                          child: CustomtextFormFiledWidget(
+                                            hinText: '----Enter e-CME Amount ----',   
+                                              // if you change it,you have to change it in inputformatter+readOnly too.
+                                              controller: eCMEAmountCOntroller,
+                                              textAlign: TextAlign.left, 
+                                              textStyle: const TextStyle(fontSize: 14,color:Color.fromARGB(255, 71, 60, 60),), 
+                                              focusNode: AlwaysDisabledFocusNode(),
+                                              keyboardType: TextInputType.number,
+                                            ),
+                                          )
+                                        ],),
+                                      )
+                                   : const SizedBox(),
 
                                   SizedBox(
                                       height:  widget.eCMEType!=null? 10:0,
@@ -687,18 +700,10 @@ int totalParticipants() {
                                     dropdownHint:  '  Select Pay Mode',
                                     dropdownList: payModeList, 
                                     dropdownController: brandSelectedController, 
-                                    dropdownOnchanged: (value) { 
-                                                      setState(() {
-                                                        selectedPayMode=value;
-                                                      });
-                                                    },
+                                    dropdownOnchanged: null,
                                     selectedValue: selectedPayMode, 
                                     textformFiledHint: '  Search e-CME Type...', 
-                                    onMenuStateChangeforClear: (isOpen) {
-                                                    if (!isOpen) {
-                                                      brandSelectedController.clear();
-                                                    }
-                                                  },
+                                    onMenuStateChangeforClear: null
                                     ),
                                    SizedBox(
                                       height: wholeHeight / 75.927,
@@ -709,7 +714,8 @@ int totalParticipants() {
                                         width: MediaQuery.of(context).size.width / 1.1,
                                         height: 45,
                                         child: CustomtextFormFiledWidget(
-                                          hinText: '----Enter pay reciever name----',
+                                            readonly:true,  // for edit screen 
+                                            hinText: '----Enter pay reciever name----',
                                             controller: payToController,
                                             textAlign: TextAlign.left, 
                                             keyboardType: TextInputType.text,

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class CustomtextFormFiledWidget extends StatelessWidget {
  TextEditingController controller;
- 
+ bool? readonly;
  FocusNode focusNode;
  TextAlign textAlign;
  TextStyle textStyle;
@@ -16,6 +16,7 @@ class CustomtextFormFiledWidget extends StatelessWidget {
 
    CustomtextFormFiledWidget({
       super.key,
+      this.readonly,
       required this.controller,
       required this.textAlign,
       required this.textStyle,
@@ -37,8 +38,8 @@ class CustomtextFormFiledWidget extends StatelessWidget {
                             
                                     autofocus:false,
                                     controller: controller,
-                                    focusNode:(hinText==""|| hinText=="----Enter e-CME Amount ----")? focusNode:null,
-                                    readOnly:(hinText==""|| hinText=="----Enter e-CME Amount ----")?true:false ,
+                                    focusNode:(hinText==""|| hinText=="----Enter e-CME Amount ----"||readonly==true)? focusNode:null,
+                                    readOnly:(hinText==""|| hinText=="----Enter e-CME Amount ----"||readonly==true)?true:false ,
                                     style:textStyle,
                                     textAlign:textAlign,
                                     

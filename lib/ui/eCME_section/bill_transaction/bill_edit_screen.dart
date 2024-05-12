@@ -163,6 +163,22 @@ class _BillEditScreenState extends State<BillEditScreen> {
     selectedPayMode=widget.previousDataModel.payMode;
     selcetDoctorCategory=widget.previousDataModel.ecmeDoctorCategory;
 
+    //============================== auto data put ==================================
+     hallRentController = TextEditingController(text:widget.previousDataModel.hallRent );
+    foodExpansesController = TextEditingController(text:widget.previousDataModel.foodExpense );
+    //costPerDoctor = TextEditingController(text:widget.previousDataModel.costPerDoctor);
+    stationnairesController = TextEditingController(text:widget.previousDataModel.stationnaires );
+    giftController = TextEditingController(text:widget.previousDataModel.giftsSouvenirs );
+    dmfDoctorController = TextEditingController(text:widget.previousDataModel.dmfDoctors );
+    internDoctorController = TextEditingController(text:widget.previousDataModel.internDoctors );
+    nursesController = TextEditingController(text:widget.previousDataModel.nurses );
+    doctorParticipantCount = TextEditingController(text:widget.previousDataModel.doctorsCount );
+    skfAttenaceController = TextEditingController(text:widget.previousDataModel.skfAttendance );
+    othersParticipantsController = TextEditingController(text:widget.previousDataModel.othersParticipants );
+    eCMEAmountCOntroller=TextEditingController(text: widget.previousDataModel.ecmeAmount);
+    totalParticipants();
+         getTotalBudget();
+
   }
 
 
@@ -198,7 +214,7 @@ int totalParticipants() {
     (int.tryParse(internDoctorController.text) ?? 0) +
     (int.tryParse(dmfDoctorController.text) ?? 0) +
     (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersParticipantsController.text) ?? 0); 
-  getCostPerDoctor();
+   costPerDoctor= getCostPerDoctor();
   setState(() {
     
   });
@@ -315,6 +331,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
+                                      readonly:true,
                                       controller: meetingDateController,
                                       textAlign: TextAlign.left, 
                                       keyboardType: TextInputType.text,
@@ -335,17 +352,7 @@ int totalParticipants() {
                                 dropdownHint:  ' Select Doctor Category',
                                 dropdownList: docCategoryList, 
                                 dropdownController: brandSelectedController, 
-                                dropdownOnchanged: (value) { 
-                                                  if(value!="Institution"){
-                                                      institutionController.clear();
-                                                      departmentController.clear();
-                                                      selectedDepartment=null;
-
-                                                    }
-                                                    setState(() {
-                                                      selcetDoctorCategory = value; 
-                                                    });
-                                                },
+                                dropdownOnchanged: null,
                                 selectedValue: selcetDoctorCategory, 
                                 textformFiledHint:  ' Select Doctor Category',
                                 onMenuStateChangeforClear: (isOpen) {
@@ -364,7 +371,8 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                             hinText: '----Enter Institution Name----',
+                                              readonly:true,
+                                              hinText: '----Enter Institution Name----',
                                               controller: institutionController,
                                               textAlign: TextAlign.left, 
                                               keyboardType: TextInputType.text,
@@ -379,15 +387,12 @@ int totalParticipants() {
                     //================================== Department ===========================
                               AddTitleRowWidget(context: context, title: "Department*"),
                               CustomDropdownWidget(
+                                
                                 context: context,
                                 dropdownHint:  '  ----Select Department Name---- ',
                                 dropdownList: docDepartmentList, 
                                 dropdownController: departmentController, 
-                                dropdownOnchanged: (value) { 
-                                                  setState(() {
-                                                    selectedDepartment=value;
-                                                  });
-                                                },
+                                dropdownOnchanged: null,
                                 selectedValue: selectedDepartment, 
                                 textformFiledHint: '  Search Department Name...',
                                 onMenuStateChangeforClear: (isOpen) {
@@ -405,6 +410,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
+                                              readonly:true,
                                               hinText: '----Enter Meeting Venue----',
                                               controller: meetingVenueController,
                                               textAlign: TextAlign.left, 
@@ -423,6 +429,7 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
+                                      readonly:true,  // for edit screen 
                                       hinText: '----Enter Meeting Topic----',
                                       controller: meetingTopicController,
                                       textAlign: TextAlign.left, 
@@ -441,7 +448,8 @@ int totalParticipants() {
                                   width: MediaQuery.of(context).size.width / 1.1,
                                   height: 45,
                                   child: CustomtextFormFiledWidget(
-                                     hinText: '----Enter Speaker Name----',
+                                      readonly:true,
+                                      hinText: '----Enter Speaker Name----',
                                       controller: meetingProbaleSpeakerNameController,
                                       textAlign: TextAlign.left, 
                                       keyboardType: TextInputType.text,
@@ -477,7 +485,8 @@ int totalParticipants() {
                                   isBillEdit :true,
                                   controllerForBillEdit:internPrevController,
                                   routingName: 'participants',
-                                  rowNumber: "2.", reason:"Intern Doctors*", controller: internDoctorController, 
+                                  rowNumber: "2.", reason:"Intern Doctors*",
+                                  controller: internDoctorController, 
                                   onChanged: (value ) {  
                                           totalParticipants();
                                           setState(() {

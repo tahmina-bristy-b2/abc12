@@ -51,7 +51,7 @@ class BudgetBreakDownRowWidget extends StatelessWidget {
                                         child: Container(
                                           color:const Color.fromARGB(255, 230, 244, 243),
                                           child: TextFormField(
-                                            readOnly:(rowNumber=="3" || reason=="Cost per doctor ")? true:false ,
+                                            readOnly:(rowNumber=="3" || reason=="Cost per doctor "||  isBillEdit==true)? true:false ,
                                             inputFormatters:routingName=="participants"? [
                                                FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                                             ]:[

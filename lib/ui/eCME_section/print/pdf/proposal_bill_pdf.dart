@@ -1,7 +1,6 @@
 
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
 import 'package:MREPORTING/ui/eCME_section/print/util/proposal_bill_utils.dart';
-import 'package:MREPORTING/ui/eCME_section/print/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';

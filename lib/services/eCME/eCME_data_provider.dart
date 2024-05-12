@@ -24,33 +24,6 @@ class ECMEDataProviders{
     return response;
   }
 
-  // //=========================================== Territory based Doctor =====================================================
-  // Future<http.Response> terroBasedDoctor(
-  //   String doctorUrl,
-  //   String cid,
-  //   String userId,
-  //   String userPass,
-  //   String regionId,
-  //   String areaId,
-  //   String terroId,
-  //   String dsrType,
-  // ) async {
-  //   late http.Response response;
-
-  //   print(
-  //       "Territory Based Doctor api==${ECMEApis().getECMEAddDoctorApi(doctorUrl, cid, userId, userPass, regionId, areaId, terroId, dsrType)}");
-  //   response = await http.post(
-  //     Uri.parse(ECMEApis().getECMEAddDoctorApi(doctorUrl, cid, userId, userPass, regionId,
-  //         areaId, terroId, dsrType)),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //   );
-
-  //   return response;
-  // }
-
-
 
   //=========================================== E-CME Settings api=====================================================
   Future<http.Response> submitECMEData(
@@ -113,8 +86,7 @@ class ECMEDataProviders{
 
   //================================= eCME Approved or reject ===============================
   Future<http.Response> approvedECMEDP(String sl,
-         String approveEDSRUrl, String cid, String userId,
-          String userPass, String approvedEdsrParams) async {
+         String approveEDSRUrl, String cid, String userId,String userPass, String approvedEdsrParams) async {
     final http.Response response;
     print("approved reject api =${ECMEApis.eCMEApproved(sl,
           approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)}");
@@ -141,6 +113,22 @@ class ECMEDataProviders{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    return response;
+  }
+
+  //=========================================== E-CME Bill Update =====================================================
+  Future<http.Response> billUpdateDataProvider(
+    String submitUrl
+  ) async {
+    final http.Response response;
+    response = await http.get(
+      Uri.parse(
+          submitUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
     return response;
   }
 

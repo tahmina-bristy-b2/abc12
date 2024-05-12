@@ -228,6 +228,25 @@ class ECMERepositry{
   }
 
 
+   //=========================================== Territory Based Doctor ==========================================
+  Future<Map<String, dynamic>> eCMEBillUpdate(
+      String submitUrl) async {
+      Map<String, dynamic> submitInfo = {};
+    try {
+      http.Response response = await ECMEDataProviders().billUpdateDataProvider(submitUrl);
+      submitInfo = json.decode(response.body);
+      return submitInfo;
+    } catch (e) {
+      print('get Doctor: $e');
+    }
+    return submitInfo;
+  }
+
+
+
+
+
+
 
 
 }

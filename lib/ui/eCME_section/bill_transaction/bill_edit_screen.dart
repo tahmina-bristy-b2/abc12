@@ -1,8 +1,11 @@
 
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +41,7 @@ class _BillEditScreenState extends State<BillEditScreen> {
   final GlobalKey<FormState> _form1Key = GlobalKey();
   UserLoginModel? userInfo;
   DmPathDataModel? dmpathData;
+  bool isPreviewLoading=false;
   DateTime selectedExpiredDate=DateTime.now();
   String selectedExpiredDateString=DateFormat('yyyy-MM-dd').format(DateTime.now());
   TextEditingController meetingVenueController = TextEditingController();
@@ -83,8 +87,6 @@ class _BillEditScreenState extends State<BillEditScreen> {
   TextEditingController othersPrevController = TextEditingController();
   TextEditingController nursesPrevController = TextEditingController();
   TextEditingController dmfdoctorPrevController = TextEditingController();
-
-
   
 
   ECMESavedDataModel? eCMESettingsData;
@@ -157,8 +159,9 @@ class _BillEditScreenState extends State<BillEditScreen> {
     eCMEPrevController=TextEditingController(text: widget.previousDataModel.ecmeAmount);
 
     institutionController = TextEditingController(text:widget.previousDataModel.institutionName );
-    departmentController = TextEditingController(text:widget.previousDataModel.department );
+    selectedDepartment = widget.previousDataModel.department ;
     payToController = TextEditingController(text:widget.previousDataModel.payTo);
+
    
     selectedPayMode=widget.previousDataModel.payMode;
     selcetDoctorCategory=widget.previousDataModel.ecmeDoctorCategory;
@@ -166,7 +169,6 @@ class _BillEditScreenState extends State<BillEditScreen> {
     //============================== auto data put ==================================
      hallRentController = TextEditingController(text:widget.previousDataModel.hallRent );
     foodExpansesController = TextEditingController(text:widget.previousDataModel.foodExpense );
-    //costPerDoctor = TextEditingController(text:widget.previousDataModel.costPerDoctor);
     stationnairesController = TextEditingController(text:widget.previousDataModel.stationnaires );
     giftController = TextEditingController(text:widget.previousDataModel.giftsSouvenirs );
     dmfDoctorController = TextEditingController(text:widget.previousDataModel.dmfDoctors );
@@ -177,7 +179,7 @@ class _BillEditScreenState extends State<BillEditScreen> {
     othersParticipantsController = TextEditingController(text:widget.previousDataModel.othersParticipants );
     eCMEAmountCOntroller=TextEditingController(text: widget.previousDataModel.ecmeAmount);
     totalParticipants();
-         getTotalBudget();
+    getTotalBudget();
 
   }
 
@@ -898,24 +900,7 @@ int totalParticipants() {
                                               ),
                                             ),
                                           ),
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(
-                                          //     left: 5,
-                                          //   ),
-                                          //   child: SizedBox(
-                                          //     width: wholeWidth / 7,
-                                          //     height: wholeHeight / 25.309,
-                                          //     child: const Center(
-                                          //       child: Text(
-                                          //         "Action",
-                                          //         style: TextStyle(
-                                          //             fontSize: 12,
-                                          //             color: Colors.white,
-                                          //             ),
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ),
+                                         
                                         ],
                                       ),
                                     ),
@@ -1092,20 +1077,10 @@ int totalParticipants() {
                                           ))),
                                 ),
                                 onTap: () {
+                                 if(isPreviewLoading=false){
                                    Navigator.pop(context);
-                                  // if(context.mounted){
-                                  //   Navigator.push(
-                                  //   context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (_) =>  BillfeedbackPrint(
-                                  //               dataListPrint:widget.previousDataModel, 
-                                  //               wholeData: widget.wholeData,
-                                  //            )
-                                  //         ),
-                                  //   );
-                                  //  }
-
-                                 // BillfeedbackScreen
+                                 } 
+                                  
                                 },
                               ),
                             ),
@@ -1121,7 +1096,9 @@ int totalParticipants() {
                                       color: const Color.fromARGB(
                                           255, 44, 114, 66),
                                     ),
-                                    child: const Center(
+                                    child: isPreviewLoading==true? const Center(child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),) : const Center(
                                         child: Text("Update",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -1130,66 +1107,94 @@ int totalParticipants() {
                                             ))),
                                   ),
                                   onTap: () async {
-                                    if(context.mounted){
-                                    Navigator.push(
-                                    context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>  ProposalBillPdfScreen(
-                                                dataListPrint:widget.previousDataModel, 
-                                                wholeData: widget.wholeData,
-                                             )
-                                          ),
-                                    );
-                                   }
+                                            if (doctorParticipantCount.text == "") {
+                                            AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
+                                          } else if (internDoctorController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
+                                          } else if (dmfDoctorController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
+                                          } else if (nursesController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
+                                          } else if (skfAttenaceController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
+                                          } else if (hallRentController.text == "") {
+                                            AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
+                                          } else if (foodExpansesController.text == "") {
+                                            AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
+                                          } else if (giftController.text == "") {
+                                            AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
+                                          } else if (stationnairesController.text == "") {
+                                            AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                          }
+                                          else {
+                                            setState(() {
+                                              isPreviewLoading=true;
+                                            });
+                                           eCMEBillUpdate();
+                                          }
+                                
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+  }
 
-                                    
-                                    // double eCME= double.tryParse(eCMEAmountCOntroller.text)??0.0;
-                                    //  if (selectedExpiredDateString == "") {
-                                    //         AllServices().toastMessage("Please Select Meeting Date ", Colors.red, Colors.white, 16);
-                                    //       } else if (selcetDoctorCategory == null) {
-                                    //         AllServices().toastMessage("Please Select Doctor Category ", Colors.red, Colors.white, 16);
-                                    //       } else if (meetingVenueController.text == "") {
-                                    //         AllServices().toastMessage("Please Enter meeting venue ", Colors.red, Colors.white, 16);
-                                    //       } else if (meetingTopicController.text == "") {
-                                    //         AllServices().toastMessage("Please Enter meeting topic ", Colors.red, Colors.white, 16);
-                                    //       } else if (meetingProbaleSpeakerNameController.text == "") {
-                                    //         AllServices().toastMessage("Please Enter probable speaker Name ", Colors.red, Colors.white, 16);
-                                    //       } else if (eCMEAmountCOntroller.text == "") {
-                                    //         AllServices().toastMessage("Please enter e-CME amount", Colors.red, Colors.white, 16);
-                                    //       } else if (finalBrandListAftrRemoveDuplication.isEmpty) {
-                                    //         AllServices().toastMessage("Please add brand", Colors.red, Colors.white, 16);
-                                    //       } else if (doctorParticipantCount.text == "") {
-                                    //         AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
-                                    //       } else if (internDoctorController.text.isEmpty) {
-                                    //         AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
-                                    //       } else if (dmfDoctorController.text.isEmpty) {
-                                    //         AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
-                                    //       } else if (nursesController.text.isEmpty) {
-                                    //         AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
-                                    //       } else if (skfAttenaceController.text.isEmpty) {
-                                    //         AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
-                                    //       } else if (hallRentController.text == "") {
-                                    //         AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
-                                    //       } else if (foodExpansesController.text == "") {
-                                    //         AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
-                                    //       } else if (giftController.text == "") {
-                                    //         AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
-                                    //       } else if (stationnairesController.text == "") {
-                                    //         AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
-                                    //       } else if (selectedPayMode == null) {
-                                    //         AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
-                                    //       } else if (payToController.text == "") {
-                                    //         AllServices().toastMessage("Please enter pay reciever name ", Colors.red, Colors.white, 16);
-                                    //       }else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
-                                    //         AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
-                                    //       }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
-                                    //         AllServices().toastMessage("Please select department ", Colors.red, Colors.white, 16);
-                                    //       }else if (totalBudget>eCME) {
-                                    //         AllServices().toastMessage("Please reduce your budget ", Colors.red, Colors.white, 16);
-                                    //       }
-                                    //        else {
-                                    //        // readyForPreviewMethod();
-                                    //       }
+
+   //============================================================== Buttons widget =======================================
+  SizedBox printButton(BuildContext context) {
+    return SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [ 
+                            Expanded(
+                              child: InkWell(
+                                  child: Container(
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color.fromARGB(
+                                          255, 44, 114, 66),
+                                    ),
+                                    child: isPreviewLoading==true? const Center(child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),) : const Center(
+                                        child: Text("Proposal Bill PDF/Print",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                            ))),
+                                  ),
+                                  onTap: () async {
+                                            if (doctorParticipantCount.text == "") {
+                                            AllServices().toastMessage("Please add participating doctor ", Colors.red, Colors.white, 16);
+                                          } else if (internDoctorController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of intern doctor", Colors.red, Colors.white, 16);
+                                          } else if (dmfDoctorController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of DMF/RMP doctor", Colors.red, Colors.white, 16);
+                                          } else if (nursesController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of Nurses/Staff ", Colors.red, Colors.white, 16);
+                                          } else if (skfAttenaceController.text.isEmpty) {
+                                            AllServices().toastMessage("Please add number of SKF Attendance ", Colors.red, Colors.white, 16);
+                                          } else if (hallRentController.text == "") {
+                                            AllServices().toastMessage("Please add hall rent amount  ", Colors.red, Colors.white, 16);
+                                          } else if (foodExpansesController.text == "") {
+                                            AllServices().toastMessage("Please add food expense amount  ", Colors.red, Colors.white, 16);
+                                          } else if (giftController.text == "") {
+                                            AllServices().toastMessage("Please add speaker gift expense  ", Colors.red, Colors.white, 16);
+                                          } else if (stationnairesController.text == "") {
+                                            AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
+                                          }
+                                          else {
+                                            setState(() {
+                                              isPreviewLoading=true;
+                                            });
+                                           eCMEBillUpdate();
+                                          }
                                 
                                   }),
                             ),
@@ -1203,5 +1208,26 @@ int totalParticipants() {
 
   initialValue(String val) {
     return TextEditingController(text: val);
+  }
+
+
+  eCMEBillUpdate() async {
+    String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=${cid}&userId=${userId}&password=${password}&sl=${widget.previousDataModel.sl}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget}&brand_split_amount=${splitedAmount}&total_numbers_of_participants=${totalNumberOfParticiController}&cost_per_doctor=${costPerDoctor}";
+   print("submt =$updateUrlString");
+    Map<String, dynamic> data = await ECMERepositry().eCMEBillUpdate(updateUrlString);
+    if (data["status"] == "Success") {
+      setState(() {
+        isPreviewLoading = false;
+      });
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16); 
+      
+    } else {
+      setState(() {
+        isPreviewLoading = false;
+      });
+      AllServices()
+          .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
+    }
   }
 }

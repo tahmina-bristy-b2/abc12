@@ -5,7 +5,6 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCME_services.dart';
-import 'package:MREPORTING/ui/Appraisal/apparaisal_self_assesment_history.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_doctor_preview.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/add_title_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_dropdown_widget.dart';
@@ -1345,7 +1344,7 @@ int totalParticipants() {
                                                                      }
                                                                       else {
                                                                           AllServices().toastMessage(
-                                                                            widget.eCMEType=="RMP Meeting"?  "Please Enter e_CME Amount  " :"Please Enter Rx objective per day",
+                                                                            widget.eCMEType=="RMP Meeting"?  "Please Enter sales Qty  " :"Please Enter Rx objective per day",
                                                                               Colors.red,
                                                                               Colors.white,
                                                                               16);

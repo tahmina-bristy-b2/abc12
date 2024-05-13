@@ -13,9 +13,6 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
   final  logoUint8List = pw.MemoryImage(
       (await rootBundle.load('assets/images/comp_logo1.png')).buffer.asUint8List());
  
-  // final logoImage = pw.MemoryImage(
-  
-  final font = await rootBundle.load('assets/Montserrat-Regular.ttf');
   List<List<String>> tableData = [
     ['Expense Particulars ', 'Expense amount(Taka)', 'Remarks'],
     ['1. Hall Rent', dataListPrint.hallRent.toString(), ''],
@@ -26,7 +23,16 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
      ['TOTAL :', dataListPrint.totalBudget.toString(), ''],
      ['IN WORDS :', dataListPrint.totalBudgetInWords, ''],
   ];
-
+  List<String> header = ['Brand Name ', 'Amount',dataListPrint.ecmeDoctorCategory=="RMP Meeting"? "Sales Qty*" :"Rx objective per day"];
+  
+  List<List<String>> brandData(){
+    List<List<String>> brandData =[];
+     dataListPrint.brandList.forEach((element) { 
+      brandData.add(element as List<String>);
+     });
+   return brandData;
+  }
+  
   List<List<String>> secondTable = [
     ['', 'Amount'],
     ['Advance Recieved (MI Number:......, Date:.......)[If approprite]', '' ],
@@ -38,9 +44,8 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
 
   doc.addPage(
     pw.MultiPage(
-      header: (final context) => pw.Column(
-        children: [
-          pw.Center(
+      build: (final context) => [
+        pw.Center(
              child: pw.Center(
             child: pw.Container(
               child: pw.Image(logoUint8List),
@@ -61,13 +66,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           ])),
           pw.SizedBox(height: 2),
           pw.Container(height: 0.5,color: PdfColors.black),
-          pw.SizedBox(height: 10)
-        ]
-       
-          
-          ),
-      
-      build: (final context) => [
+          pw.SizedBox(height: 10),
         pw.Container(
           padding: const pw.EdgeInsets.only( bottom: 6),
           child: pw.Column(
@@ -85,35 +84,68 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                 )),
               ]),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 10)),
-              expenseTableRowWidget("SL NO", dataListPrint.sl),
-              pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-              expenseTableRowWidget("NAME & TERR.CODE OF AM/FM ", "${dataListPrint.fmIdName}"),
-              pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("SL NO", dataListPrint.sl),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("NAME & TERR.CODE OF AM/FM ", dataListPrint.fmIdName),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("NAME & REGION OF ASM/RSM  ", "${wholeData.resData.rsmName}(${wholeData.resData.supLevelIds.toUpperCase()})"),
-              pw.Padding(padding: const pw.EdgeInsets.only(top:2)),
-              expenseTableRowWidget("ESKAYEF PERSONS ATTENDED", dataListPrint.skfAttendance),
+               pw.Padding(padding: const pw.EdgeInsets.only(top:2)),
+               expenseTableRowWidget("ESKAYEF PERSONS ATTENDED", dataListPrint.skfAttendance),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("PARTICIPATING DOCTORS BELONG TO", dataListPrint.doctorList.length.toString()),
-               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               ((dataListPrint.ecmeType=="Intern Reception")||(dataListPrint.ecmeType=="Intern Reception"))?pw.SizedBox(): expenseTableRowWidget("PARTICIPATING DOCTORS BELONG TO", dataListPrint.doctorList.length.toString()),
+               ((dataListPrint.ecmeType=="Intern Reception")||(dataListPrint.ecmeType=="Intern Reception"))?pw.SizedBox():  pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING VENUE", dataListPrint.meetingVenue),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING DATE", dataListPrint.meetingDate),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("TOTAL NO. OF PARTICIPATING DOCTORS", dataListPrint.doctorsCount),
-               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING TOPIC", dataListPrint.meetingTopic),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("NAME OF REMINDED BRANDS", dataListPrint.remindedBrand),
             ],
           ),
         ),
+        pw.Row(children: [
+          pw.Expanded(flex: 2,
+                child: pw.Align(alignment: pw.Alignment.topLeft,
+                child: pw.Text("REMINDED BRANDS DETAIL",style: pw.TextStyle(fontSize: 7.5,fontWeight: pw.FontWeight.bold))
+                )),
+                pw.SizedBox(child: pw.Text(": ")),
+                pw.Expanded(flex: 3,
+                child: pw.Table.fromTextArray(
+                  context: context,
+                  headers:header ,
+                  data: dataListPrint.brandList.map((brand) => [brand.brandName, brand.amount, brand.qty]).toList(),
+                  headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8),
+                  cellStyle: const pw.TextStyle(fontSize: 6.5,),
+                  border: pw.TableBorder.all(width: 0.5),
+                  headerDecoration: const pw.BoxDecoration(
+                    color: PdfColors.grey100
+                  ),
+                  cellHeight: 6,
+                  headerHeight: 10,
+                  cellAlignments: {
+                    0: pw.Alignment.centerLeft,
+                    1: pw.Alignment.centerRight,
+                    2: pw.Alignment.center,
+                  },
+                  columnWidths: {
+                    0: const pw.FlexColumnWidth(2),
+                    1: const pw.FlexColumnWidth(1), 
+                    2:const pw.FlexColumnWidth(2), 
+                  },
+                 ),
+                ),
+
+
+        ]),
     
-        pw.SizedBox(height: 2),
+        pw.SizedBox(height: 8),
         pw.Table.fromTextArray(
           context: context,
           data: tableData,
           headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8),
-          cellStyle: pw.TextStyle(fontSize: 6.5,),
+          cellStyle: const pw.TextStyle(fontSize: 6.5,),
           border: pw.TableBorder.all(width: 0.5),
           headerDecoration: const pw.BoxDecoration(
             color: PdfColors.grey100

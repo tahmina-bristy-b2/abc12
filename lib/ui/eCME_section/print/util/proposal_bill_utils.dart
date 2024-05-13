@@ -25,6 +25,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
      ['TOTAL :', editedData["total_budget"], ],
     //  ['IN WORDS :', dataListPrint.totalBudgetInWords, ],
   ];
+
    List<List<String>> secondTable = [
     ['Participates ', 'Amount', ],
     ['1. Doctors', editedData["doctor_count"] ],
@@ -156,50 +157,50 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
         ),
 
         
-         pw.SizedBox(height: 20),
-        // pw.Container(
-        //   height: 15,
-        //   child: pw.Row(
-        //     children:[
-        //       pw.Expanded(
-        //         flex: 2,
-        //         child: pw.Column(
-        //             children: [
-        //               pw.Container(color:PdfColors.black,height: 0.6,),
-        //               pw.Expanded(child: pw.Text("Checked by",style:const pw.TextStyle(fontSize: 8))),
+        pw.SizedBox(height: 20),
+        pw.Container(
+          height: 15,
+          child: pw.Row(
+            children:[
+              pw.Expanded(
+                flex: 2,
+                child: pw.Column(
+                    children: [
+                      pw.Container(color:PdfColors.black,height: 0.6,),
+                      pw.Expanded(child: pw.Text("Checked by",style:const pw.TextStyle(fontSize: 8))),
                     
 
-        //             ],
-        //           ),
-        //       ),
-        //       pw.SizedBox(width: 15),
-        //        pw.Expanded(
-        //         flex: 2,
-        //         child: pw.Column(
-        //             children: [
-        //               pw.Container(color:PdfColors.black,height: 0.6),
-        //               pw.Expanded(child: pw.Text("Verified By",style:const pw.TextStyle(fontSize: 8))),
+                    ],
+                  ),
+              ),
+              pw.SizedBox(width: 15),
+               pw.Expanded(
+                flex: 2,
+                child: pw.Column(
+                    children: [
+                      pw.Container(color:PdfColors.black,height: 0.6),
+                      pw.Expanded(child: pw.Text("Verified By",style:const pw.TextStyle(fontSize: 8))),
                       
-        //             ],
-        //           ),
-        //       ),
-        //       pw.SizedBox(width: 15),
-        //        pw.Expanded(
-        //         flex: 4,
-        //         child: pw.Column(
-        //             children: [
-        //               pw.Container(color:PdfColors.black,height: 0.6),
-        //               pw.Expanded(child: pw.Text("Approved for Payment",style:const pw.TextStyle(fontSize: 8))),
+                    ],
+                  ),
+              ),
+              pw.SizedBox(width: 15),
+               pw.Expanded(
+                flex: 4,
+                child: pw.Column(
+                    children: [
+                      pw.Container(color:PdfColors.black,height: 0.6),
+                      pw.Expanded(child: pw.Text("Approved for Payment",style:const pw.TextStyle(fontSize: 8))),
                      
 
-        //             ],
-        //           ),
-        //       ),
+                    ],
+                  ),
+              ),
                
                
-        //     ]
-        //   )
-        // ),
+            ]
+          )
+        ),
         pw.SizedBox(height:8 ),
         pw.Column(
            mainAxisAlignment: pw.MainAxisAlignment.center,

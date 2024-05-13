@@ -47,7 +47,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
     super.initState();
     for (var eachType in widget.eCMEType) {
       doctorSelectionMap[eachType]=false;
-      //print(" $eachType");
     }
     addShowDialogForVeryFirstTime(widget.eCMEType,context);
     if(widget.docList!=null){
@@ -68,7 +67,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       territory = prefs.getString("Territory") ?? "";
       setState(() {});
     });
- // print("data save ");
     
     
   }

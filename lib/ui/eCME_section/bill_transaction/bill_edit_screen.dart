@@ -1,10 +1,7 @@
 
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
-import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
-import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +170,7 @@ class _BillEditScreenState extends State<BillEditScreen> {
     selcetDoctorCategory=widget.previousDataModel.ecmeDoctorCategory;
 
     //============================== auto data put ==================================
-     hallRentController = TextEditingController(text:widget.previousDataModel.hallRent );
+    hallRentController = TextEditingController(text:widget.previousDataModel.hallRent );
     foodExpansesController = TextEditingController(text:widget.previousDataModel.foodExpense );
     stationnairesController = TextEditingController(text:widget.previousDataModel.stationnaires );
     giftController = TextEditingController(text:widget.previousDataModel.giftsSouvenirs );
@@ -256,14 +253,11 @@ int totalParticipants() {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double wholeHeight = MediaQuery.of(context).size.height;
     double wholeWidth = MediaQuery.of(context).size.width;
-     TextEditingController meetingDateController = TextEditingController(text:widget.previousDataModel.meetingDate.toString() );
-
+    TextEditingController meetingDateController = TextEditingController(text:widget.previousDataModel.meetingDate.toString() );
 
     return  WillPopScope(
       onWillPop: () async {

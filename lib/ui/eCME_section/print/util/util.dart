@@ -25,22 +25,30 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
   ];
   List<String> header = ['Brand Name ', 'Amount',dataListPrint.ecmeDoctorCategory=="RMP Meeting"? "Sales Qty*" :"Rx objective per day"];
   
-  List<List<String>> brandData(){
-    List<List<String>> brandData =[];
-     dataListPrint.brandList.forEach((element) { 
-      brandData.add(element as List<String>);
-     });
-   return brandData;
+  List<List<String>> brandData() {
+    List<List<String>> brandData = [];
+    int totalSalesQty=0;
+    for (var brand in dataListPrint.brandList) {
+      totalSalesQty += int.parse(brand.qty);
+      brandData.add([brand.brandName, brand.amount, brand.qty]);
+    }
+    brandData.add(['TOTAL :', dataListPrint.ecmeAmount.toString(), totalSalesQty.toString()]);
+    return brandData;
   }
+  
   
   List<List<String>> secondTable = [
     ['', 'Amount'],
-    ['Advance Recieved (MI Number:......, Date:.......)[If approprite]', '' ],
-    ["Total Expense",""],
+    ['Advance Recieved (MI Number:......, Date:.......)[If approprite]', ""],
+    ["Total Expense",dataListPrint.ecmeAmount.toString() ],
     ['Amount Payable by/Refundable to the Company(TK)', ''],
     ['In words :', '', ],
     
   ];
+
+
+
+  
 
   doc.addPage(
     pw.MultiPage(
@@ -114,10 +122,10 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                 pw.Expanded(flex: 3,
                 child: pw.Table.fromTextArray(
                   context: context,
-                  headers:header ,
-                  data: dataListPrint.brandList.map((brand) => [brand.brandName, brand.amount, brand.qty]).toList(),
+                  data: [header, ...brandData()],
+               
                   headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8),
-                  cellStyle: const pw.TextStyle(fontSize: 6.5,),
+                  cellStyle:  pw.TextStyle(fontSize: 6.5,  fontWeight: pw.FontWeight.bold   ),
                   border: pw.TableBorder.all(width: 0.5),
                   headerDecoration: const pw.BoxDecoration(
                     color: PdfColors.grey100
@@ -127,7 +135,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                   cellAlignments: {
                     0: pw.Alignment.centerLeft,
                     1: pw.Alignment.centerRight,
-                    2: pw.Alignment.center,
+                    2: pw.Alignment.centerRight,
                   },
                   columnWidths: {
                     0: const pw.FlexColumnWidth(2),

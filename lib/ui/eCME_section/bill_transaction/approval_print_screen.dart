@@ -365,6 +365,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                 RowForCMEPreview(title: 'Probable Speaker Name & Designation', value: approvedPrintDetails!.resData.dataListPrint[index].probableSpeakerName,isBold: false,),
                 RowForCMEPreview(title: 'Pay Mode', value: approvedPrintDetails!.resData.dataListPrint[index].payMode,isBold: false,),
                 RowForCMEPreview(title: 'Pay To', value: approvedPrintDetails!.resData.dataListPrint[index].payTo,isBold: false,),
+                RowForCMEPreview(title: 'Submit by', value: approvedPrintDetails!.resData.dataListPrint[index].submitBy,isBold: true,fontColor:Colors.green ,),
                 RowForCMEPreview(title: 'Status', value: approvedPrintDetails!.resData.dataListPrint[index].step,isBold: true,fontColor:Colors.green ,),
                 RowForCMEPreview(title: 'Last Action', value: approvedPrintDetails!.resData.dataListPrint[index].lastAction,isBold: true,fontColor:Colors.green ,),
                 RowForCMEPreview(title: 'Total Numbers of participants', value: approvedPrintDetails!.resData.dataListPrint[index].totalNumbersOfParticipants,isBold: true,),

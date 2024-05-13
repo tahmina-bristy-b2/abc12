@@ -88,6 +88,11 @@ class _BillEditScreenState extends State<BillEditScreen> {
   TextEditingController othersPrevController = TextEditingController();
   TextEditingController nursesPrevController = TextEditingController();
   TextEditingController dmfdoctorPrevController = TextEditingController();
+
+
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController payModeController = TextEditingController();
+  TextEditingController departmentControllerNew = TextEditingController();
   
 
   ECMESavedDataModel? eCMESettingsData;
@@ -130,8 +135,8 @@ class _BillEditScreenState extends State<BillEditScreen> {
 
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
-    eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
-    allSettingsDataGet(eCMESettingsData);
+    // eCMESettingsData = Boxes.geteCMEsetData().get("eCMESavedDataSync")!;
+    // allSettingsDataGet(eCMESettingsData);
     SharedPreferences.getInstance().then((prefs) {
       password = prefs.getString("PASSWORD") ?? '';
       cid = prefs.getString("CID") ?? '';
@@ -162,13 +167,19 @@ class _BillEditScreenState extends State<BillEditScreen> {
     othersPrevController = TextEditingController(text:widget.previousDataModel.othersParticipants );
     eCMEPrevController=TextEditingController(text: widget.previousDataModel.ecmeAmount);
 
-    institutionController = TextEditingController(text:widget.previousDataModel.institutionName );
+    
     selectedDepartment = widget.previousDataModel.department ;
     payToController = TextEditingController(text:widget.previousDataModel.payTo);
-
-   
     selectedPayMode=widget.previousDataModel.payMode;
     selcetDoctorCategory=widget.previousDataModel.ecmeDoctorCategory;
+    
+   categoryController = TextEditingController(text: widget.previousDataModel.ecmeDoctorCategory);
+   if(selcetDoctorCategory=="Institution"){
+    departmentControllerNew = TextEditingController(text: widget.previousDataModel.department);
+    institutionController = TextEditingController(text:widget.previousDataModel.institutionName );
+   }
+   payModeController = TextEditingController(text: widget.previousDataModel.payMode);
+   
 
     //============================== auto data put ==================================
     hallRentController = TextEditingController(text:widget.previousDataModel.hallRent );
@@ -187,20 +198,8 @@ class _BillEditScreenState extends State<BillEditScreen> {
 
   }
 
-
-
-  //===============================All Settings Data get Method============================
-  allSettingsDataGet(ECMESavedDataModel? eDSRsettingsData) {
-    eBrandList = eDSRsettingsData!.eCMEBrandList.map((e) => e.brandName).toList();  
-    eCMETypeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
-    payModeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payModeList;
-    docCategoryList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.docCategoryList;
-    docDepartmentList=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.departmentList;
-    areaId=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.supAreaId ;
-  }
-
   //============================ total budget =========================
-double getTotalBudget() {
+ double getTotalBudget() {
   double hall = double.tryParse(hallRentController.text) ?? 0.0;
   double food = double.tryParse(foodExpansesController.text) ?? 0.0;
   double gift = double.tryParse(giftController.text) ?? 0.0;
@@ -356,16 +355,22 @@ int totalParticipants() {
                                     ) ,
                        //=============================== Doctor Category ====================================
                                  AddTitleRowWidget(context: context, title: "Doctor Category*"),
-                                 CustomDropdownWidget(
-                                  context: context,
-                                  dropdownHint:  ' Select Doctor Category',
-                                  dropdownList: docCategoryList, 
-                                  dropdownController: brandSelectedController, 
-                                  dropdownOnchanged: null,
-                                  selectedValue: selcetDoctorCategory, 
-                                  textformFiledHint:  ' Select Doctor Category',
-                                  onMenuStateChangeforClear: null
-                                  ),
+                                 SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                        readonly:true,  // for edit screen 
+                                        controller: categoryController,
+                                        textAlign: TextAlign.left, 
+                                        keyboardType: TextInputType.text,
+                                       // suffixIcon: const Icon(Icons.calendar_month_outlined,color: Color.fromARGB(255, 82, 179, 98),),
+                                        textStyle: const TextStyle(fontSize: 14,color: Color.fromARGB(255, 41, 90, 50),), 
+                                        onChanged: null,
+                                        focusNode: AlwaysDisabledFocusNode(), 
+                                        hinText: "",
+                                      ),
+                                    ),
+                               
                        //================================== Institution ===========================
                                  selcetDoctorCategory=="Institution"? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,16 +396,22 @@ int totalParticipants() {
                                    ),
                       //================================== Department ===========================
                                 AddTitleRowWidget(context: context, title: "Department*"),
-                                CustomDropdownWidget(
-                                  context: context,
-                                  dropdownHint:  '  ----Select Department Name---- ',
-                                  dropdownList: docDepartmentList, 
-                                  dropdownController: departmentController, 
-                                  dropdownOnchanged: null,
-                                  selectedValue: selectedDepartment, 
-                                  textformFiledHint: '  Search Department Name...',
-                                  onMenuStateChangeforClear: null,
-                                  ),
+                                //++++++++++++++++++++++++++++++++++++++++++++
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.1,
+                                    height: 45,
+                                    child: CustomtextFormFiledWidget(
+                                                readonly:true,
+                                                hinText: '  ----Select Department Name---- ',
+                                                controller: departmentControllerNew,
+                                                textAlign: TextAlign.left, 
+                                                keyboardType: TextInputType.text,
+                                                textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                                focusNode: AlwaysDisabledFocusNode(),
+                                              ),
+                                   
+                                    )
+                                
                                   ],
                                  ): const SizedBox(),
                                  const SizedBox(height: 10,),
@@ -709,16 +720,20 @@ int totalParticipants() {
     
                       //================================= Pay Mode ==================================
                                     AddTitleRowWidget(context: context, title: "Pay Mode *"),
-                                    CustomDropdownWidget(
-                                      context: context,
-                                      dropdownHint:  '  Select Pay Mode',
-                                      dropdownList: payModeList, 
-                                      dropdownController: brandSelectedController, 
-                                      dropdownOnchanged: null,
-                                      selectedValue: selectedPayMode, 
-                                      textformFiledHint: '  Search e-CME Type...', 
-                                      onMenuStateChangeforClear: null
-                                      ),
+                                    SizedBox(
+                                          width: MediaQuery.of(context).size.width / 1.1,
+                                          height: 45,
+                                          child: CustomtextFormFiledWidget(
+                                              readonly:true,  // for edit screen 
+                                              hinText: '  Select Pay Mode',
+                                              controller: payModeController,
+                                              textAlign: TextAlign.left, 
+                                              keyboardType: TextInputType.text,
+                                              textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                              focusNode: AlwaysDisabledFocusNode(),
+                                            ),
+                                          ),
+                                    
                                      SizedBox(
                                         height: wholeHeight / 75.927,
                                       ),
@@ -729,7 +744,7 @@ int totalParticipants() {
                                           height: 45,
                                           child: CustomtextFormFiledWidget(
                                               readonly:true,  // for edit screen 
-                                              hinText: '----Enter pay reciever name----',
+                                              hinText: '----Enter pay receiver name----',
                                               controller: payToController,
                                               textAlign: TextAlign.left, 
                                               keyboardType: TextInputType.text,

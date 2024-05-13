@@ -26,7 +26,7 @@ class RowForCMEPreview extends StatelessWidget {
                       flex: 5,
                       child: Text(value == null
                           ? ""
-                          : '  $value',style: isBold==true? const TextStyle(fontWeight:FontWeight.bold ):null, ),
+                          : '  $value',style: isBold==true?  TextStyle(fontWeight:FontWeight.bold,color: fontColor ):null, ),
                     ),
                   ],
                 ),

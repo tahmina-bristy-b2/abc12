@@ -34,27 +34,15 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
     ['TOTAL :', editedData["no_of_particpates"] ],
   ];
 
- List<String> getDoctor(){
-    List<String> doctorList=[];
-    for(int i=0; i<doctorList.length;i++){
-      String eachData="$i. ${doctorList[i]}";
-      doctorList.add(eachData);
-    }
-    return doctorList;
-  }
-
-
   List<String> header = ['Brand Name ', 'Amount',dataListPrint.ecmeDoctorCategory=="RMP Meeting"? "Sales Qty*" :"Rx objective per day"];
   List<List<String>> brandData() {
     List<List<String>> brandData = [];
     int totalSalesQty=0;
-    double totalAmount=0.0;
     for (var brand in dataListPrint.brandList) {
       totalSalesQty += int.parse(brand.qty);
-      // totalAmount += double.parse(brand.amount);
-      brandData.add([brand.brandName, brand.amount, brand.qty]);
+      brandData.add([brand.brandName, editedData["eCme_amount_splited"].toString(), brand.qty]);
     }
-    brandData.add(['TOTAL :', editedData["eCme_amount_splited"].toString(), totalSalesQty.toString()]);
+    brandData.add(['TOTAL :', editedData["eCme_amount"].toString(), totalSalesQty.toString()]);
     return brandData;
   }
 
@@ -103,16 +91,15 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                pw.Padding(padding: const pw.EdgeInsets.only(top: 10)),
               expenseTableRowWidget("SL NO", dataListPrint.sl),
               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-              // expenseTableRowWidget("NAME & TERR.CODE OF AM/FM/RSM ", dataListPrint.fmIdName),
               ((dataListPrint.ecmeType=="Intern Reception")||(dataListPrint.ecmeType=="Intern Reception"))?pw.SizedBox(): expenseTableRowWidget("PARTICIPATING DOCTORS BELONG TO", dataListPrint.doctorList.length.toString()),
               ((dataListPrint.ecmeType=="Intern Reception")||(dataListPrint.ecmeType=="Intern Reception"))?pw.SizedBox(): pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-         
-               expenseTableRowWidget("NAME & TERR.CODE OF AM/FM ", dataListPrint.fmIdName),
+               expenseTableRowWidget("NAME & TERR.CODE OF AM/FM/RSM ", dataListPrint.fmIdName),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("NAME & REGION OF ASM/RSM  ", "${wholeData.resData.rsmName}(${wholeData.resData.supLevelIds.toUpperCase()})"),
-               
+               expenseTableRowWidget("NAME & REGION OF RSM  ", "${wholeData.resData.rsmName}(${wholeData.resData.supLevelIds.toUpperCase()})"), 
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("e-CME AMOUNT", editedData["eCme_amount"]),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               expenseTableRowWidget("e-CME AMOUNT", dataListPrint.ecmeDoctorCategory),pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING DATE", dataListPrint.meetingDate.toString()),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
@@ -136,7 +123,6 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("TOTAL NO. OF PARTICIPATING DOCTORS", editedData["doctor_count"]), 
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               
                expenseTableRowWidget("TOTAL BUDGET", editedData["total_budget"]),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("COST PER DOCTOR", editedData["cost_per_doctor"]),
@@ -154,9 +140,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                 pw.Expanded(flex: 3,
                 child: pw.Table.fromTextArray(
                   context: context,
-                 data: [header, ...brandData()],
-                  // headers:header ,
-                  // data: dataListPrint.brandList.map((brand) => [brand.brandName, brand.amount, brand.qty]).toList(),
+                  data: [header, ...brandData()],
                   headerStyle: pw.TextStyle( fontWeight: pw.FontWeight.bold,fontSize: 8),
                   cellStyle: const pw.TextStyle(fontSize: 6.5,),
                   border: pw.TableBorder.all(width: 0.5),

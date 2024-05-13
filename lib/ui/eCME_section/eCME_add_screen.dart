@@ -493,7 +493,7 @@ int totalParticipants() {
                                         width: MediaQuery.of(context).size.width / 1.1,
                                         height: 45,
                                         child: CustomtextFormFiledWidget(
-                                          hinText: '----Enter pay reciever name----',
+                                          hinText: '----Enter pay receiver name----',
                                             controller: payToController,
                                             textAlign: TextAlign.left, 
                                             keyboardType: TextInputType.text,
@@ -778,7 +778,7 @@ int totalParticipants() {
                                           } else if (selectedPayMode == null) {
                                             AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
                                           } else if (payToController.text == "") {
-                                            AllServices().toastMessage("Please enter pay reciever name ", Colors.red, Colors.white, 16);
+                                            AllServices().toastMessage("Please enter pay receiver name ", Colors.red, Colors.white, 16);
                                           }else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
                                             AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
                                           }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {

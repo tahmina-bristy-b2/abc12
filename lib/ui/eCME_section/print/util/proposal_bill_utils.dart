@@ -190,6 +190,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
         ),
         pw.SizedBox(height: 8),
         expenseTableRowWidget("PARTICIPATES", ""),
+        pw.SizedBox(height: 2),
         pw.Table.fromTextArray(
           context: context,
           data: secondTable,

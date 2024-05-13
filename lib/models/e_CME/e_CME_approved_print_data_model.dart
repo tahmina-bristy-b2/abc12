@@ -101,6 +101,7 @@ class DataListPrint {
     final String totalBudgetInWords;
     final FeedbackFormatDictData feedbackFormatDictData;
     final bool isBillEdit;
+    final String submitBy;
 
 
     DataListPrint({
@@ -138,7 +139,8 @@ class DataListPrint {
         required this.remindedBrand,
         required this.totalBudgetInWords,
         required this.feedbackFormatDictData,
-        required this.isBillEdit
+        required this.isBillEdit,
+        required this.submitBy
     });
 
     factory DataListPrint.fromJson(Map<String, dynamic> json) => DataListPrint(
@@ -177,6 +179,7 @@ class DataListPrint {
         totalBudgetInWords: json["total_budget_in_words"]??"",
         feedbackFormatDictData: FeedbackFormatDictData.fromJson(json["feedback_format_dict_data"]),
         isBillEdit: json["is_bill_edit"],
+        submitBy: json["submit_by_id"]
         
     );
 
@@ -215,7 +218,8 @@ class DataListPrint {
         "reminded_brand":remindedBrand,
         "total_budget_in_words":totalBudgetInWords,
         "feedback_format_dict_data":feedbackFormatDictData,
-        "is_bill_edit":isBillEdit
+        "is_bill_edit":isBillEdit,
+        "submit_by_id":submitBy
     };
 }
 

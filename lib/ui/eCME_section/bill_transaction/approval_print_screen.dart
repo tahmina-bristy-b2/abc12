@@ -284,7 +284,12 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
       key: listKey,
       initialItemCount: approvedPrintDetails!.resData.dataListPrint.length,
       itemBuilder: (itemBuilder, index, animation) {
+         print("$index ${approvedPrintDetails!.resData.dataListPrint[index].submitBy.toString()}");
+       
+
+
          for (var element in approvedPrintDetails!.resData.dataListPrint[index].brandList) {
+          
           controller[element.rowId] =
               TextEditingController(text: element.qty);
           isUpdate[element.rowId] = false;
@@ -433,7 +438,7 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                           builder: (_) =>  BillEditScreen(
                                                             previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
                                                              docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
-                                                             eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeAmount, 
+                                                             eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeType, 
                                                              wholeData: approvedPrintDetails!,
                                                              calledBackAction: (value){
                                                               getDsrDetailsData();

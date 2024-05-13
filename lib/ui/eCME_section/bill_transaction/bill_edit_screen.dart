@@ -2,6 +2,7 @@
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
 import 'package:MREPORTING/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -573,7 +574,6 @@ int totalParticipants() {
                                 ),
                             
                       //================================== Budget Section ===========================
-    
                               titleRowWidget(context,"Total budget*","৳${widget.previousDataModel.totalBudget}","৳${totalBudget.toStringAsFixed(2)}") ,  
                               titleRowWidget(context,"Cost per doctor","৳${widget.previousDataModel.costPerDoctor}","৳${costPerDoctor.toStringAsFixed(2)}") ,
                               AddTitleRowWidget(context: context, title: "Budget breakdown*"),
@@ -626,7 +626,7 @@ int totalParticipants() {
                                            },
                                            validator: null,
                                       
-                                      ),
+                                  ),
                                   BudgetBreakDownRowWidget(
                                     isprint: isPrint,
                                     controllerForBillEdit:stationariesPrevController,
@@ -751,7 +751,8 @@ int totalParticipants() {
                     height: 15,
                   ),
                   isLoading == false
-                      ? isPrint==true ?printButton(context): buttonRowWidget(context)
+                      ? isPrint==true ?printButton(context): 
+                         buttonRowWidget(context)
                       : const CircularProgressIndicator()
                 ],
               ),
@@ -1179,6 +1180,45 @@ int totalParticipants() {
                                     child: isPreviewLoading==true? const Center(child: CircularProgressIndicator(
                                       color: Colors.white,
                                     ),) : const Center(
+                                        child: Text("Feedback Letter Print/PDF",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                            ))),
+                                  ),
+                                  onTap: ()  {
+                               
+
+                                    if(context.mounted){
+                                    Navigator.push(
+                                        context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>  BillfeedbackPrint(
+                                              wholeData: widget.wholeData,
+                                              dataListPrint:widget.previousDataModel,
+                                              editedData: proposalBill
+                                            
+                                            )
+                                          ),
+                                        );
+                                  }     
+                                
+                                  }),
+                            ),
+                            const SizedBox(width: 10,),
+                            Expanded(
+                              child: InkWell(
+                                  child: Container(
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color.fromARGB(
+                                          255, 44, 114, 66),
+                                    ),
+                                    child: isPreviewLoading==true? const Center(child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),) : const Center(
                                         child: Text("Proposal Bill PDF/Print",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -1187,7 +1227,7 @@ int totalParticipants() {
                                             ))),
                                   ),
                                   onTap: ()  {
-                                    print("Proposal Bill =$proposalBill");
+                                   // print("Proposal Bill =$proposalBill");
 
                                     if(context.mounted){
                                     Navigator.push(
@@ -1232,14 +1272,14 @@ int totalParticipants() {
                                       "doctor_count":doctorParticipantCount.text.toString(),
                                       "intern_doctor":internDoctorController.text.toString(),
                                       "dMF_count":dmfDoctorController.text.toString(),
-                                      "nurses_count":dmfDoctorController.text.toString(),
+                                      "nurses_count":nursesController.text.toString(),
                                       "skf_attendance_count":skfAttenaceController.text.toString(),
                                       "others_count":othersParticipantsController.text.toString(),
 
                                       "no_of_particpates":noIfparticipants.toString(),
                                       "cost_per_doctor":costPerDoctor.toStringAsFixed(2),
                                       "eCme_amount":eCMEAmountCOntroller.text.toString(),
-                                      "eCme_amount_splited":splitedAmount.toStringAsFixed(2),
+                                      "eCme_amount_splited":getECMEAmontSplit().toStringAsFixed(2),
                                     };
                                     
     if (data["status"] == "Success") {

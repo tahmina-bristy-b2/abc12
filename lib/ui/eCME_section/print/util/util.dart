@@ -99,7 +99,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                expenseTableRowWidget("MEETING DATE", dataListPrint.meetingDate),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("TOTAL NO. OF PARTICIPATING DOCTORS", dataListPrint.doctorsCount),
-                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
+               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("MEETING TOPIC", dataListPrint.meetingTopic),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
             ],

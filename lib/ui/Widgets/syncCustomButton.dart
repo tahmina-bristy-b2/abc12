@@ -22,7 +22,7 @@ class syncCustomBuildButton extends StatelessWidget {
         // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 2,
         child: Container(
-          height: MediaQuery.of(context).size.height / 8,
+          height: MediaQuery.of(context).size.height / 8.5,
           width: sizeWidth,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),

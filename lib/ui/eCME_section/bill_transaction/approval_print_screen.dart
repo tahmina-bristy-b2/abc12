@@ -474,7 +474,6 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                                                    wholeData: approvedPrintDetails!,
                                                                    calledBackAction: (value){
                                                                     getDsrDetailsData();
-                                                  
                                                                    },
                                                                 )
                                                   ),
@@ -484,7 +483,9 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                                   },
                                   secondButtonTitle: "Billing \nPDF", 
                                   secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
+                                  isBillingButtonHide:approvedPrintDetails!.resData.dataListPrint[index].approvedFlag,
                                   secondButtonAction: () async {
+                                    print("flag =${approvedPrintDetails!.resData.dataListPrint[index].approvedFlag}");
                                      if(context.mounted){
                                         Navigator.push(
                                             context,

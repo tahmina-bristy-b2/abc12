@@ -11,6 +11,7 @@ class ButtonRowWidget extends StatelessWidget {
   final void Function() secondButtonAction;
   final bool isRowShow;
   final bool isEditButtonHide;
+  final bool isBillingButtonHide;
 
   const ButtonRowWidget({
     Key? key,
@@ -23,7 +24,8 @@ class ButtonRowWidget extends StatelessWidget {
     required this.secondButtonColor,
     required this.secondButtonAction,
     required this.isRowShow,
-    this.isEditButtonHide=false
+    this.isEditButtonHide=false,
+    this.isBillingButtonHide=false
   }) : super(key: key);
 
   @override
@@ -35,7 +37,8 @@ class ButtonRowWidget extends StatelessWidget {
                             onPressed: firstButtonAction,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: firstButtonColor,
-                                fixedSize:  Size( buttonwidth,buttonheight,)),
+                                fixedSize:  Size( isBillingButtonHide==true?
+                                         buttonwidth:buttonwidth*2*1,buttonheight,)),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children:  [
@@ -52,10 +55,10 @@ class ButtonRowWidget extends StatelessWidget {
                               ],
                             ),
                           ):const SizedBox(),
-                          // const SizedBox(width: 10,),
-                          isRowShow == false
-                              ? 
-                              
+                          
+                         ( isRowShow == false  )
+                              ?  
+                              isBillingButtonHide==true?
                               ElevatedButton(
                                   onPressed: secondButtonAction,
                                   style: ElevatedButton.styleFrom(
@@ -79,7 +82,7 @@ class ButtonRowWidget extends StatelessWidget {
                                                   Color.fromARGB(255, 241, 240, 240))),
                                     ],
                                   ),
-                                )
+                                ):const SizedBox()
                               : const Center(child: CircularProgressIndicator()),
                         ],
                       );

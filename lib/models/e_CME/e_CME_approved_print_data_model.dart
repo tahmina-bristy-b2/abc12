@@ -102,7 +102,19 @@ class DataListPrint {
     final FeedbackFormatDictData feedbackFormatDictData;
     final bool isBillEdit;
     final String submitBy;
-
+    final String proTotalNumbersOfParticipants;
+    final String proTotalBudget;
+    final String proTotalBudgetInWords;
+    final String proHallRent;
+    final String proCostPerDoctor;
+    final String proFoodExpense;
+    final String proStationnaires;
+    final String proGiftsSouvenirs;
+    final String proDoctorsCount;
+    final String proInternDoctors;
+    final String proDmfDoctors;
+    final String proNurses;
+    final bool approvedFlag;
 
     DataListPrint({
         required this.skfAttendance,
@@ -140,7 +152,23 @@ class DataListPrint {
         required this.totalBudgetInWords,
         required this.feedbackFormatDictData,
         required this.isBillEdit,
-        required this.submitBy
+        required this.submitBy,
+        required this.approvedFlag,
+        required this.proTotalNumbersOfParticipants,
+        required this.proTotalBudget,
+        required this.proTotalBudgetInWords,
+        required this.proHallRent,
+        required this.proCostPerDoctor,
+        required this.proFoodExpense,
+        required this.proStationnaires,
+        required this.proGiftsSouvenirs,
+        required this.proDoctorsCount,
+        required this.proInternDoctors,
+        required this.proDmfDoctors,
+        required this.proNurses,
+
+
+
     });
 
     factory DataListPrint.fromJson(Map<String, dynamic> json) => DataListPrint(
@@ -179,7 +207,20 @@ class DataListPrint {
         totalBudgetInWords: json["total_budget_in_words"]??"",
         feedbackFormatDictData: FeedbackFormatDictData.fromJson(json["feedback_format_dict_data"]),
         isBillEdit: json["is_bill_edit"],
-        submitBy: json["submit_by_id"]
+        submitBy: json["submit_by_id"],
+        approvedFlag: json["approved_flag"],
+        proTotalNumbersOfParticipants: json["pro_total_numbers_of_participants"],
+        proTotalBudget: json["pro_total_budget"],
+        proTotalBudgetInWords: json["pro_total_budget_in_words"],
+        proHallRent: json["pro_hall_rent"],
+        proCostPerDoctor: json["pro_cost_per_doctor"],
+        proFoodExpense: json["pro_food_expense"],
+        proStationnaires: json["pro_stationnaires"],
+        proGiftsSouvenirs: json["pro_gifts_souvenirs"],
+        proDoctorsCount: json["pro_doctors_count"],
+        proInternDoctors: json["pro_intern_doctors"],
+        proDmfDoctors: json["pro_dmf_doctors"],
+        proNurses: json["pro_nurses"], 
         
     );
 
@@ -219,7 +260,20 @@ class DataListPrint {
         "total_budget_in_words":totalBudgetInWords,
         "feedback_format_dict_data":feedbackFormatDictData,
         "is_bill_edit":isBillEdit,
-        "submit_by_id":submitBy
+        "submit_by_id":submitBy,
+        "approved_flag": approvedFlag,
+        "pro_total_numbers_of_participants": proTotalNumbersOfParticipants,
+        "pro_total_budget": proTotalBudget,
+        "pro_total_budget_in_words": proTotalBudgetInWords,
+        "pro_hall_rent": proHallRent,
+        "pro_cost_per_doctor": proCostPerDoctor,
+        "pro_food_expense": proFoodExpense,
+        "pro_stationnaires": proStationnaires,
+        "pro_gifts_souvenirs": proGiftsSouvenirs,
+        "pro_doctors_count": proDoctorsCount,
+        "pro_intern_doctors": proInternDoctors,
+        "pro_dmf_doctors": proDmfDoctors,
+        "pro_nurses": proNurses,
     };
 }
 

@@ -75,7 +75,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   List<List<dynamic>> finalBrandListAftrRemoveDuplication = [];
   String? initialBrand;
   List<String> docCategoryList=[];
-   List<String>  docDepartmentList=[];
+  List<String>  docDepartmentList=[];
   String? selcetDoctorCategory;
   String? selectedDepartment;
   List<String> payModeList=[];
@@ -125,32 +125,32 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   }
 
   //============================ total budget =========================
-double getTotalBudget() {
-  double hall = double.tryParse(hallRentController.text) ?? 0.0;
-  double food = double.tryParse(foodExpansesController.text) ?? 0.0;
-  double gift = double.tryParse(giftController.text) ?? 0.0;
-  double others = double.tryParse(stationnairesController.text) ?? 0.0;
-  totalBudget = hall + food + gift + others ;
-  totalBudgetController.text = totalBudget.toStringAsFixed(2);
-  totalBudget = hall + food + gift + others ;
-  eCMEAmountCOntroller.text=totalBudget.toString();
-  getCostPerDoctor();
-  return totalBudget;
-}
+  double getTotalBudget() {
+    double hall = double.tryParse(hallRentController.text) ?? 0.0;
+    double food = double.tryParse(foodExpansesController.text) ?? 0.0;
+    double gift = double.tryParse(giftController.text) ?? 0.0;
+    double others = double.tryParse(stationnairesController.text) ?? 0.0;
+    totalBudget = hall + food + gift + others ;
+    totalBudgetController.text = totalBudget.toStringAsFixed(2);
+    totalBudget = hall + food + gift + others ;
+    eCMEAmountCOntroller.text=totalBudget.toString();
+    getCostPerDoctor();
+    return totalBudget;
+  }
 
 //============================ total Numbers of participants =========================
-int totalParticipants() {
-  noIfparticipants = 
-    (int.tryParse(doctorParticipantCount.text) ?? 0) +
-    (int.tryParse(internDoctorController.text) ?? 0) +
-    (int.tryParse(dmfDoctorController.text) ?? 0) +
-    (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersParticipantsController.text) ?? 0); 
-  getCostPerDoctor();
-  setState(() {
-    
-  });
-  return noIfparticipants;
-}
+  int totalParticipants() {
+    noIfparticipants = 
+      (int.tryParse(doctorParticipantCount.text) ?? 0) +
+      (int.tryParse(internDoctorController.text) ?? 0) +
+      (int.tryParse(dmfDoctorController.text) ?? 0) +
+      (int.tryParse(skfAttenaceController.text) ?? 0)+ (int.tryParse(nursesController.text) ?? 0) +(int.tryParse(othersParticipantsController.text) ?? 0); 
+    getCostPerDoctor();
+    setState(() {
+      
+    });
+    return noIfparticipants;
+  }
    //============================== Cost per doctor ======================================
    double getCostPerDoctor(){
     if(totalBudget>0.0){

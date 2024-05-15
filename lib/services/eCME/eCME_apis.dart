@@ -3,8 +3,8 @@ class ECMEApis{
     String cid,
     String userId,
     String userPass,)=>
-  //  "http://10.168.27.183:8000/skf_api/api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
-     "${eDsrSettingsUrl}api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
+    "http://10.168.27.183:8000/skf_api/api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
+    // "${eDsrSettingsUrl}api_eCME_settings/ecme_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
     
 
 
@@ -16,8 +16,8 @@ class ECMEApis{
    static String getEcmeFFList(
           String fmListUrl, String cid, String userId, String userPass) =>
    
-     // "http://10.168.27.183:8000/skf_api/api_ecme_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
-       "${fmListUrl}api_ecme_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
+      "http://10.168.27.183:8000/skf_api/api_ecme_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
+      // "${fmListUrl}api_ecme_approve/sup_home?cid=$cid&user_id=$userId&user_pass=$userPass";
 
   static String eCMEDetailsApi(
           String dsrDetailsApi,
@@ -28,19 +28,19 @@ class ECMEApis{
           String areaId,
           String levelDepth) =>
   
-  "${dsrDetailsApi}api_ecme_approve/ecme_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&area_id=$areaId&level_depth_no=$levelDepth";
-  // "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&area_id=$areaId&level_depth_no=$levelDepth";
+  //"${dsrDetailsApi}api_ecme_approve/ecme_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&area_id=$areaId&level_depth_no=$levelDepth";
+  "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_details?cid=$cid&user_id=$userId&user_pass=$userPass&submit_by=$submitedBy&area_id=$areaId&level_depth_no=$levelDepth";
 
    static String eCMEApproved(
     String sl,
          String approveEDSRUrl, String cid, String userId,
           String userPass, String approvedEdsrParams)=>
-       // "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_approval?cid=$cid&user_id=$userId&user_pass=$userPass&sl=$sl&status=$approvedEdsrParams";
-            "${approveEDSRUrl}api_ecme_approve/ecme_approval?cid=$cid&user_id=$userId&user_pass=$userPass&sl=$sl&status=$approvedEdsrParams";
+        "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_approval?cid=$cid&user_id=$userId&user_pass=$userPass&sl=$sl&status=$approvedEdsrParams";
+         //   "${approveEDSRUrl}api_ecme_approve/ecme_approval?cid=$cid&user_id=$userId&user_pass=$userPass&sl=$sl&status=$approvedEdsrParams";
 
     static String eCMEApprovedPrint(
        String approveEDSRUrl, String cid, String userId,
           String userPass, String fromDate,String toDate)=>
-       //  "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
-          "${approveEDSRUrl}api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
+         "http://10.168.27.183:8000/skf_api/api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
+          //"${approveEDSRUrl}api_ecme_approve/ecme_print_details?cid=$cid&user_id=$userId&user_pass=$userPass&from_dt=$fromDate&to_dt=$toDate"  ; 
 }

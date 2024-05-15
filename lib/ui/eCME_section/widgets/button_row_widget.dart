@@ -43,12 +43,16 @@ class ButtonRowWidget extends StatelessWidget {
                                const SizedBox(
                                   width: 8,
                                 ),
-                                Text(firstButtonTitle,
-                                    style:const TextStyle(
-                                        color: Color.fromARGB(255, 241, 240, 240))),
+                                FittedBox(
+                                  child: Text(firstButtonTitle,
+                                      style:const TextStyle(
+                                           fontSize: 12,
+                                          color: Color.fromARGB(255, 241, 240, 240))),
+                                ),
                               ],
                             ),
                           ):const SizedBox(),
+                          // const SizedBox(width: 10,),
                           isRowShow == false
                               ? 
                               
@@ -57,7 +61,10 @@ class ButtonRowWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           secondButtonColor,
-                                      fixedSize:  Size(isEditButtonHide==false? buttonwidth:buttonwidth*2.1,buttonheight,)),
+                                      fixedSize:  Size(
+                                        isEditButtonHide==false?
+                                         buttonwidth:buttonwidth*2*1,
+                                        buttonheight,)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:  [
@@ -67,6 +74,7 @@ class ButtonRowWidget extends StatelessWidget {
                                       ),
                                       Text(secondButtonTitle,
                                           style:const TextStyle(
+                                            fontSize: 12,
                                               color:
                                                   Color.fromARGB(255, 241, 240, 240))),
                                     ],

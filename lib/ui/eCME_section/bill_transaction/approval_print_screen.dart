@@ -425,49 +425,83 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                       ),
 
                       Center(
-                        child: ButtonRowWidget(
-                          isEditButtonHide:!approvedPrintDetails!.resData.dataListPrint[index].isBillEdit,
-                            buttonheight: 40, 
-                            buttonwidth: 140, 
-                            firstButtonTitle: "Edit", 
-                            firstButtonColor: const Color(0xffD9873D),
-                            firstButtonAction: () { 
-                              if(context.mounted){
-                                  Navigator.push(
-                                      context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>  BillEditScreen(
-                                                            previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
-                                                             docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
-                                                             eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeType, 
-                                                             wholeData: approvedPrintDetails!,
-                                                             calledBackAction: (value){
-                                                              getDsrDetailsData();
-                      
-                                                             },
-                                                          )
-                                            ),
-                                      );
-                                }
-                      
-                            },
-                            secondButtonTitle: " Print/PDF", 
-                            secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
-                            secondButtonAction: () async {
-                               if(context.mounted){
-                                  Navigator.push(
-                                      context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>  PdfPage(
-                                            wholeData: approvedPrintDetails!,
-                                            dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
-                                            ),
-                                      );
-                                }
-                                      
-                             }, 
-                            isRowShow: false
-                          ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                    onPressed: (){},
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color.fromARGB(255, 44, 114, 66), 
+                                        fixedSize:const  Size(70,40
+                                        )
+                                        ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children:const  [
+                                      //  Icon(Icons.cloud_done, size: 18),
+                                      //  SizedBox(
+                                      //     width: 3,
+                                      //   ),
+                                        Text("Proposal\nPDF ",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                                color:
+                                                    Color.fromARGB(255, 241, 240, 240))),
+                                      ],
+                                    ),
+                                  ),
+                            ),
+                            const SizedBox(width: 8,),
+                            Expanded(
+                              flex: 3,
+                              child: ButtonRowWidget(
+                                 isEditButtonHide:!approvedPrintDetails!.resData.dataListPrint[index].isBillEdit,
+                                  buttonheight: 40, 
+                                  buttonwidth: 130, 
+                                  firstButtonTitle: "Edit", 
+                                  firstButtonColor: const Color(0xffD9873D),
+                                  firstButtonAction: () { 
+                                    if(context.mounted){
+                                        Navigator.push(
+                                            context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>  BillEditScreen(
+                                                                  previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
+                                                                   docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
+                                                                   eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeType, 
+                                                                   wholeData: approvedPrintDetails!,
+                                                                   calledBackAction: (value){
+                                                                    getDsrDetailsData();
+                                                  
+                                                                   },
+                                                                )
+                                                  ),
+                                            );
+                                      }
+                                                  
+                                  },
+                                  secondButtonTitle: "Billing \nPDF", 
+                                  secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
+                                  secondButtonAction: () async {
+                                     if(context.mounted){
+                                        Navigator.push(
+                                            context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>  PdfPage(
+                                                  wholeData: approvedPrintDetails!,
+                                                  dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
+                                                  ),
+                                            );
+                                      }
+                                            
+                                   }, 
+                                  isRowShow: false
+                                ),
+                            ),
+                          ],
+                        ),
                       ),
                    
             const SizedBox(

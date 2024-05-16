@@ -84,8 +84,8 @@ class EDSRApis {
 // class EDSRApis {
 //   static const _api = 'http://10.168.27.183:8000';
 //   static const _app = 'skf_api';
-//   static const _userPass = '1234';
-//   static const _userID = 'TRRSM';
+//   static const _userPass = '3312';
+//   static const _userID = '5197';
 //   String getDoctor(String doctorUrl, String cid, String userId, String userPass,
 //           String regionId, String areaId, String terroId, String dsrType) =>
 //       "$_api/$_app/api_dsr_settings/get_area_doctor?cid=$cid&user_id=$userId&user_pass=$_userPass&region_id=$regionId&area_id=$areaId&territory_id=$terroId&dsr_type=$dsrType";
@@ -96,7 +96,7 @@ class EDSRApis {
 //     String userId,
 //     String userPass,
 //   ) =>
-//       "${eDsrSettingsUrl}api_dsr_settings/dsr_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
+//       "$_api/$_app/api_dsr_settings/dsr_setting?cid=$cid&user_id=$userId&user_pass=$userPass";
 
 // //=============================== eDSR Approval Section =================================
 //   static String eDSRfmListApi(
@@ -115,7 +115,7 @@ class EDSRApis {
 
 //   static String brandAmountUpdate(String brandAmountUpdateUrl, String cid,
 //           String userId, String userPass, String brandAmountUpdateParams) =>
-//       "${brandAmountUpdateUrl}api_dsr_approve/brand_amount_update?cid=$cid&user_id=$_userID&user_pass=$_userPass&$brandAmountUpdateParams";
+//       "$_api/$_app/api_dsr_approve/brand_amount_update?cid=$cid&user_id=$_userID&user_pass=$_userPass&$brandAmountUpdateParams";
 
 //   static String approveEDSR(String approveEDSRUrl, String cid, String userId,
 //           String userPass, String approvedEdsrParams) =>
@@ -165,5 +165,5 @@ class EDSRApis {
 //           String dsrType,
 //           String upMobileNumber,
 //           String areaId) =>
-//       "${approveEDSRUrl}api_dsr_approve/doc_mobile_update?cid=$cid&user_id=$userId&user_pass=$userPass&up_mobile=$upMobileNumber&area_id=$areaId&Doctor_id=$doctorId&dsr_type=$dsrType";
+//       "$_api/$_app/api_dsr_approve/doc_mobile_update?cid=$cid&user_id=$userId&user_pass=$userPass&up_mobile=$upMobileNumber&area_id=$areaId&Doctor_id=$doctorId&dsr_type=$dsrType";
 // }

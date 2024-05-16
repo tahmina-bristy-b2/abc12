@@ -20,7 +20,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
     ['2. Food Expense',   dataListPrint.proFoodExpense  ],
     ['3. Speaker Gift or Souvenir', dataListPrint.proGiftsSouvenirs  ],
     ['4. Stationaries or Others (Pen,Photocopies etc)', dataListPrint.proStationnaires  ],
-    ['TOTAL :', dataListPrint.totalBudget ],
+    ['TOTAL :',dataListPrint.proTotalBudget ],
   ];
 
    List<List<String>> secondTable = [
@@ -30,8 +30,8 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
     ['3. DMF/RMP Doctors',dataListPrint.proDmfDoctors  ],
     ['4. Nurses/Staff', dataListPrint.proNurses   ],
     ['4. SKF Attenadance',dataListPrint.proSkfAttendance ],  ///************************ */
-    ['5. Others', "" ],
-    ['TOTAL :',dataListPrint.totalNumbersOfParticipants ],
+    ['5. Others', dataListPrint.proOthersParticipants ],
+    ['TOTAL :',dataListPrint.proTotalNumbersOfParticipants ],
   ];
 
   List<String> header = ['Brand Name ', 'Amount',dataListPrint.ecmeDoctorCategory=="RMP Meeting"? "Sales Qty*" :"Rx objective per day"];

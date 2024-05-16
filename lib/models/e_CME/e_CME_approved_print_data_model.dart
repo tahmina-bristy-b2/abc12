@@ -117,6 +117,7 @@ class DataListPrint {
     final bool isBillButton;
     final bool isProposalButtonHide;
     final String proSkfAttendance;
+    final String proOthersParticipants;
 
     DataListPrint({
         required this.skfAttendance,
@@ -170,6 +171,7 @@ class DataListPrint {
         required this.proNurses,
         required this.isProposalButtonHide,
         required this.proSkfAttendance,
+        required this.proOthersParticipants
 
 
 
@@ -227,6 +229,7 @@ class DataListPrint {
         proNurses: json["pro_nurses"]??"", 
         isProposalButtonHide: json["is_proposal_button"]??"",
         proSkfAttendance: json["pro_skf_attendance"]??"",
+        proOthersParticipants: json["pro_others_participants"]??"",
         
         
     );
@@ -282,7 +285,8 @@ class DataListPrint {
         "pro_dmf_doctors": proDmfDoctors,
         "pro_nurses": proNurses,
         "is_proposal_button":isProposalButtonHide,
-        "pro_skf_attendance": proSkfAttendance
+        "pro_skf_attendance": proSkfAttendance,
+        "pro_others_participants": proOthersParticipants
     };
 }
 

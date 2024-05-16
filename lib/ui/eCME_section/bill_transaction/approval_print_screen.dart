@@ -4,10 +4,12 @@ import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING/ui/eCME_section/approval/eCME_approval_details_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/bill_transaction/bill_edit_screen.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/pdf_page.dart';
+import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/brand_details_show_widget.dart';
-import 'package:MREPORTING/ui/eCME_section/widgets/button_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/preview_row_widget.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -16,7 +18,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../approval/eCME_approval_details_screen.dart';
+
 
 class ApprovedPrintScreen extends StatefulWidget {
   String cid;
@@ -421,86 +423,168 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                               rxOrSalesTile: approvedPrintDetails!.resData.dataListPrint[index].ecmeType=="RMP Meeting"? "Sales Qty":"Rx Objective Per Day",
                            ),
                       const SizedBox(
-                        height: 15,
+                        height: 6,
                       ),
 
                       Center(
                         child: Row(
                           children: [
-                            Expanded(
+                             approvedPrintDetails!.resData.dataListPrint[index].isBillEdit==true? Expanded(
                               flex: 1,
-                              child: ElevatedButton(
-                                    onPressed: (){},
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color.fromARGB(255, 44, 114, 66), 
-                                        fixedSize:const  Size(70,40
-                                        )
-                                        ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children:const  [
-                                      //  Icon(Icons.cloud_done, size: 18),
-                                      //  SizedBox(
-                                      //     width: 3,
-                                      //   ),
-                                        Text("Proposal\nPDF ",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                                color:
-                                                    Color.fromARGB(255, 241, 240, 240))),
-                                      ],
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 2,right: 2),
+                                child: ElevatedButton(
+                                      onPressed: (){
+                                          if(context.mounted){
+                                          Navigator.push(
+                                              context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>  BillEditScreen(
+                                                                    previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
+                                                                     docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
+                                                                     eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeType, 
+                                                                     wholeData: approvedPrintDetails!,
+                                                                     calledBackAction: (value){
+                                                                      getDsrDetailsData();
+                                                                     },
+                                                                  )
+                                                    ),
+                                              );
+                                        }
+                                      
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xffD9873D), 
+                                          
+                                          ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:const  [
+                                          Text("Edit ",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                  color:
+                                                      Color.fromARGB(255, 241, 240, 240))),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                            ),
-                            const SizedBox(width: 8,),
-                            Expanded(
-                              flex: 3,
-                              child: ButtonRowWidget(
-                                 isEditButtonHide:!approvedPrintDetails!.resData.dataListPrint[index].isBillEdit,
-                                  buttonheight: 40, 
-                                  buttonwidth: 130, 
-                                  firstButtonTitle: "Edit", 
-                                  firstButtonColor: const Color(0xffD9873D),
-                                  firstButtonAction: () { 
-                                    if(context.mounted){
-                                        Navigator.push(
-                                            context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>  BillEditScreen(
-                                                                  previousDataModel: approvedPrintDetails!.resData.dataListPrint[index],
-                                                                   docInfo:  approvedPrintDetails!.resData.dataListPrint[index].doctorList, 
-                                                                   eCMEType: approvedPrintDetails!.resData.dataListPrint[index].ecmeType, 
-                                                                   wholeData: approvedPrintDetails!,
-                                                                   calledBackAction: (value){
-                                                                    getDsrDetailsData();
-                                                                   },
-                                                                )
-                                                  ),
-                                            );
-                                      }
-                                                  
-                                  },
-                                  secondButtonTitle: "Billing \nPDF", 
-                                  secondButtonColor: const Color.fromARGB(255, 44, 114, 66), 
-                                  isBillingButtonHide:approvedPrintDetails!.resData.dataListPrint[index].approvedFlag,
-                                  secondButtonAction: () async {
-                                    print("flag =${approvedPrintDetails!.resData.dataListPrint[index].approvedFlag}");
-                                     if(context.mounted){
-                                        Navigator.push(
-                                            context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>  PdfPage(
-                                                  wholeData: approvedPrintDetails!,
-                                                  dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
-                                                  ),
-                                            );
-                                      }
-                                            
-                                   }, 
-                                  isRowShow: false
-                                ),
-                            ),
+                              ),
+                            ):const SizedBox(),
+                             approvedPrintDetails!.resData.dataListPrint[index].isBillButton==true? Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 2,right: 2),
+                                child: ElevatedButton(
+                                      onPressed: (){
+                                         if(context.mounted){
+                                              Navigator.push(
+                                                  context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) =>  BillfeedbackPrint(
+                                                        wholeData: approvedPrintDetails!,
+                                                        dataListPrint:approvedPrintDetails!.resData.dataListPrint[index],
+                                                        editedData: {}
+                                                      
+                                                      )
+                                                    ),
+                                                  );
+                                        } 
+                                     
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:     const Color.fromARGB(255, 87, 57, 92) 
+                                          
+                                          ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:const  [
+                                          Text("Print \nFeedback",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                  color:
+                                                      Color.fromARGB(255, 241, 240, 240))),
+                                        ],
+                                      ),
+                                    ),
+                              ),
+                            ):const SizedBox(),
+                            approvedPrintDetails!.resData.dataListPrint[index].isBillButton==true?Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 2,right: 2),
+                                child: ElevatedButton(
+                                      onPressed: (){
+                                          if(context.mounted){
+                                             if(context.mounted){
+                                                  Navigator.push(
+                                                      context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) =>  PdfPage(
+                                                            wholeData: approvedPrintDetails!,
+                                                            dataListPrint: approvedPrintDetails!.resData.dataListPrint[index], )
+                                                            ),
+                                                      );
+                                        }
+                                       }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                           const Color.fromARGB(255, 44, 114, 66), 
+                                          
+                                          ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:const  [
+                                          Text("Print\nBilling ",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                  color:
+                                                      Color.fromARGB(255, 241, 240, 240))),
+                                        ],
+                                      ),
+                                    ),
+                              ),
+                            ):const SizedBox(),
+                            approvedPrintDetails!.resData.dataListPrint[index].isProposalButtonHide==true? Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 2,right: 2),
+                                child: ElevatedButton(
+                                      onPressed: (){
+                                          if(context.mounted){
+                                              Navigator.push(
+                                                  context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) =>  ProposalBillPdfScreen(
+                                                        wholeData: approvedPrintDetails!,
+                                                        dataListPrint:approvedPrintDetails!.resData.dataListPrint[index],
+                                                      )
+                                                    ),
+                                                  );
+                                       }
+                                      
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:   const Color.fromARGB(255, 9, 82, 141)  
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children:const  [
+                                              Text("Print\nProposal ",
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                      color:
+                                                          Color.fromARGB(255, 241, 240, 240))),
+                                            ],
+                                          ),
+                                    ),
+                              ),
+                            ):const SizedBox(),
+
                           ],
                         ),
                       ),

@@ -2,6 +2,7 @@
 import 'package:MREPORTING/models/e_CME/e_CME_approved_print_data_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
 import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING/ui/eCME_section/bill_transaction/approval_print_screen.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/bill_feedback.dart';
 import 'package:MREPORTING/ui/eCME_section/print/pdf/proposal_bill_pdf.dart';
 import 'package:MREPORTING/utils/constant.dart';
@@ -12,9 +13,7 @@ import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/show_dialog/expired_item_input_show_dialog.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/add_title_row_widget.dart';
-import 'package:MREPORTING/ui/eCME_section/widgets/custom_dropdown_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_row_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/widgets/custom_textformFiled_widget.dart';
 
@@ -284,7 +283,18 @@ int totalParticipants() {
               child: Column(
                 children: [
                   SizedBox(
-                    height: wholeHeight / 75.927,
+                    height: wholeHeight / 95.927,
+                  ),
+                  
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                      child: AddTitleRowWidget(context: context, title: "SL : ${widget.previousDataModel.sl}"),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10
                   ),
                  (widget.eCMEType=="Intern Reception")||(widget.eCMEType=="Society")?const SizedBox():  Align(
                     alignment: Alignment.centerLeft,
@@ -766,7 +776,7 @@ int totalParticipants() {
                     height: 15,
                   ),
                   isLoading == false
-                      ? isPrint==true ?printButton(context): 
+                      ? 
                          buttonRowWidget(context)
                       : const CircularProgressIndicator()
                 ],
@@ -1242,8 +1252,7 @@ int totalParticipants() {
                                             ))),
                                   ),
                                   onTap: ()  {
-                                   // print("Proposal Bill =$proposalBill");
-
+                                    
                                     if(context.mounted){
                                     Navigator.push(
                                         context,
@@ -1251,7 +1260,7 @@ int totalParticipants() {
                                             builder: (_) =>  ProposalBillPdfScreen(
                                               wholeData: widget.wholeData,
                                               dataListPrint:widget.previousDataModel,
-                                              editedData: proposalBill
+                                           
                                             
                                             )
                                           ),
@@ -1276,33 +1285,23 @@ int totalParticipants() {
   eCMEBillUpdate() async {
    // String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=${cid}&userId=${userId}&password=${password}&sl=${widget.previousDataModel.sl.toString()}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget.toStringAsFixed(2)}&brand_split_amount=${splitedAmount.toStringAsFixed(2)}&total_numbers_of_participants=${noIfparticipants}&cost_per_doctor=${costPerDoctor.toStringAsFixed(2)}";
     String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=$cid&userId=$userId&password=$password&sl=${widget.previousDataModel.sl.toString()}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget.toStringAsFixed(2)}&brand_split_amount=${splitedAmount.toStringAsFixed(2)}&total_numbers_of_participants=$noIfparticipants&cost_per_doctor=${costPerDoctor.toStringAsFixed(2)}";
-    //print("submt =$updateUrlString");
-    Map<String, dynamic> data = await ECMERepositry().eCMEBillUpdate(updateUrlString);
-     proposalBill={
-                                      "hall_rent": hallRentController.text.toString(),
-                                      "food_expense": foodExpansesController.text.toString(),
-                                      "gift": giftController.text.toString(),
-                                      "stationaries": stationnairesController.text.toString(),
-                                      "total_budget": totalBudget.toStringAsFixed(2),
-
-                                      "doctor_count":doctorParticipantCount.text.toString(),
-                                      "intern_doctor":internDoctorController.text.toString(),
-                                      "dMF_count":dmfDoctorController.text.toString(),
-                                      "nurses_count":nursesController.text.toString(),
-                                      "skf_attendance_count":skfAttenaceController.text.toString(),
-                                      "others_count":othersParticipantsController.text.toString(),
-
-                                      "no_of_particpates":noIfparticipants.toString(),
-                                      "cost_per_doctor":costPerDoctor.toStringAsFixed(2),
-                                      "eCme_amount":eCMEAmountCOntroller.text.toString(),
-                                      "eCme_amount_splited":getECMEAmontSplit().toStringAsFixed(2),
-                                    };
-                                    
+    Map<String, dynamic> data = await ECMERepositry().eCMEBillUpdate(updateUrlString);                               
     if (data["status"] == "Success") {
       setState(() {
         isPreviewLoading = false;
         isPrint=true;
       });
+      if(context.mounted){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ApprovedPrintScreen(
+                                                                                                        cid: cid!, 
+                                                                                                        userPass: userPassword,
+                                                                                                      )));
+       
+
+
+
+      }
+      
       AllServices()
           .toastMessage("${data["ret_str"]}", Colors.green, Colors.white, 16); 
       
@@ -1315,6 +1314,12 @@ int totalParticipants() {
           .toastMessage("${data["ret_str"]}", Colors.red, Colors.white, 16);
     }
   }
+}
+
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }
 
 

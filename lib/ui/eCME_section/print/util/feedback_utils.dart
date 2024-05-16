@@ -42,35 +42,51 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
             mainAxisAlignment: pw.MainAxisAlignment.start,
             children: [
               pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Expanded(
+                  flex: 3,
+                  child: pw.Align(alignment: pw.Alignment.centerLeft,
+                  child: pw.Text("SL",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
+                )),
+                pw.Text("  :  ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold)),
+                pw.Expanded(
+                  flex:23,
+                  child: pw.Align(alignment: pw.Alignment.centerLeft,
+                  child: pw.Text(dataListPrint.feedbackFormatDictData.sl,style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                )),
+              ]),
+              pw.SizedBox(height: 10),
               
               pw.Row(children: [
                 pw.Expanded(
                   flex: 3,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text("Date",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text("Date",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
-                pw.Text("  :  ",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold)),
+                pw.Text("  :  ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold)),
                 pw.Expanded(
                   flex:23,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text(dataListPrint.feedbackFormatDictData.date,style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text(dataListPrint.feedbackFormatDictData.date,style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
               ]),
               pw.SizedBox(height: 10),
+              
+
               pw.Align(alignment: pw.Alignment.centerLeft,
-                child: pw.Text("To, ${dataListPrint.feedbackFormatDictData.to}",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))),
+                child: pw.Text("To, ${dataListPrint.feedbackFormatDictData.to}",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))),
                 pw.SizedBox(height: 5),
               pw.Row(children: [
                 pw.Expanded(
                   flex: 3,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text("From",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text("From",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
-                pw.Text("  :  ",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold)),
+                pw.Text("  :  ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold)),
                 pw.Expanded(
                   flex:23,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text(dataListPrint.feedbackFormatDictData.from,style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text(dataListPrint.feedbackFormatDictData.from,style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
               ]),
                pw.SizedBox(height: 5),
@@ -83,11 +99,11 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                   child: pw.Expanded(
                   flex: 3,
                   child: pw.Align(alignment: pw.Alignment.topLeft,
-                  child: pw.Text("Copy       ",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text("Copy       ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
                 ),
                 pw.Align(alignment:pw.Alignment.topCenter,
-                  child: pw.Text("  :  ",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold)),
+                  child: pw.Text("  :  ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold)),
                 ),
                 pw.Expanded(
                   flex: 23,
@@ -113,13 +129,13 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                 pw.Expanded(
                   flex:3 ,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text("Subject   ",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text("Subject   ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
-                pw.Text("  :  ",style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold)),
+                pw.Text("  :  ",style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold)),
                 pw.Expanded(
                   flex:23,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text(dataListPrint.feedbackFormatDictData.subject,style: pw.TextStyle(fontSize: 12,fontWeight: pw.FontWeight.bold))
+                  child: pw.Text(dataListPrint.feedbackFormatDictData.subject,style: pw.TextStyle(fontSize: 11,fontWeight: pw.FontWeight.bold))
                 )),
               ]),
              pw.SizedBox(height: 10),
@@ -127,13 +143,13 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                 pw.Expanded(
                   flex:3 ,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text("Sir ,   ",style: const pw.TextStyle(fontSize: 13,))
+                  child: pw.Text("Sir ,   ",style: const pw.TextStyle(fontSize: 12,))
                 )),
-                pw.Text("    ",style: const pw.TextStyle(fontSize: 12,)),
+                pw.Text("    ",style: const pw.TextStyle(fontSize: 11,)),
                 pw.Expanded(
                   flex:23,
                   child: pw.Align(alignment: pw.Alignment.centerLeft,
-                  child: pw.Text("   ",style: const pw.TextStyle(fontSize: 12,))
+                  child: pw.Text("   ",style: const pw.TextStyle(fontSize: 11,))
                 )),
               ]),
            

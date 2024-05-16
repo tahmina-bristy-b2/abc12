@@ -8,7 +8,7 @@ import 'package:printing/printing.dart';
 
 class ProposalBillPrintUtil{
   
-Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataModel wholeData, DataListPrint dataListPrint,final Map<String,dynamic> editedData) async {
+Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataModel wholeData, DataListPrint dataListPrint) async {
 
   final doc = pw.Document(title: 'Bill Expense(${dataListPrint.sl})');
   final  logoUint8List = pw.MemoryImage(
@@ -16,22 +16,22 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
 
   List<List<String>> tableData = [
     ['Expense Particulars ', 'Expense amount(Taka)', ],
-    ['1. Hall Rent', editedData["hall_rent"] ],
-    ['2. Food Expense', editedData["food_expense"]  ],
-    ['3. Speaker Gift or Souvenir', editedData["gift"], ],
-    ['4. Stationaries or Others (Pen,Photocopies etc)', editedData["stationaries"],  ],
-    ['TOTAL :', editedData["total_budget"], ],
+    ['1. Hall Rent', dataListPrint.proHallRent  ],
+    ['2. Food Expense',   dataListPrint.proFoodExpense  ],
+    ['3. Speaker Gift or Souvenir', dataListPrint.proGiftsSouvenirs  ],
+    ['4. Stationaries or Others (Pen,Photocopies etc)', dataListPrint.proStationnaires  ],
+    ['TOTAL :', dataListPrint.totalBudget ],
   ];
 
    List<List<String>> secondTable = [
     ['Participates ', 'Amount', ],
-    ['1. Doctors', editedData["doctor_count"] ],
-    ['2. Intern Doctors', editedData["intern_doctor"] ],
-    ['3. DMF/RMP Doctors', editedData["dMF_count"] ],
-    ['4. Nurses/Staff', editedData["nurses_count"], ],
-    ['4. SKF Attenadance', editedData["skf_attendance_count"], ],
-    ['5. Others', editedData["others_count"], ],
-    ['TOTAL :', editedData["no_of_particpates"] ],
+    ['1. Doctors',dataListPrint.proDoctorsCount ],
+    ['2. Intern Doctors', dataListPrint.proInternDoctors  ],
+    ['3. DMF/RMP Doctors',dataListPrint.proDmfDoctors  ],
+    ['4. Nurses/Staff', dataListPrint.proNurses   ],
+    ['4. SKF Attenadance',dataListPrint.proSkfAttendance ],  ///************************ */
+    ['5. Others', "" ],
+    ['TOTAL :',dataListPrint.totalNumbersOfParticipants ],
   ];
 
   List<String> header = ['Brand Name ', 'Amount',dataListPrint.ecmeDoctorCategory=="RMP Meeting"? "Sales Qty*" :"Rx objective per day"];
@@ -40,9 +40,9 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
     int totalSalesQty=0;
     for (var brand in dataListPrint.brandList) {
       totalSalesQty += int.parse(brand.qty);
-      brandData.add([brand.brandName, editedData["eCme_amount_splited"].toString(), brand.qty]);
+      brandData.add([brand.brandName, brand.amountPro.toString(), brand.qty]);
     }
-    brandData.add(['TOTAL :', editedData["eCme_amount"].toString(), totalSalesQty.toString()]);
+    brandData.add(['TOTAL :', dataListPrint.proTotalBudget, totalSalesQty.toString()]);
     return brandData;
   }
 
@@ -97,7 +97,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("NAME & REGION OF RSM  ", "${wholeData.resData.rsmName}(${wholeData.resData.supLevelIds.toUpperCase()})"), 
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("e-CME AMOUNT", editedData["eCme_amount"]),
+               expenseTableRowWidget("e-CME AMOUNT", dataListPrint.totalBudget),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("e-CME TYPE", dataListPrint.ecmeType),pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
@@ -123,11 +123,11 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                expenseTableRowWidget("PAY TO", dataListPrint.payTo),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("TOTAL NO. OF PARTICIPATING DOCTORS", editedData["doctor_count"]), 
+               expenseTableRowWidget("TOTAL NO. OF PARTICIPATING DOCTORS", dataListPrint.proTotalNumbersOfParticipants ), 
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("TOTAL BUDGET", editedData["total_budget"]),
+               expenseTableRowWidget("TOTAL BUDGET", dataListPrint.proTotalBudget ),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
-               expenseTableRowWidget("COST PER DOCTOR", editedData["cost_per_doctor"]),
+               expenseTableRowWidget("COST PER DOCTOR", dataListPrint.proCostPerDoctor ),
                pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
                
             ],
@@ -191,7 +191,7 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataMode
           },
         ),
         pw.SizedBox(height: 8),
-        expenseTableRowWidget("PARTICIPATES", ""),
+        expenseTableRowWidget("ATTENDEES", ""),
         pw.SizedBox(height: 2),
         pw.Table.fromTextArray(
           context: context,
@@ -333,11 +333,11 @@ Future<void> saveAsFile(
     );
   }
 }
-void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint,final Map<String,dynamic> editedData) async {
+void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint,) async {
   try {
     final result = await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async {
-        return generatePdf(format,wholeData,dataListPrint,editedData); 
+        return generatePdf(format,wholeData,dataListPrint,); 
       },
     );
     if (result) {
@@ -357,7 +357,7 @@ void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeDa
   }
 }
 
-void showSharedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint,final Map<String,dynamic> editedData) {
+void showSharedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint) {
   ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(content: Text("Bill Expense(${dataListPrint.sl}) shared successfully done")));
 }

@@ -114,7 +114,9 @@ class DataListPrint {
     final String proInternDoctors;
     final String proDmfDoctors;
     final String proNurses;
-    final bool approvedFlag;
+    final bool isBillButton;
+    final bool isProposalButtonHide;
+    final String proSkfAttendance;
 
     DataListPrint({
         required this.skfAttendance,
@@ -153,7 +155,7 @@ class DataListPrint {
         required this.feedbackFormatDictData,
         required this.isBillEdit,
         required this.submitBy,
-        required this.approvedFlag,
+        required this.isBillButton,
         required this.proTotalNumbersOfParticipants,
         required this.proTotalBudget,
         required this.proTotalBudgetInWords,
@@ -166,6 +168,8 @@ class DataListPrint {
         required this.proInternDoctors,
         required this.proDmfDoctors,
         required this.proNurses,
+        required this.isProposalButtonHide,
+        required this.proSkfAttendance,
 
 
 
@@ -206,21 +210,24 @@ class DataListPrint {
         remindedBrand:json["reminded_brand"]??"" ,
         totalBudgetInWords: json["total_budget_in_words"]??"",
         feedbackFormatDictData: FeedbackFormatDictData.fromJson(json["feedback_format_dict_data"]),
-        isBillEdit: json["is_bill_edit"],
-        submitBy: json["submit_by_id"],
-        approvedFlag: json["approved_flag"],
-        proTotalNumbersOfParticipants: json["pro_total_numbers_of_participants"],
-        proTotalBudget: json["pro_total_budget"],
-        proTotalBudgetInWords: json["pro_total_budget_in_words"],
-        proHallRent: json["pro_hall_rent"],
-        proCostPerDoctor: json["pro_cost_per_doctor"],
-        proFoodExpense: json["pro_food_expense"],
-        proStationnaires: json["pro_stationnaires"],
-        proGiftsSouvenirs: json["pro_gifts_souvenirs"],
-        proDoctorsCount: json["pro_doctors_count"],
-        proInternDoctors: json["pro_intern_doctors"],
-        proDmfDoctors: json["pro_dmf_doctors"],
-        proNurses: json["pro_nurses"], 
+        isBillEdit: json["is_bill_edit"]??false,
+        submitBy: json["submit_by_id"]??"",
+        isBillButton: json["is_bill_button"]??false,
+        proTotalNumbersOfParticipants: json["pro_total_numbers_of_participants"]??"",
+        proTotalBudget: json["pro_total_budget"]??"",
+        proTotalBudgetInWords: json["pro_total_budget_in_words"]??"",
+        proHallRent: json["pro_hall_rent"]??"",
+        proCostPerDoctor: json["pro_cost_per_doctor"]??"",
+        proFoodExpense: json["pro_food_expense"]??"",
+        proStationnaires: json["pro_stationnaires"]??"",
+        proGiftsSouvenirs: json["pro_gifts_souvenirs"]??"",
+        proDoctorsCount: json["pro_doctors_count"]??"",
+        proInternDoctors: json["pro_intern_doctors"]??"",
+        proDmfDoctors: json["pro_dmf_doctors"]??"",
+        proNurses: json["pro_nurses"]??"", 
+        isProposalButtonHide: json["is_proposal_button"]??"",
+        proSkfAttendance: json["pro_skf_attendance"]??"",
+        
         
     );
 
@@ -261,7 +268,7 @@ class DataListPrint {
         "feedback_format_dict_data":feedbackFormatDictData,
         "is_bill_edit":isBillEdit,
         "submit_by_id":submitBy,
-        "approved_flag": approvedFlag,
+        "is_bill_button": isBillButton,
         "pro_total_numbers_of_participants": proTotalNumbersOfParticipants,
         "pro_total_budget": proTotalBudget,
         "pro_total_budget_in_words": proTotalBudgetInWords,
@@ -274,6 +281,8 @@ class DataListPrint {
         "pro_intern_doctors": proInternDoctors,
         "pro_dmf_doctors": proDmfDoctors,
         "pro_nurses": proNurses,
+        "is_proposal_button":isProposalButtonHide,
+        "pro_skf_attendance": proSkfAttendance
     };
 }
 
@@ -283,6 +292,7 @@ class BrandListPrint {
     final String brandName;
     final String amount;
     final String qty;
+    final String amountPro;
 
     BrandListPrint({
         required this.rowId,
@@ -290,6 +300,7 @@ class BrandListPrint {
         required this.brandName,
         required this.amount,
         required this.qty,
+        required this.amountPro
     });
 
     factory BrandListPrint.fromJson(Map<String, dynamic> json) => BrandListPrint(
@@ -298,6 +309,7 @@ class BrandListPrint {
         brandName: json["brand_name"]??"",
         amount: json["amount"]??"",
         qty: json["qty"]??"",
+        amountPro: json["amount_pro"]??""
     );
 
     Map<String, dynamic> toJson() => {
@@ -306,6 +318,8 @@ class BrandListPrint {
         "brand_name": brandName,
         "amount": amount,
         "qty": qty,
+        "amount_pro":amountPro
+
     };
 }
 

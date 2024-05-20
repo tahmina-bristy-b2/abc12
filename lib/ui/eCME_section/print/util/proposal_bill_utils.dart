@@ -10,7 +10,7 @@ class ProposalBillPrintUtil{
   
 Future<Uint8List> generatePdf(final PdfPageFormat format,  ApprovedPrintDataModel wholeData, DataListPrint dataListPrint) async {
 
-  final doc = pw.Document(title: 'Bill Expense(${dataListPrint.sl})');
+  final doc = pw.Document(title: 'Proposal Bill(${dataListPrint.sl})');
   final  logoUint8List = pw.MemoryImage(
       (await rootBundle.load('assets/images/comp_logo1.png')).buffer.asUint8List());
 
@@ -343,7 +343,7 @@ void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeDa
     if (result) {
       if(context.mounted){
         ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text("Bill Expense(${dataListPrint.sl}) printed successfully")),
+         SnackBar(content: Text("Proposal Bill(${dataListPrint.sl}) printed successfully")),
       );
       }
     } else {
@@ -359,7 +359,7 @@ void showPrintedToast(final BuildContext context, ApprovedPrintDataModel wholeDa
 
 void showSharedToast(final BuildContext context, ApprovedPrintDataModel wholeData,DataListPrint dataListPrint) {
   ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Bill Expense(${dataListPrint.sl}) shared successfully done")));
+       SnackBar(content: Text("Proposal Bill(${dataListPrint.sl}) shared successfully done")));
 }
 
 }

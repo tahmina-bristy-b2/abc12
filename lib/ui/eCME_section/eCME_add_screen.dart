@@ -222,9 +222,11 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: SizedBox(
-                          height: widget.docInfo.length*20,
+                          height: widget.docInfo.length*19.5,
                           width: 150,
-                          child: ListView.builder(itemCount: widget.docInfo.length,
+                          child: ListView.builder(
+                            primary: false,
+                            itemCount: widget.docInfo.length,
                             itemBuilder: (context,index){
                                return Padding(
                                  padding: const EdgeInsets.only(top: 4),

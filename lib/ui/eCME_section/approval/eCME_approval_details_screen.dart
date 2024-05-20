@@ -226,9 +226,12 @@ class _EcmeApprovalScreenState extends State<EcmeApprovalScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: SizedBox(
-                          height: dsrDetails!.resData.dataList[index].doctorList.length*20,
+                          height: dsrDetails!.resData.dataList[index].doctorList.length*19.5,
                           width: 150,
-                          child: ListView.builder(itemCount: dsrDetails!.resData.dataList[index].doctorList.length,
+                          child: ListView.builder(
+                            //physics: const NeverScrollableScrollPhysics(),
+                            primary: false,
+                            itemCount: dsrDetails!.resData.dataList[index].doctorList.length,
                             itemBuilder: (context,index2){
                              
                                return Padding(

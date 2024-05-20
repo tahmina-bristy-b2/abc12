@@ -71,7 +71,9 @@ class _ECMEDoctorPreviewScreenState extends State<ECMEDoctorPreviewScreen> {
                                 child: SizedBox(
                                   height: widget.eCMESubmitDataModel.docList.length*20,
                                   width: 150,
-                                  child: ListView.builder(itemCount: widget.eCMESubmitDataModel.docList.length,
+                                  child: ListView.builder(
+                                    primary: false,
+                                    itemCount: widget.eCMESubmitDataModel.docList.length,
                                     itemBuilder: (context,index){
                                       return Padding(
                                         padding: const EdgeInsets.only(top: 4),

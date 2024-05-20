@@ -336,9 +336,11 @@ class _ApprovedPrintScreenState extends State<ApprovedPrintScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: SizedBox(
-                          height: approvedPrintDetails!.resData.dataListPrint[index].doctorList.length*20,
+                          height: approvedPrintDetails!.resData.dataListPrint[index].doctorList.length*19,
                           width: 150,
-                          child: ListView.builder(itemCount: approvedPrintDetails!.resData.dataListPrint[index].doctorList.length,
+                          child: ListView.builder(
+                             primary: false,
+                            itemCount: approvedPrintDetails!.resData.dataListPrint[index].doctorList.length,
                             itemBuilder: (context,index2){
                                return Padding(
                                  padding: const EdgeInsets.only(top: 4),

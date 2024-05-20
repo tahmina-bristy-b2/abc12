@@ -310,9 +310,11 @@ int totalParticipants() {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: SizedBox(
-                            height: widget.docInfo.length*20,
+                            height: widget.docInfo.length*19.5,
                             width: 150,
-                            child: ListView.builder(itemCount: widget.docInfo.length,
+                            child: ListView.builder(
+                                 primary: false,
+                              itemCount: widget.docInfo.length,
                               itemBuilder: (context,index){
                                  return Padding(
                                    padding: const EdgeInsets.only(top: 4),
@@ -1284,7 +1286,7 @@ int totalParticipants() {
 
   eCMEBillUpdate() async {
    // String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=${cid}&userId=${userId}&password=${password}&sl=${widget.previousDataModel.sl.toString()}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget.toStringAsFixed(2)}&brand_split_amount=${splitedAmount.toStringAsFixed(2)}&total_numbers_of_participants=${noIfparticipants}&cost_per_doctor=${costPerDoctor.toStringAsFixed(2)}";
-    String updateUrlString ="http://10.168.27.183:8000/skf_api/api_ecme_update/data_update?cid=$cid&userId=$userId&password=$password&sl=${widget.previousDataModel.sl.toString()}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget.toStringAsFixed(2)}&brand_split_amount=${splitedAmount.toStringAsFixed(2)}&total_numbers_of_participants=$noIfparticipants&cost_per_doctor=${costPerDoctor.toStringAsFixed(2)}";
+    String updateUrlString ="${dmpathData!.submitUrl}api_ecme_update/data_update?cid=$cid&userId=$userId&password=$password&sl=${widget.previousDataModel.sl.toString()}&hallRent=${hallRentController.text.toString()}&foodExpense=${foodExpansesController.text.toString()}&giftsSouvenirs=${giftController.text.toString()}&stationnaires=${stationnairesController.text.toString()}&doctorsCount=${doctorParticipantCount.text.toString()}&internDoctors=${internDoctorController.text.toString()}&dmfDoctors=${dmfDoctorController.text.toString()}&nurses=${nursesController.text.toString()}&skfAttendance=${skfAttenaceController.text.toString()}&othersParticipants=${othersParticipantsController.text.toString()}&totalBudget=${totalBudget.toStringAsFixed(2)}&brand_split_amount=${splitedAmount.toStringAsFixed(2)}&total_numbers_of_participants=$noIfparticipants&cost_per_doctor=${costPerDoctor.toStringAsFixed(2)}";
     Map<String, dynamic> data = await ECMERepositry().eCMEBillUpdate(updateUrlString);                               
     if (data["status"] == "Success") {
       setState(() {

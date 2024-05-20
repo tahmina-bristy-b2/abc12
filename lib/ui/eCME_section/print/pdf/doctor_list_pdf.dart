@@ -10,13 +10,11 @@ class DoctorListPdfScreen extends StatefulWidget {
 
 final  ApprovedPrintDataModel wholeData;
 final   DataListPrint dataListPrint;
-// final Map<String,dynamic> editedData;
 const DoctorListPdfScreen({
      super.key,
      
      required this.wholeData,
      required this.dataListPrint,
-    // required this.editedData
      }) ;
 
   @override

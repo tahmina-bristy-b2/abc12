@@ -78,7 +78,9 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   List<String>  docDepartmentList=[];
   String? selcetDoctorCategory;
   String? selectedDepartment;
+  String? selectPayto;
   List<String> payModeList=[];
+  List<String> payToList=[];
   String? selectedPayMode;
   String brandString='';
   String? cid;
@@ -122,6 +124,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     docCategoryList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.docCategoryList;
     docDepartmentList=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.departmentList;
     areaId=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.supAreaId ;
+    payToList=Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payToDataList;
   }
 
   //============================ total budget =========================
@@ -477,7 +480,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                       });
                                                     },
                                     selectedValue: selectedPayMode, 
-                                    textformFiledHint: '  Search e-CME Type...', 
+                                    textformFiledHint: '  Search pay mode...', 
                                     onMenuStateChangeforClear: (isOpen) {
                                                     if (!isOpen) {
                                                       brandSelectedController.clear();
@@ -489,18 +492,36 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                     ),
                     //============================== Pay to ===================================
                                     AddTitleRowWidget(context: context, title: "Pay to*",),
-                                    SizedBox(
-                                        width: MediaQuery.of(context).size.width / 1.1,
-                                        height: 45,
-                                        child: CustomtextFormFiledWidget(
-                                          hinText: '----Enter pay receiver name----',
-                                            controller: payToController,
-                                            textAlign: TextAlign.left, 
-                                            keyboardType: TextInputType.text,
-                                            textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
-                                            focusNode: AlwaysDisabledFocusNode(),
-                                          ),
-                                        ),
+                                    CustomDropdownWidget(
+                                    context: context,
+                                    dropdownHint:  '  Select Pay To',
+                                    dropdownList: payToList, 
+                                    dropdownController: payToController, 
+                                    dropdownOnchanged: (value) { 
+                                                      setState(() {
+                                                        selectPayto=value;
+                                                      });
+                                                    },
+                                    selectedValue: selectPayto, 
+                                    textformFiledHint: '  Search pay to...', 
+                                    onMenuStateChangeforClear: (isOpen) {
+                                                    if (!isOpen) {
+                                                      payToController.clear();
+                                                    }
+                                                  },
+                                    ),
+                                    // SizedBox(
+                                    //     width: MediaQuery.of(context).size.width / 1.1,
+                                    //     height: 45,
+                                    //     child: CustomtextFormFiledWidget(
+                                    //       hinText: '----Enter pay receiver name----',
+                                    //         controller: payToController,
+                                    //         textAlign: TextAlign.left, 
+                                    //         keyboardType: TextInputType.text,
+                                    //         textStyle: const TextStyle(fontSize: 14,color:Colors.black,), 
+                                    //         focusNode: AlwaysDisabledFocusNode(),
+                                    //       ),
+                                    //     ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -777,8 +798,8 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                             AllServices().toastMessage("Please add speaker stationaries expense  ", Colors.red, Colors.white, 16);
                                           } else if (selectedPayMode == null) {
                                             AllServices().toastMessage("Please select payment mode ", Colors.red, Colors.white, 16);
-                                          } else if (payToController.text == "") {
-                                            AllServices().toastMessage("Please enter pay receiver name ", Colors.red, Colors.white, 16);
+                                          } else if (selectPayto ==null) {
+                                            AllServices().toastMessage("Please select pay to ", Colors.red, Colors.white, 16);
                                           }else if (selcetDoctorCategory == "Institution" && institutionController.text == "") {
                                             AllServices().toastMessage("Please add Institution Name ", Colors.red, Colors.white, 16);
                                           }else if (selcetDoctorCategory == "Institution" && selectedDepartment==null) {
@@ -1415,7 +1436,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
               foodExpense: foodExpansesController.text,
               giftCost: giftController.text,
               payMode: selectedPayMode!,
-              payTo:  payToController.text,
+              payTo:  selectPayto!,
               totalBudget: totalBudget.toStringAsFixed(2) 
             );
 

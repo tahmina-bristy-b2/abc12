@@ -168,31 +168,31 @@ class DoctorListPrintUtil {
               style: const pw.TextStyle(fontSize: 11)),
           pw.Padding(padding: const pw.EdgeInsets.only(top: 8)),
          pw.SizedBox(
-  child: pw.RichText(
-    text: pw.TextSpan(
-      style: const pw.TextStyle(fontSize: 11),
-      children: [
-        pw.TextSpan(
-          text: dataListPrint.correspondenceFormatDictData.firstLineHeader,
+          child: pw.RichText(
+            text: pw.TextSpan(
+              style: const pw.TextStyle(fontSize: 11),
+              children: [
+                pw.TextSpan(
+                  text: dataListPrint.correspondenceFormatDictData.firstLineHeader,
+                ),
+                const pw.TextSpan(text:" "),
+                pw.TextSpan(
+                  text: dataListPrint.correspondenceFormatDictData.boldLine,
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                ),
+                const pw.TextSpan(text:" "),
+                pw.TextSpan(
+                  text: dataListPrint.correspondenceFormatDictData.firstLineFooter,
+                ),
+              ],
+              
+            ),
+              textAlign: pw.TextAlign.justify,
+          ),
         ),
-        const pw.TextSpan(text:" "),
-        pw.TextSpan(
-          text: dataListPrint.correspondenceFormatDictData.boldLine,
-          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-        ),
-        const pw.TextSpan(text:" "),
-        pw.TextSpan(
-          text: dataListPrint.correspondenceFormatDictData.firstLineFooter,
-        ),
-      ],
-      
-    ),
-      textAlign: pw.TextAlign.justify,
-  ),
-),
           pw.Padding(padding: const pw.EdgeInsets.only(top: 8)),
           pw.Text(
-              "To communicate you in future, we wish to have the following particulars of you please:",
+              dataListPrint.correspondenceFormatDictData.tableTitle.toString(),
               style: const pw.TextStyle(fontSize: 11)),
           pw.Padding(padding: const pw.EdgeInsets.only(top: 8)),
         ],

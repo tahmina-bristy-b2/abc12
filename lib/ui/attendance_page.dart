@@ -242,7 +242,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 ),
                               ),
                             ),
-                          ):SizedBox(),
+                          ):const SizedBox(),
                           const SizedBox(
                             width: 20,
                           ),

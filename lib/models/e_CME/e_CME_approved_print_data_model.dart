@@ -118,6 +118,7 @@ class DataListPrint {
     final bool isProposalButtonHide;
     final String proSkfAttendance;
     final String proOthersParticipants;
+     final CorrespondenceFormatDictData correspondenceFormatDictData;
 
     DataListPrint({
         required this.skfAttendance,
@@ -171,7 +172,9 @@ class DataListPrint {
         required this.proNurses,
         required this.isProposalButtonHide,
         required this.proSkfAttendance,
-        required this.proOthersParticipants
+        required this.proOthersParticipants,
+        required this.correspondenceFormatDictData
+        
 
 
 
@@ -230,6 +233,7 @@ class DataListPrint {
         isProposalButtonHide: json["is_proposal_button"]??"",
         proSkfAttendance: json["pro_skf_attendance"]??"",
         proOthersParticipants: json["pro_others_participants"]??"",
+        correspondenceFormatDictData: CorrespondenceFormatDictData.fromJson(json["correspondence_format_dict_data"]),
         
         
     );
@@ -286,7 +290,8 @@ class DataListPrint {
         "pro_nurses": proNurses,
         "is_proposal_button":isProposalButtonHide,
         "pro_skf_attendance": proSkfAttendance,
-        "pro_others_participants": proOthersParticipants
+        "pro_others_participants": proOthersParticipants,
+        "correspondence_format_dict_data": correspondenceFormatDictData.toJson(),
     };
 }
 
@@ -385,5 +390,42 @@ class FeedbackFormatDictData {
         "from": from,
         "copy": List<dynamic>.from(copy.map((x) => x)),
         "subject": subject,
+    };
+}
+
+
+class CorrespondenceFormatDictData {
+    final String greetings;
+    final String firstLineHeader;
+    final String boldLine;
+    final String firstLineFooter;
+    final String tableTitle;
+    final String signatureAndTitle;
+
+    CorrespondenceFormatDictData({
+        required this.greetings,
+        required this.firstLineHeader,
+        required this.boldLine,
+        required this.firstLineFooter,
+        required this.tableTitle,
+        required this.signatureAndTitle,
+    });
+
+    factory CorrespondenceFormatDictData.fromJson(Map<String, dynamic> json) => CorrespondenceFormatDictData(
+        greetings:json["greetings"]??"",
+        firstLineHeader: json["first_line_header"]??"",
+        boldLine: json["boold_line"]??"",
+        firstLineFooter: json["first_line_footer"]??"",
+        tableTitle: json["table_title"]??"",
+        signatureAndTitle: json["signature_and_title"]??"",
+    );
+
+    Map<String, dynamic> toJson() => {
+        "greetings": greetings,
+        "first_line_header": firstLineFooter,
+        "boold_line": boldLine,
+        "first_line_footer": firstLineFooter,
+        "table_title": tableTitle,
+        "signature_and_title": signatureAndTitle
     };
 }

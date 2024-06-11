@@ -350,13 +350,17 @@ class DcrRepositories {
   //   return docEditInfoData;
   // }
 
-
-
   Future<Map<String, dynamic>> rxTargetRepo(
-       String submitUrl, String cid, String userId, String userpass,String deviceId,String doctorListString) async {
+      String submitUrl,
+      String cid,
+      String userId,
+      String userpass,
+      String deviceId,
+      String doctorListString) async {
     Map<String, dynamic> dcrResponsedata = {};
     try {
-      final response = await DcrDataProviders().rxTargetSubmitDP(submitUrl, cid, userId, userpass, deviceId, doctorListString);
+      final response = await DcrDataProviders().rxTargetSubmitDP(
+          submitUrl, cid, userId, userpass, deviceId, doctorListString);
       dcrResponsedata = json.decode(response.body);
 
       if (dcrResponsedata.isNotEmpty) {
@@ -371,10 +375,16 @@ class DcrRepositories {
   }
 
   Future<Map<String, dynamic>> clientCensusRepo(
-       String submitUrl, String cid, String userId, String userpass,String deviceId,String clientItemString) async {
+      String submitUrl,
+      String cid,
+      String userId,
+      String userpass,
+      String deviceId,
+      String clientItemString) async {
     Map<String, dynamic> dcrResponsedata = {};
     try {
-      final response = await DcrDataProviders().clientCensusDP(submitUrl, cid, userId, userpass, deviceId, clientItemString);
+      final response = await DcrDataProviders().clientCensusDP(
+          submitUrl, cid, userId, userpass, deviceId, clientItemString);
       dcrResponsedata = json.decode(response.body);
 
       if (dcrResponsedata.isNotEmpty) {

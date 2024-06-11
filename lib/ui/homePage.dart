@@ -1,6 +1,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING/services/all_services.dart';
@@ -73,14 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
   double screenHeight = 0.0;
   double screenWidth = 0.0;
 
-  String startTime="";
+  String startTime = "";
 
   String deviceId = "";
 
-  String endTime="";
+  String endTime = "";
   var prefix;
   var prefix2;
-  bool isLoading=false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -112,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // String dt = DateTime.now().toString();
           // var parts2 = dt.split(' ');
           // prefix2 = parts2[0].trim();
-          
         });
         // setState(() {
         //   int space = startTime!.indexOf(" ");
@@ -140,16 +140,16 @@ class _MyHomePageState extends State<MyHomePage> {
     //     });
     // }
   }
-  String getDateTime(String? givenDate){
-    DateTime targetDateTime = DateTime.parse(givenDate!);
-          DateTime now = DateTime.now();
-          print(now);
-          bool sameDate = targetDateTime.year == now.year &&
-          targetDateTime.month == now.month &&
-          targetDateTime.day == now.day;       
-          return sameDate?DateFormat.Hm().format(targetDateTime) :"00:00";
-  }
 
+  String getDateTime(String? givenDate) {
+    DateTime targetDateTime = DateTime.parse(givenDate!);
+    DateTime now = DateTime.now();
+    print(now);
+    bool sameDate = targetDateTime.year == now.year &&
+        targetDateTime.month == now.month &&
+        targetDateTime.day == now.day;
+    return sameDate ? DateFormat.Hm().format(targetDateTime) : "00:00";
+  }
 
   // getLoc() {
   //   String location = "";
@@ -341,29 +341,27 @@ class _MyHomePageState extends State<MyHomePage> {
                           ))),
             ),
 
-
-
-      (userInfo!.ecmeAddFlag==true||userInfo!.ecmeApproveFlag==true)?  ListTile(
-              leading: const Icon(Icons.calendar_month_outlined,
-                  color: Colors.blueAccent),
-              title: const Text(
-                'Approved e-CME',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 15, 53, 85),
-                ),
-              ),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => ApprovedPrintScreen(
-                                      cid: cid,
-                                      userPass: userPassword,
-                                    ))),
-            ):const SizedBox(),
-
-
+            (userInfo!.ecmeAddFlag == true || userInfo!.ecmeApproveFlag == true)
+                ? ListTile(
+                    leading: const Icon(Icons.calendar_month_outlined,
+                        color: Colors.blueAccent),
+                    title: const Text(
+                      'Approved e-CME',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(255, 15, 53, 85),
+                      ),
+                    ),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ApprovedPrintScreen(
+                                  cid: cid,
+                                  userPass: userPassword,
+                                ))),
+                  )
+                : const SizedBox(),
 
             // ListTile(
             //   leading:
@@ -402,8 +400,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //                             );
             //                           }
 
-
-            //   } 
+            //   }
             //   // Navigator.push(
             //   //     context,
             //   //     MaterialPageRoute(
@@ -467,7 +464,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 await prefs.setString("Area", '');
                 await prefs.setString("Territory", '');
                 Hive.box("doctorList").clear();
-               
+
                 final eDsrSettingBox = Boxes.geteDSRsetData();
                 eDsrSettingBox.clear();
                 if (!mounted) return;
@@ -482,14 +479,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   width: screenWidth / 2.6,
                   // height: screenHeight / 10,
-                  child:const Align(
+                  child: const Align(
                     alignment: Alignment.centerRight,
-                    child:  Text(
+                    child: Text(
                       loginPageVersionName,
                       style: TextStyle(
                         fontSize: 16,
-                       // color: Colors.black.withOpacity(.5),
-                         color: Color.fromARGB(255, 129, 188, 236),
+                        // color: Colors.black.withOpacity(.5),
+                        color: Color.fromARGB(255, 129, 188, 236),
                       ),
                     ),
                   ),
@@ -501,7 +498,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-        title: const Text('MREPORTING $appVersion'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
+        title: const Text(
+            'MREPORTING $appVersion'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
@@ -589,7 +587,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             )),
                       ),
-                      userInfo!.attendanceFlag==true
+                      userInfo!.attendanceFlag == true
                           ? Expanded(
                               flex: 3,
                               child: Padding(
@@ -600,20 +598,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     GestureDetector(
                                       onTap: (() {
-                                    // SharedPreferences pref=   await SharedPreferences.getInstance();
-                                     if(!mounted)return;
+                                        // SharedPreferences pref=   await SharedPreferences.getInstance();
+                                        if (!mounted) return;
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                     AttendanceScreen(
-                                                       userPassword: widget.userPassword,
-
-                                                     )));
+                                                    AttendanceScreen(
+                                                      userPassword:
+                                                          widget.userPassword,
+                                                    )));
                                       }),
                                       child: FittedBox(
                                         child: prefix != prefix2
-                                            ?  Text(
+                                            ? Text(
                                                 '[Attendance]'
                                                 '\n'
                                                 'Start: '
@@ -622,12 +620,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 "End: "
                                                 "${endTime} ",
                                                 style: const TextStyle(
-                                                  color: Color.fromARGB(255, 70, 102, 128),
+                                                  color: Color.fromARGB(
+                                                      255, 70, 102, 128),
                                                   fontSize: 18,
                                                 ),
                                               )
                                             : Text(
-                                               
                                                 '[Attendance]' '\n' 'Start: ' +
                                                     startTime.toString() +
                                                     '\n' +
@@ -993,13 +991,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )
                     : Container(),
-                     userInfo!.rxFlag
+                userInfo!.rxFlag
                     ? const SizedBox(
                         height: 10,
                       )
                     : const SizedBox.shrink(),
 
-                  (userInfo!.censusDocFlag==true || userInfo!.censusDocFlag==true ) ?Container(
+                (userInfo!.censusDocFlag == true ||
+                        userInfo!.censusDocFlag == true)
+                    ? Container(
                         color: const Color(0xFFE2EFDA),
                         height: screenHeight / 6.4,
                         width: MediaQuery.of(context).size.width,
@@ -1011,169 +1011,147 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 Row(
                                   children: [
-                                  userInfo!.censusClFlag==true?  Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.calculate_sharp,
-                                        onClick: () async{
-                                         
-                                         List orderList = await AllServices()
-                                          .getSyncSavedData('data');
+                                    userInfo!.censusClFlag == true
+                                        ? Expanded(
+                                            child: CustomBuildButton(
+                                              icon: Icons.calculate_sharp,
+                                              onClick: () async {
+                                                List orderList =
+                                                    await AllServices()
+                                                        .getSyncSavedData(
+                                                            'data');
 
-                                      if (userInfo!.areaPage == false) {
-                                        if(orderList.isNotEmpty){
-                                           if (!mounted) return;
+                                                if (userInfo!.areaPage ==
+                                                    false) {
+                                                  if (orderList.isNotEmpty) {
+                                                    if (!mounted) return;
 
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                   ClientCensusScreen(syncClientList: orderList)));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                ClientCensusScreen(
+                                                                    syncClientList:
+                                                                        orderList)));
+                                                  } else {
+                                                    AllServices().toastMessage(
+                                                        'Chemist List Empty!',
+                                                        Colors.red,
+                                                        Colors.white,
+                                                        16);
+                                                  }
+                                                } else {
+                                                  if (!mounted) return;
 
-                                        }
-                                        else {
-                                            AllServices().toastMessage(
-                                                'Chemist List Empty!',
-                                                Colors.red,
-                                                Colors.white,
-                                                16);
-                                          }
-                                       
-                                      } else {
-                                        
-                                        if (!mounted) return;
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => AreaPage(
-                                                    screenName: 'chemist census',
-                                                  )),
-                                        );
-                                      }
-                                        },
-                                        title: 'Chemist Census',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ):const SizedBox(),
-                                     SizedBox(
-                                      width:userInfo!.censusClFlag==true?  5:0,
-                                    ),
-                                 userInfo!.censusDocFlag==true?    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.calculate_sharp,
-                                        onClick: ()async {
-
-                                          List dcrList = await AllServices()
-                                              .getSyncSavedData('dcrListData');
-
-                                          if (userInfo!.areaPage) {
-                                            if (!mounted) return;
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) => AreaPage(
-                                                        screenName: 'doctor census',
-                                                      )),
-                                            );
-                                          } else if (dcrList.isNotEmpty) {
-                                            if (!mounted) return;
-                                             Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            AreaPage(
+                                                              screenName:
+                                                                  'chemist census',
+                                                            )),
+                                                  );
+                                                }
+                                              },
+                                              title: 'Chemist Census',
+                                              sizeWidth: screenWidth,
+                                              inputColor: Colors.white,
                                             ),
-                                          );
-                                          } else {
-                                            AllServices().toastMessage(
-                                                'Doctor List Empty!',
-                                                Colors.red,
-                                                Colors.white,
-                                                16);
-                                          }
+                                          )
+                                        : const SizedBox(),
+                                    SizedBox(
+                                      width: userInfo!.censusClFlag == true
+                                          ? 5
+                                          : 0,
+                                    ),
+                                    userInfo!.censusDocFlag == true
+                                        ? Expanded(
+                                            child: CustomBuildButton(
+                                              icon: Icons.calculate_sharp,
+                                              onClick: () async {
+                                                List dcrList =
+                                                    await AllServices()
+                                                        .getSyncSavedData(
+                                                            'dcrListData');
 
+                                                if (userInfo!.areaPage) {
+                                                  if (!mounted) return;
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            AreaPage(
+                                                              screenName:
+                                                                  'doctor census',
+                                                            )),
+                                                  );
+                                                } else if (dcrList.isNotEmpty) {
+                                                  if (!mounted) return;
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RxTargetScreen(
+                                                                syncDoctorList:
+                                                                    dcrList)),
+                                                  );
+                                                } else {
+                                                  AllServices().toastMessage(
+                                                      'Doctor List Empty!',
+                                                      Colors.red,
+                                                      Colors.white,
+                                                      16);
+                                                }
 
-
-
-                                          //  List dcrList = await AllServices()
-                                          //     .getSyncSavedData('dcrListData');
-                                          //     if (dcrList.isNotEmpty) {
-                                          //   if (!mounted) return;
-                                          //   Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
-                                          //   ),
-                                          // );
-                                          // } else {
-                                          //   AllServices().toastMessage(
-                                          //       'Doctor List Empty!',
-                                          //       Colors.red,
-                                          //       Colors.white,
-                                          //       16);
-                                          // }
-                                          
-                                        },
-                                        title: 'Doctor Census',
-                                        sizeWidth: screenWidth,
-                                        inputColor:  Colors.white,
-                                      ),
-                                    ):const SizedBox(),
+                                                //  List dcrList = await AllServices()
+                                                //     .getSyncSavedData('dcrListData');
+                                                //     if (dcrList.isNotEmpty) {
+                                                //   if (!mounted) return;
+                                                //   Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //     builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                                                //   ),
+                                                // );
+                                                // } else {
+                                                //   AllServices().toastMessage(
+                                                //       'Doctor List Empty!',
+                                                //       Colors.red,
+                                                //       Colors.white,
+                                                //       16);
+                                                // }
+                                              },
+                                              title: 'Doctor Census',
+                                              sizeWidth: screenWidth,
+                                              inputColor: Colors.white,
+                                            ),
+                                          )
+                                        : const SizedBox(),
                                   ],
                                 ),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                
                                 // const SizedBox(
                                 //   height: 5,
                                 // ),
-                                
                               ],
                             ),
                           ],
                         ),
-                      ):const SizedBox(),
-                   
+                      )
+                    : const SizedBox(),
 
                 ///*******************************************Expense and Attendance  section ***********************************///
-                 Container(
-                        color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 6.80,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                              userInfo!.othersFlag?  Expanded(
+                Container(
+                  color: const Color(0xFFE2EFDA),
+                  height: screenHeight / 6.80,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          userInfo!.othersFlag
+                              ? Expanded(
                                   child: CustomBuildButton(
                                     icon: Icons.add,
                                     onClick: () {
@@ -1187,37 +1165,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                     sizeWidth: screenWidth,
                                     inputColor: Colors.white,
                                   ),
-                                ):const SizedBox(),
-                               
-                              userInfo!.attendanceFlag==true?  Expanded(
+                                )
+                              : const SizedBox(),
+                          userInfo!.attendanceFlag == true
+                              ? Expanded(
                                   child: CustomBuildButton(
-                                    onClick: () async{
-                                     if(!mounted)return;
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                     AttendanceScreen(
-                                                      userPassword: widget.userPassword,
-                                                      // callbackFunction: (value){
-                                                      //   getAttenadce();
-                                                       
-                                                      // }, endTime: '', startTime: '',userPassword: widget.userPassword,
+                                    onClick: () async {
+                                      if (!mounted) return;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AttendanceScreen(
+                                                    userPassword:
+                                                        widget.userPassword,
+                                                    // callbackFunction: (value){
+                                                    //   getAttenadce();
 
-                                                     )));
+                                                    // }, endTime: '', startTime: '',userPassword: widget.userPassword,
+                                                  )));
                                     },
                                     icon: Icons.assignment_turned_in_sharp,
                                     title: 'Attendance',
                                     sizeWidth: screenWidth,
                                     inputColor: Colors.white,
                                   ),
-                                ):const SizedBox(),
-                              ],
-                            ),
-                          ],
-                        ),
+                                )
+                              : const SizedBox(),
+                        ],
                       ),
-                  
+                    ],
+                  ),
+                ),
+
                 userInfo!.othersFlag
                     ? const SizedBox(
                         height: 10,
@@ -1702,9 +1682,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
 
-
-
-                      ///****************************************** Sync Data************************************************///
+                ///****************************************** Sync Data************************************************///
                 (userInfo!.ecmeAddFlag == false &&
                         userInfo!.ecmeApproveFlag == false)
                     ? const SizedBox.shrink()
@@ -1719,51 +1697,48 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                userInfo!.ecmeAddFlag==true
+                                userInfo!.ecmeAddFlag == true
                                     ? Expanded(
                                         child: CustomBuildButton(
                                           icon: Icons.add,
                                           onClick: () async {
-
-                                            ECMESavedDataModel?  eCMEDataModelData=Boxes.geteCMEsetData().get("eCMESavedDataSync");
-                                            if(eCMEDataModelData!=null ){
-                                                      List<DocListECMEModel> _docList= eCMEDataModelData.eCMEdocList;
-                                                      List doctorType =eCMEDataModelData.eCMETypeList;
-                                                      if(_docList.isNotEmpty && doctorType.isNotEmpty )
-                                                      {
-                                                        if (!mounted) return;
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (_) => ECMEClientScreen(
-                                                                docList: _docList, eCMEType: doctorType,
-                                                                
-                                                                  
-                                                                  ),
-                                                            ),
-                                                          );
-                                                      }else{
-                                                        AllServices().toastMessage(
-                                                          'No e-CME doctor found ',
-                                                          Colors.red,
-                                                          Colors.white,
-                                                          16);
-
-
-                                                      }
-
-                                                    }
-                                                    else{
-                                                        AllServices().toastMessage(
-                                                          'e_CME Sync First ',
-                                                          Colors.red,
-                                                          Colors.white,
-                                                          16);
-
-                                                    }
-
-
-                                           
+                                            ECMESavedDataModel?
+                                                eCMEDataModelData =
+                                                Boxes.geteCMEsetData()
+                                                    .get("eCMESavedDataSync");
+                                            if (eCMEDataModelData != null) {
+                                              List<DocListECMEModel> _docList =
+                                                  eCMEDataModelData.eCMEdocList;
+                                              List doctorType =
+                                                  eCMEDataModelData
+                                                      .eCMETypeList;
+                                              if (_docList.isNotEmpty &&
+                                                  doctorType.isNotEmpty) {
+                                                if (!mounted) return;
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        ECMEClientScreen(
+                                                      docList: _docList,
+                                                      eCMEType: doctorType,
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                AllServices().toastMessage(
+                                                    'No e-CME doctor found ',
+                                                    Colors.red,
+                                                    Colors.white,
+                                                    16);
+                                              }
+                                            } else {
+                                              AllServices().toastMessage(
+                                                  'e_CME Sync First ',
+                                                  Colors.red,
+                                                  Colors.white,
+                                                  16);
+                                            }
                                           },
                                           title: 'Add e-CME',
                                           sizeWidth: screenWidth,
@@ -1771,8 +1746,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                       )
                                     : const SizedBox.shrink(),
-                               
-                                  userInfo!.ecmeApproveFlag==true?  Expanded(
+                                userInfo!.ecmeApproveFlag == true
+                                    ? Expanded(
                                         child: CustomBuildButton(
                                           icon: Icons.note_alt,
                                           onClick: () async {
@@ -1784,7 +1759,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (_) => EcmeFFListApproval(
+                                                  builder: (_) =>
+                                                      EcmeFFListApproval(
                                                     cid: cid,
                                                     userPass: userPassword,
                                                   ),
@@ -1802,8 +1778,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           sizeWidth: screenWidth,
                                           inputColor: Colors.white,
                                         ),
-                                      ):const SizedBox()
-                                   
+                                      )
+                                    : const SizedBox()
                               ],
                             ),
                           ],
@@ -1944,50 +1920,38 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  getAttenadce()async{
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-                                     setState(() {
-                                    isLoading=true;
-                                     
-                                   });
-                                 Map<String, dynamic> result =
-                                          await Repositories().attendanceGetRepo(
-                                              dmpathData!.syncUrl,
-                                              prefs.getString("CID")!,
-                                              userInfo!.userId,
-                                              widget.userPassword,
-                                              );
-                                              
-                                      if (result["status"] == "Success") {
+  getAttenadce() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLoading = true;
+    });
+    Map<String, dynamic> result = await Repositories().attendanceGetRepo(
+      dmpathData!.syncUrl,
+      prefs.getString("CID")!,
+      userInfo!.userId,
+      widget.userPassword,
+    );
 
-                                        startTime=result["start_time"].toString();
-                                        endTime=result["end_time"].toString();
-                                         setState(() {
-                                            int space = startTime.indexOf(" ");
-                                            String removeSpace =
-                                                startTime.substring(space + 1, startTime.length);
-                                            startTime = removeSpace.replaceAll("'", '');
-                                            int space1 = endTime.indexOf(" ");
-                                            String removeSpace1 = endTime.substring(space1 + 1, endTime.length);
-                                            endTime = removeSpace1.replaceAll("'", '');
-                                            isLoading=false;
-
-                                          });
-                                      
-                                      }
-                                      else {
-                                        setState(() {
-                                          isLoading=false;
-                                        });
-                                      AllServices().toastMessage(
-                                         result["ret_str"].toString(),
-                                          Colors.red,
-                                          Colors.white,
-                                          16.0);
-                                    }
-                                  
+    if (result["status"] == "Success") {
+      startTime = result["start_time"].toString();
+      endTime = result["end_time"].toString();
+      setState(() {
+        int space = startTime.indexOf(" ");
+        String removeSpace = startTime.substring(space + 1, startTime.length);
+        startTime = removeSpace.replaceAll("'", '');
+        int space1 = endTime.indexOf(" ");
+        String removeSpace1 = endTime.substring(space1 + 1, endTime.length);
+        endTime = removeSpace1.replaceAll("'", '');
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      AllServices().toastMessage(
+          result["ret_str"].toString(), Colors.red, Colors.white, 16.0);
+    }
   }
-
 
   Color getColorForIndex(int index) {
     // Your logic for assigning colors based on the index
@@ -2002,53 +1966,53 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-  // // Draft Item order section.......................
+// // Draft Item order section.......................
 
-  // Future orderOpenBox() async {
-  //   var dir = await getApplicationDocumentsDirectory();
-  //   Hive.init(dir.path);
-  //   box = await Hive.openBox('DraftOrderList');
-  // }
-  // Future timetrack() async {
-  //   final response = await http.post(
-  //     Uri.parse("$timer_track_url"),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       "cid": cid,
-  //       "user_id": userId,
-  //       "user_pass": widget.userPassword,
-  //       'device_id': deviceId!,
+// Future orderOpenBox() async {
+//   var dir = await getApplicationDocumentsDirectory();
+//   Hive.init(dir.path);
+//   box = await Hive.openBox('DraftOrderList');
+// }
+// Future timetrack() async {
+//   final response = await http.post(
+//     Uri.parse("$timer_track_url"),
+//     headers: <String, String>{
+//       'Content-Type': 'application/json; charset=UTF-8',
+//     },
+//     body: jsonEncode(<String, String>{
+//       "cid": cid,
+//       "user_id": userId,
+//       "user_pass": widget.userPassword,
+//       'device_id': deviceId!,
 
-  //       // "locations": Location,
+//       // "locations": Location,
 
-  //     }),
-  //   );
-  //   Map<String, dynamic> data = json.decode(response.body);
-  //   // status = data['status'];
-  //   final startTime = data['start_time'];
-  //   final endTime = data['end_time'];
-  //   final prefs = await SharedPreferences.getInstance();
+//     }),
+//   );
+//   Map<String, dynamic> data = json.decode(response.body);
+//   // status = data['status'];
+//   final startTime = data['start_time'];
+//   final endTime = data['end_time'];
+//   final prefs = await SharedPreferences.getInstance();
 
-  //   // if (status == "Success") {
-  //   //   await prefs.setString('startTime', startTime);
-  //   //   await prefs.setString('endTime', endTime);
-  //   //   print('hello');
+//   // if (status == "Success") {
+//   //   await prefs.setString('startTime', startTime);
+//   //   await prefs.setString('endTime', endTime);
+//   //   print('hello');
 
-  //   //   Navigator.pushReplacement(
-  //   //       context,
-  //   //       MaterialPageRoute(
-  //   //           builder: (context) => MyHomePage(
-  //   //                 userName: userName,
-  //   //                 user_id: user_id,
-  //   //                 userPassword: userPass!,
-  //   //               )));
+//   //   Navigator.pushReplacement(
+//   //       context,
+//   //       MaterialPageRoute(
+//   //           builder: (context) => MyHomePage(
+//   //                 userName: userName,
+//   //                 user_id: user_id,
+//   //                 userPassword: userPass!,
+//   //               )));
 
-  //   //   Fluttertoast.showToast(msg: "Attendance $submitType Successfully");
-  //   // } else {
-  //   //   return "Failed";
-  //   // }
-  //   return "Null";
-  // }
+//   //   Fluttertoast.showToast(msg: "Attendance $submitType Successfully");
+//   // } else {
+//   //   return "Failed";
+//   // }
+//   return "Null";
+// }
 //}

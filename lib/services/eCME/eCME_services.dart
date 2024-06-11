@@ -1,17 +1,30 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_cme_category_List_data_model.dart';
 
-class ECMEServices{
-   //====================================== Load eDSR Data Settings Info=====================================
+class ECMEServices {
+  //====================================== Load eDSR Data Settings Info=====================================
   Future putEdsrSettingsData(ECMESavedDataModel eCMESavedDataModel) async {
     final eCMEDavedDataBox = Boxes.geteCMEsetData();
     eCMEDavedDataBox.put("eCMESavedDataSync", eCMESavedDataModel);
   }
 
+  Future putECMECategory(DoctorCategoryRestData eCMEDoctorCategory) async {
+    final eCMEDavedDataBox = Boxes.getECMECategoryData();
+    eCMEDavedDataBox.put("eCMEDOctorCategory", eCMEDoctorCategory);
+  }
+
+  Future putDoctorList(EcmeTerritoryRestDoctorModel eCMEDoctorList) async {
+    final eCMEDavedDataBox = Boxes.getEcmeDoctorList();
+    eCMEDavedDataBox.put("eCMEDoctorList", eCMEDoctorList);
+  }
+
   //************************************* This method works for ECME Doctor seraching *******************************/
-  List<DocListECMEModel> doctorSearch(String enteredKeyword, List<DocListECMEModel> serachedData) {
-     List<DocListECMEModel>  results = [];
+  List<DocListECMEModel> doctorSearch(
+      String enteredKeyword, List<DocListECMEModel> serachedData) {
+    List<DocListECMEModel> results = [];
     if (enteredKeyword.isEmpty || enteredKeyword == "") {
       results = serachedData;
     } else {
@@ -23,19 +36,13 @@ class ECMEServices{
               s.areaName
                   .toLowerCase()
                   .startsWith(enteredKeyword.toLowerCase()) ||
-              s.areaId
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()) ||
-              s.address
-                  .toLowerCase()
-                  .startsWith(enteredKeyword.toLowerCase()))
+              s.areaId.toLowerCase().startsWith(enteredKeyword.toLowerCase()) ||
+              s.address.toLowerCase().startsWith(enteredKeyword.toLowerCase()))
           .toList();
 
       var contains = serachedData
           .where((s) =>
-              (s.docName
-                      .toLowerCase()
-                      .contains(enteredKeyword.toLowerCase()) &&
+              (s.docName.toLowerCase().contains(enteredKeyword.toLowerCase()) &&
                   !s.docName
                       .toLowerCase()
                       .startsWith(enteredKeyword.toLowerCase())) ||
@@ -45,15 +52,11 @@ class ECMEServices{
                   !s.areaName
                       .toLowerCase()
                       .startsWith(enteredKeyword.toLowerCase())) ||
-              (s.areaId
-                      .toLowerCase()
-                      .contains(enteredKeyword.toLowerCase()) &&
+              (s.areaId.toLowerCase().contains(enteredKeyword.toLowerCase()) &&
                   !s.areaId
                       .toLowerCase()
                       .startsWith(enteredKeyword.toLowerCase())) ||
-              (s.address
-                      .toLowerCase()
-                      .contains(enteredKeyword.toLowerCase()) &&
+              (s.address.toLowerCase().contains(enteredKeyword.toLowerCase()) &&
                   !s.address
                       .toLowerCase()
                       .startsWith(enteredKeyword.toLowerCase())))
@@ -66,22 +69,19 @@ class ECMEServices{
     return results;
   }
 
-
   //================================ Get Doctor String ============================
-  String getDoctString(List<DocListECMEModel> docInfo){
-    String docListString="";
+  String getDoctString(List<DocListECMEModel> docInfo) {
+    String docListString = "";
     for (var element1 in docInfo) {
-            if (docListString == "") {
-              docListString +=
-                  "${element1.docId}|${element1.docName}";
-            } else {
-              docListString +=
-                  "||${element1.docId}|${element1.docName}";
-            }
-     }
-     return docListString;
+      if (docListString == "") {
+        docListString += "${element1.docId}|${element1.docName}";
+      } else {
+        docListString += "||${element1.docId}|${element1.docName}";
+      }
+    }
+    return docListString;
   }
-  
+
   //=================================== Unique brand List =================================
   List<List<dynamic>> removeDuplicationForBrand(
       List<List<dynamic>> actualBrandList) {
@@ -92,22 +92,22 @@ class ECMEServices{
     return uniqueBrandMap.values.toList();
   }
 
-   //============================== Cost per doctor ======================================
-   double getCostPerDoctor(double totalBudget,int noIfparticipants){
-    if(totalBudget>0.0){
-      double costPerDoctor= totalBudget/noIfparticipants;
+  //============================== Cost per doctor ======================================
+  double getCostPerDoctor(double totalBudget, int noIfparticipants) {
+    if (totalBudget > 0.0) {
+      double costPerDoctor = totalBudget / noIfparticipants;
       return costPerDoctor;
-    }
-    else{
+    } else {
       return 0.0;
     }
-   }
+  }
 
-
-   
   //=============================== get brand String ===============================
-  String getbrandString(ECMESavedDataModel? eCMESettingsData,List<List<dynamic>> finalBrandListAftrRemoveDuplication,double splitedAmount) {
-   String brandString = '';
+  String getbrandString(
+      ECMESavedDataModel? eCMESettingsData,
+      List<List<dynamic>> finalBrandListAftrRemoveDuplication,
+      double splitedAmount) {
+    String brandString = '';
     for (var element1 in eCMESettingsData!.eCMEBrandList) {
       if (finalBrandListAftrRemoveDuplication.isNotEmpty) {
         for (int i = 0; i < finalBrandListAftrRemoveDuplication.length; i++) {
@@ -128,19 +128,14 @@ class ECMEServices{
     return brandString;
   }
 
-
-
-  Map<String,dynamic> dynamicTotalCalculation( ECMESubmitDataModel eCMESubmitDataModel ) {
-   int totalAmount = 0;
-   String eCMEAmount = double.parse(eCMESubmitDataModel.eCMEAmount).toStringAsFixed(2);
+  Map<String, dynamic> dynamicTotalCalculation(
+      ECMESubmitDataModel eCMESubmitDataModel) {
+    int totalAmount = 0;
+    String eCMEAmount =
+        double.parse(eCMESubmitDataModel.eCMEAmount).toStringAsFixed(2);
     for (var element in eCMESubmitDataModel.brandList) {
       totalAmount = totalAmount + int.parse(element[2]);
     }
-    return {
-      "total_amount":totalAmount,
-      "eCME_amount":eCMEAmount
-    };
+    return {"total_amount": totalAmount, "eCME_amount": eCMEAmount};
   }
-
-
 }

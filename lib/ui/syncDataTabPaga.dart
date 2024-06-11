@@ -3,6 +3,7 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
 import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_cme_category_List_data_model.dart';
 import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING/models/hive_models/login_user_model.dart';
@@ -527,7 +528,20 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                                   userPassword,
                                                   "");
 
-                                      if (body != null) {
+                                      EcmeDoctorCategoryDataModel?
+                                          doctorCategoryList =
+                                          await ECMERepositry()
+                                              .getCategoryforSync(
+                                                  dmpathData!.submitUrl,
+                                                  cid,
+                                                  userInfo!.userId,
+                                                  userPassword,
+                                                  "");
+
+                                      if (body != null &&
+                                          doctorCategoryList!
+                                                  .resData.docSpecialtyList !=
+                                              []) {
                                         AllServices().toastMessage(
                                             'Sync e-CME data Done.',
                                             Colors.teal,
@@ -631,6 +645,10 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         .getECMESettingsData(
             dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "All");
 
+    EcmeDoctorCategoryDataModel? doctorCategoryList = await ECMERepositry()
+        .getCategoryforSync(
+            dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "All");
+
     if (itemList.isNotEmpty &&
         clientList.isNotEmpty &&
         dcrGiftList.isNotEmpty &&
@@ -640,7 +658,8 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         doctorList.isNotEmpty &&
         (eDsRData == null || eDsRData != null) &&
         (expiredItemsData != null || expiredItemsData == null) &&
-        (ecmeSavedData == null || ecmeSavedData != null)) {
+        (ecmeSavedData == null || ecmeSavedData != null) &&
+        (doctorCategoryList == null || doctorCategoryList != null)) {
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

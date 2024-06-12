@@ -53,7 +53,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
 
   @override
   void initState() {
-    print("ei jeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ");
+    // print("ei jeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ");
     super.initState();
     dmpathData = Boxes.getDmpath().get('dmPathData');
     doctorCategoryListFromSync =
@@ -494,7 +494,6 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                     onChanged: (bool? value) {
                                       doctorSelectionMap[result[index].docId] =
                                           value!;
-                                      // doctInfo = [];
                                       doctorSelectionMap
                                           .forEach((key1, value1) {
                                         if (value1 == true) {

@@ -1,8 +1,5 @@
 import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
 import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/models/doctor_edit_model.dart';
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
 import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
 import 'package:MREPORTING/models/e_CME/e_cme_category_List_data_model.dart';
 import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
@@ -150,6 +147,8 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                           value,
                                           widget.docList,
                                         );
+                                        print(
+                                            "filter data =================================${widget.docList}");
                                         setState(() {});
                                       },
                                       controller: searchController,

@@ -1937,7 +1937,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 height: 5,
                               ),
                               const Text(
-                                " এর নিচের লিংকটিতে",
+                                " এই নিচের লিংকটিতে",
                                 style: TextStyle(fontSize: 12),
                               ),
                               ElevatedButton(

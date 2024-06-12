@@ -65,10 +65,12 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
     }
     addShowDialogForVeryFirstTime(widget.eCMEType, context);
 
-    if (eCMEDoctorListData!.docList != null) {
-      result = eCMEDoctorListData!.docList;
-      for (var element in result) {
-        doctorSelectionMap[element.docId] = false;
+    if (eCMEDoctorListData != null) {
+      if (eCMEDoctorListData!.docList != null) {
+        result = eCMEDoctorListData!.docList;
+        for (var element in result) {
+          doctorSelectionMap[element.docId] = false;
+        }
       }
     }
 
@@ -468,16 +470,16 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                                 result[index].docName,
                                                 style: const TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 14,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                             ),
                                             const SizedBox(
-                                              height: 4,
+                                              height: 3,
                                             ),
                                             Flexible(
                                               child: Text(
-                                                "${result[index].areaName}  (${result[index].areaId}),",
+                                                "${result[index].areaName}  (${result[index].areaId}) , ${result[index].specialty}",
                                                 style: const TextStyle(
                                                     fontSize: 11,
                                                     color: Colors.black54),
@@ -501,10 +503,12 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                               doctInfo.add(element2);
                                             }
                                           }
+                                        } else {
+                                          doctInfo.removeWhere((element) =>
+                                              element.docId == key1);
                                         }
                                       });
 
-                                      //doctInfo.add(result[index]);
                                       setState(() {
                                         print(
                                             "doctor list ==========================${doctInfo.toSet().toList().length}");

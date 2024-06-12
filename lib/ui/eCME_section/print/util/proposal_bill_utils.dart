@@ -39,10 +39,10 @@ class ProposalBillPrintUtil {
       ['2. Intern Doctors', dataListPrint.proInternDoctors],
       ['3. DMF/RMP Doctors', dataListPrint.proDmfDoctors],
       ['4. Nurses/Staff', dataListPrint.proNurses],
-      ['4. SKF Attenadance', dataListPrint.proSkfAttendance],
+      ['5. SKF Attenadance', dataListPrint.proSkfAttendance],
 
       ///************************ */
-      ['5. Others', dataListPrint.proOthersParticipants],
+      ['6. Others', dataListPrint.proOthersParticipants],
       ['TOTAL :', dataListPrint.proTotalNumbersOfParticipants],
     ];
 
@@ -82,7 +82,7 @@ class ProposalBillPrintUtil {
                       fontSize: 18, fontWeight: pw.FontWeight.bold))),
           pw.SizedBox(height: 8),
           pw.Center(
-              child: pw.Text("Proposal bill on",
+              child: pw.Text("Proposal on",
                   style: pw.TextStyle(
                       fontSize: 10, fontWeight: pw.FontWeight.bold))),
           pw.Center(

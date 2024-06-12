@@ -9,9 +9,11 @@ import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/widget/cancel-button.dart';
 import 'package:MREPORTING/ui/Expired_dated_section/widget/confirm_widget.dart';
 import 'package:MREPORTING/ui/eCME_section/eCME_add_screen.dart';
+import 'package:MREPORTING/utils/constant.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ECMEClientScreen extends StatefulWidget {
@@ -202,6 +204,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
+                              bool isPreviewLoading = false;
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -330,81 +333,120 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                               ),
                                               const SizedBox(height: 20),
                                               seletedDoctorCategory != null
-                                                  ? ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        primary: const Color
-                                                                .fromARGB(
-                                                            255, 82, 179, 98),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              1.1,
-                                                          45,
-                                                        ),
-                                                      ),
-                                                      onPressed: () async {
-                                                        EcmeTerritoryWiseDoctorModel?
-                                                            responseData =
-                                                            await ECMERepositry()
-                                                                .getECMEDoctorData(
-                                                                    dmpathData!
-                                                                        .syncUrl,
-                                                                    cid!,
-                                                                    userId!,
-                                                                    password!,
-                                                                    seletedDoctorCategory!);
-                                                        if (responseData !=
-                                                            null) {
-                                                          result = responseData
-                                                              .resData.docList;
+                                                  ? isPreviewLoading == false
+                                                      ? ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary: const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                82,
+                                                                179,
+                                                                98),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                            minimumSize: Size(
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  1.1,
+                                                              45,
+                                                            ),
+                                                          ),
+                                                          onPressed: () async {
+                                                            setState2(() {
+                                                              isPreviewLoading =
+                                                                  true;
+                                                            });
+                                                            bool result2 =
+                                                                await InternetConnectionChecker()
+                                                                    .hasConnection;
+                                                            if (result2 ==
+                                                                true) {
+                                                              EcmeTerritoryWiseDoctorModel?
+                                                                  responseData =
+                                                                  await ECMERepositry().getECMEDoctorData(
+                                                                      dmpathData!
+                                                                          .syncUrl,
+                                                                      cid!,
+                                                                      userId!,
+                                                                      password!,
+                                                                      seletedDoctorCategory!);
+                                                              if (responseData !=
+                                                                  null) {
+                                                                result =
+                                                                    responseData
+                                                                        .resData
+                                                                        .docList;
 
-                                                          duplicateList =
-                                                              responseData
-                                                                  .resData
-                                                                  .docList;
+                                                                duplicateList =
+                                                                    responseData
+                                                                        .resData
+                                                                        .docList;
 
-                                                          // print(
-                                                          //     "result =================================$result");
-                                                          if (result
-                                                              .isNotEmpty) {
-                                                            for (var element
-                                                                in result) {
-                                                              doctorSelectionMap[
-                                                                      element
-                                                                          .docId] =
-                                                                  false;
+                                                                if (result
+                                                                    .isNotEmpty) {
+                                                                  for (var element
+                                                                      in result) {
+                                                                    doctorSelectionMap[
+                                                                            element.docId] =
+                                                                        false;
+                                                                  }
+                                                                }
+                                                              } else {
+                                                                setState2(() {
+                                                                  isPreviewLoading =
+                                                                      false;
+                                                                });
+                                                                AllServices()
+                                                                    .toastMessage(
+                                                                        "No data found, Sync First",
+                                                                        Colors
+                                                                            .red,
+                                                                        Colors
+                                                                            .white,
+                                                                        16);
+                                                              }
+                                                              if (context
+                                                                  .mounted) {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                setState(() {});
+                                                              }
+                                                            } else {
+                                                              setState2(() {
+                                                                isPreviewLoading =
+                                                                    false;
+                                                              });
+                                                              AllServices()
+                                                                  .toastMessage(
+                                                                      interNetErrorMsg,
+                                                                      Colors
+                                                                          .red,
+                                                                      Colors
+                                                                          .white,
+                                                                      16);
                                                             }
-                                                          }
-                                                        } else {
-                                                          AllServices()
-                                                              .toastMessage(
-                                                                  "No data found, Sync First",
-                                                                  Colors.red,
+                                                          },
+                                                          child: const Text(
+                                                            "Get Doctor List",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color:
                                                                   Colors.white,
-                                                                  16);
-                                                        }
-                                                        if (context.mounted) {
-                                                          Navigator.pop(
-                                                              context);
-                                                          setState(() {});
-                                                        }
-                                                      },
-                                                      child: const Text(
-                                                        "Filter",
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    )
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : const CircularProgressIndicator(
+                                                          color: Color.fromARGB(
+                                                              255, 82, 179, 98),
+                                                        )
                                                   : const SizedBox(),
                                             ],
                                           ),
@@ -529,6 +571,8 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                     setState(() {
                                       doctorSelectionMap[result[index].docId] =
                                           value ?? false;
+                                      doctInfo.removeWhere((element) =>
+                                          element.docId == result[index].docId);
                                       if (value == true) {
                                         doctInfo.add(result[index]);
                                       } else {
@@ -563,6 +607,10 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                     //     }
                     //   }
                     // });
+                    doctInfo.toSet().toList().forEach((element) {
+                      print("docto name   ${element.docName} ${element.docId}");
+                    });
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
 
 class ECMESubmitDataModel {
   String cid;
@@ -39,43 +39,40 @@ class ECMESubmitDataModel {
   String payMode;
   String payTo;
 
-  
-  ECMESubmitDataModel({
-    required this.cid,
-    required this.userId,
-    required this.password,
-    required this.brandList,
-    required this.brandString,
-    required this.areaId,
-    required this.docList,
-    required this.docListString,
-    required this.lattitute,
-    required this.longitude,
-    required this.meetingDate,
-    required this.meetingTopic,
-    required this.meetingVanue,
-    required this.eCMEType,
-    required this.doctorCategory,
-    required this.institutionName,
-    required this.departament,
-    required this.eCMEAmount,
-    required this.splitdECMEAmount,
-    required this.doctorsCount,
-    required this.internDoctor,
-    required this.dMFDoctors,
-    required this.nurses,
-    required this.skfAttendance,
-    required this.othersParticipants,
-    required this.numberOfParticipant,
-    required this.speakerName,
-    required this.hallRentAmount,
-    required this.foodExpense,
-    required this.totalBudget,
-    required this.giftCost,
-    required this.stationaries,
-    required this.costPerDoctor,
-    required this.payMode,
-    required this.payTo
-  
-  });
+  ECMESubmitDataModel(
+      {required this.cid,
+      required this.userId,
+      required this.password,
+      required this.brandList,
+      required this.brandString,
+      required this.areaId,
+      required this.docList,
+      required this.docListString,
+      required this.lattitute,
+      required this.longitude,
+      required this.meetingDate,
+      required this.meetingTopic,
+      required this.meetingVanue,
+      required this.eCMEType,
+      required this.doctorCategory,
+      required this.institutionName,
+      required this.departament,
+      required this.eCMEAmount,
+      required this.splitdECMEAmount,
+      required this.doctorsCount,
+      required this.internDoctor,
+      required this.dMFDoctors,
+      required this.nurses,
+      required this.skfAttendance,
+      required this.othersParticipants,
+      required this.numberOfParticipant,
+      required this.speakerName,
+      required this.hallRentAmount,
+      required this.foodExpense,
+      required this.totalBudget,
+      required this.giftCost,
+      required this.stationaries,
+      required this.costPerDoctor,
+      required this.payMode,
+      required this.payTo});
 }

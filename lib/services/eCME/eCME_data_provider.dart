@@ -1,7 +1,7 @@
 import 'package:MREPORTING/services/eCME/eCME_apis.dart';
 import 'package:http/http.dart' as http;
 
-class ECMEDataProviders{
+class ECMEDataProviders {
   //=========================================== E-CME Settings api=====================================================
   Future<http.Response> getECMESettingsInfo(
     String eDsrSettingsUrl,
@@ -14,8 +14,8 @@ class ECMEDataProviders{
     print(
         "getECMESettingsInfo==${ECMEApis().getEcmeSettingsData(eDsrSettingsUrl, cid, userId, userPass)}");
     response = await http.get(
-      Uri.parse(
-          ECMEApis().getEcmeSettingsData(eDsrSettingsUrl, cid, userId, userPass)),
+      Uri.parse(ECMEApis()
+          .getEcmeSettingsData(eDsrSettingsUrl, cid, userId, userPass)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -24,15 +24,18 @@ class ECMEDataProviders{
     return response;
   }
 
-
-  //=========================================== E-CME Settings api=====================================================
-  Future<http.Response> submitECMEData(
-    String submitUrl
+  Future<http.Response> getEcmeDoctorCategory(
+    String eCMEUrl,
+    String cid,
+    String userId,
+    String userPass,
   ) async {
     final http.Response response;
+
+    print(
+        "get Category for sync==${ECMEApis.geECMEDoctorCategory(eCMEUrl, cid, userId, userPass)}");
     response = await http.get(
-      Uri.parse(
-          submitUrl),
+      Uri.parse(ECMEApis.geECMEDoctorCategory(eCMEUrl, cid, userId, userPass)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -41,6 +44,18 @@ class ECMEDataProviders{
     return response;
   }
 
+  //=========================================== E-CME Settings api=====================================================
+  Future<http.Response> submitECMEData(String submitUrl) async {
+    final http.Response response;
+    response = await http.get(
+      Uri.parse(submitUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    return response;
+  }
 
   //=============================== eCME Approval Section =================================
   Future<http.Response> getECMEFFList(
@@ -71,11 +86,11 @@ class ECMEDataProviders{
     String levelDepth,
   ) async {
     final http.Response response;
-    print("eCMe Details ${ECMEApis.eCMEDetailsApi(fmListUrl, cid, userId, userPass,
-          submitedBy, areaId, levelDepth)}");
+    print(
+        "eCMe Details ${ECMEApis.eCMEDetailsApi(fmListUrl, cid, userId, userPass, submitedBy, areaId, levelDepth)}");
     response = await http.get(
-      Uri.parse(ECMEApis.eCMEDetailsApi(fmListUrl, cid, userId, userPass,
-          submitedBy, areaId, levelDepth)),
+      Uri.parse(ECMEApis.eCMEDetailsApi(
+          fmListUrl, cid, userId, userPass, submitedBy, areaId, levelDepth)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -83,16 +98,20 @@ class ECMEDataProviders{
     return response;
   }
 
-
   //================================= eCME Approved or reject ===============================
-  Future<http.Response> approvedECMEDP(String sl,
-         String approveEDSRUrl, String cid, String userId,String userPass, String approvedEdsrParams) async {
+  Future<http.Response> approvedECMEDP(
+      String sl,
+      String approveEDSRUrl,
+      String cid,
+      String userId,
+      String userPass,
+      String approvedEdsrParams) async {
     final http.Response response;
-    print("approved reject api =${ECMEApis.eCMEApproved(sl,
-          approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)}");
+    print(
+        "approved reject api =${ECMEApis.eCMEApproved(sl, approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)}");
     response = await http.get(
-      Uri.parse(ECMEApis.eCMEApproved(sl,
-          approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)),
+      Uri.parse(ECMEApis.eCMEApproved(
+          sl, approveEDSRUrl, cid, userId, userPass, approvedEdsrParams)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -101,14 +120,14 @@ class ECMEDataProviders{
   }
 
   //=====================  approval print =======================================
-  Future<http.Response> getECMEApprovedPrint(
-    String approveEDSRUrl, String cid, String userId,
-          String userPass, String fromDate,String toDate
-  ) async {
+  Future<http.Response> getECMEApprovedPrint(String approveEDSRUrl, String cid,
+      String userId, String userPass, String fromDate, String toDate) async {
     final http.Response response;
-    print("eCMe print data ${ECMEApis.eCMEApprovedPrint(approveEDSRUrl, cid, userId, userPass, fromDate, toDate)}");
+    print(
+        "eCMe print data ${ECMEApis.eCMEApprovedPrint(approveEDSRUrl, cid, userId, userPass, fromDate, toDate)}");
     response = await http.get(
-      Uri.parse(ECMEApis.eCMEApprovedPrint(approveEDSRUrl, cid, userId, userPass, fromDate, toDate)),
+      Uri.parse(ECMEApis.eCMEApprovedPrint(
+          approveEDSRUrl, cid, userId, userPass, fromDate, toDate)),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -117,13 +136,10 @@ class ECMEDataProviders{
   }
 
   //=========================================== E-CME Bill Update =====================================================
-  Future<http.Response> billUpdateDataProvider(
-    String submitUrl
-  ) async {
+  Future<http.Response> billUpdateDataProvider(String submitUrl) async {
     final http.Response response;
     response = await http.get(
-      Uri.parse(
-          submitUrl),
+      Uri.parse(submitUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -132,8 +148,19 @@ class ECMEDataProviders{
     return response;
   }
 
-
-
-
-
+  //=====================  Get doctor  =======================================
+  Future<http.Response> getDoctorApi(String eCMEUrl, String cid, String userId,
+      String userPass, String doctorCategory) async {
+    final http.Response response;
+    print(
+        "eCMe doctor data ${ECMEApis.eCMETerritoryWiseDoctorGet(eCMEUrl, cid, userId, userPass, doctorCategory)}");
+    response = await http.get(
+      Uri.parse(ECMEApis.eCMETerritoryWiseDoctorGet(
+          eCMEUrl, cid, userId, userPass, doctorCategory)),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return response;
+  }
 }

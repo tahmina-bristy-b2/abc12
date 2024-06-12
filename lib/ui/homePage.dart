@@ -1953,7 +1953,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   cid: cid,
                                                   userId: userInfo!.userId,
                                                   userPassword: userPassword,
-                                                  url: dmpathData!.pluginUrl,
+                                                  url: dmpathData!.syncUrl,
                                                 )));
                                   },
                                   child: SizedBox(

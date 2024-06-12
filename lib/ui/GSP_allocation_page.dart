@@ -40,7 +40,7 @@ class _GSPAllocationScreenState extends State<GSPAllocationScreen> {
   @override
   Widget build(BuildContext context) {
     print(
-        " ====================================https://w03.yeapps.com/pmstore/plugin/gsp_receipt?req=cid%3D${cid.toLowerCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}");
+        " ====================================${widget.url}pmstore/plugin/gsp_receipt?req=cid%3D${cid.toLowerCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}");
     return WillPopScope(
       onWillPop: () => _goBack(context),
       child: Scaffold(
@@ -66,8 +66,10 @@ class _GSPAllocationScreenState extends State<GSPAllocationScreen> {
                   child: Center(
                     child: InAppWebView(
                       initialUrlRequest: URLRequest(
-                          url: Uri.parse(
-                              "https://w03.yeapps.com/pmstore/plugin/gsp_receipt?req=cid%3D${cid.toUpperCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}")),
+                        url: Uri.parse(
+                            // "${widget.url}pmstore/plugin/gsp_receipt?req=cid%3D${cid.toUpperCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}"
+                            "https://mreporting.azurewebsites.net/pmstore/plugin/gsp_receipt?req=cid%3D${cid.toUpperCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}"),
+                      ),
                       onReceivedServerTrustAuthRequest:
                           (controller, challenge) async {
                         return ServerTrustAuthResponse(

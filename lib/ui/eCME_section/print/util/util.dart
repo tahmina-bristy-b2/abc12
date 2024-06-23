@@ -69,14 +69,9 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,
             child: pw.Center(
           child: pw.Container(
             child: pw.Image(logoUint8List),
-            // width: 50,
             height: 60,
           ),
         )),
-        // pw.Center(
-        //     child: pw.Text("Eskayef Pharmaceuticals Ltd",
-        //         style: pw.TextStyle(
-        //             fontSize: 18, fontWeight: pw.FontWeight.bold))),
         pw.Center(
             child: pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -85,7 +80,6 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,
                   "Expense Bill for Continuing Medical Education Program (CME) ",
                   style: pw.TextStyle(
                       fontSize: 10, fontWeight: pw.FontWeight.bold)),
-              // pw.Text("(Please specify by tick mark)",style:const pw.TextStyle(fontSize: 8))
             ])),
         pw.SizedBox(height: 2),
         pw.Container(height: 0.5, color: PdfColors.black),
@@ -127,11 +121,6 @@ Future<Uint8List> generatePdf(final PdfPageFormat format,
                   "ESKAYEF PERSONNELS", dataListPrint.skfAttendance),
               pw.Padding(padding: const pw.EdgeInsets.only(top: 2)),
               expenseTableRowWidget("DEPARTMENT", dataListPrint.department),
-              // ((dataListPrint.ecmeType == "Intern Reception") ||
-              //         (dataListPrint.ecmeType == "Intern Reception"))
-              //     ? pw.SizedBox()
-              //     : expenseTableRowWidget("PARTICIPATING DOCTORS BELONG TO",
-              //         dataListPrint.doctorList.length.toString()),
               ((dataListPrint.ecmeType == "Intern Reception") ||
                       (dataListPrint.ecmeType == "Intern Reception"))
                   ? pw.SizedBox()

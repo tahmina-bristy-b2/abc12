@@ -375,7 +375,7 @@ class ProposalBillPrintUtil {
                           fontWeight: pw.FontWeight.bold,
                           fontSize: 8,
                         ),
-                        cellStyle: pw.TextStyle(
+                        cellStyle: const pw.TextStyle(
                           fontSize: 6.5,
                         ),
                         border: pw.TableBorder.all(width: 0.5),
@@ -386,8 +386,7 @@ class ProposalBillPrintUtil {
                         headerHeight: 10,
                         cellAlignments: {
                           0: pw.Alignment.centerLeft,
-                          1: pw.Alignment
-                              .centerRight, // Default alignment for regular rows
+                          1: pw.Alignment.centerRight,
                         },
                         columnWidths: {
                           0: const pw.FlexColumnWidth(2),

@@ -34,13 +34,13 @@ class ECMERepositry {
           return eCMEDataModeldata;
         }
 
-        AllServices().toastMessage(" eCME Data Sync ${wholeData["status"]}",
+        AllServices().toastMessage(" CME Data Sync ${wholeData["status"]}",
             Colors.red, Colors.white, 14);
         return eCMEDataModeldata;
       }
     } catch (e) {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
-      print('Add e-CME: $e');
+      print('Add CME: $e');
     }
     return eCMEDataModeldata;
   }
@@ -70,7 +70,7 @@ class ECMERepositry {
         }
 
         AllServices().toastMessage(
-            " eCME Doctor Category Sync ${wholeData["status"]}",
+            " CME Doctor Category Sync ${wholeData["status"]}",
             Colors.red,
             Colors.white,
             14);
@@ -78,7 +78,7 @@ class ECMERepositry {
       }
     } catch (e) {
       AllServices().toastMessage("$e", Colors.red, Colors.white, 14);
-      print('Add e-CME: $e');
+      print('Add CME: $e');
     }
     return eCMEDataModeldata;
   }
@@ -243,7 +243,7 @@ class ECMERepositry {
       var resData = json.decode(response.body);
       if (response.statusCode == 200) {
         if (resData["res_data"]["status"] == "Success") {
-          print("data ==${resData["res_data"]["status"]}");
+          //  print("data ==${resData["res_data"]["status"]}");
           if (resData["res_data"]["data_list"].isNotEmpty) {
             approvedPrintData = approvedPrintDataModelFromJson(response.body);
             return approvedPrintData;

@@ -1727,20 +1727,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 );
                                               } else {
                                                 AllServices().toastMessage(
-                                                    'No e-CME doctor found ',
+                                                    'No CME doctor found ',
                                                     Colors.red,
                                                     Colors.white,
                                                     16);
                                               }
                                             } else {
                                               AllServices().toastMessage(
-                                                  'e_CME Sync First ',
+                                                  'CME Sync First ',
                                                   Colors.red,
                                                   Colors.white,
                                                   16);
                                             }
                                           },
-                                          title: 'Add e-CME',
+                                          title: 'Add CME',
                                           sizeWidth: screenWidth,
                                           inputColor: Colors.white,
                                         ),
@@ -1774,7 +1774,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   16);
                                             }
                                           },
-                                          title: 'e-CME Approval',
+                                          title: 'CME Approval',
                                           sizeWidth: screenWidth,
                                           inputColor: Colors.white,
                                         ),

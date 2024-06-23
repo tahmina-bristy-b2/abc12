@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class EcmeFFListApproval extends StatefulWidget {
-  const EcmeFFListApproval({super.key, required this.cid, required this.userPass});
+  const EcmeFFListApproval(
+      {super.key, required this.cid, required this.userPass});
   final String cid;
   final String userPass;
   @override
@@ -34,7 +35,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('e-CME FF List'),
+        title: const Text('CME FF List'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -74,7 +75,6 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-         
           const SizedBox(height: 5),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -87,7 +87,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                           const BoxConstraints(maxHeight: double.infinity),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color:const Color.fromARGB(255, 168, 196, 194),
+                        color: const Color.fromARGB(255, 168, 196, 194),
                         // color: const Color.fromARGB(255, 98, 158, 219),
                       ),
                       child: Padding(
@@ -108,14 +108,12 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                     child: Text('Due',
                                         style:
                                             TextStyle(color: Colors.black)))),
-                            
                             SizedBox(
                                 width: 60,
                                 child: Center(
                                     child: Text('Action',
                                         style:
                                             TextStyle(color: Colors.black)))),
-                            
                           ],
                         ),
                       ),
@@ -139,7 +137,6 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                     ? Colors.grey[300]
                                     : Colors.white,
                               ),
-                             
                               child: InkWell(
                                 onTap: () {
                                   Navigator.push(
@@ -152,8 +149,8 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                               eCMEDataModel!.resData.levelDepth,
                                           submittedBy: eCMEDataModel!.resData
                                               .dataList![index].submitBy,
-                                          areaId: eCMEDataModel!.resData
-                                              .dataList![index].areaId,
+                                          areaId: eCMEDataModel!
+                                              .resData.dataList![index].areaId,
                                           calledBackAction: (value) {
                                             getEdsrFm();
                                           }),
@@ -168,14 +165,13 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                             .dataList![index].submitBy)),
                                     SizedBox(
                                         width: 100,
-                                        child: Text(eCMEDataModel!.resData
-                                            .dataList![index].areaId)),
+                                        child: Text(eCMEDataModel!
+                                            .resData.dataList![index].areaId)),
                                     SizedBox(
                                         width: 60,
                                         child: Center(
                                             child: Text(eCMEDataModel!.resData
                                                 .dataList![index].dueCount))),
-                                   
                                     const SizedBox(
                                       width: 60,
                                       child: Align(
@@ -186,7 +182,6 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
                                         ),
                                       ),
                                     ),
-                                   
                                   ],
                                 ),
                               ),
@@ -282,7 +277,7 @@ class _EcmeFFListApprovalState extends State<EcmeFFListApproval> {
   getEdsrFm() async {
     eCMEDataModel = await ECMERepositry().getECMEFFListData(
         dmpathData!.syncUrl, widget.cid, userInfo!.userId, widget.userPass);
-        print("Data $eCMEDataModel");
+    print("Data $eCMEDataModel");
 
     if (eCMEDataModel != null) {
       if (!mounted) return;

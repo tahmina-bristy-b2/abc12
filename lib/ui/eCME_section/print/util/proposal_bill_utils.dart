@@ -24,7 +24,7 @@ class ProposalBillPrintUtil {
       ['2. Food Expense', dataListPrint.proFoodExpense],
       ['3. Gift / Souvenir', dataListPrint.proGiftsSouvenirs],
       [
-        '4. Stationaries / Others (Pen , Photocopies etc)',
+        '4. Stationaries and Others (Pen , Photocopies etc)',
         dataListPrint.proStationnaires
       ],
     ];
@@ -56,7 +56,7 @@ class ProposalBillPrintUtil {
       'Amount',
       dataListPrint.ecmeDoctorCategory == "RMP Meeting"
           ? "Sales Qty*"
-          : "Rx objective / day"
+          : "Rx Objective / Day"
     ];
     List<List<String>> brandData() {
       List<List<String>> brandData = [];
@@ -408,8 +408,7 @@ class ProposalBillPrintUtil {
                                 child: pw.Text(
                                   totalRow2[0],
                                   style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight
-                                        .normal, // Normal font weight for 'TOTAL :'
+                                    fontWeight: pw.FontWeight.normal,
                                     fontSize: 6.5,
                                   ),
                                 ),
@@ -420,8 +419,7 @@ class ProposalBillPrintUtil {
                                 child: pw.Text(
                                   "${totalRow2[1]}  ",
                                   style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight
-                                        .normal, // Normal font weight for value
+                                    fontWeight: pw.FontWeight.normal,
                                     fontSize: 6.5,
                                   ),
                                 ),
@@ -496,7 +494,7 @@ class ProposalBillPrintUtil {
                 ),
                 signatureWIdget(
                   "Signed by",
-                  "Area/Field Manager",
+                  "Area / Field Manager",
                 ),
                 pw.SizedBox(
                   width: 10,

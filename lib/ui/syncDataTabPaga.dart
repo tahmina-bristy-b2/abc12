@@ -512,7 +512,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                 child: syncCustomBuildButton(
                                   onClick: () async {
                                     setState(() {
-                                      syncMsg = 'e-CME data synchronizing... ';
+                                      syncMsg = 'CME data synchronizing... ';
                                       _loading = true;
                                     });
                                     bool result =
@@ -543,7 +543,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                                   .resData.docSpecialtyList !=
                                               []) {
                                         AllServices().toastMessage(
-                                            'Sync e-CME data Done.',
+                                            'Sync CME data Done.',
                                             Colors.teal,
                                             Colors.white,
                                             16);
@@ -564,7 +564,7 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                                     }
                                   },
                                   color: Colors.white,
-                                  title: 'e-CME',
+                                  title: 'CME',
                                   sizeWidth: screenWidth,
                                 ),
                               )

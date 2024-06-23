@@ -200,7 +200,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         centerTitle: true,
         backgroundColor: const Color(0xff8AC995),
         title: const Text(
-          "e-CME Add",
+          "CME Add",
         ),
       ),
       body: SingleChildScrollView(
@@ -498,7 +498,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                               //=================================== eCME Amount================================
                               widget.eCMEType != null
                                   ? AddTitleRowWidget(
-                                      context: context, title: "e_CME Amount *")
+                                      context: context, title: "CME Amount *")
                                   : const SizedBox(),
                               widget.eCMEType != null
                                   ? SizedBox(
@@ -507,7 +507,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                       height: 45,
                                       child: CustomtextFormFiledWidget(
                                         hinText:
-                                            '----Enter e-CME Amount ----', // if you change it,you have to change it in inputformatter+readOnly too.
+                                            "----Enter CME Amount ----", // if you change it,you have to change it in inputformatter+readOnly too.
                                         controller: eCMEAmountCOntroller,
                                         textAlign: TextAlign.left,
                                         textStyle: const TextStyle(
@@ -605,18 +605,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   }
                                 },
                               ),
-                              // SizedBox(
-                              //     width: MediaQuery.of(context).size.width / 1.1,
-                              //     height: 45,
-                              //     child: CustomtextFormFiledWidget(
-                              //       hinText: '----Enter pay receiver name----',
-                              //         controller: payToController,
-                              //         textAlign: TextAlign.left,
-                              //         keyboardType: TextInputType.text,
-                              //         textStyle: const TextStyle(fontSize: 14,color:Colors.black,),
-                              //         focusNode: AlwaysDisabledFocusNode(),
-                              //       ),
-                              //     ),
+
                               const SizedBox(
                                 height: 10,
                               ),
@@ -701,7 +690,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         BudgetBreakDownRowWidget(
           routingName: 'budget',
           rowNumber: "3.",
-          reason: "Speaker Gift or Souvenir*",
+          reason: "Gift / Souvenir*",
           controller: giftController,
           onChanged: (value) {
             getTotalBudget();
@@ -712,7 +701,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         BudgetBreakDownRowWidget(
           routingName: 'budget',
           rowNumber: "4.",
-          reason: "Stationnaires or Others*",
+          reason: "Stationaires and Others (Pen, Photocopies etc)*",
           controller: stationnairesController,
           onChanged: (value) {
             getTotalBudget();
@@ -730,7 +719,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
       children: [
         BudgetBreakDownRowWidget(
           rowNumber: "1.",
-          reason: "Doctors*",
+          reason: "Doctors (MBBS & Above)*",
           controller: doctorParticipantCount,
           onChanged: (value) {
             totalParticipants();
@@ -753,7 +742,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         BudgetBreakDownRowWidget(
           routingName: 'participants',
           rowNumber: "3.",
-          reason: "DMF/RMP doctors* ",
+          reason: "DMF / RMP Doctors* ",
           controller: dmfDoctorController,
           onChanged: (value) {
             totalParticipants();
@@ -764,7 +753,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         BudgetBreakDownRowWidget(
           routingName: 'participants',
           rowNumber: "4.",
-          reason: "Nurses/Staff* ",
+          reason: "Nurses / Staffs* ",
           controller: nursesController,
           onChanged: (value) {
             totalParticipants();
@@ -775,7 +764,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         BudgetBreakDownRowWidget(
           routingName: 'participants',
           rowNumber: "5.",
-          reason: "SKF Attendance*",
+          reason: "SKF Attendees*",
           controller: skfAttenaceController,
           onChanged: (value) {
             totalParticipants();
@@ -883,14 +872,14 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                           Colors.white,
                           16);
                     } else if (eCMEAmountCOntroller.text == "") {
-                      AllServices().toastMessage("Please enter e-CME amount",
+                      AllServices().toastMessage("Please enter CME amount",
                           Colors.red, Colors.white, 16);
                     } else if (finalBrandListAftrRemoveDuplication.isEmpty) {
                       AllServices().toastMessage(
                           "Please add brand", Colors.red, Colors.white, 16);
                     } else if (doctorParticipantCount.text == "") {
                       AllServices().toastMessage(
-                          "Please add participating doctor ",
+                          "Please add participating doctor(MBBS & Above) ",
                           Colors.red,
                           Colors.white,
                           16);
@@ -902,19 +891,19 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                           16);
                     } else if (dmfDoctorController.text.isEmpty) {
                       AllServices().toastMessage(
-                          "Please add number of DMF/RMP doctor",
+                          "Please add number of DMF / RMP Doctors",
                           Colors.red,
                           Colors.white,
                           16);
                     } else if (nursesController.text.isEmpty) {
                       AllServices().toastMessage(
-                          "Please add number of Nurses/Staff ",
+                          "Please add number of Nurses / Staffs ",
                           Colors.red,
                           Colors.white,
                           16);
                     } else if (skfAttenaceController.text.isEmpty) {
                       AllServices().toastMessage(
-                          "Please add number of SKF Attendance ",
+                          "Please add number of SKF Attendees  ",
                           Colors.red,
                           Colors.white,
                           16);
@@ -932,13 +921,13 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                           16);
                     } else if (giftController.text == "") {
                       AllServices().toastMessage(
-                          "Please add speaker gift expense  ",
+                          "Please add speaker Gift or Souvenir expense  ",
                           Colors.red,
                           Colors.white,
                           16);
                     } else if (stationnairesController.text == "") {
                       AllServices().toastMessage(
-                          "Please add speaker stationaries expense  ",
+                          "Please add speaker Stationaires and Others (Pen, Photocopies etc) expense  ",
                           Colors.red,
                           Colors.white,
                           16);
@@ -1003,7 +992,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                   height: wholeHeight / 25.309,
                   child: const Center(
                     child: Text(
-                      "e_CME Amount",
+                      "CME Amount",
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.white,
@@ -1023,7 +1012,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                     child: Text(
                       widget.eCMEType == "RMP Meeting"
                           ? "Sales Qty"
-                          : "Rx objective per day",
+                          : "Rx Objective / Day",
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.white,
@@ -1309,7 +1298,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 child: Text(
                                   widget.eCMEType == "RMP Meeting"
                                       ? "Sales Qty*"
-                                      : "Rx objective per day",
+                                      : "Rx Objective / Day",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w600),
                                 ),
@@ -1434,7 +1423,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                                   widget.eCMEType ==
                                                           "RMP Meeting"
                                                       ? "Please Enter sales Qty  "
-                                                      : "Please Enter Rx objective per day",
+                                                      : "Please Enter Rx Objective / Day",
                                                   Colors.red,
                                                   Colors.white,
                                                   16);

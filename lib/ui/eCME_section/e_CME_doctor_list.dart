@@ -112,7 +112,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 138, 201, 149),
-          title: const Text("e-CME Doctor List"),
+          title: const Text("CME Doctor List"),
           titleTextStyle: const TextStyle(
               color: Color.fromARGB(255, 27, 56, 34),
               fontWeight: FontWeight.w500,
@@ -675,7 +675,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Text(
-                        "Select e-CME Type",
+                        "Select CME Type",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -770,7 +770,7 @@ class _ECMEClientScreenState extends State<ECMEClientScreen> {
                                   if ((doctorSelectionMap["Intern Reception"] ==
                                           true) ||
                                       (doctorSelectionMap["Society"] == true)) {
-                                    //== no doctor needed ,if eEME type these
+                                    //== no doctor needed ,if EME type these
                                     doctInfo = [];
                                     Navigator.push(
                                         context,

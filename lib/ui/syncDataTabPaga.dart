@@ -602,13 +602,10 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                       children: [
                         const Spacer(),
                         SizedBox(
-                          width: screenWidth / 2.5,
-                          child: Text(
+                          width: screenWidth / 2.1,
+                          child: const Text(
                             loginPageVersionName,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black.withOpacity(.5),
-                            ),
+                            style: TextStyle(fontSize: 16, color: Colors.blue),
                           ),
                         ),
                       ],

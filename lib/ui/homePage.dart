@@ -499,7 +499,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
         title: const Text(
-            'MREPORTING $appVersion.04'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
+            'MREPORTING $appVersion.05'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,

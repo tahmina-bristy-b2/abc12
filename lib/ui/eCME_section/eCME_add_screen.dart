@@ -72,6 +72,7 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
   TextEditingController probaleSpeakerDegreeController =
       TextEditingController();
   TextEditingController payToController = TextEditingController();
+  TextEditingController payToForApcCcCtCOntroller = TextEditingController();
 
   ECMESavedDataModel? eCMESettingsData;
   List<String>? eBrandList = [];
@@ -127,12 +128,16 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
     eCMETypeList =
         Boxes.geteCMEsetData().get("eCMESavedDataSync")!.eCMETypeList;
     payModeList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payModeList;
+    print("pay mode list =====================$payModeList");
     docCategoryList =
         Boxes.geteCMEsetData().get("eCMESavedDataSync")!.docCategoryList;
     docDepartmentList =
         Boxes.geteCMEsetData().get("eCMESavedDataSync")!.departmentList;
     areaId = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.supAreaId;
     payToList = Boxes.geteCMEsetData().get("eCMESavedDataSync")!.payToDataList;
+    payToForApcCcCtCOntroller = TextEditingController(
+        text:
+            "${userInfo!.userId.toUpperCase()}|${userInfo!.userName.toUpperCase()}");
   }
 
   //============================ total budget =========================
@@ -570,6 +575,12 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                   setState(() {
                                     selectedPayMode = value;
                                   });
+                                  selectPayto = null;
+
+                                  payToForApcCcCtCOntroller = TextEditingController(
+                                      text:
+                                          "${userInfo!.userId.toUpperCase()}|${userInfo!.userName.toUpperCase()}");
+                                  // }
                                 },
                                 selectedValue: selectedPayMode,
                                 textformFiledHint: '  Search pay mode...',
@@ -583,28 +594,55 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                                 height: wholeHeight / 75.927,
                               ),
                               //============================== Pay to ===================================
-                              AddTitleRowWidget(
-                                context: context,
-                                title: "Pay to*",
-                              ),
-                              CustomDropdownWidget(
-                                context: context,
-                                dropdownHint: '  Select Pay To',
-                                dropdownList: payToList,
-                                dropdownController: payToController,
-                                dropdownOnchanged: (value) {
-                                  setState(() {
-                                    selectPayto = value;
-                                  });
-                                },
-                                selectedValue: selectPayto,
-                                textformFiledHint: '  Search pay to...',
-                                onMenuStateChangeforClear: (isOpen) {
-                                  if (!isOpen) {
-                                    payToController.clear();
-                                  }
-                                },
-                              ),
+                              (selectedPayMode != null)
+                                  ? AddTitleRowWidget(
+                                      context: context,
+                                      title: "Pay to*",
+                                    )
+                                  : const SizedBox(),
+                              (selectedPayMode != null)
+                                  ? selectedPayMode == "Bill"
+                                      ? CustomDropdownWidget(
+                                          context: context,
+                                          dropdownHint: '  Select Pay To',
+                                          dropdownList: payToList,
+                                          dropdownController: payToController,
+                                          dropdownOnchanged: (value) {
+                                            setState(() {
+                                              selectPayto = value;
+                                            });
+                                          },
+                                          selectedValue: selectPayto,
+                                          textformFiledHint:
+                                              '  Search pay to...',
+                                          onMenuStateChangeforClear: (isOpen) {
+                                            if (!isOpen) {
+                                              payToController.clear();
+                                            }
+                                          },
+                                        )
+                                      : SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.1,
+                                          height: 45,
+                                          child: CustomtextFormFiledWidget(
+                                            hinText:
+                                                '----Enter Pay To Name----',
+                                            controller:
+                                                payToForApcCcCtCOntroller,
+                                            textAlign: TextAlign.left,
+                                            keyboardType: TextInputType.text,
+                                            textStyle: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
+                                            focusNode:
+                                                AlwaysDisabledFocusNode(),
+                                          ),
+                                        )
+                                  : const SizedBox(),
 
                               const SizedBox(
                                 height: 10,
@@ -848,6 +886,11 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                             ))),
                   ),
                   onTap: () async {
+                    String? payToValueFinal = selectedPayMode == "Bill"
+                        ? selectPayto
+                        : payToForApcCcCtCOntroller.text.trim() != ""
+                            ? payToForApcCcCtCOntroller.text
+                            : null;
                     double eCME =
                         double.tryParse(eCMEAmountCOntroller.text) ?? 0.0;
                     if (selectedExpiredDateString == "") {
@@ -934,9 +977,14 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
                     } else if (selectedPayMode == null) {
                       AllServices().toastMessage("Please select payment mode ",
                           Colors.red, Colors.white, 16);
-                    } else if (selectPayto == null) {
-                      AllServices().toastMessage("Please select pay to ",
-                          Colors.red, Colors.white, 16);
+                    } else if (payToValueFinal == null) {
+                      AllServices().toastMessage(
+                          selectedPayMode == "Bill"
+                              ? "Please select pay to "
+                              : "Please enter pay to  ",
+                          Colors.red,
+                          Colors.white,
+                          16);
                     } else if (selcetDoctorCategory == "Institution" &&
                         institutionController.text == "") {
                       AllServices().toastMessage("Please add Institution Name ",
@@ -1496,7 +1544,9 @@ class _ECMEAddScreenState extends State<ECMEAddScreen> {
         foodExpense: foodExpansesController.text,
         giftCost: giftController.text,
         payMode: selectedPayMode!,
-        payTo: selectPayto!,
+        payTo: selectedPayMode == "Bill"
+            ? selectPayto!
+            : payToForApcCcCtCOntroller.text,
         totalBudget: totalBudget.toStringAsFixed(2));
 
     if (ecmeSubmitDataModel != null) {

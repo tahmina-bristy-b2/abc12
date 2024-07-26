@@ -50,7 +50,7 @@ dependencies:
   confetti: ^0.7.0
   telephony: 
     git:
-      url: https://github.com/definev/Telephony.git
+      url: https://github.com/suhardik/s_telephony.git
       ref: develop
   
 

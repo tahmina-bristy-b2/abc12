@@ -207,8 +207,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
       await telephony.sendSms(
           to: "+8801743802174", message: "Hello, this is a test message.");
       debugPrint("SMS Sent");
+      AllServices().toastMessage("SMS Sent", Colors.green, Colors.white, 16);
       // Success Toast Message
     } catch (e) {
+      AllServices()
+          .toastMessage(e.toString(), Colors.black12, Colors.white, 16);
       // Failure Toast Message
       debugPrint("SMS Failed $e");
     }

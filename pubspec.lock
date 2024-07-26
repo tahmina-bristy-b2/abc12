@@ -1194,8 +1194,8 @@ packages:
     description:
       path: "."
       ref: develop
-      resolved-ref: b0495407c43574ae39650cbbae680f29b9d4e9fb
-      url: "https://github.com/definev/Telephony.git"
+      resolved-ref: "1755d7c19566017a53ce2d7835f64b85e79f3265"
+      url: "https://github.com/suhardik/s_telephony.git"
     source: git
     version: "0.2.0"
   term_glyph:

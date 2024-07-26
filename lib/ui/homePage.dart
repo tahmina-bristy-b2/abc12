@@ -24,8 +24,6 @@ import 'package:MREPORTING_OFFLINE/ui/stock_page.dart';
 import 'package:MREPORTING_OFFLINE/ui/target_achievemet.dart';
 import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING_OFFLINE/ui/DCR_section/draft_dcr_page.dart';
-import 'package:MREPORTING_OFFLINE/ui/Expense/expense_section.dart';
 import 'package:MREPORTING_OFFLINE/ui/areaPage.dart';
 import 'package:MREPORTING_OFFLINE/ui/attendance_page.dart';
 import 'package:MREPORTING_OFFLINE/ui/order_sections/customerListPage.dart';
@@ -38,12 +36,17 @@ import 'package:MREPORTING_OFFLINE/ui/Rx/rx_report_page.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
+import 'package:telephony/telephony.dart';
 import 'package:url_launcher/link.dart';
 import 'package:MREPORTING_OFFLINE/ui/reset_password.dart';
 import 'package:MREPORTING_OFFLINE/ui/syncDataTabPaga.dart';
 import 'package:MREPORTING_OFFLINE/ui/Rx/rxPage.dart';
 import 'package:MREPORTING_OFFLINE/ui/Widgets/custombutton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+onBackgroundMessage(SmsMessage message) {
+  debugPrint("onBackgroundMessage called");
+}
 
 // double? lat;
 // double? long;
@@ -83,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var prefix;
   var prefix2;
   bool isLoading = false;
+  String _message = "";
+  final telephony = Telephony.instance;
 
   @override
   void initState() {
@@ -91,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
     userInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
     AllServices().getLatLong();
+    initPlatformState();
     getAttenadce();
     if (Boxes.geteDSRsetData().get("eDSRSettingsData") != null) {
       regionListData =
@@ -140,6 +146,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //     });
     // }
+  }
+
+  onMessage(SmsMessage message) async {
+    setState(() {
+      _message = message.body ?? "Error reading message body.";
+    });
+  }
+
+  onSendStatus(SendStatus status) {
+    setState(() {
+      _message = status == SendStatus.SENT ? "sent" : "delivered";
+    });
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+
+    final bool? result = await telephony.requestPhoneAndSmsPermissions;
+
+    if (result != null && result) {
+      telephony.listenIncomingSms(
+          onNewMessage: onMessage, onBackgroundMessage: onBackgroundMessage);
+    }
+
+    if (!mounted) return;
   }
 
   String getDateTime(String? givenDate) {
@@ -499,7 +534,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
         title: const Text(
-            'MREPORTING_OFFLINE $appVersion.05'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
+            'MREPORTING_OFFLINE $appVersion.01'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
@@ -1853,65 +1888,65 @@ class _MyHomePageState extends State<MyHomePage> {
                 //       ),
 
                 // ///*************************** Sync Data********************///
-                // Container(
-                //   color: const Color(0xFFE2EFDA),
-                //   height: screenHeight / 6.8,
-                //   width: screenWidth,
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Row(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           //==========================================================Notice flag +Notice url will be here====================================
-                //           userInfo!.noticeFlag
-                //               ? Expanded(
-                //                   child: CustomBuildButton(
-                //                     icon: Icons.note_alt,
-                //                     onClick: () async {
-                //                       // var noticeBody = await noticeEvent();
-                //                       // print("list ${noticeBody}");
+                Container(
+                  color: const Color(0xFFE2EFDA),
+                  height: screenHeight / 6.8,
+                  width: screenWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //==========================================================Notice flag +Notice url will be here====================================
+                          // userInfo!.noticeFlag
+                          //     ? Expanded(
+                          //         child: CustomBuildButton(
+                          //           icon: Icons.note_alt,
+                          //           onClick: () async {
+                          //             // var noticeBody = await noticeEvent();
+                          //             // print("list ${noticeBody}");
 
-                //                       // Navigator.push(
-                //                       //     context,
-                //                       //     MaterialPageRoute(
-                //                       //         builder: (_) => NoticeScreen(
-                //                       //               noticelist: noticeBody,
-                //                       //             )));
-                //                     },
-                //                     title: 'Notice',
-                //                     sizeWidth: screenWidth,
-                //                     inputColor: Colors.white,
-                //                   ),
-                //                 )
-                //               : const SizedBox(
-                //                   width: 5,
-                //                 ),
+                          //             // Navigator.push(
+                          //             //     context,
+                          //             //     MaterialPageRoute(
+                          //             //         builder: (_) => NoticeScreen(
+                          //             //               noticelist: noticeBody,
+                          //             //             )));
+                          //           },
+                          //           title: 'Notice',
+                          //           sizeWidth: screenWidth,
+                          //           inputColor: Colors.white,
+                          //         ),
+                          //       )
+                          //     : const SizedBox(
+                          //         width: 5,
+                          //       ),
 
-                //           Expanded(
-                //             child: CustomBuildButton(
-                //               icon: Icons.sync,
-                //               onClick: () {
-                //                 Navigator.push(
-                //                     context,
-                //                     MaterialPageRoute(
-                //                         builder: (_) => SyncDataTabScreen(
-                //                               cid: cid,
-                //                               userId: userId,
-                //                               userPassword: userPassword,
-                //                             )));
-                //               },
-                //               title: 'Sync Data',
-                //               sizeWidth: screenWidth,
-                //               inputColor: Colors.white,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                          Expanded(
+                            child: CustomBuildButton(
+                              icon: Icons.sync,
+                              onClick: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => SyncDataTabScreen(
+                                              cid: cid,
+                                              userId: userId,
+                                              userPassword: userPassword,
+                                            )));
+                              },
+                              title: 'Sync Data',
+                              sizeWidth: screenWidth,
+                              inputColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
 
                 // Container(
                 //   color: const Color(0xFFDDEBF7),

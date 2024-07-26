@@ -48,16 +48,18 @@ dependencies:
   shimmer: ^3.0.0
   dropdown_button2: ^1.9.4
   confetti: ^0.7.0
+  telephony: 
+    git:
+      url: https://github.com/definev/Telephony.git
+      ref: develop
+  
 
   # printing: ^5.9.3
   pdf: ^3.8.4
   open_file: ^3.3.1
   printing: ^5.9.3
- 
+  permission_handler: ^11.0.1
   
-  
-  # thumbnailer: ^2.2.0
-  # font_awesome_flutter: ^10.4.0
 
 dev_dependencies:
   flutter_test:

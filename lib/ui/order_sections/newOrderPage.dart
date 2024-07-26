@@ -2,20 +2,29 @@ import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
 import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
 import 'package:MREPORTING_OFFLINE/services/all_services.dart';
 import 'package:MREPORTING_OFFLINE/services/order/order_apis.dart';
-import 'package:MREPORTING_OFFLINE/services/order/order_repositories.dart';
 import 'package:MREPORTING_OFFLINE/services/order/order_services.dart';
 import 'package:MREPORTING_OFFLINE/ui/Expired_dated_section/expired_dated_add_screen.dart';
 import 'package:MREPORTING_OFFLINE/ui/Widgets/common_in_app_web_view.dart';
 import 'package:MREPORTING_OFFLINE/ui/order_sections/approved_page.dart';
 import 'package:flutter/material.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/intl.dart';
 import 'package:MREPORTING_OFFLINE/ui/order_sections/order_item_list.dart';
 import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
 import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telephony/telephony.dart';
+
+// import 'package:telephony/telephony.dart';
+
 import 'package:url_launcher/url_launcher.dart';
+
+onBackgroundMessage(SmsMessage message) {
+  debugPrint("onBackgroundMessage called");
+}
 
 DateTime DT = DateTime.now();
 String dateSelected = DateFormat('yyyy-MM-dd').format(DT);
@@ -51,6 +60,40 @@ class NewOrderPage extends StatefulWidget {
 }
 
 class _NewOrderPageState extends State<NewOrderPage> {
+  // final Telephony telephony = Telephony.instance;
+  // final String _recipient =
+  //     '+8801551093321'; // Replace with the recipient's number
+
+  // void _sendSms() async {
+  //   String message = "fjyfyuf";
+  //   if (message.isNotEmpty) {
+  //     await telephony.sendSms(
+  //       to: _recipient,
+  //       message: message,
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('SMS sent to $_recipient')),
+  //     );
+  //   }
+  // }
+  // Future<void> requestSmsPermission() async {
+  //   var status = await Permission.sms.status;
+  //   if (!status.isGranted) {
+  //     await Permission.sms.request();
+  //   }
+  // }
+
+  // void _sendSMS(String message, List<String> recipients) async {
+  //   await requestSmsPermission();
+
+  //   try {
+  //     String result = await sendSMS(message: message, recipients: recipients);
+  //     print("SMS sent: $result");
+  //   } catch (e) {
+  //     print("Error sending SMS: $e");
+  //   }
+  // }
+
   Box? box;
   UserLoginModel? userLoginInfo;
   DmPathDataModel? dmPathData;
@@ -98,9 +141,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
   String? deviceModel = '';
   Map<String, TextEditingController> controllers = {};
 
+  String _message = "";
+  final telephony = Telephony.instance;
+
   @override
   void initState() {
     super.initState();
+    initPlatformState();
+
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmPathData = Boxes.getDmpath().get('dmPathData');
     box = Boxes.getCustomerUsers();
@@ -146,8 +194,53 @@ class _NewOrderPageState extends State<NewOrderPage> {
       totalAmount = OrderServices().ordertotalAmount(itemString, orderAmount,
           finalItemDataList, total, totalAmount)["TotalAmount"];
     });
+  }
 
-    // FocusScope.of(context).requestFocus(FocusNode());
+  //============================================
+
+  Future<void> sendSMS() async {
+    try {
+      final Telephony telephony = Telephony.instance;
+      bool? permissionsGranted = await telephony.requestPhoneAndSmsPermissions;
+      debugPrint(permissionsGranted.toString());
+
+      await telephony.sendSms(
+          to: "+8801743802174", message: "Hello, this is a test message.");
+      debugPrint("SMS Sent");
+      // Success Toast Message
+    } catch (e) {
+      // Failure Toast Message
+      debugPrint("SMS Failed $e");
+    }
+  }
+
+  onMessage(SmsMessage message) async {
+    setState(() {
+      _message = message.body ?? "Error reading message body.";
+    });
+  }
+
+  onSendStatus(SendStatus status) {
+    setState(() {
+      _message = status == SendStatus.SENT ? "sent" : "delivered";
+    });
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+
+    final bool? result = await telephony.requestPhoneAndSmsPermissions;
+
+    if (result != null && result) {
+      telephony.listenIncomingSms(
+          onNewMessage: onMessage, onBackgroundMessage: onBackgroundMessage);
+    }
+
+    if (!mounted) return;
   }
 
   @override
@@ -1322,22 +1415,22 @@ class _NewOrderPageState extends State<NewOrderPage> {
     }
 
     if (index == 1) {
-      setState(() {
-        _isLoading = false;
-      });
-      bool result = await InternetConnectionChecker().hasConnection;
-      if (result == true) {
-        orderSubmit();
-      } else {
-        AllServices().toastMessage(
-            "No Internet Connection\nPlease check your internet connection.",
-            Colors.red,
-            Colors.white,
-            16);
-        setState(() {
-          _isLoading = true;
-        });
-      }
+      // setState(() {
+      //   _isLoading = false;
+      // });
+      // bool result = await InternetConnectionChecker().hasConnection;
+      // if (result == true) {
+      orderSubmit();
+      // } else {
+      //   AllServices().toastMessage(
+      //       "No Internet Connection\nPlease check your internet connection.",
+      //       Colors.red,
+      //       Colors.white,
+      //       16);
+      //   setState(() {
+      //     _isLoading = true;
+      //   });
+      // }
       setState(() {
         _currentSelected = index;
       });
@@ -1444,61 +1537,73 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   //===========================Submit Api call==============================================
 
-  Future orderSubmit() async {
-    if (itemString != '') {
-      String status;
-      Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
-          dmPathData!.submitUrl,
-          cid,
-          userLoginInfo!.userId,
-          userPassword,
-          deviceId,
-          widget.clientId,
-          dateSelected,
-          selectedDeliveryTime,
-          slectedPayMethod,
-          initialOffer,
-          noteController.text,
-          itemString,
-          latitude,
-          longitude);
-      if (orderInfo.isNotEmpty) {
-        status = orderInfo['status'];
-        var ret_str = orderInfo['ret_str']; //for reponse return message
+  orderSubmit() async {
+    print("+++++++++++++++++++++++++++++++++++++");
+    // Future<void> initPlatformState() async {}
 
-        if (status == "Success") {
-          setState(() {
-            _isLoading = true;
-          });
-          OrderServices()
-              .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
+    await sendSMS();
+    // Future<bool> _canSendSMS() async {
+    //   bool _result = await canSendSMS();
+    //   setState(() => _canSendSMSMessage =
+    //       _result ? 'This unit can send SMS' : 'This unit cannot send SMS');
+    //   return _result;
+    // }
+    // if (itemString != '') {
+    //   // _sendSms();
 
-          AllServices().toastMessage("Order Submitted\n$ret_str", Colors.green,
-              Colors.white, 16); //order submit success message
-          if (!mounted) return;
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        } else {
-          AllServices().toastMessage(
-              ret_str, Colors.red, Colors.white, 16); //order faild message
-          setState(() {
-            _isLoading = true;
-          });
-        }
-      } else {
-        AllServices()
-            .toastMessage("Order Failed", Colors.red, Colors.white, 16);
-        setState(() {
-          _isLoading = true;
-        });
-      }
-    } else {
-      setState(() {
-        _isLoading = true;
-      });
-      AllServices()
-          .toastMessage('Please Order something', Colors.red, Colors.white, 16);
-    }
+    //   // String status;
+    //   // Map<String, dynamic> orderInfo = await OrderRepositories().OrderSubmit(
+    //   //     dmPathData!.submitUrl,
+    //   //     cid,
+    //   //     userLoginInfo!.userId,
+    //   //     userPassword,
+    //   //     deviceId,
+    //   //     widget.clientId,
+    //   //     dateSelected,
+    //   //     selectedDeliveryTime,
+    //   //     slectedPayMethod,
+    //   //     initialOffer,
+    //   //     noteController.text,
+    //   //     itemString,
+    //   //     latitude,
+    //   //     longitude);
+    //   // if (orderInfo.isNotEmpty) {
+    //   //   status = orderInfo['status'];
+    //   //   var ret_str = orderInfo['ret_str']; //for reponse return message
+
+    //   //   if (status == "Success") {
+    //   //     setState(() {
+    //   //       _isLoading = true;
+    //   //     });
+    //   //     OrderServices()
+    //   //         .deleteOrderItem(customerBox, finalItemDataList, widget.clientId);
+
+    //   //     AllServices().toastMessage("Order Submitted\n$ret_str", Colors.green,
+    //   //         Colors.white, 16); //order submit success message
+    //   //     if (!mounted) return;
+    //   //     Navigator.of(context).pop();
+    //   //     Navigator.of(context).pop();
+    //   //   } else {
+    //   //     AllServices().toastMessage(
+    //   //         ret_str, Colors.red, Colors.white, 16); //order faild message
+    //   //     setState(() {
+    //   //       _isLoading = true;
+    //   //     });
+    //   //   }
+    //   // } else {
+    //   //   AllServices()
+    //   //       .toastMessage("Order Failed", Colors.red, Colors.white, 16);
+    //   //   setState(() {
+    //   //     _isLoading = true;
+    //   //   });
+    //   // }
+    // } else {
+    //   // setState(() {
+    //   //   _isLoading = true;
+    //   // });
+    //   AllServices()
+    //       .toastMessage('Please Order something', Colors.red, Colors.white, 16);
+    // }
   }
 
 //===========================================================end========================================================================================================

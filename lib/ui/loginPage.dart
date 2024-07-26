@@ -1,15 +1,15 @@
 // ignore_for_file: non_constant_identifier_names, unused_local_variable
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/others/repositories.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/others/repositories.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/ui/syncDataTabPaga.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/ui/syncDataTabPaga.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -330,7 +330,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     );
                                                   } else {
                                                     Boxes.clearBox();
-                                                    
 
                                                     Navigator.pushReplacement(
                                                       context,

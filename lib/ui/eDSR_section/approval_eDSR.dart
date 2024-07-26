@@ -1,10 +1,10 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/dSR_details_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/dSR_details_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shimmer/shimmer.dart';
@@ -645,13 +645,11 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                 setState(() {
                                   isPressed = true;
                                 });
-                            
+
                                 String approvedEdsrParams =
                                     "sl=${dsrDetails!.resData.dataList[index].sl}&rsm_cash=${dropdownValue[dsrDetails!.resData.dataList[index].sl]}&status=Rejected";
                                 approvedOrRejectedDsr(
                                     approvedEdsrParams, index);
-
-                               
                               },
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -676,7 +674,6 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             backgroundColor: isPressed
                                 ? Colors.grey
                                 : const Color.fromARGB(255, 44, 114, 66),
-                           
                             fixedSize: const Size(150, 30)),
                         child: const Text('Approve'),
                       ),
@@ -771,7 +768,6 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: const Color.fromARGB(255, 98, 158, 219),
-                        
                       ),
                       child: Row(
                         children: [
@@ -781,29 +777,26 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           )),
                           Expanded(
-                            flex: 3,
+                              flex: 3,
                               child: Center(
-                            child: Text(
-                            
-                             dsrDetails!.resData.dataList[index].dsrType ==   "DOCTOR"
-                                                                  ? "Seen RX Objective/Per Day*"
-                                                                  : "Business Objective Per Month(Qty)*",
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 12),
-                            ),
-                          )),
-                         
+                                child: Text(
+                                  dsrDetails!.resData.dataList[index].dsrType ==
+                                          "DOCTOR"
+                                      ? "Seen RX Objective/Per Day*"
+                                      : "Business Objective Per Month(Qty)*",
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              )),
                           const Expanded(
                               child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
                               "DSR",
-                            
                               style:
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           )),
-                         
                         ],
                       ),
                     ),
@@ -835,14 +828,14 @@ class _ApproveEDSRState extends State<ApproveEDSR> {
                                     style: const TextStyle(fontSize: 12),
                                   )),
                                   Expanded(
-                                    flex: 3,
+                                      flex: 3,
                                       child: Center(
-                                    child: Text(
-                                      dsrDetails!.resData.dataList[index]
-                                          .brandList[index2].rxPerDay,
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          dsrDetails!.resData.dataList[index]
+                                              .brandList[index2].rxPerDay,
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      )),
                                   // Expanded(
                                   //     child: Center(
                                   //   child: Text(

@@ -2,7 +2,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 
-import 'package:MREPORTING/ui/Expense/expense_log.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_log.dart';
 
 class ApprovalPage extends StatefulWidget {
   List expenseLog;

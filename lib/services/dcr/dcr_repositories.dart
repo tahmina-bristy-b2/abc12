@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/doc_settings_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/dcr/dcr_data_providers.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/doc_settings_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_data_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

@@ -1,4 +1,4 @@
-import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_doctor_list.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
 

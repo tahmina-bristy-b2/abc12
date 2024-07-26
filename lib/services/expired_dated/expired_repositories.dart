@@ -1,41 +1,42 @@
 import 'dart:convert';
-import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/expired_dated/expired_data_provider.dart';
-import 'package:MREPORTING/services/expired_dated/expired_services.dart';
+import 'package:MREPORTING_OFFLINE/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/expired_dated/expired_data_provider.dart';
+import 'package:MREPORTING_OFFLINE/services/expired_dated/expired_services.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ExpiredRepositoryRepo{
+class ExpiredRepositoryRepo {
   //========================================== sync expired items ========================================
-  Future<ExpiredItemListDataModel?> syncExpiredItems(String routeName, String syncUrl, String cid, String userId, String userpass) async {
+  Future<ExpiredItemListDataModel?> syncExpiredItems(String routeName,
+      String syncUrl, String cid, String userId, String userpass) async {
     ExpiredItemListDataModel? expiredModelDataModel;
     try {
-      final http.Response response =await ExpiredDataProviders().syncExpiredDate(syncUrl, cid, userId, userpass);
+      final http.Response response = await ExpiredDataProviders()
+          .syncExpiredDate(syncUrl, cid, userId, userpass);
       Map<String, dynamic> responseBody = json.decode(response.body);
       final status = responseBody['status'];
       if (status == 'Success') {
-        expiredModelDataModel=expiredItemListDataModelFromJson(response.body);
+        expiredModelDataModel = expiredItemListDataModelFromJson(response.body);
         ExpiredServices().putExpiredDate(expiredModelDataModel);
-        if(routeName==""){
-          AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.green, Colors.white, 16);
-
+        if (routeName == "") {
+          AllServices().toastMessage(responseBody['ret_str'].toString(),
+              Colors.green, Colors.white, 16);
         }
         return expiredModelDataModel;
-      }
-      else{
-        if(routeName==""){
-          AllServices().toastMessage(responseBody['ret_str'].toString(), Colors.red, Colors.white, 16);
+      } else {
+        if (routeName == "") {
+          AllServices().toastMessage(
+              responseBody['ret_str'].toString(), Colors.red, Colors.white, 16);
         }
-        
+
         return expiredModelDataModel;
       }
     } catch (e) {
-       AllServices().toastMessage(e.toString(), Colors.red, Colors.white, 16);
+      AllServices().toastMessage(e.toString(), Colors.red, Colors.white, 16);
     }
     return expiredModelDataModel;
   }
-
 
   //======================================== expired irtem submit==================================
   Future<Map<String, dynamic>> expiredSubmitRepo(
@@ -48,8 +49,7 @@ class ExpiredRepositoryRepo{
       String noteText,
       String itemString,
       double latitude,
-      double longitude
-      ) async {
+      double longitude) async {
     final http.Response response;
     Map<String, dynamic> orderInfo = {};
     // print();

@@ -1,5 +1,5 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/stock_model.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/stock_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';

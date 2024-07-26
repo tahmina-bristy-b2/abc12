@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:MREPORTING/models/dDSR%20model/dSR_details_model.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_FM_list_model.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eDSR/eDSR_data_providers.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/dSR_details_model.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_FM_list_model.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/eDSR/eDSR_data_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

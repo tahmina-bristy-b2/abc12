@@ -1,13 +1,13 @@
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
-import 'package:MREPORTING/models/e_CME/e_cme_category_List_data_model.dart';
-import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
-import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_doctor_list.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_cme_category_List_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/expired_dated/expired_submit_and_save_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
 
 class HiveAdapter {
   hiveAdapterbox() async {

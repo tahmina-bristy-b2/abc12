@@ -1,13 +1,13 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eCME/eCME_services.dart';
-import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
-import 'package:MREPORTING/ui/eCME_section/widgets/brand_details_show_widget.dart';
-import 'package:MREPORTING/ui/eCME_section/widgets/button_row_widget.dart';
-import 'package:MREPORTING/ui/eCME_section/widgets/preview_row_widget.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_submit_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/eCME/eCME_services.dart';
+import 'package:MREPORTING_OFFLINE/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/widgets/brand_details_show_widget.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/widgets/button_row_widget.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/widgets/preview_row_widget.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 

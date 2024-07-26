@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/services/rx/rx_data_providers.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/rx/rx_data_providers.dart';
 import 'package:http/http.dart' as http;
 
 class RxRepositories {

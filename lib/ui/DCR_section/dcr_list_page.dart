@@ -1,16 +1,16 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/doc_settings_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
-import 'package:MREPORTING/ui/DCR_section/add_doctor.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_area_page.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/doc_settings_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/add_doctor.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/dcr_area_page.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
-import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/customerListWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DcrListPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

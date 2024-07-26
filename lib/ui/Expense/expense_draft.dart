@@ -1,12 +1,12 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/others/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/Expense/expense_entry.dart';
-import 'package:MREPORTING/ui/Expense/expense_section.dart';
-import 'package:MREPORTING/services/apiCall.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_entry.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_section.dart';
+import 'package:MREPORTING_OFFLINE/services/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpenseDraft extends StatefulWidget {

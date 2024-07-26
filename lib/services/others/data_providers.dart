@@ -1,16 +1,17 @@
-import 'package:MREPORTING/services/others/apis.dart';
+import 'package:MREPORTING_OFFLINE/services/others/apis.dart';
 import 'package:http/http.dart' as http;
 
 class DataProviders {
   Future<http.Response> dmPathData(String cid) async {
-    late http.Response response;
-    try {
-      response = await http.get(
-        Uri.parse(Apis.dmpath(cid)),
-      );
-    } catch (e) {
-      print('dmPath: $e');
-    }
+    http.Response response;
+    // try {
+    response = await http.get(
+      Uri.parse(Apis.dmpath(cid)),
+    );
+    // } catch (e) {
+    //   print('dmPath: $e');
+    // }
+    print("mReporting $response");
     return response;
   }
 
@@ -23,19 +24,20 @@ class DataProviders {
       String? deviceBrand,
       String? deviceModel,
       String version) async {
-            late http.Response response;
-    try {
-      print('$loginUrl?cid=$cid&user_id=$userId&user_pass=$password&device_id=$deviceId&device_brand=$deviceBrand&device_model=$deviceModel'
-            '_$version');
-      
-      response = await http.get(
-        Uri.parse(
-            '$loginUrl?cid=$cid&user_id=$userId&user_pass=$password&device_id=$deviceId&device_brand=$deviceBrand&device_model=$deviceModel'
-            '_$version'),
-      );
-    } catch (e) {
-      print('UserLogin: $e');
-    }
+    http.Response response;
+    // try {
+    print(
+        '$loginUrl?cid=$cid&user_id=$userId&user_pass=$password&device_id=$deviceId&device_brand=$deviceBrand&device_model=$deviceModel'
+        '_$version');
+
+    response = await http.get(
+      Uri.parse(
+          '$loginUrl?cid=$cid&user_id=$userId&user_pass=$password&device_id=$deviceId&device_brand=$deviceBrand&device_model=$deviceModel'
+          '_$version'),
+    );
+    // } catch (e) {
+    //   print('UserLogin: $e');
+    // }
     return response;
   }
 
@@ -54,7 +56,7 @@ class DataProviders {
       String mtrReading) async {
     String params =
         "cid=$cid&user_id=$userId&user_pass=$userPass&device_id=$deviceId&latitude=$lat&longitude=$long&address=$address&submit_type=$submitType&meter_reading=$mtrReading";
-print(Apis.attendanceApi(attendanceUrl, params));
+    print(Apis.attendanceApi(attendanceUrl, params));
     http.Response response = await http.get(
       Uri.parse(Apis.attendanceApi(attendanceUrl, params)),
     );
@@ -201,11 +203,14 @@ print(Apis.attendanceApi(attendanceUrl, params));
     return response;
   }
 
-
   // ==============================Get Attendance Data Providers===========
 
-  Future<http.Response> getAttenadance (
-     String attendaceurl,String cid,String userid,String userPass,) async {  
+  Future<http.Response> getAttenadance(
+    String attendaceurl,
+    String cid,
+    String userid,
+    String userPass,
+  ) async {
     print(Apis.attendanceGetApi(attendaceurl, cid, userid, userPass));
     http.Response response = await http.get(
       Uri.parse(Apis.attendanceGetApi(attendaceurl, cid, userid, userPass)),

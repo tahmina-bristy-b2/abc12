@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/dcr_gift_sample_PPM_page.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
 
 class DraftDCRScreen extends StatefulWidget {
   const DraftDCRScreen({Key? key}) : super(key: key);

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
-import 'package:MREPORTING/ui/Widgets/primaryButton.dart';
+import 'package:MREPORTING_OFFLINE/ui/loginPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/primaryButton.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:shared_preferences/shared_preferences.dart';

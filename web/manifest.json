@@ -1,6 +1,6 @@
 {
-    "name": "MREPORTING",
-    "short_name": "MREPORTING",
+    "name": "MREPORTING_OFFLINE",
+    "short_name": "MREPORTING_OFFLINE",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

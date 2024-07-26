@@ -1,24 +1,24 @@
 // ignore_for_file: non_constant_identifier_names, unused_local_variable, file_names
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
-import 'package:MREPORTING/models/e_CME/e_cme_category_List_data_model.dart';
-import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
-import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
-import 'package:MREPORTING/services/eDSR/eDSR_services.dart';
-import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
-import 'package:MREPORTING/services/order/order_repositories.dart';
-import 'package:MREPORTING/services/rx/rx_repositories.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_cme_category_List_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/eDSR/eDSR_services.dart';
+import 'package:MREPORTING_OFFLINE/services/expired_dated/expired_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/order/order_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/rx/rx_repositories.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:MREPORTING/ui/Widgets/syncCustomButton.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/syncCustomButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SyncDataTabScreen extends StatefulWidget {
@@ -232,345 +232,345 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
                             ],
                           )
                         : const Text(""),
-                    Row(
-                      children: [
-                        userInfo!.dcrFlag
-                            ? Expanded(
-                                child: syncCustomBuildButton(
-                                  onClick: () async {
-                                    setState(() {
-                                      syncMsg =
-                                          'Gift Sample PPM data synchronizing... ';
-                                      _loading = true;
-                                    });
-                                    bool result =
-                                        await InternetConnectionChecker()
-                                            .hasConnection;
-                                    if (result == true) {
-                                      List dcrGiftList = await DcrRepositories()
-                                          .syncDcrGift(dmpathData!.syncUrl, cid,
-                                              userId, userPassword);
-                                      List sampleList = await DcrRepositories()
-                                          .syncDcrSample(dmpathData!.syncUrl,
-                                              cid, userId, userPassword);
-                                      List ppmList = await DcrRepositories()
-                                          .syncDcrPPM(dmpathData!.syncUrl, cid,
-                                              userId, userPassword);
+                    // Row(
+                    //   children: [
+                    //     userInfo!.dcrFlag
+                    //         ? Expanded(
+                    //             child: syncCustomBuildButton(
+                    //               onClick: () async {
+                    //                 setState(() {
+                    //                   syncMsg =
+                    //                       'Gift Sample PPM data synchronizing... ';
+                    //                   _loading = true;
+                    //                 });
+                    //                 bool result =
+                    //                     await InternetConnectionChecker()
+                    //                         .hasConnection;
+                    //                 if (result == true) {
+                    //                   List dcrGiftList = await DcrRepositories()
+                    //                       .syncDcrGift(dmpathData!.syncUrl, cid,
+                    //                           userId, userPassword);
+                    //                   List sampleList = await DcrRepositories()
+                    //                       .syncDcrSample(dmpathData!.syncUrl,
+                    //                           cid, userId, userPassword);
+                    //                   List ppmList = await DcrRepositories()
+                    //                       .syncDcrPPM(dmpathData!.syncUrl, cid,
+                    //                           userId, userPassword);
 
-                                      if (dcrGiftList.isNotEmpty &&
-                                          sampleList.isNotEmpty &&
-                                          ppmList.isNotEmpty) {
-                                        AllServices().toastMessage(
-                                            'Sync Gift Sample PPM data Done.',
-                                            Colors.teal,
-                                            Colors.white,
-                                            16);
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      } else {
-                                        AllServices().toastMessage(
-                                            'Didn\'t sync Gift Sample PPM Data',
-                                            Colors.red,
-                                            Colors.white,
-                                            16);
+                    //                   if (dcrGiftList.isNotEmpty &&
+                    //                       sampleList.isNotEmpty &&
+                    //                       ppmList.isNotEmpty) {
+                    //                     AllServices().toastMessage(
+                    //                         'Sync Gift Sample PPM data Done.',
+                    //                         Colors.teal,
+                    //                         Colors.white,
+                    //                         16);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   } else {
+                    //                     AllServices().toastMessage(
+                    //                         'Didn\'t sync Gift Sample PPM Data',
+                    //                         Colors.red,
+                    //                         Colors.white,
+                    //                         16);
 
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      }
-                                    } else {
-                                      AllServices().toastMessage(
-                                          interNetErrorMsg,
-                                          Colors.red,
-                                          Colors.white,
-                                          16);
-                                    }
-                                  },
-                                  color: Colors.white,
-                                  title: 'GIFT\nSAMPLE PPM',
-                                  sizeWidth: screenWidth,
-                                ),
-                              )
-                            : const Text(""),
-                        userInfo!.rxFlag
-                            ? Expanded(
-                                child: syncCustomBuildButton(
-                                  onClick: () async {
-                                    setState(() {
-                                      syncMsg =
-                                          'Medicine data synchronizing... ';
-                                      _loading = true;
-                                    });
-                                    bool result =
-                                        await InternetConnectionChecker()
-                                            .hasConnection;
-                                    if (result == true) {
-                                      List rxItemList = await RxRepositories()
-                                          .syncRxItem(dmpathData!.syncUrl, cid,
-                                              userId, userPassword);
-                                      if (rxItemList.isNotEmpty) {
-                                        AllServices().toastMessage(
-                                            'Sync Medicine data Done.',
-                                            Colors.teal,
-                                            Colors.white,
-                                            16);
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      } else {
-                                        AllServices().toastMessage(
-                                            'Didn\'t sync Medicine Data',
-                                            Colors.red,
-                                            Colors.white,
-                                            16);
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      }
-                                    } else {
-                                      AllServices().toastMessage(
-                                          interNetErrorMsg,
-                                          Colors.red,
-                                          Colors.white,
-                                          16);
-                                    }
-                                  },
-                                  color: Colors.white,
-                                  title: 'MEDICINE\n',
-                                  sizeWidth: screenWidth,
-                                ),
-                              )
-                            : const Text(""),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        userInfo!.rxFlag || userInfo!.dcrFlag
-                            ? Expanded(
-                                child: syncCustomBuildButton(
-                                  onClick: () async {
-                                    setState(() {
-                                      syncMsg = 'DCR data synchronizing... ';
-                                      _loading = true;
-                                    });
-                                    bool result =
-                                        await InternetConnectionChecker()
-                                            .hasConnection;
-                                    if (result == true) {
-                                      List doctorList = await DcrRepositories()
-                                          .syncDCR(dmpathData!.syncUrl, cid,
-                                              userId, userPassword);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   }
+                    //                 } else {
+                    //                   AllServices().toastMessage(
+                    //                       interNetErrorMsg,
+                    //                       Colors.red,
+                    //                       Colors.white,
+                    //                       16);
+                    //                 }
+                    //               },
+                    //               color: Colors.white,
+                    //               title: 'GIFT\nSAMPLE PPM',
+                    //               sizeWidth: screenWidth,
+                    //             ),
+                    //           )
+                    //         : const Text(""),
+                    //     userInfo!.rxFlag
+                    //         ? Expanded(
+                    //             child: syncCustomBuildButton(
+                    //               onClick: () async {
+                    //                 setState(() {
+                    //                   syncMsg =
+                    //                       'Medicine data synchronizing... ';
+                    //                   _loading = true;
+                    //                 });
+                    //                 bool result =
+                    //                     await InternetConnectionChecker()
+                    //                         .hasConnection;
+                    //                 if (result == true) {
+                    //                   List rxItemList = await RxRepositories()
+                    //                       .syncRxItem(dmpathData!.syncUrl, cid,
+                    //                           userId, userPassword);
+                    //                   if (rxItemList.isNotEmpty) {
+                    //                     AllServices().toastMessage(
+                    //                         'Sync Medicine data Done.',
+                    //                         Colors.teal,
+                    //                         Colors.white,
+                    //                         16);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   } else {
+                    //                     AllServices().toastMessage(
+                    //                         'Didn\'t sync Medicine Data',
+                    //                         Colors.red,
+                    //                         Colors.white,
+                    //                         16);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   }
+                    //                 } else {
+                    //                   AllServices().toastMessage(
+                    //                       interNetErrorMsg,
+                    //                       Colors.red,
+                    //                       Colors.white,
+                    //                       16);
+                    //                 }
+                    //               },
+                    //               color: Colors.white,
+                    //               title: 'MEDICINE\n',
+                    //               sizeWidth: screenWidth,
+                    //             ),
+                    //           )
+                    //         : const Text(""),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     userInfo!.rxFlag || userInfo!.dcrFlag
+                    //         ? Expanded(
+                    //             child: syncCustomBuildButton(
+                    //               onClick: () async {
+                    //                 setState(() {
+                    //                   syncMsg = 'DCR data synchronizing... ';
+                    //                   _loading = true;
+                    //                 });
+                    //                 bool result =
+                    //                     await InternetConnectionChecker()
+                    //                         .hasConnection;
+                    //                 if (result == true) {
+                    //                   List doctorList = await DcrRepositories()
+                    //                       .syncDCR(dmpathData!.syncUrl, cid,
+                    //                           userId, userPassword);
 
-                                      // RegionListModel? body =
-                                      //     await EDSRServices()
-                                      //         .getRegionListInHive(
-                                      //   "dmpathData!.areaUrl",
-                                      //   cid,
-                                      //   userInfo!.userId,
-                                      //   userPassword,
-                                      //   deviceId,
-                                      // );
+                    //                   // RegionListModel? body =
+                    //                   //     await EDSRServices()
+                    //                   //         .getRegionListInHive(
+                    //                   //   "dmpathData!.areaUrl",
+                    //                   //   cid,
+                    //                   //   userInfo!.userId,
+                    //                   //   userPassword,
+                    //                   //   deviceId,
+                    //                   // );
 
-                                      if (doctorList.isNotEmpty) {
-                                        AllServices().toastMessage(
-                                            'Sync Doctor data Done.',
-                                            Colors.teal,
-                                            Colors.white,
-                                            16);
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      } else {
-                                        AllServices().toastMessage(
-                                            'Didn\'t sync Dcr Data',
-                                            Colors.red,
-                                            Colors.white,
-                                            16);
+                    //                   if (doctorList.isNotEmpty) {
+                    //                     AllServices().toastMessage(
+                    //                         'Sync Doctor data Done.',
+                    //                         Colors.teal,
+                    //                         Colors.white,
+                    //                         16);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   } else {
+                    //                     AllServices().toastMessage(
+                    //                         'Didn\'t sync Dcr Data',
+                    //                         Colors.red,
+                    //                         Colors.white,
+                    //                         16);
 
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      }
-                                    } else {
-                                      AllServices().toastMessage(
-                                          interNetErrorMsg,
-                                          Colors.red,
-                                          Colors.white,
-                                          16);
-                                    }
-                                  },
-                                  color: Colors.white,
-                                  title: 'DOCTOR',
-                                  sizeWidth: screenWidth,
-                                ),
-                              )
-                            : const Expanded(child: SizedBox()),
-                        Expanded(
-                          child: syncCustomBuildButton(
-                            onClick: () async {
-                              setState(() {
-                                syncMsg = 'eDSR data synchronizing... ';
-                                _loading = true;
-                              });
-                              bool result = await InternetConnectionChecker()
-                                  .hasConnection;
-                              if (result == true) {
-                                EdsrDataModel? body = await EDSRServices()
-                                    .geteDSRDataSettingsInfo(
-                                        dmpathData!.submitUrl,
-                                        cid,
-                                        userInfo!.userId,
-                                        userPassword,
-                                        "");
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   }
+                    //                 } else {
+                    //                   AllServices().toastMessage(
+                    //                       interNetErrorMsg,
+                    //                       Colors.red,
+                    //                       Colors.white,
+                    //                       16);
+                    //                 }
+                    //               },
+                    //               color: Colors.white,
+                    //               title: 'DOCTOR',
+                    //               sizeWidth: screenWidth,
+                    //             ),
+                    //           )
+                    //         : const Expanded(child: SizedBox()),
+                    //     Expanded(
+                    //       child: syncCustomBuildButton(
+                    //         onClick: () async {
+                    //           setState(() {
+                    //             syncMsg = 'eDSR data synchronizing... ';
+                    //             _loading = true;
+                    //           });
+                    //           bool result = await InternetConnectionChecker()
+                    //               .hasConnection;
+                    //           if (result == true) {
+                    //             EdsrDataModel? body = await EDSRServices()
+                    //                 .geteDSRDataSettingsInfo(
+                    //                     dmpathData!.submitUrl,
+                    //                     cid,
+                    //                     userInfo!.userId,
+                    //                     userPassword,
+                    //                     "");
 
-                                if (body != null) {
-                                  AllServices().toastMessage(
-                                      'Sync eDSR data Done.',
-                                      Colors.teal,
-                                      Colors.white,
-                                      16);
-                                  setState(() {
-                                    _loading = false;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _loading = false;
-                                  });
-                                }
-                              } else {
-                                AllServices().toastMessage(interNetErrorMsg,
-                                    Colors.red, Colors.white, 16);
-                              }
-                            },
-                            color: Colors.white,
-                            title: 'eDSR',
-                            sizeWidth: screenWidth,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        userInfo!.expiredFlag == true
-                            ? Expanded(
-                                child: syncCustomBuildButton(
-                                  onClick: () async {
-                                    setState(() {
-                                      syncMsg =
-                                          'Expired data synchronizing... ';
-                                      _loading = true;
-                                    });
-                                    bool result =
-                                        await InternetConnectionChecker()
-                                            .hasConnection;
-                                    if (result == true) {
-                                      ExpiredItemListDataModel? doctorList =
-                                          await ExpiredRepositoryRepo()
-                                              .syncExpiredItems(
-                                                  "",
-                                                  dmpathData!.syncUrl,
-                                                  cid,
-                                                  userId,
-                                                  userPassword);
-                                      if (ExpiredItemListDataModel != null) {
-                                        // AllServices().toastMessage(
-                                        //     'Sync Expired data Done.',
-                                        //     Colors.teal,
-                                        //     Colors.white,
-                                        //     16);
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      } else {
-                                        // AllServices().toastMessage(
-                                        //     'Didn\'t sync Dcr Data',
-                                        //     Colors.red,
-                                        //     Colors.white,
-                                        //     16);
+                    //             if (body != null) {
+                    //               AllServices().toastMessage(
+                    //                   'Sync eDSR data Done.',
+                    //                   Colors.teal,
+                    //                   Colors.white,
+                    //                   16);
+                    //               setState(() {
+                    //                 _loading = false;
+                    //               });
+                    //             } else {
+                    //               setState(() {
+                    //                 _loading = false;
+                    //               });
+                    //             }
+                    //           } else {
+                    //             AllServices().toastMessage(interNetErrorMsg,
+                    //                 Colors.red, Colors.white, 16);
+                    //           }
+                    //         },
+                    //         color: Colors.white,
+                    //         title: 'eDSR',
+                    //         sizeWidth: screenWidth,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     userInfo!.expiredFlag == true
+                    //         ? Expanded(
+                    //             child: syncCustomBuildButton(
+                    //               onClick: () async {
+                    //                 setState(() {
+                    //                   syncMsg =
+                    //                       'Expired data synchronizing... ';
+                    //                   _loading = true;
+                    //                 });
+                    //                 bool result =
+                    //                     await InternetConnectionChecker()
+                    //                         .hasConnection;
+                    //                 if (result == true) {
+                    //                   ExpiredItemListDataModel? doctorList =
+                    //                       await ExpiredRepositoryRepo()
+                    //                           .syncExpiredItems(
+                    //                               "",
+                    //                               dmpathData!.syncUrl,
+                    //                               cid,
+                    //                               userId,
+                    //                               userPassword);
+                    //                   if (ExpiredItemListDataModel != null) {
+                    //                     // AllServices().toastMessage(
+                    //                     //     'Sync Expired data Done.',
+                    //                     //     Colors.teal,
+                    //                     //     Colors.white,
+                    //                     //     16);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   } else {
+                    //                     // AllServices().toastMessage(
+                    //                     //     'Didn\'t sync Dcr Data',
+                    //                     //     Colors.red,
+                    //                     //     Colors.white,
+                    //                     //     16);
 
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      }
-                                    } else {
-                                      AllServices().toastMessage(
-                                          interNetErrorMsg,
-                                          Colors.red,
-                                          Colors.white,
-                                          16);
-                                    }
-                                  },
-                                  color: Colors.white,
-                                  title: 'Expired\nDated Items',
-                                  sizeWidth: screenWidth,
-                                ),
-                              )
-                            : const SizedBox(),
-                        userInfo!.ecmeAddFlag == true
-                            ? Expanded(
-                                child: syncCustomBuildButton(
-                                  onClick: () async {
-                                    setState(() {
-                                      syncMsg = 'CME data synchronizing... ';
-                                      _loading = true;
-                                    });
-                                    bool result =
-                                        await InternetConnectionChecker()
-                                            .hasConnection;
-                                    if (result == true) {
-                                      ECMESavedDataModel? body =
-                                          await ECMERepositry()
-                                              .getECMESettingsData(
-                                                  dmpathData!.submitUrl,
-                                                  cid,
-                                                  userInfo!.userId,
-                                                  userPassword,
-                                                  "");
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   }
+                    //                 } else {
+                    //                   AllServices().toastMessage(
+                    //                       interNetErrorMsg,
+                    //                       Colors.red,
+                    //                       Colors.white,
+                    //                       16);
+                    //                 }
+                    //               },
+                    //               color: Colors.white,
+                    //               title: 'Expired\nDated Items',
+                    //               sizeWidth: screenWidth,
+                    //             ),
+                    //           )
+                    //         : const SizedBox(),
+                    //     userInfo!.ecmeAddFlag == true
+                    //         ? Expanded(
+                    //             child: syncCustomBuildButton(
+                    //               onClick: () async {
+                    //                 setState(() {
+                    //                   syncMsg = 'CME data synchronizing... ';
+                    //                   _loading = true;
+                    //                 });
+                    //                 bool result =
+                    //                     await InternetConnectionChecker()
+                    //                         .hasConnection;
+                    //                 if (result == true) {
+                    //                   ECMESavedDataModel? body =
+                    //                       await ECMERepositry()
+                    //                           .getECMESettingsData(
+                    //                               dmpathData!.submitUrl,
+                    //                               cid,
+                    //                               userInfo!.userId,
+                    //                               userPassword,
+                    //                               "");
 
-                                      EcmeDoctorCategoryDataModel?
-                                          doctorCategoryList =
-                                          await ECMERepositry()
-                                              .getCategoryforSync(
-                                                  dmpathData!.submitUrl,
-                                                  cid,
-                                                  userInfo!.userId,
-                                                  userPassword,
-                                                  "");
+                    //                   EcmeDoctorCategoryDataModel?
+                    //                       doctorCategoryList =
+                    //                       await ECMERepositry()
+                    //                           .getCategoryforSync(
+                    //                               dmpathData!.submitUrl,
+                    //                               cid,
+                    //                               userInfo!.userId,
+                    //                               userPassword,
+                    //                               "");
 
-                                      if (body != null &&
-                                          doctorCategoryList!
-                                                  .resData.docSpecialtyList !=
-                                              []) {
-                                        AllServices().toastMessage(
-                                            'Sync CME data Done.',
-                                            Colors.teal,
-                                            Colors.white,
-                                            16);
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      }
-                                    } else {
-                                      AllServices().toastMessage(
-                                          interNetErrorMsg,
-                                          Colors.red,
-                                          Colors.white,
-                                          16);
-                                    }
-                                  },
-                                  color: Colors.white,
-                                  title: 'CME',
-                                  sizeWidth: screenWidth,
-                                ),
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
+                    //                   if (body != null &&
+                    //                       doctorCategoryList!
+                    //                               .resData.docSpecialtyList !=
+                    //                           []) {
+                    //                     AllServices().toastMessage(
+                    //                         'Sync CME data Done.',
+                    //                         Colors.teal,
+                    //                         Colors.white,
+                    //                         16);
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   } else {
+                    //                     setState(() {
+                    //                       _loading = false;
+                    //                     });
+                    //                   }
+                    //                 } else {
+                    //                   AllServices().toastMessage(
+                    //                       interNetErrorMsg,
+                    //                       Colors.red,
+                    //                       Colors.white,
+                    //                       16);
+                    //                 }
+                    //               },
+                    //               color: Colors.white,
+                    //               title: 'CME',
+                    //               sizeWidth: screenWidth,
+                    //             ),
+                    //           )
+                    //         : const SizedBox(),
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -623,40 +623,42 @@ class _SyncDataTabScreenState extends State<SyncDataTabScreen> {
         .syncItem(dmpathData!.syncUrl, cid, userId, userPassword);
     List clientList = await OrderRepositories()
         .syncClient(dmpathData!.syncUrl, cid, userId, userPassword);
-    List dcrGiftList = await DcrRepositories()
-        .syncDcrGift(dmpathData!.syncUrl, cid, userId, userPassword);
-    List sampleList = await DcrRepositories()
-        .syncDcrSample(dmpathData!.syncUrl, cid, userId, userPassword);
-    List ppmList = await DcrRepositories()
-        .syncDcrPPM(dmpathData!.syncUrl, cid, userId, userPassword);
-    List rxItemList = await RxRepositories()
-        .syncRxItem(dmpathData!.syncUrl, cid, userId, userPassword);
-    List doctorList = await DcrRepositories()
-        .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
-    EdsrDataModel? eDsRData = await EDSRServices().geteDSRDataSettingsInfo(
-        dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "all");
-    ExpiredItemListDataModel? expiredItemsData = await ExpiredRepositoryRepo()
-        .syncExpiredItems(
-            "all", dmpathData!.syncUrl, cid, userId, userPassword);
-    ECMESavedDataModel? ecmeSavedData = await ECMERepositry()
-        .getECMESettingsData(
-            dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "All");
+    // List dcrGiftList = await DcrRepositories()
+    //     .syncDcrGift(dmpathData!.syncUrl, cid, userId, userPassword);
+    // List sampleList = await DcrRepositories()
+    //     .syncDcrSample(dmpathData!.syncUrl, cid, userId, userPassword);
+    // List ppmList = await DcrRepositories()
+    //     .syncDcrPPM(dmpathData!.syncUrl, cid, userId, userPassword);
+    // List rxItemList = await RxRepositories()
+    //     .syncRxItem(dmpathData!.syncUrl, cid, userId, userPassword);
+    // List doctorList = await DcrRepositories()
+    //     .syncDCR(dmpathData!.syncUrl, cid, userId, userPassword);
+    // EdsrDataModel? eDsRData = await EDSRServices().geteDSRDataSettingsInfo(
+    //     dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "all");
+    // ExpiredItemListDataModel? expiredItemsData = await ExpiredRepositoryRepo()
+    //     .syncExpiredItems(
+    //         "all", dmpathData!.syncUrl, cid, userId, userPassword);
+    // ECMESavedDataModel? ecmeSavedData = await ECMERepositry()
+    //     .getECMESettingsData(
+    //         dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "All");
 
-    EcmeDoctorCategoryDataModel? doctorCategoryList = await ECMERepositry()
-        .getCategoryforSync(
-            dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "All");
+    // EcmeDoctorCategoryDataModel? doctorCategoryList = await ECMERepositry()
+    //     .getCategoryforSync(
+    //         dmpathData!.submitUrl, cid, userInfo!.userId, userPassword, "All");
 
-    if (itemList.isNotEmpty &&
-        clientList.isNotEmpty &&
-        dcrGiftList.isNotEmpty &&
-        sampleList.isNotEmpty &&
-        ppmList.isNotEmpty &&
-        rxItemList.isNotEmpty &&
-        doctorList.isNotEmpty &&
-        (eDsRData == null || eDsRData != null) &&
-        (expiredItemsData != null || expiredItemsData == null) &&
-        (ecmeSavedData == null || ecmeSavedData != null) &&
-        (doctorCategoryList == null || doctorCategoryList != null)) {
+    if (itemList.isNotEmpty && clientList.isNotEmpty
+        //  &&
+        // dcrGiftList.isNotEmpty &&
+        // sampleList.isNotEmpty &&
+        // ppmList.isNotEmpty &&
+        // rxItemList.isNotEmpty &&
+        // doctorList.isNotEmpty &&
+        // (eDsRData == null || eDsRData != null) &&
+        // (expiredItemsData != null || expiredItemsData == null) &&
+        // (ecmeSavedData == null || ecmeSavedData != null) &&
+        // (doctorCategoryList == null || doctorCategoryList != null)
+
+        ) {
       AllServices()
           .toastMessage('Sync all data Done.', Colors.teal, Colors.white, 16);
 

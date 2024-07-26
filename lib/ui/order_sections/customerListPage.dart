@@ -1,12 +1,12 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/order/order_services.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/order/order_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/order_sections/newOrderPage.dart';
-import 'package:MREPORTING/ui/Widgets/customerListWidget.dart';
+import 'package:MREPORTING_OFFLINE/ui/order_sections/newOrderPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/customerListWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
 

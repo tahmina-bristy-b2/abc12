@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/ui/loginPage.dart';
 
-import 'package:MREPORTING/ui/syncDataTabPaga.dart';
+import 'package:MREPORTING_OFFLINE/ui/syncDataTabPaga.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {

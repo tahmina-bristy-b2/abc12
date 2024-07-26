@@ -1,14 +1,14 @@
 import 'dart:math';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
-import 'package:MREPORTING/services/order/order_services.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/order/order_services.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -63,28 +63,21 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
 
     foundUsers = widget.syncDoctorList;
     for (var element in foundUsers) {
-       var docId = element['doc_id'];
-       if(docId!=null){
+      var docId = element['doc_id'];
+      if (docId != null) {
         controllers[docId] = TextEditingController();
-
-       }
-      
+      }
     }
 
     if (dcrRxTargetValueInputedList.isNotEmpty) {
       for (var element in dcrRxTargetValueInputedList) {
         var docId = element.docId;
-        var controller= controllers[docId];
-       if(controller!=null){
-        controller.text = element.rxTargetValue ?? '';
-
-       }
-
-
-        
+        var controller = controllers[docId];
+        if (controller != null) {
+          controller.text = element.rxTargetValue ?? '';
+        }
       }
     }
-    
 
     super.initState();
   }
@@ -93,20 +86,19 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     if (index == 0) {
       toSaveRxTargetValue();
       Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => MyHomePage(
-                      userName: userLoginInfo!.userName,
-                      userId: userLoginInfo!.userId,
-                      userPassword: userPassword,
-                    )),
-            (Route<dynamic> route) => false);
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    userName: userLoginInfo!.userName,
+                    userId: userLoginInfo!.userId,
+                    userPassword: userPassword,
+                  )),
+          (Route<dynamic> route) => false);
       setState(() {
         _currentSelected = index;
       });
     }
 
     if (index == 2) {
-     
       setState(() {
         _isLoading = false;
       });
@@ -146,7 +138,9 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
     }
 
     if (doctorlistString != '') {
-      Map<String, dynamic> rxTargetWholeData = await DcrRepositories().rxTargetRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, doctorlistString);
+      Map<String, dynamic> rxTargetWholeData = await DcrRepositories()
+          .rxTargetRepo(dmpathData!.submitUrl, cid, userId, userPassword,
+              deviceId, doctorlistString);
       if (rxTargetWholeData['status'] == "Success") {
         if (!mounted) return;
 
@@ -164,8 +158,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
             Colors.green.shade900,
             Colors.white,
             16);
-            dcrRxTagetSavedBox.clear();
-            
+        dcrRxTagetSavedBox.clear();
       } else {
         setState(() {
           _isLoading = true;
@@ -184,26 +177,23 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
           backgroundColor: Colors.red));
     }
   }
- String updateCount() {
- int doctorCount = 0;
- if(dcrRxTargetValueInputedList.isNotEmpty){
-   for (var element in dcrRxTargetValueInputedList) {
-    for (var element2 in widget.syncDoctorList) { 
-      if(element.docId==element2['doc_id']){
-        doctorCount += int.parse(element.rxTargetValue);
-      }  
-    }   
-    
+
+  String updateCount() {
+    int doctorCount = 0;
+    if (dcrRxTargetValueInputedList.isNotEmpty) {
+      for (var element in dcrRxTargetValueInputedList) {
+        for (var element2 in widget.syncDoctorList) {
+          if (element.docId == element2['doc_id']) {
+            doctorCount += int.parse(element.rxTargetValue);
+          }
+        }
+      }
+    } else {
+      doctorCount += 0;
     }
- }
- else{
-  doctorCount+=0;
- }
 
-  return doctorCount.toString();
-}
-
-  
+    return doctorCount.toString();
+  }
 
   @override
   void dispose() {
@@ -227,19 +217,17 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
             fontSize: 20),
         centerTitle: true,
         actions: [
-        
-             Padding(
-                padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-                child: Text(
-                  updateCount(),
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 27, 56, 34),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              )
-            
-      ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+            child: Text(
+              updateCount(),
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 27, 56, 34),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -282,54 +270,63 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
   }
 
   Container listTileHeadingWidget() {
-    return  Container(
-         // color:const Color.fromARGB(255, 116, 188, 180) ,
-          height: 35,
-          child: Row(
-                     
-                        children: [
-                          Expanded(
-                            flex: 7,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children:const [
-                                   
-                               SizedBox(
-                                width: 10,
-                              ),
-                                  Expanded(
-                                    child:  Center(child: Text("Doctors ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Center(
-                                    child:  Container(
-                                    
-                                      child:Center(child: FittedBox(child: const Text("  Monthly Rx\n     Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
-                                      
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-        );
+    return Container(
+      // color:const Color.fromARGB(255, 116, 188, 180) ,
+      height: 35,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 7,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: const [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    "Doctors ",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ))),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Center(
+                    child: Container(
+                      child: Center(
+                          child: FittedBox(
+                              child: const Text(
+                        "  Monthly Rx\n     Target",
+                        style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ))),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   //==================================================== doctor seacrch===================================
@@ -511,12 +508,10 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                     child: TextFormField(
                                       textDirection: TextDirection.ltr,
                                       inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[0-9]"),
-                                                                  ),
-                                                                ],
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9]"),
+                                        ),
+                                      ],
                                       textAlign: TextAlign.center,
                                       controller: controllers[foundUsers[index]
                                           ['doc_id']],
@@ -528,8 +523,7 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                         // itemCount(value, index);
                                         // Thats Added for Save
                                         if (value.isNotEmpty &&
-                                       value.trim() != '') {
-                                              
+                                            value.trim() != '') {
                                           var temp = DcrDataModel(
                                               docName: foundUsers[index]
                                                   ['doc_name'],
@@ -553,42 +547,29 @@ class _RxTargetScreenState extends State<RxTargetScreen> {
                                                   element.docId ==
                                                   foundUsers[index]['doc_id']);
 
-
-                                                  
-
                                           dcrRxTargetValueInputedList.add(temp);
-                                          
-                                               
-                       
-                        //  if (dcrRxTargetValueInputedList.isNotEmpty) {
-                        //           for (var element in dcrRxTargetValueInputedList) {
-                        //          doctorCount= doctorCount + int.parse(element.rxTargetValue);
-                        //              }
-                        //         }
 
+                                          //  if (dcrRxTargetValueInputedList.isNotEmpty) {
+                                          //           for (var element in dcrRxTargetValueInputedList) {
+                                          //          doctorCount= doctorCount + int.parse(element.rxTargetValue);
+                                          //              }
+                                          //         }
 
-                          
-                           // updateCount();
-      
-                                    
+                                          // updateCount();
                                         } else {
                                           dcrRxTargetValueInputedList
                                               .removeWhere((element) =>
                                                   element.docId ==
                                                   foundUsers[index]['doc_id']);
-                                                  // doctorCountMethod('0');
-                            //  doctorCount=0;
-                            //  doctorCount= doctorCount + int.parse('');
-                            //  setState(() {
-                            //   updateCount();
-                               
-                            //  });
+                                          // doctorCountMethod('0');
+                                          //  doctorCount=0;
+                                          //  doctorCount= doctorCount + int.parse('');
+                                          //  setState(() {
+                                          //   updateCount();
 
-                                
+                                          //  });
                                         }
-                                        setState(() {
-                                          
-                                        });
+                                        setState(() {});
                                       },
                                     ),
                                   ),

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-// import 'package:MREPORTING/ui/loginPage.dart';
+// import 'package:MREPORTING_OFFLINE/ui/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// import 'package:MREPORTING/models/area_page_model.dart';
+// import 'package:MREPORTING_OFFLINE/models/area_page_model.dart';
 
 String timer_track_url = "";
 String sync_notice_url = "";

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:MREPORTING/services/dcr/dcr_apis.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_apis.dart';
 import 'package:http/http.dart' as http;
 
 class DcrDataProviders {

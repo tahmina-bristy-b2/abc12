@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:MREPORTING/services/apiCall.dart';
-import 'package:MREPORTING/services/order/order_apis.dart';
+import 'package:MREPORTING_OFFLINE/services/apiCall.dart';
+import 'package:MREPORTING_OFFLINE/services/order/order_apis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -68,7 +68,7 @@ class _GSPAllocationScreenState extends State<GSPAllocationScreen> {
                       initialUrlRequest: URLRequest(
                         url: Uri.parse(
                             // "${widget.url}pmstore/plugin/gsp_receipt?req=cid%3D${cid.toUpperCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}"
-                            "https://mreporting.azurewebsites.net/pmstore/plugin/gsp_receipt?req=cid%3D${cid.toUpperCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}"),
+                            "https://MREPORTING_OFFLINE.azurewebsites.net/pmstore/plugin/gsp_receipt?req=cid%3D${cid.toUpperCase()}%26rep_id%3D${widget.userId}%26rep_pass%3D${widget.userPassword}"),
                       ),
                       onReceivedServerTrustAuthRequest:
                           (controller, challenge) async {

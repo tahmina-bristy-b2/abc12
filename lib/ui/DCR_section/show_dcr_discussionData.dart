@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
 
 class DcrDiscussionPage extends StatefulWidget {
   // final int uniqueId;

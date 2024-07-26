@@ -1,9 +1,9 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_ff_list_data_model_approval.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/eCME/eCMe_repositories.dart';
-import 'package:MREPORTING/ui/eCME_section/approval/eCME_approval_details_screen.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_ff_list_data_model_approval.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/eCME/eCMe_repositories.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/approval/eCME_approval_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

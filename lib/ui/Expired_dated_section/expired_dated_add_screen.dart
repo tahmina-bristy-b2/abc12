@@ -1,21 +1,21 @@
-import 'package:MREPORTING/models/expired_dated/expired_dated_data_model.dart';
-import 'package:MREPORTING/models/expired_dated/expired_submit_and_save_data_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/expired_dated/expired_repositories.dart';
-import 'package:MREPORTING/services/expired_dated/expired_services.dart';
-import 'package:MREPORTING/services/order/order_apis.dart';
-import 'package:MREPORTING/services/order/order_services.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/expired_dated_items.dart';
-import 'package:MREPORTING/ui/Expired_dated_section/show_dialog/expired_item_input_show_dialog.dart';
+import 'package:MREPORTING_OFFLINE/models/expired_dated/expired_dated_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/expired_dated/expired_submit_and_save_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/expired_dated/expired_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/expired_dated/expired_services.dart';
+import 'package:MREPORTING_OFFLINE/services/order/order_apis.dart';
+import 'package:MREPORTING_OFFLINE/services/order/order_services.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expired_dated_section/expired_dated_items.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expired_dated_section/show_dialog/expired_item_input_show_dialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,14 +28,13 @@ class ExpiredDatedAddScreen extends StatefulWidget {
   final String marketName;
   final String clientId;
   final String? outStanding;
-  
+
   const ExpiredDatedAddScreen(
       {Key? key,
       required this.draftOrderItem,
       required this.clientName,
       required this.clientId,
       this.outStanding,
-      
       required this.marketName})
       : super(key: key);
 
@@ -49,9 +48,8 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   DmPathDataModel? dmPathData;
   final customerExpiredItemsBox = Boxes.getExpiredItemSubmitItems();
   final itemBox = Boxes.getDraftOrderedData();
-  bool isEdit=false;
+  bool isEdit = false;
 
-  
   final List<TextEditingController> _itemController = [];
   final _quantityController = TextEditingController();
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
@@ -110,14 +108,12 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     });
 
     customerExpiredItemsBox.toMap().forEach((key, value) {
-      if(value.clientId==widget.clientId){
-        finalItemDataList= value.expiredItemSubmitModel;
-        isEdit=true;
+      if (value.clientId == widget.clientId) {
+        finalItemDataList = value.expiredItemSubmitModel;
+        isEdit = true;
       }
     });
-    setState(() {
-      
-    });
+    setState(() {});
 
     // FocusScope.of(context).requestFocus(FocusNode());
   }
@@ -133,7 +129,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     super.dispose();
   }
 
-  int _currentSelected = 2; 
+  int _currentSelected = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +140,10 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
             resizeToAvoidBottomInset: false,
             key: _drawerKey,
             appBar: appBarDetailsWidget(context),
-           
             body: SafeArea(
               child: Column(
                 children: [
                   customerInfoWidget(),
-                 
                   Expanded(child: perItemCalculationListViewWidget()),
                 ],
               ),
@@ -164,8 +158,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
             ),
           );
   }
-
-
 
   AppBar appBarDetailsWidget(BuildContext context) {
     return AppBar(
@@ -211,7 +203,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           label: 'Add Item',
           icon: Icon(Icons.add),
         ),
-        
       ],
     );
   }
@@ -233,10 +224,12 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                 height: 70,
                 child: Image.asset('assets/images/alert.png'),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               const Text(
                 "Are you sure to delete this item ?",
-                style:  TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14),
               ),
             ],
           ),
@@ -247,11 +240,10 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
-                finalItemDataList.removeWhere((element) =>element.itemId== itemId);
+                finalItemDataList
+                    .removeWhere((element) => element.itemId == itemId);
                 Navigator.of(context).pop();
-                  setState(() {
-                  });
-               
+                setState(() {});
               },
             ),
             TextButton(
@@ -268,9 +260,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       },
     );
   }
-
-
-
 
 //=======================================================Customer Edit Url============================================================
   IconButton customerEditUrlWidget() {
@@ -322,9 +311,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     );
   }
 
-
-
-
 //============================================Customer Info Details================================================================
   Container customerInfoWidget() {
     return Container(
@@ -374,149 +360,165 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
     );
   }
 
-
-
 //============================================Item Per Calculation LisView builder================================================================
   ListView perItemCalculationListViewWidget() {
-  return ListView.builder(
-  shrinkWrap: true,
-  itemCount: finalItemDataList.length,
-  physics: const BouncingScrollPhysics(),
-  itemBuilder: (BuildContext context, index) {
-    ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
-    //print("")
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(color: Colors.white, width: 1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: finalItemDataList.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (BuildContext context, index) {
+        ExpiredItemListDataModel? expiredItems =
+            Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
+        //print("")
+        return Card(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.white, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               children: [
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                    finalItemDataList[index].itemName,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                ),
-                Expanded(child: Center(child: IconButton(onPressed: (){
-                  showMyDialog(finalItemDataList[index].itemId);
-
-                }, icon: const Icon(Icons.delete,color: Colors.red,)),)),
-                const SizedBox(width: 10,),
-                Expanded(
-                  child: Center(
-                    child: IconButton(
-                      onPressed: () async {
-                        ExpiredItemSubmitModel? expiredItemModel;
-                        ExpiredItemList? expiredItem;
-                        
-                        for (var element in expiredItems!.expiredItemList) { 
-                          if(element.itemId==finalItemDataList[index].itemId){
-                            expiredItem=element;
-                          }
-                        }
-                      for (var element in finalItemDataList) {
-                        if(element.itemId==finalItemDataList[index].itemId ){
-                          expiredItemModel=element; 
-                        }  
-                      }
-                      if(expiredItem!=null){
-                       await showDialog(context: context, builder:(BuildContext context){
-                        return Theme( data: ThemeData(
-                                 dialogBackgroundColor: Colors.white,
-                                 dialogTheme: DialogTheme(
-                                   shape: RoundedRectangleBorder(
-                                     borderRadius: BorderRadius.circular(16.0),
-                                   ),
-                                 ),
-                                ), 
-                               child: ExpiredIteminputShowDialogScreen(
-                                  expiredItem: expiredItem!,
-                                  expiredItemSubmitModel: expiredItemModel, 
-                                  callbackFunction: (value) {
-                                     if(value == null){
-                                      return;
-                                     }
-                                     if(value.batchWiseItem.isEmpty){
-                                        finalItemDataList.removeAt(index);
-                                        setState(() {  
-                                      });
-                                      return;
-                                    
-                                     }
-                                     finalItemDataList[index] = value;
-                                      
-                                     setState(() {
-                                       
-                                     });
-                                   
-                                   }, clinetId: widget.clientId, itemId: finalItemDataList[index].itemId, 
-
-                               ));
-                        
-                      } ,
-                     );
-                      setState(() {
-                        
-                      });
-                      }
-                        
-                      },
-                      icon: const Icon(Icons.edit, color: Color.fromARGB(255, 82, 179, 98)),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: Text(
+                        finalItemDataList[index].itemName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                        child: Center(
+                      child: IconButton(
+                          onPressed: () {
+                            showMyDialog(finalItemDataList[index].itemId);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )),
+                    )),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () async {
+                            ExpiredItemSubmitModel? expiredItemModel;
+                            ExpiredItemList? expiredItem;
+
+                            for (var element in expiredItems!.expiredItemList) {
+                              if (element.itemId ==
+                                  finalItemDataList[index].itemId) {
+                                expiredItem = element;
+                              }
+                            }
+                            for (var element in finalItemDataList) {
+                              if (element.itemId ==
+                                  finalItemDataList[index].itemId) {
+                                expiredItemModel = element;
+                              }
+                            }
+                            if (expiredItem != null) {
+                              await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Theme(
+                                      data: ThemeData(
+                                        dialogBackgroundColor: Colors.white,
+                                        dialogTheme: DialogTheme(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                          ),
+                                        ),
+                                      ),
+                                      child: ExpiredIteminputShowDialogScreen(
+                                        expiredItem: expiredItem!,
+                                        expiredItemSubmitModel:
+                                            expiredItemModel,
+                                        callbackFunction: (value) {
+                                          if (value == null) {
+                                            return;
+                                          }
+                                          if (value.batchWiseItem.isEmpty) {
+                                            finalItemDataList.removeAt(index);
+                                            setState(() {});
+                                            return;
+                                          }
+                                          finalItemDataList[index] = value;
+
+                                          setState(() {});
+                                        },
+                                        clinetId: widget.clientId,
+                                        itemId: finalItemDataList[index].itemId,
+                                      ));
+                                },
+                              );
+                              setState(() {});
+                            }
+                          },
+                          icon: const Icon(Icons.edit,
+                              color: Color.fromARGB(255, 82, 179, 98)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                fixedRowWidget(),
+                Column(
+                  children:
+                      finalItemDataList[index].batchWiseItem.map((batchItem) {
+                    return SizedBox(
+                      height: 30,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 13),
+                              child: Text(batchItem.batchId),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Center(child: Text(batchItem.expiredDate)),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Center(child: Text(batchItem.unitQty)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
-            fixedRowWidget(), 
-            Column(
-              children: finalItemDataList[index].batchWiseItem.map((batchItem) {
-                return SizedBox(
-                  height: 30,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 13),
-                          child: Text(batchItem.batchId),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(child: Text(batchItem.expiredDate)),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Center(child: Text(batchItem.unitQty)),
-                        ),
-                      ),
-                      
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
-  },
-);
   }
 
 //============================================Bottom Navigation Bar Index Function================================================================
   _onItemTapped(int index) async {
     if (index == 0) {
-      await ExpiredServices().orderSaveAndDraftData(isEdit,finalItemDataList,customerExpiredItemsBox, widget.clientName, widget.marketName, widget.clientId, widget.outStanding!);
+      await ExpiredServices().orderSaveAndDraftData(
+          isEdit,
+          finalItemDataList,
+          customerExpiredItemsBox,
+          widget.clientName,
+          widget.marketName,
+          widget.clientId,
+          widget.outStanding!);
       if (!mounted) return;
       Navigator.pop(context);
       Navigator.pop(context);
@@ -532,7 +534,7 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
       });
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == true) {
-       expiredItemSubmit();
+        expiredItemSubmit();
       } else {
         AllServices().toastMessage(
             "No Internet Connection\nPlease check your internet connection.",
@@ -557,136 +559,137 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
   }
 
   getData() async {
-    ExpiredItemListDataModel? expiredItems =  Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
-    if(expiredItems!=null){
-    List<ExpiredItemList> expiredItemList= expiredItems.expiredItemList;
-    if (!mounted) return;
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ItemsExpiredDatedScreen(
-          syncItem: expiredItemList,
-          customerInfo: {
-            "client_name": widget.clientName,
-            "client_id": widget.clientId,
-            "market_name": widget.marketName,
-            "outStanding": widget.outStanding,
-
-          },
-          expiredItemSubmitModel: finalItemDataList,
-          callbackMethod: (value) {
-            value?.removeWhere((element) => element.batchWiseItem.isEmpty);
-            finalItemDataList = value!;
-            setState(() {
-              
-            });
-           
-          }, 
+    ExpiredItemListDataModel? expiredItems =
+        Boxes.getExpiredDatedIItems().get('expiredDatedItemSync');
+    if (expiredItems != null) {
+      List<ExpiredItemList> expiredItemList = expiredItems.expiredItemList;
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ItemsExpiredDatedScreen(
+            syncItem: expiredItemList,
+            customerInfo: {
+              "client_name": widget.clientName,
+              "client_id": widget.clientId,
+              "market_name": widget.marketName,
+              "outStanding": widget.outStanding,
+            },
+            expiredItemSubmitModel: finalItemDataList,
+            callbackMethod: (value) {
+              value?.removeWhere((element) => element.batchWiseItem.isEmpty);
+              finalItemDataList = value!;
+              setState(() {});
+            },
+          ),
         ),
-      ),
-    );
-
+      );
     }
-    
   }
-
 
   Container fixedRowWidget() {
-                  return Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color : const Color.fromARGB(255, 138, 201, 149)
-                                          .withOpacity(.3) ,
-                                              spreadRadius : 2,
-                                              blurStyle :BlurStyle.outer,
-                                              blurRadius: 1,
-                                            ),
-                                          ], 
-                                          borderRadius: BorderRadius.circular(12),
-                                          color:  const Color.fromARGB(255, 138, 201, 149)
-                                          .withOpacity(.3),
-                                          
-                                        ),
-                                        
-                                          child: Row(
-                                            children:const [
-                                              Expanded(
-                                                flex: 2,
-                                                child: Padding(
-                                                padding:  EdgeInsets.all(8.0),
-                                                child:  Center(child: Text("Batch Id",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
-                                              )),
-                                               Expanded(
-                                                flex: 2,
-                                                child: Padding(
-                                                padding:  EdgeInsets.all(8.0),
-                                                child:  Center(child: Text("Expired Date",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
-                                              )),
-                                               Expanded(flex: 2,
-                                                child: Padding(
-                                                padding:  EdgeInsets.all(8.0),
-                                                child:  Center(child: Text("Qty",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)),
-                                              )),
-                                             
-                                            ],  
-                                          )
-                                          
-                                       
-                                      );
+    return Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
+              spreadRadius: 2,
+              blurStyle: BlurStyle.outer,
+              blurRadius: 1,
+            ),
+          ],
+          borderRadius: BorderRadius.circular(12),
+          color: const Color.fromARGB(255, 138, 201, 149).withOpacity(.3),
+        ),
+        child: Row(
+          children: const [
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                    "Batch Id",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  )),
+                )),
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                    "Expired Date",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  )),
+                )),
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                    "Qty",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  )),
+                )),
+          ],
+        ));
   }
-
-
 
   //===========================Submit Api call==============================================
 
   Future expiredItemSubmit() async {
-    String itemString="";
-    if(finalItemDataList.isNotEmpty){
-    for (var element1 in finalItemDataList) {
-          for (var element2 in element1.batchWiseItem) {
-            if(itemString.isEmpty){
-              itemString="${element1.itemId}|${element2.batchId}|${element2.expiredDate}|${element2.unitQty}";
-            }
-            else{
-              itemString+="||${element1.itemId}|${element2.batchId}|${element2.expiredDate}|${element2.unitQty}";
-            }
-            
-          }  
-    }
+    String itemString = "";
+    if (finalItemDataList.isNotEmpty) {
+      for (var element1 in finalItemDataList) {
+        for (var element2 in element1.batchWiseItem) {
+          if (itemString.isEmpty) {
+            itemString =
+                "${element1.itemId}|${element2.batchId}|${element2.expiredDate}|${element2.unitQty}";
+          } else {
+            itemString +=
+                "||${element1.itemId}|${element2.batchId}|${element2.expiredDate}|${element2.unitQty}";
+          }
+        }
+      }
     }
     print("itemString =$itemString");
 
     if (itemString != '') {
       String status;
-      Map<String, dynamic> orderInfo = await ExpiredRepositoryRepo().expiredSubmitRepo(
-          dmPathData!.submitUrl,
-          cid,
-          userLoginInfo!.userId,
-          userPassword,
-          deviceId,
-          widget.clientId,
-          "",
-          itemString,
-          latitude,
-          longitude);
+      Map<String, dynamic> orderInfo = await ExpiredRepositoryRepo()
+          .expiredSubmitRepo(
+              dmPathData!.submitUrl,
+              cid,
+              userLoginInfo!.userId,
+              userPassword,
+              deviceId,
+              widget.clientId,
+              "",
+              itemString,
+              latitude,
+              longitude);
       if (orderInfo.isNotEmpty) {
         status = orderInfo['status'];
-        var ret_str = orderInfo['ret_str']; 
+        var ret_str = orderInfo['ret_str'];
 
         if (status == "Success") {
           setState(() {
             _isLoading = true;
           });
-         ExpiredServices().deleteOrderItem(customerExpiredItemsBox, finalItemDataList, widget.clientId);
-          AllServices().toastMessage("Expired items submission done\n${orderInfo['ret_str']}", Colors.green,
-              Colors.white, 16); 
+          ExpiredServices().deleteOrderItem(
+              customerExpiredItemsBox, finalItemDataList, widget.clientId);
+          AllServices().toastMessage(
+              "Expired items submission done\n${orderInfo['ret_str']}",
+              Colors.green,
+              Colors.white,
+              16);
           if (!mounted) return;
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         } else {
-          AllServices().toastMessage(
-              ret_str, Colors.red, Colors.white, 16); 
+          AllServices().toastMessage(ret_str, Colors.red, Colors.white, 16);
           setState(() {
             _isLoading = true;
           });
@@ -706,7 +709,6 @@ class _ExpiredDatedAddScreenState extends State<ExpiredDatedAddScreen> {
           .toastMessage('Please Order something', Colors.red, Colors.white, 16);
     }
   }
- 
 
 //===========================================================end========================================================================================================
 

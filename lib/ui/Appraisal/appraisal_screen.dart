@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/appraisal/appraisal_details_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/appraisal/appraisal_repository.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/appraisal/appraisal_details_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/appraisal/appraisal_repository.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

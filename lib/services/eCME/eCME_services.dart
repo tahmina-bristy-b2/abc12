@@ -1,8 +1,8 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_submit_data_model.dart';
-import 'package:MREPORTING/models/e_CME/e_cme_category_List_data_model.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_doctor_list.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_submit_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_cme_category_List_data_model.dart';
 
 class ECMEServices {
   //====================================== Load eDSR Data Settings Info=====================================

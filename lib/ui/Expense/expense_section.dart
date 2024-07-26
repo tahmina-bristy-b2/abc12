@@ -1,15 +1,15 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/others/repositories.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/Expense/expense_draft.dart';
-import 'package:MREPORTING/ui/Expense/expense_entry.dart';
-import 'package:MREPORTING/ui/Expense/expense_log.dart';
-import 'package:MREPORTING/ui/attendance_page.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/ui/Widgets/custombutton.dart';
-import 'package:MREPORTING/services/apiCall.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_draft.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_entry.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_log.dart';
+import 'package:MREPORTING_OFFLINE/ui/attendance_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/custombutton.dart';
+import 'package:MREPORTING_OFFLINE/services/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -126,16 +126,13 @@ class _ExpensePageState extends State<ExpensePage> {
                                 userPass);
                             if (!mounted) return;
 
-                          //  SharedPreferences pref=   await SharedPreferences.getInstance();
-                                     if(!mounted)return;
-                                       Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                     AttendanceScreen(
-                                                      userPassword: userPass
-
-                                                     )));
+                            //  SharedPreferences pref=   await SharedPreferences.getInstance();
+                            if (!mounted) return;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AttendanceScreen(
+                                        userPassword: userPass)));
                           },
                           title: "Attendance & \nMeter Reading",
                           sizeWidth: MediaQuery.of(context).size.width,

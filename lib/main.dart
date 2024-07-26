@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/splash_screen.dart';
-import 'package:MREPORTING/local_storage/hive_adapter.dart';
-import 'package:MREPORTING/themes.dart';
+import 'package:MREPORTING_OFFLINE/ui/splash_screen.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/hive_adapter.dart';
+import 'package:MREPORTING_OFFLINE/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

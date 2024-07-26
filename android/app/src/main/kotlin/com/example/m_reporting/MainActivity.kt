@@ -1,4 +1,4 @@
-package com.transcom.mreporting
+package com.transcom.MREPORTING_OFFLINE
 
 import io.flutter.embedding.android.FlutterActivity
 

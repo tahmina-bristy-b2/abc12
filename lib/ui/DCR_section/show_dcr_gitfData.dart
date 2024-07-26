@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
 import 'package:flutter/material.dart';
 
 class DcrGiftDataPage extends StatefulWidget {

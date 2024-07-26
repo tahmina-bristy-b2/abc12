@@ -1,11 +1,11 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDSR_add_preview_screen.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING_OFFLINE/ui/eDSR_section/eDSR_add_preview_screen.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -336,11 +336,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                             controller:
                                                 doctorMobileNumberController,
                                             inputFormatters: [
-                                               FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[A-Za-z0-9]"),
-                                                                  ),
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp("[A-Za-z0-9]"),
+                                              ),
                                               FilteringTextInputFormatter.deny(
                                                 RegExp(r'^\d{12,}$'),
                                               ),
@@ -349,8 +347,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               if (value!.isEmpty) {
                                                 return "Mobile Number is required";
                                               }
-                                              if (value.length < 11 
-                                                  ) {
+                                              if (value.length < 11) {
                                                 return "Mobile Number should be  11  digits";
                                               }
                                             },
@@ -410,16 +407,22 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                           const Color.fromARGB(
                                                               255, 44, 114, 66),
                                                     ),
-                                                    child:  isMobileUpdate?const Center(child:  CircularProgressIndicator()) :const Center(
-                                                        child: Text("Update",
-                                                            style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      255),
-                                                            ))),
+                                                    child: isMobileUpdate
+                                                        ? const Center(
+                                                            child:
+                                                                CircularProgressIndicator())
+                                                        : const Center(
+                                                            child: Text(
+                                                                "Update",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                ))),
                                                   ),
                                                   onTap: () async {
                                                     if (_form1Key.currentState!
@@ -619,7 +622,6 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
-                                                  
                                                   scrollable: true,
                                                   title: const Text(
                                                       "Brand Details"),
@@ -765,7 +767,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               ),
                                                             ],
                                                           ),
-                                                          const SizedBox( 
+                                                          const SizedBox(
                                                             height: 15,
                                                           ),
                                                           Align(
@@ -1041,13 +1043,12 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                     ),
                                                                     onTap: () {
                                                                       if (initialBrand !=
-                                                                          null) 
-                                                                          
-                                                                    {
-
-                                                                      if(rxPerDayController.text!=""){
-                                                                        if(dSrController.text!=""){
-                                                                             dynamicRowsListForBrand.add([
+                                                                          null) {
+                                                                        if (rxPerDayController.text !=
+                                                                            "") {
+                                                                          if (dSrController.text !=
+                                                                              "") {
+                                                                            dynamicRowsListForBrand.add([
                                                                               initialBrand,
                                                                               rxPerDayController.text == "" ? "0" : rxPerDayController.text,
                                                                               dSrController.text == "" ? "0" : dSrController.text,
@@ -1068,46 +1069,27 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                               // emrRXController.clear();
                                                                               // p4RXController.clear();
                                                                             });
-
-                                                                       }
-                                                                        else {
+                                                                          } else {
                                                                             AllServices().toastMessage(
                                                                                 "Please Enter DSR Amount  ",
                                                                                 Colors.red,
                                                                                 Colors.white,
                                                                                 16);
-                                                                             }
-
-
-                                                                      }
-                                                                      else{
-                                                                        AllServices().toastMessage(
-                                                                          doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "Please Enter Seen RX Objective/Per Day "
-                                                                  : "Please Enter Business Objective Per Month(Qty) ",
-                                                                                
-                                                                                Colors.red,
-                                                                                Colors.white,
-                                                                                16);
-
-                                                                      }
-
-
-
-
-
+                                                                          }
+                                                                        } else {
+                                                                          AllServices().toastMessage(
+                                                                              doctorType == "DOCTOR" ? "Please Enter Seen RX Objective/Per Day " : "Please Enter Business Objective Per Month(Qty) ",
+                                                                              Colors.red,
+                                                                              Colors.white,
+                                                                              16);
+                                                                        }
 
                                                                         // if (emrRXController.text !=
                                                                         //     '') {
                                                                         //   if (p4RXController.text !=
                                                                         //       "") {
+                                                                      }
 
-                                                                         
-                                                                           
-                                                                  } 
-                                                                          
-                                                                          
                                                                       //     else {
                                                                       //       AllServices().toastMessage(
                                                                       //           "Please Enter 4P RX ",
@@ -1123,9 +1105,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                       //         16);
                                                                       //   }
 
-                                                                        
                                                                       // }
-                                                                       else {
+                                                                      else {
                                                                         AllServices().toastMessage(
                                                                             "Please Select Brand First",
                                                                             Colors.red,
@@ -1159,10 +1140,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color:
-                                        const Color.fromARGB(255, 98, 158, 219),
-                                  ),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: const Color.fromARGB(
+                                              255, 98, 158, 219),
+                                        ),
                                         // color: const Color(0xff8AC995),
                                         width: wholeWidth / 1.073,
                                         // decoration: BoxDecoration(
@@ -1178,9 +1160,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 child: Text(
                                                   "Name",
                                                   style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.white,
-                                                      ),
+                                                    fontSize: 12,
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -1193,17 +1175,16 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                 //height: wholeHeight / 19,
                                                 child: Center(
                                                   child: Text(
-                                                    doctorType ==
-                                                                      "DOCTOR"
-                                                                  ? "Seen RX Objective/Per Day*"
-                                                                  : "Business Objective Per Month(Qty)*",
+                                                    doctorType == "DOCTOR"
+                                                        ? "Seen RX Objective/Per Day*"
+                                                        : "Business Objective Per Month(Qty)*",
                                                     // doctorType == "DOCTOR"
                                                     //     ? "Rx/Day"
                                                     //     : "Monthly Avg.Sales**",
                                                     style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                       ),
+                                                      fontSize: 12,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -1259,9 +1240,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   child: Text(
                                                     "DSR",
                                                     style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                        ),
+                                                      fontSize: 12,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -1277,9 +1258,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                   child: Text(
                                                     "Action",
                                                     style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                        ),
+                                                      fontSize: 12,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -1293,30 +1274,35 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                     .length *
                                                 30,
                                         width: wholeWidth / 1.073,
-                                        
                                         child: ListView.builder(
                                             itemCount:
                                                 finalBrandListAftrRemoveDuplication
                                                     .length,
                                             itemBuilder: (context, index) {
                                               return Padding(
-                                                padding: const EdgeInsets.only(left: 4,right: 4),
+                                                padding: const EdgeInsets.only(
+                                                    left: 4, right: 4),
                                                 child: Container(
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: index % 2 != 0
-                                                  ? Colors.grey[300]
-                                                  : Colors.transparent,),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: index % 2 != 0
+                                                        ? Colors.grey[300]
+                                                        : Colors.transparent,
+                                                  ),
                                                   height: 30,
-                                                  
-                                                                                      
-                                                  
                                                   child: Row(
                                                     children: [
                                                       SizedBox(
                                                         width: wholeWidth / 5,
-                                                        height:
-                                                            wholeHeight / 25.309,
+                                                        height: wholeHeight /
+                                                            25.309,
                                                         child: Padding(
-                                                          padding: const EdgeInsets.only(left: 2),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2),
                                                           child: Center(
                                                             child: Text(
                                                               finalBrandListAftrRemoveDuplication[
@@ -1324,8 +1310,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                               style:
                                                                   const TextStyle(
                                                                 fontSize: 12,
-                                                                color:
-                                                                    Color.fromARGB(
+                                                                color: Color
+                                                                    .fromARGB(
                                                                         255,
                                                                         0,
                                                                         0,
@@ -1337,7 +1323,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                           left: 5,
                                                         ),
                                                         child: SizedBox(
@@ -1357,8 +1344,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                   const TextStyle(
                                                                 fontSize: 12,
                                                                 color: Color
-                                                                    .fromARGB(255,
-                                                                        0, 0, 0),
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
                                                               ),
                                                             ),
                                                           ),
@@ -1414,7 +1404,8 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       // ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                           left: 5,
                                                         ),
                                                         child: SizedBox(
@@ -1434,8 +1425,11 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                   const TextStyle(
                                                                 fontSize: 12,
                                                                 color: Color
-                                                                    .fromARGB(255,
-                                                                        0, 0, 0),
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
                                                               ),
                                                             ),
                                                           ),
@@ -1443,22 +1437,28 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                           left: 5,
                                                         ),
                                                         child: SizedBox(
                                                           width: wholeWidth / 7,
                                                           height: wholeHeight /
                                                               25.309,
-                                                              
                                                           child: Padding(
-                                                            padding: const EdgeInsets.only(bottom: 10,top: 0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    bottom: 10,
+                                                                    top: 0),
                                                             child: Center(
                                                               child: IconButton(
-                                                                icon: const Icon(
+                                                                icon:
+                                                                    const Icon(
                                                                   Icons
                                                                       .delete_forever,
-                                                                  color: Colors.red,
+                                                                  color: Colors
+                                                                      .red,
                                                                   size: 20,
                                                                 ),
                                                                 onPressed: () {
@@ -1468,8 +1468,9 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                   finalBrandListAftrRemoveDuplication
                                                                       .removeAt(
                                                                           index);
-                                                                                                        
-                                                                  setState(() {});
+
+                                                                  setState(
+                                                                      () {});
                                                                 },
                                                               ),
                                                             ),
@@ -2081,7 +2082,7 @@ class _EDSRScreenState extends State<EDSRScreen> {
                                                                                 ? initialPaySchdedule != null
                                                                                     ? dsrFromdate != ""
                                                                                         ? dsrTodate != ""
-                                                                                            ? noOfPatientController.text .toString().trim().isNotEmpty
+                                                                                            ? noOfPatientController.text.toString().trim().isNotEmpty
                                                                                                 ? initialIssueMode != null
                                                                                                     ? isCheck == true
                                                                                                         ? issueToController.text.toString().trim().isNotEmpty

@@ -1,23 +1,23 @@
 import 'dart:math';
 
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
-import 'package:MREPORTING/services/dcr/dcr_services.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_services.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:MREPORTING/ui/DCR_section/show_dcr_discussionData.dart';
-import 'package:MREPORTING/ui/DCR_section/show_dcr_gitfData.dart';
-import 'package:MREPORTING/ui/DCR_section/show_dcr_ppmData.dart';
-import 'package:MREPORTING/ui/DCR_section/show_dcr_sampleData.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/show_dcr_discussionData.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/show_dcr_gitfData.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/show_dcr_ppmData.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/show_dcr_sampleData.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'dart:math' as math;
 

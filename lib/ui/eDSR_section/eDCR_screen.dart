@@ -1,8 +1,8 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDSR_add_screen.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDSR_doctor_selection.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/ui/eDSR_section/eDSR_add_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/eDSR_section/eDSR_doctor_selection.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

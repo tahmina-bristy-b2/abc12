@@ -1,15 +1,14 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/others/repositories.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
-import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
-import 'package:MREPORTING/ui/rx_target_section/rx_target_client_screen.dart';
-import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/others/repositories.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/dcr_list_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/order_sections/customerListPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/rx_target_section/rx_target_client_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/rx_target_section/rx_target_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class AreaPage extends StatefulWidget {
   String screenName;
@@ -82,7 +81,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userPassword,
                                       snapshot.data![index]['area_id']);
 
-                                      //print("clientList===$clientList");
+                              //print("clientList===$clientList");
 
                               if (clientList.isNotEmpty) {
                                 // response = true;
@@ -107,9 +106,7 @@ class _AreaPageState extends State<AreaPage> {
                                     Colors.white,
                                     16);
                               }
-                            } 
-                            
-                            else if (widget.screenName == 'dcr') {
+                            } else if (widget.screenName == 'dcr') {
                               List chemistList = await Repositories()
                                   .areaBaseDoctorRepo(
                                       dmpathData!.syncUrl,
@@ -117,7 +114,7 @@ class _AreaPageState extends State<AreaPage> {
                                       userInfo!.userId,
                                       userPassword,
                                       snapshot.data![index]['area_id']);
-                                     // print("chemistList=====$chemistList");
+                              // print("chemistList=====$chemistList");
 
                               if (chemistList.isNotEmpty) {
                                 // response = true;
@@ -142,9 +139,7 @@ class _AreaPageState extends State<AreaPage> {
                                     Colors.white,
                                     16);
                               }
-                            }
-
-                            else if (widget.screenName == 'chemist census') {
+                            } else if (widget.screenName == 'chemist census') {
                               List chemistList = await Repositories()
                                   .areaBaseClientRepo(
                                       dmpathData!.syncUrl,
@@ -154,17 +149,16 @@ class _AreaPageState extends State<AreaPage> {
                                       snapshot.data![index]['area_id']);
 
                               if (chemistList.isNotEmpty) {
-                              
                                 setState1(() {
                                   _isLoading = false;
                                 });
 
                                 if (!mounted) return;
                                 Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                   ClientCensusScreen(syncClientList: chemistList)));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ClientCensusScreen(
+                                            syncClientList: chemistList)));
                               } else {
                                 setState1(() {
                                   _isLoading = false;
@@ -175,9 +169,7 @@ class _AreaPageState extends State<AreaPage> {
                                     Colors.white,
                                     16);
                               }
-                            }
-
-                            else if (widget.screenName == 'doctor census') {
+                            } else if (widget.screenName == 'doctor census') {
                               List doctorList = await Repositories()
                                   .areaBaseDoctorRepo(
                                       dmpathData!.syncUrl,
@@ -190,13 +182,13 @@ class _AreaPageState extends State<AreaPage> {
                                   _isLoading = false;
                                 });
 
-                                 if (!mounted) return;
-                                             Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => RxTargetScreen(syncDoctorList: doctorList)
-                                            ),
-                                          );
+                                if (!mounted) return;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RxTargetScreen(
+                                          syncDoctorList: doctorList)),
+                                );
                               } else {
                                 setState1(() {
                                   _isLoading = false;
@@ -251,7 +243,6 @@ class _AreaPageState extends State<AreaPage> {
                             // }
                           },
                           child: Card(
-                       
                             elevation: 2,
                             child: SizedBox(
                                 height: 40,

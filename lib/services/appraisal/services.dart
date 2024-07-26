@@ -1,5 +1,5 @@
-import 'package:MREPORTING/models/appraisal/appraisal_employee_data_model.dart';
-import 'package:MREPORTING/models/appraisal/appraisal_field_Force_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/appraisal/appraisal_employee_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/appraisal/appraisal_field_Force_data_model.dart';
 
 class AppraisalServices {
   List<FfList> searchEmployee(String enterTheKey, List<FfList> ffList) {

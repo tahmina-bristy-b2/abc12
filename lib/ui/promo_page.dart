@@ -1,8 +1,8 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/models/promo_model.dart';
-import 'package:MREPORTING/services/others/repositories.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/models/promo_model.dart';
+import 'package:MREPORTING_OFFLINE/services/others/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 

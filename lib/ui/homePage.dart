@@ -1,48 +1,48 @@
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/dDSR%20model/eDSR_data_model.dart';
-import 'package:MREPORTING/models/e_CME/eCME_details_saved_data_model.dart';
-import 'package:MREPORTING/models/e_CME/e_CME_doctor_list.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/apiCall.dart';
-import 'package:MREPORTING/services/others/repositories.dart';
-import 'package:MREPORTING/ui/Appraisal/appraisal_employee_page.dart';
-import 'package:MREPORTING/ui/Appraisal/approval_appraisal_field_force_page.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_list_page.dart';
-import 'package:MREPORTING/ui/GSP_allocation_page.dart';
-import 'package:MREPORTING/ui/Widgets/common_in_app_web_view.dart';
-import 'package:MREPORTING/ui/eCME_section/bill_transaction/approval_print_screen.dart';
-import 'package:MREPORTING/ui/eCME_section/approval/eCME_fm_List_screen.dart';
-import 'package:MREPORTING/ui/eCME_section/e_CME_doctor_list.dart';
-import 'package:MREPORTING/ui/eDSR_section/approval_eDSR_FM_list.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
-import 'package:MREPORTING/ui/promo_page.dart';
-import 'package:MREPORTING/ui/rx_target_section/rx_target_client_screen.dart';
-import 'package:MREPORTING/ui/rx_target_section/rx_target_screen.dart';
-import 'package:MREPORTING/ui/stock_page.dart';
-import 'package:MREPORTING/ui/target_achievemet.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/dDSR%20model/eDSR_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/eCME_details_saved_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/e_CME/e_CME_doctor_list.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/apiCall.dart';
+import 'package:MREPORTING_OFFLINE/services/others/repositories.dart';
+import 'package:MREPORTING_OFFLINE/ui/Appraisal/appraisal_employee_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/Appraisal/approval_appraisal_field_force_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/dcr_list_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/GSP_allocation_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/common_in_app_web_view.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/bill_transaction/approval_print_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/approval/eCME_fm_List_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/eCME_section/e_CME_doctor_list.dart';
+import 'package:MREPORTING_OFFLINE/ui/eDSR_section/approval_eDSR_FM_list.dart';
+import 'package:MREPORTING_OFFLINE/ui/eDSR_section/eDCR_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/promo_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/rx_target_section/rx_target_client_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/rx_target_section/rx_target_screen.dart';
+import 'package:MREPORTING_OFFLINE/ui/stock_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/target_achievemet.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:MREPORTING/ui/DCR_section/draft_dcr_page.dart';
-import 'package:MREPORTING/ui/Expense/expense_section.dart';
-import 'package:MREPORTING/ui/areaPage.dart';
-import 'package:MREPORTING/ui/attendance_page.dart';
-import 'package:MREPORTING/ui/order_sections/customerListPage.dart';
-import 'package:MREPORTING/ui/order_sections/draft_order_page.dart';
-import 'package:MREPORTING/ui/loginPage.dart';
-import 'package:MREPORTING/ui/Rx/rxDraftPage.dart';
-import 'package:MREPORTING/ui/DCR_section/dcr_report.dart';
-import 'package:MREPORTING/ui/order_sections/order_report_page.dart';
-import 'package:MREPORTING/ui/Rx/rx_report_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/draft_dcr_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/Expense/expense_section.dart';
+import 'package:MREPORTING_OFFLINE/ui/areaPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/attendance_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/order_sections/customerListPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/order_sections/draft_order_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/loginPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/Rx/rxDraftPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/DCR_section/dcr_report.dart';
+import 'package:MREPORTING_OFFLINE/ui/order_sections/order_report_page.dart';
+import 'package:MREPORTING_OFFLINE/ui/Rx/rx_report_page.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/link.dart';
-import 'package:MREPORTING/ui/reset_password.dart';
-import 'package:MREPORTING/ui/syncDataTabPaga.dart';
-import 'package:MREPORTING/ui/Rx/rxPage.dart';
-import 'package:MREPORTING/ui/Widgets/custombutton.dart';
+import 'package:MREPORTING_OFFLINE/ui/reset_password.dart';
+import 'package:MREPORTING_OFFLINE/ui/syncDataTabPaga.dart';
+import 'package:MREPORTING_OFFLINE/ui/Rx/rxPage.dart';
+import 'package:MREPORTING_OFFLINE/ui/Widgets/custombutton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // double? lat;
@@ -499,7 +499,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
         title: const Text(
-            'MREPORTING $appVersion.05'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
+            'MREPORTING_OFFLINE $appVersion.05'), // as per sabbir vaia's requirement  // internal version will v05 but upload it as v04
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 27, 56, 34),
             fontWeight: FontWeight.w500,
@@ -765,1228 +765,1228 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ///******************************************** DCR Section ********************************************///
 
-                userInfo!.dcrFlag
-                    ? Container(
-                        height: screenHeight / 3.4,
-                        width: MediaQuery.of(context).size.width,
-                        color: const Color(0xFFDDEBF7),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.add,
-                                        onClick: () async {
-                                          List dcrList = await AllServices()
-                                              .getSyncSavedData('dcrListData');
+                // userInfo!.dcrFlag
+                //     ? Container(
+                //         height: screenHeight / 3.4,
+                //         width: MediaQuery.of(context).size.width,
+                //         color: const Color(0xFFDDEBF7),
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           children: [
+                //             Column(
+                //               children: [
+                //                 Row(
+                //                   children: [
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.add,
+                //                         onClick: () async {
+                //                           List dcrList = await AllServices()
+                //                               .getSyncSavedData('dcrListData');
 
-                                          if (userInfo!.areaPage) {
-                                            if (!mounted) return;
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) => AreaPage(
-                                                        screenName: 'dcr',
-                                                      )),
-                                            );
-                                          } else if (dcrList.isNotEmpty) {
-                                            if (!mounted) return;
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) => DcrListPage(
-                                                    dcrDataList: dcrList),
-                                              ),
-                                            );
-                                          } else {
-                                            AllServices().toastMessage(
-                                                'Doctor List Empty!',
-                                                Colors.red,
-                                                Colors.white,
-                                                16);
-                                          }
-                                        },
-                                        title: 'New DCR',
-                                        sizeWidth: screenWidth,
-                                        inputColor: const Color(0xff56CCF2)
-                                            .withOpacity(.3),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.drafts_sharp,
-                                        onClick: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const DraftDCRScreen()));
-                                        },
-                                        title: 'Draft DCR',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.insert_drive_file,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DcrReportWebView(
-                                                reportUrl:
-                                                    dmpathData!.reportDcrUrl,
-                                                cid: cid,
-                                                userId: userId,
-                                                userPassword: userPassword,
-                                                deviceId: deviceId,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: 'DCR Report',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-                userInfo!.dcrFlag
-                    ? const SizedBox(
-                        height: 10,
-                      )
-                    : const SizedBox.shrink(),
+                //                           if (userInfo!.areaPage) {
+                //                             if (!mounted) return;
+                //                             Navigator.push(
+                //                               context,
+                //                               MaterialPageRoute(
+                //                                   builder: (_) => AreaPage(
+                //                                         screenName: 'dcr',
+                //                                       )),
+                //                             );
+                //                           } else if (dcrList.isNotEmpty) {
+                //                             if (!mounted) return;
+                //                             Navigator.push(
+                //                               context,
+                //                               MaterialPageRoute(
+                //                                 builder: (_) => DcrListPage(
+                //                                     dcrDataList: dcrList),
+                //                               ),
+                //                             );
+                //                           } else {
+                //                             AllServices().toastMessage(
+                //                                 'Doctor List Empty!',
+                //                                 Colors.red,
+                //                                 Colors.white,
+                //                                 16);
+                //                           }
+                //                         },
+                //                         title: 'New DCR',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: const Color(0xff56CCF2)
+                //                             .withOpacity(.3),
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //                 // const SizedBox(
+                //                 //   height: 5,
+                //                 // ),
+                //                 Row(
+                //                   children: [
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.drafts_sharp,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                               context,
+                //                               MaterialPageRoute(
+                //                                   builder: (context) =>
+                //                                       const DraftDCRScreen()));
+                //                         },
+                //                         title: 'Draft DCR',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: Colors.white,
+                //                       ),
+                //                     ),
+                //                     const SizedBox(
+                //                       width: 5,
+                //                     ),
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.insert_drive_file,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                             context,
+                //                             MaterialPageRoute(
+                //                               builder: (context) =>
+                //                                   DcrReportWebView(
+                //                                 reportUrl:
+                //                                     dmpathData!.reportDcrUrl,
+                //                                 cid: cid,
+                //                                 userId: userId,
+                //                                 userPassword: userPassword,
+                //                                 deviceId: deviceId,
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                         title: 'DCR Report',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: Colors.white,
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     : Container(),
+                // userInfo!.dcrFlag
+                //     ? const SizedBox(
+                //         height: 10,
+                //       )
+                //     : const SizedBox.shrink(),
+                // // Container(
+                // //   height: screenHeight / 7.4,
+                // //   width: MediaQuery.of(context).size.width,
+                // //   child: Row(
+                // //     children: [
+                // //       CustomBuildButton(
+                // //         icon: Icons.add,
+                // //         onClick: () {
+                // //           Navigator.push(
+                // //             context,
+                // //             MaterialPageRoute(
+                // //                 builder: (context) => const EDcrScreen()),
+                // //           );
+                // //         },
+                // //         title: '   eDSR',
+                // //         sizeWidth: screenWidth,
+                // //         inputColor: const Color(0xff56CCF2).withOpacity(.3),
+                // //       ),
+                // //     ],
+                // //   ),
+                // // ),
+
+                // ///********************************************* New Rx section **************************************///
+
+                // userInfo!.rxFlag
+                //     ? Container(
+                //         color: const Color(0xFFE2EFDA),
+                //         height: screenHeight / 3.4,
+                //         width: MediaQuery.of(context).size.width,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           children: [
+                //             Column(
+                //               children: [
+                //                 Row(
+                //                   children: [
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.camera_alt_sharp,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                             context,
+                //                             MaterialPageRoute(
+                //                               builder: (context) => RxPage(
+                //                                 isRxEdit: false,
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                         title: 'RX Capture',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: const Color(0xff70BA85)
+                //                             .withOpacity(.3),
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //                 // const SizedBox(
+                //                 //   height: 5,
+                //                 // ),
+                //                 Row(
+                //                   children: [
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.drafts_rounded,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                               context,
+                //                               MaterialPageRoute(
+                //                                   builder: (_) =>
+                //                                       const RxDraftPage()));
+                //                         },
+                //                         title: 'Draft RX',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: Colors.white,
+                //                       ),
+                //                     ),
+                //                     const SizedBox(
+                //                       width: 5,
+                //                     ),
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.insert_drive_file,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                             context,
+                //                             MaterialPageRoute(
+                //                               builder: (_) =>
+                //                                   RxReportPageWebView(
+                //                                 cid: cid,
+                //                                 userId: userId,
+                //                                 userPassword: userPassword,
+                //                                 reportUrl:
+                //                                     dmpathData!.reportRxUrl,
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                         title: 'RX Report',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: Colors.white,
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     : Container(),
+                // userInfo!.rxFlag
+                //     ? const SizedBox(
+                //         height: 10,
+                //       )
+                //     : const SizedBox.shrink(),
+
+                // (userInfo!.censusDocFlag == true ||
+                //         userInfo!.censusDocFlag == true)
+                //     ? Container(
+                //         color: const Color(0xFFE2EFDA),
+                //         height: screenHeight / 6.4,
+                //         width: MediaQuery.of(context).size.width,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           children: [
+                //             Column(
+                //               children: [
+                //                 Row(
+                //                   children: [
+                //                     userInfo!.censusClFlag == true
+                //                         ? Expanded(
+                //                             child: CustomBuildButton(
+                //                               icon: Icons.calculate_sharp,
+                //                               onClick: () async {
+                //                                 List orderList =
+                //                                     await AllServices()
+                //                                         .getSyncSavedData(
+                //                                             'data');
+
+                //                                 if (userInfo!.areaPage ==
+                //                                     false) {
+                //                                   if (orderList.isNotEmpty) {
+                //                                     if (!mounted) return;
+
+                //                                     Navigator.push(
+                //                                         context,
+                //                                         MaterialPageRoute(
+                //                                             builder: (_) =>
+                //                                                 ClientCensusScreen(
+                //                                                     syncClientList:
+                //                                                         orderList)));
+                //                                   } else {
+                //                                     AllServices().toastMessage(
+                //                                         'Chemist List Empty!',
+                //                                         Colors.red,
+                //                                         Colors.white,
+                //                                         16);
+                //                                   }
+                //                                 } else {
+                //                                   if (!mounted) return;
+
+                //                                   Navigator.push(
+                //                                     context,
+                //                                     MaterialPageRoute(
+                //                                         builder: (_) =>
+                //                                             AreaPage(
+                //                                               screenName:
+                //                                                   'chemist census',
+                //                                             )),
+                //                                   );
+                //                                 }
+                //                               },
+                //                               title: 'Chemist Census',
+                //                               sizeWidth: screenWidth,
+                //                               inputColor: Colors.white,
+                //                             ),
+                //                           )
+                //                         : const SizedBox(),
+                //                     SizedBox(
+                //                       width: userInfo!.censusClFlag == true
+                //                           ? 5
+                //                           : 0,
+                //                     ),
+                //                     userInfo!.censusDocFlag == true
+                //                         ? Expanded(
+                //                             child: CustomBuildButton(
+                //                               icon: Icons.calculate_sharp,
+                //                               onClick: () async {
+                //                                 List dcrList =
+                //                                     await AllServices()
+                //                                         .getSyncSavedData(
+                //                                             'dcrListData');
+
+                //                                 if (userInfo!.areaPage) {
+                //                                   if (!mounted) return;
+                //                                   Navigator.push(
+                //                                     context,
+                //                                     MaterialPageRoute(
+                //                                         builder: (_) =>
+                //                                             AreaPage(
+                //                                               screenName:
+                //                                                   'doctor census',
+                //                                             )),
+                //                                   );
+                //                                 } else if (dcrList.isNotEmpty) {
+                //                                   if (!mounted) return;
+                //                                   Navigator.push(
+                //                                     context,
+                //                                     MaterialPageRoute(
+                //                                         builder: (context) =>
+                //                                             RxTargetScreen(
+                //                                                 syncDoctorList:
+                //                                                     dcrList)),
+                //                                   );
+                //                                 } else {
+                //                                   AllServices().toastMessage(
+                //                                       'Doctor List Empty!',
+                //                                       Colors.red,
+                //                                       Colors.white,
+                //                                       16);
+                //                                 }
+
+                //                                 //  List dcrList = await AllServices()
+                //                                 //     .getSyncSavedData('dcrListData');
+                //                                 //     if (dcrList.isNotEmpty) {
+                //                                 //   if (!mounted) return;
+                //                                 //   Navigator.push(
+                //                                 //   context,
+                //                                 //   MaterialPageRoute(
+                //                                 //     builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
+                //                                 //   ),
+                //                                 // );
+                //                                 // } else {
+                //                                 //   AllServices().toastMessage(
+                //                                 //       'Doctor List Empty!',
+                //                                 //       Colors.red,
+                //                                 //       Colors.white,
+                //                                 //       16);
+                //                                 // }
+                //                               },
+                //                               title: 'Doctor Census',
+                //                               sizeWidth: screenWidth,
+                //                               inputColor: Colors.white,
+                //                             ),
+                //                           )
+                //                         : const SizedBox(),
+                //                   ],
+                //                 ),
+
+                //                 // const SizedBox(
+                //                 //   height: 5,
+                //                 // ),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     : const SizedBox(),
+
+                // ///*******************************************Expense and Attendance  section ***********************************///
                 // Container(
-                //   height: screenHeight / 7.4,
+                //   color: const Color(0xFFE2EFDA),
+                //   height: screenHeight / 6.80,
                 //   width: MediaQuery.of(context).size.width,
-                //   child: Row(
+                //   child: Column(
                 //     children: [
-                //       CustomBuildButton(
-                //         icon: Icons.add,
-                //         onClick: () {
-                //           Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => const EDcrScreen()),
-                //           );
-                //         },
-                //         title: '   eDSR',
-                //         sizeWidth: screenWidth,
-                //         inputColor: const Color(0xff56CCF2).withOpacity(.3),
+                //       Row(
+                //         children: [
+                //           userInfo!.othersFlag
+                //               ? Expanded(
+                //                   child: CustomBuildButton(
+                //                     icon: Icons.add,
+                //                     onClick: () {
+                //                       Navigator.push(
+                //                           context,
+                //                           MaterialPageRoute(
+                //                               builder: (context) =>
+                //                                   const ExpensePage()));
+                //                     },
+                //                     title: 'Expense',
+                //                     sizeWidth: screenWidth,
+                //                     inputColor: Colors.white,
+                //                   ),
+                //                 )
+                //               : const SizedBox(),
+                //           userInfo!.attendanceFlag == true
+                //               ? Expanded(
+                //                   child: CustomBuildButton(
+                //                     onClick: () async {
+                //                       if (!mounted) return;
+                //                       Navigator.push(
+                //                           context,
+                //                           MaterialPageRoute(
+                //                               builder: (context) =>
+                //                                   AttendanceScreen(
+                //                                     userPassword:
+                //                                         widget.userPassword,
+                //                                     // callbackFunction: (value){
+                //                                     //   getAttenadce();
+
+                //                                     // }, endTime: '', startTime: '',userPassword: widget.userPassword,
+                //                                   )));
+                //                     },
+                //                     icon: Icons.assignment_turned_in_sharp,
+                //                     title: 'Attendance',
+                //                     sizeWidth: screenWidth,
+                //                     inputColor: Colors.white,
+                //                   ),
+                //                 )
+                //               : const SizedBox(),
+                //         ],
                 //       ),
                 //     ],
                 //   ),
                 // ),
 
-                ///********************************************* New Rx section **************************************///
+                // userInfo!.othersFlag
+                //     ? const SizedBox(
+                //         height: 10,
+                //       )
+                //     : const SizedBox.shrink(),
 
-                userInfo!.rxFlag
-                    ? Container(
-                        color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 3.4,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.camera_alt_sharp,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => RxPage(
-                                                isRxEdit: false,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: 'RX Capture',
-                                        sizeWidth: screenWidth,
-                                        inputColor: const Color(0xff70BA85)
-                                            .withOpacity(.3),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.drafts_rounded,
-                                        onClick: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      const RxDraftPage()));
-                                        },
-                                        title: 'Draft RX',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.insert_drive_file,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  RxReportPageWebView(
-                                                cid: cid,
-                                                userId: userId,
-                                                userPassword: userPassword,
-                                                reportUrl:
-                                                    dmpathData!.reportRxUrl,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: 'RX Report',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-                userInfo!.rxFlag
-                    ? const SizedBox(
-                        height: 10,
-                      )
-                    : const SizedBox.shrink(),
+                // ///******************************************* Leave Request and Leave Report **********************************///
+                // userInfo!.leaveFlag
+                //     ? Container(
+                //         color: const Color(0xFFE2EFDA),
+                //         height: screenHeight / 6.8,
+                //         width: MediaQuery.of(context).size.width,
+                //         child: Column(
+                //           children: [
+                //             Row(
+                //               children: [
+                //                 Expanded(
+                //                   child: Link(
+                //                     uri: Uri.parse(
+                //                         '${dmpathData!.leaveRequestUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                //                     target: LinkTarget.blank,
+                //                     builder: (BuildContext ctx,
+                //                         FollowLink? openLink) {
+                //                       return Card(
+                //                         elevation: 5,
+                //                         child: Container(
+                //                           color: Colors.white,
+                //                           width: screenWidth,
+                //                           height: MediaQuery.of(context)
+                //                                   .size
+                //                                   .height /
+                //                               8,
+                //                           child: Padding(
+                //                             padding: const EdgeInsets.all(10.0),
+                //                             child: TextButton.icon(
+                //                               onPressed: openLink,
+                //                               label: const Text(
+                //                                 'Leave Request',
+                //                                 style: TextStyle(
+                //                                     color: Color.fromARGB(
+                //                                         255, 29, 67, 78),
+                //                                     fontSize: 16,
+                //                                     fontWeight:
+                //                                         FontWeight.w500),
+                //                               ),
+                //                               icon: const Icon(
+                //                                 Icons
+                //                                     .leave_bags_at_home_rounded,
+                //                                 color: Color.fromARGB(
+                //                                     255, 27, 56, 34),
+                //                                 size: 28,
+                //                               ),
+                //                             ),
+                //                           ),
+                //                         ),
+                //                       );
+                //                     },
+                //                   ),
+                //                 ),
+                //                 // const SizedBox(
+                //                 //   width: 5,
+                //                 // ),
+                //                 Expanded(
+                //                   child: Link(
+                //                     uri: Uri.parse(
+                //                         '${dmpathData!.leaveReportUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                //                     target: LinkTarget.blank,
+                //                     builder: (BuildContext ctx,
+                //                         FollowLink? openLink) {
+                //                       return Card(
+                //                         elevation: 5,
+                //                         child: Container(
+                //                           color: Colors.white,
+                //                           width: screenWidth,
+                //                           height: MediaQuery.of(context)
+                //                                   .size
+                //                                   .height /
+                //                               8,
+                //                           child: Padding(
+                //                             padding: const EdgeInsets.all(10.0),
+                //                             child: TextButton.icon(
+                //                               onPressed: openLink,
+                //                               label: const Text(
+                //                                 'Leave Report',
+                //                                 style: TextStyle(
+                //                                     color: Color.fromARGB(
+                //                                         255, 29, 67, 78),
+                //                                     fontSize: 16,
+                //                                     fontWeight:
+                //                                         FontWeight.w500),
+                //                               ),
+                //                               icon: const Icon(
+                //                                 Icons.insert_drive_file,
+                //                                 color: Color.fromARGB(
+                //                                     255, 27, 56, 34),
+                //                                 size: 28,
+                //                               ),
+                //                             ),
+                //                           ),
+                //                         ),
+                //                       );
+                //                     },
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     : Container(),
+                // userInfo!.othersFlag
+                //     ? const SizedBox(
+                //         height: 10,
+                //       )
+                //     : const SizedBox.shrink(),
 
-                (userInfo!.censusDocFlag == true ||
-                        userInfo!.censusDocFlag == true)
-                    ? Container(
-                        color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 6.4,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    userInfo!.censusClFlag == true
-                                        ? Expanded(
-                                            child: CustomBuildButton(
-                                              icon: Icons.calculate_sharp,
-                                              onClick: () async {
-                                                List orderList =
-                                                    await AllServices()
-                                                        .getSyncSavedData(
-                                                            'data');
+                // ///******************************************  Tour Plan *********************************************///
+                // userInfo!.visitPlanFlag
+                //     ? Container(
+                //         color: const Color(0xFFDDEBF7),
+                //         height: screenHeight / 7,
+                //         width: MediaQuery.of(context).size.width,
+                //         child: Column(
+                //           children: [
+                //             Column(
+                //               children: [
+                //                 Row(
+                //                   children: [
+                //                     Expanded(
+                //                       child: Link(
+                //                         uri: Uri.parse(
+                //                             '${dmpathData!.tourPlanUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                //                         target: LinkTarget.blank,
+                //                         builder: (BuildContext ctx,
+                //                             FollowLink? openLink) {
+                //                           return Card(
+                //                             elevation: 5,
+                //                             child: Container(
+                //                               color: const Color.fromARGB(
+                //                                   255, 217, 224, 250),
+                //                               width: screenWidth,
+                //                               height: MediaQuery.of(context)
+                //                                       .size
+                //                                       .height /
+                //                                   8,
+                //                               child: Padding(
+                //                                 padding:
+                //                                     const EdgeInsets.all(10.0),
+                //                                 child: TextButton.icon(
+                //                                   onPressed: openLink,
+                //                                   label: const Text(
+                //                                     'Tour Plan',
+                //                                     style: TextStyle(
+                //                                         color: Color.fromARGB(
+                //                                             255, 29, 67, 78),
+                //                                         fontSize: 16,
+                //                                         fontWeight:
+                //                                             FontWeight.w500),
+                //                                   ),
+                //                                   icon: const Icon(
+                //                                     Icons.tour_sharp,
+                //                                     color: Color.fromARGB(
+                //                                         255, 27, 56, 34),
+                //                                     size: 28,
+                //                                   ),
+                //                                 ),
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                       ),
+                //                     ),
+                //                     const SizedBox(
+                //                       width: 5,
+                //                     ),
+                //                     Expanded(
+                //                       child: Link(
+                //                         uri: Uri.parse(
+                //                             '${dmpathData!.tourComplianceUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                //                         target: LinkTarget.blank,
+                //                         builder: (BuildContext ctx,
+                //                             FollowLink? openLink) {
+                //                           return Card(
+                //                             elevation: 5,
+                //                             child: Container(
+                //                               color: const Color.fromARGB(
+                //                                   255, 217, 224, 250),
+                //                               width: screenWidth,
+                //                               height: MediaQuery.of(context)
+                //                                       .size
+                //                                       .height /
+                //                                   8,
+                //                               child: Padding(
+                //                                 padding:
+                //                                     const EdgeInsets.all(10.0),
+                //                                 child: TextButton.icon(
+                //                                   onPressed: openLink,
+                //                                   label: const Text(
+                //                                     'Approval & Compliance',
+                //                                     style: TextStyle(
+                //                                         color: Color.fromARGB(
+                //                                             255, 29, 67, 78),
+                //                                         fontSize: 15,
+                //                                         fontWeight:
+                //                                             FontWeight.w500),
+                //                                   ),
+                //                                   icon: const Icon(
+                //                                     Icons.tour_outlined,
+                //                                     color: Color.fromARGB(
+                //                                         255, 27, 56, 34),
+                //                                     size: 28,
+                //                                   ),
+                //                                 ),
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     : Container(),
+                // userInfo!.visitPlanFlag
+                //     ? const SizedBox(
+                //         height: 5,
+                //       )
+                //     : const SizedBox.shrink(),
 
-                                                if (userInfo!.areaPage ==
-                                                    false) {
-                                                  if (orderList.isNotEmpty) {
-                                                    if (!mounted) return;
+                // ///***********************************  Plugg-in & Reports *************************************************///
+                // userInfo!.plaginFlag
+                //     ? Container(
+                //         color: const Color(0xFFDDEBF7),
+                //         height: screenHeight / 6.8,
+                //         width: MediaQuery.of(context).size.width,
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Column(
+                //               children: [
+                //                 Row(
+                //                   children: [
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.insert_drive_file,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                             context,
+                //                             MaterialPageRoute(
+                //                               builder: (_) =>
+                //                                   CommonInAppWebView(
+                //                                 title: 'Plugin',
+                //                                 cid: cid,
+                //                                 userId: userInfo!.userId,
+                //                                 userPassword: userPassword,
+                //                                 url: dmpathData!.pluginUrl,
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                         title: 'Plugg-in & Reports',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: Colors.white,
+                //                       ),
+                //                     ),
+                //                     const SizedBox(
+                //                       width: 5,
+                //                     ),
+                //                     Expanded(
+                //                       child: CustomBuildButton(
+                //                         icon: Icons.local_activity_rounded,
+                //                         onClick: () {
+                //                           Navigator.push(
+                //                             context,
+                //                             MaterialPageRoute(
+                //                               builder: (_) =>
+                //                                   CommonInAppWebView(
+                //                                 title: 'Activity',
+                //                                 cid: cid,
+                //                                 userId: userInfo!.userId,
+                //                                 userPassword: userPassword,
+                //                                 url: dmpathData!.activityLogUrl,
+                //                               ),
+                //                             ),
+                //                           );
+                //                         },
+                //                         title: 'Activity Log',
+                //                         sizeWidth: screenWidth,
+                //                         inputColor: Colors.white,
+                //                       ),
+                //                     ),
+                //                     // Expanded(
+                //                     //   child: Link(
+                //                     //     uri: Uri.parse(
+                //                     //         '${dmpathData!.pluginUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                //                     //     target: LinkTarget.blank,
+                //                     //     builder: (BuildContext ctx,
+                //                     //         FollowLink? openLink) {
+                //                     //       return Card(
+                //                     //         elevation: 5,
+                //                     //         child: Container(
+                //                     //           color: Colors.white,
+                //                     //           width: screenWidth,
+                //                     //           height: MediaQuery.of(context)
+                //                     //                   .size
+                //                     //                   .height /
+                //                     //               8,
+                //                     //           child: Padding(
+                //                     //             padding:
+                //                     //                 const EdgeInsets.all(10.0),
+                //                     //             child: TextButton.icon(
+                //                     //               onPressed: openLink,
+                //                     //               label: const Text(
+                //                     //                 'Plugg-in & Reports',
+                //                     //                 style: TextStyle(
+                //                     //                     color: Color.fromARGB(
+                //                     //                         255, 29, 67, 78),
+                //                     //                     fontSize: 16,
+                //                     //                     fontWeight:
+                //                     //                         FontWeight.w500),
+                //                     //               ),
+                //                     //               icon: const Icon(
+                //                     //                 Icons.insert_drive_file,
+                //                     //                 color: Color.fromARGB(
+                //                     //                     255, 27, 56, 34),
+                //                     //                 size: 28,
+                //                     //               ),
+                //                     //             ),
+                //                     //           ),
+                //                     //         ),
+                //                     //       );
+                //                     //     },
+                //                     //   ),
+                //                     // ),
 
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (_) =>
-                                                                ClientCensusScreen(
-                                                                    syncClientList:
-                                                                        orderList)));
-                                                  } else {
-                                                    AllServices().toastMessage(
-                                                        'Chemist List Empty!',
-                                                        Colors.red,
-                                                        Colors.white,
-                                                        16);
-                                                  }
-                                                } else {
-                                                  if (!mounted) return;
+                //                     // const SizedBox(
+                //                     //   width: 5,
+                //                     // ),
 
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            AreaPage(
-                                                              screenName:
-                                                                  'chemist census',
-                                                            )),
-                                                  );
-                                                }
-                                              },
-                                              title: 'Chemist Census',
-                                              sizeWidth: screenWidth,
-                                              inputColor: Colors.white,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    SizedBox(
-                                      width: userInfo!.censusClFlag == true
-                                          ? 5
-                                          : 0,
-                                    ),
-                                    userInfo!.censusDocFlag == true
-                                        ? Expanded(
-                                            child: CustomBuildButton(
-                                              icon: Icons.calculate_sharp,
-                                              onClick: () async {
-                                                List dcrList =
-                                                    await AllServices()
-                                                        .getSyncSavedData(
-                                                            'dcrListData');
+                //                     // Expanded(
+                //                     //   child: Link(
+                //                     //     uri: Uri.parse(
+                //                     //         '${dmpathData!.activityLogUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
+                //                     //     target: LinkTarget.blank,
+                //                     //     builder: (BuildContext ctx,
+                //                     //         FollowLink? openLink) {
+                //                     //       // print(
+                //                     //       //     '$activity_log_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
+                //                     //       return Card(
+                //                     //         elevation: 5,
+                //                     //         child: Container(
+                //                     //           color: Colors.white,
+                //                     //           width: screenWidth,
+                //                     //           height: MediaQuery.of(context)
+                //                     //                   .size
+                //                     //                   .height /
+                //                     //               8,
+                //                     //           child: Padding(
+                //                     //             padding:
+                //                     //                 const EdgeInsets.all(10.0),
+                //                     //             child: TextButton.icon(
+                //                     //               onPressed: openLink,
+                //                     //               label: const Text(
+                //                     //                 'Activity Log',
+                //                     //                 style: TextStyle(
+                //                     //                     color: Color.fromARGB(
+                //                     //                         255, 29, 67, 78),
+                //                     //                     fontSize: 16,
+                //                     //                     fontWeight:
+                //                     //                         FontWeight.w500),
+                //                     //               ),
+                //                     //               icon: const Icon(
+                //                     //                 Icons
+                //                     //                     .local_activity_rounded,
+                //                     //                 color: Color.fromARGB(
+                //                     //                     255, 27, 56, 34),
+                //                     //                 size: 28,
+                //                     //               ),
+                //                     //             ),
+                //                     //           ),
+                //                     //         ),
+                //                     //       );
+                //                     //     },
+                //                     //   ),
+                //                     // ),
+                //                   ],
+                //                 ),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       )
+                //     : Container(),
+                // userInfo!.plaginFlag
+                //     ? const SizedBox(
+                //         height: 10,
+                //       )
+                //     : const SizedBox.shrink(),
 
-                                                if (userInfo!.areaPage) {
-                                                  if (!mounted) return;
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            AreaPage(
-                                                              screenName:
-                                                                  'doctor census',
-                                                            )),
-                                                  );
-                                                } else if (dcrList.isNotEmpty) {
-                                                  if (!mounted) return;
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            RxTargetScreen(
-                                                                syncDoctorList:
-                                                                    dcrList)),
-                                                  );
-                                                } else {
-                                                  AllServices().toastMessage(
-                                                      'Doctor List Empty!',
-                                                      Colors.red,
-                                                      Colors.white,
-                                                      16);
-                                                }
+                // ///****************************************** Sync Data************************************************///
+                // (userInfo!.edsrFlag == false &&
+                //         userInfo!.edsrApprovalFlag == false)
+                //     ? const SizedBox.shrink()
+                //     : Container(
+                //         color: const Color(0xFFDDEBF7),
+                //         height: screenHeight / 6.8,
+                //         width: screenWidth,
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 userInfo!.edsrFlag!
+                //                     ? Expanded(
+                //                         child: CustomBuildButton(
+                //                           icon: Icons.add,
+                //                           onClick: () async {
+                //                             if (regionListData != null) {
+                //                               Navigator.push(
+                //                                   context,
+                //                                   MaterialPageRoute(
+                //                                       builder: (_) =>
+                //                                           const EDcrScreen()));
+                //                             } else {
+                //                               AllServices().toastMessage(
+                //                                   "eDSR data not found, Sync first...",
+                //                                   Colors.red,
+                //                                   Colors.white,
+                //                                   16);
+                //                               setState(() {});
+                //                             }
+                //                           },
+                //                           title: 'Add eDSR',
+                //                           sizeWidth: screenWidth,
+                //                           inputColor: Colors.white,
+                //                         ),
+                //                       )
+                //                     : const SizedBox.shrink(),
+                //                 userInfo!.edsrApprovalFlag!
+                //                     ? Expanded(
+                //                         child: CustomBuildButton(
+                //                           icon: Icons.note_alt,
+                //                           onClick: () async {
+                //                             bool result =
+                //                                 await InternetConnectionChecker()
+                //                                     .hasConnection;
+                //                             if (result == true) {
+                //                               if (!mounted) return;
+                //                               Navigator.push(
+                //                                 context,
+                //                                 MaterialPageRoute(
+                //                                   builder: (_) => EdsrFmList(
+                //                                     cid: cid,
+                //                                     userPass: userPassword,
+                //                                   ),
+                //                                 ),
+                //                               );
+                //                             } else {
+                //                               AllServices().toastMessage(
+                //                                   interNetErrorMsg,
+                //                                   Colors.yellow,
+                //                                   Colors.black,
+                //                                   16);
+                //                             }
+                //                           },
+                //                           title: 'eDSR Approval',
+                //                           sizeWidth: screenWidth,
+                //                           inputColor: Colors.white,
+                //                         ),
+                //                       )
+                //                     : const SizedBox.shrink(),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       ),
 
-                                                //  List dcrList = await AllServices()
-                                                //     .getSyncSavedData('dcrListData');
-                                                //     if (dcrList.isNotEmpty) {
-                                                //   if (!mounted) return;
-                                                //   Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //     builder: (context) => RxTargetScreen(syncDoctorList: dcrList)
-                                                //   ),
-                                                // );
-                                                // } else {
-                                                //   AllServices().toastMessage(
-                                                //       'Doctor List Empty!',
-                                                //       Colors.red,
-                                                //       Colors.white,
-                                                //       16);
-                                                // }
-                                              },
-                                              title: 'Doctor Census',
-                                              sizeWidth: screenWidth,
-                                              inputColor: Colors.white,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                  ],
-                                ),
+                // ///****************************************** Sync Data************************************************///
+                // (userInfo!.ecmeAddFlag == false &&
+                //         userInfo!.ecmeApproveFlag == false)
+                //     ? const SizedBox.shrink()
+                //     : Container(
+                //         color: const Color(0xFFDDEBF7),
+                //         height: screenHeight / 6.8,
+                //         width: screenWidth,
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 userInfo!.ecmeAddFlag == true
+                //                     ? Expanded(
+                //                         child: CustomBuildButton(
+                //                           icon: Icons.add,
+                //                           onClick: () async {
+                //                             ECMESavedDataModel?
+                //                                 eCMEDataModelData =
+                //                                 Boxes.geteCMEsetData()
+                //                                     .get("eCMESavedDataSync");
+                //                             if (eCMEDataModelData != null) {
+                //                               List<DocListECMEModel> _docList =
+                //                                   eCMEDataModelData.eCMEdocList;
+                //                               List doctorType =
+                //                                   eCMEDataModelData
+                //                                       .eCMETypeList;
+                //                               if (_docList.isNotEmpty &&
+                //                                   doctorType.isNotEmpty) {
+                //                                 if (!mounted) return;
+                //                                 Navigator.push(
+                //                                   context,
+                //                                   MaterialPageRoute(
+                //                                     builder: (_) =>
+                //                                         ECMEClientScreen(
+                //                                       docList: _docList,
+                //                                       eCMEType: doctorType,
+                //                                     ),
+                //                                   ),
+                //                                 );
+                //                               } else {
+                //                                 AllServices().toastMessage(
+                //                                     'No CME doctor found ',
+                //                                     Colors.red,
+                //                                     Colors.white,
+                //                                     16);
+                //                               }
+                //                             } else {
+                //                               AllServices().toastMessage(
+                //                                   'CME Sync First ',
+                //                                   Colors.red,
+                //                                   Colors.white,
+                //                                   16);
+                //                             }
+                //                           },
+                //                           title: 'Add CME',
+                //                           sizeWidth: screenWidth,
+                //                           inputColor: Colors.white,
+                //                         ),
+                //                       )
+                //                     : const SizedBox.shrink(),
+                //                 userInfo!.ecmeApproveFlag == true
+                //                     ? Expanded(
+                //                         child: CustomBuildButton(
+                //                           icon: Icons.note_alt,
+                //                           onClick: () async {
+                //                             bool result =
+                //                                 await InternetConnectionChecker()
+                //                                     .hasConnection;
+                //                             if (result == true) {
+                //                               if (!mounted) return;
+                //                               Navigator.push(
+                //                                 context,
+                //                                 MaterialPageRoute(
+                //                                   builder: (_) =>
+                //                                       EcmeFFListApproval(
+                //                                     cid: cid,
+                //                                     userPass: userPassword,
+                //                                   ),
+                //                                 ),
+                //                               );
+                //                             } else {
+                //                               AllServices().toastMessage(
+                //                                   interNetErrorMsg,
+                //                                   Colors.yellow,
+                //                                   Colors.black,
+                //                                   16);
+                //                             }
+                //                           },
+                //                           title: 'CME Approval',
+                //                           sizeWidth: screenWidth,
+                //                           inputColor: Colors.white,
+                //                         ),
+                //                       )
+                //                     : const SizedBox()
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                // //================================ Appraisal Scetion=====================
 
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : const SizedBox(),
+                // (userInfo!.appraisalFlag == false &&
+                //         userInfo!.appraisalApprovalFlag == false)
+                //     ? const SizedBox.shrink()
+                //     : Container(
+                //         color: const Color(0xFFE2EFDA),
+                //         height: screenHeight / 6.8,
+                //         width: screenWidth,
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 userInfo!.appraisalFlag!
+                //                     ? Expanded(
+                //                         child: CustomBuildButton(
+                //                           icon: Icons.add,
+                //                           onClick: () async {
+                //                             Navigator.push(
+                //                                 context,
+                //                                 MaterialPageRoute(
+                //                                     builder: (_) =>
+                //                                         ApprovalAppraisal(
+                //                                           pageState:
+                //                                               'Appraisal',
+                //                                           cid: cid,
+                //                                           userPass:
+                //                                               userPassword,
+                //                                         )));
+                //                           },
+                //                           title: 'Appraisal',
+                //                           sizeWidth: screenWidth,
+                //                           inputColor: Colors.white,
+                //                         ),
+                //                       )
+                //                     : const SizedBox.shrink(),
+                //                 userInfo!.appraisalApprovalFlag!
+                //                     ? Expanded(
+                //                         child: CustomBuildButton(
+                //                           icon: Icons.note_alt,
+                //                           onClick: () {
+                //                             Navigator.push(
+                //                                 context,
+                //                                 MaterialPageRoute(
+                //                                     builder: (_) =>
+                //                                         ApprovalAppraisalFieldForce(
+                //                                           pageState: 'Approval',
+                //                                           cid: cid,
+                //                                           userPass:
+                //                                               userPassword,
+                //                                         )));
+                //                           },
+                //                           title: 'Appraisal Approval',
+                //                           sizeWidth: screenWidth,
+                //                           inputColor: Colors.white,
+                //                         ),
+                //                       )
+                //                     : const SizedBox.shrink(),
+                //               ],
+                //             ),
+                //           ],
+                //         ),
+                //       ),
 
-                ///*******************************************Expense and Attendance  section ***********************************///
-                Container(
-                  color: const Color(0xFFE2EFDA),
-                  height: screenHeight / 6.80,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          userInfo!.othersFlag
-                              ? Expanded(
-                                  child: CustomBuildButton(
-                                    icon: Icons.add,
-                                    onClick: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ExpensePage()));
-                                    },
-                                    title: 'Expense',
-                                    sizeWidth: screenWidth,
-                                    inputColor: Colors.white,
-                                  ),
-                                )
-                              : const SizedBox(),
-                          userInfo!.attendanceFlag == true
-                              ? Expanded(
-                                  child: CustomBuildButton(
-                                    onClick: () async {
-                                      if (!mounted) return;
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AttendanceScreen(
-                                                    userPassword:
-                                                        widget.userPassword,
-                                                    // callbackFunction: (value){
-                                                    //   getAttenadce();
+                // ///*************************** Sync Data********************///
+                // Container(
+                //   color: const Color(0xFFE2EFDA),
+                //   height: screenHeight / 6.8,
+                //   width: screenWidth,
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           //==========================================================Notice flag +Notice url will be here====================================
+                //           userInfo!.noticeFlag
+                //               ? Expanded(
+                //                   child: CustomBuildButton(
+                //                     icon: Icons.note_alt,
+                //                     onClick: () async {
+                //                       // var noticeBody = await noticeEvent();
+                //                       // print("list ${noticeBody}");
 
-                                                    // }, endTime: '', startTime: '',userPassword: widget.userPassword,
-                                                  )));
-                                    },
-                                    icon: Icons.assignment_turned_in_sharp,
-                                    title: 'Attendance',
-                                    sizeWidth: screenWidth,
-                                    inputColor: Colors.white,
-                                  ),
-                                )
-                              : const SizedBox(),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                //                       // Navigator.push(
+                //                       //     context,
+                //                       //     MaterialPageRoute(
+                //                       //         builder: (_) => NoticeScreen(
+                //                       //               noticelist: noticeBody,
+                //                       //             )));
+                //                     },
+                //                     title: 'Notice',
+                //                     sizeWidth: screenWidth,
+                //                     inputColor: Colors.white,
+                //                   ),
+                //                 )
+                //               : const SizedBox(
+                //                   width: 5,
+                //                 ),
 
-                userInfo!.othersFlag
-                    ? const SizedBox(
-                        height: 10,
-                      )
-                    : const SizedBox.shrink(),
+                //           Expanded(
+                //             child: CustomBuildButton(
+                //               icon: Icons.sync,
+                //               onClick: () {
+                //                 Navigator.push(
+                //                     context,
+                //                     MaterialPageRoute(
+                //                         builder: (_) => SyncDataTabScreen(
+                //                               cid: cid,
+                //                               userId: userId,
+                //                               userPassword: userPassword,
+                //                             )));
+                //               },
+                //               title: 'Sync Data',
+                //               sizeWidth: screenWidth,
+                //               inputColor: Colors.white,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
 
-                ///******************************************* Leave Request and Leave Report **********************************///
-                userInfo!.leaveFlag
-                    ? Container(
-                        color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 6.8,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Link(
-                                    uri: Uri.parse(
-                                        '${dmpathData!.leaveRequestUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                    target: LinkTarget.blank,
-                                    builder: (BuildContext ctx,
-                                        FollowLink? openLink) {
-                                      return Card(
-                                        elevation: 5,
-                                        child: Container(
-                                          color: Colors.white,
-                                          width: screenWidth,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              8,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: TextButton.icon(
-                                              onPressed: openLink,
-                                              label: const Text(
-                                                'Leave Request',
-                                                style: TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 29, 67, 78),
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              icon: const Icon(
-                                                Icons
-                                                    .leave_bags_at_home_rounded,
-                                                color: Color.fromARGB(
-                                                    255, 27, 56, 34),
-                                                size: 28,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                // const SizedBox(
-                                //   width: 5,
-                                // ),
-                                Expanded(
-                                  child: Link(
-                                    uri: Uri.parse(
-                                        '${dmpathData!.leaveReportUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                    target: LinkTarget.blank,
-                                    builder: (BuildContext ctx,
-                                        FollowLink? openLink) {
-                                      return Card(
-                                        elevation: 5,
-                                        child: Container(
-                                          color: Colors.white,
-                                          width: screenWidth,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              8,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: TextButton.icon(
-                                              onPressed: openLink,
-                                              label: const Text(
-                                                'Leave Report',
-                                                style: TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 29, 67, 78),
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              icon: const Icon(
-                                                Icons.insert_drive_file,
-                                                color: Color.fromARGB(
-                                                    255, 27, 56, 34),
-                                                size: 28,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-                userInfo!.othersFlag
-                    ? const SizedBox(
-                        height: 10,
-                      )
-                    : const SizedBox.shrink(),
-
-                ///******************************************  Tour Plan *********************************************///
-                userInfo!.visitPlanFlag
-                    ? Container(
-                        color: const Color(0xFFDDEBF7),
-                        height: screenHeight / 7,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Link(
-                                        uri: Uri.parse(
-                                            '${dmpathData!.tourPlanUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                        target: LinkTarget.blank,
-                                        builder: (BuildContext ctx,
-                                            FollowLink? openLink) {
-                                          return Card(
-                                            elevation: 5,
-                                            child: Container(
-                                              color: const Color.fromARGB(
-                                                  255, 217, 224, 250),
-                                              width: screenWidth,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  8,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: TextButton.icon(
-                                                  onPressed: openLink,
-                                                  label: const Text(
-                                                    'Tour Plan',
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 29, 67, 78),
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.tour_sharp,
-                                                    color: Color.fromARGB(
-                                                        255, 27, 56, 34),
-                                                    size: 28,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: Link(
-                                        uri: Uri.parse(
-                                            '${dmpathData!.tourComplianceUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                        target: LinkTarget.blank,
-                                        builder: (BuildContext ctx,
-                                            FollowLink? openLink) {
-                                          return Card(
-                                            elevation: 5,
-                                            child: Container(
-                                              color: const Color.fromARGB(
-                                                  255, 217, 224, 250),
-                                              width: screenWidth,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  8,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: TextButton.icon(
-                                                  onPressed: openLink,
-                                                  label: const Text(
-                                                    'Approval & Compliance',
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 29, 67, 78),
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.tour_outlined,
-                                                    color: Color.fromARGB(
-                                                        255, 27, 56, 34),
-                                                    size: 28,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-                userInfo!.visitPlanFlag
-                    ? const SizedBox(
-                        height: 5,
-                      )
-                    : const SizedBox.shrink(),
-
-                ///***********************************  Plugg-in & Reports *************************************************///
-                userInfo!.plaginFlag
-                    ? Container(
-                        color: const Color(0xFFDDEBF7),
-                        height: screenHeight / 6.8,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.insert_drive_file,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  CommonInAppWebView(
-                                                title: 'Plugin',
-                                                cid: cid,
-                                                userId: userInfo!.userId,
-                                                userPassword: userPassword,
-                                                url: dmpathData!.pluginUrl,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: 'Plugg-in & Reports',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: CustomBuildButton(
-                                        icon: Icons.local_activity_rounded,
-                                        onClick: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  CommonInAppWebView(
-                                                title: 'Activity',
-                                                cid: cid,
-                                                userId: userInfo!.userId,
-                                                userPassword: userPassword,
-                                                url: dmpathData!.activityLogUrl,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: 'Activity Log',
-                                        sizeWidth: screenWidth,
-                                        inputColor: Colors.white,
-                                      ),
-                                    ),
-                                    // Expanded(
-                                    //   child: Link(
-                                    //     uri: Uri.parse(
-                                    //         '${dmpathData!.pluginUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                    //     target: LinkTarget.blank,
-                                    //     builder: (BuildContext ctx,
-                                    //         FollowLink? openLink) {
-                                    //       return Card(
-                                    //         elevation: 5,
-                                    //         child: Container(
-                                    //           color: Colors.white,
-                                    //           width: screenWidth,
-                                    //           height: MediaQuery.of(context)
-                                    //                   .size
-                                    //                   .height /
-                                    //               8,
-                                    //           child: Padding(
-                                    //             padding:
-                                    //                 const EdgeInsets.all(10.0),
-                                    //             child: TextButton.icon(
-                                    //               onPressed: openLink,
-                                    //               label: const Text(
-                                    //                 'Plugg-in & Reports',
-                                    //                 style: TextStyle(
-                                    //                     color: Color.fromARGB(
-                                    //                         255, 29, 67, 78),
-                                    //                     fontSize: 16,
-                                    //                     fontWeight:
-                                    //                         FontWeight.w500),
-                                    //               ),
-                                    //               icon: const Icon(
-                                    //                 Icons.insert_drive_file,
-                                    //                 color: Color.fromARGB(
-                                    //                     255, 27, 56, 34),
-                                    //                 size: 28,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       );
-                                    //     },
-                                    //   ),
-                                    // ),
-
-                                    // const SizedBox(
-                                    //   width: 5,
-                                    // ),
-
-                                    // Expanded(
-                                    //   child: Link(
-                                    //     uri: Uri.parse(
-                                    //         '${dmpathData!.activityLogUrl}?cid=$cid&rep_id=$userId&rep_pass=$userPassword'),
-                                    //     target: LinkTarget.blank,
-                                    //     builder: (BuildContext ctx,
-                                    //         FollowLink? openLink) {
-                                    //       // print(
-                                    //       //     '$activity_log_url?cid=$cid&rep_id=$userId&rep_pass=$userPassword');
-                                    //       return Card(
-                                    //         elevation: 5,
-                                    //         child: Container(
-                                    //           color: Colors.white,
-                                    //           width: screenWidth,
-                                    //           height: MediaQuery.of(context)
-                                    //                   .size
-                                    //                   .height /
-                                    //               8,
-                                    //           child: Padding(
-                                    //             padding:
-                                    //                 const EdgeInsets.all(10.0),
-                                    //             child: TextButton.icon(
-                                    //               onPressed: openLink,
-                                    //               label: const Text(
-                                    //                 'Activity Log',
-                                    //                 style: TextStyle(
-                                    //                     color: Color.fromARGB(
-                                    //                         255, 29, 67, 78),
-                                    //                     fontSize: 16,
-                                    //                     fontWeight:
-                                    //                         FontWeight.w500),
-                                    //               ),
-                                    //               icon: const Icon(
-                                    //                 Icons
-                                    //                     .local_activity_rounded,
-                                    //                 color: Color.fromARGB(
-                                    //                     255, 27, 56, 34),
-                                    //                 size: 28,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       );
-                                    //     },
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-                userInfo!.plaginFlag
-                    ? const SizedBox(
-                        height: 10,
-                      )
-                    : const SizedBox.shrink(),
-
-                ///****************************************** Sync Data************************************************///
-                (userInfo!.edsrFlag == false &&
-                        userInfo!.edsrApprovalFlag == false)
-                    ? const SizedBox.shrink()
-                    : Container(
-                        color: const Color(0xFFDDEBF7),
-                        height: screenHeight / 6.8,
-                        width: screenWidth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                userInfo!.edsrFlag!
-                                    ? Expanded(
-                                        child: CustomBuildButton(
-                                          icon: Icons.add,
-                                          onClick: () async {
-                                            if (regionListData != null) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          const EDcrScreen()));
-                                            } else {
-                                              AllServices().toastMessage(
-                                                  "eDSR data not found, Sync first...",
-                                                  Colors.red,
-                                                  Colors.white,
-                                                  16);
-                                              setState(() {});
-                                            }
-                                          },
-                                          title: 'Add eDSR',
-                                          sizeWidth: screenWidth,
-                                          inputColor: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                                userInfo!.edsrApprovalFlag!
-                                    ? Expanded(
-                                        child: CustomBuildButton(
-                                          icon: Icons.note_alt,
-                                          onClick: () async {
-                                            bool result =
-                                                await InternetConnectionChecker()
-                                                    .hasConnection;
-                                            if (result == true) {
-                                              if (!mounted) return;
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (_) => EdsrFmList(
-                                                    cid: cid,
-                                                    userPass: userPassword,
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              AllServices().toastMessage(
-                                                  interNetErrorMsg,
-                                                  Colors.yellow,
-                                                  Colors.black,
-                                                  16);
-                                            }
-                                          },
-                                          title: 'eDSR Approval',
-                                          sizeWidth: screenWidth,
-                                          inputColor: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                ///****************************************** Sync Data************************************************///
-                (userInfo!.ecmeAddFlag == false &&
-                        userInfo!.ecmeApproveFlag == false)
-                    ? const SizedBox.shrink()
-                    : Container(
-                        color: const Color(0xFFDDEBF7),
-                        height: screenHeight / 6.8,
-                        width: screenWidth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                userInfo!.ecmeAddFlag == true
-                                    ? Expanded(
-                                        child: CustomBuildButton(
-                                          icon: Icons.add,
-                                          onClick: () async {
-                                            ECMESavedDataModel?
-                                                eCMEDataModelData =
-                                                Boxes.geteCMEsetData()
-                                                    .get("eCMESavedDataSync");
-                                            if (eCMEDataModelData != null) {
-                                              List<DocListECMEModel> _docList =
-                                                  eCMEDataModelData.eCMEdocList;
-                                              List doctorType =
-                                                  eCMEDataModelData
-                                                      .eCMETypeList;
-                                              if (_docList.isNotEmpty &&
-                                                  doctorType.isNotEmpty) {
-                                                if (!mounted) return;
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        ECMEClientScreen(
-                                                      docList: _docList,
-                                                      eCMEType: doctorType,
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                AllServices().toastMessage(
-                                                    'No CME doctor found ',
-                                                    Colors.red,
-                                                    Colors.white,
-                                                    16);
-                                              }
-                                            } else {
-                                              AllServices().toastMessage(
-                                                  'CME Sync First ',
-                                                  Colors.red,
-                                                  Colors.white,
-                                                  16);
-                                            }
-                                          },
-                                          title: 'Add CME',
-                                          sizeWidth: screenWidth,
-                                          inputColor: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                                userInfo!.ecmeApproveFlag == true
-                                    ? Expanded(
-                                        child: CustomBuildButton(
-                                          icon: Icons.note_alt,
-                                          onClick: () async {
-                                            bool result =
-                                                await InternetConnectionChecker()
-                                                    .hasConnection;
-                                            if (result == true) {
-                                              if (!mounted) return;
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      EcmeFFListApproval(
-                                                    cid: cid,
-                                                    userPass: userPassword,
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              AllServices().toastMessage(
-                                                  interNetErrorMsg,
-                                                  Colors.yellow,
-                                                  Colors.black,
-                                                  16);
-                                            }
-                                          },
-                                          title: 'CME Approval',
-                                          sizeWidth: screenWidth,
-                                          inputColor: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox()
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                //================================ Appraisal Scetion=====================
-
-                (userInfo!.appraisalFlag == false &&
-                        userInfo!.appraisalApprovalFlag == false)
-                    ? const SizedBox.shrink()
-                    : Container(
-                        color: const Color(0xFFE2EFDA),
-                        height: screenHeight / 6.8,
-                        width: screenWidth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                userInfo!.appraisalFlag!
-                                    ? Expanded(
-                                        child: CustomBuildButton(
-                                          icon: Icons.add,
-                                          onClick: () async {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        ApprovalAppraisal(
-                                                          pageState:
-                                                              'Appraisal',
-                                                          cid: cid,
-                                                          userPass:
-                                                              userPassword,
-                                                        )));
-                                          },
-                                          title: 'Appraisal',
-                                          sizeWidth: screenWidth,
-                                          inputColor: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                                userInfo!.appraisalApprovalFlag!
-                                    ? Expanded(
-                                        child: CustomBuildButton(
-                                          icon: Icons.note_alt,
-                                          onClick: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        ApprovalAppraisalFieldForce(
-                                                          pageState: 'Approval',
-                                                          cid: cid,
-                                                          userPass:
-                                                              userPassword,
-                                                        )));
-                                          },
-                                          title: 'Appraisal Approval',
-                                          sizeWidth: screenWidth,
-                                          inputColor: Colors.white,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                ///*************************** Sync Data********************///
-                Container(
-                  color: const Color(0xFFE2EFDA),
-                  height: screenHeight / 6.8,
-                  width: screenWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //==========================================================Notice flag +Notice url will be here====================================
-                          userInfo!.noticeFlag
-                              ? Expanded(
-                                  child: CustomBuildButton(
-                                    icon: Icons.note_alt,
-                                    onClick: () async {
-                                      // var noticeBody = await noticeEvent();
-                                      // print("list ${noticeBody}");
-
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (_) => NoticeScreen(
-                                      //               noticelist: noticeBody,
-                                      //             )));
-                                    },
-                                    title: 'Notice',
-                                    sizeWidth: screenWidth,
-                                    inputColor: Colors.white,
-                                  ),
-                                )
-                              : const SizedBox(
-                                  width: 5,
-                                ),
-
-                          Expanded(
-                            child: CustomBuildButton(
-                              icon: Icons.sync,
-                              onClick: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => SyncDataTabScreen(
-                                              cid: cid,
-                                              userId: userId,
-                                              userPassword: userPassword,
-                                            )));
-                              },
-                              title: 'Sync Data',
-                              sizeWidth: screenWidth,
-                              inputColor: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                Container(
-                  color: const Color(0xFFDDEBF7),
-                  height: screenHeight / 6,
-                  width: screenWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Column(
-                            children: [
-                              const Text(
-                                " আপনার Allocated Sample বুঝে পেয়েছেন কি?",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                " এই নিচের লিংকটিতে",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => GSPAllocationScreen(
-                                                  title: 'GSP Allocation',
-                                                  cid: cid,
-                                                  userId: userInfo!.userId,
-                                                  userPassword: userPassword,
-                                                  url: dmpathData!.syncUrl,
-                                                )));
-                                  },
-                                  child: SizedBox(
-                                    width: 100,
-                                    height: 40,
-                                    child: Row(
-                                      children: [
-                                        Image.asset("assets/icons/click.gif"),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        const Text(
-                                          "Click",
-                                          style: TextStyle(
-                                              color: Colors.amber,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              const Text(
-                                " করে এখনই বুঝে নিন",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ))
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   color: const Color(0xFFDDEBF7),
+                //   height: screenHeight / 6,
+                //   width: screenWidth,
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           Expanded(
+                //               child: Column(
+                //             children: [
+                //               const Text(
+                //                 " আপনার Allocated Sample বুঝে পেয়েছেন কি?",
+                //                 style: TextStyle(
+                //                     color: Colors.blue,
+                //                     fontWeight: FontWeight.bold),
+                //               ),
+                //               const SizedBox(
+                //                 height: 5,
+                //               ),
+                //               const Text(
+                //                 " এই নিচের লিংকটিতে",
+                //                 style: TextStyle(fontSize: 12),
+                //               ),
+                //               ElevatedButton(
+                //                   style: ElevatedButton.styleFrom(
+                //                       backgroundColor: Colors.white),
+                //                   onPressed: () {
+                //                     Navigator.push(
+                //                         context,
+                //                         MaterialPageRoute(
+                //                             builder: (_) => GSPAllocationScreen(
+                //                                   title: 'GSP Allocation',
+                //                                   cid: cid,
+                //                                   userId: userInfo!.userId,
+                //                                   userPassword: userPassword,
+                //                                   url: dmpathData!.syncUrl,
+                //                                 )));
+                //                   },
+                //                   child: SizedBox(
+                //                     width: 100,
+                //                     height: 40,
+                //                     child: Row(
+                //                       children: [
+                //                         Image.asset("assets/icons/click.gif"),
+                //                         const SizedBox(
+                //                           width: 4,
+                //                         ),
+                //                         const Text(
+                //                           "Click",
+                //                           style: TextStyle(
+                //                               color: Colors.amber,
+                //                               fontWeight: FontWeight.bold),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   )),
+                //               const SizedBox(
+                //                 height: 2,
+                //               ),
+                //               const Text(
+                //                 " করে এখনই বুঝে নিন",
+                //                 style: TextStyle(fontSize: 12),
+                //               ),
+                //             ],
+                //           ))
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

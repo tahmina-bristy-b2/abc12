@@ -1,7 +1,7 @@
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/eDSR/eDSr_repository.dart';
-import 'package:MREPORTING/ui/eDSR_section/eDCR_screen.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/eDSR/eDSr_repository.dart';
+import 'package:MREPORTING_OFFLINE/ui/eDSR_section/eDCR_screen.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -268,8 +268,8 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                     const Text(':'),
                     Expanded(
                       flex: 8,
-                      child:
-                          Text('  ${widget.previewData["Number_of_Patient"].toString().trim()}'),
+                      child: Text(
+                          '  ${widget.previewData["Number_of_Patient"].toString().trim()}'),
                     ),
                   ],
                 ),
@@ -355,19 +355,19 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                             fontSize: 12),
                                       )),
                                       Expanded(
-                                        flex: 3,
+                                          flex: 3,
                                           child: Center(
-                                        child: Text(
-                                          widget.previewData["dsr_type"] ==
-                                                   "DOCTOR"
-                                                                  ? "Seen RX Objective/Per Day*"
-                                                                  : "Business Objective Per Month(Qty)*",
-                                          style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 253, 253, 253),
-                                              fontSize: 12),
-                                        ),
-                                      )),
+                                            child: Text(
+                                              widget.previewData["dsr_type"] ==
+                                                      "DOCTOR"
+                                                  ? "Seen RX Objective/Per Day*"
+                                                  : "Business Objective Per Month(Qty)*",
+                                              style: const TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 253, 253, 253),
+                                                  fontSize: 12),
+                                            ),
+                                          )),
                                       // const Expanded(
                                       //     child: Center(
                                       //   child: Text(
@@ -431,15 +431,15 @@ class _PreviewEDSRADDScreenState extends State<PreviewEDSRADDScreen> {
                                                     fontSize: 12),
                                               )),
                                               Expanded(
-                                                flex: 3,
+                                                  flex: 3,
                                                   child: Center(
-                                                child: Text(
-                                                  widget.previewData["Brand"]
-                                                      [index2][1],
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              )),
+                                                    child: Text(
+                                                      widget.previewData[
+                                                          "Brand"][index2][1],
+                                                      style: const TextStyle(
+                                                          fontSize: 12),
+                                                    ),
+                                                  )),
                                               // Expanded(
                                               //     child: Center(
                                               //   child: Text(

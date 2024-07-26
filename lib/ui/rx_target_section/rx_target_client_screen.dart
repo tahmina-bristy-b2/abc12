@@ -1,13 +1,13 @@
 import 'dart:math';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
-import 'package:MREPORTING/services/dcr/dcr_repositories.dart';
-import 'package:MREPORTING/ui/homePage.dart';
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/services/dcr/dcr_repositories.dart';
+import 'package:MREPORTING_OFFLINE/ui/homePage.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientCensusScreen extends StatefulWidget {
   final List syncClientList;
-  const ClientCensusScreen({super.key,required this.syncClientList});
+  const ClientCensusScreen({super.key, required this.syncClientList});
 
   @override
   State<ClientCensusScreen> createState() => _ClientCensusScreenState();
@@ -44,8 +44,7 @@ class _ClientCensusScreenState extends State<ClientCensusScreen> {
   String cid = "";
   String deviceId = "";
 
-
- @override
+  @override
   void initState() {
     userLoginInfo = Boxes.getLoginData().get('userInfo');
     dmpathData = Boxes.getDmpath().get('dmPathData');
@@ -62,22 +61,21 @@ class _ClientCensusScreenState extends State<ClientCensusScreen> {
 
     foundUsers = widget.syncClientList;
     for (var element in foundUsers) {
-  var clientId = element['client_id'];
-  if (clientId != null) {
-    controllers[clientId] = TextEditingController();
-  }
-}
-
-if (clientRxTargetInputList.isNotEmpty) {
-  for (var element in clientRxTargetInputList) {
-    var clientId = element.clientId;
-    var controller = controllers[clientId];
-    if (controller != null) {
-      controller.text = element.chemistRxTargetValue ?? '';
+      var clientId = element['client_id'];
+      if (clientId != null) {
+        controllers[clientId] = TextEditingController();
+      }
     }
-  }
-}
-   
+
+    if (clientRxTargetInputList.isNotEmpty) {
+      for (var element in clientRxTargetInputList) {
+        var clientId = element.clientId;
+        var controller = controllers[clientId];
+        if (controller != null) {
+          controller.text = element.chemistRxTargetValue ?? '';
+        }
+      }
+    }
 
     super.initState();
   }
@@ -86,13 +84,13 @@ if (clientRxTargetInputList.isNotEmpty) {
     if (index == 0) {
       toSaveRxTargetValue();
       Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => MyHomePage(
-                      userName: userLoginInfo!.userName,
-                      userId: userLoginInfo!.userId,
-                      userPassword: userPassword,
-                    )),
-            (Route<dynamic> route) => false);
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    userName: userLoginInfo!.userName,
+                    userId: userLoginInfo!.userId,
+                    userPassword: userPassword,
+                  )),
+          (Route<dynamic> route) => false);
       // Navigator.pop(context);
       setState(() {
         _currentSelected = index;
@@ -100,7 +98,6 @@ if (clientRxTargetInputList.isNotEmpty) {
     }
 
     if (index == 2) {
-     
       setState(() {
         _isLoading = false;
       });
@@ -141,7 +138,9 @@ if (clientRxTargetInputList.isNotEmpty) {
     print("chemist ==================$clientLIistString");
 
     if (clientLIistString != '') {
-      Map<String, dynamic> rxTargetWholeData = await DcrRepositories().clientCensusRepo(dmpathData!.submitUrl, cid, userId,userPassword, deviceId, clientLIistString);
+      Map<String, dynamic> rxTargetWholeData = await DcrRepositories()
+          .clientCensusRepo(dmpathData!.submitUrl, cid, userId, userPassword,
+              deviceId, clientLIistString);
       if (rxTargetWholeData['status'] == "Success") {
         if (!mounted) return;
 
@@ -159,8 +158,7 @@ if (clientRxTargetInputList.isNotEmpty) {
             Colors.green.shade900,
             Colors.white,
             16);
-            clientCensusSavedBox.clear();
-            
+        clientCensusSavedBox.clear();
       } else {
         setState(() {
           _isLoading = true;
@@ -179,24 +177,23 @@ if (clientRxTargetInputList.isNotEmpty) {
           backgroundColor: Colors.red));
     }
   }
- String updateCount() {
- int doctorCount = 0;
-  for (var element in clientRxTargetInputList) {
-    for( var element2 in widget.syncClientList){
-      if(element.clientId==element2["client_id"]){
-        doctorCount += int.parse(element.chemistRxTargetValue==""?"0":element.chemistRxTargetValue);
-      }
-      else{
-        doctorCount+=0;
+
+  String updateCount() {
+    int doctorCount = 0;
+    for (var element in clientRxTargetInputList) {
+      for (var element2 in widget.syncClientList) {
+        if (element.clientId == element2["client_id"]) {
+          doctorCount += int.parse(element.chemistRxTargetValue == ""
+              ? "0"
+              : element.chemistRxTargetValue);
+        } else {
+          doctorCount += 0;
+        }
       }
     }
-    
-  }
- 
-  return doctorCount.toString();
-}
 
-  
+    return doctorCount.toString();
+  }
 
   @override
   void dispose() {
@@ -208,10 +205,10 @@ if (clientRxTargetInputList.isNotEmpty) {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 138, 201, 149),
         title: const Text('Chemist Census'),
         titleTextStyle: const TextStyle(
@@ -220,20 +217,17 @@ if (clientRxTargetInputList.isNotEmpty) {
             fontSize: 20),
         centerTitle: true,
         actions: [
-        
-             Padding(
-                padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-                child: Text(
-                  
-                  updateCount(),
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 27, 56, 34),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              )
-            
-      ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+            child: Text(
+              updateCount(),
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 27, 56, 34),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -276,54 +270,63 @@ if (clientRxTargetInputList.isNotEmpty) {
   }
 
   Container listTileHeadingWidget() {
-    return  Container(
-         // color:const Color.fromARGB(255, 116, 188, 180) ,
-          height: 35,
-          child: Row(
-                     
-                        children: [
-                          Expanded(
-                            flex: 7,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children:const [
-                                   
-                               SizedBox(
-                                width: 10,
-                              ),
-                                  Expanded(
-                                    child:  Center(child: Text("Chemists ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),))
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Center(
-                                    child:    Container(
-                                    
-                                      child: const Center(child: FittedBox(child:  Text("           Monthly \n   Business Target",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.black),))),
-                                      
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-        );
+    return Container(
+      // color:const Color.fromARGB(255, 116, 188, 180) ,
+      height: 35,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 7,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: const [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    "Chemists ",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ))),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Center(
+                    child: Container(
+                      child: const Center(
+                          child: FittedBox(
+                              child: Text(
+                        "           Monthly \n   Business Target",
+                        style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ))),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   //==================================================== doctor seacrch===================================
@@ -357,7 +360,7 @@ if (clientRxTargetInputList.isNotEmpty) {
                             searchController.clear();
                             foundUsers = AllServices().searchDynamicMethod(
                                 '', widget.syncClientList, 'client_name');
-                              
+
                             setState(() {});
                           },
                           icon: const Icon(
@@ -446,7 +449,6 @@ if (clientRxTargetInputList.isNotEmpty) {
                                       ],
                                     ),
                                   ),
-                                
                                 ],
                               ),
                             ),
@@ -468,12 +470,10 @@ if (clientRxTargetInputList.isNotEmpty) {
                                     child: TextFormField(
                                       textDirection: TextDirection.ltr,
                                       inputFormatters: [
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(
-                                                                    RegExp(
-                                                                        "[0-9]"),
-                                                                  ),
-                                                                ],
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9]"),
+                                        ),
+                                      ],
                                       textAlign: TextAlign.center,
                                       controller: controllers[foundUsers[index]
                                           ['client_id']],
@@ -484,68 +484,60 @@ if (clientRxTargetInputList.isNotEmpty) {
                                       onChanged: (value) {
                                         if (value.isNotEmpty &&
                                             value.trim() != '') {
-                                              var temp= CustomerDataModel(
-                                                  clientName: foundUsers[index] ['client_name'],
-                                                  marketName: foundUsers[index] ['market_name'],
-                                                  areaId: foundUsers[index] ['area_id'],
-                                                  clientId: foundUsers[index] ['client_id'],
-                                                  outstanding: foundUsers[index] ['outstanding'],
-                                                  thana: foundUsers[index] ['thana'],
-                                                  address: 'address',
-                                                  deliveryDate: '',
-                                                  deliveryTime: '',
-                                                  offer: '',
-                                                  paymentMethod: '',
-                                                  note: '',
-                                                  itemList: [],
-                                                  chemistRxTargetValue:controllers[
+                                          var temp = CustomerDataModel(
+                                              clientName: foundUsers[index]
+                                                  ['client_name'],
+                                              marketName: foundUsers[index]
+                                                  ['market_name'],
+                                              areaId: foundUsers[index]
+                                                  ['area_id'],
+                                              clientId: foundUsers[index]
+                                                  ['client_id'],
+                                              outstanding: foundUsers[index]
+                                                  ['outstanding'],
+                                              thana: foundUsers[index]['thana'],
+                                              address: 'address',
+                                              deliveryDate: '',
+                                              deliveryTime: '',
+                                              offer: '',
+                                              paymentMethod: '',
+                                              note: '',
+                                              itemList: [],
+                                              chemistRxTargetValue: controllers[
                                                       foundUsers[index]
                                                           ['client_id']]!
-                                                  .text
-                                                  );
-                                              
-                                          
-                                          clientRxTargetInputList
-                                              .removeWhere((element) =>
+                                                  .text);
+
+                                          clientRxTargetInputList.removeWhere(
+                                              (element) =>
                                                   element.clientId ==
-                                                  foundUsers[index]['client_id']);
-
-
-                                                  
+                                                  foundUsers[index]
+                                                      ['client_id']);
 
                                           clientRxTargetInputList.add(temp);
-                                          
-                                               
-                       
-                        //  if (clientRxTargetInputList.isNotEmpty) {
-                        //           for (var element in clientRxTargetInputList) {
-                        //          doctorCount= doctorCount + int.parse(element.rxTargetValue);
-                        //              }
-                        //         }
 
+                                          //  if (clientRxTargetInputList.isNotEmpty) {
+                                          //           for (var element in clientRxTargetInputList) {
+                                          //          doctorCount= doctorCount + int.parse(element.rxTargetValue);
+                                          //              }
+                                          //         }
 
-                          
-                           //updateCount();
-      
-                                    
+                                          //updateCount();
                                         } else {
-                                          clientRxTargetInputList
-                                              .removeWhere((element) =>
+                                          clientRxTargetInputList.removeWhere(
+                                              (element) =>
                                                   element.clientId ==
-                                                  foundUsers[index]['client_id']);
-                                                  // doctorCountMethod('0');
-                            //  doctorCount=0;
-                            //  doctorCount= doctorCount + int.parse('');
-                            //  setState(() {
-                            //   updateCount();
-                               
-                            //  });
+                                                  foundUsers[index]
+                                                      ['client_id']);
+                                          // doctorCountMethod('0');
+                                          //  doctorCount=0;
+                                          //  doctorCount= doctorCount + int.parse('');
+                                          //  setState(() {
+                                          //   updateCount();
 
-                                
+                                          //  });
                                         }
-                                        setState(() {
-                                          
-                                        });
+                                        setState(() {});
                                       },
                                     ),
                                   ),

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:MREPORTING/services/rx/rx_services.dart';
+import 'package:MREPORTING_OFFLINE/services/rx/rx_services.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:MREPORTING/ui/Rx/rxPage.dart';
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/ui/Rx/rxPage.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
 
 class RxDraftPage extends StatefulWidget {
   const RxDraftPage({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:MREPORTING/models/hive_models/hive_data_model.dart';
-import 'package:MREPORTING/services/rx/rx_apis.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/hive_data_model.dart';
+import 'package:MREPORTING_OFFLINE/services/rx/rx_apis.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -70,12 +70,13 @@ class RxDataProviders {
 //################################ Sync Rx Item  Data ########################
   Future<http.Response> syncRxItemDP(
       String syncUrl, String cid, String userId, String userpass) async {
-      print( "itemList  api= ${RxApis.syncRxItemApi(syncUrl, cid, userId, userpass)}");
-      final response = await http.get(
-        Uri.parse(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass)),
-      );
+    print(
+        "itemList  api= ${RxApis.syncRxItemApi(syncUrl, cid, userId, userpass)}");
+    final response = await http.get(
+      Uri.parse(RxApis.syncRxItemApi(syncUrl, cid, userId, userpass)),
+    );
 
-      return response;
+    return response;
   }
 
   //================================================================================  ===================================================================

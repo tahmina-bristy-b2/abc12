@@ -1,18 +1,18 @@
 import 'dart:convert';
-import 'package:MREPORTING/models/approved_promo_model.dart';
-import 'package:MREPORTING/models/promo_model.dart';
-import 'package:MREPORTING/models/stock_model.dart';
-import 'package:MREPORTING/models/user_depot_model.dart';
-import 'package:MREPORTING/services/all_services.dart';
+import 'package:MREPORTING_OFFLINE/models/approved_promo_model.dart';
+import 'package:MREPORTING_OFFLINE/models/promo_model.dart';
+import 'package:MREPORTING_OFFLINE/models/stock_model.dart';
+import 'package:MREPORTING_OFFLINE/models/user_depot_model.dart';
+import 'package:MREPORTING_OFFLINE/services/all_services.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:MREPORTING/utils/constant.dart';
+import 'package:MREPORTING_OFFLINE/utils/constant.dart';
 
-import 'package:MREPORTING/local_storage/boxes.dart';
-import 'package:MREPORTING/models/hive_models/dmpath_data_model.dart';
-import 'package:MREPORTING/models/hive_models/login_user_model.dart';
-import 'package:MREPORTING/services/others/data_providers.dart';
-import 'package:MREPORTING/services/sharedPrefernce.dart';
+import 'package:MREPORTING_OFFLINE/local_storage/boxes.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/dmpath_data_model.dart';
+import 'package:MREPORTING_OFFLINE/models/hive_models/login_user_model.dart';
+import 'package:MREPORTING_OFFLINE/services/others/data_providers.dart';
+import 'package:MREPORTING_OFFLINE/services/sharedPrefernce.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Repositories {
@@ -489,16 +489,19 @@ class Repositories {
     return userDepotList;
   }
 
-
-
   //=============Get Attendance Repositories====================================
 
   Future<Map<String, dynamic>> attendanceGetRepo(
-     String attendaceurl,String cid,String userid,String userPass,) async {
+    String attendaceurl,
+    String cid,
+    String userid,
+    String userPass,
+  ) async {
     Map<String, dynamic> jsonData = {};
 
     try {
-      http.Response response = await DataProviders().getAttenadance(attendaceurl, cid, userid, userPass);
+      http.Response response = await DataProviders()
+          .getAttenadance(attendaceurl, cid, userid, userPass);
       jsonData = json.decode(response.body);
 
       String status = jsonData['status'];
